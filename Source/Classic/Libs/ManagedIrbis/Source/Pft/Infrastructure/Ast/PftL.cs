@@ -78,46 +78,40 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             compiler.CompileNodes(Children);
 
+            string actionName = compiler.CompileAction(Children);
+
             compiler.StartMethod(this);
 
             compiler
                 .WriteIndent()
                 .WriteLine("double result = 0.0;");
 
-            compiler
-                .WriteIndent()
-                .WriteLine("Action action = () =>")
-                .WriteIndent()
-                .WriteLine("{")
-                .IncreaseIndent()
-                .CallNodes(Children)
-                .DecreaseIndent()
-                .WriteIndent()
-                .WriteLine("};");
-
-            compiler
-                .WriteIndent()
-                .WriteLine("string text = Evaluate(action);")
-                .WriteIndent()
-                .WriteLine("if (!string.IsNullOrEmpty(text))")
-                .WriteIndent()
-                .WriteLine("{")
-                .IncreaseIndent()
-                .WriteIndent()
-                .WriteLine("int[] found = Context.Provider.Search(text);")
-                .WriteIndent()
-                .WriteLine("if (found.Length != 0)")
-                .WriteIndent()
-                .WriteLine("{")
-                .IncreaseIndent()
-                .WriteIndent()
-                .WriteLine("result = found[0];")
-                .DecreaseIndent()
-                .WriteIndent()
-                .WriteLine("}")
-                .DecreaseIndent()
-                .WriteIndent()
-                .WriteLine("}");
+            if (!string.IsNullOrEmpty(actionName))
+            {
+                compiler
+                    .WriteIndent()
+                    .WriteLine("string text = Evaluate({0});", actionName)
+                    .WriteIndent()
+                    .WriteLine("if (!string.IsNullOrEmpty(text))")
+                    .WriteIndent()
+                    .WriteLine("{")
+                    .IncreaseIndent()
+                    .WriteIndent()
+                    .WriteLine("int[] found = Context.Provider.Search(text);")
+                    .WriteIndent()
+                    .WriteLine("if (found.Length != 0)")
+                    .WriteIndent()
+                    .WriteLine("{")
+                    .IncreaseIndent()
+                    .WriteIndent()
+                    .WriteLine("result = found[0];")
+                    .DecreaseIndent()
+                    .WriteIndent()
+                    .WriteLine("}")
+                    .DecreaseIndent()
+                    .WriteIndent()
+                    .WriteLine("}");
+            }
 
             compiler
                 .WriteIndent()

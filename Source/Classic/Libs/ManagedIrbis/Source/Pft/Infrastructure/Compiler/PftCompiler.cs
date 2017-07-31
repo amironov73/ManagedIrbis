@@ -205,6 +205,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             Code.NotNull(node, "node");
 
             NodeInfo info = Nodes.Get(node);
+
+            if (!info.Ready)
+            {
+                throw new PftCompilerException();
+            }
+
             WriteLine
                 (
                     "{0}{1} ();",
@@ -248,6 +254,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
             if (nodes.Count == 0)
             {
+                // Means: do not call action method
                 return null;
             }
             if (nodes.Count == 1)
@@ -268,6 +275,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             DecreaseIndent();
             WriteIndent();
             WriteLine("}");
+            WriteLine();
 
             return methodName;
         }
@@ -576,6 +584,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             Code.NotNull(node, "node");
 
             NodeInfo info = Nodes.Get(node);
+
+            if (!info.Ready)
+            {
+                throw new PftCompilerException();
+            }
+
             Write
                 (
                     "{0}{1}",
@@ -642,6 +656,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             _currentNode = node;
 
             NodeInfo info = Nodes.Get(node);
+
+            if (info.Ready)
+            {
+                throw new PftCompilerException();
+            }
 
             WriteIndent();
             WriteLine

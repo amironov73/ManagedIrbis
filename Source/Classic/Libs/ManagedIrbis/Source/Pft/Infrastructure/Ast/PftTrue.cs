@@ -44,6 +44,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             get { return true; }
         }
 
+        /// <inheritdoc cref="PftNode.RequiresConnection" />
+        public override bool RequiresConnection
+        {
+            get { return false; }
+        }
+
         /// <inheritdoc cref="PftBoolean.Value" />
         public override bool Value
         {

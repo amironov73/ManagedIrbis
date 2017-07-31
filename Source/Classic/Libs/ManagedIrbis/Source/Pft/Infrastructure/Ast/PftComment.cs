@@ -32,6 +32,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     {
         #region Properties
 
+        /// <inheritdoc cref="PftNode.ComplexExpression" />
+        public override bool ConstantExpression
+        {
+            get { return true; }
+        }
+
+        /// <inheritdoc cref="PftNode.RequiresConnection" />
+        public override bool RequiresConnection
+        {
+            get { return false; }
+        }
+
         #endregion
 
         #region Construction

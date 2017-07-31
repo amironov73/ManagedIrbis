@@ -10,6 +10,7 @@
 #region Using directives
 
 using System.IO;
+using System.Text;
 
 using AM;
 using AM.IO;
@@ -97,26 +98,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             compiler.CompileNodes(Children);
 
+            string actionName = compiler.CompileAction(Children);
+
             compiler.StartMethod(this);
 
-            compiler
-                .WriteIndent()
-                .WriteLine("Action action = () => ")
-                .WriteIndent()
-                .WriteLine("{")
-                .IncreaseIndent()
-                .CallNodes(Children)
-                .DecreaseIndent()
-                .WriteIndent()
-                .WriteLine("};")
-                .WriteIndent()
-                .WriteLine("string text = Evaluate(action);")
-                .WriteIndent()
-                .WriteLine
-                    (
-                        "FormatExit.Execute(Context, null, \"{0}\", text);",
-                        CompilerUtility.Escape(Name)
-                    );
+            if (!string.IsNullOrEmpty(actionName))
+            {
+                compiler
+                    .WriteIndent()
+                    .WriteLine("string text = Evaluate({0});", actionName);
+
+                compiler
+                    .WriteIndent()
+                    .WriteLine
+                        (
+                            "FormatExit.Execute(Context, null, \"{0}\", text);",
+                            CompilerUtility.Escape(Name)
+                        );
+            }
 
             compiler.EndMethod(this);
             compiler.MarkReady(this);
@@ -200,6 +199,32 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .Write('(');
             base.PrettyPrint(printer);
             printer.Write(')');
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append('&');
+            result.Append(Name);
+            result.Append('(');
+            bool first = true;
+            foreach (PftNode child in Children)
+            {
+                if (!first)
+                {
+                    result.Append(' ');
+                }
+                result.Append(child);
+                first = false;
+            }
+            result.Append(')');
+
+            return result.ToString();
         }
 
         #endregion

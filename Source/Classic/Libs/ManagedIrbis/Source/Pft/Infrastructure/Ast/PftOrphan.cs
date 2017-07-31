@@ -13,6 +13,8 @@ using AM.Logging;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -28,6 +30,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         : PftField
     {
         #region Properties
+
+        /// <inheritdoc cref="PftNode.ComplexExpression" />
+        public override bool ConstantExpression
+        {
+            get { return true; }
+        }
+
+        /// <inheritdoc cref="PftNode.RequiresConnection" />
+        public override bool RequiresConnection
+        {
+            get { return false; }
+        }
 
         #endregion
 
@@ -47,6 +61,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile(PftCompiler compiler)
+        {
+            compiler.StartMethod(this);
+
+            // Nothing to do here
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
         /// <inheritdoc cref="PftNode.GetAffectedFields" />
         public override string[] GetAffectedFields()
         {
@@ -60,6 +85,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             OnBeforeExecution(context);
+
+            // Nothing to do here
 
             if (!_traced)
             {

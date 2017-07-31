@@ -12,7 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Text;
 using AM;
 using AM.Logging;
 using AM.IO;
@@ -20,6 +20,7 @@ using AM.IO;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
@@ -268,19 +269,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler
                 .WriteIndent()
-                .Write("var left = ")
+                .Write("double left = ")
                 .CallNodeMethod(LeftOperand)
                 .WriteLine();
             compiler
                 .WriteIndent()
-                .Write("var right = ")
+                .Write("double right = ")
                 .CallNodeMethod(RightOperand)
                 .WriteLine();
             compiler
                 .WriteIndent()
                 .WriteLine
                     (
-                        "var result = left {0} right;",
+                        "double result = left {0} right;",
                         Operation
                     );
             compiler
@@ -453,6 +454,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftSerializer.SerializeNullable(writer, LeftOperand);
             writer.WriteNullable(Operation);
             PftSerializer.SerializeNullable(writer, RightOperand);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append(LeftOperand);
+            result.Append(Operation);
+            result.Append(RightOperand);
+
+            return result.ToString();
         }
 
         #endregion

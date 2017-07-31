@@ -48,6 +48,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             get { return true; }
         }
 
+        /// <inheritdoc cref="PftNode.RequiresConnection" />
+        public override bool RequiresConnection
+        {
+            get { return false; }
+        }
+
         /// <summary>
         /// Новая позиция курсора.
         /// </summary>
@@ -265,6 +271,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.Serialize(writer);
 
             writer.WritePackedInt32(NewPosition);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return "c" + NewPosition.ToInvariantString();
         }
 
         #endregion

@@ -12,6 +12,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+
 using AM;
 using AM.IO;
 using AM.Logging;
@@ -19,6 +20,7 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
@@ -116,6 +118,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             compiler.CompileNodes(Children);
 
+            string actionName = compiler.CompileAction(Children);
+
             compiler.StartMethod(this);
 
             string functionName;
@@ -143,33 +147,32 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler
                 .WriteIndent()
-                .WriteLine("double result = 0.0;")
-                .WriteIndent()
-                .WriteLine("Action action =")
-                .WriteIndent()
-                .WriteLine("{")
-                .IncreaseIndent()
-                .CallNodes(Children)
-                .DecreaseIndent()
-                .WriteIndent()
-                .WriteLine("}")
-                .WriteIndent()
-                .WriteLine("string text = Evaluate(action);")
-                .WriteIndent()
-                .WriteLine("double[] values = PftUtility.ExtractNumericValues(text);")
-                .WriteIndent()
-                .WriteLine("if (values.Length != 0)")
-                .WriteIndent()
-                .WriteLine("{")
-                .IncreaseIndent()
-                .WriteIndent()
-                .WriteLine("result = values.{0}();", functionName)
-                .DecreaseIndent()
-                .WriteIndent()
-                .WriteLine("}")
+                .WriteLine("double result = 0.0;");
+
+            if (!string.IsNullOrEmpty(actionName))
+            {
+                compiler
+                    .WriteIndent()
+                    .Write("string text = Evaluate({0});", actionName);
+
+                compiler
+                    .WriteIndent()
+                    .WriteLine("double[] values = PftUtility.ExtractNumericValues(text);")
+                    .WriteIndent()
+                    .WriteLine("if (values.Length != 0)")
+                    .WriteIndent()
+                    .WriteLine("{")
+                    .IncreaseIndent()
+                    .WriteIndent()
+                    .WriteLine("result = values.{0}();", functionName)
+                    .DecreaseIndent()
+                    .WriteIndent()
+                    .WriteLine("}");
+            }
+
+            compiler
                 .WriteIndent()
                 .WriteLine("return result;");
-
 
             compiler.EndMethod(this);
             compiler.MarkReady(this);

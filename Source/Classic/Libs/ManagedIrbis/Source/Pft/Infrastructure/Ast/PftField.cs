@@ -560,67 +560,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             compiler.CompileNodes(LeftHand);
             compiler.CompileNodes(RightHand);
 
+            string leftAction = compiler.CompileAction(LeftHand) ?? "null";
+            string rightAction = compiler.CompileAction(RightHand) ?? "null";
+
             compiler.StartMethod(this);
 
             compiler
                 .WriteIndent()
-                .Write("Action leftHand = ");
-            if (LeftHand.Count == 0)
-            {
-                compiler.WriteLine("null;");
-            }
-            else if (LeftHand.Count == 1)
-            {
-                compiler
-                    .RefNodeMethod(LeftHand[0])
-                    .WriteLine(';');
-            }
-            else
-            {
-                compiler
-                    .WriteLine("() =>")
-                    .WriteIndent()
-                    .WriteLine("{")
-                    .IncreaseIndent()
-                    .CallNodes(LeftHand)
-                    .DecreaseIndent()
-                    .WriteIndent()
-                    .WriteLine("};");
-            }
+                .WriteLine("Action leftHand = {0};", leftAction);
 
             compiler
                 .WriteIndent()
-                .Write("Action rightHand = ");
-            if (RightHand.Count == 0)
-            {
-                compiler.WriteLine("null;");
-            }
-            else if (RightHand.Count == 1)
-            {
-                compiler
-                    .RefNodeMethod(RightHand[0])
-                    .WriteLine(';');
-            }
-            else
-            {
-                compiler
-                    .WriteLine("() =>")
-                    .WriteIndent()
-                    .WriteLine("{")
-                    .IncreaseIndent()
-                    .CallNodes(RightHand)
-                    .DecreaseIndent()
-                    .WriteIndent()
-                    .WriteLine("};");
-            }
+                .WriteLine("Action rightHand = {0};", rightAction);
 
             compiler
                 .WriteIndent()
                 .WriteLine
-                (
-                    "DoField({0}, leftHand, rightHand);",
-                    info.Reference
-                );
+                    (
+                        "DoField({0}, leftHand, rightHand);",
+                        info.Reference
+                    );
 
             compiler.EndMethod(this);
             compiler.MarkReady(this);

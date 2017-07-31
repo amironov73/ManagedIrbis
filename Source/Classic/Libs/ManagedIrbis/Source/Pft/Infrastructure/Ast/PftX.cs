@@ -47,16 +47,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             get { return true; }
         }
 
-        /// <summary>
-        /// Количество добавляемых пробелов.
-        /// </summary>
-        public int Shift { get; set; }
-
         /// <inheritdoc cref="PftNode.RequiresConnection" />
         public override bool RequiresConnection
         {
             get { return false; }
         }
+
+        /// <summary>
+        /// Количество добавляемых пробелов.
+        /// </summary>
+        public int Shift { get; set; }
 
         #endregion
 
@@ -256,6 +256,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     "x{0}", // Всегда в нижнем регистре
                     Shift.ToInvariantString()
                 );
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return "x" + Shift.ToInvariantString();
         }
 
         #endregion

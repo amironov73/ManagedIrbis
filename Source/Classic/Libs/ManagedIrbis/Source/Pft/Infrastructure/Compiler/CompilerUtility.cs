@@ -191,7 +191,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
             string result = text.Replace('\r', ' ')
                 .Replace('\n', ' ')
-                .SafeSubstring(0, 15)
+                .SafeSubstring(0, 25)
                 .IfEmpty(string.Empty);
 
             return result;

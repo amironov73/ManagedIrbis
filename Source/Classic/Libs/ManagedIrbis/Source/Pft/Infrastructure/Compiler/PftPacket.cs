@@ -123,7 +123,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 bool isSuffix
             )
         {
-            bool flag = false;
+            //bool flag = false;
 
             //if (isSuffix)
             //{
