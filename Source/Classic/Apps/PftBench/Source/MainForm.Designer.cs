@@ -66,6 +66,7 @@ namespace PftBench
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this._parseButton = new System.Windows.Forms.ToolStripButton();
             this._goButton = new System.Windows.Forms.ToolStripButton();
+            this._prettyPrintButton = new System.Windows.Forms.ToolStripButton();
             this._goHtmlButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this._databaseBox = new System.Windows.Forms.ToolStripComboBox();
@@ -74,7 +75,7 @@ namespace PftBench
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this._saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this._prettyPrintButton = new System.Windows.Forms.ToolStripButton();
+            this._compileButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -461,6 +462,7 @@ namespace PftBench
             this._parseButton,
             this._goButton,
             this._prettyPrintButton,
+            this._compileButton,
             this._goHtmlButton,
             this.toolStripSeparator1,
             this._databaseBox});
@@ -520,6 +522,16 @@ namespace PftBench
             this._goButton.Text = "Go! (F5)";
             this._goButton.Click += new System.EventHandler(this._goButton_Click);
             // 
+            // _prettyPrintButton
+            // 
+            this._prettyPrintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this._prettyPrintButton.Image = ((System.Drawing.Image)(resources.GetObject("_prettyPrintButton.Image")));
+            this._prettyPrintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._prettyPrintButton.Name = "_prettyPrintButton";
+            this._prettyPrintButton.Size = new System.Drawing.Size(93, 24);
+            this._prettyPrintButton.Text = "Pretty print (F6)";
+            this._prettyPrintButton.Click += new System.EventHandler(this._prettyPrintButton_Click);
+            // 
             // _goHtmlButton
             // 
             this._goHtmlButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -576,15 +588,15 @@ namespace PftBench
             // 
             this._saveFileDialog.Filter = "PFT files|*.pft|All files|*.*";
             // 
-            // _prettyPrintButton
+            // _compileButton
             // 
-            this._prettyPrintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this._prettyPrintButton.Image = ((System.Drawing.Image)(resources.GetObject("_prettyPrintButton.Image")));
-            this._prettyPrintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._prettyPrintButton.Name = "_prettyPrintButton";
-            this._prettyPrintButton.Size = new System.Drawing.Size(93, 24);
-            this._prettyPrintButton.Text = "Pretty print (F6)";
-            this._prettyPrintButton.Click += new System.EventHandler(this._prettyPrintButton_Click);
+            this._compileButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this._compileButton.Image = ((System.Drawing.Image)(resources.GetObject("_compileButton.Image")));
+            this._compileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._compileButton.Name = "_compileButton";
+            this._compileButton.Size = new System.Drawing.Size(79, 24);
+            this._compileButton.Text = "Compile (F7)";
+            this._compileButton.Click += new System.EventHandler(this._compileButton_Click);
             // 
             // MainForm
             // 
@@ -689,5 +701,6 @@ namespace PftBench
         private System.Windows.Forms.SaveFileDialog _saveFileDialog;
         private ToolStripButton _goHtmlButton;
         private ToolStripButton _prettyPrintButton;
+        private ToolStripButton _compileButton;
     }
 }

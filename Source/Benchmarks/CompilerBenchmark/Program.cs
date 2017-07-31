@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -118,6 +119,19 @@ namespace CompilerBenchmark
                                 PftPacket packet = creator(context);
                                 string formatted = packet.Execute(record);
                                 Console.WriteLine(formatted);
+
+                                Stopwatch stopwatch = new Stopwatch();
+                                stopwatch.Start();
+                                for (int i = 0; i < 100000; i++)
+                                {
+                                    if (i % 1000 == 0)
+                                    {
+                                        Console.WriteLine(i);
+                                    }
+                                    packet.Execute(record);
+                                }
+                                stopwatch.Stop();
+                                Console.WriteLine(stopwatch.Elapsed);
                             }
                         }
                     }

@@ -208,6 +208,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectUtility.cs">
       <Link>Source\Direct\DirectUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\IfpControlRecord64.cs">
+      <Link>Source\Direct\IfpControlRecord64.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\IfpRecord.cs">
       <Link>Source\Direct\IfpRecord.cs</Link>
     </Compile>

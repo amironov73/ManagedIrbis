@@ -13,12 +13,13 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using AM;
-
+using AM.Text.Output;
 using CodeJam;
 
 using ICSharpCode.TextEditor;
@@ -34,6 +35,7 @@ using ManagedIrbis.Client;
 using ManagedIrbis.ImportExport;
 using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 
 using MoonSharp.Interpreter;
@@ -153,8 +155,8 @@ namespace PftBench
             }
             try
             {
-                _htmlBox.DocumentText = 
-                    "<html>" 
+                _htmlBox.DocumentText =
+                    "<html>"
                     + result
                     + "</html>";
             }
@@ -170,6 +172,89 @@ namespace PftBench
 
             _varsGrid.SetVariables(formatter.Context.Variables);
             _globalsGrid.SetGlobals(formatter.Context.Globals);
+        }
+
+
+        private void CompileAndRun()
+        {
+            DatabaseInfo database = _databaseBox.SelectedItem
+                as DatabaseInfo;
+            if (!ReferenceEquals(database, null))
+            {
+                _provider.Database = database.Name
+                    .ThrowIfNull("database.Name");
+            }
+
+            PftContext context = new PftContext(null);
+            context.SetProvider(_provider);
+            PftProgram program = (PftProgram)_program.Clone();
+            program.Optimize();
+
+            if (!Directory.Exists("Out"))
+            {
+                Directory.CreateDirectory("Out");
+            }
+
+            PftCompiler compiler = new PftCompiler
+            {
+                Debug = true,
+                KeepSource = true,
+                OutputPath = "Out"
+            };
+            string className = compiler.CompileProgram(program);
+            AbstractOutput output = new TextOutput();
+            string assemblyPath = compiler.CompileToDll
+                (
+                    output,
+                    className
+                );
+            string result = string.Empty;
+            if (!ReferenceEquals(assemblyPath, null))
+            {
+                Assembly assembly
+                    = Assembly.LoadFile(assemblyPath);
+                Func<PftContext, PftPacket> creator
+                    = CompilerUtility.GetEntryPoint(assembly);
+                PftPacket packet = creator(context);
+                result = packet.Execute(_record);
+            }
+
+            _resutlBox.Text = result;
+            try
+            {
+                _rtfBox.Rtf = result;
+            }
+            catch
+            {
+                _rtfBox.Text = result;
+            }
+
+            if (ReferenceEquals(_htmlBox.Document, null))
+            {
+                _htmlBox.Navigate("about:blank");
+                while (_htmlBox.IsBusy)
+                {
+                    Application.DoEvents();
+                }
+            }
+            if (!ReferenceEquals(_htmlBox.Document, null))
+            {
+                _htmlBox.Document.Write(result);
+            }
+            try
+            {
+                _htmlBox.DocumentText =
+                    "<html>"
+                    + result
+                    + "</html>";
+            }
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch
+            {
+                // Nothing to do
+            }
+
+            _recordGrid.SetRecord(_record);
         }
 
         private void _goButton_Click
@@ -226,6 +311,10 @@ namespace PftBench
                 case Keys.F6:
                     _prettyPrintButton_Click(sender, e);
                     break;
+
+                case Keys.F7:
+                    _compileButton_Click(sender, e);
+                    break;
             }
         }
 
@@ -245,6 +334,10 @@ namespace PftBench
 
                 case Keys.F6:
                     _prettyPrintButton_Click(sender, e);
+                    break;
+
+                case Keys.F7:
+                    _compileButton_Click(sender, e);
                     break;
             }
         }
@@ -465,6 +558,25 @@ namespace PftBench
             {
                 _resutlBox.Text = exception.ToString();
             }
+        }
+
+        private void _compileButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            try
+            {
+                Clear();
+                Parse();
+                CompileAndRun();
+            }
+            catch (Exception exception)
+            {
+                _resutlBox.Text = exception.ToString();
+            }
+
         }
     }
 }

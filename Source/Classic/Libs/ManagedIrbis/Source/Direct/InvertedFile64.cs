@@ -84,7 +84,7 @@ namespace ManagedIrbis.Direct
         /// Control record of the IFP file.
         /// </summary>
         [NotNull]
-        public IfpControlRecord64 IfpControl { get; private set; }
+        public IfpControlRecord64 IfpControlRecord { get; private set; }
 
         /// <summary>
         /// L01 node file.
@@ -119,7 +119,7 @@ namespace ManagedIrbis.Direct
             Mode = mode;
 
             Ifp = DirectUtility.OpenFile(fileName, mode);
-            IfpControl = IfpControlRecord64.Read(Ifp);
+            IfpControlRecord = IfpControlRecord64.Read(Ifp);
             L01 = DirectUtility.OpenFile
                 (
                     Path.ChangeExtension(fileName, ".l01"),
@@ -331,6 +331,45 @@ namespace ManagedIrbis.Direct
         }
 
         /// <summary>
+        /// Reopen files.
+        /// </summary>
+        public void ReopenFiles
+            (
+                DirectAccessMode mode
+            )
+        {
+            // ReSharper disable AssignNullToNotNullAttribute
+
+            if (Mode != mode)
+            {
+                Mode = mode;
+
+                Ifp.Dispose();
+                Ifp = null;
+                Ifp = DirectUtility.OpenFile(FileName, mode);
+                IfpControlRecord = IfpControlRecord64.Read(Ifp);
+
+                L01.Dispose();
+                L01 = null;
+                L01 = DirectUtility.OpenFile
+                    (
+                        Path.ChangeExtension(FileName, ".l01"),
+                        mode
+                    );
+
+                N01.Dispose();
+                N01 = null;
+                N01 = DirectUtility.OpenFile
+                    (
+                        Path.ChangeExtension(FileName, ".n01"),
+                        mode
+                    );
+            }
+
+            // ReSharper restore AssignNullToNotNullAttribute
+        }
+
+        /// <summary>
         /// Search without truncation.
         /// </summary>
         [NotNull]
@@ -380,7 +419,7 @@ namespace ManagedIrbis.Direct
                         goodItem = item;
                         found = true;
 
-                        if ((compareResult == 0)
+                        if (compareResult == 0
                             && currentNode.IsLeaf)
                         {
                             goto FOUND;
@@ -393,7 +432,7 @@ namespace ManagedIrbis.Direct
                     }
                     if (found)
                     {
-                        if (beyond || (currentNode.Leader.Next == -1))
+                        if (beyond || currentNode.Leader.Next == -1)
                         {
                             currentNode = goodItem.RefersToLeaf
                                 ? ReadLeaf(goodItem.LowOffset)
@@ -437,10 +476,10 @@ namespace ManagedIrbis.Direct
             catch (Exception exception)
             {
                 Log.TraceException
-                (
-                    "InvertedFile64::SearchExact",
-                    exception
-                );
+                    (
+                        "InvertedFile64::SearchExact",
+                        exception
+                    );
             }
 
             return new TermLink[0];
@@ -502,7 +541,7 @@ namespace ManagedIrbis.Direct
                 }
                 if (found)
                 {
-                    if (beyond || (currentNode.Leader.Next == -1))
+                    if (beyond || currentNode.Leader.Next == -1)
                     {
                         if (goodItem.RefersToLeaf)
                         {
@@ -623,9 +662,24 @@ namespace ManagedIrbis.Direct
         /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
-            Ifp.Dispose();
-            L01.Dispose();
-            N01.Dispose();
+            // ReSharper disable ConditionIsAlwaysTrueOrFalse
+
+            if (!ReferenceEquals(Ifp, null))
+            {
+                Ifp.Dispose();
+            }
+
+            if (!ReferenceEquals(L01, null))
+            {
+                L01.Dispose();
+            }
+
+            if (!ReferenceEquals(N01, null))
+            {
+                N01.Dispose();
+            }
+
+            // ReSharper restore ConditionIsAlwaysTrueOrFalse
         }
 
         #endregion

@@ -99,6 +99,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         }
 
         /// <summary>
+        /// Can output according given value.
+        /// </summary>
+        public bool CanOutput
+            (
+                [NotNull] FieldSpecification specification,
+                [CanBeNull] string value
+            )
+        {
+            return !string.IsNullOrEmpty(value);
+        }
+
+
+        /// <summary>
         /// Debugger hook.
         /// </summary>
         protected void DebuggerHook
@@ -117,31 +130,35 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// </summary>
         protected void DoConditionalLiteral
             (
-                [CanBeNull] string text,
-                string tag,
-                char code,
+                [CanBeNull] string literalText,
+                FieldSpecification field,
                 bool isSuffix
             )
         {
-            //bool flag = false;
+            if (string.IsNullOrEmpty(literalText))
+            {
+                return;
+            }
 
-            //if (isSuffix)
-            //{
-            //    if (IsLastRepeat(context))
-            //    {
-            //        _Execute(context, field);
-            //    }
-            //}
-            //else
-            //{
-            //    if (IsFirstRepeat(context))
-            //    {
-            //        _Execute(context, field);
-            //    }
-            //}
+            bool flag = isSuffix
+                ? IsLastRepeat(field)
+                : IsFirstRepeat(field);
 
+            if (flag)
+            {
+                string value = GetValue(field);
 
-            Context.Write(null, text);
+                if (CanOutput(field, value))
+                {
+                    if (Context.UpperMode)
+                    {
+                        literalText = IrbisText.ToUpper(literalText);
+                    }
+
+                    Context.Write(null, literalText);
+                    Context.OutputFlag = true;
+                }
+            }
         }
 
         /// <summary>
@@ -154,8 +171,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 [CanBeNull] Action rightHand
             )
         {
-            MarcRecord record = Context.Record;
-            if (ReferenceEquals(record, null))
+            if (ReferenceEquals(Context.Record, null))
             {
                 return;
             }
@@ -163,25 +179,68 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             CurrentField = field;
 
             char command = field.Command;
-            string tag = field.Tag;
-            char code = field.SubField;
-            int index = Context.Index;
-            string text = GetValue(record, tag, code, index);
 
             if (command == 'v')
             {
-                if (!ReferenceEquals(leftHand, null))
+                if (InGroup)
                 {
-                    leftHand();
+                    DoFieldV(field, leftHand, rightHand);
                 }
-                Context.Write(null, text);
-                if (!ReferenceEquals(rightHand, null))
+                else
                 {
-                    rightHand();
+                    DoRepeatableAction
+                        (
+                            () => DoFieldV(field, leftHand, rightHand)
+                        );
                 }
+            }
+            else if (command == 'd')
+            {
+                
+            }
+            else if (command == 'n')
+            {
+                
             }
 
             CurrentField = null;
+        }
+
+        private void DoFieldV
+            (
+                [NotNull] FieldSpecification field,
+                [CanBeNull] Action leftHand,
+                [CanBeNull] Action rightHand
+            )
+        {
+            if (!ReferenceEquals(leftHand, null))
+            {
+                leftHand();
+            }
+
+            string value = GetValue(field);
+            if (!string.IsNullOrEmpty(value))
+            {
+                if (Context.UpperMode)
+                {
+                    value = IrbisText.ToUpper(value);
+                }
+                Context.Write(null, value);
+            }
+
+            if (HaveField(field))
+            {
+                Context.OutputFlag = true;
+                if (!ReferenceEquals(Context._vMonitor, null))
+                {
+                    Context._vMonitor.Output = true;
+                }
+            }
+
+            if (!ReferenceEquals(rightHand, null))
+            {
+                rightHand();
+            }
         }
 
         /// <summary>
@@ -192,7 +251,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 [NotNull] Action action
             )
         {
-            // TODO implement
+            InGroup = true;
+            DoRepeatableAction(action);
+            InGroup = false;
         }
 
         /// <summary>
@@ -201,12 +262,60 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         protected void DoRepeatableLiteral
             (
                 [CanBeNull] string text,
+                [NotNull] FieldSpecification field,
                 bool isPrefix,
                 bool plus
             )
         {
-            // TODO implement
-            Context.Write(null, text);
+            bool flag = HaveField(field);
+
+            if (flag)
+            {
+                string value = GetValue(field);
+
+                flag = CanOutput(field, value);
+            }
+
+            if (flag && plus)
+            {
+                flag = isPrefix
+                    ? !IsFirstRepeat(field)
+                    : !IsLastRepeat(field);
+            }
+
+            if (flag)
+            {
+                if (Context.UpperMode
+                    && !ReferenceEquals(text, null))
+                {
+                    text = IrbisText.ToUpper(text);
+                }
+                Context.Write(null, text);
+                Context.OutputFlag = true;
+            }
+        }
+
+        private void DoRepeatableAction
+            (
+                [NotNull] Action action
+            )
+        {
+            for 
+                (
+                    Context.Index = 0; 
+                    Context.Index < PftConfig.MaxRepeat; 
+                    Context.Index++
+                )
+            {
+                Context.OutputFlag = false;
+
+                action();
+
+                if (!Context.OutputFlag || Context.BreakFlag)
+                {
+                    break;
+                }
+            }
         }
 
         /// <summary>
@@ -234,25 +343,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         [CanBeNull]
         private string GetValue
             (
-                [NotNull] MarcRecord record,
-                string tag,
-                char code,
-                int index
+                [NotNull] FieldSpecification spec
             )
         {
-            RecordField field = record.Fields.GetField(tag, index);
+            RecordField field = Context.Record.Fields.GetField
+                (
+                    spec.Tag,
+                    Context.Index
+                );
             if (ReferenceEquals(field, null))
             {
                 return null;
             }
 
             string result = PftUtility.GetFieldValue
-            (
-                Context,
-                field,
-                code,
-                default(IndexSpecification)
-            );
+                (
+                    Context,
+                    field,
+                    spec.SubField,
+                    spec.SubFieldRepeat
+                );
 
             return result;
         }
@@ -291,12 +401,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// </summary>
         protected bool HaveField
             (
-                [NotNull] FieldSpecification field
+                [NotNull] FieldSpecification spec
             )
         {
-            // TODO implement
+            RecordField field = Context.Record.Fields.GetField
+                (
+                    spec.Tag,
+                    Context.Index
+                );
 
-            return true;
+            return !ReferenceEquals(field, null);
         }
 
         /// <summary>
@@ -307,9 +421,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 [NotNull] FieldSpecification field
             )
         {
-            // TODO implement
-
-            return false;
+            return Context.Index == 0;
         }
 
         /// <summary>
@@ -320,9 +432,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 [NotNull] FieldSpecification field
             )
         {
-            // TODO implement
+            int count = Context.Record.Fields.GetField(field.Tag).Length;
 
-            return false;
+            return Context.Index >= count - 1;
         }
 
         #endregion

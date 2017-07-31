@@ -171,31 +171,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (!string.IsNullOrEmpty(Text))
             {
-                PftField parent = Parent as PftField;
-                if (ReferenceEquals(parent, null))
+                PftField field = Parent as PftField;
+                if (ReferenceEquals(field, null))
                 {
                     throw new PftCompilerException();
                 }
 
-                string tag = parent.Tag;
-                if (string.IsNullOrEmpty(tag))
+                FieldInfo info = compiler.Fields.Get(field);
+                if (ReferenceEquals(info, null))
                 {
                     throw new PftCompilerException();
                 }
-                string code = string.Format
-                    (
-                        "\\x{0:X4}", 
-                        (int)parent.SubField
-                    );
 
                 compiler
                     .WriteIndent()
                     .WriteLine
                     (
-                        "DoConditionalLiteral(\"{0}\", \"{1}\", '{2}', {3});",
+                        "DoConditionalLiteral(\"{0}\", {1}, {2});",
                         CompilerUtility.Escape(Text),
-                        tag,
-                        code,
+                        info.Reference,
                         CompilerUtility.BooleanToText(IsSuffix)
                     );
             }

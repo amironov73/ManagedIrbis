@@ -74,6 +74,40 @@ namespace ManagedIrbis
         /// <summary>
         /// Фильтрация полей.
         /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetField
+            (
+                [NotNull] this RecordFieldCollection fields,
+                [NotNull] string tag
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            List<RecordField> result = null;
+            int count = fields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (fields[i].Tag == tag)
+                {
+                    if (ReferenceEquals(result, null))
+                    {
+                        result = new List<RecordField>
+                        {
+                            fields[i]
+                        };
+                    }
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? new RecordField[0]
+                : result.ToArray();
+        }
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
         [CanBeNull]
         public static RecordField GetField
             (
@@ -87,6 +121,35 @@ namespace ManagedIrbis
             return fields
                 .GetField(tag)
                 .GetOccurrence(occurrence);
+        }
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [CanBeNull]
+        public static RecordField GetField
+            (
+                [NotNull] this RecordFieldCollection fields,
+                [CanBeNull] string tag,
+                int occurrence
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            int count = fields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (fields[i].Tag == tag)
+                {
+                    if (occurrence == 0)
+                    {
+                        return fields[i];
+                    }
+                    occurrence--;
+                }
+            }
+
+            return null;
         }
 
         /// <summary>

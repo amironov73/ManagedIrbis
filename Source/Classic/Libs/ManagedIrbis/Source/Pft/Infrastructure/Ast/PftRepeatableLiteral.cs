@@ -20,6 +20,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Compiler;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -125,6 +126,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftRepeatableLiteral otherLiteral
+                = (PftRepeatableLiteral) otherNode;
+            if (IsPrefix != otherLiteral.IsPrefix
+                || Plus != otherLiteral.Plus)
+            {
+                throw new PftSerializationException();
+            }
+        }
+
         /// <inheritdoc cref="PftNode.Compile" />
         public override void Compile
             (
@@ -135,14 +153,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (!string.IsNullOrEmpty(Text))
             {
-                // TODO escape quotes
+                PftField field = Parent as PftField;
+                if (ReferenceEquals(field, null))
+                {
+                    throw new PftCompilerException();
+                }
+
+                FieldInfo info = compiler.Fields.Get(field);
+                if (ReferenceEquals(info, null))
+                {
+                    throw new PftCompilerException();
+                }
 
                 compiler
                     .WriteIndent()
                     .WriteLine
                         (
-                            "DoRepeatableLiteral(\"{0}\", {1}, {2});",
+                            "DoRepeatableLiteral(\"{0}\", {1}, {2}, {3});",
                             CompilerUtility.Escape(Text),
+                            info.Reference,
                             CompilerUtility.BooleanToText(IsPrefix),
                             CompilerUtility.BooleanToText(Plus)
                         );
@@ -151,8 +180,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             compiler.EndMethod(this);
             compiler.MarkReady(this);
         }
-
-
 
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
@@ -184,7 +211,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 {
                     string value = field.GetValue(context);
 
-                    // flag = !string.IsNullOrEmpty(value);
                     flag = field.CanOutput(value);
                 }
 
