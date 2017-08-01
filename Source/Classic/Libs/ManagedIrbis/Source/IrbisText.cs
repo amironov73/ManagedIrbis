@@ -167,11 +167,13 @@ namespace ManagedIrbis
 
 #else
 
-            string[] result = text.Split
-                (
-                    _delimiters,
-                    StringSplitOptions.None
-                );
+            string[] result = string.IsNullOrEmpty(text)
+                ? new[] { string.Empty }
+                : text.Split
+                    (
+                        _delimiters,
+                        StringSplitOptions.None
+                    );
 
 #endif
 

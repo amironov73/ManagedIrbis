@@ -12,6 +12,8 @@
 using System;
 using System.Linq;
 
+using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -70,13 +72,9 @@ namespace ManagedIrbis
                     OneField other
                 )
             {
-                //if (ReferenceEquals(other, null))
-                //{
-                //    return false;
-                //}
-
+                other = other.ThrowIfNull();
                 return string.CompareOrdinal(Tag, other.Tag) == 0
-                       && string.CompareOrdinal(Text, other.Text) == 0;
+                   && string.CompareOrdinal(Text,other.Text) == 0;
             }
 
             #endregion

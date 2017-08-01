@@ -173,7 +173,7 @@ namespace ManagedIrbis.Readers
                     mfns
                 );
 
-            BatchRecordReader batch2 = batch as BatchRecordReader;
+            BatchRecordReader batch2 = (BatchRecordReader) batch;
             batch2.BatchRead += HandleBatchRead;
 
             foreach (MarcRecord record in batch)

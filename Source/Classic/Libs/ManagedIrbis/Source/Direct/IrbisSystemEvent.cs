@@ -183,8 +183,19 @@ namespace ManagedIrbis.Direct
 
 #if !FW35
 
-            StartedEvent.Dispose();
-            StopEvent.Dispose();
+            // ReSharper disable ConditionIsAlwaysTrueOrFalse
+
+            if (!ReferenceEquals(StartedEvent, null))
+            {
+                StartedEvent.Dispose();
+            }
+
+            if (!ReferenceEquals(StopEvent, null))
+            {
+                StopEvent.Dispose();
+            }
+
+            // ReSharper restore ConditionIsAlwaysTrueOrFalse
 
 #endif
         }

@@ -9,18 +9,8 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -28,9 +18,9 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
-
 #endregion
+
+// ReSharper disable ForCanBeConvertedToForeach
 
 namespace ManagedIrbis.ImportExport
 {
@@ -51,7 +41,7 @@ namespace ManagedIrbis.ImportExport
         /// <summary>
         /// Record delimiter.
         /// </summary>
-        public const byte RecordDelimiter = 0x1D;
+        public const char RecordDelimiter = (char)0x1D;
 
         /// <summary>
         /// Field delimiter.
@@ -264,7 +254,7 @@ namespace ManagedIrbis.ImportExport
                 if (field.IsFixed)
                 {
                     // В фиксированном поле не бывает подполей.
-                    fldlen += field.Value.Length;
+                    fldlen += (field.Value ?? string.Empty).Length;
                 }
                 else
                 {
@@ -272,7 +262,11 @@ namespace ManagedIrbis.ImportExport
                     for (int j = 0; j < field.SubFields.Count; j++)
                     {
                         fldlen += 2; // Признак подполя и его код
-                        fldlen += field.SubFields[j].Value.Length;
+                        fldlen += 
+                            (
+                                field.SubFields[j].Value
+                                ?? string.Empty
+                            ).Length;
                     }
                 }
                 fldlen += 1; // Разделитель полей
@@ -310,8 +304,8 @@ namespace ManagedIrbis.ImportExport
             chars[23] = '0';
 
             // Кодируем конец справочника
-            chars[baseAddress - 1] = (char)FieldDelimiter;
-            // Проходим по полям															
+            chars[baseAddress - 1] = FieldDelimiter;
+            // Проходим по полям
             for (int i = 0; i < record.Fields.Count; i++, dictionaryPosition += 12)
             {
                 // Кодируем справочник
@@ -338,10 +332,10 @@ namespace ManagedIrbis.ImportExport
                             fld.SubFields[j].Value);
                     }
                 }
-                chars[currentAddress++] = (char)FieldDelimiter;
+                chars[currentAddress++] = FieldDelimiter;
             }
             // Ограничитель записи
-            chars[recordLength - 1] = (char)RecordDelimiter;
+            chars[recordLength - 1] = RecordDelimiter;
 
             // Собственно записываем
             byte[] bytes = encoding.GetBytes(chars);

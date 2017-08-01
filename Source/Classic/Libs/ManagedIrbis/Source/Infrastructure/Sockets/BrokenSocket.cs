@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -89,7 +89,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
         /// <inheritdoc cref="AbstractClientSocket.AbortRequest"/>
         public override void AbortRequest()
         {
-            InnerSocket.AbortRequest();
+            InnerSocket.ThrowIfNull().AbortRequest();
         }
 
         /// <inheritdoc cref="AbstractClientSocket.ExecuteRequest"/>
@@ -114,7 +114,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
                 }
             }
 
-            byte[] result = InnerSocket.ExecuteRequest(request);
+            byte[] result = InnerSocket.ThrowIfNull().ExecuteRequest(request);
 
             return result;
         }

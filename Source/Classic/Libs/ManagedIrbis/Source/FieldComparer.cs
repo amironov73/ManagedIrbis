@@ -11,6 +11,7 @@
 
 using System.Collections.Generic;
 
+using AM;
 using AM.Text;
 
 using JetBrains.Annotations;
@@ -40,7 +41,11 @@ namespace ManagedIrbis
                     RecordField right
                 )
             {
-                return NumberText.Compare(left.Tag, right.Tag);
+                return NumberText.Compare
+                    (
+                        left.ThrowIfNull().Tag,
+                        right.ThrowIfNull().Tag
+                    );
             }
         }
 

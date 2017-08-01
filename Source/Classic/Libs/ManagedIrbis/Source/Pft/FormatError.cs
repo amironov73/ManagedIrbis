@@ -9,19 +9,9 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CodeJam;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -42,9 +32,13 @@ namespace ManagedIrbis.Pft
 
         class Pair
         {
+            // ReSharper disable UnusedAutoPropertyAccessor.Local
+
             public int Code { get; set; }
 
             public string Message { get; set; }
+
+            // ReSharper restore UnusedAutoPropertyAccessor.Local
         }
 
         #endregion

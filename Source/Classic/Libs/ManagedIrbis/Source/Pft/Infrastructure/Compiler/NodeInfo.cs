@@ -13,8 +13,6 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Compiler
@@ -88,7 +86,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 return true;
             }
 
-            return obj is NodeInfo && Equals((NodeInfo) obj);
+            NodeInfo info = obj as NodeInfo;
+
+            return !ReferenceEquals(info, null)
+                && Equals(info);
         }
 
         /// <inheritdoc cref="object.GetHashCode" />

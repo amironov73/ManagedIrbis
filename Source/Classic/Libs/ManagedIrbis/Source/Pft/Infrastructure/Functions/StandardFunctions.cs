@@ -493,9 +493,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                 FieldSpecification specification = new FieldSpecification();
                 specification.Parse(expression);
                 MarcRecord record = context.Record;
-                int count = record.Fields.GetField(specification.Tag).Length;
-                string text = count.ToInvariantString();
-                context.Write(node, text);
+                if (!ReferenceEquals(record, null))
+                {
+                    int count = record.Fields.GetField(specification.Tag).Length;
+                    string text = count.ToInvariantString();
+                    context.Write(node, text);
+                }
             }
         }
 

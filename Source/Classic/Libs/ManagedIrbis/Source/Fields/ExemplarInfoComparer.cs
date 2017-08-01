@@ -11,9 +11,8 @@
 
 using System.Collections.Generic;
 
+using AM;
 using AM.Text;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -42,13 +41,10 @@ namespace ManagedIrbis.Fields
                     ExemplarInfo y
                 )
             {
-                Code.NotNull(x, "x");
-                Code.NotNull(y, "y");
-
                 return NumberText.Compare
                     (
-                        x.Description,
-                        y.Description
+                        x.ThrowIfNull().Description,
+                        y.ThrowIfNull().Description
                     );
             }
         }
@@ -63,13 +59,10 @@ namespace ManagedIrbis.Fields
                     ExemplarInfo y
                 )
             {
-                Code.NotNull(x, "x");
-                Code.NotNull(y, "y");
-
                 return NumberText.Compare
                     (
-                        x.Number,
-                        y.Number
+                        x.ThrowIfNull().Number,
+                        y.ThrowIfNull().Number
                     );
             }
         }

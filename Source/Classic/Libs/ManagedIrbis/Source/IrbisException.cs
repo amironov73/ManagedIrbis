@@ -17,6 +17,7 @@ using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Infrastructure;
 
 #endregion
@@ -29,7 +30,7 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     //[MoonSharpUserData]
-    [DebuggerDisplay("Code={Code}, Message={Message}")]
+    [DebuggerDisplay("Code={ErrorCode}, Message={Message}")]
     public class IrbisException
         : ArsMagnaException
     {

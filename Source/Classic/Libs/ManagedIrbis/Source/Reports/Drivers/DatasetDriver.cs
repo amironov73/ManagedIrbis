@@ -17,7 +17,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -112,7 +112,7 @@ namespace ManagedIrbis.Reports
             Code.NotNull(context, "context");
             Code.NotNull(band, "band");
 
-            DataTable table = DataSet.Tables[0];
+            DataTable table = DataSet.ThrowIfNull().Tables[0];
             DataRow row = table.NewRow();
             row.ItemArray = _currentLine.ToArray();
             table.Rows.Add(row);

@@ -192,7 +192,7 @@ namespace ManagedIrbis.Infrastructure.Commands
                     List<FoundItem> found = subCommand.Found
                         .ThrowIfNull("Found");
                     int count = found.Count;
-                    Found.AddRange(found);
+                    Found.ThrowIfNull().AddRange(found);
 
                     Debug.Assert
                         (
@@ -392,7 +392,7 @@ namespace ManagedIrbis.Infrastructure.Commands
                 {
                     Debug.Assert 
                         (
-                            Found.Count == expected,
+                            Found.ThrowIfNull().Count == expected,
                             "Found.Count != expected in total"
                         );
                 }

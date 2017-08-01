@@ -11,14 +11,10 @@
 
 #region Using directives
 
-using System;
-using System.IO;
-using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
 using AM;
-using AM.Logging;
 
 using CodeJam;
 
@@ -26,14 +22,7 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
-#if !WINMOBILE && !PocketPC
-
-using Formatting = Newtonsoft.Json.Formatting;
-
-#endif
 
 #endregion
 
@@ -60,7 +49,10 @@ namespace ManagedIrbis.Marc.Schema
             Code.NotNull(element, "element");
             Code.NotNull(attributeName, "attributeName");
 
-            string value = element.Attribute(attributeName).Value;
+            string value = element
+                .Attribute(attributeName)
+                .ThrowIfNull("element.Attribute")
+                .Value;
 
             return value.SameString("y");
         }

@@ -98,7 +98,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
             )
         {
             Func<byte[], byte[]> func 
-                = InnerSocket.ExecuteRequest;
+                = InnerSocket.ThrowIfNull().ExecuteRequest;
 
 
             byte[] result = RetryManager.Try

@@ -311,7 +311,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
                 action();
 
-                if (!Context.OutputFlag || Context.BreakFlag)
+                if (!Context.OutputFlag || Context.BreakFlag) //-V3022
                 {
                     break;
                 }
@@ -346,6 +346,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 [NotNull] FieldSpecification spec
             )
         {
+            // ReSharper disable once PossibleNullReferenceException
+
             RecordField field = Context.Record.Fields.GetField
                 (
                     spec.Tag,
@@ -404,6 +406,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 [NotNull] FieldSpecification spec
             )
         {
+            // ReSharper disable once PossibleNullReferenceException
+
             RecordField field = Context.Record.Fields.GetField
                 (
                     spec.Tag,
@@ -432,7 +436,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 [NotNull] FieldSpecification field
             )
         {
-            int count = Context.Record.Fields.GetField(field.Tag).Length;
+            // ReSharper disable once PossibleNullReferenceException
+
+            int count = Context.Record.Fields.GetFieldCount(field.Tag);
 
             return Context.Index >= count - 1;
         }

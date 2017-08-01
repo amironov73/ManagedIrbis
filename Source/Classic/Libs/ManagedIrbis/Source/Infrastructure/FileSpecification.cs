@@ -215,10 +215,10 @@ namespace ManagedIrbis.Infrastructure
         /// </summary>
         public bool Equals
             (
-                [NotNull] FileSpecification other
+                FileSpecification other
             )
         {
-            Code.NotNull(other, "other");
+            other = other.ThrowIfNull();
 
             return Path == other.Path
                    && _CompareDatabases(Database, other.Database)
@@ -245,8 +245,10 @@ namespace ManagedIrbis.Infrastructure
                 return true;
             }
 
-            return obj is FileSpecification
-                && Equals((FileSpecification)obj);
+            FileSpecification other = obj as FileSpecification;
+
+            return !ReferenceEquals(other, null)
+                && Equals(other);
         }
 
         /// <summary>

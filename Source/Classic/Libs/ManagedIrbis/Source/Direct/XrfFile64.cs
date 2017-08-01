@@ -102,7 +102,7 @@ namespace ManagedIrbis.Direct
             {
                 lock (_lockObject)
                 {
-                    _stream.Dispose();
+                    _stream.Dispose(); //-V3100
                     _stream = null;
                 }
             }

@@ -1036,7 +1036,7 @@ namespace ManagedIrbis
             Code.NotNull(fields, "fields");
 
             int count = fields.Count;
-            for (int i = 0; i < count; count++)
+            for (int i = 0; i < count; i++)
             {
                 if (fields[i].Tag == tag)
                 {

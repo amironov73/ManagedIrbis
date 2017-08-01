@@ -11,29 +11,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Logging;
-using AM.Runtime;
 using AM.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Pft;
-using ManagedIrbis.Pft.Infrastructure;
-
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -58,15 +43,15 @@ namespace ManagedIrbis.Biblio
 
             /// <inheritdoc cref="IComparer{T}.Compare" />
             public int Compare
-            (
-                BiblioTerm x,
-                BiblioTerm y
-            )
+                (
+                    BiblioTerm x,
+                    BiblioTerm y
+                )
             {
                 return NumberText.Compare
                     (
-                        x.Data,
-                        y.Data
+                        x.ThrowIfNull().Data,
+                        y.ThrowIfNull().Data
                     );
             }
 
@@ -85,14 +70,14 @@ namespace ManagedIrbis.Biblio
             /// <inheritdoc cref="IComparer{T}.Compare" />
             public int Compare
                 (
-                    BiblioTerm x, 
+                    BiblioTerm x,
                     BiblioTerm y
                 )
             {
                 return StringComparer.CurrentCulture.Compare
                     (
-                        x.Data,
-                        y.Data
+                        x.ThrowIfNull().Data,
+                        y.ThrowIfNull().Data
                     );
             }
 
