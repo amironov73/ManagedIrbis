@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.Diagnostics;
 using System.IO;
 
@@ -41,6 +42,7 @@ namespace ManagedIrbis
     /// MARC record.
     /// </summary>
     [PublicAPI]
+    [Serializable]
     [MoonSharpUserData]
     [DebuggerDisplay("[{Database}] MFN={Mfn} ({Version})")]
     public sealed class MarcRecord
@@ -119,7 +121,7 @@ namespace ManagedIrbis
         [JsonIgnore]
         public bool Deleted
         {
-            get { return ((Status & RecordStatus.LogicallyDeleted) != 0); }
+            get { return (Status & RecordStatus.LogicallyDeleted) != 0; }
             set
             {
                 if (value)
@@ -160,13 +162,21 @@ namespace ManagedIrbis
         /// </summary>
         [CanBeNull]
         [JsonIgnore]
-        public object UserData { get; set; }
+        public object UserData
+        {
+            get { return _userData; }
+            set { _userData = value; }
+        }
 
         /// <summary>
         /// Whether the record was modified?
         /// </summary>
         [JsonIgnore]
-        public bool Modified { get; set; }
+        public bool Modified
+        {
+            get { return _modified; }
+            set { _modified = value; }
+        }
 
         #endregion
 
@@ -217,6 +227,12 @@ namespace ManagedIrbis
         private int _mfn, _version;
 
         private RecordStatus _status;
+
+        [NonSerialized]
+        private bool _modified;
+
+        [NonSerialized]
+        private object _userData;
 
         #endregion
 

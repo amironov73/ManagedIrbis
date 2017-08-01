@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
@@ -32,8 +33,9 @@ namespace ManagedIrbis
     /// MARC record subfield.
     /// </summary>
     [PublicAPI]
-    [XmlRoot("subfield")]
+    [Serializable]
     [MoonSharpUserData]
+    [XmlRoot("subfield")]
     [DebuggerDisplay("Code={Code}, Value={Value}")]
     public sealed class SubField
         : IHandmadeSerializable,
@@ -115,7 +117,11 @@ namespace ManagedIrbis
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
-        public bool Modified { get; internal set; }
+        public bool Modified
+        {
+            get { return _modified; }
+            internal set { _modified = value; }
+        }
 
         /// <summary>
         /// Произвольные пользовательские данные.
@@ -123,7 +129,11 @@ namespace ManagedIrbis
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        public object UserData { get; set; }
+        public object UserData
+        {
+            get { return _userData; }
+            set { _userData = value; }
+        }
 
         /// <summary>
         /// Ссылка на поле, владеющее
@@ -229,6 +239,12 @@ namespace ManagedIrbis
         private char _code;
 
         private string _value;
+
+        [NonSerialized]
+        private bool _modified;
+
+        [NonSerialized]
+        private object _userData;
 
         internal void SetModified()
         {

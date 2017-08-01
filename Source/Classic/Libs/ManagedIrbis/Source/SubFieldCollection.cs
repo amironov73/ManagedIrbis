@@ -42,6 +42,7 @@ namespace ManagedIrbis
     /// значения <c>null</c>.
     /// </summary>
     [PublicAPI]
+    [Serializable]
     [MoonSharpUserData]
     [XmlRoot("subfields")]
     [DebuggerDisplay("Count={Count}")]
@@ -70,6 +71,7 @@ namespace ManagedIrbis
 
         // ReSharper disable InconsistentNaming
 
+        [NonSerialized]
         private RecordField _field;
 
         [ExcludeFromCodeCoverage]
@@ -121,6 +123,48 @@ namespace ManagedIrbis
 
             return this;
         }
+
+        /// <summary>
+        /// Assign.
+        /// </summary>
+        [NotNull]
+        public SubFieldCollection Assign
+            (
+                [NotNull] SubFieldCollection other
+            )
+        {
+            ThrowIfReadOnly();
+            Code.NotNull(other, "other");
+
+            Clear();
+            _field = other.Field;
+            AddRange(other);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Assign clone.
+        /// </summary>
+        [NotNull]
+        public SubFieldCollection AssignClone
+            (
+                [NotNull] SubFieldCollection other
+            )
+        {
+            ThrowIfReadOnly();
+            Code.NotNull(other, "other");
+
+            Clear();
+            _field = other.Field;
+            foreach (SubField subField in other)
+            {
+                Add(subField.Clone());
+            }
+
+            return this;
+        }
+
 
         /// <summary>
         /// Создание "глубокой" копии коллекции.
@@ -176,6 +220,41 @@ namespace ManagedIrbis
                 .Where(subField => predicate(subField))
                 .ToArray();
         }
+
+#if !WINMOBILE && !PocketPC
+
+        /// <summary>
+        /// Restore the collection from JSON.
+        /// </summary>
+        [NotNull]
+        public static SubFieldCollection FromJson
+        (
+            [NotNull] string text
+        )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            SubFieldCollection result
+                = JsonConvert.DeserializeObject<SubFieldCollection>
+                (
+                    text
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Convert the collection to JSON.
+        /// </summary>
+        [NotNull]
+        public string ToJson()
+        {
+            string result = JArray.FromObject(this).ToString();
+
+            return result;
+        }
+
+#endif
 
         #endregion
 
@@ -326,82 +405,6 @@ namespace ManagedIrbis
             {
                 subField.SetReadOnly();
             }
-        }
-
-#if !WINMOBILE && !PocketPC
-
-        /// <summary>
-        /// Convert the collection to JSON.
-        /// </summary>
-        [NotNull]
-        public string ToJson()
-        {
-            string result = JArray.FromObject(this).ToString();
-
-            return result;
-        }
-
-        /// <summary>
-        /// Restore the collection from JSON.
-        /// </summary>
-        [NotNull]
-        public static SubFieldCollection FromJson
-            (
-                [NotNull] string text
-            )
-        {
-            Code.NotNullNorEmpty(text, "text");
-
-            SubFieldCollection result
-                = JsonConvert.DeserializeObject<SubFieldCollection>
-                (
-                    text
-                );
-
-            return result;
-        }
-
-#endif
-
-        /// <summary>
-        /// Assign.
-        /// </summary>
-        [NotNull]
-        public SubFieldCollection Assign
-            (
-                [NotNull] SubFieldCollection other
-            )
-        {
-            ThrowIfReadOnly();
-            Code.NotNull(other, "other");
-
-            Clear();
-            _field = other.Field;
-            AddRange(other);
-
-            return this;
-        }
-
-        /// <summary>
-        /// Assign clone.
-        /// </summary>
-        [NotNull]
-        public SubFieldCollection AssignClone
-            (
-                [NotNull] SubFieldCollection other
-            )
-        {
-            ThrowIfReadOnly();
-            Code.NotNull(other, "other");
-
-            Clear();
-            _field = other.Field;
-            foreach (SubField subField in other)
-            {
-                Add(subField.Clone());
-            }
-
-            return this;
         }
 
         #endregion

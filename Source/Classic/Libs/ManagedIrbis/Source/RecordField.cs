@@ -11,15 +11,10 @@
 
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-
-#if FW4
-using System.ComponentModel;
-#endif
 
 using AM;
 using AM.IO;
@@ -44,6 +39,7 @@ namespace ManagedIrbis
     /// MARC record subfield.
     /// </summary>
     [PublicAPI]
+    [Serializable]
     [XmlRoot("field")]
     [MoonSharpUserData]
     [DebuggerDisplay("{DebugText}")]
@@ -121,6 +117,7 @@ namespace ManagedIrbis
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
+        [NonSerialized]
         public int Repeat;
 
         /// <summary>
@@ -157,7 +154,11 @@ namespace ManagedIrbis
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
-        public bool Modified { get; internal set; }
+        public bool Modified
+        {
+            get { return _modified; }
+            internal set { _modified = value; }
+        }
 
         /// <summary>
         /// Произвольные пользовательские данные.
@@ -165,7 +166,11 @@ namespace ManagedIrbis
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        public object UserData { get; set; }
+        public object UserData
+        {
+            get { return _userData; }
+            set { _userData = value; }
+        }
 
         /// <summary>
         /// Ссылка на запись, владеющую
@@ -209,7 +214,8 @@ namespace ManagedIrbis
             [DebuggerStepThrough]
             get
             {
-                return Tag.SafeStarts("00");
+                return !ReferenceEquals(Tag, null)
+                    && Tag.Length == 1;
             }
         }
 
@@ -348,6 +354,12 @@ namespace ManagedIrbis
         #endregion
 
         #region Private members
+
+        [NonSerialized]
+        private bool _modified;
+
+        [NonSerialized]
+        private object _userData;
 
         private string DebugText
         {

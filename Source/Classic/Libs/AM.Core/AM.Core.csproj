@@ -317,6 +317,7 @@
     <Compile Include="Compatibility\BufferedStream.cs" />
     <Compile Include="Compatibility\Diagnostics.cs" />
     <Compile Include="Compatibility\ExcludeFromCodeCoverageAttribute.cs" />
+    <Compile Include="Compatibility\SerializableAttribute.cs" />
     <Compile Include="Compatibility\TypeInfo.cs" />
     <Compile Include="AM\UniversalComparer.cs" />
     <Compile Include="AM\Utility.cs" />

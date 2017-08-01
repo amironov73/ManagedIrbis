@@ -700,6 +700,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\Newtonsoft.cs">
       <Link>Compatibility\Newtonsoft.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\SerializableAttribute.cs">
+      <Link>Compatibility\SerializableAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\StringBuilderCompability.cs">
       <Link>Compatibility\StringBuilderCompability.cs</Link>
     </Compile>

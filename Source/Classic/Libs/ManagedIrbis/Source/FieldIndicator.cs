@@ -40,6 +40,7 @@ namespace ManagedIrbis
     /// Индикатор поля.
     /// </summary>
     [PublicAPI]
+    [Serializable]
     [MoonSharpUserData]
     [XmlRoot("indicator")]
     [DebuggerDisplay("Value = '{Value}'")]

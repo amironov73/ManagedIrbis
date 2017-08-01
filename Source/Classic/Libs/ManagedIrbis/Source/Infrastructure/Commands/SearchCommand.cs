@@ -381,8 +381,10 @@ namespace ManagedIrbis.Infrastructure.Commands
             {
                 int expected = result.RequireInt32();
                 FoundCount = expected;
-                Found = FoundItem.ParseServerResponse(result, expected)
+                List<FoundItem> foundList = FoundItem
+                    .ParseServerResponse(result, expected)
                     .ThrowIfNull("Found");
+                Found = foundList;
 
                 _FetchRemaining(result, expected);
 
@@ -392,7 +394,7 @@ namespace ManagedIrbis.Infrastructure.Commands
                 {
                     Debug.Assert 
                         (
-                            Found.ThrowIfNull().Count == expected,
+                            foundList.Count == expected,
                             "Found.Count != expected in total"
                         );
                 }

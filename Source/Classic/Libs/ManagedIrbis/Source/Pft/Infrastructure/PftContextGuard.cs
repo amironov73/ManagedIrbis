@@ -10,17 +10,7 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -38,7 +28,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     [PublicAPI]
     [MoonSharpUserData]
     [DebuggerDisplay("{ChildContext}")]
-    public sealed class PftContextGuard
+    public struct PftContextGuard
         : IDisposable
     {
         #region Properties
@@ -66,6 +56,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             (
                 [NotNull] PftContext parentContext
             )
+            : this()
         {
             Code.NotNull(parentContext, "parentContext");
 
@@ -107,7 +98,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return ChildContext.ToString();

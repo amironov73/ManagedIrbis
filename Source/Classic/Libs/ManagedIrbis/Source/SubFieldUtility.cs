@@ -39,7 +39,12 @@ namespace ManagedIrbis
     [MoonSharpUserData]
     public static class SubFieldUtility
     {
-        #region Private members
+        #region Properties and fields
+
+        /// <summary>
+        /// Empty array of <see cref="SubField"/>'s.
+        /// </summary>
+        public static readonly SubField[] EmptyArray = new SubField[0];
 
         #endregion
 
@@ -57,8 +62,39 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
 
-            return subFields
-                .FirstOrDefault(sub => sub.Code.SameChar(code));
+            foreach (SubField subField in subFields.NonNullItems())
+            {
+                if (subField.Code.SameChar(code))
+                {
+                    return subField;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Первое вхождение подполя с указанным кодом.
+        /// </summary>
+        [CanBeNull]
+        public static SubField GetFirstSubField
+            (
+                [NotNull] this SubFieldCollection subFields,
+                char code
+            )
+        {
+            Code.NotNull(subFields, "subFields");
+
+            int count = subFields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (subFields[i].Code.SameChar(code))
+                {
+                    return subFields[i];
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -73,8 +109,39 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
 
-            return subFields
-                .FirstOrDefault(sub => sub.Code.OneOf(codes));
+            foreach (SubField subField in subFields.NonNullItems())
+            {
+                if (subField.Code.OneOf(codes))
+                {
+                    return subField;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Первое вхождение подполя с одним из указанных кодов.
+        /// </summary>
+        [CanBeNull]
+        public static SubField GetFirstSubField
+            (
+                [NotNull] this SubFieldCollection subFields,
+                params char[] codes
+        )
+        {
+            Code.NotNull(subFields, "subFields");
+
+            int count = subFields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (subFields[i].Code.OneOf(codes))
+                {
+                    return subFields[i];
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -91,13 +158,47 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
 
-            return subFields
-                .FirstOrDefault
-                (
-                    sub => sub.Code.SameChar(code)
-                           && sub.Value.SameStringSensitive(value)
-                );
+            foreach (SubField subField in subFields.NonNullItems())
+            {
+                if (subField.Code.SameChar(code)
+                    && subField.Value.SameStringSensitive(value))
+                {
+                    return subField;
+                }
+            }
+
+            return null;
         }
+
+        /// <summary>
+        /// Первое вхождение подполя с указанными кодом
+        /// и значением (с учётом регистра символов).
+        /// </summary>
+        [CanBeNull]
+        public static SubField GetFirstSubField
+            (
+                [NotNull] this SubFieldCollection subFields,
+                char code,
+                [CanBeNull] string value
+            )
+        {
+            Code.NotNull(subFields, "subFields");
+
+            int count = subFields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                SubField subField = subFields[i];
+                if (subField.Code.SameChar(code)
+                    && subField.Value.SameStringSensitive(value))
+                {
+                    return subField;
+                }
+            }
+
+            return null;
+        }
+
+        // ==========================================================
 
         /// <summary>
         /// Фильтрация подполей.
@@ -112,9 +213,54 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
 
-            return subFields
-                .Where(sub => sub.Code.SameChar(code))
-                .ToArray();
+            List<SubField> result = null;
+            foreach (SubField subField in subFields.NonNullItems())
+            {
+                if (subField.Code.SameChar(code))
+                {
+                    if (ReferenceEquals(result, null))
+                    {
+                        result = new List<SubField>();
+                    }
+                    result.Add(subField);
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? EmptyArray
+                : result.ToArray();
+        }
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static SubField[] GetSubField
+            (
+                [NotNull] this SubFieldCollection subFields,
+                char code
+            )
+        {
+            Code.NotNull(subFields, "subFields");
+
+            List<SubField> result = null;
+            int count = subFields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (subFields[i].Code.SameChar(code))
+                {
+                    if (ReferenceEquals(result, null))
+                    {
+                        result = new List<SubField>();
+                    }
+                    result.Add(subFields[i]);
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? EmptyArray
+                : result.ToArray();
         }
 
         /// <summary>
@@ -130,10 +276,132 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
 
-            return subFields
-                .Where(sub => sub.Code.OneOf(codes))
+            List<SubField> result = null;
+            foreach (SubField subField in subFields.NonNullItems())
+            {
+                if (subField.Code.OneOf(codes))
+                {
+                    if (ReferenceEquals(result, null))
+                    {
+                        result = new List<SubField>();
+                    }
+                    result.Add(subField);
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? EmptyArray
+                : result.ToArray();
+        }
+
+        /// <summary>
+        /// Фильтрация подполей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static SubField[] GetSubField
+            (
+                [NotNull] this SubFieldCollection subFields,
+                params char[] codes
+            )
+        {
+            Code.NotNull(subFields, "subFields");
+
+            List<SubField> result = null;
+            int count = subFields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (subFields[i].Code.OneOf(codes))
+                {
+                    if (ReferenceEquals(result, null))
+                    {
+                        result = new List<SubField>();
+                    }
+                    result.Add(subFields[i]);
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? EmptyArray
+                : result.ToArray();
+        }
+
+        /// <summary>
+        /// Выполнение неких действий над подполями.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static SubField[] GetSubField
+            (
+                [NotNull] this IEnumerable<SubField> subFields,
+                [CanBeNull] Action<SubField> action
+            )
+        {
+            Code.NotNull(subFields, "subFields");
+
+            SubField[] result = subFields.NonNullItems().ToArray();
+
+            if (!ReferenceEquals(action, null))
+            {
+                foreach (SubField subField in result)
+                {
+                    action(subField);
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Фильтрация подполей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static SubField[] GetSubField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [NotNull] Func<RecordField, bool> fieldPredicate,
+                [NotNull] Func<SubField, bool> subPredicate
+            )
+        {
+            Code.NotNull(fields, "fields");
+            Code.NotNull(fieldPredicate, "fieldPredicate");
+            Code.NotNull(subPredicate, "subPredicate");
+
+            return fields
+                .NonNullItems()
+                .Where(fieldPredicate)
+                .NonNullItems()
+                .GetSubField()
+                .Where(subPredicate)
                 .ToArray();
         }
+
+        /// <summary>
+        /// Фильтрация подполей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static SubField[] GetSubField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [NotNull] string[] tags,
+                [NotNull] char[] codes
+            )
+        {
+            Code.NotNull(fields, "fields");
+            Code.NotNull(tags, "tags");
+            Code.NotNull(codes, "codes");
+
+            return fields
+                .NonNullItems()
+                .GetField(tags)
+                .NonNullItems()
+                .GetSubField(codes)
+                .ToArray();
+        }
+
+        // ==========================================================
 
         /// <summary>
         /// Фильтрация подполей.
@@ -221,6 +489,8 @@ namespace ManagedIrbis
                 .ToArray();
         }
 
+        // ==========================================================
+
         /// <summary>
         /// Получение значения подполя.
         /// </summary>
@@ -230,7 +500,7 @@ namespace ManagedIrbis
                 [CanBeNull] this SubField subField
             )
         {
-            return subField == null
+            return ReferenceEquals(subField, null)
                        ? null
                        : subField.Value;
         }
@@ -247,87 +517,26 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
 
-            return subFields
-                .NonNullItems()
-                .Select(subField => subField.Value)
-                .NonEmptyLines()
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Выполнение неких действий над подполями.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static SubField[] GetSubField
-            (
-                [NotNull] this IEnumerable<SubField> subFields,
-                [CanBeNull] Action<SubField> action
-            )
-        {
-            Code.NotNull(subFields, "subFields");
-
-            SubField[] result = subFields.ToArray();
-
-            if (!ReferenceEquals(action, null))
+            List<string> result = null;
+            foreach (SubField subField in subFields.NonNullItems())
             {
-                foreach (SubField subField in result)
+                string value = subField.Value;
+                if (!string.IsNullOrEmpty(value))
                 {
-                    action(subField);
+                    if (ReferenceEquals(result, null))
+                    {
+                        result = new List<string>();
+                    }
+                    result.Add(value);
                 }
             }
 
-            return result;
+            return ReferenceEquals(result, null)
+                ? EmptyArray<string>.Value
+                : result.ToArray();
         }
 
-        /// <summary>
-        /// Фильтрация подполей.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static SubField[] GetSubField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [NotNull] Func<RecordField, bool> fieldPredicate,
-                [NotNull] Func<SubField, bool> subPredicate
-            )
-        {
-            Code.NotNull(fields, "fields");
-            Code.NotNull(fieldPredicate, "fieldPredicate");
-            Code.NotNull(subPredicate, "subPredicate");
-
-            return fields
-                .NonNullItems()
-                .Where(fieldPredicate)
-                .NonNullItems()
-                .GetSubField()
-                .Where(subPredicate)
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Фильтрация подполей.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static SubField[] GetSubField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [NotNull] string[] tags,
-                [NotNull] char[] codes
-            )
-        {
-            Code.NotNull(fields, "fields");
-            Code.NotNull(tags, "tags");
-            Code.NotNull(codes, "codes");
-
-            return fields
-                .NonNullItems()
-                .GetField(tags)
-                .NonNullItems()
-                .GetSubField(codes)
-                .ToArray();
-        }
+        // ==========================================================
 
 #if !WINMOBILE && !PocketPC
 
