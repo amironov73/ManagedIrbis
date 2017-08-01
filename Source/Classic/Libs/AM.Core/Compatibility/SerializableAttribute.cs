@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !CLASSIC && !NETCORE
+#if !CLASSIC && !NETCORE && !ANDROID
 
 using System;
 
