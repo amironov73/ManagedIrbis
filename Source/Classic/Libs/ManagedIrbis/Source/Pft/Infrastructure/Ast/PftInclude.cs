@@ -11,6 +11,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 using AM;
 using AM.Logging;
@@ -20,6 +21,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 
@@ -181,6 +183,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            if (ReferenceEquals(Program, null))
+            {
+                // TODO implement
+
+                //ParseProgram(compiler.Context);
+            }
+
+            compiler.StartMethod(this);
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -256,6 +277,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.Serialize(writer);
 
             PftSerializer.SerializeNullable(writer, Program);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return "include(" + Text + ")";
         }
 
         #endregion

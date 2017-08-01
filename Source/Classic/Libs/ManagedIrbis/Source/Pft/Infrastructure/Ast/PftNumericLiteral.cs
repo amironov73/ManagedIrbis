@@ -106,7 +106,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler
                 .WriteIndent()
-                .WriteLine("double result = {0};", Value)
+                .WriteLine("double result = {0};", Value.ToInvariantString())
                 .WriteIndent()
                 .WriteLine("return result;");
 
@@ -132,6 +132,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             printer.Write(Value.ToInvariantString());
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return Value.ToInvariantString();
         }
 
         #endregion

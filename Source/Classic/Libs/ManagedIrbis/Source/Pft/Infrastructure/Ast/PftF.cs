@@ -20,6 +20,7 @@ using AM.Logging;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
@@ -257,6 +258,72 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 );
         }
 
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            if (ReferenceEquals(Argument1, null))
+            {
+                throw new PftCompilerException();
+            }
+
+            Argument1.Compile(compiler);
+            if (!ReferenceEquals(Argument2, null))
+            {
+                Argument2.Compile(compiler);
+            }
+            if (!ReferenceEquals(Argument3, null))
+            {
+                Argument3.Compile(compiler);
+            }
+
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .Write("double value = ")
+                .CallNodeMethod(Argument1);
+
+            compiler
+                .WriteIndent()
+                .Write("int minWidth = ");
+            if (ReferenceEquals(Argument2, null))
+            {
+                compiler.WriteLine("-1;");
+            }
+            else
+            {
+                compiler
+                    .Write("(int)")
+                    .CallNodeMethod(Argument2);
+            }
+
+            compiler
+                .WriteIndent()
+                .Write("int decimalPoints = ");
+            if (ReferenceEquals(Argument3, null))
+            {
+                compiler.WriteLine("-1;");
+            }
+            else
+            {
+                compiler
+                    .Write("(int)")
+                    .CallNodeMethod(Argument3);
+            }
+
+            compiler
+                .WriteIndent()
+                .WriteLine("string text = PftUtility.FormatLikeF(value, minWidth, decimalPoints);")
+                .WriteIndent()
+                .WriteLine("Context.Write(null, text);");
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -295,8 +362,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             using (PftContextGuard guard = new PftContextGuard(context))
             {
                 PftContext clone = guard.ChildContext;
-                Argument1.Execute(clone);
 
+                Argument1.Execute(clone);
                 double value = Argument1.Value;
 
                 int minWidth = -1;

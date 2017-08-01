@@ -436,7 +436,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 LeftOperand.PrettyPrint(printer);
             }
-            printer.Write(" {0 ", Operation);
+            printer.Write(" {0} ", Operation);
             if (!ReferenceEquals(RightOperand, null))
             {
                 RightOperand.PrettyPrint(printer);

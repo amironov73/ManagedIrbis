@@ -12,14 +12,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 
@@ -145,6 +144,45 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            if (ReferenceEquals(X, null)
+                || ReferenceEquals(Y, null))
+            {
+                throw new PftCompilerException();
+            }
+
+            X.Compile(compiler);
+            Y.Compile(compiler);
+
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("double x = ")
+                .CallNodeMethod(X);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("double y = ")
+                .CallNodeMethod(Y);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("double result = Math.Pow(x, y);");
+
+            compiler
+                .WriteIndent()
+                .WriteLine("return result;");
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -220,6 +258,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             PftSerializer.SerializeNullable(writer, X);
             PftSerializer.SerializeNullable(writer, Y);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append("pow(");
+            result.Append(X);
+            result.Append(',');
+            result.Append(Y);
+            result.Append(')');
+
+            return result.ToString();
         }
 
         #endregion

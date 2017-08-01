@@ -21,6 +21,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
@@ -185,6 +186,65 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.CompareNode"/>
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftF2 otherF = (PftF2)otherNode;
+            PftSerializationUtility.CompareLists
+                (
+                    Format,
+                    otherF.Format
+                );
+            PftSerializationUtility.CompareNodes
+                (
+                    Number,
+                    otherF.Number
+                );
+        }
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            if (ReferenceEquals(Number, null)
+                || Format.Count == 0)
+            {
+                throw new PftCompilerException();
+            }
+
+            Number.Compile(compiler);
+            compiler.CompileNodes(Format);
+
+            string actionName = compiler.CompileAction(Format);
+
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .Write("double value = ")
+                .CallNodeMethod(Number);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("string format = Evaluate({0});", actionName);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("string text = value.ToString(format, CultureInfo.InvariantCulture);")
+                .WriteIndent()
+                .WriteLine("Context.Write(null, text);");
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
 
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize

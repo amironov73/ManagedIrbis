@@ -11,6 +11,7 @@
 
 using System;
 using System.IO;
+using System.Text;
 
 using AM.Collections;
 using AM.IO;
@@ -195,6 +196,35 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.Serialize(writer);
 
             writer.WriteArray(Names.ToArray());
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append("local");
+            foreach (string name in Names)
+            {
+                result.AppendFormat(" {0},", name);
+            }
+            result.Append(" do ");
+            bool first = true;
+            foreach (PftNode child in Children)
+            {
+                if (!first)
+                {
+                    result.Append(' ');
+                }
+                result.Append(child);
+                first = false;
+            }
+            result.Append(" end");
+
+            return result.ToString();
         }
 
         #endregion

@@ -149,7 +149,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 compiler
                     .WriteIndent()
-                    .WriteLine("double result = double.Parse(text);");
+                    .WriteLine("double result = PftUtility.ExtractNumericValue(text);");
             }
 
             compiler

@@ -208,7 +208,7 @@ namespace PftBench
                     output,
                     className
                 );
-            string result = string.Empty;
+            string result = output.ToString();
             if (!ReferenceEquals(assemblyPath, null))
             {
                 Assembly assembly

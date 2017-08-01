@@ -149,6 +149,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 "System",
                 "System.Collections.Generic",
                 "System.Diagnostics",
+                "System.Globalization",
                 "System.IO",
                 "System.Linq",
                 "System.Text",
