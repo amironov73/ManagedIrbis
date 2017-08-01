@@ -46,6 +46,24 @@ namespace ManagedIrbis
     [MoonSharpUserData]
     public static class RecordFieldUtility
     {
+        #region Properties and fields
+
+        /// <summary>
+        /// Empty array of <see cref="RecordField"/>.
+        /// </summary>
+        [NotNull]
+        public static readonly RecordField[] EmptyFieldArray
+            = new RecordField[0];
+
+        /// <summary>
+        /// Empty array of <see cref="SubField"/>.
+        /// </summary>
+        [NotNull]
+        public static readonly SubField[] EmptySubFieldArray
+            = new SubField[0];
+
+        #endregion
+
         #region Private members
 
         #endregion
@@ -53,73 +71,112 @@ namespace ManagedIrbis
         #region Public methods
 
         /// <summary>
-        /// Фильтрация полей.
+        /// Добавление подполя.
+        /// </summary>
+        [NotNull]
+        public static RecordField AddNonEmptySubField
+            (
+                [NotNull] this RecordField field,
+                char code,
+                [CanBeNull] string value
+            )
+        {
+            Code.NotNull(field, "field");
+
+            if (!string.IsNullOrEmpty(value))
+            {
+                field.AddSubField(code, value);
+            }
+
+            return field;
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Добавление подполя.
+        /// </summary>
+        [NotNull]
+        public static RecordField AddSubField
+            (
+                [NotNull] this RecordField field,
+                char code,
+                [CanBeNull] string value
+            )
+        {
+            Code.NotNull(field, "field");
+
+            field.SubFields.Add
+                (
+                    new SubField(code, value)
+                );
+
+            return field;
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Все подполя.
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public static RecordField[] GetField
+        public static SubField[] AllSubFields
             (
-                [NotNull] this IEnumerable<RecordField> fields,
-                string tag
+                [NotNull] this IEnumerable<RecordField> fields
             )
         {
             Code.NotNull(fields, "fields");
 
             return fields
                 .NonNullItems()
-                .Where(field => field.Tag == tag)
+                .SelectMany(field => field.SubFields)
+                .NonNullItems()
+                .ToArray();
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Отбор подполей с указанными кодами.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static SubField[] FilterSubFields
+            (
+                [NotNull] this IEnumerable<SubField> subFields,
+                params char[] codes
+            )
+        {
+            Code.NotNull(subFields, "subFields");
+
+            return subFields
+                .NonNullItems()
+                .Where
+                    (
+                        subField => subField.Code.OneOf(codes)
+                    )
                 .ToArray();
         }
 
         /// <summary>
-        /// Фильтрация полей.
+        /// Отбор подполей с указанными кодами.
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public static RecordField[] GetField
+        public static SubField[] FilterSubFields
             (
-                [NotNull] this RecordFieldCollection fields,
-                [NotNull] string tag
+                [NotNull] this RecordField field,
+                params char[] codes
             )
         {
-            Code.NotNull(fields, "fields");
+            Code.NotNull(field, "field");
 
-            List<RecordField> result = null;
-            int count = fields.Count;
-            for (int i = 0; i < count; i++)
-            {
-                if (fields[i].Tag == tag)
-                {
-                    if (ReferenceEquals(result, null))
-                    {
-                        result = new List<RecordField>();
-                    }
-                    result.Add(fields[i]);
-                }
-            }
-
-            return ReferenceEquals(result, null)
-                ? new RecordField[0]
-                : result.ToArray();
+            return field.SubFields
+                .FilterSubFields(codes);
         }
 
-        /// <summary>
-        /// Фильтрация полей.
-        /// </summary>
-        [CanBeNull]
-        public static RecordField GetField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag,
-                int occurrence
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            return fields
-                .GetField(tag)
-                .GetOccurrence(occurrence);
-        }
+        // ==========================================================
 
         /// <summary>
         /// Фильтрация полей.
@@ -158,6 +215,85 @@ namespace ManagedIrbis
         public static RecordField[] GetField
             (
                 [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string tag
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            return fields
+                .NonNullItems()
+                .Where(field => field.Tag == tag)
+                .ToArray();
+        }
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetField
+            (
+                [NotNull] this RecordFieldCollection fields,
+                [CanBeNull] string tag
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            List<RecordField> result = null;
+            int count = fields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (fields[i].Tag == tag)
+                {
+                    if (ReferenceEquals(result, null))
+                    {
+                        result = new List<RecordField>();
+                    }
+                    result.Add(fields[i]);
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? EmptyFieldArray
+                : result.ToArray();
+        }
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [CanBeNull]
+        public static RecordField GetField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string tag,
+                int occurrence
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            foreach (RecordField field in fields)
+            {
+                if (field.Tag == tag)
+                {
+                    if (occurrence == 0)
+                    {
+                        return field;
+                    }
+                    occurrence--;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
                 params string[] tags
             )
         {
@@ -167,6 +303,38 @@ namespace ManagedIrbis
                 .NonNullItems()
                 .Where(field => field.Tag.OneOf(tags))
                 .ToArray();
+        }
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetField
+            (
+                [NotNull] this RecordFieldCollection fields,
+                params string[] tags
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            List<RecordField> result = null;
+            int count = fields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (fields[i].Tag.OneOf(tags))
+                {
+                    if (ReferenceEquals(result, null))
+                    {
+                        result = new List<RecordField>();
+                    }
+                    result.Add(fields[i]);
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? EmptyFieldArray
+                : result.ToArray();
         }
 
         /// <summary>
@@ -189,22 +357,363 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [CanBeNull]
+        public static RecordField GetField
+            (
+                [NotNull] this RecordFieldCollection fields,
+                [NotNull] string[] tags,
+                int occurrence
+            )
+        {
+            Code.NotNull(fields, "fields");
+            Code.NotNull(tags, "tags");
+
+            int count = fields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (fields[i].Tag.OneOf(tags))
+                {
+                    if (occurrence == 0)
+                    {
+                        return fields[i];
+                    }
+                    occurrence--;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [NotNull] Func<RecordField, bool> predicate
+            )
+        {
+            Code.NotNull(fields, "fields");
+            Code.NotNull(predicate, "predicate");
+
+            return fields
+                .NonNullItems()
+                .Where(predicate)
+                .ToArray();
+        }
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetField
+            (
+                [NotNull] this RecordFieldCollection fields,
+                [NotNull] Func<RecordField, bool> predicate
+            )
+        {
+            Code.NotNull(fields, "fields");
+            Code.NotNull(predicate, "predicate");
+
+            List<RecordField> result = null;
+            int count = fields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (predicate(fields[i]))
+                {
+                    if (ReferenceEquals(result, null))
+                    {
+                        result = new List<RecordField>();
+                    }
+                    result.Add(fields[i]);
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? EmptyFieldArray
+                : result.ToArray();
+        }
+
+        /// <summary>
+        /// Выполнение неких действий над полями.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] Action<RecordField> action
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            RecordField[] result = fields.NonNullItems().ToArray();
+            if (!ReferenceEquals(action, null))
+            {
+                foreach (RecordField field in result)
+                {
+                    action(field);
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Выполнение неких действий над полями и подполями.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] Action<RecordField> fieldAction,
+                [CanBeNull] Action<SubField> subFieldAction
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            RecordField[] result = fields.NonNullItems().ToArray();
+            if (!ReferenceEquals(fieldAction, null)
+                || !ReferenceEquals(subFieldAction, null))
+            {
+                foreach (RecordField field in result)
+                {
+                    if (!ReferenceEquals(fieldAction, null))
+                    {
+                        fieldAction(field);
+                    }
+
+                    if (!ReferenceEquals(subFieldAction, null))
+                    {
+                        foreach (SubField subField in field.SubFields)
+                        {
+                            subFieldAction(subField);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Выполнение неких действий над подполями.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] Action<SubField> action
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            RecordField[] result = fields.NonNullItems().ToArray();
+            if (!ReferenceEquals(action, null))
+            {
+                foreach (RecordField field in result)
+                {
+                    foreach (SubField subField in field.SubFields)
+                    {
+                        action(subField);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [NotNull] Func<SubField, bool> predicate
+            )
+        {
+            Code.NotNull(fields, "fields");
+            Code.NotNull(predicate, "predicate");
+
+            return fields
+                .NonNullItems()
+                .Where(field => field.SubFields.Any(predicate))
+                .ToArray();
+        }
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [NotNull] char[] codes,
+                [NotNull] Func<SubField, bool> predicate
+            )
+        {
+            Code.NotNull(fields, "fields");
+            Code.NotNull(codes, "codes");
+            Code.NotNull(predicate, "predicate");
+
+            return fields
+                .NonNullItems()
+                .Where
+                    (
+                        field => field.SubFields
+                            .NonNullItems()
+                            .Any
+                                (
+                                    sub => sub.Code.OneOf(codes)
+                                        && predicate(sub)
+                                )
+                    )
+                .ToArray();
+        }
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [NotNull] char[] codes,
+                params string[] values
+            )
+        {
+            Code.NotNull(fields, "fields");
+            Code.NotNull(codes, "codes");
+
+            return fields
+                .NonNullItems()
+                .Where
+                    (
+                        field => field.SubFields
+                            .NonNullItems()
+                            .Any
+                                (
+                                    sub => sub.Code.OneOf(codes)
+                                        && sub.Value.OneOf(values)
+                                )
+                    )
+                .ToArray();
+        }
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                char code,
+                [CanBeNull] string value
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            return fields
+                .NonNullItems()
+                .Where
+                    (
+                        field => field.SubFields
+                            .NonNullItems()
+                            .Any
+                                (
+                                    sub => sub.Code.SameChar(code)
+                                        && sub.Value.SameString(value)
+                                )
+                    )
+                .ToArray();
+        }
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [NotNull] string[] tags,
+                [NotNull] char[] codes,
+                [NotNull] string[] values
+            )
+        {
+            Code.NotNull(fields, "fields");
+            Code.NotNull(tags, "tags");
+            Code.NotNull(codes, "codes");
+            Code.NotNull(values, "values");
+
+            return fields
+                .NonNullItems()
+                .Where(field => field.Tag.OneOf(tags))
+                .Where
+                    (
+                        field => field.SubFields
+                            .Any
+                                (
+                                    sub => sub.Code.OneOf(codes)
+                                        && sub.Value.OneOf(values)
+                                )
+                    )
+                .ToArray();
+        }
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [NotNull] Func<RecordField, bool> fieldPredicate,
+                [NotNull] Func<SubField, bool> subPredicate
+            )
+        {
+            Code.NotNull(fields, "fields");
+            Code.NotNull(fieldPredicate, "fieldPredicate");
+            Code.NotNull(subPredicate, "subPredicate");
+
+            return fields
+                .NonNullItems()
+                .Where(fieldPredicate)
+                .Where(field => field.SubFields.Any(subPredicate))
+                .ToArray();
+        }
+
+        // ==========================================================
+
+        /// <summary>
         /// Количество повторений поля.
         /// </summary>
         public static int GetFieldCount
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [NotNull] string tag
+                [CanBeNull] string tag
             )
         {
             Code.NotNull(fields, "fields");
-            Code.NotNullNorEmpty(tag, "tag");
 
             int result = 0;
 
-            foreach (RecordField field in fields)
+            foreach (RecordField field in fields.NonNullItems())
             {
-                if (field.Tag.SameString(tag))
+                if (field.Tag == tag)
                 {
                     result++;
                 }
@@ -212,6 +721,32 @@ namespace ManagedIrbis
 
             return result;
         }
+
+        /// <summary>
+        /// Количество повторений поля.
+        /// </summary>
+        public static int GetFieldCount
+            (
+                [NotNull] this RecordFieldCollection fields,
+                [CanBeNull] string tag
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            int result = 0;
+            int count = fields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (fields[i].Tag == tag)
+                {
+                    result++;
+                }
+            }
+
+            return result;
+        }
+
+        // ==========================================================
 
         /// <summary>
         /// Фильтрация полей.
@@ -231,14 +766,17 @@ namespace ManagedIrbis
                 .NonNullItems()
                 .Where
                 (
-                    // ReSharper disable AssignNullToNotNullAttribute
-                    field => !string.IsNullOrEmpty(field.Tag)
-                        && Regex.IsMatch
-                        (
-                            field.Tag,
-                            tagRegex
-                        )
-                // ReSharper restore AssignNullToNotNullAttribute
+                    field =>
+                    {
+                        string tag = field.Tag;
+
+                        return !string.IsNullOrEmpty(tag)
+                            && Regex.IsMatch
+                               (
+                                   tag,
+                                   tagRegex
+                               );
+                    }
                 )
                 .ToArray();
         }
@@ -363,12 +901,14 @@ namespace ManagedIrbis
                 .GetOccurrence(occurrence);
         }
 
+        // ==========================================================
+
         /// <summary>
-        /// Фильтрация полей.
+        /// Получение значения поля.
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public static RecordField[] WithNullTag
+        public static string[] GetFieldValue
             (
                 [NotNull] this IEnumerable<RecordField> fields
             )
@@ -377,34 +917,924 @@ namespace ManagedIrbis
 
             return fields
                 .NonNullItems()
-                .Where
+                .Select
                     (
-                        field => string.IsNullOrEmpty(field.Tag)
+                        field => field.Value
                     )
+                .NonEmptyLines()
                 .ToArray();
         }
 
         /// <summary>
-        /// Фильтрация полей.
+        /// Получение значения поля.
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public static RecordField[] WithNullValue
+        public static string[] GetFieldValue
             (
-                [NotNull] this IEnumerable<RecordField> fields
+                [NotNull] this RecordFieldCollection fields
             )
         {
             Code.NotNull(fields, "fields");
 
-            return fields
-                .NonNullItems()
-                .Where
-                (
-                    field =>
-                        string.IsNullOrEmpty(field.Value)
-                )
-                .ToArray();
+            List<string> result = null;
+            int count = fields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                string value = fields[i].Value;
+                if (!string.IsNullOrEmpty(value))
+                {
+                    if (ReferenceEquals(result, null))
+                    {
+                        result = new List<string>();
+                    }
+                    result.Add(value);
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? EmptyArray<string>.Value
+                : result.ToArray();
         }
+
+        /// <summary>
+        /// Получение значения поля.
+        /// </summary>
+        [CanBeNull]
+        public static string GetFieldValue
+            (
+                [CanBeNull] this RecordField field
+            )
+        {
+            return ReferenceEquals(field, null)
+                ? null
+                : field.Value;
+        }
+
+        /// <summary>
+        /// Непустые значения полей с указанным тегом.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static string[] GetFieldValue
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string tag
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            List<string> result = new List<string>();
+
+            foreach (RecordField field in fields.NonNullItems())
+            {
+                if (field.Tag == tag
+                    && !string.IsNullOrEmpty(field.Value))
+                {
+                    result.Add(field.Value);
+                }
+            }
+
+            return result.ToArray();
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Первое вхождение поля с указанным тегом.
+        /// </summary>
+        [CanBeNull]
+        public static RecordField GetFirstField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string tag
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            foreach (RecordField field in fields.NonNullItems())
+            {
+                if (field.Tag == tag)
+                {
+                    return field;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Первое вхождение поля с указанным тегом.
+        /// </summary>
+        [CanBeNull]
+        public static RecordField GetFirstField
+            (
+                [NotNull] this RecordFieldCollection fields,
+                [CanBeNull] string tag
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            int count = fields.Count;
+            for (int i = 0; i < count; count++)
+            {
+                if (fields[i].Tag == tag)
+                {
+                    return fields[i];
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Первое вхождение поля с любым из перечисленных тегов.
+        /// </summary>
+        [CanBeNull]
+        public static RecordField GetFirstField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                params string[] tags
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            foreach (RecordField field in fields.NonNullItems())
+            {
+                if (field.Tag.OneOf(tags))
+                {
+                    return field;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Первое вхождение поля с любым из перечисленных тегов.
+        /// </summary>
+        [CanBeNull]
+        public static RecordField GetFirstField
+            (
+                [NotNull] this RecordFieldCollection fields,
+                params string[] tags
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            int count = fields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (fields[i].Tag.OneOf(tags))
+                {
+                    return fields[i];
+                }
+            }
+
+            return null;
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Значение первого поля с указанным тегом или <c>null</c>.
+        /// </summary>
+        [CanBeNull]
+        public static string GetFirstFieldValue
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string tag
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            foreach (RecordField field in fields)
+            {
+                if (field.Tag == tag)
+                {
+                    return field.Value;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Значение первого поля с указанным тегом или <c>null</c>.
+        /// </summary>
+        [CanBeNull]
+        public static string GetFirstFieldValue
+            (
+                [NotNull] this RecordFieldCollection fields,
+                [CanBeNull] string tag
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            int count = fields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (fields[i].Tag == tag)
+                {
+                    return fields[i].Value;
+                }
+            }
+
+            return null;
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Gets the first subfield.
+        /// </summary>
+        [CanBeNull]
+        public static SubField GetFirstSubField
+            (
+                [NotNull] this RecordField field,
+                char code
+            )
+        {
+            Code.NotNull(field, "field");
+
+            SubFieldCollection subFields = field.SubFields;
+            int count = subFields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (subFields[i].Code.SameChar(code))
+                {
+                    return subFields[i];
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Первое вхождение подполя, соответствующего указанным
+        /// критериям.
+        /// </summary>
+        [CanBeNull]
+        public static SubField GetFirstSubField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string tag,
+                char code
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            foreach (RecordField field in fields.NonNullItems())
+            {
+                if (field.Tag == tag)
+                {
+                    SubFieldCollection subFields = field.SubFields;
+                    int count = subFields.Count;
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (subFields[i].Code.SameChar(code))
+                        {
+                            return subFields[i];
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Первое вхождение подполя, соответствующего указанным
+        /// критериям.
+        /// </summary>
+        [CanBeNull]
+        public static SubField GetFirstSubField
+            (
+                [NotNull] this RecordFieldCollection fields,
+                [CanBeNull] string tag,
+                char code
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            int count = fields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                RecordField field = fields[i];
+                if (field.Tag == tag)
+                {
+                    foreach (SubField subField in field.SubFields)
+                    {
+                        if (subField.Code.SameChar(code))
+                        {
+                            return subField;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Получение текста указанного подполя
+        /// </summary>
+        [CanBeNull]
+        public static string GetFirstSubFieldValue
+            (
+                [NotNull] this RecordField field,
+                char code
+            )
+        {
+            Code.NotNull(field, "field");
+
+            Code.NotNull(field, "field");
+
+            SubFieldCollection subFields = field.SubFields;
+            int count = subFields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (subFields[i].Code.SameChar(code))
+                {
+                    return subFields[i].Value;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Значение первого подполя с указанными тегом и кодом
+        /// или <c>null</c>.
+        /// </summary>
+        [CanBeNull]
+        public static string GetFirstSubFieldValue
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string tag,
+                char code
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            foreach (RecordField field in fields.NonNullItems())
+            {
+                if (field.Tag.SameString(tag))
+                {
+                    foreach (SubField subField in field.SubFields)
+                    {
+                        if (subField.Code.SameChar(code))
+                        {
+                            return subField.Value;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Перечень подполей с указанным кодом.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static SubField[] GetSubField
+            (
+                [NotNull] this RecordField field,
+                char code
+            )
+        {
+            Code.NotNull(field, "field");
+
+            List<SubField> result = null;
+            SubFieldCollection subFields = field.SubFields;
+            int count = subFields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (subFields[i].Code.SameChar(code))
+                {
+                    if (ReferenceEquals(result, null))
+                    {
+                        result = new List<SubField>();
+                    }
+                    result.Add(subFields[i]);
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? EmptySubFieldArray
+                : result.ToArray();
+        }
+
+        /// <summary>
+        /// Указанное повторение подполя с данным кодом.
+        /// </summary>
+        [CanBeNull]
+        public static SubField GetSubField
+            (
+                [NotNull] this RecordField field,
+                char code,
+                int occurrence
+            )
+        {
+            Code.NotNull(field, "field");
+
+            SubFieldCollection subFields = field.SubFields;
+            int count = subFields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (subFields[i].Code.SameChar(code))
+                {
+                    if (occurrence == 0)
+                    {
+                        return subFields[i];
+                    }
+                    occurrence--;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Получение подполей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static SubField[] GetSubField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                char code
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            List<SubField> result = null;
+            foreach (RecordField field in fields.NonNullItems())
+            {
+                SubFieldCollection subFields = field.SubFields;
+                int count = subFields.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    if (subFields[i].Code.SameChar(code))
+                    {
+                        if (ReferenceEquals(result, null))
+                        {
+                            result = new List<SubField>();
+                        }
+                        result.Add(subFields[i]);
+                    }
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? EmptySubFieldArray
+                : result.ToArray();
+        }
+
+        /// <summary>
+        /// Получение подполей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static SubField[] GetSubField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                params char[] codes
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            List<SubField> result = null;
+            foreach (RecordField field in fields.NonNullItems())
+            {
+                SubFieldCollection subFields = field.SubFields;
+                int count = subFields.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    if (subFields[i].Code.OneOf(codes))
+                    {
+                        if (ReferenceEquals(result, null))
+                        {
+                            result = new List<SubField>();
+                        }
+                        result.Add(subFields[i]);
+                    }
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? EmptySubFieldArray
+                : result.ToArray();
+        }
+
+        /// <summary>
+        /// Получение подполей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static SubField[] GetSubField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string tag,
+                char code
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            List<SubField> result = new List<SubField>();
+
+            foreach (RecordField field in fields.NonNullItems())
+            {
+                if (field.Tag == tag)
+                {
+                    foreach (SubField subField in field.SubFields)
+                    {
+                        if (subField.Code.SameChar(code))
+                        {
+                            result.Add(subField);
+                        }
+                    }
+                }
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Получение подполей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static SubField[] GetSubField
+            (
+                [NotNull] this RecordFieldCollection fields,
+                [CanBeNull] string tag,
+                char code
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            List<SubField> result = null;
+            int fieldCount = fields.Count;
+            for (int i = 0; i < fieldCount; i++)
+            {
+                RecordField field = fields[i];
+                SubFieldCollection subFields = field.SubFields;
+                int subCount = subFields.Count;
+                for (int j = 0; j < subCount; j++)
+                {
+                    if (subFields[j].Code.SameChar(code))
+                    {
+                        if (ReferenceEquals(result, null))
+                        {
+                            result = new List<SubField>();
+                        }
+                        result.Add(subFields[j]);
+                    }
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? EmptySubFieldArray
+                : result.ToArray();
+        }
+
+        /// <summary>
+        /// Получение подполя.
+        /// </summary>
+        [CanBeNull]
+        public static SubField GetSubField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string tag,
+                int fieldOccurrence,
+                char code,
+                int subOccurrence
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            foreach (RecordField field in fields.NonNullItems())
+            {
+                if (field.Tag == tag)
+                {
+                    if (fieldOccurrence == 0)
+                    {
+                        SubFieldCollection subFields = field.SubFields;
+                        int subCount = subFields.Count;
+                        for (int j = 0; j < subCount; j++)
+                        {
+                            if (subFields[j].Code.SameChar(code))
+                            {
+                                if (subOccurrence == 0)
+                                {
+                                    return subFields[j];
+                                }
+                                subOccurrence--;
+                            }
+                        }
+
+                        return null;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Получение подполя.
+        /// </summary>
+        [CanBeNull]
+        public static SubField GetSubField
+            (
+                [NotNull] this RecordFieldCollection fields,
+                [CanBeNull] string tag,
+                int fieldOccurrence,
+                char code,
+                int subOccurrence
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            int fieldCount = fields.Count;
+            for (int i = 0; i < fieldCount; i++)
+            {
+                RecordField field = fields[i];
+                if (field.Tag == tag)
+                {
+                    if (fieldOccurrence == 0)
+                    {
+                        SubFieldCollection subFields = field.SubFields;
+                        int subCount = subFields.Count;
+                        for (int j = 0; j < subCount; j++)
+                        {
+                            if (subFields[j].Code.SameChar(code))
+                            {
+                                if (subOccurrence == 0)
+                                {
+                                    return subFields[j];
+                                }
+                                subOccurrence--;
+                            }
+                        }
+
+                        return null;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Получение подполя.
+        /// </summary>
+        public static SubField GetSubField
+            (
+                [NotNull] this IEnumerable<RecordField> fields,
+                [CanBeNull] string tag,
+                char code,
+                int occurrence
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            foreach (RecordField field in fields.NonNullItems())
+            {
+                if (field.Tag == tag)
+                {
+                    SubFieldCollection subFields = field.SubFields;
+                    int subCount = subFields.Count;
+                    for (int j = 0; j < subCount; j++)
+                    {
+                        if (subFields[j].Code.SameChar(code))
+                        {
+                            if (occurrence == 0)
+                            {
+                                return subFields[j];
+                            }
+                            occurrence--;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Получение подполя.
+        /// </summary>
+        [CanBeNull]
+        public static SubField GetSubField
+            (
+                [NotNull] this RecordFieldCollection fields,
+                [CanBeNull] string tag,
+                char code,
+                int occurrence
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            int fieldCount = fields.Count;
+            for (int i = 0; i < fieldCount; i++)
+            {
+                RecordField field = fields[i];
+                if (field.Tag == tag)
+                {
+                    SubFieldCollection subFields = field.SubFields;
+                    int subCount = subFields.Count;
+                    for (int j = 0; j < subCount; j++)
+                    {
+                        if (subFields[j].Code.SameChar(code))
+                        {
+                            if (occurrence == 0)
+                            {
+                                return subFields[j];
+                            }
+                            occurrence--;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Получение текста указанного подполя.
+        /// </summary>
+        [CanBeNull]
+        public static string GetSubFieldValue
+        (
+            [NotNull] this RecordField field,
+            char code,
+            int occurrence
+        )
+        {
+            Code.NotNull(field, "field");
+
+            SubFieldCollection subFields = field.SubFields;
+            int count = subFields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (subFields[i].Code.SameChar(code))
+                {
+                    if (occurrence == 0)
+                    {
+                        return subFields[i].Value;
+                    }
+                    occurrence--;
+                }
+            }
+
+            return null;
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Непустые значения подполей с указанными тегом и кодом.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static string[] GetSubFieldValue
+        (
+            [NotNull] this IEnumerable<RecordField> fields,
+            [CanBeNull] string tag,
+            char code
+        )
+        {
+            Code.NotNull(fields, "fields");
+
+            List<string> result = new List<string>();
+
+            foreach (RecordField field in fields)
+            {
+                if (field.Tag.SameString(tag))
+                {
+                    foreach (SubField subField in field.SubFields)
+                    {
+                        if (subField.Code.SameChar(code)
+                            && !string.IsNullOrEmpty(subField.Value))
+                        {
+                            result.Add(subField.Value);
+                        }
+                    }
+                }
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Есть хотя бы одно подполе с указанным кодом?
+        /// </summary>
+        public static bool HaveSubField
+            (
+                [NotNull] this RecordField field,
+                char code
+            )
+        {
+            Code.NotNull(field, "field");
+
+            SubFieldCollection subFields = field.SubFields;
+            int count = subFields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (subFields[i].Code.SameChar(code))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Есть хотя бы одно поле с любым из указанных кодов?
+        /// </summary>
+        public static bool HaveSubField
+            (
+                [NotNull] this RecordField field,
+                params char[] codes
+            )
+        {
+            Code.NotNull(field, "field");
+
+            SubFieldCollection subFields = field.SubFields;
+            int count = subFields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (subFields[i].Code.OneOf(codes))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Нет ни одного подполя с указанным кодом?
+        /// </summary>
+        public static bool HaveNotSubField
+            (
+                [NotNull] this RecordField field,
+                char code
+            )
+        {
+            Code.NotNull(field, "field");
+
+            SubFieldCollection subFields = field.SubFields;
+            int count = subFields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (subFields[i].Code.SameChar(code))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Нет ни одного подполя с указанными кодами?
+        /// </summary>
+        public static bool HaveNotSubField
+            (
+                [NotNull] this RecordField field,
+                params char[] codes
+            )
+        {
+            Code.NotNull(field, "field");
+
+            SubFieldCollection subFields = field.SubFields;
+            int count = subFields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (subFields[i].Code.OneOf(codes))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // ==========================================================
 
         /// <summary>
         /// Фильтрация полей.
@@ -427,6 +1857,8 @@ namespace ManagedIrbis
                 .ToArray();
         }
 
+        // ==========================================================
+
         /// <summary>
         /// Фильтрация полей.
         /// </summary>
@@ -448,284 +1880,7 @@ namespace ManagedIrbis
                 .ToArray();
         }
 
-        /// <summary>
-        /// Фильтрация полей.
-        /// </summary>
-        public static RecordField[] WithSubFields
-            (
-                [NotNull] this IEnumerable<RecordField> fields
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            return fields
-                .NonNullItems()
-                .Where
-                    (
-                        field => field.SubFields.Count != 0
-                    )
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Фильтрация полей.
-        /// </summary>
-        public static RecordField[] WithoutSubFields
-            (
-                [NotNull] this IEnumerable<RecordField> fields
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            return fields
-                .NonNullItems()
-                .Where
-                    (
-                        field => field.SubFields.Count == 0
-                    )
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Перечень подполей с указанным кодом.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static SubField[] GetSubField
-            (
-                [NotNull] this RecordField field,
-                char code
-            )
-        {
-            Code.NotNull(field, "field");
-
-            SubField[] result = field.SubFields
-                .Where
-                    (
-                        subField => subField.Code.SameChar(code)
-                    )
-                .ToArray();
-
-            return result;
-        }
-
-        /// <summary>
-        /// Указанное повторение подполя с данным кодом.
-        /// </summary>
-        [CanBeNull]
-        public static SubField GetSubField
-            (
-                [NotNull] this RecordField field,
-                char code,
-                int occurrence
-            )
-        {
-            Code.NotNull(field, "field");
-
-            return field.GetSubField(code)
-                .GetOccurrence(occurrence);
-        }
-
-        /// <summary>
-        /// Gets the first subfield.
-        /// </summary>
-        [CanBeNull]
-        public static SubField GetFirstSubField
-            (
-                [NotNull] this RecordField field,
-                char code
-            )
-        {
-            Code.NotNull(field, "field");
-
-            return field.SubFields
-                .FirstOrDefault
-                (
-                    subField => subField.Code.SameChar(code)
-                );
-        }
-
-        /// <summary>
-        /// Получение текста указанного подполя.
-        /// </summary>
-        [CanBeNull]
-        public static string GetSubFieldValue
-            (
-                [NotNull] this RecordField field,
-                char code,
-                int occurrence
-            )
-        {
-            Code.NotNull(field, "field");
-
-            SubField result = field.GetSubField
-                (
-                    code,
-                    occurrence
-                );
-            return result == null
-                ? null
-                : result.Value;
-        }
-
-        /// <summary>
-        /// Получение текста указанного подполя
-        /// </summary>
-        [CanBeNull]
-        public static string GetFirstSubFieldValue
-            (
-                [NotNull] this RecordField field,
-                char code
-            )
-        {
-            Code.NotNull(field, "field");
-
-            SubField result = field.GetFirstSubField(code);
-            return result == null
-                ? null
-                : result.Value;
-        }
-
-        /// <summary>
-        /// Отбор подполей с указанными кодами.
-        /// </summary>
-        /// <param name="subFields"></param>
-        /// <param name="codes"></param>
-        /// <returns></returns>
-        public static SubField[] FilterSubFields
-            (
-                [NotNull] this IEnumerable<SubField> subFields,
-                params char[] codes
-            )
-        {
-            Code.NotNull(subFields, "subFields");
-
-            return subFields
-                .Where
-                    (
-                        subField => subField.Code.OneOf(codes)
-                    )
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Отбор подполей с указанными кодами.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static SubField[] FilterSubFields
-            (
-                [NotNull] this RecordField field,
-                params char[] codes
-            )
-        {
-            Code.NotNull(field, "field");
-
-            return field.SubFields
-                .FilterSubFields(codes);
-        }
-
-        /// <summary>
-        /// Добавление подполя.
-        /// </summary>
-        [NotNull]
-        public static RecordField AddSubField
-            (
-                [NotNull] this RecordField field,
-                char code,
-                [CanBeNull] string value
-            )
-        {
-            Code.NotNull(field, "field");
-
-            field.SubFields.Add
-                (
-                    new SubField(code, value)
-                );
-
-            return field;
-        }
-
-        /// <summary>
-        /// Добавление подполя.
-        /// </summary>
-        [NotNull]
-        public static RecordField AddNonEmptySubField
-            (
-                [NotNull] this RecordField field,
-                char code,
-                [CanBeNull] string value
-            )
-        {
-            Code.NotNull(field, "field");
-
-            if (!string.IsNullOrEmpty(value))
-            {
-                field.AddSubField(code, value);
-            }
-
-            return field;
-        }
-
-        /// <summary>
-        /// Установка значения подполя.
-        /// </summary>
-        /// <remarks>Устанавливает значение только первого
-        /// подполя с указанным кодом (если в поле их несколько)!
-        /// </remarks>
-        [NotNull]
-        public static RecordField SetSubField
-            (
-                [NotNull] this RecordField field,
-                char code,
-                [CanBeNull] string value
-            )
-        {
-            Code.NotNull(field, "field");
-
-            SubField subField = field.SubFields
-                .FirstOrDefault
-                    (
-                        sub => sub.Code.SameChar(code)
-                    );
-            if (subField == null)
-            {
-                subField = new SubField(code);
-                field.SubFields.Add(subField);
-            }
-
-            subField.SetValue(value);
-
-            return field;
-        }
-
-        /// <summary>
-        /// Меняем значение подполя.
-        /// </summary>
-        [NotNull]
-        public static RecordField ReplaceSubField
-            (
-                [NotNull] this RecordField field,
-                char code,
-                [CanBeNull] string oldValue,
-                [CanBeNull] string newValue
-            )
-        {
-            Code.NotNull(field, "field");
-
-            var found = field.SubFields
-                .Where
-                    (
-                        subField => subField.Code.SameChar(code)
-                        && subField.Value.SameStringSensitive(oldValue)
-                    );
-            foreach (SubField subField in found)
-            {
-                subField.SetValue(newValue);
-            }
-
-            return field;
-        }
+        // ==========================================================
 
         /// <summary>
         /// Удаляем подполе.
@@ -751,6 +1906,41 @@ namespace ManagedIrbis
 
             return field;
         }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Меняем значение подполя.
+        /// </summary>
+        [NotNull]
+        public static RecordField ReplaceSubField
+            (
+                [NotNull] this RecordField field,
+                char code,
+                [CanBeNull] string oldValue,
+                [CanBeNull] string newValue
+            )
+        {
+            Code.NotNull(field, "field");
+
+            SubFieldCollection subFields = field.SubFields;
+            int count = subFields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                SubField subField = subFields[i];
+                if (subField.Code.SameChar(code))
+                {
+                    if (subField.Value.SameStringSensitive(oldValue))
+                    {
+                        subField.SetValue(newValue);
+                    }
+                }
+            }
+
+            return field;
+        }
+
+        // ==========================================================
 
         /// <summary>
         /// Меняем значение подполя.
@@ -785,690 +1975,50 @@ namespace ManagedIrbis
 
         }
 
+        // ==========================================================
+
         /// <summary>
-        /// Есть хотя бы одно подполе с указанным кодом?
+        /// Установка значения подполя.
         /// </summary>
-        public static bool HaveSubField
+        /// <remarks>Устанавливает значение только первого
+        /// подполя с указанным кодом (если в поле их несколько)!
+        /// Если соответствующего подполя нет, оно добавляется!
+        /// </remarks>
+        [NotNull]
+        public static RecordField SetSubField
             (
                 [NotNull] this RecordField field,
-                char c
-            )
-        {
-            Code.NotNull(field, "field");
-
-            return field.SubFields
-                .FirstOrDefault
-                    (
-                        subField => subField.Code.SameChar(c)
-                    )
-                != null;
-        }
-
-        /// <summary>
-        /// Есть хотя бы одно поле с любым из указанных кодов?
-        /// </summary>
-        public static bool HaveSubField
-            (
-                [NotNull] this RecordField field,
-                params char[] codes
-            )
-        {
-            Code.NotNull(field, "field");
-
-            return field.SubFields
-                .FirstOrDefault
-                    (
-                        subField => subField.Code.OneOf(codes)
-                    )
-                   != null;
-        }
-
-        /// <summary>
-        /// Нет ни одного подполя с указанным кодом?
-        /// </summary>
-        public static bool HaveNotSubField
-            (
-                [NotNull] this RecordField field,
-                char code
-            )
-        {
-            Code.NotNull(field, "field");
-
-            return field.SubFields
-                .FirstOrDefault
-                    (
-                        subField => subField.Code.SameChar(code)
-                    )
-                == null;
-        }
-
-        /// <summary>
-        /// Нет ни одного подполя с указанными кодами?
-        /// </summary>
-        public static bool HaveNotSubField
-            (
-                [NotNull] this RecordField field,
-                params char[] codes
-            )
-        {
-            Code.NotNull(field, "field");
-
-            return field.SubFields
-                .FirstOrDefault
-                    (
-                        subField => subField.Code.OneOf(codes)
-                    )
-                   == null;
-        }
-
-        /// <summary>
-        /// Получение значения поля.
-        /// </summary>
-        [CanBeNull]
-        public static string GetFieldValue
-            (
-                [CanBeNull] this RecordField field
-            )
-        {
-            return (ReferenceEquals(field, null))
-                       ? null
-                       : field.Value;
-        }
-
-        /// <summary>
-        /// Получение значения поля.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static string[] GetFieldValue
-            (
-                [NotNull] this IEnumerable<RecordField> fields
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            return fields
-                .NonNullItems()
-                .Select
-                    (
-                        field => field.Value
-                    )
-                .NonEmptyLines()
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Все подполя.
-        /// </summary>
-        public static SubField[] AllSubFields
-            (
-                this IEnumerable<RecordField> fields
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            return fields
-                .NonNullItems()
-                .SelectMany(field => field.SubFields)
-                .NonNullItems()
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Получение подполей.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static SubField[] GetSubField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                char code
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            return fields
-                .NonNullItems()
-                .AllSubFields()
-                .NonNullItems()
-                .Where
-                    (
-                        subField => subField.Code.SameChar(code)
-                    )
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Получение подполей.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static SubField[] GetSubField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                params char[] codes
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            return fields
-                .NonNullItems()
-                .AllSubFields()
-                .Where
-                    (
-                        subField => subField.Code.OneOf(codes)
-                    )
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Получение подполей.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static SubField[] GetSubField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag,
-                char code
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            List<SubField> result = new List<SubField>();
-
-            foreach (RecordField field in fields)
-            {
-                if (field.Tag.SameString(tag))
-                {
-                    foreach (SubField subField in field.SubFields)
-                    {
-                        if (subField.Code.SameChar(code))
-                        {
-                            subField.Field = field;
-                            result.Add(subField);
-                        }
-                    }
-                }
-            }
-
-            return result.ToArray();
-        }
-
-        /// <summary>
-        /// Получение подполя.
-        /// </summary>
-        [CanBeNull]
-        public static SubField GetSubField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag,
-                int fieldOccurrence,
-                char code,
-                int subOccurrence
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            RecordField field = fields
-                .NonNullItems()
-                .GetField(tag)
-                .GetOccurrence(fieldOccurrence);
-
-            return field == null
-                ? null
-                : field
-                    .GetSubField(code)
-                    .GetOccurrence(subOccurrence);
-        }
-
-        /// <summary>
-        /// Получение подполя.
-        /// </summary>
-        public static SubField GetSubField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag,
-                char code,
-                int occurrence
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            return fields
-                .NonNullItems()
-                .GetField(tag)
-                .GetSubField(code)
-                .GetOccurrence(occurrence);
-        }
-
-        /// <summary>
-        /// Фильтрация полей.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static RecordField[] GetField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [NotNull] Func<RecordField, bool> predicate
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            return fields
-                .Where(predicate)
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Выполнение неких действий над полями.
-        /// </summary>
-        public static RecordField[] GetField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] Action<RecordField> action
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            RecordField[] result = fields.ToArray();
-            if (!ReferenceEquals(action, null))
-            {
-                foreach (RecordField field in result)
-                {
-                    action(field);
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Выполнение неких действий над полями и подполями.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static RecordField[] GetField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] Action<RecordField> fieldAction,
-                [CanBeNull] Action<SubField> subFieldAction
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            RecordField[] result = fields.ToArray();
-            if (!ReferenceEquals(fieldAction, null)
-                || !ReferenceEquals(subFieldAction, null))
-            {
-                foreach (RecordField field in result)
-                {
-                    if (!ReferenceEquals(fieldAction, null))
-                    {
-                        fieldAction(field);
-                    }
-
-                    if (!ReferenceEquals(subFieldAction, null))
-                    {
-                        foreach (SubField subField in field.SubFields)
-                        {
-                            subFieldAction(subField);
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Выполнение неких действий над подполями.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static RecordField[] GetField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] Action<SubField> action
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            RecordField[] result = fields.ToArray();
-
-            if (!ReferenceEquals(action, null))
-            {
-                foreach (RecordField field in result)
-                {
-                    foreach (SubField subField in field.SubFields)
-                    {
-                        action(subField);
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Фильтрация полей.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static RecordField[] GetField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [NotNull] Func<SubField, bool> predicate
-            )
-        {
-            Code.NotNull(fields, "fields");
-            Code.NotNull(predicate, "predicate");
-
-            return fields
-                .NonNullItems()
-                .Where(field => field.SubFields.Any(predicate))
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Фильтрация полей.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static RecordField[] GetField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [NotNull] char[] codes,
-                [NotNull] Func<SubField, bool> predicate
-            )
-        {
-            Code.NotNull(fields, "fields");
-            Code.NotNull(codes, "codes");
-            Code.NotNull(predicate, "predicate");
-
-            return fields
-                .Where(field => field.SubFields
-                    .NonNullItems()
-                    .Any(sub => sub.Code.OneOf(codes)
-                        && predicate(sub)))
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Фильтрация полей.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static RecordField[] GetField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [NotNull] char[] codes,
-                params string[] values
-            )
-        {
-            Code.NotNull(fields, "fields");
-            Code.NotNull(codes, "codes");
-
-            return fields
-                .Where(field => field.SubFields
-                    .NonNullItems()
-                    .Any(sub => sub.Code.OneOf(codes)
-                        && sub.Value.OneOf(values))
-                )
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Фильтрация полей.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static RecordField[] GetField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
                 char code,
                 [CanBeNull] string value
             )
         {
-            Code.NotNull(fields, "fields");
+            Code.NotNull(field, "field");
 
-            return fields
-                .NonNullItems()
-                .Where(field => field.SubFields
-                    .NonNullItems()
-                    .Any(sub => sub.Code.SameChar(code)
-                        && sub.Value.SameString(value)))
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Фильтрация полей.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static RecordField[] GetField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [NotNull] string[] tags,
-                [NotNull] char[] codes,
-                [NotNull] string[] values
-            )
-        {
-            Code.NotNull(fields, "fields");
-            Code.NotNull(tags, "tags");
-            Code.NotNull(codes, "codes");
-            Code.NotNull(values, "values");
-
-            return fields
-                .NonNullItems()
-                .Where(field => field.Tag.OneOf(tags))
-                .Where(field => field.SubFields
-                        .Any(sub => sub.Code.OneOf(codes)
-                            && sub.Value.OneOf(values)))
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Фильтрация полей.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static RecordField[] GetField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [NotNull] Func<RecordField, bool> fieldPredicate,
-                [NotNull] Func<SubField, bool> subPredicate
-            )
-        {
-            Code.NotNull(fields, "fields");
-            Code.NotNull(fieldPredicate, "fieldPredicate");
-            Code.NotNull(subPredicate, "subPredicate");
-
-            return fields
-                .NonNullItems()
-                .Where(fieldPredicate)
-                .Where(field => field.SubFields.Any(subPredicate))
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Первое вхождение поля с указанным тегом.
-        /// </summary>
-        [CanBeNull]
-        public static RecordField GetFirstField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            return fields
-                .FirstOrDefault(field => field.Tag.SameString(tag));
-        }
-
-        /// <summary>
-        /// Первое вхождение поля с любым из перечисленных тегов.
-        /// </summary>
-        [CanBeNull]
-        public static RecordField GetFirstField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                params string[] tags
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            return fields
-                .FirstOrDefault(field => field.Tag.OneOf(tags));
-        }
-
-        /// <summary>
-        /// Первое вхождение подполя, соответствующего указанным
-        /// критериям.
-        /// </summary>
-        [CanBeNull]
-        public static SubField GetFirstSubField
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag,
-                char code
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            foreach (RecordField field in fields)
+            SubFieldCollection subFields = field.SubFields;
+            int count = subFields.Count;
+            bool flag = false;
+            SubField subField;
+            for (int i = 0; i < count; i++)
             {
-                if (field.Tag.SameString(tag))
+                subField = subFields[i];
+                if (subField.Code.SameChar(code))
                 {
-                    foreach (SubField subField in field.SubFields)
-                    {
-                        if (subField.Code.SameChar(code))
-                        {
-                            subField.Field = field;
-                            return subField;
-                        }
-                    }
+                    subField.Value = value;
+                    flag = true;
+                    break;
                 }
             }
 
-            return null;
-        }
-
-        /// <summary>
-        /// Значение первого поля с указанным тегом или <c>null</c>.
-        /// </summary>
-        [CanBeNull]
-        public static string GetFirstFieldValue
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            foreach (RecordField field in fields)
+            if (!flag)
             {
-                if (field.Tag.SameString(tag))
-                {
-                    return field.Value;
-                }
+                subField = new SubField(code, value);
+                subFields.Add(subField);
             }
 
-            return null;
+            return field;
         }
 
-        /// <summary>
-        /// Непустые значения полей с указанным тегом.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static string[] GetFieldValue
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            List<string> result = new List<string>();
-
-            foreach (RecordField field in fields)
-            {
-                if (field.Tag.SameString(tag)
-                    && !string.IsNullOrEmpty(field.Value))
-                {
-                    result.Add(field.Value);
-                }
-            }
-
-            return result.ToArray();
-        }
-
-        /// <summary>
-        /// Значение первого подполя с указанными тегом и кодом
-        /// или <c>null</c>.
-        /// </summary>
-        [CanBeNull]
-        public static string GetFirstSubFieldValue
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag,
-                char code
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            foreach (RecordField field in fields)
-            {
-                if (field.Tag.SameString(tag))
-                {
-                    foreach (SubField subField in field.SubFields)
-                    {
-                        if (subField.Code.SameChar(code))
-                        {
-                            return subField.Value;
-                        }
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Непустые значения подполей с указанными тегом и кодом.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static string[] GetSubFieldValue
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag,
-                char code
-            )
-        {
-            Code.NotNull(fields, "fields");
-
-            List<string> result = new List<string>();
-
-            foreach (RecordField field in fields)
-            {
-                if (field.Tag.SameString(tag))
-                {
-                    foreach (SubField subField in field.SubFields)
-                    {
-                        if (subField.Code.SameChar(code)
-                            && !string.IsNullOrEmpty(subField.Value))
-                        {
-                            result.Add(subField.Value);
-                        }
-                    }
-                }
-            }
-
-            return result.ToArray();
-        }
+        // ==========================================================
 
 #if !WINMOBILE && !PocketPC
 
@@ -1537,6 +2087,8 @@ namespace ManagedIrbis
         }
 
 #endif
+
+        // ==========================================================
 
         /// <summary>
         /// Парсинг текстового представления поля
@@ -1685,6 +2237,96 @@ namespace ManagedIrbis
 
 #endif
 
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] WithNullTag
+            (
+                [NotNull] this IEnumerable<RecordField> fields
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            return fields
+                .NonNullItems()
+                .Where
+                    (
+                        field => string.IsNullOrEmpty(field.Tag)
+                    )
+                .ToArray();
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] WithNullValue
+            (
+                [NotNull] this IEnumerable<RecordField> fields
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            return fields
+                .NonNullItems()
+                .Where
+                    (
+                        field =>
+                            string.IsNullOrEmpty(field.Value)
+                    )
+                .ToArray();
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        public static RecordField[] WithoutSubFields
+            (
+                [NotNull] this IEnumerable<RecordField> fields
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            return fields
+                .NonNullItems()
+                .Where
+                    (
+                        field => field.SubFields.Count == 0
+                    )
+                .ToArray();
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        public static RecordField[] WithSubFields
+            (
+                [NotNull] this IEnumerable<RecordField> fields
+            )
+        {
+            Code.NotNull(fields, "fields");
+
+            return fields
+                .NonNullItems()
+                .Where
+                    (
+                        field => field.SubFields.Count != 0
+                    )
+                .ToArray();
+        }
+
         #endregion
     }
 }
+

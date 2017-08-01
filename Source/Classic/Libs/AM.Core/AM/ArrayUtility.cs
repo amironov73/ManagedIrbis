@@ -256,9 +256,9 @@ namespace AM
 
             T result = default(T);
 
-            if ((length != 0)
-                && (occurrence >= 0)
-                && (occurrence < length))
+            if (length != 0
+                && occurrence >= 0
+                && occurrence < length)
             {
                 result = array[occurrence];
             }
@@ -293,9 +293,9 @@ namespace AM
 
             T result = defaultValue;
 
-            if ((length != 0)
-                && (occurrence >= 0)
-                && (occurrence < length))
+            if (length != 0
+                && occurrence >= 0
+                && occurrence < length)
             {
                 result = array[occurrence];
             }
@@ -322,7 +322,7 @@ namespace AM
             {
                 return new T[0];
             }
-            if ((offset + count) > array.Length)
+            if (offset + count > array.Length)
             {
                 count = array.Length - offset;
             }
@@ -375,7 +375,7 @@ namespace AM
             )
         {
             return ReferenceEquals(array, null)
-                     || (array.Length == 0);
+                     || array.Length == 0;
         }
 
         /// <summary>

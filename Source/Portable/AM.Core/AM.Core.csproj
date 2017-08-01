@@ -229,6 +229,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\DuplicateKeyException.cs">
       <Link>AM\DuplicateKeyException.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\EmptyArray.cs">
+      <Link>AM\EmptyArray.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\EnvironmentUtility.cs">
       <Link>AM\EnvironmentUtility.cs</Link>
     </Compile>
