@@ -1,0 +1,1 @@
+﻿Bug-compatible a function implementation in group

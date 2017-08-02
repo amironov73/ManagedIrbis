@@ -1,0 +1,1 @@
+﻿Bug-compatible p function implementation in group

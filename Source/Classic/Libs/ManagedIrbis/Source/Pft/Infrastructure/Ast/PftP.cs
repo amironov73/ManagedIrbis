@@ -16,6 +16,8 @@ using System.IO;
 using AM;
 using AM.Logging;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Compiler;
@@ -108,6 +110,41 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Public methods
 
+        /// <summary>
+        /// Have the specified field repeat?
+        /// </summary>
+        public static bool HaveRepeat
+            (
+                [NotNull] PftContext context,
+                [NotNull] string tag,
+                char code,
+                int index
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNullNorEmpty(tag, "tag");
+
+            MarcRecord record = context.Record.ThrowIfNull();
+            RecordField field = record.Fields.GetField
+                (
+                    tag,
+                    index
+                );
+            if (ReferenceEquals(field, null))
+            {
+                return false;
+            }
+
+            if (code == SubField.NoCode)
+            {
+                return true;
+            }
+
+            bool result = field.HaveSubField(code);
+
+            return result;
+        }
+
         #endregion
 
         #region ICloneable members
@@ -115,11 +152,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
-            PftP result = (PftP) base.Clone();
+            PftP result = (PftP)base.Clone();
 
             if (!ReferenceEquals(Field, null))
             {
-                result.Field = (PftField) Field.Clone();
+                result.Field = (PftField)Field.Clone();
             }
 
             return result;
@@ -138,10 +175,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.CompareNode(otherNode);
 
             PftSerializationUtility.CompareNodes
-            (
-                Field,
-                ((PftA)otherNode).Field
-            );
+                (
+                    Field,
+                    ((PftA)otherNode).Field
+                );
         }
 
         /// <inheritdoc cref="PftNode.Compile" />
@@ -159,13 +196,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler.StartMethod(this);
 
+            // TODO implement properly
+
             compiler
                 .WriteIndent()
                 .WriteLine
-                (
-                    "bool flag = HaveField({0});",
-                    info.Reference
-                )
+                    (
+                        "bool flag = HaveField({0});",
+                        info.Reference
+                    )
                 .WriteIndent()
                 .WriteLine("return flag;");
 
@@ -181,7 +220,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             base.Deserialize(reader);
 
-            Field = (PftField) PftSerializer.DeserializeNullable(reader);
+            Field = (PftField)PftSerializer.DeserializeNullable(reader);
         }
 
         /// <inheritdoc cref="PftNode.Execute" />
@@ -203,7 +242,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftSyntaxException(this);
             }
 
-            Value = Field.HaveRepeat(context);
+            string tag = Field.Tag.ThrowIfNull("Field.Tag");
+            int index = context.Index;
+
+            // ИРБИС64 вне группы всегда проверяет
+            // на наличие лишь первое повторение поля!
+
+            Value = HaveRepeat
+                (
+                    context,
+                    tag,
+                    Field.SubField,
+                    index
+                );
+
+            if (HaveRepeat(context, tag, SubField.NoCode, index))
+            {
+                context.OutputFlag = true;
+            }
 
             OnAfterExecution(context);
         }
@@ -271,3 +327,4 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
     }
 }
+

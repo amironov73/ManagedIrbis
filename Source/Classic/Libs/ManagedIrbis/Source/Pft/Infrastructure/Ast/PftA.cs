@@ -12,6 +12,7 @@
 using System;
 using System.IO;
 
+using AM;
 using AM.Logging;
 
 using JetBrains.Annotations;
@@ -124,6 +125,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler.StartMethod(this);
 
+            // TODO implement properly
+
             compiler
                 .WriteIndent()
                 .WriteLine
@@ -168,7 +171,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftSyntaxException(this);
             }
 
-            Value = !Field.HaveRepeat(context);
+            string tag = Field.Tag.ThrowIfNull("Field.Tag");
+            int index = context.Index;
+
+            // ИРБИС64 вне группы всегда проверяет
+            // на наличие лишь первое повторение поля!
+
+            Value = !PftP.HaveRepeat
+                (
+                    context,
+                    tag,
+                    Field.SubField,
+                    index
+                );
+
+            if (PftP.HaveRepeat(context, tag, SubField.NoCode, index))
+            {
+                context.OutputFlag = true;
+            }
 
             OnAfterExecution(context);
         }
