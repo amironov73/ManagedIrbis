@@ -707,7 +707,11 @@
     <Compile Include="Source\TableDefinition.cs" />
     <Compile Include="Source\Reports\Bands\ReportBand.cs" />
     <Compile Include="Source\Tables\AcquisitionTable.cs" />
+    <Compile Include="Source\Tables\HdrFile.cs" />
+    <Compile Include="Source\Tables\KeyDefinition.cs" />
     <Compile Include="Source\Tables\SelTabPar64.cs" />
+    <Compile Include="Source\Tables\SrwFile.cs" />
+    <Compile Include="Source\Tables\TbuFile.cs" />
     <Compile Include="Source\UserInfo.cs" />
     <Compile Include="Source\IrbisUtility.cs" />
     <Compile Include="Source\Marc\Schema\Example.cs" />
