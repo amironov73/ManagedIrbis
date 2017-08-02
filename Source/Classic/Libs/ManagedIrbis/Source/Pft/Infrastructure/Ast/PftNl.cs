@@ -15,6 +15,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -89,6 +90,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("Context.Write(null, Environment.NewLine);");
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
@@ -112,6 +129,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             printer
                 .WriteIndentIfNeeded()
                 .Write(" nl ");
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return "nl";
         }
 
         #endregion

@@ -170,7 +170,7 @@ namespace ManagedIrbis.Client
                 string format
             )
         {
-            return new string[0];
+            return StringUtility.EmptyArray;
         }
 
         /// <summary>

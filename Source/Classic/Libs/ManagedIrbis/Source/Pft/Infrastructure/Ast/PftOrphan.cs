@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using AM;
 using AM.Logging;
 
 using JetBrains.Annotations;
@@ -75,7 +76,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <inheritdoc cref="PftNode.GetAffectedFields" />
         public override string[] GetAffectedFields()
         {
-            return new string[0];
+            return StringUtility.EmptyArray;
         }
 
         /// <inheritdoc cref="PftNode.Execute"/>

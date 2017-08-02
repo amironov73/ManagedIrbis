@@ -58,6 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\ActionUtility.cs">
+      <Link>AM\ActionUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\ArrayUtility.cs">
       <Link>AM\ArrayUtility.cs</Link>
     </Compile>

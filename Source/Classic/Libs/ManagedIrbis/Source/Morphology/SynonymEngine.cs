@@ -111,7 +111,7 @@ namespace ManagedIrbis.Morphology
 
             if (records.Length == 0)
             {
-                return new string[0];
+                return StringUtility.EmptyArray;
             }
 
             SynonymEntry[] entries = records.Select

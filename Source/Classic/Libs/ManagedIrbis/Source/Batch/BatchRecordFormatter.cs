@@ -236,13 +236,13 @@ namespace ManagedIrbis.Batch
             int maxMfn = connection.GetMaxMfn(database) - 1;
             if (maxMfn == 0)
             {
-                return new string[0];
+                return StringUtility.EmptyArray;
             }
 
             lastMfn = Math.Min(lastMfn, maxMfn);
             if (firstMfn > lastMfn)
             {
-                return new string[0];
+                return StringUtility.EmptyArray;
             }
 
             BatchRecordFormatter result = new BatchRecordFormatter
@@ -422,3 +422,4 @@ namespace ManagedIrbis.Batch
         #endregion
     }
 }
+

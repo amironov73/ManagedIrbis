@@ -19,6 +19,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -216,7 +218,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return context.Index < GetCount(context);
         }
 
-
         #endregion
 
         #region PftField members
@@ -233,6 +234,65 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            if (Number != ((PftG) otherNode).Number)
+            {
+                throw new PftSerializationException();
+            }
+        }
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            if (Number == 0)
+            {
+                Number = NumericUtility.ParseInt32
+                    (
+                        Tag.ThrowIfNull("Tag")
+                    );
+            }
+
+            FieldInfo info = compiler.CompileField(this);
+
+            compiler.CompileNodes(LeftHand);
+            compiler.CompileNodes(RightHand);
+
+            string leftHand = compiler.CompileAction(LeftHand) ?? "null";
+            string rightHand = compiler.CompileAction(RightHand) ?? "null";
+
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("Action leftHand = {0};", leftHand);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("Action rightHand = {0};", rightHand);
+
+            compiler
+                .WriteIndent()
+                .WriteLine
+                    (
+                        "DoGlobal({0}, {1}, leftHand, rightHand);",
+                        Number.ToInvariantString(),
+                        info.Reference
+                    );
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
 
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
@@ -266,7 +326,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (Number == 0)
             {
-                Number = int.Parse
+                Number = NumericUtility.ParseInt32
                     (
                         Tag.ThrowIfNull("Tag")
                     );
@@ -294,18 +354,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <inheritdoc cref="PftNode.GetAffectedFields" />
         public override string[] GetAffectedFields()
         {
-            return new string[0];
-        }
-
-        /// <inheritdoc cref="PftNode.Serialize" />
-        protected internal override void Serialize
-            (
-            BinaryWriter writer
-            )
-        {
-            base.Serialize(writer);
-
-            writer.WritePackedInt32(Number);
+            return StringUtility.EmptyArray;
         }
 
         /// <inheritdoc cref="PftNode.PrettyPrint" />
@@ -325,6 +374,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 node.PrettyPrint(printer);
             }
+        }
+
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
+            (
+            BinaryWriter writer
+            )
+        {
+            base.Serialize(writer);
+
+            writer.WritePackedInt32(Number);
         }
 
         #endregion

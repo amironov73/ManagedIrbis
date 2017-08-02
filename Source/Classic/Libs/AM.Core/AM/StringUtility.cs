@@ -34,6 +34,16 @@ namespace AM
     [PublicAPI]
     public static class StringUtility
     {
+        #region Properties or fields
+
+        /// <summary>
+        /// Empty array of <see cref="string"/>.
+        /// </summary>
+        [NotNull]
+        public static readonly string[] EmptyArray = new string[0];
+
+        #endregion
+
         #region Private members
 
 #if FW45

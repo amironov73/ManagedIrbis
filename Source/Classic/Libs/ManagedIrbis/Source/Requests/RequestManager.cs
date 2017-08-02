@@ -233,7 +233,7 @@ namespace ManagedIrbis.Requests
         //{
         //    if (record == null)
         //    {
-        //        return new string[0];
+        //        return StringUtility.EmptyArray;
         //    }
 
         //    RecordField[] allFields = record.Fields
@@ -245,7 +245,7 @@ namespace ManagedIrbis.Requests
 
         //    if (allFields.Length > ourFields.Length)
         //    {
-        //        return new string[0];
+        //        return StringUtility.EmptyArray;
         //    }
 
         //    return ourFields

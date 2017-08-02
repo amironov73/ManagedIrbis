@@ -894,7 +894,7 @@ namespace ManagedIrbis.Pft
             MarcRecord record = context.Record;
             if (ReferenceEquals(record, null))
             {
-                return new string[0];
+                return StringUtility.EmptyArray;
             }
 
             RecordField[] fields = record.Fields.GetField(tag);
@@ -1073,7 +1073,7 @@ namespace ManagedIrbis.Pft
                         + "record not set"
                     );
 
-                return new string[0];
+                return StringUtility.EmptyArray;
             }
 
             tag = FieldTag.Normalize(tag);
@@ -1206,6 +1206,32 @@ namespace ManagedIrbis.Pft
             }
 
             return node is PftNumeric;
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// Build text representation of <see cref="PftNode"/>'s.
+        /// </summary>
+        public static void NodesToText
+            (
+                [NotNull] StringBuilder builder,
+                [NotNull] IEnumerable<PftNode> nodes
+            )
+        {
+            Code.NotNull(builder, "builder");
+            Code.NotNull(nodes, "nodes");
+
+            bool first = true;
+            foreach (PftNode node in nodes.NonNullItems())
+            {
+                if (!first)
+                {
+                    builder.Append(' ');
+                }
+                builder.Append(node);
+                first = false;
+            }
         }
 
         //=================================================

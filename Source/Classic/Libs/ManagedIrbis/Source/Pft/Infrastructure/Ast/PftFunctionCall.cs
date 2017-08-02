@@ -13,9 +13,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 using AM;
-using AM.Collections;
 using AM.IO;
 using AM.Logging;
 
@@ -23,8 +23,10 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -161,6 +163,49 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftFunctionCall otherCall = (PftFunctionCall) otherNode;
+            if (Name != otherCall.Name)
+            {
+                throw new PftSerializationException();
+            }
+            PftSerializationUtility.CompareLists
+                (
+                    Arguments,
+                    otherCall.Arguments
+                );
+        }
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            if (string.IsNullOrEmpty(Name))
+            {
+                throw new PftCompilerException();
+            }
+
+            compiler.CompileNodes(Arguments);
+
+            string actionName = compiler.CompileAction(Arguments);
+
+            compiler.StartMethod(this);
+
+            // TODO implement properly
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -265,6 +310,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.EatWhitespace();
+            printer
+                .SingleSpace()
+                .Write(Name)
+                .Write('(')
+                .WriteNodes(Arguments)
+                .Write(')');
+        }
+
         /// <inheritdoc cref="PftNode.Serialize" />
         protected internal override void Serialize
             (
@@ -275,6 +335,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             writer.WriteNullable(Name);
             PftSerializer.Serialize(writer, Arguments);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append(Name);
+            result.Append('(');
+            PftUtility.NodesToText(result, Arguments);
+            result.Append(')');
+
+            return result.ToString();
         }
 
         #endregion

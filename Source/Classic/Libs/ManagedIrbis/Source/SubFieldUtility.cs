@@ -532,7 +532,7 @@ namespace ManagedIrbis
             }
 
             return ReferenceEquals(result, null)
-                ? EmptyArray<string>.Value
+                ? StringUtility.EmptyArray
                 : result.ToArray();
         }
 

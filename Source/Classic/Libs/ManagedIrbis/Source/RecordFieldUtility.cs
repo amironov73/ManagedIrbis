@@ -52,15 +52,8 @@ namespace ManagedIrbis
         /// Empty array of <see cref="RecordField"/>.
         /// </summary>
         [NotNull]
-        public static readonly RecordField[] EmptyFieldArray
+        public static readonly RecordField[] EmptyArray
             = new RecordField[0];
-
-        /// <summary>
-        /// Empty array of <see cref="SubField"/>.
-        /// </summary>
-        [NotNull]
-        public static readonly SubField[] EmptySubFieldArray
-            = new SubField[0];
 
         #endregion
 
@@ -254,7 +247,7 @@ namespace ManagedIrbis
             }
 
             return ReferenceEquals(result, null)
-                ? EmptyFieldArray
+                ? EmptyArray
                 : result.ToArray();
         }
 
@@ -333,7 +326,7 @@ namespace ManagedIrbis
             }
 
             return ReferenceEquals(result, null)
-                ? EmptyFieldArray
+                ? EmptyArray
                 : result.ToArray();
         }
 
@@ -435,7 +428,7 @@ namespace ManagedIrbis
             }
 
             return ReferenceEquals(result, null)
-                ? EmptyFieldArray
+                ? EmptyArray
                 : result.ToArray();
         }
 
@@ -953,7 +946,7 @@ namespace ManagedIrbis
             }
 
             return ReferenceEquals(result, null)
-                ? EmptyArray<string>.Value
+                ? StringUtility.EmptyArray
                 : result.ToArray();
         }
 
@@ -1327,7 +1320,7 @@ namespace ManagedIrbis
             }
 
             return ReferenceEquals(result, null)
-                ? EmptySubFieldArray
+                ? SubFieldUtility.EmptyArray
                 : result.ToArray();
         }
 
@@ -1393,7 +1386,7 @@ namespace ManagedIrbis
             }
 
             return ReferenceEquals(result, null)
-                ? EmptySubFieldArray
+                ? SubFieldUtility.EmptyArray
                 : result.ToArray();
         }
 
@@ -1429,7 +1422,7 @@ namespace ManagedIrbis
             }
 
             return ReferenceEquals(result, null)
-                ? EmptySubFieldArray
+                ? SubFieldUtility.EmptyArray
                 : result.ToArray();
         }
 
@@ -1501,7 +1494,7 @@ namespace ManagedIrbis
             }
 
             return ReferenceEquals(result, null)
-                ? EmptySubFieldArray
+                ? SubFieldUtility.EmptyArray
                 : result.ToArray();
         }
 

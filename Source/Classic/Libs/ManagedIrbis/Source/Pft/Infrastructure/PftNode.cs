@@ -441,7 +441,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         [NotNull]
         public virtual string[] GetAffectedFields()
         {
-            string[] result = new string[0];
+            string[] result = StringUtility.EmptyArray;
 
             foreach (PftNode child in Children)
             {

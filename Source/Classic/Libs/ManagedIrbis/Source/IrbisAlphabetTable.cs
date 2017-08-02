@@ -357,7 +357,7 @@ namespace ManagedIrbis
         {
             if (string.IsNullOrEmpty(text))
             {
-                return new string[0];
+                return StringUtility.EmptyArray;
             }
 
             List<string> result = new List<string>();

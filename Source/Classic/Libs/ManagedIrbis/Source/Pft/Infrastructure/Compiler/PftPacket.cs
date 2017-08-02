@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -57,7 +57,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// Breakpoints.
         /// </summary>
         [NotNull]
-        public Dictionary<int,object> Breakpoints { get; private set; }
+        public Dictionary<int, object> Breakpoints { get; private set; }
 
         #endregion
 
@@ -196,14 +196,50 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             }
             else if (command == 'd')
             {
-                
+
             }
             else if (command == 'n')
             {
-                
+
             }
 
             CurrentField = null;
+        }
+
+        private void DoFieldG
+            (
+                [CanBeNull] RecordField field,
+                [NotNull] FieldSpecification spec,
+                [CanBeNull] Action leftHand,
+                [CanBeNull] Action rightHand
+            )
+        {
+            if (ReferenceEquals(field, null))
+            {
+                return;
+            }
+
+            leftHand.SafeCall();
+
+            // TODO implement properly
+
+            string value = field.ToText();
+            if (!string.IsNullOrEmpty(value))
+            {
+                if (Context.UpperMode)
+                {
+                    value = IrbisText.ToUpper(value);
+                }
+                Context.Write(null, value);
+            }
+
+            Context.OutputFlag = true;
+            if (!ReferenceEquals(Context._vMonitor, null))
+            {
+                Context._vMonitor.Output = true;
+            }
+
+            rightHand.SafeCall();
         }
 
         private void DoFieldV
@@ -213,10 +249,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 [CanBeNull] Action rightHand
             )
         {
-            if (!ReferenceEquals(leftHand, null))
-            {
-                leftHand();
-            }
+            leftHand.SafeCall();
 
             string value = GetValue(field);
             if (!string.IsNullOrEmpty(value))
@@ -237,9 +270,37 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 }
             }
 
-            if (!ReferenceEquals(rightHand, null))
+            rightHand.SafeCall();
+        }
+
+        /// <summary>
+        /// Do global variable.
+        /// </summary>
+        protected void DoGlobal
+            (
+                int index,
+                [NotNull] FieldSpecification spec,
+                [CanBeNull] Action leftHand,
+                [CanBeNull] Action rightHand
+            )
+        {
+            RecordField[] fields = Context.Globals.Get(index);
+            if (fields.Length == 0)
             {
-                rightHand();
+                return;
+            }
+
+            if (InGroup)
+            {
+                RecordField field = fields.GetOccurrence(Context.Index);
+                DoFieldG(field, spec, leftHand, rightHand);
+            }
+            else
+            {
+                foreach (RecordField field in fields)
+                {
+                    DoFieldG(field, spec, leftHand, rightHand);
+                }
             }
         }
 
@@ -300,10 +361,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 [NotNull] Action action
             )
         {
-            for 
+            for
                 (
-                    Context.Index = 0; 
-                    Context.Index < PftConfig.MaxRepeat; 
+                    Context.Index = 0;
+                    Context.Index < PftConfig.MaxRepeat;
                     Context.Index++
                 )
             {

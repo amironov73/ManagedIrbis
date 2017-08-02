@@ -424,7 +424,7 @@ namespace ManagedIrbis
 
             if (command.MfnList.Count == 0)
             {
-                return new string[0];
+                return StringUtility.EmptyArray;
             }
 
             connection.ExecuteCommand(command);
@@ -1648,7 +1648,7 @@ namespace ManagedIrbis
 
             if (records.Length == 0)
             {
-                return new string[0];
+                return StringUtility.EmptyArray;
             }
 
             List<object> arguments = new List<object>

@@ -95,6 +95,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     .WriteIndent()
                     .WriteLine("Context.WriteLine(null);")
                 .DecreaseIndent()
+                .WriteIndent()
                 .WriteLine("}");
             compiler.EndMethod(this);
             compiler.MarkReady(this);

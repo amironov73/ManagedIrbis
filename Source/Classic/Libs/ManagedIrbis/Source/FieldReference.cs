@@ -284,7 +284,7 @@ namespace ManagedIrbis
             string tag = Tag;
             if (string.IsNullOrEmpty(tag))
             {
-                result = new string[0];
+                result = StringUtility.EmptyArray;
             }
             else
             {

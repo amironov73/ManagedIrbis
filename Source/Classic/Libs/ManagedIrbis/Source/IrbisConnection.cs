@@ -757,7 +757,7 @@ namespace ManagedIrbis
 
             if (command.MfnList.Count == 0)
             {
-                return new string[0];
+                return StringUtility.EmptyArray;
             }
 
             ExecuteCommand(command);
@@ -1261,7 +1261,7 @@ namespace ManagedIrbis
 
             if (files.Length == 0)
             {
-                return new string[0];
+                return StringUtility.EmptyArray;
             }
 
             ReadFileCommand command

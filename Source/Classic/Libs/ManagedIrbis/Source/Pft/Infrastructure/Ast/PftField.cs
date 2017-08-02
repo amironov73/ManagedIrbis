@@ -560,18 +560,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             compiler.CompileNodes(LeftHand);
             compiler.CompileNodes(RightHand);
 
-            string leftAction = compiler.CompileAction(LeftHand) ?? "null";
-            string rightAction = compiler.CompileAction(RightHand) ?? "null";
+            string leftHand = compiler.CompileAction(LeftHand) ?? "null";
+            string rightHand = compiler.CompileAction(RightHand) ?? "null";
 
             compiler.StartMethod(this);
 
             compiler
                 .WriteIndent()
-                .WriteLine("Action leftHand = {0};", leftAction);
+                .WriteLine("Action leftHand = {0};", leftHand);
 
             compiler
                 .WriteIndent()
-                .WriteLine("Action rightHand = {0};", rightAction);
+                .WriteLine("Action rightHand = {0};", rightHand);
 
             compiler
                 .WriteIndent()

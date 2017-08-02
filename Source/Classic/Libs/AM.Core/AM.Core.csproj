@@ -123,6 +123,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AM\ActionUtility.cs" />
     <Compile Include="AM\ArrayUtility.cs" />
     <Compile Include="AM\ArsMagnaException.cs" />
     <Compile Include="AM\AutoDisposeAttribute.cs" />
