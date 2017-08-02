@@ -63,6 +63,7 @@ namespace ManagedIrbis.Menus
         /// purposes only.
         /// </summary>
         [JsonIgnore]
+        [XmlIgnore]
         public string FileName { get; set; }
 
         /// <summary>
@@ -545,6 +546,12 @@ namespace ManagedIrbis.Menus
         #endregion
 
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return FileName.ToVisibleString();
+        }
 
         #endregion
     }
