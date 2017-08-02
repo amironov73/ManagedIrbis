@@ -33,11 +33,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
         public NumberingVisitor
             (
-                [NotNull] NodeDictionary dictionary
+                [NotNull] NodeDictionary dictionary,
+                int start
             )
         {
             Dictionary = dictionary;
-            LastId = 0;
+            LastId = start;
         }
 
         #endregion

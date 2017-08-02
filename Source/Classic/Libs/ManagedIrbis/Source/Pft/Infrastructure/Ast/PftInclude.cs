@@ -189,14 +189,31 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftCompiler compiler
             )
         {
-            if (ReferenceEquals(Program, null))
+            if (string.IsNullOrEmpty(Text))
             {
-                // TODO implement
-
-                //ParseProgram(compiler.Context);
+                throw new PftCompilerException();
             }
 
+            if (ReferenceEquals(Program, null))
+            {
+                using (PftContext context = new PftContext(null))
+                {
+                    context.SetProvider(compiler.Provider);
+                    ParseProgram(context, Text);
+                }
+            }
+
+            PftProgram program = (PftProgram) Program.ThrowIfNull().Clone();
+            program.Optimize();
+
+            compiler.RenumberNodes(program);
+            program.Compile(compiler);
+
             compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .CallNodeMethod(program);
 
             compiler.EndMethod(this);
             compiler.MarkReady(this);

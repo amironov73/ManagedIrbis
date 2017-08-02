@@ -201,6 +201,7 @@ namespace PftBench
                 KeepSource = true,
                 OutputPath = "Out"
             };
+            compiler.SetProvider(_provider);
             string className = compiler.CompileProgram(program);
             AbstractOutput output = new TextOutput();
             string assemblyPath = compiler.CompileToDll

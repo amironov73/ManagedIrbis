@@ -1154,6 +1154,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\NodeInfo.cs">
       <Link>Source\Pft\Infrastructure\Compiler\NodeInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\NodeStorage.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\NodeStorage.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\NumberingVisitor.cs">
       <Link>Source\Pft\Infrastructure\Compiler\NumberingVisitor.cs</Link>
     </Compile>

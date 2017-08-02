@@ -87,6 +87,7 @@ namespace CompilerBenchmark
                             KeepSource = true,
                             OutputPath = "Out"
                         };
+                        compiler.SetProvider(provider);
                         string className = compiler.CompileProgram
                             (
                                 program

@@ -29,6 +29,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 
 using Microsoft.CSharp;
@@ -63,6 +64,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
         #region Properties
 
+        /// <summary>
+        /// Provider.
+        /// </summary>
+        [NotNull]
+        public IrbisProvider Provider { get; private set; }
+
         [NotNull]
         internal FieldDictionary Fields { get; private set; }
 
@@ -71,6 +78,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
         [NotNull]
         internal TextWriter Output { get; private set; }
+
+        /// <summary>
+        /// Last used node id.
+        /// </summary>
+        internal int LastNodeId { get; private set; }
 
         /// <summary>
         /// Indentation level.
@@ -117,6 +129,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             Fields = new FieldDictionary();
             Nodes = new NodeDictionary();
             Output = new StringWriter();
+            Provider = new LocalProvider();
 
 #if WIN81 || PORTABLE
 
@@ -177,17 +190,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
         private int _actionCount;
 
-        private void _RenumberNodes
+        internal void RenumberNodes
             (
                 [NotNull] PftNode rootNode
             )
         {
-            NumberingVisitor visitor = new NumberingVisitor(Nodes);
+            NumberingVisitor visitor = new NumberingVisitor(Nodes, LastNodeId);
             bool result = rootNode.AcceptVisitor(visitor);
             if (!result)
             {
                 throw new PftCompilerException();
             }
+            LastNodeId = visitor.LastId;
         }
 
         #endregion
@@ -357,7 +371,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         {
             Code.NotNull(program, "program");
 
-            _RenumberNodes(program);
+            RenumberNodes(program);
 
             string result = StartClass();
 
@@ -601,6 +615,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             return this;
         }
 
+        /// <summary>
+        /// Set the provider.
+        /// </summary>
+        public void SetProvider
+            (
+                [NotNull] IrbisProvider provider
+            )
+        {
+            Code.NotNull(provider, "provider");
+
+            Provider = provider;
+        }
 
         /// <summary>
         /// 

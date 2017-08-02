@@ -460,6 +460,7 @@
     <Compile Include="Source\Pft\Infrastructure\Compiler\FieldInfo.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\NodeDictionary.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\NodeInfo.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Compiler\NodeStorage.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\NumberingVisitor.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\PftCompiler.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\PftCompilerException.cs" />
