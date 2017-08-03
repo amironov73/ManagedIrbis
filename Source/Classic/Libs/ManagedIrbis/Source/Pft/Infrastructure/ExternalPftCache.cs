@@ -17,6 +17,8 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 
+using AM.Reflection;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -210,6 +212,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
 #if NETCORE
 
+            // TODO implement properly
+
             return Path.Combine
                 (
                     Directory.GetCurrentDirectory(),
@@ -257,7 +261,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 // TODO choose the right method
 
-                Assembly assembly = Assembly.LoadFile(path);
+                Assembly assembly = AssemblyUtility.LoadFile(path);
                 //Assembly assembly = Assembly.LoadFrom(path);
 
                 Func<PftContext, PftPacket> result =

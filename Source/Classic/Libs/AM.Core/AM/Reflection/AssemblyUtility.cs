@@ -21,6 +21,12 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
+#if NETCORE
+
+using System.Runtime.Loader;
+
+#endif
+
 #endregion
 
 namespace AM.Reflection
@@ -159,8 +165,6 @@ namespace AM.Reflection
         /// <summary>
         /// Check an assembly whether it has Microsoft public key token.
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
         public static bool IsMicrosoftSigned
             (
                 [NotNull] string path
@@ -172,6 +176,30 @@ namespace AM.Reflection
                    || CheckForToken(path, PublicKeyTokens.MicrosoftFX());
         }
 
-#endregion
+        /// <summary>
+        /// Load assembly from the file.
+        /// </summary>
+        [NotNull]
+        public static Assembly LoadFile
+            (
+                [NotNull] string path
+            )
+        {
+            Code.NotNullNorEmpty(path, "path");
+
+#if NETCORE
+
+            Assembly result = AssemblyLoadContext.Default
+                .LoadFromAssemblyPath (path);
+
+            return result;
+#else
+
+            return Assembly.LoadFile(path);
+
+#endif
+        }
+
+        #endregion
     }
 }
