@@ -251,6 +251,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNullNorEmpty(scriptText, "scriptText");
 
+#if CLASSIC || NETCORE || ANDROID
+
             lock (_hasp)
             {
                 string path = GetPath(scriptText, DLL);
@@ -268,6 +270,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                     CompilerUtility.GetEntryPoint(assembly);
 
                 return result;
+
+#else
+
+                return null;
+
+#endif
             }
         }
 

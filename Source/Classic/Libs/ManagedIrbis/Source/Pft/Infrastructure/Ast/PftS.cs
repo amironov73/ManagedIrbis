@@ -9,6 +9,10 @@
 
 #region Using directives
 
+using System.Text;
+
+using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -127,6 +131,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.PrettyPrint(printer);
             printer.EatWhitespace();
             printer.Write(')');
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = StringBuilderCache.Acquire();
+            result.Append("s(");
+            PftUtility.NodesToText(result, Children);
+            result.Append(')');
+
+            return StringBuilderCache.GetStringAndRelease(result);
         }
 
         #endregion

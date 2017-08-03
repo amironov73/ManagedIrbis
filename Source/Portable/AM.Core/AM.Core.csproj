@@ -547,6 +547,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\StreamParser.cs">
       <Link>AM\Text\StreamParser.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\StringBuilderCache.cs">
+      <Link>AM\Text\StringBuilderCache.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\TextBuffer.cs">
       <Link>AM\Text\TextBuffer.cs</Link>
     </Compile>

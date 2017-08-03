@@ -193,6 +193,11 @@ namespace AM.Reflection
                 .LoadFromAssemblyPath (path);
 
             return result;
+
+#elif PORTABLE || WIN81 || SILVERLIGHT || UAP
+
+            throw new NotSupportedException();
+
 #else
 
             return Assembly.LoadFile(path);

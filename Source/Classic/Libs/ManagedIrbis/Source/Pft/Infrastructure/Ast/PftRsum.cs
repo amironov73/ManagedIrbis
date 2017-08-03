@@ -16,6 +16,7 @@ using System.Text;
 using AM;
 using AM.IO;
 using AM.Logging;
+using AM.Text;
 
 using CodeJam;
 
@@ -272,22 +273,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder();
+            StringBuilder result = StringBuilderCache.Acquire();
             result.Append(Name);
             result.Append('(');
-            bool first = true;
-            foreach (PftNode node in Children)
-            {
-                if (!first)
-                {
-                    result.Append(' ');
-                }
-                result.Append(node);
-                first = false;
-            }
+            PftUtility.NodesToText(result, Children);
             result.Append(')');
 
-            return result.ToString();
+            return StringBuilderCache.GetStringAndRelease(result);
         }
 
         #endregion
