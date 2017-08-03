@@ -208,6 +208,16 @@ namespace ManagedIrbis.Pft.Infrastructure
         [NotNull]
         public string GetDefaultRootDirectory()
         {
+#if NETCORE
+
+            return Path.Combine
+                (
+                    Directory.GetCurrentDirectory(),
+                    "PftCatch"
+                );
+
+#else
+
             string result = Path.Combine
                 (
                     Path.Combine
@@ -222,6 +232,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 );
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -329,6 +341,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return RootDirectory;
+        }
 
         #endregion
     }
