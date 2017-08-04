@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
+using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Logging;
@@ -25,6 +26,8 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Gbl.Infrastructure;
 
 using MoonSharp.Interpreter;
 
@@ -137,6 +140,34 @@ namespace ManagedIrbis.Gbl
 
 #endif
         }
+
+        //=================================================
+
+        /// <summary>
+        /// Build text representation of <see cref="GblNode"/>'s.
+        /// </summary>
+        public static void NodesToText
+            (
+                [NotNull] StringBuilder builder,
+                [NotNull] IEnumerable<GblNode> nodes
+            )
+        {
+            Code.NotNull(builder, "builder");
+            Code.NotNull(nodes, "nodes");
+
+            bool first = true;
+            foreach (GblNode node in nodes.NonNullItems())
+            {
+                if (!first)
+                {
+                    builder.Append(' ');
+                }
+                builder.Append(node);
+                first = false;
+            }
+        }
+
+        //=================================================
 
         /// <summary>
         /// Parses the local JSON file.

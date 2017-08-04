@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* PftNodeCollection.cs -- 
+/* GblNodeCollection.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -23,15 +23,15 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis.Pft.Infrastructure
+namespace ManagedIrbis.Gbl.Infrastructure
 {
     /// <summary>
     /// 
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class PftNodeCollection
-        : NonNullCollection<PftNode>
+    public sealed class GblNodeCollection
+        : NonNullCollection<GblNode>
     {
         #region Properties
 
@@ -39,7 +39,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Parent node.
         /// </summary>
         [CanBeNull]
-        public PftNode Parent { get; private set; }
+        public GblNode Parent { get; private set; }
 
         #endregion
 
@@ -48,43 +48,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PftNodeCollection
+        public GblNodeCollection
             (
-                [CanBeNull] PftNode parent
+                [CanBeNull] GblNode parent
             )
         {
             Parent = parent;
-        }
-
-        #endregion
-
-        #region Public methods
-
-        /// <summary>
-        /// Optimize the collection.
-        /// </summary>
-        public void Optimize()
-        {
-            PftNode[] array = ToArray();
-
-            foreach (PftNode node in array)
-            {
-                PftNode optimized = node.Optimize();
-
-                if (!ReferenceEquals(node, optimized))
-                {
-                    if (ReferenceEquals(optimized, null))
-                    {
-                        Remove(node);
-                    }
-                    else
-                    {
-                        int index = IndexOf(node);
-                        optimized.Parent = null;
-                        SetItem(index, optimized);
-                    }
-                }
-            }
         }
 
         #endregion
@@ -94,7 +63,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <inheritdoc cref="Collection{T}.ClearItems" />
         protected override void ClearItems()
         {
-            foreach (PftNode node in this)
+            foreach (GblNode node in this)
             {
                 node.Parent = null;
             }
@@ -106,7 +75,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         protected override void InsertItem
             (
                 int index,
-                PftNode item
+                GblNode item
             )
         {
             Code.NotNull(item, "item");
@@ -127,7 +96,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         protected override void SetItem
             (
                 int index,
-                PftNode item
+                GblNode item
             )
         {
             Code.NotNull(item, "item");
@@ -142,7 +111,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (index < Count)
             {
-                PftNode previousItem = this[index];
+                GblNode previousItem = this[index];
                 if (!ReferenceEquals(previousItem, item))
                 {
                     previousItem.Parent = null;
@@ -159,7 +128,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 int index
             )
         {
-            PftNode node = this[index];
+            GblNode node = this[index];
             node.Parent = null;
 
             base.RemoveItem(index);
@@ -173,7 +142,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         public override string ToString()
         {
             StringBuilder result = StringBuilderCache.Acquire();
-            PftUtility.NodesToText(result, this);
+            GblUtility.NodesToText(result, this);
 
             return StringBuilderCache.GetStringAndRelease(result);
         }
