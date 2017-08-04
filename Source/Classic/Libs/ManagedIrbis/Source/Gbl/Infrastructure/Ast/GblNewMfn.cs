@@ -36,8 +36,32 @@ using Newtonsoft.Json;
 
 namespace ManagedIrbis.Gbl.Infrastructure.Ast
 {
+    //
+    // Official documentation:
+    // http://sntnarciss.ru/irbis/spravka/pril00704080000.htm
+    //
+    // Создание новой записи в текущей или другой базе данных.
+    //
+    // Предполагается, что за этим оператором следуют операторы ADD,
+    // которые будут наполнять новую запись.
+    // Группа операторов ADD завершается оператором END,
+    // после которого корректирующие операторы будут относиться
+    // к исходной базе данных и к исходной(текущей) записи.
+    // В операторах ADD форматирование по ФОРМАТ 1 происходит
+    // в исходной записи исходной базы данных.
+    //
+    // В файле задания оператор описывается двумя строками,
+    // которые содержат следующие данные:
+    //
+    // 1. Имя оператора – NEWMFN,
+    // 2. Формат – результатом форматирования текущей записи
+    // должна быть текстовая строка, задающая имя той базы данных,
+    // в которой будет создана новая запись.
+    // Если строка – ‘*’, то этой базой данных останется текущая.
+    //
+
     /// <summary>
-    /// 
+    /// Создает новую запись в текущей или другой базе данных.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -55,9 +79,23 @@ namespace ManagedIrbis.Gbl.Infrastructure.Ast
 
         #region Properties
 
+        /// <summary>
+        /// Children nodes.
+        /// </summary>
+        [NotNull]
+        public GblNodeCollection Children { get; private set; }
+
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public GblNewMfn()
+        {
+            Children = new GblNodeCollection(this);
+        }
 
         #endregion
 

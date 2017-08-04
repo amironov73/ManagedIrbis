@@ -36,8 +36,21 @@ using Newtonsoft.Json;
 
 namespace ManagedIrbis.Gbl.Infrastructure.Ast
 {
+    //
+    // Official documentation:
+    //
+    // Определяет условие выполнения операторов,
+    // следующих за ним до оператора FI.
+    // Состоит из двух строк:
+    // первая строка – имя оператора IF;
+    // вторая строка – формат, результатом которого может быть
+    // строка ‘1’, что означает разрешение на выполнение
+    // последующих операторов, или любое другое значение,
+    // что означает запрет на выполнение последующих операторов.
+    //
+
     /// <summary>
-    /// 
+    /// Условный оператор.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -56,10 +69,10 @@ namespace ManagedIrbis.Gbl.Infrastructure.Ast
         #region Properties
 
         /// <summary>
-        /// Then branch.
+        /// Children nodes (THEN branch).
         /// </summary>
         [NotNull]
-        public GblNodeCollection Then { get; private set; }
+        public GblNodeCollection Children { get; private set; }
 
         #endregion
 
@@ -70,7 +83,7 @@ namespace ManagedIrbis.Gbl.Infrastructure.Ast
         /// </summary>
         public GblIf()
         {
-            Then = new GblNodeCollection(this);
+            Children = new GblNodeCollection(this);
         }
 
         #endregion

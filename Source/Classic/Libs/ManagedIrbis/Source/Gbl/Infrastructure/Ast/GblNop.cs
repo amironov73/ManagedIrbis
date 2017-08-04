@@ -36,8 +36,15 @@ using Newtonsoft.Json;
 
 namespace ManagedIrbis.Gbl.Infrastructure.Ast
 {
+    //
+    // Official documentation:
+    //
+    // Комментарий. Может находиться между другими операторами
+    // и содержать любые тексты в строках (до 4-х) после себя.
+    //
+
     /// <summary>
-    /// 
+    /// Комментарий.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]

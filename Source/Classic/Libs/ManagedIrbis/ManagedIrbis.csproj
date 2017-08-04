@@ -154,6 +154,7 @@
     <Compile Include="Source\Biblio\TermComparer.cs" />
     <Compile Include="Source\BibTex\BibTex.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblAdd.cs" />
+    <Compile Include="Source\Gbl\Infrastructure\Ast\GblAll.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblCha.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblChac.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblCorrec.cs" />
@@ -278,7 +279,6 @@
     <Compile Include="Source\Fst\FstFile.cs" />
     <Compile Include="Source\Fst\FstIndexMethod.cs" />
     <Compile Include="Source\Fst\FstLine.cs" />
-    <Compile Include="Source\Gbl\Gbl.cs" />
     <Compile Include="Source\Gbl\GblBuilder.cs" />
     <Compile Include="Source\Gbl\GblCode.cs" />
     <Compile Include="Source\Gbl\GblEventArgs.cs" />

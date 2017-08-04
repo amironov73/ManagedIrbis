@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
@@ -50,6 +51,38 @@ namespace ManagedIrbis.Gbl.Infrastructure
         /// </summary>
         [CanBeNull]
         public GblNode Parent { get; internal set; }
+
+        /// <summary>
+        /// Первый параметр, как правило, спецификация поля/подполя.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("parameter1")]
+        [JsonProperty("parameter1")]
+        public string Parameter1 { get; set; }
+
+        /// <summary>
+        /// Второй параметр, как правило, спецификация повторения.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("parameter2")]
+        [JsonProperty("parameter2")]
+        public string Parameter2 { get; set; }
+
+        /// <summary>
+        /// Первый формат, например, выражение для замены.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("format1")]
+        [JsonProperty("format1")]
+        public string Format1 { get; set; }
+
+        /// <summary>
+        /// Второй формат, например, заменяющее выражение.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("format2")]
+        [JsonProperty("format2")]
+        public string Format2 { get; set; }
 
         #endregion
 

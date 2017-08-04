@@ -329,9 +329,6 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fst\FstProcessor.cs">
       <Link>Source\Fst\FstProcessor.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Gbl.cs">
-      <Link>Source\Gbl\Gbl.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblBuilder.cs">
       <Link>Source\Gbl\GblBuilder.cs</Link>
     </Compile>

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* GblUndel.cs -- 
+/* GblAll.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -37,19 +37,22 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Gbl.Infrastructure.Ast
 {
     //
-    // Восстанавливает записи в диапазоне MFN,
-    // который задан в форме ГЛОБАЛЬНОЙ.
-    // Не требует никаких дополнительных данных.
-    // Операторы, следующие за данным, выполняются
-    // на восстановленных записях.
+    // Official documentation:
+    //
+    // Оператор можно использовать в группе операторов после
+    // операторов NEWMFN или CORREC. Он дополняет записи всеми
+    // полями текущей записи. Т.е. это способ, например,
+    // создать новую запись и наполнить ее содержимым текущей записи.
+    // Или можно вызвать на корректировку другую запись (CORREC),
+    // очистить ее (EMPTY) и наполнить содержимым текущей записи.
     //
 
     /// <summary>
-    /// Восстановление данных.
+    /// 
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class GblUndel
+    public sealed class GblAll
         : GblNode
     {
         #region Constants
@@ -57,7 +60,7 @@ namespace ManagedIrbis.Gbl.Infrastructure.Ast
         /// <summary>
         /// Command mnemonic.
         /// </summary>
-        public const string Mnemonic = "UNDEL";
+        public const string Mnemonic = "ALL";
 
         #endregion
 

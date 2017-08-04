@@ -36,8 +36,13 @@ using Newtonsoft.Json;
 
 namespace ManagedIrbis.Gbl.Infrastructure.Ast
 {
+    //
+    // Удаляет записи, поданные на корректировку.
+    // Не требует никаких дополнительных данных.
+    //
+
     /// <summary>
-    /// 
+    /// Удаляет записи, поданные на корректировку.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
