@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using AM;
 using AM.Logging;
 
 using CodeJam;
@@ -29,10 +30,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     public sealed class PftD
         : PftField
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -71,7 +68,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     (
                         "PftD::Constructor: "
                         + "syntax error at: "
-                        + text
+                        + text.ToVisibleString()
                     );
 
                 throw new PftSyntaxException();
@@ -107,10 +104,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Public methods
-
-        #endregion
-
         #region PftNode members
 
         /// <inheritdoc cref="PftNode.Execute" />
@@ -132,6 +125,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftSemanticException("nested field");
             }
 
+            if (LeftHand.Count == 0)
+            {
+                Log.Warn
+                    (
+                        "PftD::Execute: "
+                        + "no left hand nodes"
+                    );
+            }
+
             if (!ReferenceEquals(context.CurrentGroup, null))
             {
                 _Execute(context);
@@ -142,16 +144,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             OnAfterExecution(context);
-        }
-
-        #endregion
-
-        #region Object members
-
-        /// <inheritdoc cref="object.ToString" />
-        public override string ToString()
-        {
-            return ToSpecification().ToString();
         }
 
         #endregion

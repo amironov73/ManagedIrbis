@@ -12,14 +12,17 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 using AM;
 using AM.Logging;
+using AM.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
@@ -203,6 +206,71 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftFrom otherFrom = (PftFrom) otherNode;
+            PftSerializationUtility.CompareNodes
+                (
+                    Variable,
+                    otherFrom.Variable
+                );
+            PftSerializationUtility.CompareLists
+                (
+                    Source,
+                    otherFrom.Source
+                );
+            PftSerializationUtility.CompareNodes
+                (
+                    Where,
+                    otherFrom.Where
+                );
+            PftSerializationUtility.CompareLists
+                (
+                    Select,
+                    otherFrom.Select
+                );
+            PftSerializationUtility.CompareLists
+                (
+                    Order,
+                    otherFrom.Order
+                );
+        }
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            if (ReferenceEquals(Variable, null)
+                || Source.Count == 0
+                || Select.Count == 0)
+            {
+                throw new PftCompilerException();
+            }
+
+            // TODO implement
+
+            compiler.CompileNodes(Source);
+            if (!ReferenceEquals(Where, null))
+            {
+                Where.Compile(compiler);
+            }
+            compiler.CompileNodes(Select);
+            compiler.CompileNodes(Order);
+
+            compiler.StartMethod(this);
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
 
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
@@ -455,7 +523,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .WriteLine("end");
         }
 
-
         /// <inheritdoc cref="PftNode.Serialize" />
         protected internal override void Serialize
             (
@@ -469,6 +536,35 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftSerializer.SerializeNullable(writer, Where);
             PftSerializer.Serialize(writer, Select);
             PftSerializer.Serialize(writer, Order);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = StringBuilderCache.Acquire();
+            result.Append("from ");
+            result.Append(Variable);
+            result.Append(" in ");
+            PftUtility.NodesToText(result, Source);
+            if (!ReferenceEquals(Where, null))
+            {
+                result.Append(" where ");
+                result.Append(Where);
+            }
+            result.Append(" select ");
+            PftUtility.NodesToText(result, Select);
+            if (Order.Count != 0)
+            {
+                result.Append(" order ");
+                PftUtility.NodesToText(result, Order);
+            }
+            result.Append(" end");
+
+            return StringBuilderCache.GetStringAndRelease(result);
         }
 
         #endregion

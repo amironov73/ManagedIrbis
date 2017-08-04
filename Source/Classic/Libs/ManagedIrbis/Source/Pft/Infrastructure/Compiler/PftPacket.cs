@@ -107,7 +107,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 [CanBeNull] string value
             )
         {
-            return !string.IsNullOrEmpty(value);
+            bool result = !string.IsNullOrEmpty(value);
+            if (specification.Command == 'n')
+            {
+                result = !result;
+            }
+
+            return result;
         }
 
 
@@ -196,14 +202,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             }
             else if (command == 'd')
             {
-
+                string value = GetValue(field);
+                if (!string.IsNullOrEmpty(value))
+                {
+                    leftHand.SafeCall();
+                }
             }
             else if (command == 'n')
             {
-
+                string value = GetValue(field);
+                if (string.IsNullOrEmpty(value))
+                {
+                    leftHand.SafeCall();
+                }
             }
 
             CurrentField = null;
+        }
+
+        private void DoFieldD
+            (
+                [NotNull] FieldSpecification field,
+                [CanBeNull] Action leftHand
+            )
+        {
         }
 
         private void DoFieldG
@@ -315,6 +337,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             InGroup = true;
             DoRepeatableAction(action);
             InGroup = false;
+            Context.Index = 0;
         }
 
         /// <summary>
@@ -377,6 +400,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                     break;
                 }
             }
+
+            Context.Index = 0;
         }
 
         /// <summary>
@@ -476,6 +501,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 );
 
             return !ReferenceEquals(field, null);
+        }
+
+        /// <summary>
+        /// Signal output.
+        /// </summary>
+        protected void HaveOutput()
+        {
+            Context.OutputFlag = true;
         }
 
         /// <summary>

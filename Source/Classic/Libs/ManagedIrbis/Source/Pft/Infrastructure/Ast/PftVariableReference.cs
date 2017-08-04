@@ -22,7 +22,9 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -171,6 +173,120 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Public methods
 
+        /// <summary>
+        /// Do the variable.
+        /// </summary>
+        public static double DoVariable
+            (
+                [NotNull] PftContext context,
+                [NotNull] PftNode node,
+                [NotNull] string name,
+                IndexSpecification index,
+                char subField
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNullNorEmpty(name, "name");
+
+            double result = 0.0;
+
+            PftVariable variable
+                = context.Variables.GetExistingVariable(name);
+            if (ReferenceEquals(variable, null))
+            {
+                Log.Error
+                    (
+                        "PftVariableReference::DoVariable: "
+                        + "unknown variable="
+                        + name.ToVisibleString()
+                    );
+
+                throw new PftSemanticException
+                    (
+                        "unknown variable: " + name
+                    );
+            }
+
+            if (variable.IsNumeric)
+            {
+                result = variable.NumericValue;
+                context.Write
+                    (
+                        node,
+                        result.ToInvariantString()
+                    );
+            }
+            else
+            {
+                string output = variable.StringValue;
+
+                if (index.Kind != IndexKind.None)
+                {
+                    string[] lines = output.SplitLines();
+
+                    lines = PftUtility.GetArrayItem
+                        (
+                            context,
+                            lines,
+                            index
+                        );
+
+                    if (subField != SubField.NoCode)
+                    {
+                        List<string> list = new List<string>();
+
+                        foreach (string line in lines)
+                        {
+                            RecordField field = _ParseLine(line);
+                            string text = field.GetFirstSubFieldValue
+                                (
+                                    subField
+                                );
+                            list.Add(text);
+                        }
+
+                        lines = list.ToArray();
+                    }
+
+                    output = string.Join
+                        (
+                            Environment.NewLine,
+                            lines
+                        );
+                }
+                else
+                {
+                    if (subField != SubField.NoCode)
+                    {
+                        string[] lines = output.SplitLines();
+
+                        List<string> list = new List<string>();
+
+                        foreach (string line in lines)
+                        {
+                            RecordField field = _ParseLine(line);
+                            string text = field.GetFirstSubFieldValue
+                                (
+                                    subField
+                                );
+                            list.Add(text);
+                        }
+
+                        lines = list.ToArray();
+                        output = string.Join
+                            (
+                                Environment.NewLine,
+                                lines
+                            );
+                    }
+                }
+
+                context.Write(node, output);
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region ICloneable members
@@ -179,9 +295,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         public override object Clone()
         {
             PftVariableReference result
-                = (PftVariableReference) base.Clone();
+                = (PftVariableReference)base.Clone();
 
-            result.Index = (IndexSpecification) Index.Clone();
+            result.Index = (IndexSpecification)Index.Clone();
 
             return result;
         }
@@ -189,6 +305,53 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #endregion
 
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftVariableReference otherVariable
+                = (PftVariableReference)otherNode;
+            if (Name != otherVariable.Name
+                || !IndexSpecification.Compare(Index, otherVariable.Index)
+                || SubFieldCode != otherVariable.SubFieldCode)
+            {
+                throw new PftSerializationException();
+            }
+        }
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            if (ReferenceEquals(Name, null))
+            {
+                throw new PftCompilerException();
+            }
+
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .WriteLine
+                    (
+                        "double result = PftVariableReference.DoVariable("
+                        + "Context, null, \"{0}\", '\\x{1:X4}');",
+                        CompilerUtility.Escape(Name),
+                        (int)SubFieldCode
+                    )
+                .WriteIndent()
+                .WriteLine("return result;");
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
 
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
@@ -211,100 +374,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            string name = Name.ThrowIfNull("name");
-            PftVariable variable
-                = context.Variables.GetExistingVariable(name);
-            if (ReferenceEquals(variable, null))
-            {
-                Log.Error
-                    (
-                        "PftVariableReference::Execute: "
-                        + "unknown variable="
-                        + name.ToVisibleString()
-                    );
-
-                throw new PftSemanticException
-                    (
-                        "unknown variable: " + name
-                    );
-            }
-
-            if (variable.IsNumeric)
-            {
-                Value = variable.NumericValue;
-                context.Write
-                    (
-                        this,
-                        variable.NumericValue.ToInvariantString()
-                    );
-            }
-            else
-            {
-                string output = variable.StringValue;
-
-                if (Index.Kind != IndexKind.None)
-                {
-                    string[] lines = output.SplitLines();
-
-                    lines = PftUtility.GetArrayItem
-                        (
-                            context,
-                            lines,
-                            Index
-                        );
-
-                    if (SubFieldCode != SubField.NoCode)
-                    {
-                        List<string> list = new List<string>();
-
-                        foreach (string line in lines)
-                        {
-                            RecordField field = _ParseLine(line);
-                            string text = field.GetFirstSubFieldValue
-                                (
-                                    SubFieldCode
-                                );
-                            list.Add(text);
-                        }
-
-                        lines = list.ToArray();
-                    }
-
-                    output = string.Join
-                        (
-                            Environment.NewLine,
-                            lines
-                        );
-                }
-                else
-                {
-                    if (SubFieldCode != SubField.NoCode)
-                    {
-                        string[] lines = output.SplitLines();
-
-                        List<string> list = new List<string>();
-
-                        foreach (string line in lines)
-                        {
-                            RecordField field = _ParseLine(line);
-                            string text = field.GetFirstSubFieldValue
-                                (
-                                    SubFieldCode
-                                );
-                            list.Add(text);
-                        }
-
-                        lines = list.ToArray();
-                        output = string.Join
-                            (
-                                Environment.NewLine,
-                                lines
-                            );
-                    }
-                }
-
-                context.Write(this, output);
-            }
+            Value = DoVariable
+                (
+                    context,
+                    this,
+                    Name.ThrowIfNull("Name"),
+                    Index,
+                    SubFieldCode
+                );
 
             OnAfterExecution(context);
         }

@@ -115,16 +115,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public static bool HaveRepeat
             (
-                [NotNull] PftContext context,
+                [NotNull] MarcRecord record,
                 [NotNull] string tag,
                 char code,
                 int index
             )
         {
-            Code.NotNull(context, "context");
+            Code.NotNull(record, "record");
             Code.NotNullNorEmpty(tag, "tag");
 
-            MarcRecord record = context.Record.ThrowIfNull();
             RecordField field = record.Fields.GetField
                 (
                     tag,
@@ -196,15 +195,31 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler.StartMethod(this);
 
-            // TODO implement properly
-
             compiler
+                .WriteIndent()
+                .WriteLine("MarcRecord record = Context.Record;")
+                .WriteIndent()
+                .WriteLine("string tag = {0}.Tag;", info.Reference)
+                .WriteIndent()
+                .WriteLine("int index = Context.Index;")
                 .WriteIndent()
                 .WriteLine
                     (
-                        "bool flag = HaveField({0});",
+                        "bool flag = PftP.HaveRepeat(record, "
+                        + "tag, {0}.SubField, index);",
                         info.Reference
                     )
+                .WriteIndent()
+                .WriteLine("if (PftP.HaveRepeat(record, "
+                    + "tag, SubField.NoCode, index))")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .WriteIndent()
+                .WriteLine("HaveOutput();")
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}")
                 .WriteIndent()
                 .WriteLine("return flag;");
 
@@ -243,22 +258,29 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             string tag = Field.Tag.ThrowIfNull("Field.Tag");
+            MarcRecord record = context.Record;
             int index = context.Index;
 
-            // ИРБИС64 вне группы всегда проверяет
-            // на наличие лишь первое повторение поля!
-
-            Value = HaveRepeat
-                (
-                    context,
-                    tag,
-                    Field.SubField,
-                    index
-                );
-
-            if (HaveRepeat(context, tag, SubField.NoCode, index))
+            if (!ReferenceEquals(record, null))
             {
-                context.OutputFlag = true;
+                // ИРБИС64 вне группы всегда проверяет
+                // на наличие лишь первое повторение поля!
+
+                Value = HaveRepeat
+                    (
+                        record,
+                        tag,
+                        Field.SubField,
+                        index
+                    );
+
+                // Само по себе обращение к P крутит группу
+                // при наличии повторения поля
+
+                if (HaveRepeat(record, tag, SubField.NoCode, index))
+                {
+                    context.OutputFlag = true;
+                }
             }
 
             OnAfterExecution(context);

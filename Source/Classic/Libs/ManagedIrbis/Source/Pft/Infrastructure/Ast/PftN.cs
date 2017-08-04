@@ -9,12 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using AM;
 using AM.Logging;
 
@@ -36,10 +30,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     public sealed class PftN
         : PftField
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -77,7 +67,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 Log.Error
                     (
                         "PftN::Constructor: "
-                        + "text="
+                        + "syntax error at:"
                         + text.ToVisibleString()
                     );
 
@@ -114,10 +104,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Public methods
-
-        #endregion
-
         #region PftNode members
 
         /// <inheritdoc cref="PftField.CanOutput" />
@@ -148,12 +134,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftSemanticException("nested field");
             }
 
+            if (LeftHand.Count == 0)
+            {
+                Log.Warn
+                    (
+                        "PftN::Execute: "
+                        + "no left hand nodes"
+                    );
+            }
+
             if (!ReferenceEquals(context.CurrentGroup, null))
             {
-                //if (IsFirstRepeat(context))
-                //{
-                    _Execute(context);
-                //}
+                _Execute(context);
             }
             else
             {
@@ -161,16 +153,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             OnAfterExecution(context);
-        }
-
-        #endregion
-
-        #region Object members
-
-        /// <inheritdoc cref="object.ToString" />
-        public override string ToString()
-        {
-            return ToSpecification().ToString();
         }
 
         #endregion

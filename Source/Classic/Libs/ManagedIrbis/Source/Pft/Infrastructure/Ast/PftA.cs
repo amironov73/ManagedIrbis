@@ -125,15 +125,31 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler.StartMethod(this);
 
-            // TODO implement properly
-
             compiler
+                .WriteIndent()
+                .WriteLine("MarcRecord record = Context.Record;")
+                .WriteIndent()
+                .WriteLine("string tag = {0}.Tag;", info.Reference)
+                .WriteIndent()
+                .WriteLine("int index = Context.Index;")
                 .WriteIndent()
                 .WriteLine
                     (
-                        "bool flag = HaveField({0});",
+                        "bool flag = PftP.HaveRepeat(record, "
+                        + "tag, {0}.SubField, index);",
                         info.Reference
                     )
+                .WriteIndent()
+                .WriteLine("if (PftP.HaveRepeat(record, "
+                           + "tag, SubField.NoCode, index))")
+                .WriteIndent()
+                .WriteLine("{")
+                .IncreaseIndent()
+                .WriteIndent()
+                .WriteLine("HaveOutput();")
+                .DecreaseIndent()
+                .WriteIndent()
+                .WriteLine("}")
                 .WriteIndent()
                 .WriteLine("return !flag;");
 
@@ -165,29 +181,36 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 Log.Error
                     (
                         "PftA::Execute: "
-                        + "field not set"
+                        + "Field not specified"
                     );
 
                 throw new PftSyntaxException(this);
             }
 
             string tag = Field.Tag.ThrowIfNull("Field.Tag");
+            MarcRecord record = context.Record;
             int index = context.Index;
 
-            // ИРБИС64 вне группы всегда проверяет
-            // на наличие лишь первое повторение поля!
-
-            Value = !PftP.HaveRepeat
-                (
-                    context,
-                    tag,
-                    Field.SubField,
-                    index
-                );
-
-            if (PftP.HaveRepeat(context, tag, SubField.NoCode, index))
+            if (!ReferenceEquals(record, null))
             {
-                context.OutputFlag = true;
+                // ИРБИС64 вне группы всегда проверяет
+                // на наличие лишь первое повторение поля!
+
+                Value = !PftP.HaveRepeat
+                    (
+                        record,
+                        tag,
+                        Field.SubField,
+                        index
+                    );
+
+                // Само по себе обращение к A крутит группу
+                // при наличии повторения поля
+
+                if (PftP.HaveRepeat(record, tag, SubField.NoCode, index))
+                {
+                    context.OutputFlag = true;
+                }
             }
 
             OnAfterExecution(context);
