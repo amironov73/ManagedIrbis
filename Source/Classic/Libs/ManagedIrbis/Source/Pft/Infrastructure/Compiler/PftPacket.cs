@@ -537,6 +537,35 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             return Context.Index >= count - 1;
         }
 
+        /// <summary>
+        /// Start evaluate.
+        /// </summary>
+        [NotNull]
+        protected PftContext StartEvaluate()
+        {
+            PftContext result = Context;
+            Context = new PftContext(result);
+
+            return result;
+        }
+
+        /// <summary>
+        /// End evaluate.
+        /// </summary>
+        [NotNull]
+        protected string EndEvaluate
+            (
+                [NotNull] PftContext previousContext
+            )
+        {
+            Code.NotNull(previousContext, "previousContext");
+
+            string result = Context.ToString();
+            Context = previousContext;
+
+            return result;
+        }
+
         #endregion
 
         #region Public methods

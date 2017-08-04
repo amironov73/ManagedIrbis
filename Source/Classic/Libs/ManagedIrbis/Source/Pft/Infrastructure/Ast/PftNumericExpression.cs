@@ -269,6 +269,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler
                 .WriteIndent()
+                .WriteLine("PftContext previousContext = StartEvaluate();");
+
+            compiler
+                .WriteIndent()
                 .Write("double left = ")
                 .CallNodeMethod(LeftOperand)
                 .WriteLine();
@@ -285,6 +289,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         Operation
                     );
             compiler
+                .WriteIndent()
+                .WriteLine("EndEvaluate(previousContext);")
                 .WriteIndent()
                 .WriteLine("return result;");
 

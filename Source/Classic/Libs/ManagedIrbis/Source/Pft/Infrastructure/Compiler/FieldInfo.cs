@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -56,7 +57,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             Specification = field.ToSpecification();
             Text = Specification.ToString();
             Id = id;
-            Reference = "Field" + Id;
+            Reference = "Field" + Id.ToInvariantString();
         }
 
         #endregion

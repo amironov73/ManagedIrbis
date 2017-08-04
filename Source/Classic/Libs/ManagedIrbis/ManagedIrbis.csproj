@@ -153,6 +153,8 @@
     <Compile Include="Source\Biblio\RecordCollection.cs" />
     <Compile Include="Source\Biblio\TermComparer.cs" />
     <Compile Include="Source\BibTex\BibTex.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Compiler\IndexInfo.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Compiler\IndexDictionary.cs" />
     <Compile Include="Source\Pft\Infrastructure\ExternalPftCache.cs" />
     <Compile Include="Source\Caching\IrbisCache.cs" />
     <Compile Include="Source\Caching\MenuCache.cs" />

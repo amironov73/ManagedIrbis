@@ -1171,6 +1171,12 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\FieldInfo.cs">
       <Link>Source\Pft\Infrastructure\Compiler\FieldInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\IndexDictionary.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\IndexDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\IndexInfo.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\IndexInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\NodeDictionary.cs">
       <Link>Source\Pft\Infrastructure\Compiler\NodeDictionary.cs</Link>
     </Compile>

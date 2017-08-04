@@ -11,9 +11,11 @@
 
 using System;
 using System.IO;
+using System.Text;
 
 using AM;
 using AM.IO;
+using AM.Text;
 
 using CodeJam;
 
@@ -22,12 +24,26 @@ using JetBrains.Annotations;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
+
 using MoonSharp.Interpreter;
 
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure
 {
+    //
+    // Индекс, задающий повторение поля или переменной.
+    // Возможные значения
+    //
+    // не указан
+    // число (литерал) указывает непосредственно
+    // * последнее повторение
+    // + новое повторение (будет создано)
+    // - все повторения (склеиваются в одно значение)
+    // . текущее повторение (см. контекст исполнения)
+    // выражение (будет вычислено)
+    //
+
     /// <summary>
     /// Index specification (for fields).
     /// </summary>
@@ -131,18 +147,22 @@ namespace ManagedIrbis.Pft.Infrastructure
                     result = Literal - 1;
                     break;
 
+                // *
                 case IndexKind.LastRepeat:
                     result = array.Length - 1;
                     break;
 
+                // +
                 case IndexKind.NewRepeat:
                     result = array.Length;
                     break;
 
+                // .
                 case IndexKind.CurrentRepeat:
                     result = context.Index;
                     break;
 
+                // -
                 case IndexKind.AllRepeats:
                     result = 0;
                     break;
@@ -151,7 +171,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     PftNumeric program = CompileProgram();
                     context.Evaluate(program);
-                    result = ((int)program.Value) - 1;
+                    result = (int)program.Value - 1;
 
                     break;
             }
@@ -169,7 +189,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNull(reader, "reader");
 
-            Kind = (IndexKind) reader.ReadPackedInt32();
+            Kind = (IndexKind)reader.ReadPackedInt32();
             Literal = reader.ReadPackedInt32();
             Expression = reader.ReadNullableString();
             Program = null;
@@ -212,9 +232,53 @@ namespace ManagedIrbis.Pft.Infrastructure
             Code.NotNull(writer, "writer");
 
             writer
-                .WritePackedInt32((int) Kind)
+                .WritePackedInt32((int)Kind)
                 .WritePackedInt32(Literal)
                 .WriteNullable(Expression);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [NotNull]
+        public string ToText()
+        {
+            if (Kind == IndexKind.None)
+            {
+                return string.Empty;
+            }
+
+            StringBuilder result = StringBuilderCache.Acquire();
+            result.Append('[');
+            switch (Kind)
+            {
+                case IndexKind.AllRepeats:
+                    result.Append('-');
+                    break;
+
+                case IndexKind.CurrentRepeat:
+                    result.Append('.');
+                    break;
+
+                case IndexKind.Expression:
+                    result.Append(Expression);
+                    break;
+
+                case IndexKind.LastRepeat:
+                    result.Append('*');
+                    break;
+
+                case IndexKind.Literal:
+                    result.Append(Literal.ToInvariantString());
+                    break;
+
+                case IndexKind.NewRepeat:
+                    result.Append('+');
+                    break;
+            }
+            result.Append(']');
+
+            return StringBuilderCache.GetStringAndRelease(result);
         }
 
         #endregion
@@ -225,13 +289,13 @@ namespace ManagedIrbis.Pft.Infrastructure
         public object Clone()
         {
             IndexSpecification result
-                = (IndexSpecification) MemberwiseClone();
+                = (IndexSpecification)MemberwiseClone();
 
 #if CLASSIC || NETCORE
 
             if (!ReferenceEquals(Program, null))
             {
-                result.Program = (PftNumeric) Program.Clone();
+                result.Program = (PftNumeric)Program.Clone();
             }
 #endif
 
@@ -256,3 +320,4 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
     }
 }
+

@@ -12,15 +12,19 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 using AM;
 using AM.IO;
+using AM.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -54,6 +58,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Index.
         /// </summary>
         public IndexSpecification Index { get; set; }
+
+        /// <inheritdoc cref="PftNode.ComplexExpression" />
+        public override bool ComplexExpression
+        {
+            get { return true; }
+        }
 
         /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
@@ -184,10 +194,90 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             base.CompareNode(otherNode);
 
-            if (Name != ((PftAssignment) otherNode).Name)
+            PftAssignment otherAssignment = (PftAssignment) otherNode;
+            if (Name != otherAssignment.Name
+                || !IndexSpecification.Compare(Index, otherAssignment.Index)
+                || IsNumeric != otherAssignment.IsNumeric)
             {
-                throw new IrbisException();
+                throw new PftSerializationException();
             }
+        }
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            if (string.IsNullOrEmpty(Name))
+            {
+                throw new PftCompilerException();
+            }
+
+            string actionName = null;
+            IndexInfo index = null;
+
+            compiler.CompileNodes(Children);
+            if (!IsNumeric)
+            {
+                actionName = compiler.CompileAction(Children);
+                index = compiler.CompileIndex(Index);
+            }
+
+            compiler.StartMethod(this);
+
+            if (IsNumeric)
+            {
+                PftNumeric numeric =
+                    (
+                        Children.FirstOrDefault() as PftNumeric
+                    )
+                    .ThrowIfNull("numeric");
+
+                compiler
+                    .WriteIndent()
+                    .Write("double value = ")
+                    .CallNodeMethod(numeric);
+
+                compiler
+                    .WriteIndent()
+                    .WriteLine
+                        (
+                            "Context.Variables.SetVariable("
+                            + "\"{0}\", value);",
+                            CompilerUtility.Escape(Name)
+                        );
+            }
+            else
+            {
+                compiler
+                    .WriteIndent()
+                    .Write("string value = ");
+                if (ReferenceEquals(actionName, null))
+                {
+                    compiler.WriteLine("string.Empty;");
+                }
+                else
+                {
+                    compiler
+                        .WriteLine("Evaluate({0});", actionName);
+
+                    compiler
+                        .WriteIndent()
+                        .WriteLine
+                            (
+                                "Context.Variables.SetVariable("
+                                + "Context, \"{0}\", "
+                                + "{1}, "
+                                + "value);",
+                                CompilerUtility.Escape(Name),
+                                index.Reference
+                            );
+                }
+            }
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
         }
 
         /// <inheritdoc cref="PftNode.Deserialize" />
@@ -291,6 +381,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .SingleSpace()
                 .Write('$')
                 .Write(Name)
+                .Write(Index.ToText())
                 .Write('=');
             base.PrettyPrint(printer);
             printer.Write(';');
@@ -310,5 +401,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = StringBuilderCache.Acquire();
+            result.AppendFormat("${0}{1}=", Name, Index.ToText());
+            PftUtility.NodesToText(result, Children);
+
+            return StringBuilderCache.GetStringAndRelease(result);
+        }
+
+        #endregion
     }
 }
+

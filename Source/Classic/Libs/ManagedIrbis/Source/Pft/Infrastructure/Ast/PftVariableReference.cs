@@ -335,6 +335,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftCompilerException();
             }
 
+            IndexInfo index = compiler.CompileIndex(Index);
+
             compiler.StartMethod(this);
 
             compiler
@@ -342,8 +344,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .WriteLine
                     (
                         "double result = PftVariableReference.DoVariable("
-                        + "Context, null, \"{0}\", '\\x{1:X4}');",
+                        + "Context, null, \"{0}\", {1}, '\\x{2:X4}');",
                         CompilerUtility.Escape(Name),
+                        index.Reference,
                         (int)SubFieldCode
                     )
                 .WriteIndent()

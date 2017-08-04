@@ -77,6 +77,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         internal NodeDictionary Nodes { get; private set; }
 
         [NotNull]
+        internal IndexDictionary Indexes { get; private set; }
+
+        [NotNull]
         internal TextWriter Output { get; private set; }
 
         /// <summary>
@@ -103,7 +106,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// Compile debug version?
         /// </summary>
         public bool Debug { get; set; }
-        
+
         /// <summary>
         /// References.
         /// </summary>
@@ -128,6 +131,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             Indent = 0;
             Fields = new FieldDictionary();
             Nodes = new NodeDictionary();
+            Indexes = new IndexDictionary();
             Output = new StringWriter();
             Provider = new LocalProvider();
 
@@ -338,6 +342,69 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 DecreaseIndent();
                 WriteIndent();
                 WriteLine("};");
+                WriteLine();
+            }
+
+            return result;
+        }
+
+        [NotNull]
+        internal IndexInfo CompileIndex
+            (
+                IndexSpecification specification
+            )
+        {
+            IndexInfo result = Indexes.Get(specification);
+            if (ReferenceEquals(result, null))
+            {
+                result = Indexes.Create(specification);
+                string text = specification.ToText();
+                WriteIndent();
+                WriteLine
+                    (
+                        "// {0}",
+                        text
+                    );
+                WriteIndent();
+                Write
+                    (
+                        "IndexSpecification {0} = new IndexSpecification()",
+                        result.Reference
+                    );
+                if (specification.Kind == IndexKind.None)
+                {
+                    WriteLine(";");
+                }
+                else
+                {
+                    WriteLine();
+                    WriteIndent();
+                    WriteLine("{");
+                    IncreaseIndent();
+                    WriteIndent();
+                    WriteLine("Kind = IndexKind.{0},", specification.Kind);
+                    if (specification.Kind == IndexKind.Literal)
+                    {
+                        WriteIndent();
+                        WriteLine
+                            (
+                                "Literal = {0},",
+                                specification.Literal.ToInvariantString()
+                            );
+                    }
+                    if (specification.Kind == IndexKind.Expression)
+                    {
+                        WriteIndent();
+                        WriteLine
+                            (
+                                "Expression = \"{0}\",",
+                                CompilerUtility.Escape(specification.Expression)
+                            );
+                    }
+                    DecreaseIndent();
+                    WriteIndent();
+                    WriteLine("};");
+                }
                 WriteLine();
             }
 
