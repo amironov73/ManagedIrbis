@@ -144,6 +144,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                         typeof(Func<PftContext, PftPacket>)
                     );
 
+#elif WINMOBILE
+
+            MethodInfo method = type.Bridge().GetMethod
+                (
+                    "CreateInstance",
+                    BindingFlags.Public | BindingFlags.Static,
+                    null,
+                    new Type[] { typeof(PftContext) },
+                    null
+                );
+
+            Func<PftContext, PftPacket> result
+                = (Func<PftContext, PftPacket>)Delegate.CreateDelegate
+                    (
+                        typeof(Func<PftContext, PftPacket>),
+                        null,
+                        method
+                    );
+
 #else
 
             MethodInfo method = type.Bridge().GetMethod

@@ -32,7 +32,11 @@ using JetBrains.Annotations;
 using ManagedIrbis.Client;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 
+#if !WINMOBILE
+
 using Microsoft.CSharp;
+
+#endif
 
 using MoonSharp.Interpreter;
 

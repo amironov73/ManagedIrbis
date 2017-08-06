@@ -194,7 +194,7 @@ namespace AM.Reflection
 
             return result;
 
-#elif PORTABLE || WIN81 || SILVERLIGHT || UAP
+#elif PORTABLE || WIN81 || SILVERLIGHT || UAP || WINMOBILE
 
             throw new NotSupportedException();
 

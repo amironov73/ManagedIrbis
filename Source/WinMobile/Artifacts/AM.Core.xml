@@ -3653,6 +3653,11 @@
             String manipulation routines.
             </summary>
         </member>
+        <member name="F:AM.StringUtility.EmptyArray">
+            <summary>
+            Empty array of <see cref="T:System.String"/>.
+            </summary>
+        </member>
         <member name="M:AM.StringUtility.CCat(System.String,System.String)">
             <summary>
             Conditionally concatenates strings.
@@ -6505,6 +6510,29 @@
             Write all the bytes to the file.
             </summary>
         </member>
+        <member name="T:AM.IO.CountingMemoryStream">
+            <summary>
+            <see cref="T:System.IO.MemoryStream"/> that counts its reached size.
+            </summary>
+        </member>
+        <member name="M:AM.IO.CountingMemoryStream.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.IO.CountingMemoryStream.#ctor(System.Int32)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.IO.CountingMemoryStream.ToArray">
+            <inheritdoc cref="M:System.IO.MemoryStream.ToArray"/>
+        </member>
+        <member name="P:AM.IO.CountingMemoryStream.ReachedSize">
+            <summary>
+            Reached size, bytes.
+            </summary>
+        </member>
         <member name="T:AM.DelegateUtility">
             <summary>
             <see cref="T:System.Delegate"/> manipulation helper methods.
@@ -6938,6 +6966,27 @@
             </summary>
             <remarks><c>null</c> treated as default encoding.</remarks>
         </member>
+        <member name="T:AM.Text.StringBuilderCache">
+            <summary>
+            Inspired by the Microsoft internal class
+            http://referencesource.microsoft.com/#mscorlib/system/text/stringbuildercache.cs
+            </summary>
+        </member>
+        <member name="M:AM.Text.StringBuilderCache.Acquire">
+            <summary>
+            Acquire the <see cref="T:System.Text.StringBuilder"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Text.StringBuilderCache.GetStringAndRelease(System.Text.StringBuilder)">
+            <summary>
+            Get string and release the <see cref="T:System.Text.StringBuilder"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Text.StringBuilderCache.Release(System.Text.StringBuilder)">
+            <summary>
+            Release the <see cref="T:System.Text.StringBuilder"/>.
+            </summary>
+        </member>
         <member name="T:AM.Text.Output.DummyOutput">
             <summary>
             Выходной поток, который не даёт закрыться
@@ -7087,6 +7136,60 @@
             <param name="path">Path to convert.</param>
             <returns>Converted path.</returns>
             <remarks>Path need NOT to be existent.</remarks>
+        </member>
+        <member name="T:AM.IO.InsistentFile">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AM.IO.InsistentFile.DefaultTimeout">
+            <summary>
+            Default value for <see cref="P:AM.IO.InsistentFile.Timeout"/> property.
+            </summary>
+        </member>
+        <member name="F:AM.IO.InsistentFile.DefaultSleep">
+            <summary>
+            Default value for <see cref="P:AM.IO.InsistentFile.SleepInterval"/> property.
+            </summary>
+        </member>
+        <member name="M:AM.IO.InsistentFile.#cctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.IO.InsistentFile.Open(System.String,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare)">
+            <inheritdoc cref="M:System.IO.File.Open(System.String,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare)"/>.
+        </member>
+        <member name="M:AM.IO.InsistentFile.OpenForExclusiveRead(System.String)">
+            <summary>
+            Open specified file for exclusive reading.
+            </summary>
+        </member>
+        <member name="M:AM.IO.InsistentFile.OpenForExclusiveWrite(System.String)">
+            <summary>
+            Open specified file for exclusive writing.
+            </summary>
+        </member>
+        <member name="M:AM.IO.InsistentFile.OpenForSharedRead(System.String)">
+            <summary>
+            Open specified file for shared reading.
+            </summary>
+        </member>
+        <member name="M:AM.IO.InsistentFile.OpenForSharedWrite(System.String)">
+            <summary>
+            Open specified file for shared reading/writing.
+            </summary>
+        </member>
+        <member name="P:AM.IO.InsistentFile.SleepInterval">
+            <summary>
+            Interval to sleep between subsequential attempts,
+            milliseconds.
+            </summary>
+        </member>
+        <member name="P:AM.IO.InsistentFile.Timeout">
+            <summary>
+            Timeout for operations, milliseconds.
+            </summary>
         </member>
         <member name="T:AM.Collections.Pair`2">
             <summary>
@@ -11829,8 +11932,11 @@
             <summary>
             Check an assembly whether it has Microsoft public key token.
             </summary>
-            <param name="path"></param>
-            <returns></returns>
+        </member>
+        <member name="M:AM.Reflection.AssemblyUtility.LoadFile(System.String)">
+            <summary>
+            Load assembly from the file.
+            </summary>
         </member>
         <member name="T:AM.Net.SocketUtility">
             <summary>
@@ -12811,81 +12917,49 @@
             Mark instance field as auto-disposable.
             </summary>
         </member>
-        <member name="T:AM.IO.InsistentFile">
+        <member name="T:AM.ActionUtility">
             <summary>
             
             </summary>
         </member>
-        <member name="F:AM.IO.InsistentFile.DefaultTimeout">
+        <member name="M:AM.ActionUtility.SafeCall(System.Action)">
             <summary>
-            Default value for <see cref="P:AM.IO.InsistentFile.Timeout"/> property.
+            Call the <paramref name="action"/> if not <c>null</c>.
             </summary>
         </member>
-        <member name="F:AM.IO.InsistentFile.DefaultSleep">
+        <member name="M:AM.ActionUtility.SafeCall``1(System.Action{``0},``0)">
             <summary>
-            Default value for <see cref="P:AM.IO.InsistentFile.SleepInterval"/> property.
+            Call the <paramref name="action"/> if not <c>null</c>.
             </summary>
         </member>
-        <member name="M:AM.IO.InsistentFile.#cctor">
+        <member name="M:AM.ActionUtility.SafeCall``2(System.Action{``0,``1},``0,``1)">
             <summary>
-            Constructor.
+            Call the <paramref name="action"/> if not <c>null</c>.
             </summary>
         </member>
-        <member name="M:AM.IO.InsistentFile.Open(System.String,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare)">
-            <inheritdoc cref="M:System.IO.File.Open(System.String,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare)"/>.
-        </member>
-        <member name="M:AM.IO.InsistentFile.OpenForExclusiveRead(System.String)">
+        <member name="M:AM.ActionUtility.SafeCall``3(System.Action{``0,``1,``2},``0,``1,``2)">
             <summary>
-            Open specified file for exclusive reading.
+            Call the <paramref name="action"/> if not <c>null</c>.
             </summary>
         </member>
-        <member name="M:AM.IO.InsistentFile.OpenForExclusiveWrite(System.String)">
+        <member name="M:AM.ActionUtility.SafeCall``1(System.Func{``0},``0)">
             <summary>
-            Open specified file for exclusive writing.
+            Call the <paramref name="function"/> if not <c>null</c>.
             </summary>
         </member>
-        <member name="M:AM.IO.InsistentFile.OpenForSharedRead(System.String)">
+        <member name="M:AM.ActionUtility.SafeCall``2(System.Func{``0,``1},``0,``1)">
             <summary>
-            Open specified file for shared reading.
+            Call the <paramref name="function"/> if not <c>null</c>.
             </summary>
         </member>
-        <member name="M:AM.IO.InsistentFile.OpenForSharedWrite(System.String)">
+        <member name="M:AM.ActionUtility.SafeCall``3(System.Func{``0,``1,``2},``0,``1,``2)">
             <summary>
-            Open specified file for shared reading/writing.
+            Call the <paramref name="function"/> if not <c>null</c>.
             </summary>
         </member>
-        <member name="P:AM.IO.InsistentFile.SleepInterval">
+        <member name="M:AM.ActionUtility.SafeCall``4(System.Func{``0,``1,``2,``3},``0,``1,``2,``3)">
             <summary>
-            Interval to sleep between subsequential attempts,
-            milliseconds.
-            </summary>
-        </member>
-        <member name="P:AM.IO.InsistentFile.Timeout">
-            <summary>
-            Timeout for operations, milliseconds.
-            </summary>
-        </member>
-        <member name="T:AM.IO.CountingMemoryStream">
-            <summary>
-            <see cref="T:System.IO.MemoryStream"/> that counts its reached size.
-            </summary>
-        </member>
-        <member name="M:AM.IO.CountingMemoryStream.#ctor">
-            <summary>
-            Constructor.
-            </summary>
-        </member>
-        <member name="M:AM.IO.CountingMemoryStream.#ctor(System.Int32)">
-            <summary>
-            Constructor.
-            </summary>
-        </member>
-        <member name="M:AM.IO.CountingMemoryStream.ToArray">
-            <inheritdoc cref="M:System.IO.MemoryStream.ToArray"/>
-        </member>
-        <member name="P:AM.IO.CountingMemoryStream.ReachedSize">
-            <summary>
-            Reached size, bytes.
+            Call the <paramref name="function"/> if not <c>null</c>.
             </summary>
         </member>
     </members>

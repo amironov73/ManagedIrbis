@@ -11,10 +11,12 @@
 
 #region Using directives
 
+using System;
 using System.Xml;
 using System.Xml.Linq;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 

@@ -32,7 +32,11 @@ namespace AM.Text
     {
         #region Private members
 
+        // TODO implement properly
+
+#if !WINMOBILE
         [ThreadStatic]
+#endif
         private static StringBuilder _cachedInstance;
 
         #endregion

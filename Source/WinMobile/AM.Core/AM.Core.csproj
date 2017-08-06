@@ -73,6 +73,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ActionUtility.cs">
+      <Link>AM\ActionUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ArrayUtility.cs">
       <Link>AM\ArrayUtility.cs</Link>
     </Compile>
@@ -558,6 +561,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\StreamParser.cs">
       <Link>AM\Text\StreamParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\StringBuilderCache.cs">
+      <Link>AM\Text\StringBuilderCache.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\TextBuffer.cs">
       <Link>AM\Text\TextBuffer.cs</Link>
