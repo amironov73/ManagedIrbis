@@ -376,6 +376,63 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GlobalCorrector.cs">
       <Link>Source\Gbl\GlobalCorrector.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblAdd.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblAdd.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblAll.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblAll.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblCha.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblCha.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblChac.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblChac.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblCorrec.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblCorrec.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblDel.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblDel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblDelr.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblDelr.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblEmpty.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblEmpty.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblIf.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblIf.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblNewMfn.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblNewMfn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblNop.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblNop.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblPutLog.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblPutLog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblRep.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblRep.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblRepeat.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblRepeat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblUndel.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblUndel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblUndor.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblUndor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\GblContext.cs">
+      <Link>Source\Gbl\Infrastructure\GblContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\GblNode.cs">
+      <Link>Source\Gbl\Infrastructure\GblNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\GblNodeCollection.cs">
+      <Link>Source\Gbl\Infrastructure\GblNodeCollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\ProtocolLine.cs">
       <Link>Source\Gbl\ProtocolLine.cs</Link>
     </Compile>
