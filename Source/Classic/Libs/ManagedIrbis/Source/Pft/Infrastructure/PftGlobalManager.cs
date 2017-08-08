@@ -211,7 +211,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     .ToArray();
             }
 
-            return new RecordField[0];
+            return RecordFieldUtility.EmptyArray;
         }
 
         /// <summary>

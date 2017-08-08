@@ -106,9 +106,85 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         private VirtualChildren _virtualChildren;
 
+        /// <summary>
+        /// Limit text.
+        /// </summary>
+        [CanBeNull]
+        public static string LimitText
+            (
+                [NotNull] FieldSpecification field,
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            int offset = field.Offset;
+            int length = 100000000;
+            if (field.Length != 0)
+            {
+                length = field.Length;
+            }
+
+            string result = PftUtility.SafeSubString
+                (
+                    text,
+                    offset,
+                    length
+                );
+
+            return result;
+        }
+
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Have the specified global repeat?
+        /// </summary>
+        public static bool HaveGlobal
+            (
+                [NotNull] PftContext context,
+                [NotNull] FieldSpecification specification,
+                int number,
+                int index
+            )
+        {
+            Code.NotNull(context, "context");
+
+            RecordField[] fields = context.Globals.Get(number);
+            RecordField field = fields.GetOccurrence(index);
+            if (!ReferenceEquals(field, null))
+            {
+                char code = specification.SubField;
+                string result;
+
+                if (code == SubField.NoCode)
+                {
+                    result = field.FormatField
+                    (
+                        context.FieldOutputMode,
+                        context.UpperMode
+                    );
+                }
+                else if (code == '*')
+                {
+                    result = field.GetValueOrFirstSubField();
+                }
+                else
+                {
+                    result = field.GetFirstSubFieldValue(code);
+                }
+
+                result = LimitText(specification, result);
+                return !string.IsNullOrEmpty(result);
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Have the specified field repeat?
@@ -195,33 +271,67 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler.StartMethod(this);
 
-            compiler
-                .WriteIndent()
-                .WriteLine("MarcRecord record = Context.Record;")
-                .WriteIndent()
-                .WriteLine("string tag = {0}.Tag;", info.Reference)
-                .WriteIndent()
-                .WriteLine("int index = Context.Index;")
-                .WriteIndent()
-                .WriteLine
-                    (
-                        "bool flag = PftP.HaveRepeat(record, "
-                        + "tag, {0}.SubField, index);",
-                        info.Reference
-                    )
-                .WriteIndent()
-                .WriteLine("if (PftP.HaveRepeat(record, "
-                    + "tag, SubField.NoCode, index))")
-                .WriteIndent()
-                .WriteLine("{")
-                .IncreaseIndent()
-                .WriteIndent()
-                .WriteLine("HaveOutput();")
-                .DecreaseIndent()
-                .WriteIndent()
-                .WriteLine("}")
-                .WriteIndent()
-                .WriteLine("return flag;");
+            if (Field.Command == 'g')
+            {
+                int number = NumericUtility.ParseInt32(Field.Tag.ThrowIfNull());
+                compiler
+                    .WriteIndent()
+                    .WriteLine
+                        (
+                            "bool flag = PftP.HaveGlobal(Context, {0}, "
+                            + "{1}, Context.Index);",
+                            info.Reference,
+                            number.ToInvariantString()
+                        );
+
+                compiler
+                    .WriteIndent()
+                    .WriteLine
+                        (
+                            "RecordField[] fields = Context.Globals.Get({0});",
+                            number.ToInvariantString()
+                        )
+                    .WriteIndent()
+                    .WriteLine("if (Context.Index <= fields.Length)")
+                    .WriteIndent()
+                    .WriteLine("{")
+                    .IncreaseIndent()
+                    .WriteIndent()
+                    .WriteLine("HaveOutput()")
+                    .DecreaseIndent()
+                    .WriteIndent()
+                    .WriteLine("}")
+                    .WriteIndent()
+                    .WriteLine("return flag;");
+            }
+            else
+            {
+                compiler
+                    .WriteIndent()
+                    .WriteLine("MarcRecord record = Context.Record;")
+                    .WriteIndent()
+                    .WriteLine("string tag = {0}.Tag;", info.Reference)
+                    .WriteIndent()
+                    .WriteLine
+                        (
+                            "bool flag = PftP.HaveRepeat(record, "
+                            + "tag, {0}.SubField, Context.Index);",
+                            info.Reference
+                        )
+                    .WriteIndent()
+                    .WriteLine("if (PftP.HaveRepeat(record, "
+                               + "tag, SubField.NoCode, index))")
+                    .WriteIndent()
+                    .WriteLine("{")
+                    .IncreaseIndent()
+                    .WriteIndent()
+                    .WriteLine("HaveOutput();")
+                    .DecreaseIndent()
+                    .WriteIndent()
+                    .WriteLine("}")
+                    .WriteIndent()
+                    .WriteLine("return flag;");
+            }
 
             compiler.EndMethod(this);
             compiler.MarkReady(this);
@@ -261,26 +371,69 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             MarcRecord record = context.Record;
             int index = context.Index;
 
-            if (!ReferenceEquals(record, null))
+            if (Field.Command == 'g')
             {
-                // ИРБИС64 вне группы всегда проверяет
-                // на наличие лишь первое повторение поля!
-
-                Value = HaveRepeat
+                int number = NumericUtility.ParseInt32(tag);
+                RecordField[] fields = context.Globals.Get(number);
+                Value = HaveGlobal
                     (
-                        record,
-                        tag,
-                        Field.SubField,
+                        context,
+                        Field.ToSpecification(),
+                        number,
                         index
                     );
 
-                // Само по себе обращение к P крутит группу
-                // при наличии повторения поля
-
-                if (HaveRepeat(record, tag, SubField.NoCode, index))
+                if (index <= fields.Length)
                 {
                     context.OutputFlag = true;
+                    //if (!ReferenceEquals(context._vMonitor, null))
+                    //{
+                    //    context._vMonitor.Output = true;
+                    //}
                 }
+            }
+            else if (Field.Command == 'v')
+            {
+                if (!ReferenceEquals(record, null))
+                {
+                    // ИРБИС64 вне группы всегда проверяет
+                    // на наличие лишь первое повторение поля!
+
+                    Value = HaveRepeat
+                        (
+                            record,
+                            tag,
+                            Field.SubField,
+                            index
+                        );
+
+                    // Само по себе обращение к P крутит группу
+                    // при наличии повторения поля
+
+                    if (HaveRepeat(record, tag, SubField.NoCode, index))
+                    {
+                        context.OutputFlag = true;
+                        //if (!ReferenceEquals(context._vMonitor, null))
+                        //{
+                        //    context._vMonitor.Output = true;
+                        //}                    
+                    }
+                }
+            }
+            else
+            {
+                Log.Error
+                    (
+                        "PftP::Execute: "
+                        + "unexpected command: "
+                        + Field.Command
+                    );
+
+                throw new PftSyntaxException
+                    (
+                        "unexpected command "
+                        + Field.Command
+                    );
             }
 
             OnAfterExecution(context);

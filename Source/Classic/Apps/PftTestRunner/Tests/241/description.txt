@@ -1,0 +1,1 @@
+﻿Support for g in a function

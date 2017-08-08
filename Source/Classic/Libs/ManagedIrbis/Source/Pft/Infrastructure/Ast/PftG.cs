@@ -193,7 +193,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
             else if (SubField == '*')
             {
-                result = field.Value;
+                result = field.GetValueOrFirstSubField();
             }
             else
             {

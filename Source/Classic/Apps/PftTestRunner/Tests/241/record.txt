@@ -1,0 +1,5 @@
+﻿#1: ^aFirst^bSecond1^cThird
+#1: ^aFirst^cThird
+#1: ^aFirst^b^cThird
+#1: ^aFirst^bSecond4^cThird
+*****

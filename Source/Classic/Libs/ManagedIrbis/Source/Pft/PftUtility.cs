@@ -943,15 +943,7 @@ namespace ManagedIrbis.Pft
             }
             else if (subFieldCode == '*')
             {
-                result = field.Value;
-                if (ReferenceEquals(result, null))
-                {
-                    SubField firstField = field.SubFields.FirstOrDefault();
-                    if (!ReferenceEquals(firstField, null))
-                    {
-                        result = firstField.Value;
-                    }
-                }
+                result = field.GetValueOrFirstSubField();
             }
             else
             {
@@ -971,7 +963,6 @@ namespace ManagedIrbis.Pft
 
             return result;
         }
-
 
         //=================================================
 

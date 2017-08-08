@@ -1,0 +1,3 @@
+﻿if p(g1) then 'Have' else 'Not' fi/
+&uf('+7W1#Yes')
+if p(g1) then 'Have' else 'Not' fi

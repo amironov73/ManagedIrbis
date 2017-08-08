@@ -773,6 +773,25 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// For * specification.
+        /// </summary>
+        [CanBeNull]
+        public string GetValueOrFirstSubField()
+        {
+            string result = Value;
+            if (string.IsNullOrEmpty(result))
+            {
+                SubField subField = SubFields.FirstOrDefault();
+                if (!ReferenceEquals(subField, null))
+                {
+                    result = subField.Value;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Нет ни одного вхождения подполя с указанным кодом?
         /// </summary>
         public bool HaveNotSubField
