@@ -637,7 +637,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (!string.IsNullOrEmpty(expression))
             {
                 TextNavigator navigator = new TextNavigator(expression);
-                string menuName = navigator.ReadUntil('\\', '!');
+                string menuName = navigator.ReadUntil('\\', '!', '|');
                 if (string.IsNullOrEmpty(menuName))
                 {
                     return;
