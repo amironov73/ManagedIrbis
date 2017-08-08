@@ -700,6 +700,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\JetBrains2.cs">
       <Link>Compatibility\JetBrains2.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\MarshalByRefObject.cs">
+      <Link>Compatibility\MarshalByRefObject.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\MoonSharp.cs">
       <Link>Compatibility\MoonSharp.cs</Link>
     </Compile>

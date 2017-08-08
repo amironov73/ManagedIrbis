@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if CLASSIC
+
 #region Using directives
 
 using System;
@@ -46,3 +48,5 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         #endregion
     }
 }
+
+#endif

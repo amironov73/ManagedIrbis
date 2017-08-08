@@ -145,17 +145,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         {
             Code.NotNull(context, "context");
 
+// Obsolete method call
+#pragma warning disable 618
+
             PftPacket result = (PftPacket) Domain.CreateInstanceAndUnwrap
                 (
-                    Assembly.FullName,
-                    FormatterType.FullName,
-                    false,
-                    BindingFlags.Default,
-                    null,
-                    new object[] {context},
-                    null,
-                    null
+                    Assembly.FullName, // assemblyName
+                    FormatterType.FullName, // typeName
+                    false, // ignoreCase
+                    BindingFlags.Default, // bindingAttr
+                    null, // binder
+                    new object[] {context}, // args
+                    null, // culture
+                    null, // activationAttributes
+                    null // securityAttributes
                 );
+
+#pragma warning restore 618
 
             if (!RemotingServices.IsTransparentProxy(result))
             {
