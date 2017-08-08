@@ -45,7 +45,8 @@ namespace ManagedIrbis.Client
     [PublicAPI]
     [MoonSharpUserData]
     public abstract class IrbisProvider
-        : IDisposable
+        : MarshalByRefObject,
+        IDisposable
     {
         #region Properties
 

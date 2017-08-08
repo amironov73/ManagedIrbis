@@ -33,6 +33,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
     [PublicAPI]
     [MoonSharpUserData]
     public abstract class PftPacket
+        : MarshalByRefObject
     {
         #region Properties
 
@@ -286,10 +287,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             if (HaveField(field))
             {
                 Context.OutputFlag = true;
-                if (!ReferenceEquals(Context._vMonitor, null))
-                {
-                    Context._vMonitor.Output = true;
-                }
+                Context.MarkVMonitor();
             }
 
             rightHand.SafeCall();

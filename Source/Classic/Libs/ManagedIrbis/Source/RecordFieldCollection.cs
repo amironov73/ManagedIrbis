@@ -40,6 +40,7 @@ namespace ManagedIrbis
     /// не принимает значения <c>null</c>.
     /// </summary>
     [PublicAPI]
+    [Serializable]
     [MoonSharpUserData]
     [ClassInterface(ClassInterfaceType.None)]
     public sealed class RecordFieldCollection

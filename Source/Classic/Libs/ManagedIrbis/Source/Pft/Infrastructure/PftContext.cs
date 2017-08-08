@@ -40,7 +40,8 @@ namespace ManagedIrbis.Pft.Infrastructure
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftContext
-        : IDisposable
+        : MarshalByRefObject,
+        IDisposable
     {
         #region Properties
 
@@ -569,6 +570,19 @@ namespace ManagedIrbis.Pft.Infrastructure
             string result = Evaluate(node);
 
             return result;
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// Сигнал, что использовалась конструкция v.
+        /// </summary>
+        public void MarkVMonitor()
+        {
+            if (!ReferenceEquals(_vMonitor, null))
+            {
+                _vMonitor.Output = true;
+            }
         }
 
         //=================================================

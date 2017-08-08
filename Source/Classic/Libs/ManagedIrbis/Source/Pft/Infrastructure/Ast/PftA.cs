@@ -166,17 +166,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     .WriteIndent()
                     .WriteLine("string tag = {0}.Tag;", info.Reference)
                     .WriteIndent()
-                    .WriteLine("int index = Context.Index;")
-                    .WriteIndent()
                     .WriteLine
                         (
                             "bool flag = PftP.HaveRepeat(record, "
-                            + "tag, {0}.SubField, index);",
+                            + "tag, {0}.SubField, Context.Index);",
                             info.Reference
                         )
                     .WriteIndent()
                     .WriteLine("if (PftP.HaveRepeat(record, "
-                               + "tag, SubField.NoCode, index))")
+                               + "tag, SubField.NoCode, Context.Index))")
                     .WriteIndent()
                     .WriteLine("{")
                     .IncreaseIndent()

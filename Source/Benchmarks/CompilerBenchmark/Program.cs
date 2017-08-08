@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Remoting;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -85,7 +86,8 @@ namespace CompilerBenchmark
                         {
                             Debug = true,
                             KeepSource = true,
-                            OutputPath = "Out"
+                            //OutputPath = "Out"
+                            OutputPath = "."
                         };
                         compiler.SetProvider(provider);
                         string className = compiler.CompileProgram
@@ -111,28 +113,54 @@ namespace CompilerBenchmark
                                 );
 
                             MarcRecord record = provider.ReadRecord(1);
+
+                            //if (!ReferenceEquals(record, null))
+                            //{
+                            //    Assembly assembly
+                            //        = Assembly.LoadFile(assemblyPath);
+                            //    Func<PftContext, PftPacket> creator
+                            //        = CompilerUtility.GetEntryPoint(assembly);
+                            //    PftPacket packet = creator(context);
+                            //    string formatted = packet.Execute(record);
+                            //    Console.WriteLine(formatted);
+
+                            //    Stopwatch stopwatch = new Stopwatch();
+                            //    stopwatch.Start();
+                            //    for (int i = 0; i < 100000; i++)
+                            //    {
+                            //        if (i % 1000 == 0)
+                            //        {
+                            //            Console.WriteLine(i);
+                            //        }
+                            //        packet.Execute(record);
+                            //    }
+                            //    stopwatch.Stop();
+                            //    Console.WriteLine(stopwatch.Elapsed);
+                            //}
+
                             if (!ReferenceEquals(record, null))
                             {
-                                Assembly assembly
-                                    = Assembly.LoadFile(assemblyPath);
-                                Func<PftContext, PftPacket> creator
-                                    = CompilerUtility.GetEntryPoint(assembly);
-                                PftPacket packet = creator(context);
-                                string formatted = packet.Execute(record);
-                                Console.WriteLine(formatted);
-
-                                Stopwatch stopwatch = new Stopwatch();
-                                stopwatch.Start();
-                                for (int i = 0; i < 100000; i++)
+                                using (RemoteFormatter remote
+                                    = new RemoteFormatter(assemblyPath))
                                 {
-                                    if (i % 1000 == 0)
+                                    PftPacket packet = remote.GetFormatter(context);
+                                    Console.WriteLine(RemotingServices.IsTransparentProxy(packet));
+                                    string formatted = packet.Execute(record);
+                                    Console.WriteLine(formatted);
+
+                                    Stopwatch stopwatch = new Stopwatch();
+                                    stopwatch.Start();
+                                    for (int i = 0; i < 100; i++)
                                     {
-                                        Console.WriteLine(i);
+                                        if (i % 10 == 0)
+                                        {
+                                            Console.WriteLine(i);
+                                        }
+                                        packet.Execute(record);
                                     }
-                                    packet.Execute(record);
+                                    stopwatch.Stop();
+                                    Console.WriteLine(stopwatch.Elapsed);
                                 }
-                                stopwatch.Stop();
-                                Console.WriteLine(stopwatch.Elapsed);
                             }
                         }
                     }

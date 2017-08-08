@@ -106,6 +106,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\..\..\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
@@ -172,8 +175,10 @@
     <Compile Include="Source\Gbl\Infrastructure\GblContext.cs" />
     <Compile Include="Source\Gbl\Infrastructure\GblNode.cs" />
     <Compile Include="Source\Gbl\Infrastructure\GblNodeCollection.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Compiler\CompilerProxy.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexInfo.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexDictionary.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Compiler\RemoteFormatter.cs" />
     <Compile Include="Source\Pft\Infrastructure\ExternalPftCache.cs" />
     <Compile Include="Source\Caching\IrbisCache.cs" />
     <Compile Include="Source\Caching\MenuCache.cs" />

@@ -320,7 +320,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         )
                     .WriteIndent()
                     .WriteLine("if (PftP.HaveRepeat(record, "
-                               + "tag, SubField.NoCode, index))")
+                               + "tag, SubField.NoCode, Context.Index))")
                     .WriteIndent()
                     .WriteLine("{")
                     .IncreaseIndent()

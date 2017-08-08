@@ -45,7 +45,8 @@ namespace AM.IO
     [System.ComponentModel.DesignerCategory("Code")]
 #endif
     public class IniFile
-        : IHandmadeSerializable,
+        : MarshalByRefObject,
+        IHandmadeSerializable,
         IEnumerable<IniFile.Section>,
         IDisposable
     {
