@@ -293,7 +293,7 @@ namespace UnitTests.ManagedIrbis
             Assert.IsFalse(record.Deleted);
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void MarcRecord_ToYaml_1()
         {
             MarcRecord record = new MarcRecord();
