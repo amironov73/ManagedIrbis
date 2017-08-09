@@ -45,6 +45,13 @@ namespace IrbisInterop
         #region Properties
 
         /// <summary>
+        /// Empty array.
+        /// </summary>
+        [NotNull]
+        public static readonly NativeField[] EmptyArray
+            = new NativeField[0];
+
+        /// <summary>
         /// Tag.
         /// </summary>
         public int Tag { get; set; }
@@ -107,7 +114,7 @@ namespace IrbisInterop
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString"/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format

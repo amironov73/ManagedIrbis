@@ -202,10 +202,10 @@ namespace ManagedIrbis.Search
             }
 
             string result = text.Replace
-            (
-                "<.>",
-                "\""
-            );
+                (
+                    "<.>",
+                    "\""
+                );
 
             return result;
         }

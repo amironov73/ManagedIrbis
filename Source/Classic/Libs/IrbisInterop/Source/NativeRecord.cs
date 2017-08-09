@@ -116,6 +116,57 @@ namespace IrbisInterop
         }
 
         /// <summary>
+        /// Get fields by the tag.
+        /// </summary>
+        [NotNull]
+        public NativeField[] GetField
+            (
+                int tag
+            )
+        {
+            NonNullCollection<NativeField> fields = Fields;
+            int count = fields.Count;
+            List<NativeField> result = null;
+            for (int i = 0; i < count; i++)
+            {
+                if (fields[i].Tag == tag)
+                {
+                    if (ReferenceEquals(result, null))
+                    {
+                        result = new List<NativeField>();
+                    }
+                    result.Add(fields[i]);
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? NativeField.EmptyArray
+                : result.ToArray();
+        }
+
+        /// <summary>
+        /// Get first field with given tag.
+        /// </summary>
+        [CanBeNull]
+        public NativeField GetFirstField
+            (
+                int tag
+            )
+        {
+            NonNullCollection<NativeField> fields = Fields;
+            int count = fields.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (fields[i].Tag == tag)
+                {
+                    return fields[i];
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Parse memory representation of rectord.
         /// </summary>
         [NotNull]
