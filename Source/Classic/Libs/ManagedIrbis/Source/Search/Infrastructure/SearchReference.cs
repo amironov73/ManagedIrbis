@@ -55,7 +55,7 @@ namespace ManagedIrbis.Search.Infrastructure
                 SearchContext context
             )
         {
-            TermLink[] result = new TermLink[0];
+            TermLink[] result = TermLink.EmptyArray;
 
             int number = Number.SafeToInt32(-1);
             if (number > 0)

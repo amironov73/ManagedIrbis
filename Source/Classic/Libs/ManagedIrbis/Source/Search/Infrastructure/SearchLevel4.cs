@@ -68,9 +68,11 @@ namespace ManagedIrbis.Search.Infrastructure
                 {
                     return result;
                 }
+                TermLink[] second = Items[i].Find(context);
+
                 result = result.Intersect
                     (
-                        Items[i].Find(context),
+                        second,
                         comparer
                     )
                     .ToArray();

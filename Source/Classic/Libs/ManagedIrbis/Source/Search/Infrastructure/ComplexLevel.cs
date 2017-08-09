@@ -115,7 +115,7 @@ namespace ManagedIrbis.Search.Infrastructure
                 SearchContext context
             )
         {
-            return new TermLink[0];
+            return TermLink.EmptyArray;
         }
 
         /// <inheritdoc cref="ISearchTree.ReplaceChild"/>

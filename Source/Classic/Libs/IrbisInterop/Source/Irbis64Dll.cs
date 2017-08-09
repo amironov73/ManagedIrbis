@@ -25,6 +25,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
 using ManagedIrbis.Direct;
 using ManagedIrbis.Search;
 using ManagedIrbis.Search.Infrastructure;
@@ -160,14 +161,17 @@ namespace IrbisInterop
                 );
             _HandleRetCode("IrbisUatabInit", retCode);
 
+            // Слэш на конце жизненно необходим,
+            // иначе irbis64.dll тупо не находит файлы
             string depositPath = Path.GetFullPath
-            (
-                Path.Combine
                 (
-                    dataPath,
-                    "Deposit"
-                )
-            );
+                    Path.Combine
+                        (
+                            dataPath,
+                            "Deposit"
+                            + Path.DirectorySeparatorChar
+                        )
+                );
             retCode = Irbis65Dll.IrbisInitDeposit(depositPath);
             _HandleRetCode("IrbisInitDeposit", retCode);
 
@@ -971,6 +975,7 @@ namespace IrbisInterop
         /// <summary>
         /// 
         /// </summary>
+        [NotNull]
         public TermLink[] Search
             (
                 [NotNull] string expression,
@@ -989,6 +994,43 @@ namespace IrbisInterop
             TermLink[] result = program.Find(context);
 
             return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [NotNull]
+        public int[] Search
+            (
+                [NotNull] string expression
+            )
+        {
+            Code.NotNull(expression, "expression");
+
+            int[] result = TermLink.ToMfn(SearchEx(expression));
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [NotNull]
+        public TermLink[] SearchEx
+            (
+                [NotNull] string expression
+            )
+        {
+            Code.NotNull(expression, "expression");
+
+            using (IrbisProvider provider = new NativeIrbisProvider(this))
+            {
+                SearchManager manager = new SearchManager(provider);
+                SearchContext context = new SearchContext(manager, provider);
+
+                TermLink[] result = Search(expression, context);
+                return result;
+            }
         }
 
         /// <summary>

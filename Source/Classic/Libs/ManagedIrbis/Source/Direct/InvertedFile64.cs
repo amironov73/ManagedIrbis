@@ -380,7 +380,7 @@ namespace ManagedIrbis.Direct
         {
             if (string.IsNullOrEmpty(key))
             {
-                return new TermLink[0];
+                return TermLink.EmptyArray;
             }
 
             try
@@ -482,7 +482,7 @@ namespace ManagedIrbis.Direct
                     );
             }
 
-            return new TermLink[0];
+            return TermLink.EmptyArray;
         }
 
         /// <summary>
@@ -496,7 +496,7 @@ namespace ManagedIrbis.Direct
         {
             if (string.IsNullOrEmpty(key))
             {
-                return new TermLink[0];
+                return TermLink.EmptyArray;
             }
 
             List<TermLink> result = new List<TermLink>();
@@ -634,7 +634,7 @@ namespace ManagedIrbis.Direct
                 return new int[0];
             }
 
-            TermLink[] result = new TermLink[0];
+            TermLink[] result = TermLink.EmptyArray;
 
             if (key.EndsWith("$"))
             {

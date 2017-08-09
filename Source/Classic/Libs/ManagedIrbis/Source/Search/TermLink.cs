@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
@@ -41,6 +42,11 @@ namespace ManagedIrbis.Search
         IVerifiable
     {
         #region Properties
+
+        /// <summary>
+        /// Empty array of <see cref="TermLink"/>'s.
+        /// </summary>
+        public static readonly TermLink[] EmptyArray = new TermLink[0];
 
         /// <summary>
         /// MFN записи с искомым термом.
@@ -81,6 +87,24 @@ namespace ManagedIrbis.Search
         public TermLink Clone()
         {
             return (TermLink) MemberwiseClone();
+        }
+
+        /// <summary>
+        /// Dump the links.
+        /// </summary>
+        public static void Dump
+            (
+                [NotNull] IEnumerable<TermLink> links,
+                [NotNull] TextWriter writer
+            )
+        {
+            Code.NotNull(links, "links");
+            Code.NotNull(writer, "writer");
+
+            foreach (TermLink link in links)
+            {
+                writer.WriteLine(link);
+            }
         }
 
         /// <summary>

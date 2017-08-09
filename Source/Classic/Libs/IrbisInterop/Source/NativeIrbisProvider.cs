@@ -133,6 +133,20 @@ namespace IrbisInterop
             return Irbis64.ExactSearchTrimLinks(term, limit);
         }
 
+        /// <inheritdoc cref="IrbisProvider.Search" />
+        public override int[] Search
+            (
+                string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                return new int[0];
+            }
+
+            return Irbis64.Search(expression);
+        }
+
         #endregion
 
         #region IDisposable members

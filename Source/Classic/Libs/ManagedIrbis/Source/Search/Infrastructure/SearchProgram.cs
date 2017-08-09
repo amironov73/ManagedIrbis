@@ -76,7 +76,7 @@ namespace ManagedIrbis.Search.Infrastructure
             )
         {
             TermLink[] result = ReferenceEquals(EntryPoint, null)
-                ? new TermLink[0]
+                ? TermLink.EmptyArray
                 : EntryPoint.Find(context);
 
             return result;
