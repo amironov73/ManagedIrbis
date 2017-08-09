@@ -87,6 +87,8 @@ namespace ManagedIrbis
             set { SetTag(value); }
         }
 
+#if WITH_INDICATORS
+
         /// <summary>
         /// Первый индикатор.
         /// </summary>
@@ -108,6 +110,8 @@ namespace ManagedIrbis
         {
             get { return _indicator2; }
         }
+
+#endif
 
         /// <summary>
         /// Повторение поля.
@@ -252,9 +256,14 @@ namespace ManagedIrbis
         {
             Code.NotNull(other, "other");
 
-            Tag = other.Tag;
+#if WITH_INDICATORS
+
             _indicator1 = other.Indicator1.Clone();
             _indicator2 = other.Indicator2.Clone();
+
+#endif
+            
+            Tag = other.Tag;
             _value = other.Value;
             _subFields = other.SubFields.Clone();
             UserData = other.UserData;
@@ -908,6 +917,8 @@ namespace ManagedIrbis
             return this;
         }
 
+#if WITH_INDICATORS
+
         /// <summary>
         /// For Newtonsoft.Json.
         /// </summary>
@@ -923,6 +934,8 @@ namespace ManagedIrbis
         {
             return Indicator2.HasValue;
         }
+
+#endif
 
         /// <summary>
         /// For Newtonsoft.Json.
@@ -1194,8 +1207,14 @@ namespace ManagedIrbis
             Code.NotNull(reader, "reader");
 
             Tag = reader.ReadNullableString();
+
+#if WITH_INDICATORS
+
             Indicator1.RestoreFromStream(reader);
             Indicator2.RestoreFromStream(reader);
+
+#endif
+
             Value = reader.ReadNullableString();
             SubFields.RestoreFromStream(reader);
         }
@@ -1209,8 +1228,13 @@ namespace ManagedIrbis
             Code.NotNull(writer, "writer");
 
             writer.WriteNullable(Tag);
+
+#if WITH_INDICATORS
+
             Indicator1.SaveToStream(writer);
             Indicator2.SaveToStream(writer);
+
+#endif
             writer.WriteNullable(Value);
             SubFields.SaveToStream(writer);
         }
@@ -1238,8 +1262,13 @@ namespace ManagedIrbis
         public void SetReadOnly()
         {
             _readOnly = true;
+
+#if WITH_INDICATORS
+
             Indicator1.SetReadOnly();
             Indicator2.SetReadOnly();
+
+#endif
             SubFields.SetReadOnly();
         }
 

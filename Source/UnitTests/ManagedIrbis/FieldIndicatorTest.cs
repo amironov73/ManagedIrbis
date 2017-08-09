@@ -88,6 +88,8 @@ namespace UnitTests.ManagedIrbis
             _TestSerialization(indicator);
         }
 
+#if WITH_INDICATORS
+
         [TestMethod]
         public void FieldIndicator_Field()
         {
@@ -95,6 +97,8 @@ namespace UnitTests.ManagedIrbis
             Assert.AreEqual(field, field.Indicator1.Field);
             Assert.AreEqual(field, field.Indicator2.Field);
         }
+
+#endif
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]

@@ -322,8 +322,18 @@ namespace ManagedIrbis.ImportExport
                 }
                 else
                 {
+#if WITH_INDICATORS
+
                     chars[currentAddress++] = fld.Indicator1.Value[0];
                     chars[currentAddress++] = fld.Indicator2.Value[0];
+
+#else
+
+                    chars[currentAddress++] = ' ';
+                    chars[currentAddress++] = ' ';
+
+#endif
+
                     for (int j = 0; j < fld.SubFields.Count; j++)
                     {
                         chars[currentAddress++] = SubfieldDelimiter;
