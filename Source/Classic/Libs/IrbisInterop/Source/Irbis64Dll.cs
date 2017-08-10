@@ -551,6 +551,30 @@ namespace IrbisInterop
         }
 
         /// <summary>
+        /// Expand the specification.
+        /// </summary>
+        [CanBeNull]
+        public string ExpandSpecification
+            (
+                [NotNull] FileSpecification specification
+            )
+        {
+            Code.NotNull(specification, "specification");
+
+            string result = ExpandSpecification(specification, false);
+            if (!File.Exists(result))
+            {
+                result = ExpandSpecification(specification, true);
+                if (!File.Exists(result))
+                {
+                    result = null;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Expand file specification.
         /// </summary>
         [NotNull]

@@ -26,9 +26,11 @@ using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis;
 using ManagedIrbis.Client;
 using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Menus;
 using ManagedIrbis.Search;
 using ManagedIrbis.Server;
 
@@ -183,12 +185,62 @@ namespace IrbisInterop
             return Irbis64.GetMaxMfn();
         }
 
+        /// <inheritdoc cref="IrbisProvider.ReadFile" />
+        public override string ReadFile
+            (
+                FileSpecification fileSpecification
+            )
+        {
+            Code.NotNull(fileSpecification, "fileSpecification");
+
+            string path = Irbis64.ExpandSpecification(fileSpecification);
+            string result = string.IsNullOrEmpty(path)
+                ? null
+                : File.ReadAllText(path, IrbisEncoding.Ansi);
+
+            return result;
+        }
+
+        /// <inheritdoc cref="IrbisProvider.ReadIniFile" />
+        public override IniFile ReadIniFile
+            (
+                FileSpecification fileSpecification
+            )
+        {
+            Code.NotNull(fileSpecification, "fileSpecification");
+
+            string path = Irbis64.ExpandSpecification(fileSpecification);
+            IniFile result = string.IsNullOrEmpty(path)
+                ? null
+                : new IniFile(path, IrbisEncoding.Ansi, false);
+
+            return result;
+        }
+
+        /// <inheritdoc cref="IrbisProvider.ReadMenuFile" />
+        public override MenuFile ReadMenuFile
+            (
+                FileSpecification fileSpecification
+            )
+        {
+            Code.NotNull(fileSpecification, "fileSpecification");
+
+            string path = Irbis64.ExpandSpecification(fileSpecification);
+            MenuFile result = string.IsNullOrEmpty(path)
+                ? null
+                : MenuFile.ParseLocalFile(path, IrbisEncoding.Ansi);
+
+            return result;
+        }
+
         /// <inheritdoc cref="IrbisProvider.ReadRecord" />
         public override MarcRecord ReadRecord
             (
                 int mfn
             )
         {
+            Code.Positive(mfn, "mfn");
+
             Irbis64.ReadRecord(mfn);
             NativeRecord native = Irbis64.GetRecord();
             MarcRecord result = native.ToMarcRecord();

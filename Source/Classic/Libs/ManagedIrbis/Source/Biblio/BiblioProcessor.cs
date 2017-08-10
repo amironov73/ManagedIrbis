@@ -286,6 +286,12 @@ namespace ManagedIrbis.Biblio
 
         #region Public methods
 
+        public void BildChaptersFromMenu
+            ()
+        {
+            
+        }
+
         /// <summary>
         /// Build document.
         /// </summary>

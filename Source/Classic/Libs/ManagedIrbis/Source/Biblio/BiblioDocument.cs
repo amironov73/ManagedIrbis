@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Json;
 using AM.Runtime;
 
 using CodeJam;
@@ -43,6 +44,12 @@ namespace ManagedIrbis.Biblio
         : IVerifiable
     {
         #region Properties
+
+        /// <summary>
+        /// Menu name.
+        /// </summary>
+        [JsonProperty("menu")]
+        public string MenuName { get; set; }
 
         /// <summary>
         /// Chapters.
@@ -76,6 +83,23 @@ namespace ManagedIrbis.Biblio
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Load the file.
+        /// </summary>
+        [NotNull]
+        public static BiblioDocument LoadFile
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            BiblioDocument result = JsonUtility
+                .ReadObjectFromFile<BiblioDocument>(fileName);
+
+            return result;
+        }
 
         #endregion
 

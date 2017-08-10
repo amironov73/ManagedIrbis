@@ -140,6 +140,7 @@
     <Compile Include="Source\Batch\ParallelRecordFormatter.cs" />
     <Compile Include="Source\Batch\ParallelRecordReader.cs" />
     <Compile Include="Source\Biblio\BiblioContext.cs" />
+    <Compile Include="Source\Biblio\BiblioUtility.cs" />
     <Compile Include="Source\Biblio\Dictionaries\BiblioDictionary.cs" />
     <Compile Include="Source\Biblio\BiblioFilter.cs" />
     <Compile Include="Source\Biblio\BiblioItem.cs" />
