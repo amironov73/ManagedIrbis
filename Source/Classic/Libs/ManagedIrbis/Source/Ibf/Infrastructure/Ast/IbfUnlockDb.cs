@@ -37,7 +37,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Ibf.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// Снятие блокировки базы данных в целом.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]

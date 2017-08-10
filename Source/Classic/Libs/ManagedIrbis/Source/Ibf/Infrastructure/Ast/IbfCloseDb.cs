@@ -37,8 +37,11 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Ibf.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// Закрытие базы данных.
     /// </summary>
+    /// <remarks>
+    /// В клиентском "Администраторе" команда не поддерживается.
+    /// </remarks>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class IbfCloseDb

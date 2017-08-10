@@ -37,7 +37,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Ibf.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    /// Опустошение базы данных.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IbfOpenDb.cs -- 
+/* IbfUnlockRecord.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -37,24 +37,20 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Ibf.Infrastructure.Ast
 {
     //
-    // http://sntnarciss.ru/irbis/spravka/wa0203050110.htm
-    //
-    // Операнды:
-    // Dbname
+    // Операнды
+    // Mfn
+    // Где:
+    // Mfn - номер документа
     // Пример:
-    // OpenDB RDR
-    // Примечания:
-    // Команда устанавливает контекст работы: БД ЦЕЛИКОМ
-    // Контекст работы определяет исходные документы для последующих
-    // команд - таких как EXPORTDB, COPYDB, PRINT, STAT, STATF, GLOBAL
+    // UnLockRecord 255
     //
 
     /// <summary>
-    /// Открытие существующей базы данных.
+    /// Снятие блокировки с отдельной записи.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class IbfOpenDb
+    public sealed class IbfUnlockRecord
         : IbfNode
     {
         #region Properties

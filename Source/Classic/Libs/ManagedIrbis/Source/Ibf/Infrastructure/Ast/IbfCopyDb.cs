@@ -36,8 +36,28 @@ using Newtonsoft.Json;
 
 namespace ManagedIrbis.Ibf.Infrastructure.Ast
 {
+    //
+    // http://sntnarciss.ru/irbis/spravka/wa0203050160.htm
+    //
+    // Операнды:
+    //
+    // [0|1/mfnfrom/mfnto],FstName,DbName
+    // Где:
+    // Первый операнд - исходные документы:
+    // 0 - все
+    // 1 - диапазон документов,
+    // mfnfrom - начальный MFN,
+    // mfnto - конечный MFN.
+    // FstName - имя ТВП переформатирования,
+    // если пустое значение - переформатирование не используется.
+    // DbName - имя БД, в которую будут копироваться данные
+    //
+    // Пример:
+    // COPYDB 1/10/100,, BOOK
+    //
+
     /// <summary>
-    /// 
+    /// Копирование данных из одной базы в другую.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
