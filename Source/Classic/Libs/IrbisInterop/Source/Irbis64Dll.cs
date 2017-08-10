@@ -27,6 +27,7 @@ using JetBrains.Annotations;
 using ManagedIrbis;
 using ManagedIrbis.Client;
 using ManagedIrbis.Direct;
+using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Search;
 using ManagedIrbis.Search.Infrastructure;
 using ManagedIrbis.Server;
@@ -550,37 +551,115 @@ namespace IrbisInterop
         }
 
         /// <summary>
-        /// Get full path for the PFT file (without extension).
+        /// Expand file specification.
         /// </summary>
         [NotNull]
-        public string GetPftPath
+        public string ExpandSpecification
             (
-                [NotNull] string fileName
+                [NotNull] FileSpecification specification,
+                bool useDeposit
             )
         {
-            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNull(specification, "specification");
+
+            if (useDeposit)
+            {
+                return Path.Combine
+                    (
+                        Configuration.SystemPath,
+                        "Deposit"
+                        + Path.DirectorySeparatorChar
+                        + specification.FileName
+                    );
+            }
+
+            // TODO: use Database field
 
             ParFile parameters = Parameters
-                    .ThrowIfNull("paramters not set");
-            string pftPath = parameters.PftPath
-                .ThrowIfNull("pftPath not set");
-            string systemPath = Configuration.SystemPath
-                .ThrowIfNull("systemPath not set");
-            pftPath = Path.GetFullPath
+                .ThrowIfNull("parameters not set");
+            string result;
+            switch (specification.Path)
+            {
+                case IrbisPath.System:
+                    result = Configuration.SystemPath;
+                    break;
+
+                case IrbisPath.Data:
+                    result = Configuration.DataPath;
+                    break;
+
+                case IrbisPath.FullText:
+                    result = Path.Combine
+                        (
+                            Configuration.DataPath,
+                            parameters.ExtPath.ThrowIfNull()
+                        );
+                    break;
+
+                case IrbisPath.InternalResource:
+                    result = Path.Combine
+                        (
+                            Configuration.DataPath,
+                            parameters.MstPath.ThrowIfNull() // TODO ???
+                        );
+                    break;
+
+                case IrbisPath.InvertedFile:
+                    result = Path.Combine
+                        (
+                            Configuration.DataPath,
+                            parameters.IfpPath.ThrowIfNull()
+                        );
+                    break;
+
+                case IrbisPath.MasterFile:
+                    result = Path.Combine
+                        (
+                            Configuration.DataPath, 
+                            parameters.MstPath.ThrowIfNull()
+                        );
+                    break;
+
+                case IrbisPath.ParameterFile:
+                    result = Path.Combine
+                        (
+                            Configuration.DataPath,
+                            parameters.MstPath.ThrowIfNull() // TODO ???
+                        );
+                    break;
+
+                default:
+                    throw new IrbisException();
+            }
+
+            result = Path.Combine
                 (
-                    Path.Combine
-                    (
-                        systemPath,
-                        pftPath
-                    )
-                );
-            string result = Path.Combine
-                (
-                    pftPath,
-                    fileName
+                    Path.GetFullPath(result),
+                    specification.FileName.ThrowIfNull()
                 );
 
             return result;
+        }
+
+        /// <summary>
+        /// Whether the file exist?
+        /// </summary>
+        public bool FileExist
+            (
+                [NotNull] FileSpecification specification
+            )
+        {
+            Code.NotNull(specification, "specification");
+
+            string filePath = ExpandSpecification(specification, false);
+            bool result = File.Exists(filePath);
+            if (!result)
+            {
+                filePath = ExpandSpecification(specification, true);
+                result = File.Exists(filePath);
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -592,7 +671,7 @@ namespace IrbisInterop
             int retcode = Irbis65Dll.IrbisFormat
                 (
                     Space,
-                    0 /*номер полки*/,
+                    Shelf,
                     1,
                     0,
                     BufferSize,
@@ -707,6 +786,40 @@ namespace IrbisInterop
                     textPointer,
                     encoding,
                     BufferSize
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get full path for the PFT file (without extension).
+        /// </summary>
+        [NotNull]
+        public string GetPftPath
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            ParFile parameters = Parameters
+                .ThrowIfNull("paramters not set");
+            string pftPath = parameters.PftPath
+                .ThrowIfNull("pftPath not set");
+            string systemPath = Configuration.SystemPath
+                .ThrowIfNull("systemPath not set");
+            pftPath = Path.GetFullPath
+                (
+                    Path.Combine
+                        (
+                            systemPath,
+                            pftPath
+                        )
+                );
+            string result = Path.Combine
+                (
+                    pftPath,
+                    fileName
                 );
 
             return result;
@@ -931,6 +1044,65 @@ namespace IrbisInterop
 
             return result.ToArray();
         }
+
+        /// <summary>
+        /// List terms before from specified one.
+        /// </summary>
+        [NotNull]
+        public TermInfo[] ListTermsReverse
+            (
+                [NotNull] string startTerm,
+                int count
+            )
+        {
+            Code.NotNull(startTerm, "startTerm");
+            Code.Positive(count, "count");
+
+            IntPtr space = Space;
+
+            Encoding utf = IrbisEncoding.Utf8;
+            byte[] buffer = new byte[512];
+            utf.GetBytes
+                (
+                    startTerm,
+                    0,
+                    startTerm.Length,
+                    buffer,
+                    0
+                );
+            int retCode = Irbis65Dll.IrbisFind(space, buffer);
+            if (retCode < 0)
+            {
+                return new TermInfo[0];
+            }
+
+            List<TermInfo> result
+                = new List<TermInfo>(count);
+
+            for (int i = 0; i < count; i++)
+            {
+                TermInfo term = new TermInfo();
+
+                string text = StringFromBuffer(utf, buffer);
+                term.Text = text;
+
+                int nposts = Irbis65Dll.IrbisNPosts(space);
+                _HandleRetCode("IrbisNPosts", nposts);
+                term.Count = nposts;
+
+                result.Add(term);
+
+                retCode = Irbis65Dll.IrbisPrevTerm(space, buffer);
+                if (retCode < 0)
+                {
+                    break;
+                }
+            }
+            result.Reverse();
+
+            return result.ToArray();
+        }
+
 
         /// <summary>
         /// Create new record on the shelf.
