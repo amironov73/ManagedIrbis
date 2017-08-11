@@ -1175,10 +1175,21 @@ namespace AM
         }
 
         /// <summary>
-        /// Lasts the char.
+        /// Gets the first char of the text.
         /// </summary>
-        /// <param name="text">The text.</param>
-        /// <returns></returns>
+        public static char FirstChar
+            (
+                this string text
+            )
+        {
+            return string.IsNullOrEmpty(text)
+                ? '\0'
+                : text[0];
+        }
+
+        /// <summary>
+        /// Gets the last char of the text.
+        /// </summary>
         public static char LastChar
             (
                 this string text

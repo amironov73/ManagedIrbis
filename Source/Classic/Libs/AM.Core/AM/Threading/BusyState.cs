@@ -112,6 +112,8 @@ namespace AM.Threading
 
         private bool _currentState;
 
+        private Thread _thread;
+
         private ManualResetEvent _waitHandle;
 
         #endregion
@@ -188,6 +190,7 @@ namespace AM.Threading
                     if (newState)
                     {
                         _waitHandle.Reset();
+                        _thread = Thread.CurrentThread;
                     }
                     else
                     {
@@ -230,11 +233,14 @@ namespace AM.Threading
                         goto DONE;
                     }
 
-                    WaitHandle.WaitOne();
+                    if (!ReferenceEquals(_thread, Thread.CurrentThread))
+                    {
+                        WaitHandle.WaitOne();
+                    }
                 }
             }
 
-            DONE:
+        DONE:
             Log.Trace("BusyState::WaitAndGrab: return");
         }
 
@@ -256,19 +262,28 @@ namespace AM.Threading
 
                 bool result;
 
+
+                if (ReferenceEquals(_thread, Thread.CurrentThread))
+                {
+                    result = true;
+                }
+                else
+                {
+
 #if WINMOBILE || PocketPC
 
-                result = WaitHandle.WaitOne
-                    (
-                        (int) timeout.TotalMilliseconds,
-                        false
-                    );
+                    result = WaitHandle.WaitOne
+                        (
+                            (int) timeout.TotalMilliseconds,
+                            false
+                        );
 
 #else
 
-                result = WaitHandle.WaitOne(timeout);
+                    result = WaitHandle.WaitOne(timeout);
 
 #endif
+                }
 
                 if (result)
                 {
@@ -291,10 +306,15 @@ namespace AM.Threading
                     goto DONE;
                 }
 
+                if (ReferenceEquals(_thread, Thread.CurrentThread))
+                {
+                    goto DONE;
+                }
+
                 WaitHandle.WaitOne();
             }
 
-            DONE:
+        DONE:
             Log.Trace("BusyState::WaitFreeState: return");
         }
 
@@ -307,6 +327,12 @@ namespace AM.Threading
             )
         {
             if (!Busy)
+            {
+                return true;
+            }
+
+
+            if (ReferenceEquals(_thread, Thread.CurrentThread))
             {
                 return true;
             }

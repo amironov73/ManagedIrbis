@@ -21,7 +21,7 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
         }
 
         [TestMethod]
-        public void SearchQueryParser_Tokenize()
+        public void SearchQueryParser_Tokenize_1()
         {
             _TestTokenize("", 0);
             _TestTokenize("  ", 0);
@@ -42,6 +42,14 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
             _TestTokenize("\"TJ=ТЕХНИКА - МОЛОДЕЖИ\"",1);
             _TestTokenize("TJ=АВРОРА",1);
             _TestTokenize("K=ЭЛЕКТРО$(F)K=БЕТОН$",3);
+        }
+
+        [TestMethod]
+        public void SearchQueryParser_Tokenize_2()
+        {
+            _TestTokenize("K=1$ + \"HELLO\" * \"WORLD\"", 5);
+            _TestTokenize("K=1 + \"САМЫЙ \"ПЕРВЫЙ\" СРЕДИ ПЕРВЫХ\"", 3);
+            _TestTokenize("\"I=M123/2017/спецвыпуск \"Мой дом\"\"", 1);
         }
 
         private void _TestParse

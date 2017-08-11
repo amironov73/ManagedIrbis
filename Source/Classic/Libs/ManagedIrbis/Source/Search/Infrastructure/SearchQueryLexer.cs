@@ -77,6 +77,30 @@ namespace ManagedIrbis.Search.Infrastructure
 
                             throw new SearchSyntaxException();
                         }
+
+                        TextPosition saved = navigator.SavePosition();
+                        string tail = navigator.ReadUntil('"');
+                        while (!ReferenceEquals(tail, null))
+                        {
+                            if (navigator.ReadChar() != '"')
+                            {
+                                navigator.RestorePosition(saved);
+                                break;
+                            }
+
+                            string trimmed = tail.TrimStart();
+                            char c2 = trimmed.FirstChar();
+                            if (tail.StartsWith("(F)")
+                                || tail.StartsWith("(G)")
+                                || c2.OneOf('+', '*', '^', '.', ',', ')', '/'))
+                            {
+                                navigator.RestorePosition(saved);
+                                break;
+                            }
+                            value = value + '"' + tail;
+                            saved = navigator.SavePosition();
+                            tail = navigator.ReadUntil('"');
+                        }
                         break;
 
                     case '#':
