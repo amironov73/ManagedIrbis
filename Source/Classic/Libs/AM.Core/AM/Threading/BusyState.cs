@@ -112,7 +112,9 @@ namespace AM.Threading
 
         private bool _currentState;
 
+#if !UAP && !WIN81 && !PORTABLE
         private Thread _thread;
+#endif
 
         private ManualResetEvent _waitHandle;
 
@@ -190,7 +192,13 @@ namespace AM.Threading
                     if (newState)
                     {
                         _waitHandle.Reset();
+
+#if !UAP && !WIN81 && !PORTABLE
+
                         _thread = Thread.CurrentThread;
+
+#endif
+
                     }
                     else
                     {
@@ -233,10 +241,18 @@ namespace AM.Threading
                         goto DONE;
                     }
 
+#if UAP || WIN81 || PORTABLE
+
+                    WaitHandle.WaitOne();
+
+#else
+
                     if (!ReferenceEquals(_thread, Thread.CurrentThread))
                     {
                         WaitHandle.WaitOne();
                     }
+
+#endif
                 }
             }
 
@@ -262,6 +278,7 @@ namespace AM.Threading
 
                 bool result;
 
+#if !UAP && !WIN81 && !PORTABLE
 
                 if (ReferenceEquals(_thread, Thread.CurrentThread))
                 {
@@ -269,6 +286,8 @@ namespace AM.Threading
                 }
                 else
                 {
+
+#endif
 
 #if WINMOBILE || PocketPC
 
@@ -283,7 +302,10 @@ namespace AM.Threading
                     result = WaitHandle.WaitOne(timeout);
 
 #endif
+
+#if !UAP && !WIN81 && !PORTABLE
                 }
+#endif
 
                 if (result)
                 {
@@ -306,10 +328,14 @@ namespace AM.Threading
                     goto DONE;
                 }
 
+#if !UAP && !WIN81 && !PORTABLE
+
                 if (ReferenceEquals(_thread, Thread.CurrentThread))
                 {
                     goto DONE;
                 }
+
+#endif
 
                 WaitHandle.WaitOne();
             }
@@ -331,11 +357,14 @@ namespace AM.Threading
                 return true;
             }
 
+#if !UAP && !WIN81 && !PORTABLE
 
             if (ReferenceEquals(_thread, Thread.CurrentThread))
             {
                 return true;
             }
+
+#endif
 
 #if WINMOBILE || PocketPC
 
@@ -374,9 +403,9 @@ namespace AM.Threading
             return new BusyState(value);
         }
 
-        #endregion
+#endregion
 
-        #region IHandmadeSerializable members
+#region IHandmadeSerializable members
 
         /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
@@ -398,9 +427,9 @@ namespace AM.Threading
             writer.Write(UseAsync);
         }
 
-        #endregion
+#endregion
 
-        #region Object members
+#region Object members
 
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()
@@ -408,6 +437,6 @@ namespace AM.Threading
             return string.Format("Busy: {0}", Busy);
         }
 
-        #endregion
+#endregion
     }
 }
