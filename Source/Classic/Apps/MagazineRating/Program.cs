@@ -21,7 +21,7 @@ namespace MagazineRating
         private static Dictionary<string, string> magazines;
         private static DictionaryCounterInt32<string> counter;
         private static Irbis64Dll irbis;
-        private static string[] filters;
+        private static string filter;
 
         static void ProcessRecord
             (
@@ -75,7 +75,7 @@ namespace MagazineRating
             magazines = new CaseInsensitiveDictionary<string>();
             counter = new DictionaryCounterInt32<string>();
             string databasePath = args[0];
-            filters = args.Skip(1).ToArray();
+            filter = args[1];
 
             try
             {
@@ -84,47 +84,14 @@ namespace MagazineRating
                 using (irbis = new Irbis64Dll(configuration))
                 {
                     irbis.Layout = SpaceLayout.Version2014();
-                    string systemPath = irbis.Configuration.SystemPath;
-                    string mainIni = Path.GetFullPath
-                    (
-                        Path.Combine
-                        (
-                            systemPath,
-                            "irbisc.ini"
-                        )
-                    );
-                    Irbis65Dll.IrbisMainIniInit(mainIni);
+                    irbis.SetStandardIniFile("irbisc.ini");
                     int[] found = null;
                     irbis.UseDatabase("ibis");
                     string briefPft = irbis.GetPftPath("sbrief");
                     irbis.SetFormat("@" + briefPft);
 
-                    foreach (string filter in filters)
-                    {
-                        int[] one = irbis.ExactSearch(filter);
-                        Console.WriteLine("{0}: {1}", filter, one.Length);
-                        if (one.Length == 0)
-                        {
-                            Console.WriteLine("Nothing found");
-                            return;
-                        }
-
-                        if (ReferenceEquals(found, null))
-                        {
-                            found = one;
-                        }
-                        else
-                        {
-                            found = found.Intersect(one).ToArray();
-                            if (found.Length == 0)
-                            {
-                                Console.WriteLine("Noting found");
-                                return;
-                            }
-                        }
-                    }
-
-                    if (ReferenceEquals(found, null))
+                    found = irbis.Search(filter);
+                    if (found.Length == 0)
                     {
                         Console.WriteLine("Noting found");
                         return;

@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.Runtime;
+using AM.Threading;
 
 using CodeJam;
 
@@ -91,6 +92,12 @@ namespace IrbisInterop
         /// </summary>
         public IntPtr Space { get; internal set; }
 
+        /// <summary>
+        /// Busy state.
+        /// </summary>
+        [NotNull]
+        public BusyState Busy { get; internal set; }
+
         #endregion
 
         #region Construction
@@ -112,6 +119,7 @@ namespace IrbisInterop
 
             configuration.Verify(true);
 
+            Busy = new BusyState();
             Layout = new SpaceLayout();
 
             Configuration = configuration;
@@ -121,6 +129,58 @@ namespace IrbisInterop
         #endregion
 
         #region Private members
+
+        private string _FormatRecord()
+        {
+            int retcode = Irbis65Dll.IrbisFormat
+            (
+                Space,
+                Shelf,
+                1,
+                0,
+                BufferSize,
+                DllName
+            );
+            _HandleRetCode("IrbisFormat", retcode);
+
+            string result = _GetFormattedText();
+
+            return result;
+        }
+
+        private string _GetFormattedText()
+        {
+            SpaceLayout layout = Layout;
+
+            if (layout.FormattedOffset == 0)
+            {
+                throw new IrbisException("formattedOffset not set");
+            }
+
+            IntPtr textPointer = Marshal.ReadIntPtr
+            (
+                Space,
+                layout.FormattedOffset
+            );
+            Encoding encoding = IrbisEncoding.Utf8;
+            string result = InteropUtility.GetZeroTerminatedString
+                (
+                    textPointer,
+                    encoding,
+                    BufferSize
+                );
+
+            return result;
+        }
+
+        private NativeRecord _GetRecord()
+        {
+            byte[] memory = GetRecordMemory();
+            NativeRecord result
+                = NativeRecord.ParseMemory(memory);
+
+            return result;
+        }
 
         static void _HandleRetCode
             (
@@ -178,6 +238,87 @@ namespace IrbisInterop
 
             Irbis65Dll.IrbisSetOptions(-1, 0, 0);
             Space = Irbis65Dll.IrbisInit();
+        }
+
+        private void _NewRecord()
+        {
+            IntPtr space = Space;
+            int shelf = Shelf;
+
+            int retCode = Irbis65Dll.IrbisNewRec(space, shelf);
+            _HandleRetCode("IrbisNewRec", retCode);
+
+            // Is it really needed?
+            retCode = Irbis65Dll.IrbisFldEmpty(space, shelf);
+            _HandleRetCode("IrbisFldEmpty", retCode);
+        }
+
+        private void _ReadRecord
+            (
+                int shelf,
+                int mfn
+            )
+        {
+            int result = Irbis65Dll.IrbisRecord(Space, shelf, mfn);
+            _HandleRetCode("IrbisRecord", result);
+
+            if (Layout.Value.RecordOffset == 0)
+            {
+                Layout.Value.FindTheRecord
+                    (
+                        Space,
+                        mfn,
+                        0x4000
+                    );
+            }
+        }
+
+        private void _SetFormat
+            (
+                string format
+            )
+        {
+            if (Layout.Value.FormattedOffset == 0)
+            {
+                Layout.Value.FindTheFormattedText
+                (
+                    Space,
+                    0x4000
+                );
+            }
+
+            int result = Irbis65Dll.IrbisInitPft(Space, format);
+            _HandleRetCode("IrbisInitPft", result);
+
+            Irbis65Dll.IrbisInitUactab(Space);
+        }
+
+        private void _SetRecord
+            (
+            int shelf,
+                NativeRecord record
+            )
+        {
+            IntPtr space = Space;
+            Encoding utf = IrbisEncoding.Utf8;
+
+            int retCode = Irbis65Dll.IrbisFldEmpty(space, shelf);
+            _HandleRetCode("IrbisFldEmpty", retCode);
+            foreach (NativeField field in record.Fields)
+            {
+                string value = field.Value;
+                byte[] buffer = BufferFromString(utf, value);
+
+                retCode = Irbis65Dll.IrbisFldAdd
+                    (
+                        space,
+                        shelf,
+                        field.Tag,
+                        0,
+                        buffer
+                    );
+                _HandleRetCode("IrbisFldAdd", retCode);
+            }
         }
 
         #endregion
@@ -247,27 +388,30 @@ namespace IrbisInterop
         {
             Code.NotNullNorEmpty(databasePath, "databasePath");
 
-            string fileName = Path.GetFileNameWithoutExtension
-                (
-                    databasePath
-                );
-            string directory = Path.GetDirectoryName(databasePath)
-                .ThrowIfNull("directory not set");
-            string[] files = Directory.GetFiles
-                (
-                    directory,
-                    fileName + ".*"
-                );
-            foreach (string file in files)
+            using (new BusyGuard(Busy))
             {
-                File.Delete(file);
+                string fileName = Path.GetFileNameWithoutExtension
+                    (
+                        databasePath
+                    );
+                string directory = Path.GetDirectoryName(databasePath)
+                    .ThrowIfNull("directory not set");
+                string[] files = Directory.GetFiles
+                    (
+                        directory,
+                        fileName + ".*"
+                    );
+                foreach (string file in files)
+                {
+                    File.Delete(file);
+                }
+
+                // IrbisInitNewDb creates bad files
+                // int retCode = Irbis65Dll.IrbisInitNewDb(databasePath);
+                // _HandleRetCode("IrbisInitNewDb", retCode);
+
+                DirectUtility.CreateDatabase64(databasePath);
             }
-
-            // IrbisInitNewDb creates bad files
-            // int retCode = Irbis65Dll.IrbisInitNewDb(databasePath);
-            // _HandleRetCode("IrbisInitNewDb", retCode);
-
-            DirectUtility.CreateDatabase64(databasePath);
         }
 
         /// <summary>
@@ -281,31 +425,34 @@ namespace IrbisInterop
         {
             Code.NotNullNorEmpty(term, "term");
 
-            IntPtr space = Space;
-
-            Encoding utf = IrbisEncoding.Utf8;
-            byte[] buffer = BufferFromString(utf, term, 512);
-            int retCode = Irbis65Dll.IrbisFind(space, buffer);
-            if (retCode < 0)
+            using (new BusyGuard(Busy))
             {
-                return new int[0];
+                IntPtr space = Space;
+
+                Encoding utf = IrbisEncoding.Utf8;
+                byte[] buffer = BufferFromString(utf, term, 512);
+                int retCode = Irbis65Dll.IrbisFind(space, buffer);
+                if (retCode < 0)
+                {
+                    return new int[0];
+                }
+
+                int nposts = Irbis65Dll.IrbisNPosts(space);
+                _HandleRetCode("IrbisNPosts", nposts);
+
+                int[] result = new int[nposts];
+                for (int i = 0; i < nposts; i++)
+                {
+                    retCode = Irbis65Dll.IrbisNextPost(space);
+                    _HandleRetCode("IrbisNextPost", retCode);
+
+                    int mfn = Irbis65Dll.IrbisPosting(space, 1);
+                    _HandleRetCode("IrbisPosting", mfn);
+                    result[i] = mfn;
+                }
+
+                return result;
             }
-
-            int nposts = Irbis65Dll.IrbisNPosts(space);
-            _HandleRetCode("IrbisNPosts", nposts);
-
-            int[] result = new int[nposts];
-            for (int i = 0; i < nposts; i++)
-            {
-                retCode = Irbis65Dll.IrbisNextPost(space);
-                _HandleRetCode("IrbisNextPost", retCode);
-
-                int mfn = Irbis65Dll.IrbisPosting(space, 1);
-                _HandleRetCode("IrbisPosting", mfn);
-                result[i] = mfn;
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -319,49 +466,52 @@ namespace IrbisInterop
         {
             Code.NotNullNorEmpty(term, "term");
 
-            IntPtr space = Space;
-
-            Encoding utf = IrbisEncoding.Utf8;
-            byte[] buffer = BufferFromString(utf, term, 512);
-            int retCode = Irbis65Dll.IrbisFind(space, buffer);
-            if (retCode < 0)
+            using (new BusyGuard(Busy))
             {
-                return new TermPosting[0];
+                IntPtr space = Space;
+
+                Encoding utf = IrbisEncoding.Utf8;
+                byte[] buffer = BufferFromString(utf, term, 512);
+                int retCode = Irbis65Dll.IrbisFind(space, buffer);
+                if (retCode < 0)
+                {
+                    return new TermPosting[0];
+                }
+
+                int nposts = Irbis65Dll.IrbisNPosts(space);
+                _HandleRetCode("IrbisNPosts", nposts);
+
+                TermPosting[] result = new TermPosting[nposts];
+                for (int i = 0; i < nposts; i++)
+                {
+                    retCode = Irbis65Dll.IrbisNextPost(space);
+                    _HandleRetCode("IrbisNextPost", retCode);
+
+                    TermPosting posting = new TermPosting();
+
+                    int mfn = Irbis65Dll.IrbisPosting(space, 1);
+                    _HandleRetCode("IrbisPosting", mfn);
+                    posting.Mfn = mfn;
+
+                    int tag = Irbis65Dll.IrbisPosting(space, 2);
+                    _HandleRetCode("IrbisPosting", tag);
+                    posting.Tag = tag;
+
+                    int occ = Irbis65Dll.IrbisPosting(space, 3);
+                    _HandleRetCode("IrbisPosting", occ);
+                    posting.Occurrence = occ;
+
+                    int count = Irbis65Dll.IrbisPosting(space, 4);
+                    _HandleRetCode("IrbisPosting", count);
+                    posting.Count = count;
+
+                    posting.Text = term;
+
+                    result[i] = posting;
+                }
+
+                return result;
             }
-
-            int nposts = Irbis65Dll.IrbisNPosts(space);
-            _HandleRetCode("IrbisNPosts", nposts);
-
-            TermPosting[] result = new TermPosting[nposts];
-            for (int i = 0; i < nposts; i++)
-            {
-                retCode = Irbis65Dll.IrbisNextPost(space);
-                _HandleRetCode("IrbisNextPost", retCode);
-
-                TermPosting posting = new TermPosting();
-
-                int mfn = Irbis65Dll.IrbisPosting(space, 1);
-                _HandleRetCode("IrbisPosting", mfn);
-                posting.Mfn = mfn;
-
-                int tag = Irbis65Dll.IrbisPosting(space, 2);
-                _HandleRetCode("IrbisPosting", tag);
-                posting.Tag = tag;
-
-                int occ = Irbis65Dll.IrbisPosting(space, 3);
-                _HandleRetCode("IrbisPosting", occ);
-                posting.Occurrence = occ;
-
-                int count = Irbis65Dll.IrbisPosting(space, 4);
-                _HandleRetCode("IrbisPosting", count);
-                posting.Count = count;
-
-                posting.Text = term;
-
-                result[i] = posting;
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -375,146 +525,23 @@ namespace IrbisInterop
         {
             Code.NotNullNorEmpty(term, "term");
 
-            IntPtr space = Space;
-
-            Encoding utf = IrbisEncoding.Utf8;
-            byte[] buffer = BufferFromString(utf, term, 512);
-            int retCode = Irbis65Dll.IrbisFind(space, buffer);
-            if (retCode < 0)
+            using (new BusyGuard(Busy))
             {
-                return new TermLink[0];
-            }
+                IntPtr space = Space;
 
-            int nposts = Irbis65Dll.IrbisNPosts(space);
-            _HandleRetCode("IrbisNPosts", nposts);
-
-            TermLink[] result = new TermLink[nposts];
-            for (int i = 0; i < nposts; i++)
-            {
-                retCode = Irbis65Dll.IrbisNextPost(space);
-                _HandleRetCode("IrbisNextPost", retCode);
-
-                TermLink link = new TermLink();
-
-                int mfn = Irbis65Dll.IrbisPosting(space, 1);
-                _HandleRetCode("IrbisPosting", mfn);
-                link.Mfn = mfn;
-
-                int tag = Irbis65Dll.IrbisPosting(space, 2);
-                _HandleRetCode("IrbisPosting", tag);
-                link.Tag = tag;
-
-                int occ = Irbis65Dll.IrbisPosting(space, 3);
-                _HandleRetCode("IrbisPosting", occ);
-                link.Occurrence = occ;
-
-                int index = Irbis65Dll.IrbisPosting(space, 4);
-                _HandleRetCode("IrbisPosting", index);
-                link.Index = index;
-
-                result[i] = link;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [NotNull]
-        public TermInfo[] ExactSearchTrimEx
-            (
-                [NotNull] string term,
-                int limit
-            )
-        {
-            Code.NotNullNorEmpty(term, "term");
-            Code.Positive(limit, "limit");
-
-            // TODO Use IrbisUpperCaseTable
-            term = term.ToUpper();
-
-            IntPtr space = Space;
-
-            Encoding utf = IrbisEncoding.Utf8;
-            byte[] buffer = BufferFromString(utf, term, 512);
-            int retCode = Irbis65Dll.IrbisFind(space, buffer);
-            if (retCode < 0)
-            {
-                return new TermInfo[0];
-            }
-
-            List<TermInfo> result
-                = new List<TermInfo>();
-
-            for (int i = 0; i < limit; i++)
-            {
-                TermInfo item = new TermInfo();
-
-                string text = StringFromBuffer(utf, buffer);
-                if (!text.StartsWith(term))
-                {
-                    break;
-                }
-                item.Text = text;
-
-                int nposts = Irbis65Dll.IrbisNPosts(space);
-                _HandleRetCode("IrbisNPosts", nposts);
-                item.Count = nposts;
-
-                result.Add(item);
-
-                retCode = Irbis65Dll.IrbisNextTerm(space, buffer);
+                Encoding utf = IrbisEncoding.Utf8;
+                byte[] buffer = BufferFromString(utf, term, 512);
+                int retCode = Irbis65Dll.IrbisFind(space, buffer);
                 if (retCode < 0)
                 {
-                    break;
-                }
-            }
-
-            return result.ToArray();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [NotNull]
-        public TermLink[] ExactSearchTrimLinks
-            (
-                [NotNull] string term,
-                int limit
-            )
-        {
-            Code.NotNullNorEmpty(term, "term");
-            Code.Positive(limit, "limit");
-
-            // TODO Use IrbisUpperCaseTable
-            term = term.ToUpper();
-
-            IntPtr space = Space;
-
-            Encoding utf = IrbisEncoding.Utf8;
-            byte[] buffer = BufferFromString(utf, term, 512);
-            int retCode = Irbis65Dll.IrbisFind(space, buffer);
-            if (retCode < 0)
-            {
-                return new TermLink[0];
-            }
-
-            List<TermLink> result
-                = new List<TermLink>();
-
-            for (int i = 0; i < limit; i++)
-            {
-                string text = StringFromBuffer(utf, buffer);
-                if (!text.StartsWith(term))
-                {
-                    break;
+                    return TermLink.EmptyArray;
                 }
 
                 int nposts = Irbis65Dll.IrbisNPosts(space);
                 _HandleRetCode("IrbisNPosts", nposts);
 
-                for (int j = 0; j < nposts; j++)
+                TermLink[] result = new TermLink[nposts];
+                for (int i = 0; i < nposts; i++)
                 {
                     retCode = Irbis65Dll.IrbisNextPost(space);
                     _HandleRetCode("IrbisNextPost", retCode);
@@ -537,17 +564,149 @@ namespace IrbisInterop
                     _HandleRetCode("IrbisPosting", index);
                     link.Index = index;
 
-                    result.Add(link);
+                    result[i] = link;
                 }
 
-                retCode = Irbis65Dll.IrbisNextTerm(space, buffer);
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [NotNull]
+        public TermInfo[] ExactSearchTrimEx
+            (
+                [NotNull] string term,
+                int limit
+            )
+        {
+            Code.NotNullNorEmpty(term, "term");
+            Code.Positive(limit, "limit");
+
+            using (new BusyGuard(Busy))
+            {
+                // TODO Use IrbisUpperCaseTable
+                term = term.ToUpper();
+
+                IntPtr space = Space;
+
+                Encoding utf = IrbisEncoding.Utf8;
+                byte[] buffer = BufferFromString(utf, term, 512);
+                int retCode = Irbis65Dll.IrbisFind(space, buffer);
                 if (retCode < 0)
                 {
-                    break;
+                    return new TermInfo[0];
                 }
-            }
 
-            return result.ToArray();
+                List<TermInfo> result
+                    = new List<TermInfo>();
+
+                for (int i = 0; i < limit; i++)
+                {
+                    TermInfo item = new TermInfo();
+
+                    string text = StringFromBuffer(utf, buffer);
+                    if (!text.StartsWith(term))
+                    {
+                        break;
+                    }
+                    item.Text = text;
+
+                    int nposts = Irbis65Dll.IrbisNPosts(space);
+                    _HandleRetCode("IrbisNPosts", nposts);
+                    item.Count = nposts;
+
+                    result.Add(item);
+
+                    retCode = Irbis65Dll.IrbisNextTerm(space, buffer);
+                    if (retCode < 0)
+                    {
+                        break;
+                    }
+                }
+
+                return result.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [NotNull]
+        public TermLink[] ExactSearchTrimLinks
+            (
+                [NotNull] string term,
+                int limit
+            )
+        {
+            Code.NotNullNorEmpty(term, "term");
+            Code.Positive(limit, "limit");
+
+            using (new BusyGuard(Busy))
+            {
+                // TODO Use IrbisUpperCaseTable
+                term = term.ToUpper();
+
+                IntPtr space = Space;
+
+                Encoding utf = IrbisEncoding.Utf8;
+                byte[] buffer = BufferFromString(utf, term, 512);
+                int retCode = Irbis65Dll.IrbisFind(space, buffer);
+                if (retCode < 0)
+                {
+                    return TermLink.EmptyArray;
+                }
+
+                List<TermLink> result
+                    = new List<TermLink>();
+
+                for (int i = 0; i < limit; i++)
+                {
+                    string text = StringFromBuffer(utf, buffer);
+                    if (!text.StartsWith(term))
+                    {
+                        break;
+                    }
+
+                    int nposts = Irbis65Dll.IrbisNPosts(space);
+                    _HandleRetCode("IrbisNPosts", nposts);
+
+                    for (int j = 0; j < nposts; j++)
+                    {
+                        retCode = Irbis65Dll.IrbisNextPost(space);
+                        _HandleRetCode("IrbisNextPost", retCode);
+
+                        TermLink link = new TermLink();
+
+                        int mfn = Irbis65Dll.IrbisPosting(space, 1);
+                        _HandleRetCode("IrbisPosting", mfn);
+                        link.Mfn = mfn;
+
+                        int tag = Irbis65Dll.IrbisPosting(space, 2);
+                        _HandleRetCode("IrbisPosting", tag);
+                        link.Tag = tag;
+
+                        int occ = Irbis65Dll.IrbisPosting(space, 3);
+                        _HandleRetCode("IrbisPosting", occ);
+                        link.Occurrence = occ;
+
+                        int index = Irbis65Dll.IrbisPosting(space, 4);
+                        _HandleRetCode("IrbisPosting", index);
+                        link.Index = index;
+
+                        result.Add(link);
+                    }
+
+                    retCode = Irbis65Dll.IrbisNextTerm(space, buffer);
+                    if (retCode < 0)
+                    {
+                        break;
+                    }
+                }
+
+                return result.ToArray();
+            }
         }
 
         /// <summary>
@@ -639,7 +798,7 @@ namespace IrbisInterop
                 case IrbisPath.MasterFile:
                     result = Path.Combine
                         (
-                            Configuration.DataPath, 
+                            Configuration.DataPath,
                             parameters.MstPath.ThrowIfNull()
                         );
                     break;
@@ -683,7 +842,7 @@ namespace IrbisInterop
                 result = File.Exists(filePath);
             }
 
-            return false;
+            return result;
         }
 
         /// <summary>
@@ -692,20 +851,10 @@ namespace IrbisInterop
         [NotNull]
         public string FormatRecord()
         {
-            int retcode = Irbis65Dll.IrbisFormat
-                (
-                    Space,
-                    Shelf,
-                    1,
-                    0,
-                    BufferSize,
-                    DllName
-                );
-            _HandleRetCode("IrbisFormat", retcode);
-
-            string result = GetFormattedText();
-
-            return result;
+            using (new BusyGuard(Busy))
+            {
+                return _FormatRecord();
+            }
         }
 
         /// <summary>
@@ -719,10 +868,13 @@ namespace IrbisInterop
         {
             Code.Positive(mfn, "mfn");
 
-            ReadRecord(mfn);
-            string result = FormatRecord();
+            using (new BusyGuard(Busy))
+            {
+                _ReadRecord(Shelf, mfn);
+                string result = _FormatRecord();
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -738,22 +890,45 @@ namespace IrbisInterop
             Code.NotNullNorEmpty(format, "format");
             Code.Positive(mfn, "mfn");
 
-            ReadRecord(mfn);
-            SetFormat(format);
-            string result = FormatRecord();
+            using (new BusyGuard(Busy))
+            {
+                _ReadRecord(Shelf, mfn);
+                _SetFormat(format);
+                string result = _FormatRecord();
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
-        /// Get current mfn.
+        /// Get current MFN.
         /// </summary>
         public int GetCurrentMfn()
         {
-            int result = Irbis65Dll.IrbisMfn(Space, Shelf);
-            _HandleRetCode("IrbisMfn", result);
+            using (new BusyGuard(Busy))
+            {
+                int result = Irbis65Dll.IrbisMfn(Space, Shelf);
+                _HandleRetCode("IrbisMfn", result);
 
-            return result;
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Get current MFN for the shelf.
+        /// </summary>
+        public int GetCurrentMfn
+            (
+                int shelf
+            )
+        {
+            using (new BusyGuard(Busy))
+            {
+                int result = Irbis65Dll.IrbisMfn(Space, shelf);
+                _HandleRetCode("IrbisMfn", result);
+
+                return result;
+            }
         }
 
         /// <summary>
@@ -780,10 +955,13 @@ namespace IrbisInterop
         /// </summary>
         public int GetMaxMfn()
         {
-            int result = Irbis65Dll.IrbisMaxMfn(Space);
-            _HandleRetCode("IrbisMaxMfn", result);
+            using (new BusyGuard(Busy))
+            {
+                int result = Irbis65Dll.IrbisMaxMfn(Space);
+                _HandleRetCode("IrbisMaxMfn", result);
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -792,27 +970,10 @@ namespace IrbisInterop
         [NotNull]
         public string GetFormattedText()
         {
-            SpaceLayout layout = Layout;
-
-            if (layout.FormattedOffset == 0)
+            using (new BusyGuard(Busy))
             {
-                throw new IrbisException("formattedOffset not set");
+                return _GetFormattedText();
             }
-
-            IntPtr textPointer = Marshal.ReadIntPtr
-                (
-                    Space,
-                    layout.FormattedOffset
-                );
-            Encoding encoding = IrbisEncoding.Utf8;
-            string result = InteropUtility.GetZeroTerminatedString
-                (
-                    textPointer,
-                    encoding,
-                    BufferSize
-                );
-
-            return result;
         }
 
         /// <summary>
@@ -855,11 +1016,10 @@ namespace IrbisInterop
         [NotNull]
         public NativeRecord GetRecord()
         {
-            byte[] memory = GetRecordMemory();
-            NativeRecord result
-                = NativeRecord.ParseMemory(memory);
-
-            return result;
+            using (new BusyGuard(Busy))
+            {
+                return _GetRecord();
+            }
         }
 
         /// <summary>
@@ -894,10 +1054,13 @@ namespace IrbisInterop
         {
             Code.Positive(mfn, "mfn");
 
-            int result = Irbis65Dll.IrbisReadVersion(Space, mfn);
-            _HandleRetCode("IrbisReadVersion", result);
+            using (new BusyGuard(Busy))
+            {
+                int result = Irbis65Dll.IrbisReadVersion(Space, mfn);
+                _HandleRetCode("IrbisReadVersion", result);
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -939,8 +1102,7 @@ namespace IrbisInterop
                     Space,
                     offset
                 );
-            string result
-                = InteropUtility.GetZeroTerminatedString
+            string result = InteropUtility.GetZeroTerminatedString
                     (
                         pointer,
                         encoding,
@@ -955,10 +1117,13 @@ namespace IrbisInterop
         /// </summary>
         public bool IsDatabaseLocked()
         {
-            int result = Irbis65Dll.IrbisIsDbLocked(Space);
-            _HandleRetCode("IrbisIsDbLocked", result);
+            using (new BusyGuard(Busy))
+            {
+                int result = Irbis65Dll.IrbisIsDbLocked(Space);
+                _HandleRetCode("IrbisIsDbLocked", result);
 
-            return Convert.ToBoolean(result);
+                return Convert.ToBoolean(result);
+            }
         }
 
         /// <summary>
@@ -966,10 +1131,13 @@ namespace IrbisInterop
         /// </summary>
         public bool IsRecordActualized()
         {
-            int result = Irbis65Dll.IrbisIsActualized(Space, Shelf);
-            _HandleRetCode("IrbisIsActualized", result);
+            using (new BusyGuard(Busy))
+            {
+                int result = Irbis65Dll.IrbisIsActualized(Space, Shelf);
+                _HandleRetCode("IrbisIsActualized", result);
 
-            return Convert.ToBoolean(result);
+                return Convert.ToBoolean(result);
+            }
         }
 
         /// <summary>
@@ -977,10 +1145,13 @@ namespace IrbisInterop
         /// </summary>
         public bool IsRecordDeleted()
         {
-            int result = Irbis65Dll.IrbisIsDeleted(Space, Shelf);
-            _HandleRetCode("IrbisIsDeleted", result);
+            using (new BusyGuard(Busy))
+            {
+                int result = Irbis65Dll.IrbisIsDeleted(Space, Shelf);
+                _HandleRetCode("IrbisIsDeleted", result);
 
-            return Convert.ToBoolean(result);
+                return Convert.ToBoolean(result);
+            }
         }
 
         /// <summary>
@@ -988,10 +1159,13 @@ namespace IrbisInterop
         /// </summary>
         public bool IsRecordLocked()
         {
-            int result = Irbis65Dll.IrbisIsLocked(Space, Shelf);
-            _HandleRetCode("IrbisIsLocked", result);
+            using (new BusyGuard(Busy))
+            {
+                int result = Irbis65Dll.IrbisIsLocked(Space, Shelf);
+                _HandleRetCode("IrbisIsLocked", result);
 
-            return Convert.ToBoolean(result);
+                return Convert.ToBoolean(result);
+            }
         }
 
         /// <summary>
@@ -1002,14 +1176,17 @@ namespace IrbisInterop
                 int mfn
             )
         {
-            int result = Irbis65Dll.IrbisIsRealyLocked
-                (
-                    Space,
-                    mfn
-                );
-            _HandleRetCode("IrbisIsReallyLocked", result);
+            using (new BusyGuard(Busy))
+            {
+                int result = Irbis65Dll.IrbisIsRealyLocked
+                    (
+                        Space,
+                        mfn
+                    );
+                _HandleRetCode("IrbisIsReallyLocked", result);
 
-            return Convert.ToBoolean(result);
+                return Convert.ToBoolean(result);
+            }
         }
 
         /// <summary>
@@ -1025,48 +1202,51 @@ namespace IrbisInterop
             Code.NotNull(startTerm, "startTerm");
             Code.Positive(count, "count");
 
-            IntPtr space = Space;
-
-            Encoding utf = IrbisEncoding.Utf8;
-            byte[] buffer = new byte[512];
-            utf.GetBytes
-                (
-                    startTerm,
-                    0,
-                    startTerm.Length,
-                    buffer,
-                    0
-                );
-            int retCode = Irbis65Dll.IrbisFind(space, buffer);
-            if (retCode < 0)
+            using (new BusyGuard(Busy))
             {
-                return new TermInfo[0];
-            }
+                IntPtr space = Space;
 
-            List<TermInfo> result
-                = new List<TermInfo>(count);
-
-            for (int i = 0; i < count; i++)
-            {
-                TermInfo term = new TermInfo();
-
-                string text = StringFromBuffer(utf, buffer);
-                term.Text = text;
-
-                int nposts = Irbis65Dll.IrbisNPosts(space);
-                _HandleRetCode("IrbisNPosts", nposts);
-                term.Count = nposts;
-
-                result.Add(term);
-
-                retCode = Irbis65Dll.IrbisNextTerm(space, buffer);
+                Encoding utf = IrbisEncoding.Utf8;
+                byte[] buffer = new byte[512];
+                utf.GetBytes
+                    (
+                        startTerm,
+                        0,
+                        startTerm.Length,
+                        buffer,
+                        0
+                    );
+                int retCode = Irbis65Dll.IrbisFind(space, buffer);
                 if (retCode < 0)
                 {
-                    break;
+                    return new TermInfo[0];
                 }
-            }
 
-            return result.ToArray();
+                List<TermInfo> result
+                    = new List<TermInfo>(count);
+
+                for (int i = 0; i < count; i++)
+                {
+                    TermInfo term = new TermInfo();
+
+                    string text = StringFromBuffer(utf, buffer);
+                    term.Text = text;
+
+                    int nposts = Irbis65Dll.IrbisNPosts(space);
+                    _HandleRetCode("IrbisNPosts", nposts);
+                    term.Count = nposts;
+
+                    result.Add(term);
+
+                    retCode = Irbis65Dll.IrbisNextTerm(space, buffer);
+                    if (retCode < 0)
+                    {
+                        break;
+                    }
+                }
+
+                return result.ToArray();
+            }
         }
 
         /// <summary>
@@ -1082,66 +1262,63 @@ namespace IrbisInterop
             Code.NotNull(startTerm, "startTerm");
             Code.Positive(count, "count");
 
-            IntPtr space = Space;
-
-            Encoding utf = IrbisEncoding.Utf8;
-            byte[] buffer = new byte[512];
-            utf.GetBytes
-                (
-                    startTerm,
-                    0,
-                    startTerm.Length,
-                    buffer,
-                    0
-                );
-            int retCode = Irbis65Dll.IrbisFind(space, buffer);
-            if (retCode < 0)
+            using (new BusyGuard(Busy))
             {
-                return new TermInfo[0];
-            }
+                IntPtr space = Space;
 
-            List<TermInfo> result
-                = new List<TermInfo>(count);
-
-            for (int i = 0; i < count; i++)
-            {
-                TermInfo term = new TermInfo();
-
-                string text = StringFromBuffer(utf, buffer);
-                term.Text = text;
-
-                int nposts = Irbis65Dll.IrbisNPosts(space);
-                _HandleRetCode("IrbisNPosts", nposts);
-                term.Count = nposts;
-
-                result.Add(term);
-
-                retCode = Irbis65Dll.IrbisPrevTerm(space, buffer);
+                Encoding utf = IrbisEncoding.Utf8;
+                byte[] buffer = new byte[512];
+                utf.GetBytes
+                    (
+                        startTerm,
+                        0,
+                        startTerm.Length,
+                        buffer,
+                        0
+                    );
+                int retCode = Irbis65Dll.IrbisFind(space, buffer);
                 if (retCode < 0)
                 {
-                    break;
+                    return new TermInfo[0];
                 }
+
+                List<TermInfo> result
+                    = new List<TermInfo>(count);
+
+                for (int i = 0; i < count; i++)
+                {
+                    TermInfo term = new TermInfo();
+
+                    string text = StringFromBuffer(utf, buffer);
+                    term.Text = text;
+
+                    int nposts = Irbis65Dll.IrbisNPosts(space);
+                    _HandleRetCode("IrbisNPosts", nposts);
+                    term.Count = nposts;
+
+                    result.Add(term);
+
+                    retCode = Irbis65Dll.IrbisPrevTerm(space, buffer);
+                    if (retCode < 0)
+                    {
+                        break;
+                    }
+                }
+                result.Reverse();
+
+                return result.ToArray();
             }
-            result.Reverse();
-
-            return result.ToArray();
         }
-
 
         /// <summary>
         /// Create new record on the shelf.
         /// </summary>
         public void NewRecord()
         {
-            IntPtr space = Space;
-            int shelf = Shelf;
-
-            int retCode = Irbis65Dll.IrbisNewRec(space, shelf);
-            _HandleRetCode("IrbisNewRec", retCode);
-
-            // Is it really needed?
-            retCode = Irbis65Dll.IrbisFldEmpty(space, shelf);
-            _HandleRetCode("IrbisFldEmpty", retCode);
+            using (new BusyGuard(Busy))
+            {
+                _NewRecord();
+            }
         }
 
         /// <summary>
@@ -1154,17 +1331,9 @@ namespace IrbisInterop
         {
             Code.Positive(mfn, "mfn");
 
-            int result = Irbis65Dll.IrbisRecord(Space, Shelf, mfn);
-            _HandleRetCode("IrbisRecord", result);
-
-            if (Layout.Value.RecordOffset == 0)
+            using (new BusyGuard(Busy))
             {
-                Layout.Value.FindTheRecord
-                (
-                    Space,
-                    mfn,
-                    0x4000
-                );
+                _ReadRecord(Shelf, mfn);
             }
         }
 
@@ -1239,19 +1408,26 @@ namespace IrbisInterop
         {
             Code.NotNullNorEmpty(format, "format");
 
-            if (Layout.Value.FormattedOffset == 0)
+            using (new BusyGuard(Busy))
             {
-                Layout.Value.FindTheFormattedText
-                    (
-                        Space,
-                        0x4000
-                    );
+                _SetFormat(format);
             }
+        }
 
-            int result = Irbis65Dll.IrbisInitPft(Space, format);
-            _HandleRetCode("IrbisInitPft", result);
+        /// <summary>
+        /// Set INI-file.
+        /// </summary>
+        public void SetIniFile
+            (
+                [NotNull] string iniFile
+            )
+        {
+            Code.NotNullNorEmpty(iniFile, "iniFile");
 
-            Irbis65Dll.IrbisInitUactab(Space);
+            using (new BusyGuard(Busy))
+            {
+                Irbis65Dll.IrbisMainIniInit(iniFile);
+            }
         }
 
         /// <summary>
@@ -1265,25 +1441,9 @@ namespace IrbisInterop
         {
             Code.NotNull(record, "record");
 
-            IntPtr space = Space;
-            Encoding utf = IrbisEncoding.Utf8;
-
-            int retCode = Irbis65Dll.IrbisFldEmpty(space, shelf);
-            _HandleRetCode("IrbisFldEmpty", retCode);
-            foreach (NativeField field in record.Fields)
+            using (new BusyGuard(Busy))
             {
-                string value = field.Value;
-                byte[] buffer = BufferFromString(utf, value);
-
-                retCode = Irbis65Dll.IrbisFldAdd
-                    (
-                        space,
-                        shelf,
-                        field.Tag,
-                        0,
-                        buffer
-                    );
-                _HandleRetCode("IrbisFldAdd", retCode);
+                _SetRecord(shelf, record);
             }
         }
 
@@ -1296,6 +1456,34 @@ namespace IrbisInterop
             )
         {
             SetRecord(Shelf, record);
+        }
+
+        /// <summary>
+        /// Set standard INI-file.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// irbis.SetStandardIniFile("irbisc.ini");
+        /// </code>
+        /// </example>
+        public void SetStandardIniFile
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            string systemPath = Configuration.SystemPath;
+            string mainIni = Path.GetFullPath
+                (
+                    Path.Combine
+                        (
+                            systemPath,
+                            fileName
+                        )
+                );
+
+            SetIniFile(mainIni);
         }
 
         /// <summary>
@@ -1355,70 +1543,73 @@ namespace IrbisInterop
                 return;
             }
 
-            string parPath = Path.Combine
-                (
-                    Configuration.DataPath,
-                    databaseName + ".par"
-                );
-            ParFile parFile = ParFile.ParseFile(parPath);
-            Parameters = parFile;
-            string mstPath = parFile.MstPath
-                .ThrowIfNull("mstPath not set");
-            mstPath = Path.GetFullPath
-                (
-                    Path.Combine
+            using (new BusyGuard(Busy))
+            {
+                string parPath = Path.Combine
                     (
-                        Configuration.SystemPath,
-                        mstPath
-                    )
-                );
-            mstPath = Path.Combine
-                (
-                    mstPath,
-                    databaseName
-                );
+                        Configuration.DataPath,
+                        databaseName + ".par"
+                    );
+                ParFile parFile = ParFile.ParseFile(parPath);
+                Parameters = parFile;
+                string mstPath = parFile.MstPath
+                    .ThrowIfNull("mstPath not set");
+                mstPath = Path.GetFullPath
+                    (
+                        Path.Combine
+                            (
+                                Configuration.SystemPath,
+                                mstPath
+                            )
+                    );
+                mstPath = Path.Combine
+                    (
+                        mstPath,
+                        databaseName
+                    );
 
-            int retCode = Irbis65Dll.IrbisInitMst
-                (
-                    Space,
-                    mstPath,
-                    5
-                );
-            _HandleRetCode("IrbisInitMst", retCode);
+                int retCode = Irbis65Dll.IrbisInitMst
+                    (
+                        Space,
+                        mstPath,
+                        5
+                    );
+                _HandleRetCode("IrbisInitMst", retCode);
 
-            string termPath = parFile.IfpPath
-                .ThrowIfNull("ibisPar.IfpPath not set");
-            termPath = Path.GetFullPath
-                (
-                    Path.Combine
-                        (
-                            Configuration.SystemPath,
-                            termPath
-                        )
-                );
-            termPath = Path.Combine
-                (
-                    termPath,
-                    databaseName
-                );
-            retCode = Irbis65Dll.IrbisInitTerm
-                (
-                    Space,
-                    termPath
-                );
-            _HandleRetCode("IrbisInitTerm", retCode);
+                string termPath = parFile.IfpPath
+                    .ThrowIfNull("ibisPar.IfpPath not set");
+                termPath = Path.GetFullPath
+                    (
+                        Path.Combine
+                            (
+                                Configuration.SystemPath,
+                                termPath
+                            )
+                    );
+                termPath = Path.Combine
+                    (
+                        termPath,
+                        databaseName
+                    );
+                retCode = Irbis65Dll.IrbisInitTerm
+                    (
+                        Space,
+                        termPath
+                    );
+                _HandleRetCode("IrbisInitTerm", retCode);
 
-            Irbis65Dll.IrbisInitInvContext
-                (
-                    Space,
-                    mstPath,
-                    mstPath,
-                    Configuration.UpperCaseTable,
-                    Configuration.AlphabetTablePath,
-                    false
-                );
+                Irbis65Dll.IrbisInitInvContext
+                    (
+                        Space,
+                        mstPath,
+                        mstPath,
+                        Configuration.UpperCaseTable,
+                        Configuration.AlphabetTablePath,
+                        false
+                    );
 
-            Database = databaseName;
+                Database = databaseName;
+            }
         }
 
         /// <summary>
@@ -1433,82 +1624,85 @@ namespace IrbisInterop
             Code.NotNullNorEmpty(databasePath, "databasePath");
             Code.NotNullNorEmpty(databaseName, "databaseName");
 
-            if (!Directory.Exists(databasePath))
+            using (new BusyGuard(Busy))
             {
-                throw new IrbisException
-                    (
-                        string.Format
+                if (!Directory.Exists(databasePath))
+                {
+                    throw new IrbisException
                         (
-                            "directory not exist: '{0}'",
-                            databasePath
-                        )
-                    );
-            }
+                            string.Format
+                                (
+                                    "directory not exist: '{0}'",
+                                    databasePath
+                                )
+                        );
+                }
 
-            string masterPath = Path.Combine
-                (
-                    Path.GetFullPath(databasePath),
-                    databaseName
-                );
-
-            string masterFile = masterPath + ".mst";
-
-            if (!File.Exists(masterFile))
-            {
-                throw new IrbisException
+                string masterPath = Path.Combine
                     (
-                        string.Format
-                            (
-                                "master file doesn't exist: '{0}'",
-                                masterFile
-                            )
+                        Path.GetFullPath(databasePath),
+                        databaseName
                     );
-            }
 
-            int retCode = Irbis65Dll.IrbisInitMst
-                (
-                    Space,
-                    masterPath,
-                    5
-                );
-            _HandleRetCode("IrbisInitMst", retCode);
+                string masterFile = masterPath + ".mst";
 
-            string invertedFile = masterPath + ".ifp";
+                if (!File.Exists(masterFile))
+                {
+                    throw new IrbisException
+                        (
+                            string.Format
+                                (
+                                    "master file doesn't exist: '{0}'",
+                                    masterFile
+                                )
+                        );
+                }
 
-            if (!File.Exists(invertedFile))
-            {
-                throw new IrbisException
-                    (
-                        string.Format
-                            (
-                                "inverted file doesn't exist: '{0}'",
-                                invertedFile
-                            )
-                    );
-            }
-
-            retCode = Irbis65Dll.IrbisInitTerm
-                (
-                    Space,
-                    masterPath
-                );
-            _HandleRetCode("IrbisInitTerm", retCode);
-
-            string fstFile = masterPath + ".fst";
-            if (File.Exists(fstFile))
-            {
-                Irbis65Dll.IrbisInitInvContext
+                int retCode = Irbis65Dll.IrbisInitMst
                     (
                         Space,
                         masterPath,
-                        masterPath,
-                        Configuration.UpperCaseTable,
-                        Configuration.AlphabetTablePath,
-                        false
+                        5
                     );
-            }
+                _HandleRetCode("IrbisInitMst", retCode);
 
-            Database = databaseName;
+                string invertedFile = masterPath + ".ifp";
+
+                if (!File.Exists(invertedFile))
+                {
+                    throw new IrbisException
+                        (
+                            string.Format
+                                (
+                                    "inverted file doesn't exist: '{0}'",
+                                    invertedFile
+                                )
+                        );
+                }
+
+                retCode = Irbis65Dll.IrbisInitTerm
+                    (
+                        Space,
+                        masterPath
+                    );
+                _HandleRetCode("IrbisInitTerm", retCode);
+
+                string fstFile = masterPath + ".fst";
+                if (File.Exists(fstFile))
+                {
+                    Irbis65Dll.IrbisInitInvContext
+                        (
+                            Space,
+                            masterPath,
+                            masterPath,
+                            Configuration.UpperCaseTable,
+                            Configuration.AlphabetTablePath,
+                            false
+                        );
+                }
+
+                Database = databaseName;
+            }
         }
 
         /// <summary>
@@ -1520,33 +1714,36 @@ namespace IrbisInterop
                 bool keepLock
             )
         {
-            IntPtr space = Space;
-            int shelf = Shelf;
-
-            int retCode = Irbis65Dll.IrbisRecUpdate0
-                (
-                    space,
-                    shelf,
-                    Convert.ToInt32(keepLock)
-                );
-            _HandleRetCode("IrbisRecUpdate0", retCode);
-
-            if (invUpdate)
+            using (new BusyGuard(Busy))
             {
-                int mfn = Irbis65Dll.IrbisMfn
-                    (
-                        space,
-                        shelf
-                    );
-                _HandleRetCode("IrbisMfn", mfn);
+                IntPtr space = Space;
+                int shelf = Shelf;
 
-                retCode = Irbis65Dll.IrbisRecIfUpdate0
+                int retCode = Irbis65Dll.IrbisRecUpdate0
                     (
                         space,
                         shelf,
-                        mfn
+                        Convert.ToInt32(keepLock)
                     );
-                _HandleRetCode("IrbisRecIfUpdate0", retCode);
+                _HandleRetCode("IrbisRecUpdate0", retCode);
+
+                if (invUpdate)
+                {
+                    int mfn = Irbis65Dll.IrbisMfn
+                        (
+                            space,
+                            shelf
+                        );
+                    _HandleRetCode("IrbisMfn", mfn);
+
+                    retCode = Irbis65Dll.IrbisRecIfUpdate0
+                        (
+                            space,
+                            shelf,
+                            mfn
+                        );
+                    _HandleRetCode("IrbisRecIfUpdate0", retCode);
+                }
             }
         }
 
@@ -1554,7 +1751,7 @@ namespace IrbisInterop
 
         #region IDisposable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
             if (Space.ToInt32() != 0)

@@ -526,7 +526,7 @@ namespace IrbisUI.Universal
         {
             Code.NotNull(provider, "provider");
 
-            BusyState busyState = provider.GetBusyState();
+            BusyState busyState = provider.BusyState;
             if (!ReferenceEquals(busyState, null))
             {
                 Controller.State = busyState;
@@ -597,7 +597,7 @@ namespace IrbisUI.Universal
         {
             Code.NotNull(provider, "provider");
 
-            BusyState busyState = provider.GetBusyState();
+            BusyState busyState = provider.BusyState;
             if (!ReferenceEquals(busyState, null))
             {
                 //BusyStripe.UnsubscribeFrom(busyState);

@@ -106,8 +106,28 @@ namespace ManagedIrbis.Search.Infrastructure
                         break;
 
                     case '/':
-                        value = c.ToString();
-                        kind = SearchTokenKind.Slash;
+                        if (navigator.PeekChar().OneOf('(', '\0'))
+                        {
+                            value = c.ToString();
+                            kind = SearchTokenKind.Slash;
+                        }
+                        else
+                        {
+                            value = c + navigator
+                                .ReadUntil('(', '/', '\t', ' ', ',', ')');
+                            while (navigator.PeekChar() == '/')
+                            {
+                                char c2 = navigator.LookAhead(2);
+                                if (c2 == '(' || c2 == '\0')
+                                {
+                                    break;
+                                }
+                                value = value + navigator.ReadChar()
+                                        + navigator
+                                        .ReadUntil('(', '/', '\t', ' ', ',', ')');
+                            }
+                            kind = SearchTokenKind.Term;
+                        }
                         break;
 
                     case ',':
@@ -144,7 +164,19 @@ namespace ManagedIrbis.Search.Infrastructure
                         break;
 
                     default:
-                        value = c + navigator.ReadUntil('(', '/', '\t', ' ', ',', ')');
+                        value = c + navigator
+                            .ReadUntil('(', '/', '\t', ' ', ',', ')');
+                        while (navigator.PeekChar() == '/')
+                        {
+                            char c2 = navigator.LookAhead(2);
+                            if (c2 == '(' || c2 == '\0')
+                            {
+                                break;
+                            }
+                            value = value + navigator.ReadChar()
+                                    + navigator
+                                    .ReadUntil('(', '/', '\t', ' ', ',', ')');
+                        }
                         kind = SearchTokenKind.Term;
                         break;
                 }

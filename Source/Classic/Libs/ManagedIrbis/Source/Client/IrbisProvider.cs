@@ -204,16 +204,6 @@ namespace ManagedIrbis.Client
         }
 
         /// <summary>
-        /// Get <see cref="BusyState"/> for the provider
-        /// (if any).
-        /// </summary>
-        [CanBeNull]
-        public virtual BusyState GetBusyState()
-        {
-            return null;
-        }
-
-        /// <summary>
         /// Get generation of the provider.
         /// </summary>
         [NotNull]

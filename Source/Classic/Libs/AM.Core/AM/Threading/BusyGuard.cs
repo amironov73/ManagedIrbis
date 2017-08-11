@@ -28,7 +28,7 @@ namespace AM.Threading
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class BusyGuard
+    public struct BusyGuard
         : IDisposable
     {
         #region Properties

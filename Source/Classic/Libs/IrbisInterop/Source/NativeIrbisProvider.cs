@@ -22,7 +22,7 @@ using AM.Collections;
 using AM.IO;
 using AM.Runtime;
 using AM.Text;
-
+using AM.Threading;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -55,6 +55,12 @@ namespace IrbisInterop
         /// </summary>
         [NotNull]
         public Irbis64Dll Irbis64 { get; private set; }
+
+        /// <inheritdoc cref="IrbisProvider.BusyState" />
+        public override BusyState BusyState
+        {
+            get { return Irbis64.Busy; }
+        }
 
         #endregion
 
