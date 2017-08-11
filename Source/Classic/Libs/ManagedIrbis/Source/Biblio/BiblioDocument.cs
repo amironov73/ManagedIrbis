@@ -45,11 +45,26 @@ namespace ManagedIrbis.Biblio
     {
         #region Properties
 
+        ///// <summary>
+        ///// Menu name.
+        ///// </summary>
+        //[CanBeNull]
+        //[JsonProperty("menu")]
+        //public string MenuName { get; set; }
+
+        ///// <summary>
+        ///// Record filter: search expression.
+        ///// </summary>
+        //[CanBeNull]
+        //[JsonProperty("filter")]
+        //public string Filter { get; set; }
+
         /// <summary>
-        /// Menu name.
+        /// Record format.
         /// </summary>
-        [JsonProperty("menu")]
-        public string MenuName { get; set; }
+        [CanBeNull]
+        [JsonProperty("format")]
+        public string Format { get; set; }
 
         /// <summary>
         /// Chapters.
@@ -58,11 +73,11 @@ namespace ManagedIrbis.Biblio
         [JsonProperty("chapters")]
         public ChapterCollection Chapters { get; private set; }
 
-        /// <summary>
-        /// Global filter for the document.
-        /// </summary>
-        [JsonProperty("filter")]
-        public BiblioFilter Filter { get; set; }
+        ///// <summary>
+        ///// Global filter for the document.
+        ///// </summary>
+        //[JsonProperty("filter")]
+        //public BiblioFilter Filter { get; set; }
 
         #endregion
 
@@ -115,8 +130,8 @@ namespace ManagedIrbis.Biblio
                 = new Verifier<BiblioDocument>(this, throwOnError);
 
             verifier
-                .VerifySubObject(Chapters, "Chapters")
-                .VerifySubObject(Filter, "Filter");
+                .VerifySubObject(Chapters, "Chapters");
+                //.VerifySubObject(Filter, "Filter");
 
             return verifier.Result;
         }

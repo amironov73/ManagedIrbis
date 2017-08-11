@@ -212,7 +212,7 @@ namespace ManagedIrbis.Search.Infrastructure
 
             return new SearchTokenList(result);
         }
-
+         
         #endregion
     }
 }

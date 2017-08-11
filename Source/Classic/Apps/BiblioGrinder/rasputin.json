@@ -1,0 +1,169 @@
+﻿{
+  "mainTitle": "В. Г. Распутин: библиографический указатель",
+  "copyright": "А. В. Миронов (c) 2017",
+
+  // ================================================================
+
+  // Настройки, общие для всего указателя в целом
+  // и для глав в частности (берутся по умолчанию,
+  // если не определены в самой главе).
+  "common": {
+    // Выражение для отбора записей
+    "searchExpression": "'DBWEB=RASP1'",
+
+    // Формат библиографического описания для записи
+    "format": "*rasputin.pft",
+
+    // Сортировка описаний внутри главы
+    "orderBy": "*order.pft",
+
+    // Нумерация записей - сплошная
+    "numbering": "continuous",
+
+    "pageAttributes": {
+      // Атрибуты страниц
+    },
+    "titleAttributes": {
+      // Атрибуты заголовка по умолчанию
+    },
+    "recordAttributes": {
+      // Атрибуты записи по умолчанию
+    }
+  },
+
+  // ================================================================
+
+  // Главы указателя
+  "chapters": [
+    {
+      // Всего записей, затрачено времени, распределение по разделам
+      "title": "Статистика",
+      "$type": "ChapterWithStatistics",
+      "active": true // Можно выключить, если больше не нужно
+    },
+    {
+      // Ошибки в библиографическом описании
+      "title": "Ошибки и предупреждения",
+      "$type": "ChapterWithErrors",
+      "attr": {
+        "pageBreak": true
+      },
+      "active": true // Можно выключить, если больше не нужно
+    },
+    {
+      "title": "Предисловие от составителей",
+      "$type": "ChapterWithText",
+      "attr": {
+        "pageBreak": true
+      },
+      "text": "*foreword.rtf"
+    },
+    {
+      // Собственно указатель
+      "title": "",
+      "$type": "MenuChapter",
+      "attr": {
+        "pageBreak": true
+      },
+      "menu": {
+        "name": "6628.mnu",
+        "orderBy": "???",
+        "titleFormat": "???",
+        "leafOnly": true // только листья могут содержать записи
+      },
+      "select": "*select.pft",
+      "special": [
+        {
+          "chapter": " 1. 2. 3",
+          "something": "value"
+        },
+        {
+          "chapter": " 2. 3. 4",
+          "something": "value"
+        }
+      ]
+    },
+    {
+      // Справочный аппарат
+      "title": "",
+      "type": "ChapterWithText",
+      "text": "",
+      "children": [
+        {
+          "title": "Указатель авторов",
+          "$type": "ChapterWithDictionary",
+          "attr": {
+            "pageBreak": true
+          },
+          "select": "*authors.pft",
+          "orderBy": "*authors.pft",
+          "active": true
+        },
+        {
+          "title": "Указатель заглавий",
+          "$type": "ChapterWithDictionary",
+          "attr": {
+            "pageBreak": true
+          },
+          "select": "*titles.pft",
+          "orderBy": "*titles.pft",
+          "active": true
+        },
+        {
+          "title": "Указатель коллективов",
+          "$type": "ChapterWithDictionary",
+          "attr": {
+            "pageBreak": true
+          },
+          "select": "*collectives.pft",
+          "orderBy": "*collectives.pft"
+        },
+        {
+          "title": "Указатель источников",
+          "$type": "ChapterWithDictionary",
+          "attr": {
+            "pageBreak": true
+          },
+          "select": "*sources.pft",
+          "orderBy": "*sources.pft"
+        },
+        {
+          "title": "Указатель языков",
+          "$type": "ChapterWithDictionary",
+          "attr": {
+            "pageBreak": true
+          },
+          "select": "*languages.pft",
+          "orderBy": "*languages.pft"
+        },
+        {
+          "title": "Указатель издающих организаций",
+          "$type": "ChapterWithDictionary",
+          "attr": {
+            "pageBreak": true
+          },
+          "select": "*publishers.pft",
+          "orderBy": "*publishers.pft"
+        },
+        {
+          "title": "Указатель мест",
+          "$type": "ChapterWithDictionary",
+          "attr": {
+            "pageBreak": true
+          },
+          "select": "*places.pft",
+          "orderBy": "*places.pft"
+        },
+        {
+          "title": "Предметные рубрики",
+          "$type": "ChapterWithDictionary",
+          "attr": {
+            "pageBreak": true
+          },
+          "select": "*headings.pft",
+          "orderBy": "*headings.pft"
+        }
+      ]
+    }
+  ]
+}

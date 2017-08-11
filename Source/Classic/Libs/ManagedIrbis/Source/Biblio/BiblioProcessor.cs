@@ -126,116 +126,119 @@ namespace ManagedIrbis.Biblio
             Code.NotNull(context, "context");
             Code.NotNull(chapter, "chapter");
 
-            ChapterWithRecords[] children
-                = chapter.Children.OfType<ChapterWithRecords>()
-                    .ToArray();
-            foreach (ChapterWithRecords child in children)
-            {
-                GatherRecords
-                (
-                    context,
-                    child
-                );
-            }
+            //ChapterWithRecords[] children
+            //    = chapter.Children.OfType<ChapterWithRecords>()
+            //        .ToArray();
+            //foreach (ChapterWithRecords child in children)
+            //{
+            //    GatherRecords
+            //    (
+            //        context,
+            //        child
+            //    );
+            //}
 
-            BiblioFilter chapterFilter = chapter.Filter;
-            BiblioFilter documentFilter = context.Document.Filter;
-            if (ReferenceEquals(chapterFilter, null)
-                || string.IsNullOrEmpty(chapterFilter.SelectExpression))
-            {
-                if (children.Length == 0)
-                {
-                    Log.Warn
-                    (
-                        "BiblioProcessor::GatherRecords: "
-                        + "chapter without filter: "
-                        + chapter.Title.ToVisibleString()
-                    );
-                }
+            ////BiblioFilter chapterFilter = chapter.Filter;
+            //string chapterFilter = chapter.Filter;
+            ////BiblioFilter documentFilter = context.Document.Filter;
+            //string documentFilter = context.Document.Filter;
+            ////if (ReferenceEquals(chapterFilter, null)
+            ////    || string.IsNullOrEmpty(chapterFilter.SelectExpression))
+            ////{
+            ////    if (children.Length == 0)
+            ////    {
+            ////        Log.Warn
+            ////        (
+            ////            "BiblioProcessor::GatherRecords: "
+            ////            + "chapter without filter: "
+            ////            + chapter.Title.ToVisibleString()
+            ////        );
+            ////    }
 
-                return;
-            }
+            ////    return;
+            ////}
 
-            IrbisProvider provider = context.Provider;
-            string format = chapterFilter.FormatExpression;
-            if (string.IsNullOrEmpty(format)
-                && !ReferenceEquals(documentFilter, null))
-            {
-                format = documentFilter.FormatExpression;
-            }
-            if (string.IsNullOrEmpty(format))
-            {
-                format = "@brief";
-            }
+            //IrbisProvider provider = context.Provider;
+            ////string format = chapterFilter.FormatExpression;
+            //string format = context.Document.Format;
+            ////if (string.IsNullOrEmpty(format)
+            ////    && !ReferenceEquals(documentFilter, null))
+            ////{
+            ////    format = documentFilter.FormatExpression;
+            ////}
+            //if (string.IsNullOrEmpty(format))
+            //{
+            //    format = "@brief";
+            //}
 
-            string sort = chapterFilter.SortExpression;
-            if (string.IsNullOrEmpty(sort)
-                && !ReferenceEquals(documentFilter, null))
-            {
-                sort = documentFilter.SortExpression;
-            }
-            if (string.IsNullOrEmpty(sort))
-            {
-                sort = "@brief";
-            }
+            ////string sort = chapterFilter.SortExpression;
+            ////if (string.IsNullOrEmpty(sort)
+            ////    && !ReferenceEquals(documentFilter, null))
+            ////{
+            ////    sort = documentFilter.SortExpression;
+            ////}
+            ////if (string.IsNullOrEmpty(sort))
+            ////{
+            ////    sort = "@brief";
+            ////}
 
-            int[] found = provider.Search
-            (
-                chapterFilter.SelectExpression
-            );
+            //int[] found = provider.Search
+            //    (
+            //        chapterFilter.SelectExpression
+            //    );
 
-            if (found.Length == 0)
-            {
-                Log.Warn
-                (
-                    "BiblioProcessor::GatherRecords: "
-                    + "noting found for chapter: "
-                    + chapter.Title.ToVisibleString()
-                    + " with filter="
-                    + chapterFilter.ToVisibleString()
-                );
-            }
+            //if (found.Length == 0)
+            //{
+            //    Log.Warn
+            //    (
+            //        "BiblioProcessor::GatherRecords: "
+            //        + "noting found for chapter: "
+            //        + chapter.Title.ToVisibleString()
+            //        + " with filter="
+            //        + chapterFilter.ToVisibleString()
+            //    );
+            //}
 
-            foreach (int mfn in found)
-            {
-                MarcRecord record = context.FindRecord(mfn);
-                if (!ReferenceEquals(record, null))
-                {
-                    chapter.Duplicates.Add(record);
-                    continue;
-                }
+            //foreach (int mfn in found)
+            //{
+            //    MarcRecord record = context.FindRecord(mfn);
+            //    if (!ReferenceEquals(record, null))
+            //    {
+            //        chapter.Duplicates.Add(record);
+            //        continue;
+            //    }
 
-                record = provider.ReadRecord(mfn);
-                if (ReferenceEquals(record, null))
-                {
-                    Log.Warn
-                    (
-                        "BiblioProcessor::GatherRecords: "
-                        + "can't read record="
-                        + mfn
-                    );
+            //    record = provider.ReadRecord(mfn);
+            //    if (ReferenceEquals(record, null))
+            //    {
+            //        Log.Warn
+            //        (
+            //            "BiblioProcessor::GatherRecords: "
+            //            + "can't read record="
+            //            + mfn
+            //        );
 
-                    continue;
-                }
+            //        continue;
+            //    }
 
-                record.Description = provider.FormatRecord(record, format);
-                if (string.IsNullOrEmpty(record.Description))
-                {
-                    Log.Warn
-                    (
-                        "BiblioProcessor::GatherRecords: "
-                        + "empty description for record="
-                        + mfn
-                    );
-                }
+            //    record.Description = provider.FormatRecord(record, format);
+            //    if (string.IsNullOrEmpty(record.Description))
+            //    {
+            //        Log.Warn
+            //        (
+            //            "BiblioProcessor::GatherRecords: "
+            //            + "empty description for record="
+            //            + mfn
+            //        );
+            //    }
 
-                record.SortKey = provider.FormatRecord(record, sort);
+            //    record.SortKey = provider.FormatRecord(record, sort);
 
-                chapter.Records.Add(record);
-                context.Records.Add(record);
-            }
+            //    chapter.Records.Add(record);
+            //    context.Records.Add(record);
+            //}
 
-            chapter.Records.SortRecords();
+            //chapter.Records.SortRecords();
         }
 
         /// <summary>
@@ -253,10 +256,10 @@ namespace ManagedIrbis.Biblio
             foreach (ChapterWithRecords chapter in chapters)
             {
                 GatherRecords
-                (
-                    context,
-                    chapter
-                );
+                    (
+                        context,
+                        chapter
+                    );
             }
         }
 
@@ -286,12 +289,6 @@ namespace ManagedIrbis.Biblio
 
         #region Public methods
 
-        public void BildChaptersFromMenu
-            ()
-        {
-            
-        }
-
         /// <summary>
         /// Build document.
         /// </summary>
@@ -303,11 +300,11 @@ namespace ManagedIrbis.Biblio
             Code.NotNull(context, "context");
 
             GatherRecords(context);
-            BildItems(context);
-            GatherTerms(context);
-            BildDictionaries(context);
-            RenderReport(context);
-            FinalRender(context);
+            //BildItems(context);
+            //GatherTerms(context);
+            //BildDictionaries(context);
+            //RenderReport(context);
+            //FinalRender(context);
 
             return string.Empty;
         }

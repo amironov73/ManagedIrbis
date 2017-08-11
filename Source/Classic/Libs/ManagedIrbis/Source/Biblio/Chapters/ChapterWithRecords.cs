@@ -46,6 +46,13 @@ namespace ManagedIrbis.Biblio
         #region Properties
 
         /// <summary>
+        /// Filter.
+        /// </summary>
+        [CanBeNull]
+        [JsonProperty("filter")]
+        public string Filter { get; set; }
+
+        /// <summary>
         /// Records.
         /// </summary>
         [NotNull]
@@ -57,12 +64,12 @@ namespace ManagedIrbis.Biblio
         [NotNull]
         public RecordCollection Duplicates { get; private set; }
 
-        /// <summary>
-        /// Filter.
-        /// </summary>
-        [CanBeNull]
-        [JsonProperty("filter")]
-        public BiblioFilter Filter { get; set; }
+        ///// <summary>
+        ///// Filter.
+        ///// </summary>
+        //[CanBeNull]
+        //[JsonProperty("filter")]
+        //public BiblioFilter Filter { get; set; }
 
         #endregion
 
