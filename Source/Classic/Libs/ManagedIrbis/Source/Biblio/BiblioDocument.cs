@@ -20,7 +20,6 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
-using AM.Json;
 using AM.Runtime;
 
 using CodeJam;
@@ -30,6 +29,12 @@ using JetBrains.Annotations;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
+
+#if !PORTABLE
+
+using AM.Json;
+
+#endif
 
 #endregion
 
@@ -110,10 +115,18 @@ namespace ManagedIrbis.Biblio
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if PORTABLE
+
+            throw new NotSupportedException();
+
+#else
+
             BiblioDocument result = JsonUtility
                 .ReadObjectFromFile<BiblioDocument>(fileName);
 
             return result;
+
+#endif
         }
 
         #endregion
@@ -140,6 +153,6 @@ namespace ManagedIrbis.Biblio
 
         #region Object members
 
-        #endregion
+#endregion
     }
 }

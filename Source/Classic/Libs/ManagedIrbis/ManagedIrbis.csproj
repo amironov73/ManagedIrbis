@@ -180,7 +180,10 @@
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfClearDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfCloseDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfCopyDb.cs" />
+    <Compile Include="Source\Ibf\Infrastructure\Ast\IbfCopyMf.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfDeleteDb.cs" />
+    <Compile Include="Source\Ibf\Infrastructure\Ast\IbfDiagnosIf.cs" />
+    <Compile Include="Source\Ibf\Infrastructure\Ast\IbfDiagnosMf.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfExportDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfImportDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfLoadIf0.cs" />
@@ -191,6 +194,7 @@
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfOpenDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfReorgIf.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfReorgMf.cs" />
+    <Compile Include="Source\Ibf\Infrastructure\Ast\IbfRestoreMf.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfUnlockDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfUnlockRecord.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfUnLockRecordAll.cs" />
