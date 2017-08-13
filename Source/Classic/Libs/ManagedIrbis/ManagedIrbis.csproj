@@ -185,6 +185,7 @@
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfDiagnosIf.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfDiagnosMf.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfExportDb.cs" />
+    <Compile Include="Source\Ibf\Infrastructure\Ast\IbfGlobal.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfImportDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfLoadIf0.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfLoadIf1.cs" />
@@ -195,6 +196,8 @@
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfReorgIf.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfReorgMf.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfRestoreMf.cs" />
+    <Compile Include="Source\Ibf\Infrastructure\Ast\IbfSearch.cs" />
+    <Compile Include="Source\Ibf\Infrastructure\Ast\IbfSilence.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfUnlockDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfUnlockRecord.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfUnLockRecordAll.cs" />
