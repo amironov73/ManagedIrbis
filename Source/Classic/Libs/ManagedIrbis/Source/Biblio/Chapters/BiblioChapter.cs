@@ -22,6 +22,7 @@ using AM.Collections;
 using AM.IO;
 using AM.Logging;
 using AM.Runtime;
+using AM.Text.Output;
 
 using CodeJam;
 
@@ -91,6 +92,68 @@ namespace ManagedIrbis.Biblio
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Gather records.
+        /// </summary>
+        public virtual void GatherRecords
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine
+                (
+                    "Begin gather records {0}: {1}",
+                    GetType().Name,
+                    Title.ToVisibleString()
+                );
+
+            foreach (BiblioChapter chapter in Children)
+            {
+                chapter.GatherRecords(context);
+            }
+
+            log.WriteLine
+                (
+                    "End gather records {0}: {1}",
+                    GetType().Name,
+                    Title.ToVisibleString()
+                );
+        }
+
+        /// <summary>
+        /// Initialize the chapter.
+        /// </summary>
+        public virtual void Initialize
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine
+                (
+                    "Begin initialize {0}: {1}",
+                    GetType().Name,
+                    Title.ToVisibleString()
+                );
+
+            foreach (BiblioChapter child in Children)
+            {
+                child.Initialize(context);
+            }
+
+            log.WriteLine
+                (
+                    "End initialize {0}: {1}",
+                    GetType().Name,
+                    Title.ToVisibleString()
+                );
+        }
 
         /// <summary>
         /// Render the chapter.

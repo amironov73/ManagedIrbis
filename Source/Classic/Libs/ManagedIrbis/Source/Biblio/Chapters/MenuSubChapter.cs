@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ChapterWithRecords.cs -- 
+/* MenuSubChapter.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 using AM.Text;
 
@@ -40,35 +41,39 @@ namespace ManagedIrbis.Biblio
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class ChapterWithRecords
+    public sealed class MenuSubChapter
         : BiblioChapter
     {
         #region Properties
 
         /// <summary>
-        /// Records.
+        /// Key.
         /// </summary>
-        [NotNull]
-        public RecordCollection Records { get; private set; }
+        [CanBeNull]
+        public string Key { get; set; }
 
         /// <summary>
-        /// Duplicates.
+        /// Main chapter.
         /// </summary>
-        [NotNull]
-        public RecordCollection Duplicates { get; private set; }
+        [CanBeNull]
+        public MenuChapter MainChapter { get; set; }
+
+        /// <summary>
+        /// Value.
+        /// </summary>
+        [CanBeNull]
+        public string Value { get; set; }
+
+        /// <summary>
+        /// Special settings associated with the chapter
+        /// and its children.
+        /// </summary>
+        [CanBeNull]
+        public SpecialSettings SpecialSettings { get; set; }
 
         #endregion
 
         #region Construction
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public ChapterWithRecords()
-        {
-            Records = new RecordCollection();
-            Duplicates = new RecordCollection();
-        }
 
         #endregion
 

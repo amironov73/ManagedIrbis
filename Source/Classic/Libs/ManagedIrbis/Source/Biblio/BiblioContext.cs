@@ -22,7 +22,7 @@ using AM.Collections;
 using AM.IO;
 using AM.Runtime;
 using AM.Text;
-
+using AM.Text.Output;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -59,6 +59,12 @@ namespace ManagedIrbis.Biblio
         public IrbisProvider Provider { get; private set; }
 
         /// <summary>
+        /// Log.
+        /// </summary>
+        [NotNull]
+        public AbstractOutput Log { get; private set; }
+
+        /// <summary>
         /// All the gathered records.
         /// </summary>
         [NotNull]
@@ -80,13 +86,17 @@ namespace ManagedIrbis.Biblio
         public BiblioContext
             (
                 [NotNull] BiblioDocument document,
-                [NotNull] IrbisProvider provider
+                [NotNull] IrbisProvider provider,
+                [NotNull] AbstractOutput log
             )
         {
+            Code.NotNull(document, "document");
             Code.NotNull(provider, "provider");
+            Code.NotNull(log, "log");
 
             Document = document;
             Provider = provider;
+            Log = log;
             ReportContext = new ReportContext(provider);
             Records = new RecordCollection();
         }

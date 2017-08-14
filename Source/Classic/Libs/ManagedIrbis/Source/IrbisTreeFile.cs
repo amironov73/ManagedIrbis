@@ -253,6 +253,23 @@ namespace ManagedIrbis
                 return result.ToArray();
             }
 
+            /// <summary>
+            /// Walk over the tree.
+            /// </summary>
+            public void Walk
+                (
+                    [NotNull] Action<Item> action
+                )
+            {
+                Code.NotNull(action, "action");
+
+                action(this);
+                foreach (Item child in Children)
+                {
+                    child.Walk(action);
+                }
+            }
+
             #endregion
 
             #region IHandmadeSerializable members
@@ -626,6 +643,22 @@ DONE:
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Walk over the tree.
+        /// </summary>
+        public void Walk
+            (
+                [NotNull] Action<Item> action
+            )
+        {
+            Code.NotNull(action, "action");
+
+            foreach (Item child in Roots)
+            {
+                child.Walk(action);
+            }
         }
 
         #endregion

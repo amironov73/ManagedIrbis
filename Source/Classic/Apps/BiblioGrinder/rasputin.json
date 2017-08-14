@@ -79,7 +79,7 @@
       "recordSelector": "&uf('Av6628#1')",
 
       // Формат заголовка
-      "titleFormat": "&amp;uf('Av6628#1'), '. ', &amp;uf('K6628.MNU|',&amp;uf('Av6628#1'))",
+      "titleFormat": "v1, '. ', v2",
 
       // Только листья могут содержать записи
       "leafOnly": true,

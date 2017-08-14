@@ -68,9 +68,11 @@ namespace BiblioGrinder
                         provider.GetMaxMfn()
                     );
                 document = BiblioDocument.LoadFile(documentPath);
-                context = new BiblioContext(document, provider);
+                context = new BiblioContext(document, provider, log);
 
                 processor = new BiblioProcessor();
+                processor.Initialize(context);
+                processor.BuildDocument(context);
             }
             catch (Exception exception)
             {

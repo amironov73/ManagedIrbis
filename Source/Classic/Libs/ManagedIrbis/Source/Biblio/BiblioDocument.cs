@@ -27,6 +27,7 @@ using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Runtime;
+using AM.Text.Output;
 
 using CodeJam;
 
@@ -91,6 +92,46 @@ namespace ManagedIrbis.Biblio
         #region Public methods
 
         /// <summary>
+        /// Gather records.
+        /// </summary>
+        public void GatherRecords
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine("Begin gather records");
+
+            foreach (BiblioChapter chapter in Chapters)
+            {
+                chapter.GatherRecords(context);
+            }
+
+            log.WriteLine("End gather records");
+        }
+
+        /// <summary>
+        /// Initialize the document.
+        /// </summary>
+        public void Initialize
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine("Begin initialize the document");
+            foreach (BiblioChapter chapter in Chapters)
+            {
+                chapter.Initialize(context);
+            }
+            log.WriteLine("End initialize the document");
+        }
+
+        /// <summary>
         /// Load the file.
         /// </summary>
         [NotNull]
@@ -121,7 +162,7 @@ namespace ManagedIrbis.Biblio
                     "ManagedIrbis"
                 );
 
-            File.WriteAllText("_dump.json", obj.ToString());
+            // File.WriteAllText("_dump.json", obj.ToString());
 
             JsonSerializer serializer = new JsonSerializer
             {

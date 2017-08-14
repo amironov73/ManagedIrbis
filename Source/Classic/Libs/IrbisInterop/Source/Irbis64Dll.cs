@@ -749,7 +749,7 @@ namespace IrbisInterop
             {
                 return Path.Combine
                     (
-                        Configuration.SystemPath,
+                        Configuration.DataPath,
                         "Deposit"
                         + Path.DirectorySeparatorChar
                         + specification.FileName
@@ -790,7 +790,7 @@ namespace IrbisInterop
                 case IrbisPath.InvertedFile:
                     result = Path.Combine
                         (
-                            Configuration.DataPath,
+                            Configuration.SystemPath,
                             parameters.IfpPath.ThrowIfNull()
                         );
                     break;
@@ -798,17 +798,13 @@ namespace IrbisInterop
                 case IrbisPath.MasterFile:
                     result = Path.Combine
                         (
-                            Configuration.DataPath,
+                            Configuration.SystemPath,
                             parameters.MstPath.ThrowIfNull()
                         );
                     break;
 
                 case IrbisPath.ParameterFile:
-                    result = Path.Combine
-                        (
-                            Configuration.DataPath,
-                            parameters.MstPath.ThrowIfNull() // TODO ???
-                        );
+                    result = Configuration.DataPath;
                     break;
 
                 default:
