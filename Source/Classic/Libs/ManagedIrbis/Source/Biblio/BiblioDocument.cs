@@ -7,6 +7,12 @@
  * Status: poor
  */
 
+#if ANDROID
+
+extern alias json;
+
+#endif
+
 #region Using directives
 
 using System;
