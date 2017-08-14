@@ -46,6 +46,38 @@ namespace AM.Json
 
         #region Public methods
 
+        /// <summary>
+        /// Expand $type's.
+        /// </summary>
+        public static void ExpandTypes
+            (
+                [NotNull] JObject obj,
+                [NotNull] string nameSpace,
+                [NotNull] string assembly
+            )
+        {
+            Code.NotNull(obj, "obj");
+            Code.NotNullNorEmpty(nameSpace, "nameSpace");
+            Code.NotNullNorEmpty(assembly, "assembly");
+
+            IEnumerable<JToken> tokens = obj.SelectTokens("$..$type");
+            foreach (JToken token in tokens)
+            {
+                JValue val = (JValue)token;
+
+                string typeName = val.Value.ToString();
+                if (!typeName.Contains('.'))
+                {
+                    typeName = nameSpace
+                               + "."
+                               + typeName
+                               + ", "
+                               + assembly;
+                    val.Value = typeName;
+                }
+            }
+        }
+
 #if !WIN81
 
         /// <summary>

@@ -20,9 +20,11 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Parameters;
 using AM.Runtime;
 using AM.Text;
 using AM.Threading;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -48,7 +50,36 @@ namespace IrbisInterop
     public sealed class NativeIrbisProvider
         : IrbisProvider
     {
+        #region Constants
+
+        /// <summary>
+        /// Provider name.
+        /// </summary>
+        public const string ProviderName = "Native";
+
+        #endregion
+
         #region Properties
+
+        /// <inheritdoc cref="IrbisProvider.Database" />
+        public override string Database
+        {
+            get { return base.Database; }
+            set
+            {
+                Code.NotNullNorEmpty(value, "value");
+
+                // ReSharper disable ConditionIsAlwaysTrueOrFalse
+
+                if (!ReferenceEquals(Irbis64, null))
+                {
+                    Irbis64.UseDatabase(value);
+                }
+                base.Database = value;
+
+                // ReSharper restore ConditionIsAlwaysTrueOrFalse
+            }
+        }
 
         /// <summary>
         /// IRBIS64.DLL wrapper.
@@ -65,6 +96,16 @@ namespace IrbisInterop
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public NativeIrbisProvider()
+        {
+            // ReSharper disable AssignNullToNotNullAttribute
+            Irbis64 = null;
+            // ReSharper restore AssignNullToNotNullAttribute
+        }
 
         /// <summary>
         /// Constructor.
@@ -114,9 +155,99 @@ namespace IrbisInterop
 
         #region Public methods
 
+        /// <summary>
+        /// Register the provider.
+        /// </summary>
+        public static void Register()
+        {
+            ProviderManager.Registry.Add
+                (
+                    ProviderName,
+                    typeof(NativeIrbisProvider)
+                );
+        }
+
         #endregion
 
         #region IrbisProvider members
+
+        /// <inheritdoc cref="IrbisProvider.Configure" />
+        public override void Configure
+            (
+                string configurationString
+            )
+        {
+            Code.NotNullNorEmpty(configurationString, "configurationString");
+
+            Parameter[] parameters = ParameterUtility.ParseString
+            (
+                configurationString
+            );
+
+            foreach (Parameter parameter in parameters)
+            {
+                string name = parameter.Name
+                    .ThrowIfNull("parameter.Name")
+                    .ToLower();
+                string value = parameter.Value
+                    .ThrowIfNull("parameter.Value");
+
+                ServerConfiguration configuration;
+
+                switch (name)
+                {
+                    case "ini":
+                        configuration
+                            = ServerConfiguration.FromIniFile(value);
+                        Irbis64 = new Irbis64Dll(configuration);
+                        _ownIrbis64 = true;
+                        break;
+
+                    case "path":
+                    case "root":
+                        configuration
+                            = ServerConfiguration.FromPath(value);
+                        Irbis64 = new Irbis64Dll(configuration);
+                        _ownIrbis64 = true;
+                        break;
+
+                    case "layout":
+                    case "ver":
+                    case "version":
+                        SpaceLayout layout;
+                        switch (value)
+                        {
+                            case "2012":
+                                layout = SpaceLayout.Version2012();
+                                break;
+
+                            case "2014":
+                                layout = SpaceLayout.Version2014();
+                                break;
+
+                            case "2016":
+                                layout = SpaceLayout.Version2016();
+                                break;
+
+                            default:
+                                throw new IrbisException();
+                        }
+                        Irbis64.Layout = layout;
+                        break;
+
+                    case "db":
+                    case "database":
+                        Database = value;
+                        break;
+
+                    case "provider": // pass through
+                        break;
+
+                    default:
+                        throw new IrbisException();
+                }
+            }
+        }
 
         /// <inheritdoc cref="IrbisProvider.ExactSearchLinks"/>
         public override TermLink[] ExactSearchLinks

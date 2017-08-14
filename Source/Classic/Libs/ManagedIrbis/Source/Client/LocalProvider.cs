@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -21,6 +22,7 @@ using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Logging;
+using AM.Parameters;
 using AM.Runtime;
 using AM.Threading;
 
@@ -253,6 +255,49 @@ namespace ManagedIrbis.Client
         #endregion
 
         #region IrbisProvider members
+
+        /// <inheritdoc cref="IrbisProvider.Configure" />
+        public override void Configure
+            (
+                string configurationString
+            )
+        {
+            Code.NotNullNorEmpty(configurationString, "configurationString");
+
+            Parameter[] parameters = ParameterUtility.ParseString
+                (
+                    configurationString
+                );
+
+            foreach (Parameter parameter in parameters)
+            {
+                string name = parameter.Name
+                    .ThrowIfNull("parameter.Name")
+                    .ToLower();
+                string value = parameter.Value
+                    .ThrowIfNull("parameter.Value");
+
+                switch (name)
+                {
+                    case "path":
+                    case "root":
+                        RootPath = value;
+                        DataPath = value + "/DataI";
+                        break;
+
+                    case "db":
+                    case "database":
+                        Database = value;
+                        break;
+
+                    case "provider": // pass through
+                        break;
+
+                    default:
+                        throw new IrbisException();
+                }
+            }
+        }
 
         /// <inheritdoc cref="IrbisProvider.FileExist" />
         public override bool FileExist

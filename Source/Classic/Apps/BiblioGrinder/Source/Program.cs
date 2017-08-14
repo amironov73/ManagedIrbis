@@ -15,6 +15,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM.Text.Output;
+
+using IrbisInterop;
+
 using ManagedIrbis.Biblio;
 using ManagedIrbis.Client;
 
@@ -31,23 +35,37 @@ namespace BiblioGrinder
         private static BiblioDocument document;
         private static BiblioContext context;
         private static BiblioProcessor processor;
+        private static TeeOutput log;
 
         static void Main(string[] args)
         {
             if (args.Length != 2)
             {
-                Console.WriteLine("BiblioGrinder <configurationString> <biblioDocument>");
+                Console.WriteLine("BiblioGrinder <configurationString> <biblioDocument.json>");
                 return;
             }
+
+            log = new TeeOutput(AbstractOutput.Console);
 
             configurationString = args[0];
             documentPath = args[1];
 
             try
             {
+                AbstractOutput logFile = new FileOutput("grinder.txt");
+                log.Output.Add(logFile);
+
+                NativeIrbisProvider.Register();
+
                 provider = ProviderManager.GetAndConfigureProvider
                     (
                         configurationString
+                    );
+                log.WriteLine
+                    (
+                        "Connected to database {0}, max MFN={1}",
+                        provider.Database,
+                        provider.GetMaxMfn()
                     );
                 document = BiblioDocument.LoadFile(documentPath);
                 context = new BiblioContext(document, provider);
@@ -56,7 +74,11 @@ namespace BiblioGrinder
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception);
+                log.WriteLine
+                    (
+                        "Exception: {0}",
+                        exception
+                    );
 
             }
         }

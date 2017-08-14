@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ChapterWithText.cs -- 
+/* ChapterWithStatistics.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 using AM.Text;
 
@@ -28,6 +29,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
 using Newtonsoft.Json;
 
 #endregion
@@ -39,17 +41,10 @@ namespace ManagedIrbis.Biblio
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class ChapterWithText
+    public sealed class ChapterWithStatistics
         : BiblioChapter
     {
         #region Properties
-
-        /// <summary>
-        /// Text.
-        /// </summary>
-        [CanBeNull]
-        [JsonProperty("text")]
-        public string Text { get; set; }
 
         #endregion
 
@@ -62,21 +57,6 @@ namespace ManagedIrbis.Biblio
         #endregion
 
         #region Public methods
-
-        #endregion
-
-        #region BiblioChapter members
-
-        /// <inheritdoc cref="BiblioChapter.Render" />
-        public override void Render
-            (
-                BiblioContext context
-            )
-        {
-            Code.NotNull(context, "context");
-
-            // TODO
-        }
 
         #endregion
 

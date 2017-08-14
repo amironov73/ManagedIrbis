@@ -29,10 +29,17 @@ using JetBrains.Annotations;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 #if !PORTABLE
 
 using AM.Json;
+
+#endif
+
+#if !WINMOBILE
+
+using System.Runtime.Serialization.Formatters;
 
 #endif
 
@@ -50,39 +57,12 @@ namespace ManagedIrbis.Biblio
     {
         #region Properties
 
-        ///// <summary>
-        ///// Menu name.
-        ///// </summary>
-        //[CanBeNull]
-        //[JsonProperty("menu")]
-        //public string MenuName { get; set; }
-
-        ///// <summary>
-        ///// Record filter: search expression.
-        ///// </summary>
-        //[CanBeNull]
-        //[JsonProperty("filter")]
-        //public string Filter { get; set; }
-
-        /// <summary>
-        /// Record format.
-        /// </summary>
-        [CanBeNull]
-        [JsonProperty("format")]
-        public string Format { get; set; }
-
         /// <summary>
         /// Chapters.
         /// </summary>
         [NotNull]
         [JsonProperty("chapters")]
         public ChapterCollection Chapters { get; private set; }
-
-        ///// <summary>
-        ///// Global filter for the document.
-        ///// </summary>
-        //[JsonProperty("filter")]
-        //public BiblioFilter Filter { get; set; }
 
         #endregion
 
@@ -121,8 +101,38 @@ namespace ManagedIrbis.Biblio
 
 #else
 
-            BiblioDocument result = JsonUtility
-                .ReadObjectFromFile<BiblioDocument>(fileName);
+            string contents = File.ReadAllText
+                (
+                    fileName,
+                    IrbisEncoding.Utf8
+                );
+            JObject obj = JObject.Parse(contents);
+
+            JsonUtility.ExpandTypes
+                (
+                    obj,
+                    "ManagedIrbis.Biblio",
+                    "ManagedIrbis"
+                );
+
+            File.WriteAllText("_dump.json", obj.ToString());
+
+            JsonSerializer serializer = new JsonSerializer
+            {
+                TypeNameHandling = TypeNameHandling.Objects,
+#if ANDROID
+                TypeNameAssemblyFormat = json::System.Runtime
+                    .Serialization.Formatters
+                    .FormatterAssemblyStyle.Simple
+#else
+                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+#endif            
+            };
+
+            BiblioDocument result = obj.ToObject<BiblioDocument>
+                (
+                    serializer
+                );
 
             return result;
 
@@ -153,6 +163,6 @@ namespace ManagedIrbis.Biblio
 
         #region Object members
 
-#endregion
+        #endregion
     }
 }
