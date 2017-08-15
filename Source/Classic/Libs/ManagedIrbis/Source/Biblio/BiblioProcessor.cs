@@ -219,8 +219,11 @@ namespace ManagedIrbis.Biblio
                 string fileName;
                 if (path.StartsWith("*"))
                 {
+#if !PORTABLE
+
                     fileName = path.Substring(1);
                     result = File.ReadAllText(fileName, IrbisEncoding.Ansi);
+#endif
                 }
                 else if (path.StartsWith("@"))
                 {
