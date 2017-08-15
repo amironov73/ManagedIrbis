@@ -201,11 +201,15 @@
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfLockDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfNewDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfOpenDb.cs" />
+    <Compile Include="Source\Ibf\Infrastructure\Ast\IbfOperandSep.cs" />
+    <Compile Include="Source\Ibf\Infrastructure\Ast\IbfPrint.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfReorgIf.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfReorgMf.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfRestoreMf.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfSearch.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfSilence.cs" />
+    <Compile Include="Source\Ibf\Infrastructure\Ast\IbfStat.cs" />
+    <Compile Include="Source\Ibf\Infrastructure\Ast\IbfStatF.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfUnlockDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfUnlockRecord.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfUnLockRecordAll.cs" />
