@@ -182,6 +182,7 @@
     <Compile Include="Source\Gbl\Infrastructure\GblNode.cs" />
     <Compile Include="Source\Gbl\Infrastructure\GblNodeCollection.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfActualIf.cs" />
+    <Compile Include="Source\Ibf\Infrastructure\Ast\IbfAutoAsk.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfClearDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfCloseDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfCopyDb.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfDeleteDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfDiagnosIf.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfDiagnosMf.cs" />
+    <Compile Include="Source\Ibf\Infrastructure\Ast\IbfExit.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfExportDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfGlobal.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfImportDb.cs" />
@@ -196,6 +198,7 @@
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfLoadIf1.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfLoadIf2.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfLoadIfComplete.cs" />
+    <Compile Include="Source\Ibf\Infrastructure\Ast\IbfLockDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfNewDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfOpenDb.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfReorgIf.cs" />
@@ -207,6 +210,7 @@
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfUnlockRecord.cs" />
     <Compile Include="Source\Ibf\Infrastructure\Ast\IbfUnLockRecordAll.cs" />
     <Compile Include="Source\Ibf\Infrastructure\IbfContext.cs" />
+    <Compile Include="Source\Ibf\Infrastructure\IbfExitException.cs" />
     <Compile Include="Source\Ibf\Infrastructure\IbfNode.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\CompilerProxy.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexInfo.cs" />
