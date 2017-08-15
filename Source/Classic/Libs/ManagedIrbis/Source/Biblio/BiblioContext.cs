@@ -47,6 +47,12 @@ namespace ManagedIrbis.Biblio
         #region Properties
 
         /// <summary>
+        /// Processor.
+        /// </summary>
+        [CanBeNull]
+        public BiblioProcessor Processor { get; set; }
+
+        /// <summary>
         /// Document.
         /// </summary>
         [NotNull]

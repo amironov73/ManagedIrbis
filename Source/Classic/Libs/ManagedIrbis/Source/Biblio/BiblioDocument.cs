@@ -92,9 +92,30 @@ namespace ManagedIrbis.Biblio
         #region Public methods
 
         /// <summary>
+        /// Build items.
+        /// </summary>
+        public void BuildItems
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine("Begin build items");
+
+            foreach (BiblioChapter chapter in Chapters)
+            {
+                chapter.BuildItems(context);
+            }
+
+            log.WriteLine("End build items");
+        }
+
+        /// <summary>
         /// Gather records.
         /// </summary>
-        public void GatherRecords
+        public virtual void GatherRecords
             (
                 [NotNull] BiblioContext context
             )
@@ -115,7 +136,7 @@ namespace ManagedIrbis.Biblio
         /// <summary>
         /// Initialize the document.
         /// </summary>
-        public void Initialize
+        public virtual void Initialize
             (
                 [NotNull] BiblioContext context
             )

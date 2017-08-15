@@ -23,11 +23,13 @@ using AM.IO;
 using AM.Logging;
 using AM.Runtime;
 using AM.Text;
+using AM.Text.Output;
 
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Client;
+using ManagedIrbis.Pft;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -65,15 +67,36 @@ namespace ManagedIrbis.Biblio
         public string Value { get; set; }
 
         /// <summary>
+        /// Records.
+        /// </summary>
+        [NotNull]
+        public List<MarcRecord> Records { get; private set; }
+
+        /// <summary>
         /// Special settings associated with the chapter
         /// and its children.
         /// </summary>
         [CanBeNull]
         public SpecialSettings SpecialSettings { get; set; }
 
+        /// <summary>
+        /// Items.
+        /// </summary>
+        [NotNull]
+        public List<BiblioItem> Items { get; set; }
+
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public MenuSubChapter()
+        {
+            Records = new List<MarcRecord>();
+            Items = new List<BiblioItem>();
+        }
 
         #endregion
 
@@ -82,6 +105,109 @@ namespace ManagedIrbis.Biblio
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region BiblioChapter members
+
+        /// <inheritdoc cref="BiblioChapter.BuildItems" />
+        public override void BuildItems
+            (
+                BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine
+                (
+                    "Begin build items {0}: {1}",
+                    GetType().Name,
+                    Title.ToVisibleString()
+                );
+
+            try
+            {
+                BiblioProcessor processor = context.Processor
+                    .ThrowIfNull();
+                IrbisProvider provider = context.Provider;
+                MenuChapter mainChapter = MainChapter.ThrowIfNull();
+                PftFormatter formatter = mainChapter.Formatter
+                    .ThrowIfNull();
+                string formatText = processor.GetText
+                    (
+                        context,
+                        mainChapter.Format
+                    );
+
+                for (int i = 0; i < Records.Count; i++)
+                {
+                    if (i % 100 == 0)
+                    {
+                        log.Write(".");
+                    }
+                }
+
+                foreach (BiblioChapter chapter in Children)
+                {
+                    chapter.BuildItems(context);
+                }
+            }
+            catch (Exception exception)
+            {
+                log.WriteLine("Exception: {0}", exception);
+                throw;
+            }
+
+            log.WriteLine
+                (
+                    "End build items {0}: {1}",
+                    GetType().Name,
+                    Title.ToVisibleString()
+                );
+        }
+
+        /// <inheritdoc cref="BiblioChapter.GatherRecords" />
+        public override void GatherRecords
+            (
+                BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine
+                (
+                    "Begin gather records {0}: {1}",
+                    GetType().Name,
+                    Title.ToVisibleString()
+                );
+
+            try
+            {
+                IrbisProvider provider = context.Provider;
+                MenuChapter mainChapter = MainChapter.ThrowIfNull();
+                PftFormatter formatter = mainChapter.Formatter
+                    .ThrowIfNull();
+
+                // What to do?
+
+            }
+            catch (Exception exception)
+            {
+                log.WriteLine("Exception: {0}", exception);
+                throw;
+            }
+
+            log.WriteLine("Record count: {0}", Records.Count);
+
+            log.WriteLine
+                (
+                    "End gather records {0}: {1}",
+                    GetType().Name,
+                    Title.ToVisibleString()
+                );
+        }
 
         #endregion
 

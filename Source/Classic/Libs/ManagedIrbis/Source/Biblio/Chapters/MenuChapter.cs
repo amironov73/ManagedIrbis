@@ -120,6 +120,12 @@ namespace ManagedIrbis.Biblio
         [CanBeNull]
         public List<MarcRecord> Records { get; private set; }
 
+        /// <summary>
+        /// Bad records.
+        /// </summary>
+        [CanBeNull]
+        public List<MarcRecord> BadRecords { get; private set; }
+
         #endregion
 
         #region Construction
@@ -141,7 +147,7 @@ namespace ManagedIrbis.Biblio
                 [NotNull] IrbisTreeFile.Item item
             )
         {
-            string key = item.Prefix;
+            string key = item.Prefix.Trim();
             SpecialSettings settings = SpecialSettings.FirstOrDefault
                 (
                     s => s.Name == key
@@ -225,9 +231,59 @@ namespace ManagedIrbis.Biblio
                 }
                 log.WriteLine(" done");
 
+                Dictionary<string, MenuSubChapter> dictionary
+                    = new Dictionary<string, MenuSubChapter>();
+                Action<BiblioChapter> action = chapter =>
+                {
+                    MenuSubChapter subChapter = chapter as MenuSubChapter;
+                    if (!ReferenceEquals(subChapter, null))
+                    {
+                        string key = subChapter.Key
+                            .ThrowIfNull("subChapter.Key");
+                        dictionary.Add(key, subChapter);
+                    }
+                };
+                Walk(action);
+
                 string recordSelector = RecordSelector
                     .ThrowIfNull("RecordSelector");
                 formatter.ParseProgram(recordSelector);
+                log.Write("Distributing recors");
+
+                BadRecords = new List<MarcRecord>();
+
+                for (int i = 0; i < Records.Count; i++)
+                {
+                    if (i % 100 == 0)
+                    {
+                        log.Write(".");
+                    }
+
+                    record = Records[i];
+                    string key = formatter.Format(record);
+                    if (string.IsNullOrEmpty(key))
+                    {
+                        BadRecords.Add(record);
+                    }
+                    else
+                    {
+                        key = key.Trim();
+                        MenuSubChapter subChapter;
+                        if (dictionary.TryGetValue(key, out subChapter))
+                        {
+                            subChapter.Records.Add(record);
+                        }
+                        else
+                        {
+                            BadRecords.Add(record);
+                        }
+                    }
+                }
+
+                log.WriteLine(" done");
+                log.WriteLine("Bad records: {0}", BadRecords.Count);
+
+                // Do we really need this?
 
                 foreach (BiblioChapter child in Children)
                 {
@@ -281,10 +337,14 @@ namespace ManagedIrbis.Biblio
                     throw new IrbisException();
                 }
                 IrbisTreeFile tree = menu.ToTree();
+
+                // Create Formatter
+
                 PftContext pftContext = new PftContext(null);
                 PftFormatter formatter = new PftFormatter(pftContext);
                 formatter.SetProvider(provider);
                 Formatter = formatter;
+
                 string titleFormat = TitleFormat
                     .ThrowIfNull("TitleFormat");
                 formatter.ParseProgram(titleFormat);

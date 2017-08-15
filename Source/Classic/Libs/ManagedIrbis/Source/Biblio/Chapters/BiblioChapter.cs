@@ -94,6 +94,37 @@ namespace ManagedIrbis.Biblio
         #region Public methods
 
         /// <summary>
+        /// Build <inheritdoc cref="BiblioItem"/>s.
+        /// </summary>
+        public virtual void BuildItems
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine
+                (
+                    "Begin build items {0}: {1}",
+                    GetType().Name,
+                    Title.ToVisibleString()
+                );
+
+            foreach (BiblioChapter chapter in Children)
+            {
+                chapter.BuildItems(context);
+            }
+
+            log.WriteLine
+                (
+                    "End build items {0}: {1}",
+                    GetType().Name,
+                    Title.ToVisibleString()
+                );
+        }
+
+        /// <summary>
         /// Gather records.
         /// </summary>
         public virtual void GatherRecords
@@ -172,6 +203,23 @@ namespace ManagedIrbis.Biblio
                     "BiblioChapter::Render: "
                     + "must be overriden"
                 );
+        }
+
+        /// <summary>
+        /// Walk over the chapter and its children.
+        /// </summary>
+        public void Walk
+            (
+                [NotNull] Action<BiblioChapter> action
+            )
+        {
+            Code.NotNull(action, "action");
+
+            action(this);
+            foreach (BiblioChapter child in Children)
+            {
+                child.Walk(action);
+            }
         }
 
         #endregion

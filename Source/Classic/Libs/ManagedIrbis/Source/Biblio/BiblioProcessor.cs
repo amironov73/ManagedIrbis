@@ -99,7 +99,10 @@ namespace ManagedIrbis.Biblio
                 BiblioContext context
             )
         {
-            throw new NotImplementedException();
+            Code.NotNull(context, "context");
+
+            BiblioDocument document = context.Document;
+            document.BuildItems(context);
         }
 
         /// <summary>
@@ -164,13 +167,38 @@ namespace ManagedIrbis.Biblio
             Code.NotNull(context, "context");
 
             GatherRecords(context);
-            //BildItems(context);
+            BildItems(context);
             //GatherTerms(context);
             //BildDictionaries(context);
             //RenderReport(context);
             //FinalRender(context);
 
             return string.Empty;
+        }
+
+        /// <summary>
+        /// Get text.
+        /// </summary>
+        [CanBeNull]
+        public string GetText
+            (
+                [NotNull] BiblioContext context, 
+                [NotNull] string path
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNullNorEmpty(path, "path");
+
+            if (path.StartsWith("*"))
+            {
+                
+            }
+            if (path.StartsWith("@"))
+            {
+                
+            }
+
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -185,6 +213,7 @@ namespace ManagedIrbis.Biblio
 
             AbstractOutput log = context.Log;
             log.WriteLine("Begin initialize the processor");
+            context.Processor = this;
             BiblioDocument document = context.Document;
             document.Initialize(context);
             log.WriteLine("End initialize the processor");
@@ -195,5 +224,6 @@ namespace ManagedIrbis.Biblio
         #region Object members
 
         #endregion
+
     }
 }

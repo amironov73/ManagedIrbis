@@ -1,0 +1,132 @@
+'\par \par \fs20','\pard \ql \li600\ri800 '
+&unifor('S1A')'.    \b 'mhl,
+if s(v982^s,v982^k)<>'' then v903' '&unifor("kstr.mnu|"v982^s),", "d982^k,&unifor('Av982^k#1')," "d982^i,&unifor('Av982^i#1'),". "d982^k,'\par '
+fi,v461^x,v461^b,
+if v461^x:','or p(v461^b) then'.'fi,'\b0 ',
+if p(v461)then 
+   if s(v461^x,v461^b)<>''then'\par \pard \ql \li600\ri800\fi300 ',v461^c
+   else '\b '&unifor('E3'v461^c),'\b0  ',
+      if &unifor('F3'v461^c)<>''then' '&unifor('F3'v461^c) fi 
+   fi,
+   if s(v230v135)<>''then ' [Электронный ресурс]' fi,
+   | = |v46^l,| : |v461^e,| / |v461^f,
+   |. - |v461^p,(". - "| ; |+v461^d,| : |v461^g),
+   |. - |v461^h,(|. - (|v46^a,| ; |v46^v,
+   if s(v46^a,v46^v)<>''then|)|d46 fi,   |. - |v46^p),
+   if s(v982^1,v982^4,v982^5)<>''then'. - 'v982^1|; |,|№ ГР |v982^4,|; Инв.№ |v982^5 fi,
+   if v10^a:v461^i or s(v10^a)=''then else". - ISBN "v461^i fi,". - ISSN "v461^j,
+fi,
+"\par \pard \ql \b \li600\ri800\fi300 "d461,
+"\b "v200^v"\b0 ",
+if p(v200^v) and p(v200^a) then' : 'fi,
+if p(v200^a) then'\b 'v700^a," "v700^d,", "v700^g".",if a(v700^g)then", "v700^b fi'\b0 ',
+   if s(v700^1,v700^c,v700^f)<>''then' (',v700^1,if s(v700^1)<>''then" ; "d700^c fi,v700^c,
+      if s(v700^1,v700^c)<>''then" ; "d700^f fi,v700^f,'). '
+   else"."d700^g," "d700^a  fi,'\b 'v710^s".",v710^a,
+   if s(v710^n,v710^c)<>''then' ('v710^n" ; ",v710^c,')'fi,". "v710^b,
+   if s(v710^d,v710^f,v710^e)<>''then' ('v710^d" ; ",v710^f,
+      if p(v710^f)then" ; "v710^e else v710^e fi," / "v710^h," / "v710^i')'fi,". "d710,v971^b,
+   if s(v971^d,v971^f,v971^e)<>''then' ('v971^d" ; ",v971^f,if p(v971^f)then" ; "v971^e else v971^e fi,
+   " / "v971^h," / "v971^i')'fi,". "d971^b'\b0 '
+fi,
+if p(v461) then v200^a else 
+   if s(v700v710)=''then'\b '&unifor('E3'v200^a),'\b0 ',
+      if &unifor('F3'v200^a)<>'' then' '&unifor('F3'v200^a) fi 
+   else "\par "v200^a 
+fi fi,
+if a(v461) then if s(v230v135)<>''then ' [Электронный ресурс]' fi fi,
+if v920:'NJ'then'\b '
+   ref(l(|I=|v933),&unifor('E3'v200^a)'\b0 ',
+      if &unifor('F3'v200^a)<>''then' '&unifor('F3'v200^a) fi," [Электронный ресурс]"d230,| / |v200^f,
+      ". - "d230^a,(if p(v230^a) then ""| и |+v230^a fi),". "d110^d,
+      if &unifor('Krksp.mnu|'v110^d)<>''then &unifor('Krksp.mnu|'v110^d) else"Периодичность "v110^d fi),
+   '\b '," - "v934"г.",
+   if p(v935) then ref(l("I="v933),if p(v210^8) then' 'v210^8' 'else' т.'fi),v935 fi,
+   if p(v936) then ref(l("I="v933),if p(v210^9) then' 'v210^9' 'else' N 'fi),v936 fi,
+   '\b0 ',
+   if p(v922) then'\par ',if &unifor('Av905^k#1')<>''then'Из содержания: 'else'Содержание: 'fi fi,
+   (if p(v922) then v922^c,| / |v922^f,|,|v922^2,|,|v922^3,
+       if p(v922^f)then'. 'else v922.1+| ; |,
+    fi fi)
+else 
+   if p(v922) then &uf('6ibis922'), 
+      (| = |v510^d,| : |v510^e,| / |v510^f,| ; |v510^g),| : |v924 
+   else
+      if s(v510^e)<>''then| : |v200^e,(|. |v923^h,| : |v923^i,|. |v923^k,| : |v923^l) fi,
+      if s(v510^f)<>''then| / |v200^f,| ; |v200^g fi,
+      (| = |v510^d,| : |v510^e,| / |v510^f,| ; |v510^g),| : |v924,
+      if s(v510^e)=''then| : |v200^e,(|. |v923^h,| : |v923^i,|. |v923^k,| : |v923^l) fi,
+      if s(v510^f)=''then | / |v200^f,| ; |v200^g,
+fi fi fi,
+". - "v205^a,if p(v205^a)then" / "v205^f else". - "v205^f fi,
+if a(v922)then (if v123^x:'0'then ". - 1 : "|, 1 : |+v123^d,| ; 1 : |v123^e,v123^f fi) fi,
+|. - № |v982^z,| ; Заявл. |v982^r*6|.|,v982^r*4.2|.|,v982^r.4,| ; Опубл. |v982^p*6|.|,
+v982^p*4.2|.|,v982^p.4,|, |v982^m,| ; Приор. |v982^v*6|.|,v982^v*4.2|.|,v982^v.4,|, № |v982^x,
+if p(v982^y) then' ('&unifor('Kstr.mnu|'v982^y)')'fi,
+if &unifor('Av982^k#2')<>'' then' ; '&unifor('Av982^k#2')' '&unifor('Av982^i#2') fi,
+". - Взамен "v982^a,
+if s(v982^b,v982^c)<>''then if a(v982^a)then'. - 'else' ; 'fi fi,"Введ. с "v982^b," по "v982^c,
+if p(v328^c)then". - Защищена "v328^c*6'.'v328^c*4.2'.'v328^c.4 fi,
+if p(v328^d)then " ; "d328^c,". -"n328^c,"Утв. "v328^d*6'.'v328^d*4.2'.'v328^d.4 fi, " ; "v328^e,
+if a(v461) then". - "d230^a,(if p(v230^a) then ""| и |+v230^a fi) fi,
+if s(v210^a)=''then 
+   if s(v461^d,v463v110v981v982^z)<>''then else 
+      if &unifor('Kjzk.mnu|'&unifor('Av101#1'))<>''then'. - [б. м.]'else'. - [s. l.]'fi 
+fi fi, 
+if &unifor('Av210^d#2')<>'' then 
+   (if p(v210) then ". - "| ; |+v210^a,| ; |v210^x,| ; |v210^y,| : |v210^c, 
+       if &unifor('Av461#1')<>''then 
+          if s(v210^a,v210^c)<>''then|, |v210^d else|. - |v210^d fi 
+       else |, |v210^d 
+    fi fi),
+else (". - "| ; |+v210^a,| ; |v210^x,| ; |v210^y,| : |v210^c), 
+   if p(v230) and s(v210^a,v210^c,v461)='' then  
+      if &unifor('Kjzk.mnu|'&unifor('Av101#1'))<>''then' : [б. и.]'else' : [s. n.]'fi 
+   fi,
+   if p(v461) then 
+      if s(v210^a,v210^c)<>''then|, |v210^d else|. - |v210^d fi 
+   else |, |v210^d 
+fi fi,
+if s(v933,v461,v463,v110,v981v982^z)<>''then else 
+   if s(v210^d)='' then 
+      if &unifor('Kjzk.mnu|'&unifor('Av101#1'))<>''then', [б. г.]'else', [s. a.]'fi 
+fi fi,
+if v920='J'then" - "d210^d" - ",v210^e,"    "n210^e fi," ("v210^1")",
+(". - "| ; |+v215^a,| |d215^1,&unifor('G2='v215^1),
+if a(v215^1)then 
+   if v215^a:'с'or v215^a:'c'or v215^a:'p'or v215^a:'S'then else 
+      if p(v215^a) then &unifor('Korg.mnu|4') fi,
+      if s(v215^c,v215^d,v215^e)<>''then |.|d215^a 
+fi fi fi,| : |d215^c,
+if v215^c*1.1='-'then v215^c*2,|, |v215^0*2,|, |v215^7*2,|, |v215^8*2 else v215^c fi,| ; |v215^d,
+if s(&unifor('G2='v230^b),&unifor('G2='v230^c))<>''then' : '&unifor('G2='v230^b),
+   if &unifor('G2='v230^c)<>''then if &unifor('G2='v230^b)<>''then', 'fi,&unifor('G2='v230^c) 
+fi fi),
+(if v123^x:'1' then| : \b |v123^a*3|\b0 |,|, |v123^b*3 fi),
+(if p(v225)then 
+    if v225^n:'0'then else|. - (|v225^a,| = |v225^d,| : |v225^e,| / |v225^f,|, ISSN |v225^x,| ; |v225^v,|. |v225^h,
+       if p(v225^h) then|, |v225^i else |. |v225^i fi,| = |v225^1,| ; |v225^w,|. |v225^k,
+       if p(v225^k) then|, |v225^l else |. |v225^l fi,| = |v225^2,| ; |v225^y,|)|d225 
+ fi fi),
+(if v517^n:'0'then else|. - |v517^t*4,| : |v517^a fi),
+". - \b Пер.изд.: \b0"v454^a," / "v454^d,", "v454^e,", "v454^f,". - "v454^p,
+". - "v454^g,", "v454^h,". - "v963^1,
+if v920:'NJ' then else if p(v463) then ,OISTASPK, fi fi,
+|. - |v912,|. - |v320,|. - |v314,
+if s(v461^j)=''then". - \b ISSN \b0 "|. - |+v11^a fi,
+if p(v215^x)then 
+   if val(v215^x)=0 then|  тираж |v215^x else|  |v215^x| экз.|fi 
+fi,
+if v920:'asp' then else". (Шифр "v903")"fi,
+if s(v910^c)<>''then'\par \pard \ql \li600\ri800 Экземпляры: всего:'
+   f(rsum((if p(v910^c) then if 'C U':v910^a then v910^1|;|,|1;|n910^1 else 
+                                if '6 2 4 7':v910^a then else'1;'fi 
+           fi fi)),0,0),' - ',&unifor('O'),
+fi,
+if &unifor('Av905^g#1')<>''or &unifor('IPRIVATE,FPA,')<>''then else 
+|\par \pard \qj \li600\ri100\fi300 |v331,
+fi,
+"\par \pard \b \ql \li600\ri800 Учебная литература: \b0 "d691,("\par "|;  |+v691^a
+,|/|v691^b,|/|v691^c,|/|v691^d,|/|v691^e,|/|v691^f,|/|v691^g)'\par '
+("\b Держатели документа: \b0 \par "v902^a,|: |v902^b,|\par |d902),
+mpl, &uf('!'),
