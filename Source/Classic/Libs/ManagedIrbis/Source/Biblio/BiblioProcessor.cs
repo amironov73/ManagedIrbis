@@ -29,6 +29,9 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Client;
+using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Pft;
+using ManagedIrbis.Pft.Infrastructure;
 
 using MoonSharp.Interpreter;
 
@@ -177,28 +180,72 @@ namespace ManagedIrbis.Biblio
         }
 
         /// <summary>
+        /// Get formatter.
+        /// </summary>
+        [NotNull]
+        public PftFormatter GetFormatter
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            PftContext pftContext = new PftContext(null);
+            PftFormatter result = new PftFormatter(pftContext);
+            result.SetProvider(context.Provider);
+
+            return result;
+        }
+
+        /// <summary>
         /// Get text.
         /// </summary>
         [CanBeNull]
         public string GetText
             (
-                [NotNull] BiblioContext context, 
+                [NotNull] BiblioContext context,
                 [NotNull] string path
             )
         {
             Code.NotNull(context, "context");
             Code.NotNullNorEmpty(path, "path");
 
-            if (path.StartsWith("*"))
+            AbstractOutput log = context.Log;
+            IrbisProvider provider = context.Provider;
+
+            string result = null;
+            try
             {
-                
+                string fileName;
+                if (path.StartsWith("*"))
+                {
+                    fileName = path.Substring(1);
+                    result = File.ReadAllText(fileName, IrbisEncoding.Ansi);
+                }
+                else if (path.StartsWith("@"))
+                {
+                    fileName = path.Substring(1);
+                    FileSpecification specification
+                        = new FileSpecification
+                            (
+                                IrbisPath.MasterFile,
+                                provider.Database,
+                                fileName
+                            );
+                    result = provider.ReadFile(specification);
+                }
+                else
+                {
+                    result = path;
+                }
             }
-            if (path.StartsWith("@"))
+            catch (Exception exception)
             {
-                
+                log.WriteLine("Exception: {0}", exception);
+                throw;
             }
 
-            throw new NotImplementedException();
+            return result;
         }
 
         /// <summary>

@@ -109,12 +109,6 @@ namespace ManagedIrbis.Biblio
         public List<SpecialSettings> SpecialSettings { get; private set; }
 
         /// <summary>
-        /// Formatter.
-        /// </summary>
-        [CanBeNull]
-        public PftFormatter Formatter { get; private set; }
-
-        /// <summary>
         /// Records.
         /// </summary>
         [CanBeNull]
@@ -144,6 +138,7 @@ namespace ManagedIrbis.Biblio
 
         private MenuSubChapter _CreateChapter
             (
+                [NotNull] PftFormatter formatter,
                 [NotNull] IrbisTreeFile.Item item
             )
         {
@@ -157,9 +152,7 @@ namespace ManagedIrbis.Biblio
             MarcRecord record = new MarcRecord();
             record.Fields.Add(new RecordField(1, key));
             record.Fields.Add(new RecordField(2, value));
-            string title = Formatter
-                .ThrowIfNull("Formatter")
-                .Format(record);
+            string title = formatter.Format(record);
 
             MenuSubChapter result = new MenuSubChapter
             {
@@ -172,7 +165,8 @@ namespace ManagedIrbis.Biblio
 
             foreach (IrbisTreeFile.Item child in item.Children)
             {
-                MenuSubChapter subChapter = _CreateChapter(child);
+                MenuSubChapter subChapter
+                    = _CreateChapter(formatter, child);
                 result.Children.Add(subChapter);
             }
 
@@ -205,77 +199,80 @@ namespace ManagedIrbis.Biblio
 
             try
             {
-                IrbisProvider provider = context.Provider;
-                string searchExpression = SearchExpression
-                    .ThrowIfNull("SearchExpression");
-
-                PftFormatter formatter = Formatter
-                    .ThrowIfNull("Formatter");
-                formatter.ParseProgram(searchExpression);
-                MarcRecord record = new MarcRecord();
-                searchExpression = formatter.Format(record);
-
-                int[] found = provider.Search(searchExpression);
-                log.WriteLine("Found: {0} record(s)", found.Length);
-
-                log.Write("Reading records");
-                Records = new List<MarcRecord>();
-                for (int i = 0; i < found.Length; i++)
+                BiblioProcessor processor = context.Processor
+                    .ThrowIfNull("context.Processor");
+                using (PftFormatter formatter = processor.GetFormatter(context))
                 {
-                    if (i % 100 == 0)
-                    {
-                        log.Write(".");
-                    }
-                    record = provider.ReadRecord(found[i]);
-                    Records.Add(record);
-                }
-                log.WriteLine(" done");
+                    IrbisProvider provider = context.Provider;
 
-                Dictionary<string, MenuSubChapter> dictionary
-                    = new Dictionary<string, MenuSubChapter>();
-                Action<BiblioChapter> action = chapter =>
-                {
-                    MenuSubChapter subChapter = chapter as MenuSubChapter;
-                    if (!ReferenceEquals(subChapter, null))
-                    {
-                        string key = subChapter.Key
-                            .ThrowIfNull("subChapter.Key");
-                        dictionary.Add(key, subChapter);
-                    }
-                };
-                Walk(action);
+                    string searchExpression = SearchExpression
+                        .ThrowIfNull("SearchExpression");
+                    formatter.ParseProgram(searchExpression);
+                    MarcRecord record = new MarcRecord();
+                    searchExpression = formatter.Format(record);
 
-                string recordSelector = RecordSelector
-                    .ThrowIfNull("RecordSelector");
-                formatter.ParseProgram(recordSelector);
-                log.Write("Distributing recors");
+                    int[] found = provider.Search(searchExpression);
+                    log.WriteLine("Found: {0} record(s)", found.Length);
 
-                BadRecords = new List<MarcRecord>();
-
-                for (int i = 0; i < Records.Count; i++)
-                {
-                    if (i % 100 == 0)
+                    log.Write("Reading records");
+                    Records = new List<MarcRecord>();
+                    for (int i = 0; i < found.Length; i++)
                     {
-                        log.Write(".");
-                    }
-
-                    record = Records[i];
-                    string key = formatter.Format(record);
-                    if (string.IsNullOrEmpty(key))
-                    {
-                        BadRecords.Add(record);
-                    }
-                    else
-                    {
-                        key = key.Trim();
-                        MenuSubChapter subChapter;
-                        if (dictionary.TryGetValue(key, out subChapter))
+                        if (i % 100 == 0)
                         {
-                            subChapter.Records.Add(record);
+                            log.Write(".");
+                        }
+                        record = provider.ReadRecord(found[i]);
+                        Records.Add(record);
+                    }
+                    log.WriteLine(" done");
+
+                    Dictionary<string, MenuSubChapter> dictionary
+                        = new Dictionary<string, MenuSubChapter>();
+                    Action<BiblioChapter> action = chapter =>
+                    {
+                        MenuSubChapter subChapter = chapter as MenuSubChapter;
+                        if (!ReferenceEquals(subChapter, null))
+                        {
+                            string key = subChapter.Key
+                                .ThrowIfNull("subChapter.Key");
+                            dictionary.Add(key, subChapter);
+                        }
+                    };
+                    Walk(action);
+
+                    string recordSelector = RecordSelector
+                        .ThrowIfNull("RecordSelector");
+                    formatter.ParseProgram(recordSelector);
+                    log.Write("Distributing recors");
+
+                    BadRecords = new List<MarcRecord>();
+
+                    for (int i = 0; i < Records.Count; i++)
+                    {
+                        if (i % 100 == 0)
+                        {
+                            log.Write(".");
+                        }
+
+                        record = Records[i];
+                        string key = formatter.Format(record);
+                        if (string.IsNullOrEmpty(key))
+                        {
+                            BadRecords.Add(record);
                         }
                         else
                         {
-                            BadRecords.Add(record);
+                            key = key.Trim();
+                            MenuSubChapter subChapter;
+                            if (dictionary.TryGetValue(key, out subChapter))
+                            {
+                                subChapter.Records.Add(record);
+                            }
+                            else
+                            {
+                                BadRecords.Add(record);
+                            }
                         }
                     }
                 }
@@ -340,18 +337,21 @@ namespace ManagedIrbis.Biblio
 
                 // Create Formatter
 
-                PftContext pftContext = new PftContext(null);
-                PftFormatter formatter = new PftFormatter(pftContext);
-                formatter.SetProvider(provider);
-                Formatter = formatter;
-
-                string titleFormat = TitleFormat
-                    .ThrowIfNull("TitleFormat");
-                formatter.ParseProgram(titleFormat);
-                foreach (IrbisTreeFile.Item root in tree.Roots)
+                BiblioProcessor processor = context.Processor
+                    .ThrowIfNull("context.Processor");
+                using (PftFormatter formatter
+                    = processor.GetFormatter(context))
                 {
-                    MenuSubChapter chapter = _CreateChapter(root);
-                    Children.Add(chapter);
+                    string titleFormat = TitleFormat
+                        .ThrowIfNull("TitleFormat");
+                    formatter.ParseProgram(titleFormat);
+
+                    foreach (IrbisTreeFile.Item root in tree.Roots)
+                    {
+                        MenuSubChapter chapter
+                            = _CreateChapter(formatter, root);
+                        Children.Add(chapter);
+                    }
                 }
 
                 foreach (BiblioChapter chapter in Children)

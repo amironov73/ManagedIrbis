@@ -33,13 +33,16 @@ namespace ManagedIrbis.Pft
     [PublicAPI]
     [MoonSharpUserData]
     public class PftFormatter
-        : IDisposable
+        : IPftFormatter
     {
         #region Events
 
         #endregion
 
         #region Properties
+
+        /// <inheritdoc cref="IPftFormatter.SupportsExtendedSyntax" />
+        public virtual bool SupportsExtendedSyntax { get { return true; } }
 
         /// <summary>
         /// Контекст форматирования. Во время парсинга не нужен.
@@ -123,13 +126,10 @@ namespace ManagedIrbis.Pft
 
         #region Public methods
 
-        /// <summary>
-        /// Format the record.
-        /// </summary>
-        [NotNull]
+        /// <inheritdoc cref="IPftFormatter.Format" />
         public virtual string Format
             (
-                [CanBeNull] MarcRecord record
+                MarcRecord record
             )
         {
             Log.Trace("PftFormatter::Format");
@@ -169,12 +169,10 @@ namespace ManagedIrbis.Pft
             return result;
         }
 
-        /// <summary>
-        /// Parse the program.
-        /// </summary>
+        /// <inheritdoc cref="IPftFormatter.ParseProgram" />
         public virtual void ParseProgram
             (
-                [NotNull] string source
+                string source
             )
         {
             Code.NotNull(source, "source");

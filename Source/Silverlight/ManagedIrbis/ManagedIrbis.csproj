@@ -1416,6 +1416,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Walking\VisitorContext.cs">
       <Link>Source\Pft\Infrastructure\Walking\VisitorContext.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\IPftFormatter.cs">
+      <Link>Source\Pft\PftFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftException.cs">
       <Link>Source\Pft\PftException.cs</Link>
     </Compile>

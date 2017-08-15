@@ -70,7 +70,7 @@ namespace ManagedIrbis.Biblio
         /// <summary>
         /// 
         /// </summary>
-        public ItemCollection Items { get; private set; }
+        public ItemCollection Items { get; protected internal set; }
 
         #endregion
 
@@ -104,24 +104,14 @@ namespace ManagedIrbis.Biblio
             Code.NotNull(context, "context");
 
             AbstractOutput log = context.Log;
-            log.WriteLine
-                (
-                    "Begin build items {0}: {1}",
-                    GetType().Name,
-                    Title.ToVisibleString()
-                );
+            log.WriteLine("Begin build items {0}", this);
 
             foreach (BiblioChapter chapter in Children)
             {
                 chapter.BuildItems(context);
             }
 
-            log.WriteLine
-                (
-                    "End build items {0}: {1}",
-                    GetType().Name,
-                    Title.ToVisibleString()
-                );
+            log.WriteLine("End build items {0}", this);
         }
 
         /// <summary>
@@ -135,24 +125,14 @@ namespace ManagedIrbis.Biblio
             Code.NotNull(context, "context");
 
             AbstractOutput log = context.Log;
-            log.WriteLine
-                (
-                    "Begin gather records {0}: {1}",
-                    GetType().Name,
-                    Title.ToVisibleString()
-                );
+            log.WriteLine("Begin gather records {0}", this);
 
             foreach (BiblioChapter chapter in Children)
             {
                 chapter.GatherRecords(context);
             }
 
-            log.WriteLine
-                (
-                    "End gather records {0}: {1}",
-                    GetType().Name,
-                    Title.ToVisibleString()
-                );
+            log.WriteLine("End gather records {0}", this);
         }
 
         /// <summary>
@@ -166,24 +146,14 @@ namespace ManagedIrbis.Biblio
             Code.NotNull(context, "context");
 
             AbstractOutput log = context.Log;
-            log.WriteLine
-                (
-                    "Begin initialize {0}: {1}",
-                    GetType().Name,
-                    Title.ToVisibleString()
-                );
+            log.WriteLine("Begin initialize {0}", this);
 
             foreach (BiblioChapter child in Children)
             {
                 child.Initialize(context);
             }
 
-            log.WriteLine
-                (
-                    "End initialize {0}: {1}",
-                    GetType().Name,
-                    Title.ToVisibleString()
-                );
+            log.WriteLine("End initialize {0}", this);
         }
 
         /// <summary>

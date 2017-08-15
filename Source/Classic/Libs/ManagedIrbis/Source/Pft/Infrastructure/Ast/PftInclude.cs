@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -240,17 +241,30 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (ReferenceEquals(Program, null))
             {
-                if (!string.IsNullOrEmpty(Text))
+                try
                 {
-                    ParseProgram
+                    if (!string.IsNullOrEmpty(Text))
+                    {
+                        ParseProgram
                         (
                             context,
                             Text
                         );
+                    }
+                    else
+                    {
+                        ParseProgram(context);
+                    }
                 }
-                else
+                catch (Exception exception)
                 {
-                    ParseProgram(context);
+                    PftException pftException = new PftException
+                        (
+                            "Include: " + Text.ToVisibleString(),
+                            exception
+                        );
+
+                    throw pftException;
                 }
             }
 

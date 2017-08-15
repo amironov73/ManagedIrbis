@@ -41,7 +41,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftComparison result = new PftComparison(Tokens.Current);
 
-            PftTokenList leftTokens = Tokens.Segment(_comparisonStop)
+            PftTokenList leftTokens = Tokens.Segment
+                (
+                    _parenthesisOpen,
+                    _parenthesisClose,
+                    _comparisonStop
+                )
                 .ThrowIfNull("leftTokens");
             result.LeftOperand = NestedContext
                 (
@@ -220,7 +225,12 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     PftCondition right;
 
-                    conditionTokens = Tokens.Segment(_andStop);
+                    conditionTokens = Tokens.Segment
+                        (
+                            _parenthesisOpen,
+                            _parenthesisClose,
+                            _andStop
+                        );
                     if (ReferenceEquals(conditionTokens, null))
                     {
                         right = _ParseCondition();

@@ -46,6 +46,12 @@ namespace ManagedIrbis.Biblio
         #region Properties
 
         /// <summary>
+        /// Chapter the item belongs to.
+        /// </summary>
+        [CanBeNull]
+        public BiblioChapter Chapter { get; set; }
+
+        /// <summary>
         /// 
         /// </summary>
         public int Number { get; set; }
@@ -57,10 +63,15 @@ namespace ManagedIrbis.Biblio
         public MarcRecord Record { get; set; }
 
         /// <summary>
-        /// 
+        /// Bibliographical description.
         /// </summary>
         [CanBeNull]
-        public string Text { get; set; }
+        public string Description { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Order { get; set; }
 
         /// <summary>
         /// Terms.
@@ -96,6 +107,21 @@ namespace ManagedIrbis.Biblio
             // TODO do something
 
             return verifier.Result;
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = StringBuilderCache.Acquire();
+            result.Append(Order);
+            result.AppendLine();
+            result.Append(Description);
+
+            return StringBuilderCache.GetStringAndRelease(result);
         }
 
         #endregion

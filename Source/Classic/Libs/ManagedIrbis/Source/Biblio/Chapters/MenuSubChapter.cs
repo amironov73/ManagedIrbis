@@ -79,11 +79,11 @@ namespace ManagedIrbis.Biblio
         [CanBeNull]
         public SpecialSettings SpecialSettings { get; set; }
 
-        /// <summary>
-        /// Items.
-        /// </summary>
-        [NotNull]
-        public List<BiblioItem> Items { get; set; }
+        ///// <summary>
+        ///// Items.
+        ///// </summary>
+        //[NotNull]
+        //public List<BiblioItem> Items { get; set; }
 
         #endregion
 
@@ -95,7 +95,7 @@ namespace ManagedIrbis.Biblio
         public MenuSubChapter()
         {
             Records = new List<MarcRecord>();
-            Items = new List<BiblioItem>();
+            //Items = new List<BiblioItem>();
         }
 
         #endregion
@@ -119,33 +119,84 @@ namespace ManagedIrbis.Biblio
             Code.NotNull(context, "context");
 
             AbstractOutput log = context.Log;
-            log.WriteLine
-                (
-                    "Begin build items {0}: {1}",
-                    GetType().Name,
-                    Title.ToVisibleString()
-                );
+            MarcRecord record = null;
+            IPftFormatter formatter = null;
+
+            log.WriteLine("Begin build items {0}", this);
+            Items = new ItemCollection();
 
             try
             {
-                BiblioProcessor processor = context.Processor
-                    .ThrowIfNull();
-                IrbisProvider provider = context.Provider;
-                MenuChapter mainChapter = MainChapter.ThrowIfNull();
-                PftFormatter formatter = mainChapter.Formatter
-                    .ThrowIfNull();
-                string formatText = processor.GetText
-                    (
-                        context,
-                        mainChapter.Format
-                    );
-
-                for (int i = 0; i < Records.Count; i++)
+                if (Records.Count != 0)
                 {
-                    if (i % 100 == 0)
+                    BiblioProcessor processor = context.Processor
+                        .ThrowIfNull("context.Processor");
+                    MenuChapter mainChapter = MainChapter
+                        .ThrowIfNull("MainChapter");
+
+                    using (formatter = processor.GetFormatter(context))
                     {
-                        log.Write(".");
+                        // TODO use hierarchy for descriptionFormat
+                        // and orderFormat
+
+                        string descriptionFormat = mainChapter.Format
+                            .ThrowIfNull("mainChapter.Format");
+                        descriptionFormat = processor.GetText
+                            (
+                                context,
+                                descriptionFormat
+                            )
+                            .ThrowIfNull("processor.GetText");
+                        formatter.ParseProgram(descriptionFormat);
+
+                        for (int i = 0; i < Records.Count; i++)
+                        {
+                            log.Write(".");
+                            record = Records[i];
+                            string description = formatter.Format(record);
+
+                            // TODO handle string.IsNullOrEmpty(description)
+
+                            BiblioItem item = new BiblioItem
+                            {
+                                Chapter = this,
+                                Record = record,
+                                Description = description
+                            };
+                            Items.Add(item);
+                        }
                     }
+
+                    log.WriteLine(string.Empty);
+
+                    using (formatter = processor.GetFormatter(context))
+                    {
+                        string orderFormat = mainChapter.OrderBy
+                            .ThrowIfNull("mainChapter.OrderBy");
+                        orderFormat = processor.GetText
+                            (
+                                context,
+                                orderFormat
+                            )
+                            .ThrowIfNull("processor.GetText");
+                        formatter.ParseProgram(orderFormat);
+
+                        for (int i = 0; i < Items.Count; i++)
+                        {
+                            log.Write(".");
+                            BiblioItem item = Items[i];
+                            record = item.Record;
+                            string order = formatter.Format(record);
+
+                            // TODO handle string.IsNullOrEmpty(order)
+
+                            item.Order = order;
+                        }
+                    }
+
+                    log.WriteLine(string.Empty);
+
+                    Items.SortByOrder();
                 }
 
                 foreach (BiblioChapter chapter in Children)
@@ -155,16 +206,26 @@ namespace ManagedIrbis.Biblio
             }
             catch (Exception exception)
             {
-                log.WriteLine("Exception: {0}", exception);
+                string message = string.Format
+                    (
+                        "Exception: {0}", exception
+                    );
+                if (!ReferenceEquals(record, null))
+                {
+                    message = string.Format
+                        (
+                            "MFN={0} : {1}",
+                            record.Mfn,
+                            message
+                        );
+                }
+
+                log.WriteLine(string.Empty);
+                log.WriteLine(message);
                 throw;
             }
 
-            log.WriteLine
-                (
-                    "End build items {0}: {1}",
-                    GetType().Name,
-                    Title.ToVisibleString()
-                );
+            log.WriteLine("End build items {0}", this);
         }
 
         /// <inheritdoc cref="BiblioChapter.GatherRecords" />
@@ -176,19 +237,12 @@ namespace ManagedIrbis.Biblio
             Code.NotNull(context, "context");
 
             AbstractOutput log = context.Log;
-            log.WriteLine
-                (
-                    "Begin gather records {0}: {1}",
-                    GetType().Name,
-                    Title.ToVisibleString()
-                );
+            log.WriteLine("Begin gather records {0}", this);
 
             try
             {
                 IrbisProvider provider = context.Provider;
                 MenuChapter mainChapter = MainChapter.ThrowIfNull();
-                PftFormatter formatter = mainChapter.Formatter
-                    .ThrowIfNull();
 
                 // What to do?
 
@@ -201,17 +255,22 @@ namespace ManagedIrbis.Biblio
 
             log.WriteLine("Record count: {0}", Records.Count);
 
-            log.WriteLine
-                (
-                    "End gather records {0}: {1}",
-                    GetType().Name,
-                    Title.ToVisibleString()
-                );
+            log.WriteLine("End gather records {0}", this);
         }
 
         #endregion
 
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            string result = base.ToString()
+                + " [:] "
+                + Records.Count.ToInvariantString();
+
+            return result;
+        }
 
         #endregion
     }

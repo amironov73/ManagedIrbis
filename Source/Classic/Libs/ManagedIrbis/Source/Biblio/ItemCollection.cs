@@ -50,9 +50,33 @@ namespace ManagedIrbis.Biblio
 
         #region Construction
 
+        private static int _Comparison
+            (
+                BiblioItem x,
+                BiblioItem y
+            )
+        {
+            return NumberText.Compare
+                (
+                    x.Order,
+                    y.Order
+                );
+        }
+
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Sort items by <see cref="BiblioItem.Order"/> field.
+        /// </summary>
+        public void SortByOrder()
+        {
+            List<BiblioItem> list = this.ToList();
+            list.Sort(_Comparison);
+            Clear();
+            AddRange(list);
+        }
 
         #endregion
 

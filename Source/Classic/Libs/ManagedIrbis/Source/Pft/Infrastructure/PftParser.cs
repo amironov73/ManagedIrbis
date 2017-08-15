@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -1302,10 +1303,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             PftVariableReference result
                 = new PftVariableReference(Tokens.Current)
-            {
-                Index = ParseIndex(),
-                SubFieldCode = ParseSubField()
-            };
+                {
+                    Index = ParseIndex(),
+                    SubFieldCode = ParseSubField()
+                };
 
             return MoveNext(result);
         }
@@ -1494,8 +1495,29 @@ namespace ManagedIrbis.Pft.Infrastructure
         [NotNull]
         public PftProgram Parse()
         {
-            PftProgram result = ParseProgram();
-            result.Procedures = _procedures;
+            PftProgram result;
+
+            try
+            {
+                result = ParseProgram();
+                result.Procedures = _procedures;
+            }
+            catch (Exception exception)
+            {
+                if (!ReferenceEquals(Tokens.Current, null))
+                {
+                    string tokenText = "Current token: " + Tokens.Current;
+
+                    PftException pftException = new PftException
+                        (
+                            tokenText,
+                            exception
+                        );
+                    throw pftException;
+                }
+
+                throw;
+            }
 
             return result;
         }
