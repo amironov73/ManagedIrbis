@@ -57,6 +57,18 @@ namespace ManagedIrbis.Biblio
         [CanBeNull]
         public string Data { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        [CanBeNull]
+        public string Order { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [CanBeNull]
+        public BiblioItem Item { get; set; }
+
         #endregion
 
         #region IVerifiable members

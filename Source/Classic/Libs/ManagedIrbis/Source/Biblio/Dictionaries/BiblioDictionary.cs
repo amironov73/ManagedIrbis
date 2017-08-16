@@ -45,7 +45,8 @@ namespace ManagedIrbis.Biblio
     [PublicAPI]
     [MoonSharpUserData]
     public class BiblioDictionary
-        : IVerifiable
+        : NonNullCollection<BiblioTerm>,
+        IVerifiable
     {
         #region Properties
 
@@ -60,49 +61,6 @@ namespace ManagedIrbis.Biblio
         #endregion
 
         #region Public methods
-
-        /// <summary>
-        /// Gather terms from the <see cref="BiblioItem"/>.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public virtual BiblioTerm[] GatherTerms
-            (
-                [NotNull] BiblioContext context,
-                [NotNull] BiblioItem item
-            )
-        {
-            Code.NotNull(context, "context");
-            Code.NotNull(item, "item");
-
-            Log.Warn
-                (
-                    "BiblioDictionary::GatherTerms: "
-                    + "not overridden"
-                );
-
-            return new BiblioTerm[0];
-        }
-
-        /// <summary>
-        /// Sort terms.
-        /// </summary>
-        [NotNull]
-        public virtual IEnumerable<BiblioTerm> SortTerms
-            (
-                [NotNull] IEnumerable<BiblioTerm> terms
-            )
-        {
-            Code.NotNull(terms, "terms");
-
-            Log.Warn
-                (
-                    "BiblioDictionary::SortTerms: "
-                    + "not overridden"
-                );
-
-            return terms;
-        }
 
         #endregion
 

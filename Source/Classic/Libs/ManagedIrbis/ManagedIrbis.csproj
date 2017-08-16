@@ -156,7 +156,6 @@
     <Compile Include="Source\Biblio\Chapters\ChapterWithDictionary.cs" />
     <Compile Include="Source\Biblio\Chapters\ChapterWithRecords.cs" />
     <Compile Include="Source\Biblio\Chapters\ChapterWithText.cs" />
-    <Compile Include="Source\Biblio\Dictionaries\PftDictionary.cs" />
     <Compile Include="Source\Biblio\ItemCollection.cs" />
     <Compile Include="Source\Biblio\RecordCollection.cs" />
     <Compile Include="Source\Biblio\SpecialSettings.cs" />

@@ -198,16 +198,21 @@ namespace ManagedIrbis.Biblio
         /// Get formatter.
         /// </summary>
         [NotNull]
-        public PftFormatter AcquireFormatter
+        public IPftFormatter AcquireFormatter
             (
                 [NotNull] BiblioContext context
             )
         {
             Code.NotNull(context, "context");
 
-            PftContext pftContext = new PftContext(null);
-            PftFormatter result = new PftFormatter(pftContext);
-            result.SetProvider(context.Provider);
+            IrbisProvider provider = context.Provider
+                .ThrowIfNull("context.Provider");
+            IPftFormatter result = provider.AcquireFormatter()
+                .ThrowIfNull("provider.AcquireFormatter");
+
+            //PftContext pftContext = new PftContext(null);
+            //PftFormatter result = new PftFormatter(pftContext);
+            //result.SetProvider(context.Provider);
 
             return result;
         }

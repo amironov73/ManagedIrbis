@@ -138,7 +138,7 @@ namespace ManagedIrbis.Biblio
 
         private MenuSubChapter _CreateChapter
             (
-                [NotNull] PftFormatter formatter,
+                [NotNull] IPftFormatter formatter,
                 [NotNull] IrbisTreeFile.Item item
             )
         {
@@ -197,18 +197,21 @@ namespace ManagedIrbis.Biblio
                     Title.ToVisibleString()
                 );
 
+            MarcRecord record = null;
+
             try
             {
                 BiblioProcessor processor = context.Processor
                     .ThrowIfNull("context.Processor");
-                using (PftFormatter formatter = processor.AcquireFormatter(context))
+                using (IPftFormatter formatter
+                    = processor.AcquireFormatter(context))
                 {
                     IrbisProvider provider = context.Provider;
 
                     string searchExpression = SearchExpression
                         .ThrowIfNull("SearchExpression");
                     formatter.ParseProgram(searchExpression);
-                    MarcRecord record = new MarcRecord();
+                    record = new MarcRecord();
                     searchExpression = formatter.FormatRecord(record);
 
                     int[] found = provider.Search(searchExpression);
@@ -289,7 +292,24 @@ namespace ManagedIrbis.Biblio
             }
             catch (Exception exception)
             {
-                log.WriteLine("Exception: {0}", exception);
+                string message = string.Format
+                    (
+                        "Exception: {0}",
+                        exception
+                    );
+
+                if (!ReferenceEquals(record, null))
+                {
+                    message = string.Format
+                        (
+                            "MFN={0}{1}{2}",
+                            record.Mfn,
+                            Environment.NewLine,
+                            message
+                        );
+                }
+
+                log.WriteLine(message);
                 throw;
             }
 
@@ -339,7 +359,7 @@ namespace ManagedIrbis.Biblio
 
                 BiblioProcessor processor = context.Processor
                     .ThrowIfNull("context.Processor");
-                using (PftFormatter formatter
+                using (IPftFormatter formatter
                     = processor.AcquireFormatter(context))
                 {
                     string titleFormat = TitleFormat

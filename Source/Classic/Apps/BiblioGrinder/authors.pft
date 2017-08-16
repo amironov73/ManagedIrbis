@@ -1,0 +1,5 @@
+(if p(v700) then v700^a, | (|v700^1|) |, if p(v700^g) then |, |v700^g else | |v700^b fi, /, fi),
+(if p(v701) then v701^a, | (|v701^1|) |, if p(v701^g) then |, |v701^g else | |v701^b fi, /, fi),
+(if p(v702) then v702^a, | (|v702^1|) |, if p(v702^g) then |, |v702^g else | |v702^b fi, /, fi),
+
+(if p(v961) then v961^a, | (|v961^1|) |, if p(v961^g) then |, |v961^g else | |v961^b fi, /, fi),

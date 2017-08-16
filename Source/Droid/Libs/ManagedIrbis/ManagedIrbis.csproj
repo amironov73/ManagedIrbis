@@ -115,9 +115,6 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\BiblioDictionary.cs">
       <Link>Source\Biblio\Dictionaries\BiblioDictionary.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\PftDictionary.cs">
-      <Link>Source\Biblio\Dictionaries\PftDictionary.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\ItemCollection.cs">
       <Link>Source\Biblio\ItemCollection.cs</Link>
     </Compile>
