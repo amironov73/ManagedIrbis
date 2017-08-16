@@ -87,6 +87,29 @@ namespace ManagedIrbis.Biblio
 
         #region Private members
 
+        private int _itemCount;
+
+        private void _NumberChapter
+            (
+                [NotNull] BiblioChapter chapter
+            )
+        {
+            ItemCollection items = chapter.Items;
+
+            if (!ReferenceEquals(items, null))
+            {
+                foreach (BiblioItem item in items)
+                {
+                    item.Number = ++_itemCount;
+                }
+            }
+
+            foreach (BiblioChapter child in chapter.Children)
+            {
+                _NumberChapter(child);
+            }
+        }
+
         #endregion
 
         #region Public methods
@@ -106,7 +129,7 @@ namespace ManagedIrbis.Biblio
 
             foreach (BiblioChapter chapter in Chapters)
             {
-                chapter.BuildDictionaries(context);
+                chapter.BuildDictionary(context);
             }
 
             log.WriteLine("End build dictionaries");
@@ -248,6 +271,28 @@ namespace ManagedIrbis.Biblio
             return result;
 
 #endif
+        }
+
+        /// <summary>
+        /// Number items.
+        /// </summary>
+        public virtual void NumberItems
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;            
+            log.WriteLine("Begin number items");
+            _itemCount = 0;
+            foreach (BiblioChapter chapter in Chapters)
+            {
+                _NumberChapter(chapter);
+            }
+            log.WriteLine("Total items: {0}", _itemCount);
+            log.WriteLine("End number items");
+
         }
 
         /// <summary>

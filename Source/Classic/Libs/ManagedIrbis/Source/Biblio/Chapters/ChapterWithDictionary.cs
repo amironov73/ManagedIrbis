@@ -31,7 +31,9 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Client;
 using ManagedIrbis.Pft;
+
 using MoonSharp.Interpreter;
+
 using Newtonsoft.Json;
 
 #endregion
@@ -53,6 +55,12 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         [NotNull]
         public BiblioDictionary Dictionary { get; private set; }
+
+        /// <summary>
+        /// Dictionary.
+        /// </summary>
+        [NotNull]
+        public TermCollection Terms { get; private set; }
 
         /// <summary>
         /// OrderBy expression.
@@ -78,13 +86,16 @@ namespace ManagedIrbis.Biblio
         public ChapterWithDictionary()
         {
             Dictionary = new BiblioDictionary();
+            Terms = new TermCollection();
         }
 
         #endregion
 
         #region Private members
 
-        private void _ProcessChapter
+        private static char[] _charactersToTrim = {'[', ']'};
+
+        private void _ChapterToTerms
             (
                 [NotNull] BiblioContext context,
                 [NotNull] BiblioChapter chapter
@@ -95,10 +106,12 @@ namespace ManagedIrbis.Biblio
                 .ThrowIfNull("context.Processor");
 
             ItemCollection items = chapter.Items;
-            if (items.Count != 0)
+            if (!ReferenceEquals(items, null)
+                && items.Count != 0)
             {
                 log.WriteLine("Gather terms from chapter {0}", chapter);
 
+                int termCount = 0;
                 using (IPftFormatter formatter
                     = processor.AcquireFormatter(context))
                 {
@@ -116,6 +129,8 @@ namespace ManagedIrbis.Biblio
                         if (!string.IsNullOrEmpty(formatted))
                         {
                             string[] lines = formatted.SplitLines()
+                                .TrimLines()
+                                .TrimLines(_charactersToTrim)
                                 .NonEmptyLines()
                                 .Distinct()
                                 .ToArray();
@@ -123,20 +138,24 @@ namespace ManagedIrbis.Biblio
                             {
                                 BiblioTerm term = new BiblioTerm
                                 {
-                                    Data = line,
-                                    Dictionary = Dictionary,
+                                    Title = line,
+                                    Dictionary = Terms,
                                     Item = item
                                 };
-                                Dictionary.Add(term);
+                                Terms.Add(term);
+                                termCount++;
                             }
                         }
                     }
                 }
+
+                log.WriteLine(string.Empty);
+                log.WriteLine("Term count: {0}", termCount);
             }
 
             foreach (BiblioChapter child in chapter.Children)
             {
-                _ProcessChapter(context, child);
+                _ChapterToTerms(context, child);
             }
         }
 
@@ -147,6 +166,33 @@ namespace ManagedIrbis.Biblio
         #endregion
 
         #region BiblioChapter members
+
+        /// <inheritdoc cref="BiblioChapter" />
+        public override void BuildDictionary
+            (
+                BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine("Begin build dictionary {0}", this);
+
+            foreach (BiblioTerm term in Terms)
+            {
+                string title = term.Title.ThrowIfNull("term.Title");
+                BiblioItem item = term.Item.ThrowIfNull("term.Item");
+                Dictionary.Add(title, item.Number);
+            }
+
+            log.WriteLine(string.Empty);
+            log.WriteLine(Title);
+            log.WriteLine(string.Empty);
+            Dictionary.Dump(log);
+            log.WriteLine(string.Empty);
+
+            log.WriteLine("End build dictionary {0}", this);
+        }
 
         /// <inheritdoc cref="BiblioChapter.GatherTerms" />
         public override void GatherTerms
@@ -159,18 +205,23 @@ namespace ManagedIrbis.Biblio
             AbstractOutput log = context.Log;
             log.WriteLine("Begin gather terms {0}", this);
 
-            try
+            if (Active)
             {
-                IrbisProvider provider = context.Provider;
-                BiblioDocument document = context.Document;
+                try
+                {
+                    BiblioDocument document = context.Document;
 
+                    foreach (BiblioChapter chapter in document.Chapters)
+                    {
+                        _ChapterToTerms(context, chapter);
+                    }
 
-
-            }
-            catch (Exception exception)
-            {
-                log.WriteLine("Exception: {0}", exception);
-                throw;
+                }
+                catch (Exception exception)
+                {
+                    log.WriteLine("Exception: {0}", exception);
+                    throw;
+                }
             }
 
 
@@ -192,7 +243,7 @@ namespace ManagedIrbis.Biblio
 
             verifier
                 .Assert(base.Verify(throwOnError))
-                .VerifySubObject(Dictionary, "Dictionary");
+                .VerifySubObject(Terms, "Dictionary");
 
             return verifier.Result;
         }
@@ -204,3 +255,4 @@ namespace ManagedIrbis.Biblio
         #endregion
     }
 }
+

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* BiblioTerm.cs -- 
+/* BiblioDictionary.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 using AM.Text;
 
@@ -27,9 +28,12 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Client;
+using ManagedIrbis.Pft;
+using ManagedIrbis.Pft.Infrastructure;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -40,49 +44,45 @@ namespace ManagedIrbis.Biblio
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class BiblioTerm
-        : IVerifiable
+    public class TermCollection
+        : NonNullCollection<BiblioTerm>,
+        IVerifiable
     {
         #region Properties
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [CanBeNull]
-        public TermCollection Dictionary { get; set; }
+        #endregion
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [CanBeNull]
-        public string Title { get; set; }
+        #region Construction
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [CanBeNull]
-        public string Order { get; set; }
+        #endregion
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [CanBeNull]
-        public BiblioItem Item { get; set; }
+        #region Private members
+
+        #endregion
+
+        #region Public methods
 
         #endregion
 
         #region IVerifiable members
 
         /// <inheritdoc cref="IVerifiable.Verify" />
-        public bool Verify(bool throwOnError)
+        public virtual bool Verify
+            (
+                bool throwOnError
+            )
         {
-            Verifier<BiblioTerm> verifier
-                = new Verifier<BiblioTerm>(this, throwOnError);
+            Verifier<TermCollection> verifier
+                = new Verifier<TermCollection>(this, throwOnError);
 
             // TODO do something
 
             return verifier.Result;
         }
+
+        #endregion
+
+        #region Object members
 
         #endregion
     }

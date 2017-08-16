@@ -150,21 +150,6 @@ namespace ManagedIrbis.Biblio
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        private void RenderReport
-            (
-                [NotNull] BiblioContext context
-            )
-        {
-            Code.NotNull(context, "context");
-
-            WriteDelimiter(context);
-            BiblioDocument document = context.Document;
-            document.RenderItems(context);
-        }
-
-        /// <summary>
         /// Gather terms.
         /// </summary>
         protected virtual void GatherTerms
@@ -177,6 +162,36 @@ namespace ManagedIrbis.Biblio
             WriteDelimiter(context);
             BiblioDocument document = context.Document;
             document.GatherTerms(context);
+        }
+
+        /// <summary>
+        /// Number items.
+        /// </summary>
+        protected virtual void NumberItems
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            WriteDelimiter(context);
+            BiblioDocument document = context.Document;
+            document.NumberItems(context);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected virtual void RenderReport
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            WriteDelimiter(context);
+            BiblioDocument document = context.Document;
+            document.RenderItems(context);
         }
 
         private void WriteDelimiter
@@ -232,6 +247,7 @@ namespace ManagedIrbis.Biblio
 
             GatherRecords(context);
             BildItems(context);
+            NumberItems(context);
             GatherTerms(context);
             BildDictionaries(context);
             RenderReport(context);

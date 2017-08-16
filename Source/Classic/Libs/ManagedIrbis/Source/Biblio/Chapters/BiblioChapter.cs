@@ -49,6 +49,12 @@ namespace ManagedIrbis.Biblio
     {
         #region Properties
 
+        /// <summary>
+        /// Whether the chapter is active?
+        /// </summary>
+        [JsonProperty("active")]
+        public bool Active { get; set; }
+
         /// <inheritdoc cref="IAttributable.Attributes" />
         [NotNull]
         public ReportAttributes Attributes { get; private set; }
@@ -77,10 +83,11 @@ namespace ManagedIrbis.Biblio
         #region Construction
 
         /// <summary>
-        /// 
+        /// Constructor.
         /// </summary>
         public BiblioChapter()
         {
+            Active = true;
             Attributes = new ReportAttributes();
             Children = new ChapterCollection(null, this);
         }
@@ -96,7 +103,7 @@ namespace ManagedIrbis.Biblio
         /// <summary>
         /// Build dictionaries.
         /// </summary>
-        public virtual void BuildDictionaries
+        public virtual void BuildDictionary
             (
                 [NotNull] BiblioContext context
             )
@@ -108,7 +115,7 @@ namespace ManagedIrbis.Biblio
 
             foreach (BiblioChapter chapter in Children)
             {
-                chapter.BuildDictionaries(context);
+                chapter.BuildDictionary(context);
             }
 
             log.WriteLine("End build dictionaries {0}", this);

@@ -197,120 +197,123 @@ namespace ManagedIrbis.Biblio
                     Title.ToVisibleString()
                 );
 
-            MarcRecord record = null;
-
-            try
+            if (Active)
             {
-                BiblioProcessor processor = context.Processor
-                    .ThrowIfNull("context.Processor");
-                using (IPftFormatter formatter
-                    = processor.AcquireFormatter(context))
+                MarcRecord record = null;
+
+                try
                 {
-                    IrbisProvider provider = context.Provider;
-
-                    string searchExpression = SearchExpression
-                        .ThrowIfNull("SearchExpression");
-                    formatter.ParseProgram(searchExpression);
-                    record = new MarcRecord();
-                    searchExpression = formatter.FormatRecord(record);
-
-                    int[] found = provider.Search(searchExpression);
-                    log.WriteLine("Found: {0} record(s)", found.Length);
-
-                    log.Write("Reading records");
-                    Records = new List<MarcRecord>();
-                    for (int i = 0; i < found.Length; i++)
+                    BiblioProcessor processor = context.Processor
+                        .ThrowIfNull("context.Processor");
+                    using (IPftFormatter formatter
+                        = processor.AcquireFormatter(context))
                     {
-                        if (i % 100 == 0)
-                        {
-                            log.Write(".");
-                        }
-                        record = provider.ReadRecord(found[i]);
-                        Records.Add(record);
-                    }
-                    log.WriteLine(" done");
+                        IrbisProvider provider = context.Provider;
 
-                    Dictionary<string, MenuSubChapter> dictionary
-                        = new Dictionary<string, MenuSubChapter>();
-                    Action<BiblioChapter> action = chapter =>
-                    {
-                        MenuSubChapter subChapter = chapter as MenuSubChapter;
-                        if (!ReferenceEquals(subChapter, null))
-                        {
-                            string key = subChapter.Key
-                                .ThrowIfNull("subChapter.Key");
-                            dictionary.Add(key, subChapter);
-                        }
-                    };
-                    Walk(action);
+                        string searchExpression = SearchExpression
+                            .ThrowIfNull("SearchExpression");
+                        formatter.ParseProgram(searchExpression);
+                        record = new MarcRecord();
+                        searchExpression = formatter.FormatRecord(record);
 
-                    string recordSelector = RecordSelector
-                        .ThrowIfNull("RecordSelector");
-                    formatter.ParseProgram(recordSelector);
-                    log.Write("Distributing recors");
+                        int[] found = provider.Search(searchExpression);
+                        log.WriteLine("Found: {0} record(s)", found.Length);
 
-                    BadRecords = new List<MarcRecord>();
-
-                    for (int i = 0; i < Records.Count; i++)
-                    {
-                        if (i % 100 == 0)
+                        log.Write("Reading records");
+                        Records = new List<MarcRecord>();
+                        for (int i = 0; i < found.Length; i++)
                         {
-                            log.Write(".");
-                        }
-
-                        record = Records[i];
-                        string key = formatter.FormatRecord(record);
-                        if (string.IsNullOrEmpty(key))
-                        {
-                            BadRecords.Add(record);
-                        }
-                        else
-                        {
-                            key = key.Trim();
-                            MenuSubChapter subChapter;
-                            if (dictionary.TryGetValue(key, out subChapter))
+                            if (i % 100 == 0)
                             {
-                                subChapter.Records.Add(record);
+                                log.Write(".");
                             }
-                            else
+                            record = provider.ReadRecord(found[i]);
+                            Records.Add(record);
+                        }
+                        log.WriteLine(" done");
+
+                        Dictionary<string, MenuSubChapter> dictionary
+                            = new Dictionary<string, MenuSubChapter>();
+                        Action<BiblioChapter> action = chapter =>
+                        {
+                            MenuSubChapter subChapter = chapter as MenuSubChapter;
+                            if (!ReferenceEquals(subChapter, null))
+                            {
+                                string key = subChapter.Key
+                                    .ThrowIfNull("subChapter.Key");
+                                dictionary.Add(key, subChapter);
+                            }
+                        };
+                        Walk(action);
+
+                        string recordSelector = RecordSelector
+                            .ThrowIfNull("RecordSelector");
+                        formatter.ParseProgram(recordSelector);
+                        log.Write("Distributing recors");
+
+                        BadRecords = new List<MarcRecord>();
+
+                        for (int i = 0; i < Records.Count; i++)
+                        {
+                            if (i % 100 == 0)
+                            {
+                                log.Write(".");
+                            }
+
+                            record = Records[i];
+                            string key = formatter.FormatRecord(record);
+                            if (string.IsNullOrEmpty(key))
                             {
                                 BadRecords.Add(record);
                             }
+                            else
+                            {
+                                key = key.Trim();
+                                MenuSubChapter subChapter;
+                                if (dictionary.TryGetValue(key, out subChapter))
+                                {
+                                    subChapter.Records.Add(record);
+                                }
+                                else
+                                {
+                                    BadRecords.Add(record);
+                                }
+                            }
                         }
                     }
+
+                    log.WriteLine(" done");
+                    log.WriteLine("Bad records: {0}", BadRecords.Count);
+
+                    // Do we really need this?
+
+                    foreach (BiblioChapter child in Children)
+                    {
+                        child.GatherRecords(context);
+                    }
                 }
-
-                log.WriteLine(" done");
-                log.WriteLine("Bad records: {0}", BadRecords.Count);
-
-                // Do we really need this?
-
-                foreach (BiblioChapter child in Children)
+                catch (Exception exception)
                 {
-                    child.GatherRecords(context);
-                }
-            }
-            catch (Exception exception)
-            {
-                string message = string.Format
-                    (
-                        "Exception: {0}",
-                        exception
-                    );
-
-                if (!ReferenceEquals(record, null))
-                {
-                    message = string.Format
+                    string message = string.Format
                         (
-                            "MFN={0}{1}{2}",
-                            record.Mfn,
-                            Environment.NewLine,
-                            message
+                            "Exception: {0}",
+                            exception
                         );
-                }
 
-                log.WriteLine(message);
-                throw;
+                    if (!ReferenceEquals(record, null))
+                    {
+                        message = string.Format
+                            (
+                                "MFN={0}{1}{2}",
+                                record.Mfn,
+                                Environment.NewLine,
+                                message
+                            );
+                    }
+
+                    log.WriteLine(message);
+                    throw;
+                }
             }
 
             log.WriteLine

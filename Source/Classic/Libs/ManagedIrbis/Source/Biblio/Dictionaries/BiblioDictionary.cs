@@ -9,31 +9,18 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Logging;
-using AM.Runtime;
 using AM.Text;
+using AM.Text.Output;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Pft;
-using ManagedIrbis.Pft.Infrastructure;
-
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -44,9 +31,8 @@ namespace ManagedIrbis.Biblio
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class BiblioDictionary
-        : NonNullCollection<BiblioTerm>,
-        IVerifiable
+    public sealed class BiblioDictionary
+        : Dictionary<string, DictionaryEntry>
     {
         #region Properties
 
@@ -62,27 +48,60 @@ namespace ManagedIrbis.Biblio
 
         #region Public methods
 
-        #endregion
-
-        #region IVerifiable members
-
-        /// <inheritdoc cref="IVerifiable.Verify" />
-        public virtual bool Verify
+        /// <summary>
+        /// Add title and reference.
+        /// </summary>
+        public void Add
             (
-                bool throwOnError
+                [NotNull] string title,
+                int reference
             )
         {
-            Verifier<BiblioDictionary> verifier
-                = new Verifier<BiblioDictionary>(this, throwOnError);
+            Code.NotNullNorEmpty(title, "title");
 
-            // TODO do something
+            DictionaryEntry entry;
+            if (!TryGetValue(title, out entry))
+            {
+                entry = new DictionaryEntry
+                {
+                    Title = title
+                };
+                Add(title, entry);
+            }
 
-            return verifier.Result;
+            if (!entry.References.Contains(reference))
+            {
+                entry.References.Add(reference);
+            }
+        }
+
+        /// <summary>
+        /// Dump the dictionary.
+        /// </summary>
+        public void Dump
+            (
+                [NotNull] AbstractOutput output
+            )
+        {
+            Code.NotNull(output, "output");
+
+            string[] keys = NumberText.Sort(Keys).ToArray();
+            foreach (string key in keys)
+            {
+                DictionaryEntry entry = this[key];
+                output.WriteLine(entry.ToString());
+            }
         }
 
         #endregion
 
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return Count.ToInvariantString();
+        }
 
         #endregion
     }

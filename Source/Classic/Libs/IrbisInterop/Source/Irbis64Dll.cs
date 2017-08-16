@@ -287,7 +287,8 @@ namespace IrbisInterop
                 );
             }
 
-            int result = Irbis65Dll.IrbisInitPft(Space, format);
+            string prepared = IrbisFormat.PrepareFormat(format);
+            int result = Irbis65Dll.IrbisInitPft(Space, prepared);
             _HandleRetCode("IrbisInitPft", result);
 
             Irbis65Dll.IrbisInitUactab(Space);

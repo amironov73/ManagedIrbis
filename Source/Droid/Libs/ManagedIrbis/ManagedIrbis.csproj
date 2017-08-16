@@ -115,6 +115,12 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\BiblioDictionary.cs">
       <Link>Source\Biblio\Dictionaries\BiblioDictionary.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\DictionaryEntry.cs">
+      <Link>Source\Biblio\Dictionaries\DictionaryEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\TermCollection.cs">
+      <Link>Source\Biblio\Dictionaries\TermCollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\ItemCollection.cs">
       <Link>Source\Biblio\ItemCollection.cs</Link>
     </Compile>

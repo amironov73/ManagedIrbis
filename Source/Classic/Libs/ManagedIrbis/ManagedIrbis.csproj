@@ -146,6 +146,8 @@
     <Compile Include="Source\Biblio\Chapters\MenuChapter.cs" />
     <Compile Include="Source\Biblio\Chapters\MenuSubChapter.cs" />
     <Compile Include="Source\Biblio\Dictionaries\BiblioDictionary.cs" />
+    <Compile Include="Source\Biblio\Dictionaries\DictionaryEntry.cs" />
+    <Compile Include="Source\Biblio\Dictionaries\TermCollection.cs" />
     <Compile Include="Source\Biblio\BiblioFilter.cs" />
     <Compile Include="Source\Biblio\BiblioItem.cs" />
     <Compile Include="Source\Biblio\BiblioTerm.cs" />

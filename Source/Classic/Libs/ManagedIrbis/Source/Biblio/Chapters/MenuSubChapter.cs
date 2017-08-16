@@ -199,6 +199,8 @@ namespace ManagedIrbis.Biblio
                     log.WriteLine(string.Empty);
 
                     Items.SortByOrder();
+
+                    log.WriteLine("Items: {0}", Items.Count);
                 }
 
                 foreach (BiblioChapter chapter in Children)

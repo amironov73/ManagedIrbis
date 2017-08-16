@@ -1971,6 +1971,27 @@ namespace AM
         }
 
         /// <summary>
+        /// Trim lines.
+        /// </summary>
+        [NotNull]
+        public static IEnumerable<string> TrimLines
+            (
+                [NotNull] this IEnumerable<string> lines,
+                params char[] characters
+            )
+        {
+            Code.NotNull(lines, "lines");
+
+            foreach (string line in lines)
+            {
+                if (!ReferenceEquals(line, null))
+                {
+                    yield return line.Trim(characters);
+                }
+            }
+        }
+
+        /// <summary>
         /// Split the string.
         /// </summary>
         /// <remarks>For compatibility with WinMobile

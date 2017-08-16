@@ -145,7 +145,8 @@
             "pageBreak": true
           },
           "select": "*sources.pft",
-          "orderBy": "*sources.pft"
+          "orderBy": "*sources.pft",
+          "active": false
         },
         {
           "$type": "ChapterWithDictionary",

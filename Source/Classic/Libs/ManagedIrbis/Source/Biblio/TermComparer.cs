@@ -50,8 +50,8 @@ namespace ManagedIrbis.Biblio
             {
                 return NumberText.Compare
                     (
-                        x.ThrowIfNull().Data,
-                        y.ThrowIfNull().Data
+                        x.ThrowIfNull().Title,
+                        y.ThrowIfNull().Title
                     );
             }
 
@@ -76,8 +76,8 @@ namespace ManagedIrbis.Biblio
             {
                 return StringComparer.CurrentCulture.Compare
                     (
-                        x.ThrowIfNull().Data,
-                        y.ThrowIfNull().Data
+                        x.ThrowIfNull().Title,
+                        y.ThrowIfNull().Title
                     );
             }
 
