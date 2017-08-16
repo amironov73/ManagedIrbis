@@ -255,6 +255,16 @@ namespace ManagedIrbis.Client
 
         #region IrbisProvider members
 
+        /// <inheritdoc cref="IrbisProvider.AcquireFormatter" />
+        public override IPftFormatter AcquireFormatter()
+        {
+            PftContext context = new PftContext(null);
+            PftFormatter result = new PftFormatter(context);
+            result.SetProvider(this);
+
+            return result;
+        }
+
         /// <inheritdoc cref="IrbisProvider.Configure" />
         public override void Configure
             (
@@ -609,6 +619,15 @@ namespace ManagedIrbis.Client
 #endif
 
             return result;
+        }
+
+        /// <inheritdoc cref="IrbisProvider.ReleaseFormatter" />
+        public override void ReleaseFormatter
+            (
+                IPftFormatter formatter
+            )
+        {
+            // Nothing to do here
         }
 
         /// <inheritdoc cref="IrbisProvider.Search" />

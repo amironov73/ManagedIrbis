@@ -94,6 +94,27 @@ namespace ManagedIrbis.Biblio
         #region Public methods
 
         /// <summary>
+        /// Build dictionaries.
+        /// </summary>
+        public virtual void BuildDictionaries
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine("Begin build dictionaries {0}", this);
+
+            foreach (BiblioChapter chapter in Children)
+            {
+                chapter.BuildDictionaries(context);
+            }
+
+            log.WriteLine("End build dictionaries {0}", this);
+        }
+
+        /// <summary>
         /// Build <inheritdoc cref="BiblioItem"/>s.
         /// </summary>
         public virtual void BuildItems
@@ -112,6 +133,27 @@ namespace ManagedIrbis.Biblio
             }
 
             log.WriteLine("End build items {0}", this);
+        }
+
+        /// <summary>
+        /// Gather terms.
+        /// </summary>
+        public virtual void GatherTerms
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine("Begin gather terms {0}", this);
+
+            foreach (BiblioChapter chapter in Children)
+            {
+                chapter.GatherTerms(context);
+            }
+
+            log.WriteLine("End gather terms {0}", this);
         }
 
         /// <summary>
@@ -166,13 +208,15 @@ namespace ManagedIrbis.Biblio
         {
             Code.NotNull(context, "context");
 
-            // Nothing to do here.
+            AbstractOutput log = context.Log;
+            log.WriteLine("Begin render items {0}", this);
 
-            Log.Warn
-                (
-                    "BiblioChapter::Render: "
-                    + "must be overriden"
-                );
+            foreach (BiblioChapter chapter in Children)
+            {
+                chapter.Render(context);
+            }
+
+            log.WriteLine("End render items {0}", this);
         }
 
         /// <summary>

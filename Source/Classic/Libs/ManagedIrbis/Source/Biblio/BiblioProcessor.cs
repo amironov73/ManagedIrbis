@@ -86,24 +86,29 @@ namespace ManagedIrbis.Biblio
         /// <summary>
         /// 
         /// </summary>
-        private void BildDictionaries
+        protected virtual void BildDictionaries
             (
-                BiblioContext context
+                [NotNull] BiblioContext context
             )
         {
-            throw new NotImplementedException();
+            Code.NotNull(context, "context");
+
+            WriteDelimiter(context);
+            BiblioDocument document = context.Document;
+            document.BuildDictionaries(context);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        private void BildItems
+        protected virtual void BildItems
             (
-                BiblioContext context
+                [NotNull] BiblioContext context
             )
         {
             Code.NotNull(context, "context");
 
+            WriteDelimiter(context);
             BiblioDocument document = context.Document;
             document.BuildItems(context);
         }
@@ -111,24 +116,35 @@ namespace ManagedIrbis.Biblio
         /// <summary>
         /// 
         /// </summary>
-        private void FinalRender
-            (
-                BiblioContext context
-            )
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Gather records.
-        /// </summary>
-        private void GatherRecords
+        protected virtual void FinalRender
             (
                 [NotNull] BiblioContext context
             )
         {
             Code.NotNull(context, "context");
 
+            AbstractOutput log = context.Log;
+
+            WriteDelimiter(context);
+            log.WriteLine("Begin final render");
+            BiblioDocument document = context.Document;
+
+            // TODO render the report
+
+            log.WriteLine("End final render");
+        }
+
+        /// <summary>
+        /// Gather records.
+        /// </summary>
+        protected virtual void GatherRecords
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            WriteDelimiter(context);
             BiblioDocument document = context.Document;
             document.GatherRecords(context);
         }
@@ -138,21 +154,40 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         private void RenderReport
             (
-                BiblioContext context
+                [NotNull] BiblioContext context
             )
         {
-            throw new NotImplementedException();
+            Code.NotNull(context, "context");
+
+            WriteDelimiter(context);
+            BiblioDocument document = context.Document;
+            document.RenderItems(context);
         }
 
         /// <summary>
-        /// 
+        /// Gather terms.
         /// </summary>
-        private void GatherTerms
+        protected virtual void GatherTerms
             (
-                BiblioContext context
+                [NotNull] BiblioContext context
             )
         {
-            throw new NotImplementedException();
+            Code.NotNull(context, "context");
+
+            WriteDelimiter(context);
+            BiblioDocument document = context.Document;
+            document.GatherTerms(context);
+        }
+
+        private void WriteDelimiter
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine(new string('=', 70));
         }
 
         #endregion
@@ -160,30 +195,10 @@ namespace ManagedIrbis.Biblio
         #region Public methods
 
         /// <summary>
-        /// Build document.
-        /// </summary>
-        public string BuildDocument
-            (
-                [NotNull] BiblioContext context
-            )
-        {
-            Code.NotNull(context, "context");
-
-            GatherRecords(context);
-            BildItems(context);
-            //GatherTerms(context);
-            //BildDictionaries(context);
-            //RenderReport(context);
-            //FinalRender(context);
-
-            return string.Empty;
-        }
-
-        /// <summary>
         /// Get formatter.
         /// </summary>
         [NotNull]
-        public PftFormatter GetFormatter
+        public PftFormatter AcquireFormatter
             (
                 [NotNull] BiblioContext context
             )
@@ -198,10 +213,34 @@ namespace ManagedIrbis.Biblio
         }
 
         /// <summary>
+        /// Build document.
+        /// </summary>
+        public virtual string BuildDocument
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            BiblioDocument document = context.Document;
+            document.Initialize(context);
+
+            GatherRecords(context);
+            BildItems(context);
+            GatherTerms(context);
+            BildDictionaries(context);
+            RenderReport(context);
+            FinalRender(context);
+            WriteDelimiter(context);
+
+            return string.Empty;
+        }
+
+        /// <summary>
         /// Get text.
         /// </summary>
         [CanBeNull]
-        public string GetText
+        public virtual string GetText
             (
                 [NotNull] BiblioContext context,
                 [NotNull] string path
@@ -254,7 +293,7 @@ namespace ManagedIrbis.Biblio
         /// <summary>
         /// 
         /// </summary>
-        public void Initialize
+        public virtual void Initialize
             (
                 [NotNull] BiblioContext context
             )
@@ -264,9 +303,23 @@ namespace ManagedIrbis.Biblio
             AbstractOutput log = context.Log;
             log.WriteLine("Begin initialize the processor");
             context.Processor = this;
-            BiblioDocument document = context.Document;
-            document.Initialize(context);
             log.WriteLine("End initialize the processor");
+        }
+
+        /// <summary>
+        /// Release the formatter.
+        /// </summary>
+        public virtual void ReleaseFormatter
+            (
+                [NotNull] BiblioContext context,
+                [NotNull] IPftFormatter formatter
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNull(formatter, "formatter");
+
+            IrbisProvider provider = context.Provider;
+            provider.ReleaseFormatter(formatter);
         }
 
         #endregion

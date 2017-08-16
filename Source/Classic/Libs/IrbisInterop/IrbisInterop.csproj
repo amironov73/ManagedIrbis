@@ -141,6 +141,7 @@
     <Compile Include="Source\Irbis64Dll.cs" />
     <Compile Include="Source\Irbis65Dll.cs" />
     <Compile Include="Source\NativeField.cs" />
+    <Compile Include="Source\NativeIrbisFormatter.cs" />
     <Compile Include="Source\NativeIrbisProvider.cs" />
     <Compile Include="Source\NativeRecord.cs" />
     <Compile Include="Source\SpaceLayout.cs" />

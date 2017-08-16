@@ -160,6 +160,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ConnectedClient.cs">
       <Link>Source\Client\ConnectedClient.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ConnectedFormatter.cs">
+      <Link>Source\Client\ConnectedFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\LocalCatalogerIniFile.cs">
       <Link>Source\Client\LocalCatalogerIniFile.cs</Link>
     </Compile>

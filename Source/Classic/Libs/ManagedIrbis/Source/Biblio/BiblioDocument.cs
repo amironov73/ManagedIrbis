@@ -92,6 +92,28 @@ namespace ManagedIrbis.Biblio
         #region Public methods
 
         /// <summary>
+        /// Build dictionaries.
+        /// </summary>
+        public void BuildDictionaries
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine("Begin build dictionaries");
+
+            foreach (BiblioChapter chapter in Chapters)
+            {
+                chapter.BuildDictionaries(context);
+            }
+
+            log.WriteLine("End build dictionaries");
+        }
+
+
+        /// <summary>
         /// Build items.
         /// </summary>
         public void BuildItems
@@ -131,6 +153,27 @@ namespace ManagedIrbis.Biblio
             }
 
             log.WriteLine("End gather records");
+        }
+
+        /// <summary>
+        /// Gather terms.
+        /// </summary>
+        public virtual void GatherTerms
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine("Begin gather terms");
+
+            foreach (BiblioChapter chapter in Chapters)
+            {
+                chapter.GatherTerms(context);
+            }
+
+            log.WriteLine("End gather terms");
         }
 
         /// <summary>
@@ -205,6 +248,27 @@ namespace ManagedIrbis.Biblio
             return result;
 
 #endif
+        }
+
+        /// <summary>
+        /// Render items.
+        /// </summary>
+        public virtual void RenderItems
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine("Begin render items");
+
+            foreach (BiblioChapter chapter in Chapters)
+            {
+                chapter.Render(context);
+            }
+
+            log.WriteLine("End render items");
         }
 
         #endregion

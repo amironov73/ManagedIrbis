@@ -122,7 +122,7 @@ namespace ManagedIrbis.Biblio
                 MarcRecord record = item.Record;
                 if (!ReferenceEquals(record, null))
                 {
-                    string text = _formatter.Format(record);
+                    string text = _formatter.FormatRecord(record);
                     if (!string.IsNullOrEmpty(text))
                     {
                         string[] lines = text

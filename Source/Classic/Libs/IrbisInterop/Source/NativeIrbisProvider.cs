@@ -33,6 +33,7 @@ using ManagedIrbis;
 using ManagedIrbis.Client;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
+using ManagedIrbis.Pft;
 using ManagedIrbis.Search;
 using ManagedIrbis.Server;
 
@@ -170,6 +171,12 @@ namespace IrbisInterop
         #endregion
 
         #region IrbisProvider members
+
+        /// <inheritdoc cref="IrbisProvider.AcquireFormatter" />
+        public override IPftFormatter AcquireFormatter()
+        {
+            return new NativeIrbisFormatter(this);
+        }
 
         /// <inheritdoc cref="IrbisProvider.Configure" />
         public override void Configure
@@ -401,6 +408,15 @@ namespace IrbisInterop
                 : Irbis64.ListTerms(startTerm, number);
 
             return result;
+        }
+
+        /// <inheritdoc cref="IrbisProvider.ReleaseFormatter" />
+        public override void ReleaseFormatter
+            (
+                IPftFormatter formatter
+            )
+        {
+            // Nothing to do here
         }
 
         /// <inheritdoc cref="IrbisProvider.Search" />

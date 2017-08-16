@@ -162,6 +162,7 @@
     <Compile Include="Source\Biblio\SpecialSettings.cs" />
     <Compile Include="Source\Biblio\TermComparer.cs" />
     <Compile Include="Source\BibTex\BibTex.cs" />
+    <Compile Include="Source\Client\ConnectedFormatter.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblAdd.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblAll.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblCha.cs" />

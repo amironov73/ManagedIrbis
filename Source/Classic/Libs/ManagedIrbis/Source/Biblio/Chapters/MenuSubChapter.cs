@@ -134,7 +134,7 @@ namespace ManagedIrbis.Biblio
                     MenuChapter mainChapter = MainChapter
                         .ThrowIfNull("MainChapter");
 
-                    using (formatter = processor.GetFormatter(context))
+                    using (formatter = processor.AcquireFormatter(context))
                     {
                         // TODO use hierarchy for descriptionFormat
                         // and orderFormat
@@ -153,7 +153,8 @@ namespace ManagedIrbis.Biblio
                         {
                             log.Write(".");
                             record = Records[i];
-                            string description = formatter.Format(record);
+                            string description 
+                                = formatter.FormatRecord(record);
 
                             // TODO handle string.IsNullOrEmpty(description)
 
@@ -169,7 +170,7 @@ namespace ManagedIrbis.Biblio
 
                     log.WriteLine(string.Empty);
 
-                    using (formatter = processor.GetFormatter(context))
+                    using (formatter = processor.AcquireFormatter(context))
                     {
                         string orderFormat = mainChapter.OrderBy
                             .ThrowIfNull("mainChapter.OrderBy");
@@ -186,7 +187,8 @@ namespace ManagedIrbis.Biblio
                             log.Write(".");
                             BiblioItem item = Items[i];
                             record = item.Record;
-                            string order = formatter.Format(record);
+                            string order 
+                                = formatter.FormatRecord(record);
 
                             // TODO handle string.IsNullOrEmpty(order)
 

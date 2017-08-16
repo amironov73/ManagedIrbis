@@ -31,6 +31,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
+using ManagedIrbis.Pft;
 using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
@@ -97,6 +98,15 @@ namespace ManagedIrbis.Client
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Acquire formatter instance.
+        /// </summary>
+        [CanBeNull]
+        public virtual IPftFormatter AcquireFormatter()
+        {
+            return null;
+        }
 
         /// <summary>
         /// Configure the provider.
@@ -351,6 +361,17 @@ namespace ManagedIrbis.Client
         /// Reconnect.
         /// </summary>
         public virtual void Reconnect()
+        {
+            // Nothing to do here
+        }
+
+        /// <summary>
+        /// Release the formatter.
+        /// </summary>
+        public virtual void ReleaseFormatter
+            (
+                [CanBeNull] IPftFormatter formatter
+            )
         {
             // Nothing to do here
         }

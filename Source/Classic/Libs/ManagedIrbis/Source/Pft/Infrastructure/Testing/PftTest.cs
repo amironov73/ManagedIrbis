@@ -241,7 +241,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                 })
                 {
                     formatter.SetProvider(provider);
-                    output = formatter.Format(record)
+                    output = formatter.FormatRecord(record)
                         .DosToUnix()
                         .ThrowIfNull("output");
                 }

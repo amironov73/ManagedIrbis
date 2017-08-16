@@ -175,7 +175,7 @@ namespace ManagedIrbis.Reports
 
                 foreach (MarcRecord record in sourceRecords)
                 {
-                    string formatted = _formatter.Format
+                    string formatted = _formatter.FormatRecord
                     (
                         record
                     );

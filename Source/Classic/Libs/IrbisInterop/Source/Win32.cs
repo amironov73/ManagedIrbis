@@ -32,7 +32,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace IrbisInterop.Source
+namespace IrbisInterop
 {
     /// <summary>
     /// Some Win32 interop.

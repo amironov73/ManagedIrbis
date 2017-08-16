@@ -158,7 +158,7 @@ namespace ManagedIrbis.Reports
                     _formatter.ParseProgram(expression);
                 }
 
-                text = _formatter.Format(record);
+                text = _formatter.FormatRecord(record);
             }
             bool result = CheckResult(text);
 

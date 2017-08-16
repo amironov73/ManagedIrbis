@@ -94,7 +94,7 @@ namespace ManagedIrbis.Reports
                         = new List<Pair<string, int>>(count);
                     for (int i = 0; i < count; i++)
                     {
-                        string formatted = formatter.Format
+                        string formatted = formatter.FormatRecord
                         (
                             context.Records[i]
                         );

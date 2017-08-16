@@ -78,7 +78,7 @@ namespace ManagedIrbis.Reports
                 using (PftFormatter formatter
                     = context.GetFormatter(expression))
                 {
-                    string text = formatter.Format(null);
+                    string text = formatter.FormatRecord(null);
                     if (RecordFilter.CheckResult(text))
                     {
                         base.Render(context);

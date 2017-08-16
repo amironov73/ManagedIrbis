@@ -203,7 +203,7 @@ namespace EasyGlobal
                     {
                         record.Modified = false;
                         formatter.Context.ClearAll();
-                        string text = formatter.Format(record);
+                        string text = formatter.FormatRecord(record);
                         if (!string.IsNullOrEmpty(text))
                         {
                             Output.WriteLine(text);

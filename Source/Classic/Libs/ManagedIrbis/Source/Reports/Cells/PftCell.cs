@@ -140,7 +140,7 @@ namespace ManagedIrbis.Reports
                 context.SetVariables(_formatter);
 
                 result
-                    = _formatter.Format(context.CurrentRecord);
+                    = _formatter.FormatRecord(context.CurrentRecord);
 
                 OnAfterCompute(context);
             }

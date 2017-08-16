@@ -130,7 +130,7 @@ namespace PftBench
             }
             formatter.SetProvider(_provider);
 
-            string result = formatter.Format(_record);
+            string result = formatter.FormatRecord(_record);
             _resutlBox.Text = result;
             try
             {

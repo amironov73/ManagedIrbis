@@ -32,7 +32,7 @@ namespace ManagedIrbis.Pft
         /// Format the record.
         /// </summary>
         [NotNull]
-        string Format
+        string FormatRecord
             (
                 [CanBeNull] MarcRecord record
             );

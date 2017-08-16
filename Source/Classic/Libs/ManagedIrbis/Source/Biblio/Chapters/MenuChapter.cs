@@ -152,7 +152,7 @@ namespace ManagedIrbis.Biblio
             MarcRecord record = new MarcRecord();
             record.Fields.Add(new RecordField(1, key));
             record.Fields.Add(new RecordField(2, value));
-            string title = formatter.Format(record);
+            string title = formatter.FormatRecord(record);
 
             MenuSubChapter result = new MenuSubChapter
             {
@@ -201,7 +201,7 @@ namespace ManagedIrbis.Biblio
             {
                 BiblioProcessor processor = context.Processor
                     .ThrowIfNull("context.Processor");
-                using (PftFormatter formatter = processor.GetFormatter(context))
+                using (PftFormatter formatter = processor.AcquireFormatter(context))
                 {
                     IrbisProvider provider = context.Provider;
 
@@ -209,7 +209,7 @@ namespace ManagedIrbis.Biblio
                         .ThrowIfNull("SearchExpression");
                     formatter.ParseProgram(searchExpression);
                     MarcRecord record = new MarcRecord();
-                    searchExpression = formatter.Format(record);
+                    searchExpression = formatter.FormatRecord(record);
 
                     int[] found = provider.Search(searchExpression);
                     log.WriteLine("Found: {0} record(s)", found.Length);
@@ -256,7 +256,7 @@ namespace ManagedIrbis.Biblio
                         }
 
                         record = Records[i];
-                        string key = formatter.Format(record);
+                        string key = formatter.FormatRecord(record);
                         if (string.IsNullOrEmpty(key))
                         {
                             BadRecords.Add(record);
@@ -340,7 +340,7 @@ namespace ManagedIrbis.Biblio
                 BiblioProcessor processor = context.Processor
                     .ThrowIfNull("context.Processor");
                 using (PftFormatter formatter
-                    = processor.GetFormatter(context))
+                    = processor.AcquireFormatter(context))
                 {
                     string titleFormat = TitleFormat
                         .ThrowIfNull("TitleFormat");

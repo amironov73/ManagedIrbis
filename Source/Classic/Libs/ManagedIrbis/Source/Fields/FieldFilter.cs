@@ -160,7 +160,7 @@ namespace ManagedIrbis.Fields
             record.Fields.Add(copy);
 
             Formatter.Context.AlternativeRecord = field.Record;
-            string text = Formatter.Format(record);
+            string text = Formatter.FormatRecord(record);
             bool result = text.SameString("1");
 
             return result;

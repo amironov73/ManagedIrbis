@@ -19,6 +19,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Batch;
+using ManagedIrbis.Pft;
 using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
@@ -129,6 +130,12 @@ namespace ManagedIrbis.Client
         #endregion
 
         #region IrbisProvider members
+
+        /// <inheritdoc cref="IrbisProvider.AcquireFormatter" />
+        public override IPftFormatter AcquireFormatter()
+        {
+            return new ConnectedFormatter(Connection);
+        }
 
         /// <inheritdoc cref="IrbisProvider.Configure" />
         public override void Configure
@@ -244,6 +251,15 @@ namespace ManagedIrbis.Client
         public override void Reconnect()
         {
             Connection.Reconnect();
+        }
+
+        /// <inheritdoc cref="IrbisProvider.ReleaseFormatter" />
+        public override void ReleaseFormatter
+            (
+                IPftFormatter formatter
+            )
+        {
+            // Nothing to do here
         }
 
         /// <inheritdoc cref="IrbisProvider.Search" />

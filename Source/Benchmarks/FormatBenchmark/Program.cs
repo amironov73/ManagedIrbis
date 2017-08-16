@@ -68,7 +68,7 @@ namespace FormatBenchmark
                             continue;
                         }
 
-                        string text = formatter.Format(record);
+                        string text = formatter.FormatRecord(record);
                         Console.WriteLine(text);
                     }
                 }

@@ -126,8 +126,8 @@ namespace ManagedIrbis.Pft
 
         #region Public methods
 
-        /// <inheritdoc cref="IPftFormatter.Format" />
-        public virtual string Format
+        /// <inheritdoc cref="IPftFormatter.FormatRecord" />
+        public virtual string FormatRecord
             (
                 MarcRecord record
             )

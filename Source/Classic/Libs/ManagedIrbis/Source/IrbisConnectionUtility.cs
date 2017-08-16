@@ -290,7 +290,7 @@ namespace ManagedIrbis
 
                 foreach (MarcRecord record in records)
                 {
-                    string text = formatter.Format(record);
+                    string text = formatter.FormatRecord(record);
                     if (text.SameString("1"))
                     {
                         result.Add(record);

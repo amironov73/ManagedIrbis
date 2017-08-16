@@ -385,7 +385,7 @@ namespace ManagedIrbis
             {
                 formatter.ParseProgram(format);
 
-                string result = formatter.Format(this);
+                string result = formatter.FormatRecord(this);
 
                 return result;
             }
