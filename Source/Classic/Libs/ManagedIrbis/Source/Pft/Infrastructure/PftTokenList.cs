@@ -121,6 +121,20 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Return number of remaining tokens.
+        /// </summary>
+        public int CountRemainingTokens()
+        {
+            int length = _tokens.Length;
+            if (_position >= length)
+            {
+                return 0;
+            }
+
+            return _tokens.Length - _position - 1;
+        }
+
+        /// <summary>
         /// Dump token list.
         /// </summary>
         public void Dump

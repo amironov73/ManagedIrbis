@@ -304,20 +304,26 @@ namespace IrbisInterop
 
             int retCode = Irbis65Dll.IrbisFldEmpty(space, shelf);
             _HandleRetCode("IrbisFldEmpty", retCode);
+            int counter = 0;
             foreach (NativeField field in record.Fields)
             {
-                string value = field.Value;
-                byte[] buffer = BufferFromString(utf, value);
+                // TODO how to handle empty value?
 
-                retCode = Irbis65Dll.IrbisFldAdd
+                string value = field.Value;
+                if (!string.IsNullOrEmpty(value))
+                {
+                    byte[] buffer = BufferFromString(utf, value);
+
+                    retCode = Irbis65Dll.IrbisFldAdd
                     (
                         space,
                         shelf,
                         field.Tag,
-                        0,
+                        ++counter,
                         buffer
                     );
-                _HandleRetCode("IrbisFldAdd", retCode);
+                    _HandleRetCode("IrbisFldAdd", retCode);
+                }
             }
         }
 

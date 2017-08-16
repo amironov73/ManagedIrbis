@@ -71,7 +71,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             try
             {
                 result = ParseArithmetic();
-                if (!Tokens.IsEof)
+                if (!Tokens.IsEof
+                    || ReferenceEquals(result, null))
                 {
                     // Non-arithmetic comparison detected
 
@@ -149,6 +150,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 PftConditionParenthesis parenthesis
                     = new PftConditionParenthesis(token);
+                int saved = Tokens.SavePosition();
                 Tokens.RequireNext();
                 PftTokenList innerTokens = Tokens.Segment
                     (
@@ -157,15 +159,26 @@ namespace ManagedIrbis.Pft.Infrastructure
                         _parenthesisStop
                     )
                     .ThrowIfNull("innerTokens");
-                parenthesis.InnerCondition
-                    = (PftCondition) NestedContext
-                    (
-                        innerTokens,
-                        ParseCondition
-                    );
-                Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
-                Tokens.MoveNext();
-                result = parenthesis;
+
+                if (Tokens.CountRemainingTokens() == 0
+                    && Tokens.Current.Kind == PftTokenKind.RightParenthesis)
+                {
+                    parenthesis.InnerCondition
+                        = (PftCondition)NestedContext
+                        (
+                            innerTokens,
+                            ParseCondition
+                        );
+                    Tokens.Current.MustBe(PftTokenKind.RightParenthesis);
+                    Tokens.MoveNext();
+                    result = parenthesis;
+                }
+                else
+                {
+                    Tokens.RestorePosition(saved);
+                    PftComparison comparison = ParseComparison();
+                    result = comparison;
+                }
             }
             else if (token.Kind == PftTokenKind.All)
             {
@@ -203,7 +216,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 return result;
             }
 
-            result = (PftCondition) NestedContext
+            result = (PftCondition)NestedContext
                 (
                     conditionTokens,
                     _ParseCondition
@@ -237,7 +250,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     }
                     else
                     {
-                        right = (PftCondition) NestedContext
+                        right = (PftCondition)NestedContext
                             (
                                 conditionTokens,
                                 _ParseCondition
@@ -275,12 +288,12 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.Current.MustBe(PftTokenKind.Then);
 
             PftCondition condition
-                = (PftCondition) NestedContext
+                = (PftCondition)NestedContext
                 (
                     conditionTokens,
                     ParseCondition
                 );
-                
+
             result.Condition = condition;
 
             Tokens.RequireNext();
