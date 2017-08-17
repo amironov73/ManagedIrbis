@@ -56,6 +56,26 @@ namespace ManagedIrbis.Reports
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ParagraphBand()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ParagraphBand
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNull(text, "text");
+
+            Cells.Add(new SimpleTextCell(text));
+        }
+
         #endregion
 
         #region Private members

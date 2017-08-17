@@ -78,6 +78,11 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         public ItemCollection Items { get; protected internal set; }
 
+        /// <summary>
+        /// Whether the chapter is for service purpose?
+        /// </summary>
+        public virtual bool IsServiceChapter { get { return false; } }
+
         #endregion
 
         #region Construction
@@ -95,6 +100,23 @@ namespace ManagedIrbis.Biblio
         #endregion
 
         #region Private members
+
+        /// <summary>
+        /// Render children chapters.
+        /// </summary>
+        protected virtual void RenderChildren
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            foreach (BiblioChapter child in Children)
+            {
+                if (child.Active)
+                {
+                    child.Render(context);
+                }
+            }
+        }
 
         /// <summary>
         /// Render the chapter title.
@@ -115,7 +137,7 @@ namespace ManagedIrbis.Biblio
             {
                 ReportBand title = new ParagraphBand
                     {
-                        StyleSpecification = @"\s1\plain\fs40\sb400\sa400\b "
+                        StyleSpecification = @"\s1\plain\f1\fs40\sb400\sa400\b "
                     };
                 report.Body.Add(title);
                 title.Cells.Add(new SimpleTextCell(Title));
@@ -261,14 +283,7 @@ namespace ManagedIrbis.Biblio
             log.WriteLine("Begin render items {0}", this);
 
             RenderTitle(context);
-
-            foreach (BiblioChapter child in Children)
-            {
-                if (child.Active)
-                {
-                    child.Render(context);
-                }
-            }
+            RenderChildren(context);
 
             log.WriteLine("End render items {0}", this);
         }

@@ -76,7 +76,7 @@
       "menuName": "6628.mnu",
 
       // Отбор записей
-      "recordSelector": "&uf('Av6628#1')",
+      "recordSelector": "(v6628,/)",
 
       // Формат заголовка
       "titleFormat": "v1, '. ', v2",

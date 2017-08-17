@@ -77,6 +77,12 @@ namespace ManagedIrbis.Biblio
         public RecordCollection Records { get; private set; }
 
         /// <summary>
+        /// Bad records.
+        /// </summary>
+        [NotNull]
+        public RecordCollection BadRecords { get; private set; }
+
+        /// <summary>
         /// Context for report.
         /// </summary>
         [NotNull]
@@ -105,6 +111,7 @@ namespace ManagedIrbis.Biblio
             Log = log;
             ReportContext = new ReportContext(provider);
             Records = new RecordCollection();
+            BadRecords = new RecordCollection();
         }
 
         #endregion

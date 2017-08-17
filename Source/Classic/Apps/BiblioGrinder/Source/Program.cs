@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
 using AM.Text.Output;
 
@@ -94,6 +95,11 @@ namespace BiblioGrinder
                     (
                         "Elapsed: {0}",
                         elapsed.ToAutoString()
+                    );
+                log.WriteLine
+                    (
+                        "Finished at: {0}",
+                        DateTime.Now
                     );
             }
             catch (Exception exception)

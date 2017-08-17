@@ -11,6 +11,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 using AM;
 using AM.Text.Output;
@@ -61,7 +63,13 @@ namespace ManagedIrbis.Biblio
         /// Records.
         /// </summary>
         [NotNull]
-        public List<MarcRecord> Records { get; private set; }
+        public RecordCollection Records { get; private set; }
+
+        /// <summary>
+        /// Dublicates.
+        /// </summary>
+        [NotNull]
+        public RecordCollection Duplicates { get; private set; }
 
         /// <summary>
         /// Special settings associated with the chapter
@@ -70,11 +78,25 @@ namespace ManagedIrbis.Biblio
         [CanBeNull]
         public SpecialSettings SpecialSettings { get; set; }
 
-        ///// <summary>
-        ///// Items.
-        ///// </summary>
-        //[NotNull]
-        //public List<BiblioItem> Items { get; set; }
+        /// <inheritdoc cref="BiblioChapter.IsServiceChapter" />
+        public override bool IsServiceChapter
+        {
+            get
+            {
+                if (Children.Count == 0)
+                {
+                    return false;
+                }
+
+                MenuChapter mainChapter = MainChapter;
+                if (ReferenceEquals(mainChapter, null))
+                {
+                    return Records.Count == 0;
+                }
+
+                return mainChapter.LeafOnly && Records.Count == 0;
+            }
+        }
 
         #endregion
 
@@ -85,13 +107,68 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         public MenuSubChapter()
         {
-            Records = new List<MarcRecord>();
-            //Items = new List<BiblioItem>();
+            Records = new RecordCollection();
+            Duplicates = new RecordCollection();
         }
 
         #endregion
 
         #region Private members
+
+        [CanBeNull]
+        private BiblioItem _FindItem
+            (
+                [NotNull] MenuSubChapter chapter,
+                [NotNull] MarcRecord record
+            )
+        {
+            foreach (BiblioItem item in chapter.Items)
+            {
+                if (ReferenceEquals(item.Record, record))
+                {
+                    return item;
+                }
+            }
+
+            foreach (BiblioChapter child in chapter.Children)
+            {
+                MenuSubChapter subChapter = child as MenuSubChapter;
+                if (!ReferenceEquals(subChapter, null))
+                {
+                    BiblioItem found = _FindItem(subChapter, record);
+                    if (!ReferenceEquals(found, null))
+                    {
+                        return found;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        [CanBeNull]
+        private BiblioItem _FindItem
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            MenuChapter mainChapter = MainChapter
+                .ThrowIfNull("MainChapter");
+            foreach (BiblioChapter child in mainChapter.Children)
+            {
+                MenuSubChapter chapter = child as MenuSubChapter;
+                if (!ReferenceEquals(chapter, null))
+                {
+                    BiblioItem found = _FindItem(chapter, record);
+                    if (!ReferenceEquals(found, null))
+                    {
+                        return found;
+                    }
+                }
+            }
+
+            return null;
+        }
 
         #endregion
 
@@ -270,34 +347,76 @@ namespace ManagedIrbis.Biblio
             IrbisReport report = processor.Report
                 .ThrowIfNull("processor.Report");
 
-            RenderTitle(context);
-
-            for (int i = 0; i < Items.Count; i++)
+            if (Records.Count != 0
+                || Duplicates.Count != 0
+                || Children.Count != 0)
             {
-                log.Write(".");
-                BiblioItem item = Items[i];
-                int number = item.Number;
-                string description = item.Description
-                    .ThrowIfNull("item.Description");
+                RenderTitle(context);
 
-                ReportBand band = new ParagraphBand();
-                report.Body.Add(band);
-                band.Cells.Add(new SimpleTextCell
-                    (
-                        number.ToInvariantString() + ") "
-                    ));
-                band.Cells.Add(new SimpleTextCell(description));
-            }
-
-            log.WriteLine(" done");
-
-            foreach (BiblioChapter child in Children)
-            {
-                if (child.Active)
+                for (int i = 0; i < Items.Count; i++)
                 {
-                    child.Render(context);
+                    log.Write(".");
+                    BiblioItem item = Items[i];
+                    int number = item.Number;
+                    string description = item.Description
+                        .ThrowIfNull("item.Description");
+
+                    ReportBand band = new ParagraphBand
+                        (
+                            number.ToInvariantString() + ") "
+                        );
+                    report.Body.Add(band);
+                    band.Cells.Add(new SimpleTextCell(description));
+                }
+
+                log.WriteLine(" done");
+
+                if (Duplicates.Count != 0)
+                {
+                    List<BiblioItem> items
+                        = new List<BiblioItem>(Duplicates.Count);
+                    foreach (MarcRecord dublicate in Duplicates)
+                    {
+                        BiblioItem item = _FindItem(dublicate);
+                        if (!ReferenceEquals(item, null))
+                        {
+                            items.Add(item);
+                        }
+                        else
+                        {
+                            log.WriteLine
+                                (
+                                    "Проблема с дубликатом MFN="
+                                    + dublicate.Mfn
+                                );
+                        }
+                    }
+                    items = items
+                        .OrderBy(x => x.Number)
+                        .Distinct()
+                        .ToList();
+                    // items.Sort((x, y) => x.Number - y.Number);
+
+                    StringBuilder builder = new StringBuilder();
+                    builder.Append("См. также: {\\i ");
+                    bool first = true;
+                    foreach (BiblioItem item in items)
+                    {
+                        if (!first)
+                        {
+                            builder.Append(", ");
+                        }
+                        builder.Append(item.Number.ToInvariantString());
+                        first = false;
+                    }
+                    builder.Append('}');
+
+                    report.Body.Add(new ParagraphBand());
+                    report.Body.Add(new ParagraphBand(builder.ToString()));
                 }
             }
+
+            RenderChildren(context);
 
             log.WriteLine(string.Empty);
             log.WriteLine("End render {0}", this);

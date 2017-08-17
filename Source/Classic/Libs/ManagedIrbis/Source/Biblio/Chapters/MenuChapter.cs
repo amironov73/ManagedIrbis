@@ -41,6 +41,8 @@ using Newtonsoft.Json;
 
 #endregion
 
+// ReSharper disable ForCanBeConvertedToForeach
+
 namespace ManagedIrbis.Biblio
 {
     /// <summary>
@@ -112,13 +114,13 @@ namespace ManagedIrbis.Biblio
         /// Records.
         /// </summary>
         [CanBeNull]
-        public List<MarcRecord> Records { get; private set; }
+        public RecordCollection Records { get; private set; }
 
-        /// <summary>
-        /// Bad records.
-        /// </summary>
-        [CanBeNull]
-        public List<MarcRecord> BadRecords { get; private set; }
+        /// <inheritdoc cref="BiblioChapter.IsServiceChapter" />
+        public override bool IsServiceChapter
+        {
+            get { return true; }
+        }
 
         #endregion
 
@@ -135,6 +137,8 @@ namespace ManagedIrbis.Biblio
         #endregion
 
         #region Private members
+
+        private static char[] _lineDelimiters = { '\r', '\n' };
 
         private MenuSubChapter _CreateChapter
             (
@@ -190,132 +194,150 @@ namespace ManagedIrbis.Biblio
             Code.NotNull(context, "context");
 
             AbstractOutput log = context.Log;
-            log.WriteLine
-                (
-                    "Begin gather records {0}: {1}",
-                    GetType().Name,
-                    Title.ToVisibleString()
-                );
+            log.WriteLine("Begin gather records {0}", this);
+            RecordCollection badRecords = context.BadRecords;
+            Records = new RecordCollection();
+            MarcRecord record = null;
 
-            if (Active)
+            try
             {
-                MarcRecord record = null;
-
-                try
+                BiblioProcessor processor = context.Processor
+                    .ThrowIfNull("context.Processor");
+                using (IPftFormatter formatter
+                    = processor.AcquireFormatter(context))
                 {
-                    BiblioProcessor processor = context.Processor
-                        .ThrowIfNull("context.Processor");
-                    using (IPftFormatter formatter
-                        = processor.AcquireFormatter(context))
+                    IrbisProvider provider = context.Provider;
+                    RecordCollection records = Records.ThrowIfNull();
+
+                    string searchExpression = SearchExpression
+                        .ThrowIfNull("SearchExpression");
+                    formatter.ParseProgram(searchExpression);
+                    record = new MarcRecord();
+                    searchExpression = formatter.FormatRecord(record);
+
+                    int[] found = provider.Search(searchExpression);
+                    log.WriteLine("Found: {0} record(s)", found.Length);
+
+                    log.Write("Reading records");
+                    for (int i = 0; i < found.Length; i++)
                     {
-                        IrbisProvider provider = context.Provider;
+                        log.Write(".");
+                        record = provider.ReadRecord(found[i]);
+                        records.Add(record);
+                        context.Records.Add(record);
+                    }
+                    log.WriteLine(" done");
 
-                        string searchExpression = SearchExpression
-                            .ThrowIfNull("SearchExpression");
-                        formatter.ParseProgram(searchExpression);
-                        record = new MarcRecord();
-                        searchExpression = formatter.FormatRecord(record);
-
-                        int[] found = provider.Search(searchExpression);
-                        log.WriteLine("Found: {0} record(s)", found.Length);
-
-                        log.Write("Reading records");
-                        Records = new List<MarcRecord>();
-                        for (int i = 0; i < found.Length; i++)
+                    Dictionary<string, MenuSubChapter> dictionary
+                        = new Dictionary<string, MenuSubChapter>();
+                    Action<BiblioChapter> action = chapter =>
+                    {
+                        MenuSubChapter subChapter
+                            = chapter as MenuSubChapter;
+                        if (!ReferenceEquals(subChapter, null))
                         {
-                            log.Write(".");
-                            record = provider.ReadRecord(found[i]);
-                            Records.Add(record);
+                            string key = subChapter.Key
+                                .ThrowIfNull("subChapter.Key");
+                            dictionary.Add(key, subChapter);
                         }
-                        log.WriteLine(" done");
+                    };
+                    Walk(action);
 
-                        Dictionary<string, MenuSubChapter> dictionary
-                            = new Dictionary<string, MenuSubChapter>();
-                        Action<BiblioChapter> action = chapter =>
+                    string recordSelector = RecordSelector
+                        .ThrowIfNull("RecordSelector");
+                    formatter.ParseProgram(recordSelector);
+                    log.Write("Distributing recors");
+
+                    for (int i = 0; i < records.Count; i++)
+                    {
+                        log.Write(".");
+
+                        record = records[i];
+                        string key = formatter.FormatRecord(record);
+                        if (string.IsNullOrEmpty(key))
                         {
-                            MenuSubChapter subChapter = chapter as MenuSubChapter;
-                            if (!ReferenceEquals(subChapter, null))
-                            {
-                                string key = subChapter.Key
-                                    .ThrowIfNull("subChapter.Key");
-                                dictionary.Add(key, subChapter);
-                            }
-                        };
-                        Walk(action);
-
-                        string recordSelector = RecordSelector
-                            .ThrowIfNull("RecordSelector");
-                        formatter.ParseProgram(recordSelector);
-                        log.Write("Distributing recors");
-
-                        BadRecords = new List<MarcRecord>();
-
-                        for (int i = 0; i < Records.Count; i++)
+                            badRecords.Add(record);
+                        }
+                        else
                         {
-                            log.Write(".");
-
-                            record = Records[i];
-                            string key = formatter.FormatRecord(record);
+                            string[] keys = key.Trim()
+                                .Split(_lineDelimiters)
+                                .TrimLines()
+                                .NonEmptyLines()
+                                .Distinct()
+                                .ToArray();
+                            key = keys.FirstOrDefault();
                             if (string.IsNullOrEmpty(key))
                             {
-                                BadRecords.Add(record);
+                                badRecords.Add(record);
                             }
                             else
                             {
-                                key = key.Trim();
                                 MenuSubChapter subChapter;
-                                if (dictionary.TryGetValue(key, out subChapter))
+                                if (dictionary
+                                    .TryGetValue(key, out subChapter))
                                 {
                                     subChapter.Records.Add(record);
                                 }
                                 else
                                 {
-                                    BadRecords.Add(record);
+                                    badRecords.Add(record);
+                                }
+                            }
+
+                            foreach (string nextKey in keys.Skip(1))
+                            {
+                                MenuSubChapter subChapter;
+                                if (dictionary
+                                    .TryGetValue(nextKey, out subChapter))
+                                {
+                                    subChapter.Duplicates.Add(record);
+                                }
+                                else
+                                {
+                                    badRecords.Add(record);
                                 }
                             }
                         }
                     }
 
-                    log.WriteLine(" done");
-                    log.WriteLine("Bad records: {0}", BadRecords.Count);
-
-                    // Do we really need this?
-
-                    foreach (BiblioChapter child in Children)
-                    {
-                        child.GatherRecords(context);
-                    }
+                    processor.ReleaseFormatter(context, formatter);
                 }
-                catch (Exception exception)
+
+                log.WriteLine(" done");
+                log.WriteLine("Bad records: {0}", badRecords.Count);
+
+                // Do we really need this?
+
+                foreach (BiblioChapter child in Children)
                 {
-                    string message = string.Format
-                        (
-                            "Exception: {0}",
-                            exception
-                        );
-
-                    if (!ReferenceEquals(record, null))
-                    {
-                        message = string.Format
-                            (
-                                "MFN={0}{1}{2}",
-                                record.Mfn,
-                                Environment.NewLine,
-                                message
-                            );
-                    }
-
-                    log.WriteLine(message);
-                    throw;
+                    child.GatherRecords(context);
                 }
             }
+            catch (Exception exception)
+            {
+                string message = string.Format
+                    (
+                        "Exception: {0}",
+                        exception
+                    );
 
-            log.WriteLine
-                (
-                    "End gather records {0}: {1}",
-                    GetType().Name,
-                    Title.ToVisibleString()
-                );
+                if (!ReferenceEquals(record, null))
+                {
+                    message = string.Format
+                        (
+                            "MFN={0}{1}{2}",
+                            record.Mfn,
+                            Environment.NewLine,
+                            message
+                        );
+                }
+
+                log.WriteLine(message);
+                throw;
+            }
+
+            log.WriteLine("End gather records {0}", this);
         }
 
         /// <inheritdoc cref="BiblioChapter.Initialize" />
@@ -369,6 +391,8 @@ namespace ManagedIrbis.Biblio
                             = _CreateChapter(formatter, root);
                         Children.Add(chapter);
                     }
+
+                    processor.ReleaseFormatter(context, formatter);
                 }
 
                 foreach (BiblioChapter chapter in Children)
@@ -389,36 +413,6 @@ namespace ManagedIrbis.Biblio
                     Title.ToVisibleString()
                 );
         }
-
-        /// <inheritdoc cref="BiblioChapter.Render" />
-        public override void Render
-            (
-                BiblioContext context
-            )
-        {
-            Code.NotNull(context, "context");
-
-            AbstractOutput log = context.Log;
-            log.WriteLine("Begin render {0}", this);
-
-            BiblioProcessor processor = context.Processor
-                .ThrowIfNull("context.Processor");
-            IrbisReport report = processor.Report
-                .ThrowIfNull("processor.Report");
-
-            RenderTitle(context);
-
-            foreach (BiblioChapter child in Children)
-            {
-                if (child.Active)
-                {
-                    child.Render(context);
-                }
-            }
-
-            log.WriteLine("End render {0}", this);
-        }
-
 
         #endregion
 

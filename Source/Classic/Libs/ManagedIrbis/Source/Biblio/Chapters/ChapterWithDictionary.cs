@@ -84,6 +84,12 @@ namespace ManagedIrbis.Biblio
         [JsonProperty("exclude")]
         public List<string> ExcludeList { get; private set; }
 
+        /// <inheritdoc cref="BiblioChapter.IsServiceChapter" />
+        public override bool IsServiceChapter
+        {
+            get { return true; }
+        }
+
         #endregion
 
         #region Construction
@@ -294,13 +300,7 @@ namespace ManagedIrbis.Biblio
 
             log.WriteLine(" done");
 
-            foreach (BiblioChapter child in Children)
-            {
-                if (child.Active)
-                {
-                    child.Render(context);
-                }
-            }
+            RenderChildren(context);
 
             log.WriteLine("End render {0}", this);
         }

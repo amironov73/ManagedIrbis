@@ -1,0 +1,80 @@
+mhl,if v920:'NJ' then else 
+v503^a". ",&uf('+9I!,!//',&uf('E1'v461^x)),if s(v461^x)<>''then if v461^x:'.' then' ' else'. 'fi fi,v461^c,
+(|. |v46^h,if p(v46^i) then|, |v46^i else |. |v46^i fi, 
+ |. |v46^k,if p(v46^k) then|, |v46^m else |. |v46^m fi),| [|v461^2|]|,  
+if p(v461) then 
+   if a(v461^2) then if a(v900^t)and a(v110^t) then 
+         if s(v230v337v135)<>''then ' [Ёлектронный ресурс] ' else 
+            if v920:'NJ'then ,ref(L("I="v933),if &uf("Koomr.mnu|"v110^t)<>''then'['&uf("Koomr.mnu|"v110^t)']'fi),else if s(&unifor('IPrivate,FPS,'),v905^s)<>'' then else ' [“екст]'  fi fi fi, 
+      else 
+         if s(v230v337v135)<>''then ' [' 
+          if (v900^t='a'or v110^t='a')and  s(&unifor('IPrivate,FPS,'),v905^s)<>'' then else 
+           if s(&uf("Koomr.mnu|"v900^t),&uf("Koomr.mnu|"v110^t))<>''then  if (v900^t='l'or v110^t='l')then else &uf("Koomr.mnu|"v900^t),&uf("Koomr.mnu|"v110^t),' : ' fi,fi,fi,'Ёлектронный ресурс] ' else if (v900^t='a'or v110^t='a')and  s(&unifor('IPrivate,FPS,'),v905^s)<>'' then else 
+           if s(&uf("Koomr.mnu|"v900^t),&uf("Koomr.mnu|"v110^t))<>''then  ' ['&uf("Koomr.mnu|"v900^t),&uf("Koomr.mnu|"v110^t)'] ',fi,fi,fi    
+   fi,  fi,| : |v461^e, 
+   if p(v461^x) then else| / |v461^f fi, 
+   (if s(v46^a,v46^v)<>'' then". - ("| (|+v46^a,| ; |v46^v')'fi),". "d461,v200^v, 
+   if p(v200^v) then" : "v200^a else v200^a fi, 
+   if s(v200^v,v200^a)='' then (|. |+v925^v,if p(v925^v) then | : |v925^a else v925^a fi) fi, 
+fi, 
+if a(v461) then v700^a". ", 
+   if p(v982) then 
+      if v200^a:&unifor('Av982^9#1') then else &unifor('Av982^0#1')," "d982^0,&unifor('Av982^9#1')," "d982^9 
+   fi fi,v200^a," ["v200^b"]", 
+   if p(v110) then else 
+      if p(v200) and a(v200^b) then if a(v900^t)and a(v110^t) then 
+         if s(v230v337v135)<>''then ' [Ёлектронный ресурс] ' else 
+            if v920:'NJ'then ,ref(L("I="v933),if &uf("Koomr.mnu|"v110^t)<>''then'['&uf("Koomr.mnu|"v110^t)']'fi),else if s(&unifor('IPrivate,FPS,'),v905^s)<>'' then else fi fi fi, 
+      else 
+         if s(v230v337v135)<>''then ' [' 
+          if (v900^t='a'or v110^t='a')and  s(&unifor('IPrivate,FPS,'),v905^s)<>'' then else 
+           if s(&uf("Koomr.mnu|"v900^t),&uf("Koomr.mnu|"v110^t))<>''then  if (v900^t='l'or v110^t='l')then else &uf("Koomr.mnu|"v900^t),&uf("Koomr.mnu|"v110^t),' : ' fi,fi,fi,'Ёлектронный ресурс] ' else if (v900^t='a'or v110^t='a')and  s(&unifor('IPrivate,FPS,'),v905^s)<>'' then else 
+           if s(&uf("Koomr.mnu|"v900^t),&uf("Koomr.mnu|"v110^t))<>''then  ' ['&uf("Koomr.mnu|"v900^t),&uf("Koomr.mnu|"v110^t)'] ',fi,fi,fi    
+   fi,fi fi fi,| : |v200^e, 
+if v920='J'then(". "| ; |+v923^h,
+   if v923^h:':' then else if p(v923^h)then |, |d923^i else |. |d923^i fi,fi,v923^i,|. |v923^k,
+   if v923^k:':' then else if p(v923^k)then |, |d923^l else |. |d923^l fi fi,v923^l,|. |v923^m,
+   if v923^m:':' then else if p(v923^m)then |, |d923^n else |. |d923^n fi fi,v923^n),
+else 
+   (if p(v923) then
+       if &unifor('Av920#1'):'SPEC' then ", "| ; |+d923,v923^h else ". "| ; |+d923,v923^h fi, 
+       if p(v923^h)then|. |d923^i fi,v923^i, 
+       if s(v923^k,v923^l)<>''then if &unifor('Av920#1'):'SPEC' then ', ' else '. 'fi fi,v923^k, 
+       if p(v923^k)then|. |d923^l fi,v923^l 
+    fi) 
+fi,
+if v920='J'then'. - '&unifor('K110b.mnu|'v110^b)," выходит с "v210^d"г."else", "v210^d fi, 
+if a(v210^d) then|, |v461^h fi,(". - "| ; |+v215^a,| |d215^1,if v215^1.2:'='then v215^1*2 else v215^1 fi, 
+if p(v215^a) and a(v215^1) then &unifor('Korg.mnu|4')'.' fi), 
+fi, 
+if v920:'NJ'then 
+   ref(l(|I=|v933),
+       v200^a," [Ёлектр.ресурс]"d230,'. - '&unifor('K110b.mnu|'v110^b),". "| ; |+v923^h,
+       if v923^h:':' then else if p(v923^h)then |, |d923^i else |. |d923^i fi fi,v923^i,|. |v923^k,
+       if v923^k:':' then else if p(v923^k)then |, |d923^l else |. |d923^l fi fi,v923^l,|. |v923^m,
+       if v923^m:':' then else if p(v923^m)then |, |d923^n else |. |d923^n fi fi,v923^n)
+,,,", "v934"г.", 
+   if p(v935) then 
+      if val(v935.1)=0 and (not(v935.1='0')) then' 'else ref(l("I="v933),if p(v210^8) then' 'v210^8' 'else' т. 'fi) 
+      fi,v935 fi, 
+   if p(v936) then 
+      if val(v936.1)=0 and (not(v936.1='0')) then' 'else ref(l("I="v933),if p(v210^9) then' 'v210^9' 'else' є 'fi,) 
+      fi,v936 fi,| (|v931^c|)|, 
+(if p(v930)then if v930^a<>''then ', ',&uf('G0/'&unifor(|G2/|v930^a)),' г.' if v930^t<>''then  ref(l("I="v933),if p(v210^8) then' 'v210^8' 'else' т. 'fi) &unifor('G0/'&unifor('G2/'&unifor(|G2/|v930^a)))fi,ref(l("I="v933),if p(v210^9) then' 'v210^9' 'else' є 'fi,),if v930^t<>''then &unifor('G2/'&unifor('G2/'&unifor(|G2/|v930^a)))else &unifor('G2/'&unifor(|G2/|v930^a))fi fi fi)   
+"  (¬ведено оглавление)"d922 
+fi, 
+if v920:'NJ'then else" (¬ведено оглавление)"d330, 
+if v920.1:'A' then 
+   ".- "v963^1,if a(v963^1)then" // "d463 fi, 
+   (| ; |+v463^7,if a(v463^7) then| ; |+v463^c fi,| : |v963^e,| / |v963^f,|. - |v463^d,| : |v463^g, 
+   if p(v463^c)then 
+      if s(v463^d,v463^g)<>''then|, |v463^j else |. - |v463^j fi,|. - |v463^v else 
+         ". - "|. ; |+v463^v fi, 
+      if p(v463^v)then| : |v463^a else|. |v463^a fi, 
+      if p(v463^v)then| |v463^h else". - "|.; |+v463^h fi, 
+      if p(v463^h)then| : |v463^i else|. |v463^i fi,|, |v463^k, 
+      if p(v463^k)then| : |v463^l else|. |v463^l fi,|. - |v963^p,|.- —т.|v463^N,|.- |v463^1, 
+      if a(v463^1) and p(v463^s)then'. - ',mpu,&unifor('Korg.mnu|4'),'. ',mpl,fi, v463^s) 
+fi fi, 
+
+&unifor('!'),&unifor('+F'),&uf('['), 

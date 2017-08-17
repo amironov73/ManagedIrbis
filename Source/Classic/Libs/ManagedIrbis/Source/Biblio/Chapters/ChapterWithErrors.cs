@@ -23,10 +23,13 @@ using AM.IO;
 using AM.Logging;
 using AM.Runtime;
 using AM.Text;
+using AM.Text.Output;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+using ManagedIrbis.Pft;
+using ManagedIrbis.Reports;
 
 using MoonSharp.Interpreter;
 
@@ -57,6 +60,70 @@ namespace ManagedIrbis.Biblio
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region BiblioChapter members
+
+        /// <inheritdoc cref="BiblioChapter.Render" />
+        public override void Render
+            (
+                BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine("Begin render {0}", this);
+
+            RecordCollection badRecords = context.BadRecords;
+            BiblioProcessor processor = context.Processor
+                .ThrowIfNull("context.Processor");
+            IrbisReport report = processor.Report
+                .ThrowIfNull("processor.Report");
+
+            RenderTitle(context);
+
+            if (badRecords.Count != 0)
+            {
+                ParagraphBand title = new ParagraphBand
+                    (
+                        "Следующие записи не входят ни в один раздел"
+                    );
+                report.Body.Add(title);
+                report.Body.Add(new ParagraphBand());
+
+                using (IPftFormatter formatter
+                    = processor.AcquireFormatter(context))
+                {
+                    string briefFormat = processor
+                        .GetText(context, "*brief.pft")
+                        .ThrowIfNull("processor.GetText");
+                    formatter.ParseProgram(briefFormat);
+
+                    foreach (MarcRecord record in badRecords)
+                    {
+                        log.Write(".");
+                        string description =
+                            "MFN " + record.Mfn + " "
+                            + formatter.FormatRecord(record);
+                        ParagraphBand band 
+                            = new ParagraphBand(description);
+                        report.Body.Add(band);
+                        report.Body.Add(new ParagraphBand());
+                    }
+
+                    log.WriteLine(" done");
+
+                    processor.ReleaseFormatter(context, formatter);
+                }
+            }
+
+            RenderChildren(context);
+
+
+            log.WriteLine("End render {0}", this);
+        }
 
         #endregion
 
