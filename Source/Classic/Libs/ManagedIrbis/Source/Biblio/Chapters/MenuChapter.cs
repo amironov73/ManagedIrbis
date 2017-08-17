@@ -414,6 +414,17 @@ namespace ManagedIrbis.Biblio
                 );
         }
 
+        /// <inheritdoc cref="BiblioChapter.Render" />
+        public override void Render
+            (
+                BiblioContext context
+            )
+        {
+            context.Processor.Report.Body.Add(new NewPageBand());
+
+            base.Render(context);
+        }
+
         #endregion
 
         #region Object members

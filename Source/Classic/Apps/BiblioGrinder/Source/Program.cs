@@ -25,6 +25,7 @@ using IrbisInterop;
 using ManagedIrbis;
 using ManagedIrbis.Biblio;
 using ManagedIrbis.Client;
+using ManagedIrbis.Infrastructure.Commands;
 
 #endregion
 
@@ -53,6 +54,8 @@ namespace BiblioGrinder
 
             configurationString = args[0];
             documentPath = args[1];
+
+            ReadRecordCommand.ThrowOnVerify = false;
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();

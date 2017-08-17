@@ -19,6 +19,8 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Batch;
+using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Menus;
 using ManagedIrbis.Pft;
 using ManagedIrbis.Search;
 
@@ -232,6 +234,32 @@ namespace ManagedIrbis.Client
                 .ToArray();
 
             return result;
+        }
+
+        /// <inheritdoc cref="IrbisProvider.GetMaxMfn" />
+        public override int GetMaxMfn()
+        {
+            return Connection.GetMaxMfn();
+        }
+
+        /// <inheritdoc cref="IrbisProvider.ReadRecord" />
+        public override MarcRecord ReadRecord
+            (
+                int mfn
+            )
+        {
+            return Connection.ReadRecord(mfn);
+        }
+
+        /// <inheritdoc cref="IrbisProvider.ReadMenuFile" />
+        public override MenuFile ReadMenuFile
+            (
+                FileSpecification fileSpecification
+            )
+        {
+            Code.NotNull(fileSpecification, "fileSpecification");
+
+            return Connection.ReadMenu(fileSpecification);
         }
 
         /// <inheritdoc cref="IrbisProvider.ReadTerms" />

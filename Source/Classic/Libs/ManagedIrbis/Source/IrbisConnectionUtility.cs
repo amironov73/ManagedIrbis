@@ -255,7 +255,7 @@ namespace ManagedIrbis
                 parameters.FormatSpecification = IrbisFormat.All;
             }
 
-            SearchReadCommand command 
+            SearchReadCommand command
                 = connection.CommandFactory.GetSearchReadCommand();
             command.ApplyParameters(parameters);
 
@@ -725,7 +725,7 @@ namespace ManagedIrbis
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            FileSpecification fileSpecification 
+            FileSpecification fileSpecification
                 = new FileSpecification
                 (
                     IrbisPath.MasterFile,
@@ -757,6 +757,30 @@ namespace ManagedIrbis
                 result.Dispose();
                 throw;
             }
+
+            return result;
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Read menu from server.
+        /// </summary>
+        [NotNull]
+        public static MenuFile ReadMenu
+            (
+                [NotNull] this IrbisConnection connection,
+                [NotNull] FileSpecification fileSpecification
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(fileSpecification, "fileSpecification");
+
+            string text = connection.ReadTextFile(fileSpecification);
+            MenuFile result = MenuFile.ParseServerResponse
+            (
+                text.ThrowIfNull("text")
+            );
 
             return result;
         }
@@ -901,7 +925,7 @@ namespace ManagedIrbis
 
             if (mfnList.Length == 1)
             {
-                return new[] 
+                return new[]
                 {
                     connection.ReadRawRecord
                        (

@@ -149,7 +149,7 @@
           },
           "select": "*sources.pft",
           "orderBy": "*sources.pft",
-          "active": false
+          "active": true
         },
         {
           "$type": "ChapterWithDictionary",
