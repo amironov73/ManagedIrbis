@@ -685,6 +685,7 @@
     <Compile Include="Source\Reports\Bands\FreeBand.cs" />
     <Compile Include="Source\Reports\Bands\GroupBand.cs" />
     <Compile Include="Source\Reports\Bands\HeaderBand.cs" />
+    <Compile Include="Source\Reports\Bands\ParagraphBand.cs" />
     <Compile Include="Source\Reports\Bands\SortBand.cs" />
     <Compile Include="Source\Reports\Bands\TableBand.cs" />
     <Compile Include="Source\Reports\Bands\TotalBand.cs" />
@@ -698,6 +699,7 @@
     <Compile Include="Source\Reports\Cells\RawPftCell.cs" />
     <Compile Include="Source\Reports\Cells\RawTextCell.cs" />
     <Compile Include="Source\Reports\Cells\ReportCell.cs" />
+    <Compile Include="Source\Reports\Cells\SimpleTextCell.cs" />
     <Compile Include="Source\Reports\Cells\TotalCell.cs" />
     <Compile Include="Source\Reports\Cells\TotalFunction.cs" />
     <Compile Include="Source\Reports\Drivers\CsvDriver.cs" />

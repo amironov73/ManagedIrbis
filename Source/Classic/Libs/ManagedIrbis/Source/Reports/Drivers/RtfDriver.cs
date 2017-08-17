@@ -9,12 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using AM.Text;
 
 using CodeJam;
@@ -62,7 +56,22 @@ namespace ManagedIrbis.Reports
             // TODO support for russian and european languages
 
             ReportOutput output = context.Output;
-            output.Write(RichText.CommonPrologue);
+            //output.Write(RichText.CommonPrologue);
+            output.Write(RichText.RussianPrologue);
+        }
+
+        /// <inheritdoc cref="ReportDriver.BeginParagraph" />
+        public override void BeginParagraph
+            (
+                ReportContext context,
+                ReportBand band
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNull(band, "band");
+
+            ReportOutput output = context.Output;
+            output.Write("\\par ");
         }
 
         /// <inheritdoc cref="ReportDriver.EndDocument" />

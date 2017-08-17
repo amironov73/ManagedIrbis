@@ -52,7 +52,7 @@
       "attr": {
         "pageBreak": true
       },
-      "text": "*foreword.rtf"
+      "text": "*foreword.txt"
     },
 
     // ==============================================================
@@ -117,6 +117,9 @@
           },
           "select": "*authors.pft",
           "orderBy": "*authors.pft",
+          "exclude": [
+            "Распутин, Валентин Григорьевич"
+          ],
           "active": true
         },
         {
@@ -155,7 +158,10 @@
             "pageBreak": true
           },
           "select": "*languages.pft",
-          "orderBy": "*languages.pft"
+          "orderBy": "*languages.pft",
+          "exclude": [
+            "Русский"
+          ]
         },
         {
           "$type": "ChapterWithDictionary",

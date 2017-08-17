@@ -98,6 +98,18 @@ namespace ManagedIrbis.Reports
         /// <summary>
         /// Begin row.
         /// </summary>
+        public virtual void BeginParagraph
+            (
+                [NotNull] ReportContext context,
+                [NotNull] ReportBand band
+            )
+        {
+            // Nothing to do here
+        }
+
+        /// <summary>
+        /// Begin row.
+        /// </summary>
         public virtual void BeginRow
             (
                 [NotNull] ReportContext context,
@@ -150,6 +162,18 @@ namespace ManagedIrbis.Reports
             (
                 [NotNull] ReportContext context,
                 [NotNull] IrbisReport report
+            )
+        {
+            // Nothing to do here
+        }
+
+        /// <summary>
+        /// End row.
+        /// </summary>
+        public virtual void EndParagraph
+            (
+                [NotNull] ReportContext context,
+                [NotNull] ReportBand band
             )
         {
             // Nothing to do here

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* RawTextCell.cs -- 
+/* SimpleTextCell.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -37,7 +37,7 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class RawTextCell
+    public sealed class SimpleTextCell
         : TextCell
     {
         #region Properties
@@ -49,14 +49,14 @@ namespace ManagedIrbis.Reports
         /// <summary>
         /// Constructor.
         /// </summary>
-        public RawTextCell()
+        public SimpleTextCell()
         {
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public RawTextCell
+        public SimpleTextCell
             (
                 string text
             )
@@ -103,10 +103,7 @@ namespace ManagedIrbis.Reports
 
             string text = Compute(context);
 
-            ReportDriver driver = context.Driver;
-            driver.BeginCell(context, this);
             context.Output.Write(text);
-            driver.EndCell(context, this);
         }
 
         #endregion

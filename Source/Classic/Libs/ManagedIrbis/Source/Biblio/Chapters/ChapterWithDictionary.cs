@@ -67,14 +67,21 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         [CanBeNull]
         [JsonProperty("orderBy")]
-        public string OrderBy { get; set; }
+        public string OrderByClause { get; set; }
 
         /// <summary>
         /// Select expression.
         /// </summary>
         [CanBeNull]
         [JsonProperty("select")]
-        public string Select { get; set; }
+        public string SelectClause { get; set; }
+
+        /// <summary>
+        /// Entries to exclude.
+        /// </summary>
+        [NotNull]
+        [JsonProperty("exclude")]
+        public List<string> ExcludeList { get; private set; }
 
         #endregion
 
@@ -87,13 +94,16 @@ namespace ManagedIrbis.Biblio
         {
             Dictionary = new BiblioDictionary();
             Terms = new TermCollection();
+            ExcludeList = new List<string>();
         }
 
         #endregion
 
         #region Private members
 
-        private static char[] _charactersToTrim = {'[', ']'};
+        private static char[] _charactersToTrim = { '[', ']' };
+
+        private static char[] _lineDelimiters = { '\r', '\n' };
 
         private void _ChapterToTerms
             (
@@ -115,9 +125,10 @@ namespace ManagedIrbis.Biblio
                 using (IPftFormatter formatter
                     = processor.AcquireFormatter(context))
                 {
-                    string select = Select.ThrowIfNull("Select");
+                    string select = SelectClause
+                        .ThrowIfNull("SelectClause");
                     string format = processor.GetText(context, select)
-                        .ThrowIfNull("Select");
+                        .ThrowIfNull("SelectClause");
                     formatter.ParseProgram(format);
 
                     for (int i = 0; i < items.Count; i++)
@@ -128,7 +139,8 @@ namespace ManagedIrbis.Biblio
                         string formatted = formatter.FormatRecord(record);
                         if (!string.IsNullOrEmpty(formatted))
                         {
-                            string[] lines = formatted.SplitLines()
+                            string[] lines = formatted
+                                .Split(_lineDelimiters)
                                 .TrimLines()
                                 .TrimLines(_charactersToTrim)
                                 .NonEmptyLines()
@@ -136,14 +148,17 @@ namespace ManagedIrbis.Biblio
                                 .ToArray();
                             foreach (string line in lines)
                             {
-                                BiblioTerm term = new BiblioTerm
+                                if (!ExcludeList.Contains(line))
                                 {
-                                    Title = line,
-                                    Dictionary = Terms,
-                                    Item = item
-                                };
-                                Terms.Add(term);
-                                termCount++;
+                                    BiblioTerm term = new BiblioTerm
+                                    {
+                                        Title = line,
+                                        Dictionary = Terms,
+                                        Item = item
+                                    };
+                                    Terms.Add(term);
+                                    termCount++;
+                                }
                             }
                         }
                     }
@@ -185,11 +200,11 @@ namespace ManagedIrbis.Biblio
                 Dictionary.Add(title, item.Number);
             }
 
-            log.WriteLine(string.Empty);
-            log.WriteLine(Title);
-            log.WriteLine(string.Empty);
-            Dictionary.Dump(log);
-            log.WriteLine(string.Empty);
+            //log.WriteLine(string.Empty);
+            //log.WriteLine(Title);
+            //log.WriteLine(string.Empty);
+            //Dictionary.Dump(log);
+            //log.WriteLine(string.Empty);
 
             log.WriteLine("End build dictionary {0}", this);
         }

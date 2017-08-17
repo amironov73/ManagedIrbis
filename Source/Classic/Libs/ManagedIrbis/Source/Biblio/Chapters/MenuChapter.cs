@@ -33,7 +33,7 @@ using ManagedIrbis.Client;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
 using ManagedIrbis.Pft;
-using ManagedIrbis.Pft.Infrastructure;
+using ManagedIrbis.Reports;
 
 using MoonSharp.Interpreter;
 
@@ -223,7 +223,7 @@ namespace ManagedIrbis.Biblio
                         Records = new List<MarcRecord>();
                         for (int i = 0; i < found.Length; i++)
                         {
-                            if (i % 100 == 0)
+                            if (i % 10 == 0)
                             {
                                 log.Write(".");
                             }
@@ -395,6 +395,38 @@ namespace ManagedIrbis.Biblio
                     Title.ToVisibleString()
                 );
         }
+
+        /// <inheritdoc cref="BiblioChapter.Render" />
+        public override void Render
+            (
+                BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine("Begin render {0}", this);
+
+            BiblioProcessor processor = context.Processor
+                .ThrowIfNull("context.Processor");
+            IrbisReport report = processor.Report
+                .ThrowIfNull("processor.Report");
+
+            ReportBand title = new ParagraphBand();
+            report.Body.Add(title);
+            title.Cells.Add(new SimpleTextCell(Title));
+
+            foreach (BiblioChapter child in Children)
+            {
+                if (child.Active)
+                {
+                    child.Render(context);
+                }
+            }
+
+            log.WriteLine("End render {0}", this);
+        }
+
 
         #endregion
 

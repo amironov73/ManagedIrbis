@@ -31,7 +31,7 @@ using JetBrains.Annotations;
 using ManagedIrbis.Client;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Pft;
-using ManagedIrbis.Pft.Infrastructure;
+using ManagedIrbis.Reports;
 
 using MoonSharp.Interpreter;
 
@@ -49,10 +49,16 @@ namespace ManagedIrbis.Biblio
         #region Properties
 
         /// <summary>
-        /// 
+        /// Output.
         /// </summary>
         [NotNull]
-        public AbstractOutput Output { get; private set; }
+        public ReportOutput Output { get; private set; }
+
+        /// <summary>
+        /// Report.
+        /// </summary>
+        [NotNull]
+        public IrbisReport Report { get; private set; }
 
         #endregion
 
@@ -63,7 +69,8 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         public BiblioProcessor()
         {
-            Output = new NullOutput();
+            Output = new ReportOutput();
+            Report = new IrbisReport();
         }
 
         /// <summary>
@@ -71,12 +78,13 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         public BiblioProcessor
             (
-                [NotNull] AbstractOutput output
+                [NotNull] ReportOutput output
             )
         {
             Code.NotNull(output, "output");
 
             Output = output;
+            Report = new IrbisReport();
         }
 
         #endregion
@@ -124,12 +132,20 @@ namespace ManagedIrbis.Biblio
             Code.NotNull(context, "context");
 
             AbstractOutput log = context.Log;
-
             WriteDelimiter(context);
             log.WriteLine("Begin final render");
-            BiblioDocument document = context.Document;
 
-            // TODO render the report
+            IrbisProvider provider = context.Provider
+                .ThrowIfNull("context.Provider");
+            IrbisReport report = Report.ThrowIfNull("Report");
+            ReportContext reportContext = new ReportContext(provider);
+            Output = reportContext.Output;
+            reportContext.SetDriver(new RtfDriver());
+
+            reportContext.Verify(true);
+            report.Verify(true);
+
+            report.Render(reportContext);
 
             log.WriteLine("End final render");
         }
@@ -190,6 +206,7 @@ namespace ManagedIrbis.Biblio
             Code.NotNull(context, "context");
 
             WriteDelimiter(context);
+            Report = new IrbisReport();
             BiblioDocument document = context.Document;
             document.RenderItems(context);
         }

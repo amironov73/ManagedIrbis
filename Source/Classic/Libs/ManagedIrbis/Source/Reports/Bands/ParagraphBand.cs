@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* RawTextCell.cs -- 
+/* ParagraphBand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -20,13 +20,17 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
+using AM.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -37,32 +41,14 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class RawTextCell
-        : TextCell
+    public sealed class ParagraphBand
+        : ReportBand
     {
         #region Properties
 
         #endregion
 
         #region Construction
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public RawTextCell()
-        {
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public RawTextCell
-            (
-                string text
-            )
-            : base(text)
-        {
-        }
 
         #endregion
 
@@ -74,39 +60,21 @@ namespace ManagedIrbis.Reports
 
         #endregion
 
-        #region ReportCell
+        #region ReportBand members
 
-        /// <inheritdoc cref="ReportCell.Compute"/>
-        public override string Compute
-            (
-                ReportContext context
-            )
-        {
-            Code.NotNull(context, "context");
-
-            OnBeforeCompute(context);
-
-            string result = Text;
-
-            OnAfterCompute(context);
-
-            return result;
-        }
-
-        /// <inheritdoc cref="ReportCell.Render" />
+        /// <inheritdoc cref="ReportBand.Render" />
         public override void Render
             (
                 ReportContext context
             )
         {
-            Code.NotNull(context, "context");
-
-            string text = Compute(context);
-
             ReportDriver driver = context.Driver;
-            driver.BeginCell(context, this);
-            context.Output.Write(text);
-            driver.EndCell(context, this);
+            driver.BeginParagraph(context, this);
+            foreach (ReportCell cell in Cells)
+            {
+                cell.Render(context);
+            }
+            driver.EndParagraph(context, this);
         }
 
         #endregion

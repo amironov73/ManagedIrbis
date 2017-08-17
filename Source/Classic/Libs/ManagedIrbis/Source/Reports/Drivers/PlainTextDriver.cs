@@ -79,7 +79,21 @@ namespace ManagedIrbis.Reports
 
         #region ReportDriver members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ReportDriver.BeginParagraph" />
+        public override void BeginParagraph
+            (
+                ReportContext context,
+                ReportBand band
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNull(band, "band");
+
+            ReportOutput output = context.Output;
+            output.Write(Environment.NewLine);
+        }
+
+        /// <inheritdoc cref="ReportDriver.EndRow" />
         public override void EndRow
             (
                 ReportContext context,
@@ -94,7 +108,7 @@ namespace ManagedIrbis.Reports
             output.Write(RowDelimiter);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ReportDriver.EndCell" />
         public override void EndCell
             (
                 ReportContext context,
@@ -107,7 +121,7 @@ namespace ManagedIrbis.Reports
             context.Output.Write(CellDelimiter);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ReportDriver.Write" />
         public override void Write
             (
                 ReportContext context,

@@ -129,7 +129,10 @@ namespace ManagedIrbis.Biblio
 
             foreach (BiblioChapter chapter in Chapters)
             {
-                chapter.BuildDictionary(context);
+                if (chapter.Active)
+                {
+                    chapter.BuildDictionary(context);
+                }
             }
 
             log.WriteLine("End build dictionaries");
@@ -151,7 +154,10 @@ namespace ManagedIrbis.Biblio
 
             foreach (BiblioChapter chapter in Chapters)
             {
-                chapter.BuildItems(context);
+                if (chapter.Active)
+                {
+                    chapter.BuildItems(context);
+                }
             }
 
             log.WriteLine("End build items");
@@ -172,7 +178,10 @@ namespace ManagedIrbis.Biblio
 
             foreach (BiblioChapter chapter in Chapters)
             {
-                chapter.GatherRecords(context);
+                if (chapter.Active)
+                {
+                    chapter.GatherRecords(context);
+                }
             }
 
             log.WriteLine("End gather records");
@@ -193,7 +202,10 @@ namespace ManagedIrbis.Biblio
 
             foreach (BiblioChapter chapter in Chapters)
             {
-                chapter.GatherTerms(context);
+                if (chapter.Active)
+                {
+                    chapter.GatherTerms(context);
+                }
             }
 
             log.WriteLine("End gather terms");
@@ -211,10 +223,13 @@ namespace ManagedIrbis.Biblio
 
             AbstractOutput log = context.Log;
             log.WriteLine("Begin initialize the document");
+
             foreach (BiblioChapter chapter in Chapters)
             {
+                // Give the chapter a chance
                 chapter.Initialize(context);
             }
+
             log.WriteLine("End initialize the document");
         }
 
@@ -283,13 +298,18 @@ namespace ManagedIrbis.Biblio
         {
             Code.NotNull(context, "context");
 
-            AbstractOutput log = context.Log;            
+            AbstractOutput log = context.Log;
             log.WriteLine("Begin number items");
             _itemCount = 0;
+
             foreach (BiblioChapter chapter in Chapters)
             {
-                _NumberChapter(chapter);
+                if (chapter.Active)
+                {
+                    _NumberChapter(chapter);
+                }
             }
+
             log.WriteLine("Total items: {0}", _itemCount);
             log.WriteLine("End number items");
 
@@ -310,7 +330,10 @@ namespace ManagedIrbis.Biblio
 
             foreach (BiblioChapter chapter in Chapters)
             {
-                chapter.Render(context);
+                if (chapter.Active)
+                {
+                    chapter.Render(context);
+                }
             }
 
             log.WriteLine("End render items");
@@ -331,7 +354,6 @@ namespace ManagedIrbis.Biblio
 
             verifier
                 .VerifySubObject(Chapters, "Chapters");
-                //.VerifySubObject(Filter, "Filter");
 
             return verifier.Result;
         }

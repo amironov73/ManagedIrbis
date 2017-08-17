@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ using AM.Text.Output;
 
 using IrbisInterop;
 
+using ManagedIrbis;
 using ManagedIrbis.Biblio;
 using ManagedIrbis.Client;
 
@@ -52,7 +54,7 @@ namespace BiblioGrinder
 
             try
             {
-                AbstractOutput logFile = new FileOutput("grinder.txt");
+                AbstractOutput logFile = new FileOutput("grinder.log");
                 log.Output.Add(logFile);
 
                 NativeIrbisProvider.Register();
@@ -73,6 +75,14 @@ namespace BiblioGrinder
                 processor = new BiblioProcessor();
                 processor.Initialize(context);
                 processor.BuildDocument(context);
+
+                string outputText = processor.Output.Text;
+                File.WriteAllText
+                    (
+                        "output.rtf",
+                        outputText,
+                        IrbisEncoding.Ansi
+                    );
             }
             catch (Exception exception)
             {

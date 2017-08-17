@@ -1673,6 +1673,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\HeaderBand.cs">
       <Link>Source\Reports\Bands\HeaderBand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\ParagraphBand.cs">
+      <Link>Source\Reports\Bands\ParagraphBand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\ReportBand.cs">
       <Link>Source\Reports\Bands\ReportBand.cs</Link>
     </Compile>
@@ -1714,6 +1717,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\ReportCell.cs">
       <Link>Source\Reports\Cells\ReportCell.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\SimpleTextCell.cs">
+      <Link>Source\Reports\Cells\SimpleTextCell.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\TextCell.cs">
       <Link>Source\Reports\Cells\TextCell.cs</Link>

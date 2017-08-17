@@ -220,7 +220,7 @@ namespace ManagedIrbis.Reports
 
         #region ReportBand members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ReportBand.Render" />
         public override void Render
             (
                 ReportContext context

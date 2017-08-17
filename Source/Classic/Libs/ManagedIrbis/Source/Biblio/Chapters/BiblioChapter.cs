@@ -113,9 +113,15 @@ namespace ManagedIrbis.Biblio
             AbstractOutput log = context.Log;
             log.WriteLine("Begin build dictionaries {0}", this);
 
-            foreach (BiblioChapter chapter in Children)
+            foreach (BiblioChapter child in Children)
             {
-                chapter.BuildDictionary(context);
+                if (child.Active)
+                {
+                    if (child.Active)
+                    {
+                        child.BuildDictionary(context);
+                    }
+                }
             }
 
             log.WriteLine("End build dictionaries {0}", this);
@@ -134,9 +140,12 @@ namespace ManagedIrbis.Biblio
             AbstractOutput log = context.Log;
             log.WriteLine("Begin build items {0}", this);
 
-            foreach (BiblioChapter chapter in Children)
+            foreach (BiblioChapter child in Children)
             {
-                chapter.BuildItems(context);
+                if (child.Active)
+                {
+                    child.BuildItems(context);
+                }
             }
 
             log.WriteLine("End build items {0}", this);
@@ -155,9 +164,12 @@ namespace ManagedIrbis.Biblio
             AbstractOutput log = context.Log;
             log.WriteLine("Begin gather terms {0}", this);
 
-            foreach (BiblioChapter chapter in Children)
+            foreach (BiblioChapter child in Children)
             {
-                chapter.GatherTerms(context);
+                if (child.Active)
+                {
+                    child.GatherTerms(context);
+                }
             }
 
             log.WriteLine("End gather terms {0}", this);
@@ -176,9 +188,12 @@ namespace ManagedIrbis.Biblio
             AbstractOutput log = context.Log;
             log.WriteLine("Begin gather records {0}", this);
 
-            foreach (BiblioChapter chapter in Children)
+            foreach (BiblioChapter child in Children)
             {
-                chapter.GatherRecords(context);
+                if (child.Active)
+                {
+                    child.GatherRecords(context);
+                }
             }
 
             log.WriteLine("End gather records {0}", this);
@@ -199,6 +214,7 @@ namespace ManagedIrbis.Biblio
 
             foreach (BiblioChapter child in Children)
             {
+                // Give the chapter a chance
                 child.Initialize(context);
             }
 
@@ -218,9 +234,12 @@ namespace ManagedIrbis.Biblio
             AbstractOutput log = context.Log;
             log.WriteLine("Begin render items {0}", this);
 
-            foreach (BiblioChapter chapter in Children)
+            foreach (BiblioChapter child in Children)
             {
-                chapter.Render(context);
+                if (child.Active)
+                {
+                    child.Render(context);
+                }
             }
 
             log.WriteLine("End render items {0}", this);

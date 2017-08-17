@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,8 +29,11 @@ using AM.Text.Output;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Client;
 using ManagedIrbis.Pft;
+using ManagedIrbis.Reports;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -260,6 +264,55 @@ namespace ManagedIrbis.Biblio
             log.WriteLine("Record count: {0}", Records.Count);
 
             log.WriteLine("End gather records {0}", this);
+        }
+
+        /// <inheritdoc cref="BiblioChapter.Render" />
+        public override void Render
+        (
+            BiblioContext context
+        )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine("Begin render {0}", this);
+
+            BiblioProcessor processor = context.Processor
+                .ThrowIfNull("context.Processor");
+            IrbisReport report = processor.Report
+                .ThrowIfNull("processor.Report");
+
+            ReportBand title = new ParagraphBand();
+            report.Body.Add(title);
+            title.Cells.Add(new SimpleTextCell(Title));
+
+            for (int i = 0; i < Items.Count; i++)
+            {
+                log.Write(".");
+                BiblioItem item = Items[i];
+                int number = item.Number;
+                string description = item.Description
+                    .ThrowIfNull("item.Description");
+
+                ReportBand band = new ParagraphBand();
+                report.Body.Add(band);
+                band.Cells.Add(new SimpleTextCell
+                    (
+                        number.ToInvariantString() + ") "
+                    ));
+                band.Cells.Add(new SimpleTextCell(description));
+            }
+
+            foreach (BiblioChapter child in Children)
+            {
+                if (child.Active)
+                {
+                    child.Render(context);
+                }
+            }
+
+            log.WriteLine(string.Empty);
+            log.WriteLine("End render {0}", this);
         }
 
         #endregion

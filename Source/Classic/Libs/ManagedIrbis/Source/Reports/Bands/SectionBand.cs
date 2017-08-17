@@ -73,6 +73,14 @@ namespace ManagedIrbis.Reports
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public SectionBand()
+        {
+            Body = new BandCollection<ReportBand>();
+        }
+
         #endregion
 
         #region Private members
