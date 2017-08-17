@@ -96,6 +96,32 @@ namespace ManagedIrbis.Biblio
 
         #region Private members
 
+        /// <summary>
+        /// Render the chapter title.
+        /// </summary>
+        protected virtual void RenderTitle
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            BiblioProcessor processor = context.Processor
+                .ThrowIfNull("context.Processor");
+            IrbisReport report = processor.Report
+                .ThrowIfNull("processor.Report");
+
+            if (!string.IsNullOrEmpty(Title))
+            {
+                ReportBand title = new ParagraphBand
+                    {
+                        StyleSpecification = @"\s1\plain\fs40\sb400\sa400\b "
+                    };
+                report.Body.Add(title);
+                title.Cells.Add(new SimpleTextCell(Title));
+            }
+        }
+
         #endregion
 
         #region Public methods
@@ -233,6 +259,8 @@ namespace ManagedIrbis.Biblio
 
             AbstractOutput log = context.Log;
             log.WriteLine("Begin render items {0}", this);
+
+            RenderTitle(context);
 
             foreach (BiblioChapter child in Children)
             {

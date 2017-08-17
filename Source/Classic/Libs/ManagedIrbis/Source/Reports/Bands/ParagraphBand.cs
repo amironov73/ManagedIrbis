@@ -46,6 +46,12 @@ namespace ManagedIrbis.Reports
     {
         #region Properties
 
+        /// <summary>
+        /// Style name.
+        /// </summary>
+        [CanBeNull]
+        public string StyleSpecification { get; set; }
+
         #endregion
 
         #region Construction
@@ -70,6 +76,10 @@ namespace ManagedIrbis.Reports
         {
             ReportDriver driver = context.Driver;
             driver.BeginParagraph(context, this);
+            if (!string.IsNullOrEmpty(StyleSpecification))
+            {
+                driver.WriteServiceText(context, StyleSpecification);
+            }
             foreach (ReportCell cell in Cells)
             {
                 cell.Render(context);

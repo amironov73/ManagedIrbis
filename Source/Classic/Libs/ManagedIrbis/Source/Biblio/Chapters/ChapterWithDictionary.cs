@@ -31,6 +31,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Client;
 using ManagedIrbis.Pft;
+using ManagedIrbis.Reports;
 
 using MoonSharp.Interpreter;
 
@@ -164,7 +165,7 @@ namespace ManagedIrbis.Biblio
                     }
                 }
 
-                log.WriteLine(string.Empty);
+                log.WriteLine(" done");
                 log.WriteLine("Term count: {0}", termCount);
             }
 
@@ -241,6 +242,67 @@ namespace ManagedIrbis.Biblio
 
 
             log.WriteLine("End gather terms {0}", this);
+        }
+
+        /// <inheritdoc cref="BiblioChapter.Render" />
+        public override void Render
+            (
+                BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            AbstractOutput log = context.Log;
+            log.WriteLine("Begin render {0}", this);
+
+            BiblioProcessor processor = context.Processor
+                .ThrowIfNull("context.Processor");
+            IrbisReport report = processor.Report
+                .ThrowIfNull("processor.Report");
+
+            report.Body.Add(new NewPageBand());
+            RenderTitle(context);
+
+            string[] keys = NumberText.Sort(Dictionary.Keys).ToArray();
+            StringBuilder builder = new StringBuilder();
+            foreach (string key in keys)
+            {
+                log.Write(".");
+                builder.Clear();
+                DictionaryEntry entry = Dictionary[key];
+                ParagraphBand band = new ParagraphBand();
+                report.Body.Add(band);
+
+                builder.Append(entry.Title);
+                builder.Append(" {\\i ");
+                int[] refs = entry.References.ToArray();
+                Array.Sort(refs);
+                bool first = true;
+                foreach (int reference in refs)
+                {
+                    if (!first)
+                    {
+                        builder.Append(", ");
+                    }
+                    builder.Append(reference);
+                    first = false;
+                }
+                builder.Append('}');
+
+                band.Cells.Add(new SimpleTextCell(builder.ToString()));
+            }
+
+            log.WriteLine(" done");
+
+            foreach (BiblioChapter child in Children)
+            {
+                if (child.Active)
+                {
+                    child.Render(context);
+                }
+            }
+
+            log.WriteLine("End render {0}", this);
         }
 
         #endregion

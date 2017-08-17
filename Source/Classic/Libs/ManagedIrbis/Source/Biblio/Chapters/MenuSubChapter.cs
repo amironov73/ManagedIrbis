@@ -11,19 +11,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net.Mime;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Logging;
-using AM.Runtime;
-using AM.Text;
 using AM.Text.Output;
 
 using CodeJam;
@@ -35,8 +24,6 @@ using ManagedIrbis.Pft;
 using ManagedIrbis.Reports;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -157,8 +144,9 @@ namespace ManagedIrbis.Biblio
                         {
                             log.Write(".");
                             record = Records[i];
-                            string description 
-                                = formatter.FormatRecord(record);
+                            string description = 
+                                "MFN " + record.Mfn + " "
+                                + formatter.FormatRecord(record);
 
                             // TODO handle string.IsNullOrEmpty(description)
 
@@ -172,7 +160,7 @@ namespace ManagedIrbis.Biblio
                         }
                     }
 
-                    log.WriteLine(string.Empty);
+                    log.WriteLine(" done");
 
                     using (formatter = processor.AcquireFormatter(context))
                     {
@@ -200,7 +188,7 @@ namespace ManagedIrbis.Biblio
                         }
                     }
 
-                    log.WriteLine(string.Empty);
+                    log.WriteLine(" done");
 
                     Items.SortByOrder();
 
@@ -268,9 +256,9 @@ namespace ManagedIrbis.Biblio
 
         /// <inheritdoc cref="BiblioChapter.Render" />
         public override void Render
-        (
-            BiblioContext context
-        )
+            (
+                BiblioContext context
+            )
         {
             Code.NotNull(context, "context");
 
@@ -282,9 +270,7 @@ namespace ManagedIrbis.Biblio
             IrbisReport report = processor.Report
                 .ThrowIfNull("processor.Report");
 
-            ReportBand title = new ParagraphBand();
-            report.Body.Add(title);
-            title.Cells.Add(new SimpleTextCell(Title));
+            RenderTitle(context);
 
             for (int i = 0; i < Items.Count; i++)
             {
@@ -302,6 +288,8 @@ namespace ManagedIrbis.Biblio
                     ));
                 band.Cells.Add(new SimpleTextCell(description));
             }
+
+            log.WriteLine(" done");
 
             foreach (BiblioChapter child in Children)
             {

@@ -90,9 +90,7 @@ namespace ManagedIrbis.Biblio
                 .ThrowIfNull("processor.Report");
 
 
-            ReportBand title = new ParagraphBand();
-            report.Body.Add(title);
-            title.Cells.Add(new SimpleTextCell(Title));
+            RenderTitle(context);
 
             string text = Text;
             if (!string.IsNullOrEmpty(text))

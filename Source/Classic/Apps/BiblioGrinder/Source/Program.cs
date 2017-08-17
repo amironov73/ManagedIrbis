@@ -11,11 +11,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using AM.Text.Output;
 
 using IrbisInterop;
@@ -52,6 +53,9 @@ namespace BiblioGrinder
             configurationString = args[0];
             documentPath = args[1];
 
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             try
             {
                 AbstractOutput logFile = new FileOutput("grinder.log");
@@ -83,6 +87,14 @@ namespace BiblioGrinder
                         outputText,
                         IrbisEncoding.Ansi
                     );
+
+                stopwatch.Stop();
+                TimeSpan elapsed = stopwatch.Elapsed;
+                log.WriteLine
+                    (
+                        "Elapsed: {0}",
+                        elapsed.ToAutoString()
+                    );
             }
             catch (Exception exception)
             {
@@ -91,7 +103,6 @@ namespace BiblioGrinder
                         "Exception: {0}",
                         exception
                     );
-
             }
         }
     }

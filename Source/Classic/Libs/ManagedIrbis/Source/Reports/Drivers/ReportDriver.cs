@@ -51,6 +51,12 @@ namespace ManagedIrbis.Reports
             get { return DriverCapability.None; }
         }
 
+        /// <summary>
+        /// Prologue.
+        /// </summary>
+        [CanBeNull]
+        public string Prologue { get; private set; }
+
         #endregion
 
         #region Construction
@@ -216,9 +222,44 @@ namespace ManagedIrbis.Reports
         }
 
         /// <summary>
+        /// Start new page.
+        /// </summary>
+        public virtual void NewPage
+            (
+                [NotNull] ReportContext context,
+                [NotNull] ReportBand band
+            )
+        {
+            // Nothing to do here
+        }
+
+        /// <summary>
+        /// Set the document prologue.
+        /// </summary>
+        public virtual void SetPrologue
+            (
+                [CanBeNull] string prologue
+            )
+        {
+            Prologue = prologue;
+        }
+
+        /// <summary>
         /// Write the text.
         /// </summary>
         public virtual void Write
+            (
+                [NotNull] ReportContext context,
+                [CanBeNull] string text
+            )
+        {
+            // Nothing to do here
+        }
+
+        /// <summary>
+        /// Write service (specific) text.
+        /// </summary>
+        public virtual void WriteServiceText
             (
                 [NotNull] ReportContext context,
                 [CanBeNull] string text

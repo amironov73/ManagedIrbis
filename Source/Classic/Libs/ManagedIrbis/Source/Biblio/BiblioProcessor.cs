@@ -142,6 +142,12 @@ namespace ManagedIrbis.Biblio
             Output = reportContext.Output;
             reportContext.SetDriver(new RtfDriver());
 
+            string prologue = GetText(context, "*prologue.txt");
+            if (!string.IsNullOrEmpty(prologue))
+            {
+                reportContext.Driver.SetPrologue(prologue);
+            }
+
             reportContext.Verify(true);
             report.Verify(true);
 

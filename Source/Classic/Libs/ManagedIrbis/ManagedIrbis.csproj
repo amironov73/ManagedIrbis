@@ -685,6 +685,7 @@
     <Compile Include="Source\Reports\Bands\FreeBand.cs" />
     <Compile Include="Source\Reports\Bands\GroupBand.cs" />
     <Compile Include="Source\Reports\Bands\HeaderBand.cs" />
+    <Compile Include="Source\Reports\Bands\NewPageBand.cs" />
     <Compile Include="Source\Reports\Bands\ParagraphBand.cs" />
     <Compile Include="Source\Reports\Bands\SortBand.cs" />
     <Compile Include="Source\Reports\Bands\TableBand.cs" />

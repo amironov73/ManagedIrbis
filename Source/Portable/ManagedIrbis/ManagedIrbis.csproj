@@ -1772,6 +1772,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\HeaderBand.cs">
       <Link>Source\Reports\Bands\HeaderBand.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\NewPageBand.cs">
+      <Link>Source\Reports\Bands\NewPageBand.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\ParagraphBand.cs">
       <Link>Source\Reports\Bands\ParagraphBand.cs</Link>
     </Compile>

@@ -223,10 +223,7 @@ namespace ManagedIrbis.Biblio
                         Records = new List<MarcRecord>();
                         for (int i = 0; i < found.Length; i++)
                         {
-                            if (i % 10 == 0)
-                            {
-                                log.Write(".");
-                            }
+                            log.Write(".");
                             record = provider.ReadRecord(found[i]);
                             Records.Add(record);
                         }
@@ -255,10 +252,7 @@ namespace ManagedIrbis.Biblio
 
                         for (int i = 0; i < Records.Count; i++)
                         {
-                            if (i % 100 == 0)
-                            {
-                                log.Write(".");
-                            }
+                            log.Write(".");
 
                             record = Records[i];
                             string key = formatter.FormatRecord(record);
@@ -412,9 +406,7 @@ namespace ManagedIrbis.Biblio
             IrbisReport report = processor.Report
                 .ThrowIfNull("processor.Report");
 
-            ReportBand title = new ParagraphBand();
-            report.Body.Add(title);
-            title.Cells.Add(new SimpleTextCell(Title));
+            RenderTitle(context);
 
             foreach (BiblioChapter child in Children)
             {

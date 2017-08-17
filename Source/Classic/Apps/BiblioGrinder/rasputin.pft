@@ -110,7 +110,7 @@ fi fi),
 (if v517^n:'0'then else|. - |v517^t*4,| : |v517^a fi),
 ". - \b Пер.изд.: \b0"v454^a," / "v454^d,", "v454^e,", "v454^f,". - "v454^p,
 ". - "v454^g,", "v454^h,". - "v963^1,
-if v920:'NJ' then else if p(v463) then ,OISTASPK, fi fi,
+if v920:'NJ' then else if p(v463) then ,&uf('6OISTASPK'), fi fi,
 |. - |v912,|. - |v320,|. - |v314,
 if s(v461^j)=''then". - \b ISSN \b0 "|. - |+v11^a fi,
 if p(v215^x)then 

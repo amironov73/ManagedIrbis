@@ -53,11 +53,15 @@ namespace ManagedIrbis.Reports
             Code.NotNull(context, "context");
             Code.NotNull(report, "report");
 
-            // TODO support for russian and european languages
-
             ReportOutput output = context.Output;
-            //output.Write(RichText.CommonPrologue);
-            output.Write(RichText.RussianPrologue);
+
+            string prologue = Prologue;
+            if (string.IsNullOrEmpty(prologue))
+            {
+                prologue = RichText.CommonPrologue;
+            }
+
+            output.Write(prologue);
         }
 
         /// <inheritdoc cref="ReportDriver.BeginParagraph" />
@@ -71,7 +75,7 @@ namespace ManagedIrbis.Reports
             Code.NotNull(band, "band");
 
             ReportOutput output = context.Output;
-            output.Write("\\par ");
+            output.Write(@"\par\pard\plain ");
         }
 
         /// <inheritdoc cref="ReportDriver.EndDocument" />
@@ -116,6 +120,19 @@ namespace ManagedIrbis.Reports
             output.Write("\\row ");
         }
 
+        /// <inheritdoc cref="ReportDriver.NewPage" />
+        public override void NewPage
+            (
+                ReportContext context,
+                ReportBand band
+            )
+        {
+            Code.NotNull(context, "context");
+
+            ReportOutput output = context.Output;
+            output.Write("\\page ");
+        }
+
         /// <inheritdoc cref="ReportDriver.Write"/>
         public override void Write
             (
@@ -128,6 +145,19 @@ namespace ManagedIrbis.Reports
             string encoded = RichText.Encode(text);
             ReportOutput output = context.Output;
             output.Write(encoded);
+        }
+
+        /// <inheritdoc cref="ReportDriver.WriteServiceText"/>
+        public override void WriteServiceText
+            (
+                ReportContext context,
+                string text
+            )
+        {
+            Code.NotNull(context, "text");
+
+            ReportOutput output = context.Output;
+            output.Write(text);
         }
 
         #endregion
