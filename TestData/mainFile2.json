@@ -1,0 +1,9 @@
+{
+  "first": 1,
+  "second": 2,
+  "$include": {
+    "name": "included",
+    "file": "..\\..\\..\\..\\TestData\\included.json"
+   },
+  "fourth": 4
+}

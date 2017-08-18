@@ -109,6 +109,27 @@ namespace AM.Json
         /// </summary>
         public static void Include
             (
+                [NotNull] JObject obj
+            )
+        {
+            Code.NotNull(obj, "obj");
+
+            JToken[] tokens = obj
+                .SelectTokens("$..$include")
+                .ToArray();
+
+            foreach (JToken token in tokens)
+            {
+                JProperty property = (JProperty)token.Parent;
+                Resolve(property);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void Include
+            (
                 [NotNull] JObject obj,
                 [NotNull] string newName
             )
@@ -257,6 +278,27 @@ namespace AM.Json
             // TODO use path for searching
 
             string fileName = property.Value.ToString();
+            string text = File.ReadAllText(fileName);
+            JObject value = JObject.Parse(text);
+            JProperty newProperty = new JProperty(newName, value);
+            property.Replace(newProperty);
+        }
+
+        /// <summary>
+        /// Resolver for <see cref="Include(JObject,Action{JProperty})"/>.
+        /// </summary>
+        public static void Resolve
+            (
+                [NotNull] JProperty property
+            )
+        {
+            Code.NotNull(property, "property");
+
+            // TODO use path for searching
+
+            JObject obj = (JObject) property.Value;
+            string newName = obj["name"].Value<string>();
+            string fileName = obj["file"].Value<string>();
             string text = File.ReadAllText(fileName);
             JObject value = JObject.Parse(text);
             JProperty newProperty = new JProperty(newName, value);
