@@ -161,6 +161,7 @@
     <Compile Include="AM\DuplicateKeyExceptionTest.cs" />
     <Compile Include="AM\ExceptionEventArgsTest.cs" />
     <Compile Include="AM\FunctionalUtilityTest.cs" />
+    <Compile Include="AM\Json\JsonUtilityTest.cs" />
     <Compile Include="AM\Text\RichTextStripperTest.cs" />
     <Compile Include="AM\Text\SourceCodeUtilityTest.cs" />
     <Compile Include="AM\Text\TextSeparatorTest.cs" />

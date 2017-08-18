@@ -38,7 +38,7 @@ namespace AM.Json
     {
         #region Properties
 
-#endregion
+        #endregion
 
         #region Private members
 
@@ -60,12 +60,12 @@ namespace AM.Json
             Code.NotNullNorEmpty(nameSpace, "nameSpace");
             Code.NotNullNorEmpty(assembly, "assembly");
 
-            IEnumerable<JToken> tokens = obj.SelectTokens("$..$type");
-            foreach (JToken token in tokens)
+            IEnumerable<JValue> values = obj
+                .SelectTokens("$..$type")
+                .OfType<JValue>();
+            foreach (JValue value in values)
             {
-                JValue val = (JValue)token;
-
-                string typeName = val.Value.ToString();
+                string typeName = value.Value.ToString();
                 if (!typeName.Contains('.'))
                 {
                     typeName = nameSpace
@@ -73,12 +73,55 @@ namespace AM.Json
                                + typeName
                                + ", "
                                + assembly;
-                    val.Value = typeName;
+                    value.Value = typeName;
                 }
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void Include
+            (
+                [NotNull] JObject obj,
+                [NotNull] Action<JProperty> resolver
+            )
+        {
+            Code.NotNull(obj, "obj");
+            Code.NotNull(resolver, "resolver");
+
+            JValue[] values = obj
+                .SelectTokens("$..$include")
+                .OfType<JValue>()
+                .ToArray();
+
+            foreach (JValue value in values)
+            {
+                JProperty property = (JProperty) value.Parent;
+                resolver(property);
+            }
+        }
+
 #if !WIN81
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void Include
+            (
+                [NotNull] JObject obj,
+                [NotNull] string newName
+            )
+        {
+            Code.NotNull(obj, "obj");
+            Code.NotNullNorEmpty(newName, "newName");
+
+            Action<JProperty> resolver = prop =>
+            {
+                Resolve(prop, newName);
+            };
+            Include(obj, resolver);
+        }
 
         /// <summary>
         /// Read <see cref="JArray"/> from specified
@@ -161,8 +204,6 @@ namespace AM.Json
         /// <summary>
         /// Save object to the specified local JSON file.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="fileName"></param>
         public static void SaveObjectToFile
             (
                 [NotNull] JObject obj,
@@ -199,6 +240,27 @@ namespace AM.Json
                     json,
                     fileName
                 );
+        }
+
+        /// <summary>
+        /// Resolver for <see cref="Include(JObject,Action{JProperty})"/>.
+        /// </summary>
+        public static void Resolve
+            (
+                [NotNull] JProperty property,
+                [NotNull] string newName
+            )
+        {
+            Code.NotNull(property, "property");
+            Code.NotNull(newName, "newName");
+
+            // TODO use path for searching
+
+            string fileName = property.Value.ToString();
+            string text = File.ReadAllText(fileName);
+            JObject value = JObject.Parse(text);
+            JProperty newProperty = new JProperty(newName, value);
+            property.Replace(newProperty);
         }
 
 #endif
