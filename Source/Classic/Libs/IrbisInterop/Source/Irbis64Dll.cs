@@ -98,6 +98,53 @@ namespace IrbisInterop
         [NotNull]
         public BusyState Busy { get; internal set; }
 
+        /// <summary>
+        /// Current database PFT path.
+        /// </summary>
+        [NotNull]
+        public string DatabasePftPath
+        {
+            get
+            {
+                ParFile parFile = Parameters.ThrowIfNull("Parameters");
+                string pftPath = parFile.PftPath.ThrowIfNull("parFile.PftPath");
+                string result = Path.Combine
+                    (
+                        Configuration.SystemPath,
+                        pftPath
+                    );
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// PFT search path alternatives.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public string[] PftSearchPath
+        {
+            get
+            {
+                string[] result = new string[3];
+
+                result[0] = Path.Combine
+                    (
+                        Configuration.SystemPath,
+                        "Deposit_USER"
+                    );
+                result[1] = DatabasePftPath;
+                result[2] = Path.Combine
+                    (
+                        Configuration.SystemPath,
+                        "Deposit"
+                    );
+
+                return result;
+            }
+        }
+
         #endregion
 
         #region Construction
@@ -287,7 +334,13 @@ namespace IrbisInterop
                 );
             }
 
-            string prepared = IrbisFormat.PrepareFormat(format);
+            string prepared = ServerUtility.ExpandInclusion
+                (
+                    format,
+                    "pft",
+                    PftSearchPath
+                );
+            prepared = IrbisFormat.PrepareFormat(prepared);
             int result = Irbis65Dll.IrbisInitPft(Space, prepared);
             _HandleRetCode("IrbisInitPft", result);
 

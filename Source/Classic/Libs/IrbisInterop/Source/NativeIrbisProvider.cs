@@ -187,9 +187,9 @@ namespace IrbisInterop
             Code.NotNullNorEmpty(configurationString, "configurationString");
 
             Parameter[] parameters = ParameterUtility.ParseString
-            (
-                configurationString
-            );
+                (
+                    configurationString
+                );
 
             foreach (Parameter parameter in parameters)
             {

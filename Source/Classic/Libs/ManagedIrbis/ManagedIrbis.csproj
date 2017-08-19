@@ -776,6 +776,7 @@
     <Compile Include="Source\Server\ServerContext.cs" />
     <Compile Include="Source\Server\ServerIniFile.cs" />
     <Compile Include="Source\Server\IrbisSocketServer.cs" />
+    <Compile Include="Source\Server\ServerUtility.cs" />
     <Compile Include="Source\StatDefinition.cs" />
     <Compile Include="Source\TableDefinition.cs" />
     <Compile Include="Source\Reports\Bands\ReportBand.cs" />
