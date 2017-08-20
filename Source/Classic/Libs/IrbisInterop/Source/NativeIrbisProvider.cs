@@ -286,7 +286,8 @@ namespace IrbisInterop
                 FileSpecification specification
             )
         {
-            return Irbis64.FileExist(specification);
+            string result = Irbis64.ExpandSpecification(specification);
+            return !string.IsNullOrEmpty(result);
         }
 
         /// <inheritdoc cref="IrbisProvider.FormatRecord" />

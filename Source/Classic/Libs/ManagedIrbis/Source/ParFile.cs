@@ -98,6 +98,11 @@ namespace ManagedIrbis
     {
         #region Constants
 
+        /// <summary>
+        /// Standard extension for PAR files.
+        /// </summary>
+        public const string Extension = ".par";
+
         #endregion
 
         #region Properties

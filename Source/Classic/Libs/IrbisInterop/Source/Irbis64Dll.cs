@@ -106,11 +106,15 @@ namespace IrbisInterop
         {
             get
             {
-                ParFile parFile = Parameters.ThrowIfNull("Parameters");
-                string pftPath = parFile.PftPath.ThrowIfNull("parFile.PftPath");
+                ParFile parFile = Parameters
+                    .ThrowIfNull("Parameters");
+                string pftPath = parFile.PftPath
+                    .ThrowIfNull("parFile.PftPath");
+                string systemPath = Configuration.SystemPath
+                    .ThrowIfNull("SystemPath");
                 string result = Path.Combine
                     (
-                        Configuration.SystemPath,
+                        systemPath,
                         pftPath
                     );
 
@@ -129,15 +133,17 @@ namespace IrbisInterop
             {
                 string[] result = new string[3];
 
+                string systemPath = Configuration.SystemPath
+                    .ThrowIfNull("SystemPath");
                 result[0] = Path.Combine
                     (
-                        Configuration.SystemPath,
+                        systemPath,
                         "Deposit_USER"
                     );
                 result[1] = DatabasePftPath;
                 result[2] = Path.Combine
                     (
-                        Configuration.SystemPath,
+                        systemPath,
                         "Deposit"
                     );
 
@@ -180,14 +186,14 @@ namespace IrbisInterop
         private string _FormatRecord()
         {
             int retcode = Irbis65Dll.IrbisFormat
-            (
-                Space,
-                Shelf,
-                1,
-                0,
-                BufferSize,
-                DllName
-            );
+                (
+                    Space,
+                    Shelf,
+                    1,
+                    0,
+                    BufferSize,
+                    DllName
+                );
             _HandleRetCode("IrbisFormat", retcode);
 
             string result = _GetFormattedText();
@@ -205,10 +211,10 @@ namespace IrbisInterop
             }
 
             IntPtr textPointer = Marshal.ReadIntPtr
-            (
-                Space,
-                layout.FormattedOffset
-            );
+                (
+                    Space,
+                    layout.FormattedOffset
+                );
             Encoding encoding = IrbisEncoding.Utf8;
             string result = InteropUtility.GetZeroTerminatedString
                 (
@@ -328,10 +334,10 @@ namespace IrbisInterop
             if (Layout.Value.FormattedOffset == 0)
             {
                 Layout.Value.FindTheFormattedText
-                (
-                    Space,
-                    0x4000
-                );
+                    (
+                        Space,
+                        0x4000
+                    );
             }
 
             string prepared = ServerUtility.ExpandInclusion
@@ -780,86 +786,95 @@ namespace IrbisInterop
         {
             Code.NotNull(specification, "specification");
 
-            string result = ExpandSpecification(specification, false);
-            if (!File.Exists(result))
+            string dataPath = Configuration.DataPath
+                .ThrowIfNull("Configuration.DataPath");
+            string systemPath = Configuration.SystemPath
+                .ThrowIfNull("Configuration.SystemPath");
+            string result = Path.Combine
+                (
+                    dataPath,
+                    "Deposit_USER"
+                    + Path.DirectorySeparatorChar
+                    + specification.FileName
+                );
+            if (File.Exists(result))
             {
-                result = ExpandSpecification(specification, true);
-                if (!File.Exists(result))
-                {
-                    result = null;
-                }
+                return result;
             }
 
-            return result;
-        }
-
-        /// <summary>
-        /// Expand file specification.
-        /// </summary>
-        [NotNull]
-        public string ExpandSpecification
-            (
-                [NotNull] FileSpecification specification,
-                bool useDeposit
-            )
-        {
-            Code.NotNull(specification, "specification");
-
-            if (useDeposit)
-            {
-                return Path.Combine
-                    (
-                        Configuration.DataPath,
-                        "Deposit"
-                        + Path.DirectorySeparatorChar
-                        + specification.FileName
-                    );
-            }
-
-            // TODO: use Database field
-
-            ParFile parameters = Parameters
-                .ThrowIfNull("parameters not set");
-            string result;
+            ParFile parameters = null;
             switch (specification.Path)
             {
                 case IrbisPath.System:
-                    result = Configuration.SystemPath;
+                case IrbisPath.ParameterFile:
+                    break;
+
+                default:
+                    string databaseName
+                        = (specification.Database ?? Database)
+                        .ThrowIfNull("database not set");
+                    if (databaseName.SameString(Database))
+                    {
+                        parameters = Parameters;
+                    }
+                    if (ReferenceEquals(parameters, null))
+                    {
+                        parameters = GetParameters(databaseName);
+                    }
+                    break;
+            }
+
+            switch (specification.Path)
+            {
+                case IrbisPath.System:
+                    result = systemPath;
                     break;
 
                 case IrbisPath.Data:
-                    result = Configuration.DataPath;
+                    result = dataPath;
                     break;
 
                 case IrbisPath.FullText:
                     result = Path.Combine
                         (
-                            Configuration.DataPath,
-                            parameters.ExtPath.ThrowIfNull()
+                            dataPath,
+                            parameters
+                                .ThrowIfNull("parameters")
+                                .ExtPath
+                                .ThrowIfNull("parameters.ExtPath")
                         );
                     break;
 
                 case IrbisPath.InternalResource:
                     result = Path.Combine
                         (
-                            Configuration.DataPath,
-                            parameters.MstPath.ThrowIfNull() // TODO ???
+                            systemPath,
+                            parameters
+                                .ThrowIfNull("parameters")
+                                .MstPath
+                                .ThrowIfNull("parameters.MstPath")
                         );
                     break;
 
                 case IrbisPath.InvertedFile:
                     result = Path.Combine
                         (
-                            Configuration.SystemPath,
-                            parameters.IfpPath.ThrowIfNull()
+                            systemPath,
+                            parameters
+                                .ThrowIfNull("parameters")
+                                .IfpPath
+                                .ThrowIfNull("parameters.IfpPath")
                         );
                     break;
 
                 case IrbisPath.MasterFile:
                     result = Path.Combine
                         (
-                            Configuration.SystemPath,
-                            parameters.MstPath.ThrowIfNull()
+                            systemPath,
+                            parameters
+                                .ThrowIfNull("parameters")
+                                .MstPath
+                                .ThrowIfNull("parameters.MstPath")
                         );
                     break;
 
@@ -868,37 +883,39 @@ namespace IrbisInterop
                     break;
 
                 default:
-                    throw new IrbisException();
+                    throw new IrbisException
+                        (
+                            "unexpected IrbisPath="
+                            + specification.Path
+                        );
             }
+
+            result = result.ThrowIfNull();
 
             result = Path.Combine
                 (
                     Path.GetFullPath(result),
-                    specification.FileName.ThrowIfNull()
+                    specification.FileName
+                        .ThrowIfNull("specification.FileName")
                 );
-
-            return result;
-        }
-
-        /// <summary>
-        /// Whether the file exist?
-        /// </summary>
-        public bool FileExist
-            (
-                [NotNull] FileSpecification specification
-            )
-        {
-            Code.NotNull(specification, "specification");
-
-            string filePath = ExpandSpecification(specification, false);
-            bool result = File.Exists(filePath);
-            if (!result)
+            if (File.Exists(result))
             {
-                filePath = ExpandSpecification(specification, true);
-                result = File.Exists(filePath);
+                return result;
             }
 
-            return result;
+            result = Path.Combine
+                (
+                    dataPath,
+                    "Deposit"
+                    + Path.DirectorySeparatorChar
+                    + specification.FileName
+                );
+            if (File.Exists(result))
+            {
+                return result;
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -1030,6 +1047,30 @@ namespace IrbisInterop
             {
                 return _GetFormattedText();
             }
+        }
+
+        /// <summary>
+        /// Get parameters for the database.
+        /// </summary>
+        [NotNull]
+        public ParFile GetParameters
+            (
+                [NotNull] string databaseName
+            )
+        {
+            Code.NotNullNorEmpty(databaseName, "databaseName");
+
+            string dataPath = Configuration.DataPath
+                .ThrowIfNull("Configuration.DataPath");
+            string path = Path.Combine
+                (
+                    dataPath,
+                    databaseName
+                    + ParFile.Extension
+                );
+            ParFile result = ParFile.ParseFile(path);
+
+            return result;
         }
 
         /// <summary>
@@ -1529,7 +1570,8 @@ namespace IrbisInterop
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            string systemPath = Configuration.SystemPath;
+            string systemPath = Configuration.SystemPath
+                .ThrowIfNull("Configuration.SystemPath");
             string mainIni = Path.GetFullPath
                 (
                     Path.Combine
@@ -1601,20 +1643,17 @@ namespace IrbisInterop
 
             using (new BusyGuard(Busy))
             {
-                string parPath = Path.Combine
-                    (
-                        Configuration.DataPath,
-                        databaseName + ".par"
-                    );
-                ParFile parFile = ParFile.ParseFile(parPath);
+                ParFile parFile = GetParameters(databaseName);
                 Parameters = parFile;
+                string systemPath = Configuration.SystemPath
+                    .ThrowIfNull("Configuration.SystemPath");
                 string mstPath = parFile.MstPath
                     .ThrowIfNull("mstPath not set");
                 mstPath = Path.GetFullPath
                     (
                         Path.Combine
                             (
-                                Configuration.SystemPath,
+                                systemPath,
                                 mstPath
                             )
                     );
@@ -1638,7 +1677,7 @@ namespace IrbisInterop
                     (
                         Path.Combine
                             (
-                                Configuration.SystemPath,
+                                systemPath,
                                 termPath
                             )
                     );

@@ -29,6 +29,8 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
+using Newtonsoft.Json;
+
 #endregion
 
 namespace ManagedIrbis.Server
@@ -39,28 +41,37 @@ namespace ManagedIrbis.Server
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class ServerConfiguration
-        : IVerifiable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
         /// <summary>
         /// Path for AlphabetTable (without extension).
         /// </summary>
+        [CanBeNull]
+        [JsonProperty("alphabetTablePath")]
         public string AlphabetTablePath { get; set; }
 
         /// <summary>
         /// Data path.
         /// </summary>
+        [CanBeNull]
+        [JsonProperty("dataPath")]
         public string DataPath { get; set; }
 
         /// <summary>
         /// System path.
         /// </summary>
+        [CanBeNull]
+        [JsonProperty("systemPath")]
         public string SystemPath { get; set; }
 
         /// <summary>
         /// Path for UpperCaseTable (without extension).
         /// </summary>
+        [CanBeNull]
+        [JsonProperty("upperCaseTable")]
         public string UpperCaseTable { get; set; }
 
         #endregion
@@ -140,8 +151,14 @@ namespace ManagedIrbis.Server
 
             ServerConfiguration result = new ServerConfiguration
             {
-                SystemPath = systemPath + "\\",
-                DataPath = Path.Combine(systemPath, "Datai\\"),
+                SystemPath = systemPath
+                    + Path.DirectorySeparatorChar,
+                DataPath = Path.Combine
+                    (
+                        systemPath,
+                        "Datai"
+                        + Path.DirectorySeparatorChar
+                    ),
                 AlphabetTablePath = Path.Combine(systemPath, "isisacw"),
                 UpperCaseTable = Path.Combine(systemPath, "isisucw")
             };
@@ -151,19 +168,54 @@ namespace ManagedIrbis.Server
 
         #endregion
 
+        #region IHandmadeSerializable members
+
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            AlphabetTablePath = reader.ReadNullableString();
+            DataPath = reader.ReadNullableString();
+            SystemPath = reader.ReadNullableString();
+            UpperCaseTable = reader.ReadNullableString();
+        }
+
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer
+                .WriteNullable(AlphabetTablePath)
+                .WriteNullable(DataPath)
+                .WriteNullable(SystemPath)
+                .WriteNullable(UpperCaseTable);
+        }
+
+        #endregion
+
         #region IVerifiable members
 
-        /// <inheritdoc cref="IVerifiable.Verify"/>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify(bool throwOnError)
         {
             Verifier<ServerConfiguration> verifier
                 = new Verifier<ServerConfiguration>(this, throwOnError);
 
+            // IRBIS64 doesn't use external upper case table
+
             verifier
                 .DirectoryExist(SystemPath, "SystemPath")
                 .DirectoryExist(DataPath, "DataPath")
-                .NotNullNorEmpty(AlphabetTablePath, "AlphabetTablePath")
-                .NotNullNorEmpty(UpperCaseTable, "UpperCaseTable");
+                .NotNullNorEmpty(AlphabetTablePath, "AlphabetTablePath");
+                //.NotNullNorEmpty(UpperCaseTable, "UpperCaseTable");
 
             return verifier.Result;
         }
