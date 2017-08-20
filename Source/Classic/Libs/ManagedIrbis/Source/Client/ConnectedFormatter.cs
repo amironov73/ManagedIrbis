@@ -69,7 +69,7 @@ namespace ManagedIrbis.Client
 
         #region IPftFormatter members
 
-        /// <inheritdoc cref="IPftFormatter.FormatRecord" />
+        /// <inheritdoc cref="IPftFormatter.FormatRecord(MarcRecord)" />
         public string FormatRecord
             (
                 MarcRecord record
@@ -82,6 +82,25 @@ namespace ManagedIrbis.Client
             }
 
             string result = Connection.FormatRecord(Source, record)
+                ?? string.Empty;
+
+            return result;
+        }
+
+        /// <inheritdoc cref="IPftFormatter.FormatRecord(Int32)" />
+        public string FormatRecord
+            (
+                int mfn
+            )
+        {
+            Code.Positive(mfn, "mfn");
+
+            if (string.IsNullOrEmpty(Source))
+            {
+                return string.Empty;
+            }
+
+            string result = Connection.FormatRecord(Source, mfn)
                 ?? string.Empty;
 
             return result;

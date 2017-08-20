@@ -87,12 +87,8 @@
       // Специальные настройки для отдельных разделов
       "specialSettings": [
         {
-          "name": " 1. 2. 3",
-          "something": "value"
-        },
-        {
-          "name": " 2. 3. 4",
-          "something": "value"
+          "name": "1",
+          "format": "*rasputin_section1.pft"
         }
       ],
       "attr": {

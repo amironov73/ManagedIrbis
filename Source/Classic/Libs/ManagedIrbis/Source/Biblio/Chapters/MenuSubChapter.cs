@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 
 using AM;
+using AM.Collections;
 using AM.Text.Output;
 
 using CodeJam;
@@ -36,7 +37,7 @@ namespace ManagedIrbis.Biblio
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class MenuSubChapter
+    public class MenuSubChapter
         : BiblioChapter
     {
         #region Properties
@@ -170,6 +171,40 @@ namespace ManagedIrbis.Biblio
             return null;
         }
 
+        /// <summary>
+        /// Get description format from chapter hierarchy.
+        /// </summary>
+        [NotNull]
+        protected virtual string GetDescriptionFormat()
+        {
+            string result;
+
+            BiblioChapter chapter = this;
+            while (!ReferenceEquals(chapter, null))
+            {
+                MenuSubChapter subChapter = chapter as MenuSubChapter;
+                if (!ReferenceEquals(subChapter, null))
+                {
+                    SpecialSettings settings = subChapter.SpecialSettings;
+                    if (!ReferenceEquals(settings, null))
+                    {
+                        StringDictionary dictionary = settings.Dictionary;
+                        if (dictionary.TryGetValue("format", out result))
+                        {
+                            return result;
+                        }
+                    }
+                }
+
+                chapter = chapter.Parent;
+            }
+
+            return MainChapter
+                .ThrowIfNull("MainChapter")
+                .Format
+                .ThrowIfNull("MainChapter.Format");
+        }
+
         #endregion
 
         #region Public methods
@@ -204,11 +239,7 @@ namespace ManagedIrbis.Biblio
 
                     using (formatter = processor.AcquireFormatter(context))
                     {
-                        // TODO use hierarchy for descriptionFormat
-                        // and orderFormat
-
-                        string descriptionFormat = mainChapter.Format
-                            .ThrowIfNull("mainChapter.Format");
+                        string descriptionFormat = GetDescriptionFormat();
                         descriptionFormat = processor.GetText
                             (
                                 context,
@@ -221,9 +252,11 @@ namespace ManagedIrbis.Biblio
                         {
                             log.Write(".");
                             record = Records[i];
-                            string description = 
-                                "MFN " + record.Mfn + " "
-                                + formatter.FormatRecord(record);
+                            //string description = 
+                            //    "MFN " + record.Mfn + " "
+                            //    + formatter.FormatRecord(record);
+                            string description
+                                = formatter.FormatRecord(record.Mfn);
 
                             // TODO handle string.IsNullOrEmpty(description)
 
@@ -255,9 +288,10 @@ namespace ManagedIrbis.Biblio
                         {
                             log.Write(".");
                             BiblioItem item = Items[i];
-                            record = item.Record;
-                            string order 
-                                = formatter.FormatRecord(record);
+                            record = item.Record
+                                .ThrowIfNull("item.Record");
+                            string order
+                                = formatter.FormatRecord(record.Mfn);
 
                             // TODO handle string.IsNullOrEmpty(order)
 

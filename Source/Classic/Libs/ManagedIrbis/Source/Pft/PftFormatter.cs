@@ -126,7 +126,7 @@ namespace ManagedIrbis.Pft
 
         #region Public methods
 
-        /// <inheritdoc cref="IPftFormatter.FormatRecord" />
+        /// <inheritdoc cref="IPftFormatter.FormatRecord(MarcRecord)" />
         public virtual string FormatRecord
             (
                 MarcRecord record
@@ -165,6 +165,20 @@ namespace ManagedIrbis.Pft
             Elapsed = stopwatch.Elapsed;
 
 #endif
+
+            return result;
+        }
+
+        /// <inheritdoc cref="IPftFormatter.FormatRecord(Int32)" />
+        public string FormatRecord
+            (
+                int mfn
+            )
+        {
+            Code.Positive(mfn, "mfn");
+
+            MarcRecord record = Context.Provider.ReadRecord(mfn);
+            string result = FormatRecord(record);
 
             return result;
         }

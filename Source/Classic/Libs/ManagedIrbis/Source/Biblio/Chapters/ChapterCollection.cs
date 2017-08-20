@@ -9,22 +9,11 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-using AM.Text;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -33,7 +22,6 @@ using MoonSharp.Interpreter;
 using Newtonsoft.Json;
 
 #endregion
-
 
 namespace ManagedIrbis.Biblio
 {
@@ -47,21 +35,6 @@ namespace ManagedIrbis.Biblio
         IVerifiable
     {
         #region Properties
-
-        /// <summary>
-        /// Document.
-        /// </summary>
-        [CanBeNull]
-        [XmlIgnore]
-        [JsonIgnore]
-        public BiblioDocument Document
-        {
-            get { return _document; }
-            internal set
-            {
-                SetDocument(value);
-            }
-        }
 
         /// <summary>
         /// Parent.
@@ -94,11 +67,9 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         public ChapterCollection
             (
-                [CanBeNull] BiblioDocument document,
                 [CanBeNull] BiblioChapter parent
             )
         {
-            Document = document;
             Parent = parent;
         }
 
@@ -106,17 +77,7 @@ namespace ManagedIrbis.Biblio
 
         #region Private members
 
-        private BiblioDocument _document;
-
         private BiblioChapter _parent;
-
-        internal void SetDocument
-            (
-                BiblioDocument document
-            )
-        {
-            _document = document;
-        }
 
         internal void SetParent
             (
@@ -124,11 +85,63 @@ namespace ManagedIrbis.Biblio
             )
         {
             _parent = parent;
+            foreach (BiblioChapter chapter in this)
+            {
+                chapter.Parent = parent;
+            }
         }
 
         #endregion
 
-        #region Public methods
+        #region NonNullCollection<T> members
+
+        /// <inheritdoc cref="Collection{T}.InsertItem" />
+        protected override void InsertItem
+            (
+                int index,
+                BiblioChapter item
+            )
+        {
+            base.InsertItem(index, item);
+            item.Parent = _parent;
+        }
+
+        /// <inheritdoc cref="Collection{T}.SetItem" />
+        protected override void SetItem
+            (
+                int index,
+                BiblioChapter item
+            )
+        {
+            base.SetItem(index, item);
+            item.Parent = _parent;
+        }
+
+        /// <inheritdoc cref="Collection{T}.ClearItems" />
+        protected override void ClearItems()
+        {
+            foreach (BiblioChapter chapter in this)
+            {
+                chapter.Parent = null;
+            }
+
+            base.ClearItems();
+        }
+
+        /// <inheritdoc cref="Collection{T}.RemoveItem" />
+        protected override void RemoveItem
+            (
+                int index
+            )
+        {
+            if (index >= 0 && index < Count)
+            {
+                BiblioChapter chapter = this[index];
+                chapter.Parent = null;
+            }
+
+            base.RemoveItem(index);
+        }
 
         #endregion
 
@@ -150,10 +163,6 @@ namespace ManagedIrbis.Biblio
 
             return verifier.Result;
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

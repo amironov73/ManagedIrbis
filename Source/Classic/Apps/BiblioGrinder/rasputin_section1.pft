@@ -1,14 +1,10 @@
 mhl,
 'MFN ',f(mfn,0,0), ' ',
 if s(v982^s,v982^k)<>'' then v903' '&unifor("kstr.mnu|"v982^s),", "d982^k,&unifor('Av982^k#1')," "d982^i,&unifor('Av982^i#1'),". "d982^k,'\par ',fi,
-v461^x,
-v461^b,
-if v461^x:','or p(v461^b) then'.'fi,'\b0 ',
+
 if p(v461)then 
-   if s(v461^x,v461^b)<>''then'\par \pard ',v461^c
-   else '\b '&unifor('E3'v461^c),'\b0  ',
-      if &unifor('F3'v461^c)<>''then' '&unifor('F3'v461^c) fi 
-   fi,
+   '\b '&unifor('E3'v461^c),'\b0  ',
+   if &unifor('F3'v461^c)<>''then' '&unifor('F3'v461^c) fi
    if s(v230v135)<>''then ' [Электронный ресурс]' fi,
    | = |v46^l,| : |v461^e,| / |v461^f,
    |. - |v461^p,(". - "| ; |+v461^d,| : |v461^g),
@@ -20,21 +16,11 @@ fi,
 "\par \pard \b "d461,
 "\b "v200^v"\b0 ",
 if p(v200^v) and p(v200^a) then' : 'fi,
-if p(v200^a) then'\b 'v700^a," "v700^d,", "v700^g".",if a(v700^g)then", "v700^b fi'\b0 ',
-   if s(v700^1,v700^c,v700^f)<>''then' (',v700^1,if s(v700^1)<>''then" ; "d700^c fi,v700^c,
-      if s(v700^1,v700^c)<>''then" ; "d700^f fi,v700^f,'). '
-   else"."d700^g," "d700^a  fi,'\b 'v710^s".",v710^a,
-   if s(v710^n,v710^c)<>''then' ('v710^n" ; ",v710^c,')'fi,". "v710^b,
-   if s(v710^d,v710^f,v710^e)<>''then' ('v710^d" ; ",v710^f,
-      if p(v710^f)then" ; "v710^e else v710^e fi," / "v710^h," / "v710^i')'fi,". "d710,v971^b,
-   if s(v971^d,v971^f,v971^e)<>''then' ('v971^d" ; ",v971^f,if p(v971^f)then" ; "v971^e else v971^e fi,
-   " / "v971^h," / "v971^i')'fi,". "d971^b'\b0 '
-fi,
+
 if p(v461) then v200^a else 
-   if s(v700v710)=''then'\b '&unifor('E3'v200^a),'\b0 ',
+   '\b '&unifor('E3'v200^a),'\b0 ',
       if &unifor('F3'v200^a)<>'' then' '&unifor('F3'v200^a) fi 
-   else "\par "v200^a 
-fi fi,
+fi,
 if a(v461) then if s(v230v135)<>''then ' [Электронный ресурс]' fi fi,
 if v920:'NJ'then'\b '
    ref(l(|I=|v933),&unifor('E3'v200^a)'\b0 ',
@@ -135,6 +121,83 @@ if p(v101) and v101 <> &uf('Korg.mnu!6') then
 fi,
 
 |\par \pard |v331,
+
+if v920.1:'A' then else if s(v905^m)=''and &unifor('IPRIVATE,FPP,')=''then mhl,"\par  "|. |+v300,mpl fi fi, 
+"\par \b   Перевод заглавия: \b0  "v541, 
+,&uf('6oant'), 
+if p(v391)then" \par \b Есть автограф: \b0 "d391, 
+   (if p(v391)then |Экз. |v391^!| : |,v391^a,|, |v391^g, 
+       if a(v391^g) then |, |d391^b 
+          if v391^b:'. 'then v391^b else 
+             if v391^b:'.'then &unifor('G0.'v391^b)'. '&unifor('G2.'v391^b) else v391^b 
+       fi fi fi,| (|v391^c|)|,|  |v391^t,mhl,v391.1+|; |,mpl fi) 
+fi, 
+("\par \b Экслибрис: \b0 "| ; |+d398,if p(v398^!)then |\par \b Экз.|v398^!|: \b0 |,v398^a else if s(v398^a,v398^b)=''then v398 else v398^b," ("v398^a")" fi fi,) 
+"\par \b Пометки автора: \b0 "| ; |+v395, 
+"\par \b Пометки владельца коллекции: \b0 "| ; |+v396, 
+("\par \b Сохранность документа: \b0 "| ; |+d399, if s(v399^!,v399^a)='' then v399 else|\par \b Экз.|v399^!|: \b0 |,v399^a fi)
+,&uf('6opri451'), 
+,&uf('6opril421'), 
+,&uf('6Opris488'),
+,&uf('6opri699'), 
+if val(&unifor('J,I470='v903))>0 then '\par ' &unifor('+I?2,,,,I470='v903'?Есть рецензия / реферат') fi, 
+if p(v330)then 
+   if a(v905^k) then'\par \tab \b Содержание: \b0 ', 
+      (if p(v330)then'\par \b '
+          if a(v330^f) then v330^8|. | fi,
+          if p(v330^q) then else 
+            if p(v330^x) then 
+            &uf('+S1'
+               if v330^x='1' then v330^f 
+               else &unifor('E'v330^x,v330^f), 
+                  if p(v330^?)then |, |v330^? else 
+                     if &unifor('F'v330^x,v330^f)<>'' then ', '&unifor('F'v330^x,v330^f) fi fi,'.' 
+               fi) 
+            else 
+            &uf('+S1'
+               if v330^f:',' then v330^f|.| else 
+                  if v330^f:' ' then &unifor('G0 'v330^f),|, |v330^?|.| 
+                     if a(v330^?) then 
+                        if v330^f:'.' then ', ' 
+                           if v330^f:'. ' 
+                           then &unifor('G2 'v330^f) else &unifor('G0.'&unifor('G2 'v330^f)),'. ' &unifor('G2.'v330^f) 
+                           fi 
+                        else ', '&unifor('G2 'v330^f)'.' 
+                     fi fi 
+                  else v330^f,|, |v330^?,|.|d330^f, 
+                  fi 
+               fi) 
+            fi,| |d330^f, 
+         fi
+         if s(v330^(,v330^))<>''then v330^(,| |v330^),'. 'fi,
+         if p(v330^u) then if f(val(v330^u),0,0)=v330^u then else if v330^u:'/' then &uf('G2/'v330^u)'. ' fi fi fi, 
+         if v330^]<>''then if v330^[='0'then &unifor('+I$3,10,,'v330^]'$',v330^c)else,if v330^[='1'then &unifor('+I$0,,'v330^]'$',v330^c)else &uf('+S1'v330^c)fi fi else &uf('+S1'v330^c)fi'\b0 ',
+         | = |d330^d,&uf('G0('v330^d),,| : |v330^e, 
+         if a(v330^c) then else 
+            if s(v330^f,v330^g)<>'' and &unifor('Av905^1#1')='' then 
+               if (p(v330^g) and (not(v330^g:'<')) and (not(v330^g|!|:'>!'))) or 
+                  a(v330^g) and p(v330^f) then' / 'fi ,&uf('6o330g'), fi fi,
+         if p(v330^4)then'. -\b ', 
+            if v330^4:'s'or v330^4:'p'or v330^4:'с'then 
+            else mpu,
+               if &uf('Kjz_str_ogl.mnu\'&uf('Av101#1'))<>'' then &uf('Kjz_str_ogl.mnu\'&uf('Av101#1')) 
+               else &unifor('Korg.mnu|4') fi,mpl,'. \b0 ' 
+            fi,v330^4, 
+         fi,
+         if v330^0*1.1='-'then| : |v330^0*2 else| : |v330^0 fi, |. - |v330^p, 
+         if p(v330^w) then'\par Другие авторы: 'v330^2,', 'v330^3,', 'v330^w fi, 
+         if s(&unifor('Av905^f#1'),&unifor('IPRIVATE,FPK,'))='1'then 
+         else|\par Кл.слова: |d330^5,mhl,
+            if s(&unifor('Av905^f#1'),&unifor('IPRIVATE,FPK,'))='2' 
+            then v330^5,|, |v330^6,|, |v330^7 
+            else 
+               if s(&unifor('Av905^f#1'),&unifor('IPRIVATE,FPK,'))='3' 
+               then &unifor('Q'v330^5,|, |v330^6,|, |v330^7), 
+               else v330^5,|, |v330^6,|, |v330^7 
+               fi mpl,
+            fi fi 
+      fi)
+fi fi, 
 
 '\par \pard ',
 mpl, &uf('!'),

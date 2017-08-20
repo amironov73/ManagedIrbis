@@ -38,6 +38,15 @@ namespace ManagedIrbis.Pft
             );
 
         /// <summary>
+        /// Format the record.
+        /// </summary>
+        [NotNull]
+        string FormatRecord
+            (
+                int mfn
+            );
+
+        /// <summary>
         /// Parse the program.
         /// </summary>
         void ParseProgram

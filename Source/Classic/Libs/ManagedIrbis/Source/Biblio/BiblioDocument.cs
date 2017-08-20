@@ -80,7 +80,7 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         public BiblioDocument()
         {
-            Chapters = new ChapterCollection(this, null);
+            Chapters = new ChapterCollection(null);
         }
 
         #endregion

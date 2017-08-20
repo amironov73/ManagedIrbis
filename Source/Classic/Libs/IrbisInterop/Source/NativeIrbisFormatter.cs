@@ -64,7 +64,7 @@ namespace IrbisInterop
 
         #region IPftFormatter members
 
-        /// <inheritdoc cref="IPftFormatter.FormatRecord" />
+        /// <inheritdoc cref="IPftFormatter.FormatRecord(MarcRecord)" />
         public string FormatRecord
             (
                 MarcRecord record
@@ -79,6 +79,15 @@ namespace IrbisInterop
             NativeRecord native = NativeRecord.FromMarcRecord(record);
             irbis.SetRecord(native);
             string result = irbis.FormatRecord();
+
+            return result;
+        }
+
+        /// <inheritdoc cref="IPftFormatter.FormatRecord(Int32)" />
+        public string FormatRecord(int mfn)
+        {
+            Irbis64Dll irbis = Provider.Irbis64;
+            string result = irbis.FormatRecord(mfn);
 
             return result;
         }

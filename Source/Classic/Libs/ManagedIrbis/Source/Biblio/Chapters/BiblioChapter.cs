@@ -74,6 +74,13 @@ namespace ManagedIrbis.Biblio
         public string Title { get; set; }
 
         /// <summary>
+        /// Parent chapter (if any).
+        /// </summary>
+        [CanBeNull]
+        [JsonIgnore]
+        public BiblioChapter Parent { get; internal set; }
+
+        /// <summary>
         /// 
         /// </summary>
         public ItemCollection Items { get; protected internal set; }
@@ -94,7 +101,7 @@ namespace ManagedIrbis.Biblio
         {
             Active = true;
             Attributes = new ReportAttributes();
-            Children = new ChapterCollection(null, this);
+            Children = new ChapterCollection(this);
         }
 
         #endregion
