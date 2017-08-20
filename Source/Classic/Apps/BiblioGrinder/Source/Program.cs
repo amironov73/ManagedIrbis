@@ -42,12 +42,12 @@ namespace BiblioGrinder
         private static BiblioProcessor processor;
         private static TeeOutput log;
 
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             if (args.Length != 2)
             {
                 Console.WriteLine("BiblioGrinder <configurationString> <biblioDocument.json>");
-                return;
+                return 1;
             }
 
             log = new TeeOutput(AbstractOutput.Console);
@@ -112,7 +112,11 @@ namespace BiblioGrinder
                         "Exception: {0}",
                         exception
                     );
+
+                return 1;
             }
+
+            return 0;
         }
     }
 }

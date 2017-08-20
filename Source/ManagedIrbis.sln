@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedIrbis", "Classic\Libs\ManagedIrbis\ManagedIrbis.csproj", "{727C0B37-1E31-49BB-927A-A93DAC558C52}"
 EndProject
@@ -212,6 +212,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagazineRating", "Classic\Apps\MagazineRating\MagazineRating.csproj", "{E0828CE9-EA36-4481-B81D-24EDA920D70A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativeSearchTester", "Classic\Apps\NativeSearchTester\NativeSearchTester.csproj", "{3B050998-F495-43CB-9946-AB8392AAEB7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsgBox", "Classic\Apps\MsgBox\MsgBox.csproj", "{E38F7F15-A509-42DF-BE00-C559A1D8250C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1037,6 +1039,14 @@ Global
 		{3B050998-F495-43CB-9946-AB8392AAEB7E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3B050998-F495-43CB-9946-AB8392AAEB7E}.Release|x86.ActiveCfg = Release|Any CPU
 		{3B050998-F495-43CB-9946-AB8392AAEB7E}.Release|x86.Build.0 = Release|Any CPU
+		{E38F7F15-A509-42DF-BE00-C559A1D8250C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E38F7F15-A509-42DF-BE00-C559A1D8250C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E38F7F15-A509-42DF-BE00-C559A1D8250C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E38F7F15-A509-42DF-BE00-C559A1D8250C}.Debug|x86.Build.0 = Debug|Any CPU
+		{E38F7F15-A509-42DF-BE00-C559A1D8250C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E38F7F15-A509-42DF-BE00-C559A1D8250C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E38F7F15-A509-42DF-BE00-C559A1D8250C}.Release|x86.ActiveCfg = Release|Any CPU
+		{E38F7F15-A509-42DF-BE00-C559A1D8250C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1142,5 +1152,9 @@ Global
 		{05AA8BDC-B432-4FCF-8191-7372CE76BA63} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{E0828CE9-EA36-4481-B81D-24EDA920D70A} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{3B050998-F495-43CB-9946-AB8392AAEB7E} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{E38F7F15-A509-42DF-BE00-C559A1D8250C} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9210D671-3170-4F79-9CE3-2FE2B1208056}
 	EndGlobalSection
 EndGlobal
