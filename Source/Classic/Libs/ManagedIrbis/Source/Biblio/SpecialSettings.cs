@@ -148,6 +148,23 @@ namespace ManagedIrbis.Biblio
 
         #region Public methods
 
+        /// <summary>
+        /// Get setting with specified name.
+        /// </summary>
+        [CanBeNull]
+        public string GetSetting
+            (
+                [NotNull] string name
+            )
+        {
+            Code.NotNull(name, "name");
+
+            string result;
+            Dictionary.TryGetValue(name, out result);
+
+            return result;
+        }
+
         #endregion
 
         #region Object members

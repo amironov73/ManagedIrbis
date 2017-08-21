@@ -158,14 +158,31 @@ namespace ManagedIrbis.Biblio
             record.Fields.Add(new RecordField(2, value));
             string title = formatter.FormatRecord(record);
 
-            MenuSubChapter result = new MenuSubChapter
+            string className = null;
+            if (!ReferenceEquals(settings, null))
             {
-                Key = key,
-                MainChapter = this,
-                Title = title,
-                Value = value,
-                SpecialSettings = settings
-            };
+                className = settings.GetSetting("type");
+            }
+
+            MenuSubChapter result;
+            if (string.IsNullOrEmpty(className))
+            {
+                result = new MenuSubChapter();
+            }
+            else
+            {
+                if (!className.Contains("."))
+                {
+                    className = "ManagedIrbis.Biblio." + className;
+                }
+                Type type = Type.GetType(className, true);
+                result = (MenuSubChapter) Activator.CreateInstance(type);
+            }
+            result.Key = key;
+            result.MainChapter = this;
+            result.Title = title;
+            result.Value = value;
+            result.SpecialSettings = settings;
 
             foreach (IrbisTreeFile.Item child in item.Children)
             {

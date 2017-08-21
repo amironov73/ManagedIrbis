@@ -173,6 +173,15 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithText.cs">
       <Link>Source\Biblio\Chapters\ChapterWithText.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\GroupingSubChapter.cs">
+      <Link>Source\Biblio\Chapters\GroupingSubChapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\MenuChapter.cs">
+      <Link>Source\Biblio\Chapters\MenuChapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\MenuSubChapter.cs">
+      <Link>Source\Biblio\Chapters\MenuSubChapter.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\BiblioDictionary.cs">
       <Link>Source\Biblio\Dictionaries\BiblioDictionary.cs</Link>
     </Compile>
@@ -187,6 +196,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\RecordCollection.cs">
       <Link>Source\Biblio\RecordCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\SpecialSettings.cs">
+      <Link>Source\Biblio\SpecialSettings.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\TermComparer.cs">
       <Link>Source\Biblio\TermComparer.cs</Link>

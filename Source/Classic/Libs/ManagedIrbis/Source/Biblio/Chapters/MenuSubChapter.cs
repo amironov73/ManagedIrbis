@@ -177,8 +177,6 @@ namespace ManagedIrbis.Biblio
         [NotNull]
         protected virtual string GetDescriptionFormat()
         {
-            string result;
-
             BiblioChapter chapter = this;
             while (!ReferenceEquals(chapter, null))
             {
@@ -189,6 +187,8 @@ namespace ManagedIrbis.Biblio
                     if (!ReferenceEquals(settings, null))
                     {
                         StringDictionary dictionary = settings.Dictionary;
+
+                        string result;
                         if (dictionary.TryGetValue("format", out result))
                         {
                             return result;
@@ -335,35 +335,35 @@ namespace ManagedIrbis.Biblio
             log.WriteLine("End build items {0}", this);
         }
 
-        /// <inheritdoc cref="BiblioChapter.GatherRecords" />
-        public override void GatherRecords
-            (
-                BiblioContext context
-            )
-        {
-            Code.NotNull(context, "context");
+        ///// <inheritdoc cref="BiblioChapter.GatherRecords" />
+        //public override void GatherRecords
+        //    (
+        //        BiblioContext context
+        //    )
+        //{
+        //    Code.NotNull(context, "context");
 
-            AbstractOutput log = context.Log;
-            log.WriteLine("Begin gather records {0}", this);
+        //    AbstractOutput log = context.Log;
+        //    log.WriteLine("Begin gather records {0}", this);
 
-            try
-            {
-                IrbisProvider provider = context.Provider;
-                MenuChapter mainChapter = MainChapter.ThrowIfNull();
+        //    try
+        //    {
+        //        IrbisProvider provider = context.Provider;
+        //        MenuChapter mainChapter = MainChapter.ThrowIfNull();
 
-                // What to do?
+        //        // What to do?
 
-            }
-            catch (Exception exception)
-            {
-                log.WriteLine("Exception: {0}", exception);
-                throw;
-            }
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        log.WriteLine("Exception: {0}", exception);
+        //        throw;
+        //    }
 
-            log.WriteLine("Record count: {0}", Records.Count);
+        //    log.WriteLine("Record count: {0}", Records.Count);
 
-            log.WriteLine("End gather records {0}", this);
-        }
+        //    log.WriteLine("End gather records {0}", this);
+        //}
 
         /// <inheritdoc cref="BiblioChapter.Render" />
         public override void Render
