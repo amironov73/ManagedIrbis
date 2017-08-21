@@ -205,6 +205,64 @@ namespace ManagedIrbis.Biblio
                 .ThrowIfNull("MainChapter.Format");
         }
 
+        /// <summary>
+        /// Render duplicates.
+        /// </summary>
+        protected void RenderDuplicates
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            AbstractOutput log = context.Log;
+            BiblioProcessor processor = context.Processor
+                .ThrowIfNull("context.Processor");
+            IrbisReport report = processor.Report
+                .ThrowIfNull("processor.Report");
+
+            if (Duplicates.Count != 0)
+            {
+                List<BiblioItem> items
+                    = new List<BiblioItem>(Duplicates.Count);
+                foreach (MarcRecord dublicate in Duplicates)
+                {
+                    BiblioItem item = _FindItem(dublicate);
+                    if (!ReferenceEquals(item, null))
+                    {
+                        items.Add(item);
+                    }
+                    else
+                    {
+                        log.WriteLine
+                            (
+                                "Проблема с дубликатом MFN="
+                                + dublicate.Mfn
+                            );
+                    }
+                }
+                items = items
+                    .OrderBy(x => x.Number)
+                    .Distinct()
+                    .ToList();
+
+                StringBuilder builder = new StringBuilder();
+                builder.Append("См. также: {\\i ");
+                bool first = true;
+                foreach (BiblioItem item in items)
+                {
+                    if (!first)
+                    {
+                        builder.Append(", ");
+                    }
+                    builder.Append(item.Number.ToInvariantString());
+                    first = false;
+                }
+                builder.Append('}');
+
+                report.Body.Add(new ParagraphBand());
+                report.Body.Add(new ParagraphBand(builder.ToString()));
+            }
+        }
+
         #endregion
 
         #region Public methods
@@ -335,36 +393,6 @@ namespace ManagedIrbis.Biblio
             log.WriteLine("End build items {0}", this);
         }
 
-        ///// <inheritdoc cref="BiblioChapter.GatherRecords" />
-        //public override void GatherRecords
-        //    (
-        //        BiblioContext context
-        //    )
-        //{
-        //    Code.NotNull(context, "context");
-
-        //    AbstractOutput log = context.Log;
-        //    log.WriteLine("Begin gather records {0}", this);
-
-        //    try
-        //    {
-        //        IrbisProvider provider = context.Provider;
-        //        MenuChapter mainChapter = MainChapter.ThrowIfNull();
-
-        //        // What to do?
-
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        log.WriteLine("Exception: {0}", exception);
-        //        throw;
-        //    }
-
-        //    log.WriteLine("Record count: {0}", Records.Count);
-
-        //    log.WriteLine("End gather records {0}", this);
-        //}
-
         /// <inheritdoc cref="BiblioChapter.Render" />
         public override void Render
             (
@@ -405,50 +433,9 @@ namespace ManagedIrbis.Biblio
 
                 log.WriteLine(" done");
 
-                if (Duplicates.Count != 0)
-                {
-                    List<BiblioItem> items
-                        = new List<BiblioItem>(Duplicates.Count);
-                    foreach (MarcRecord dublicate in Duplicates)
-                    {
-                        BiblioItem item = _FindItem(dublicate);
-                        if (!ReferenceEquals(item, null))
-                        {
-                            items.Add(item);
-                        }
-                        else
-                        {
-                            log.WriteLine
-                                (
-                                    "Проблема с дубликатом MFN="
-                                    + dublicate.Mfn
-                                );
-                        }
-                    }
-                    items = items
-                        .OrderBy(x => x.Number)
-                        .Distinct()
-                        .ToList();
-                    // items.Sort((x, y) => x.Number - y.Number);
-
-                    StringBuilder builder = new StringBuilder();
-                    builder.Append("См. также: {\\i ");
-                    bool first = true;
-                    foreach (BiblioItem item in items)
-                    {
-                        if (!first)
-                        {
-                            builder.Append(", ");
-                        }
-                        builder.Append(item.Number.ToInvariantString());
-                        first = false;
-                    }
-                    builder.Append('}');
-
-                    report.Body.Add(new ParagraphBand());
-                    report.Body.Add(new ParagraphBand(builder.ToString()));
-                }
             }
+
+            RenderDuplicates(context);
 
             RenderChildren(context);
 

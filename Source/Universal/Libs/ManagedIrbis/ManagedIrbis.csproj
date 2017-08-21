@@ -173,6 +173,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithText.cs">
       <Link>Source\Biblio\Chapters\ChapterWithText.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\CumulatingSubChapter.cs">
+      <Link>Source\Biblio\Chapters\CumulatingSubChapter.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\GroupingSubChapter.cs">
       <Link>Source\Biblio\Chapters\GroupingSubChapter.cs</Link>
     </Compile>

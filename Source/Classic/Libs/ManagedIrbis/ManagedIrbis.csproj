@@ -143,6 +143,7 @@
     <Compile Include="Source\Biblio\BiblioUtility.cs" />
     <Compile Include="Source\Biblio\Chapters\ChapterWithErrors.cs" />
     <Compile Include="Source\Biblio\Chapters\ChapterWithStatistics.cs" />
+    <Compile Include="Source\Biblio\Chapters\CumulatingSubChapter.cs" />
     <Compile Include="Source\Biblio\Chapters\GroupingSubChapter.cs" />
     <Compile Include="Source\Biblio\Chapters\MenuChapter.cs" />
     <Compile Include="Source\Biblio\Chapters\MenuSubChapter.cs" />

@@ -31,6 +31,8 @@ using ManagedIrbis.Client;
 
 using MoonSharp.Interpreter;
 
+using Newtonsoft.Json;
+
 #endregion
 
 namespace ManagedIrbis.Biblio
@@ -71,6 +73,7 @@ namespace ManagedIrbis.Biblio
         /// <summary>
         /// 
         /// </summary>
+        [CanBeNull]
         public string Order { get; set; }
 
         /// <summary>
@@ -78,6 +81,13 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         [NotNull]
         public NonNullCollection<BiblioTerm> Terms { get; private set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [JsonIgnore]
+        public object UserData { get; set; }
 
         #endregion
 

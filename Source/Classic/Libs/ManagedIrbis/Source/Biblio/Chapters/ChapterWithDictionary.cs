@@ -144,8 +144,13 @@ namespace ManagedIrbis.Biblio
                         BiblioItem item = items[i];
                         MarcRecord record = item.Record
                             .ThrowIfNull("item.Record");
+                        int mfn = record.Mfn;
+                        if (mfn <= 0)
+                        {
+                            continue;
+                        }
                         string formatted = formatter
-                            .FormatRecord(record.Mfn);
+                            .FormatRecord(mfn);
                         if (!string.IsNullOrEmpty(formatted))
                         {
                             string[] lines = formatted

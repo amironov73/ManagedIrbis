@@ -36,10 +36,12 @@ using MoonSharp.Interpreter;
 
 #endregion
 
+// ReSharper disable ForCanBeConvertedToForeach
+
 namespace ManagedIrbis.Biblio
 {
     /// <summary>
-    /// 
+    /// Группировка документов, например, в авторские комплексы.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -61,6 +63,11 @@ namespace ManagedIrbis.Biblio
             /// </summary>
             [CanBeNull]
             public string Name { get; set; }
+
+            /// <summary>
+            /// Group for "other" records.
+            /// </summary>
+            public bool OtherGroup { get; set; }
 
             #endregion
         }
@@ -93,11 +100,44 @@ namespace ManagedIrbis.Biblio
 
         private static char[] _lineDelimiters = { '\r', '\n' };
 
-        private static void _OrderGroup
+        private void _OrderGroup
             (
+                [NotNull] BiblioContext context,
                 [NotNull] BookGroup bookGroup
             )
         {
+            if (!bookGroup.OtherGroup)
+            {
+                SpecialSettings settings = SpecialSettings;
+                if (ReferenceEquals(settings, null))
+                {
+                    return;
+                }
+                string orderFormat = settings.GetSetting("groupedOrder");
+                if (string.IsNullOrEmpty(orderFormat))
+                {
+                    return;
+                }
+
+                BiblioProcessor processor = context.Processor
+                    .ThrowIfNull("context.Processor");
+                using (IPftFormatter formatter
+                    = processor.AcquireFormatter(context))
+                {
+                    orderFormat = processor.GetText(context, orderFormat)
+                        .ThrowIfNull("orderFormat");
+                    formatter.ParseProgram(orderFormat);
+
+                    foreach (BiblioItem item in bookGroup)
+                    {
+                        MarcRecord record = item.Record
+                            .ThrowIfNull("item.Record");
+                        string order = formatter.FormatRecord(record.Mfn);
+                        item.Order = order;
+                    }
+                }
+            }
+
             BiblioItem[] items = bookGroup
                 .OrderBy(item => item.Order)
                 .ToArray();
@@ -156,7 +196,8 @@ namespace ManagedIrbis.Biblio
             string otherName = settings.GetSetting("others");
             BookGroup others = new BookGroup
             {
-                Name = otherName
+                Name = otherName,
+                OtherGroup = true
             };
 
             BiblioProcessor processor = context.Processor
@@ -218,9 +259,9 @@ namespace ManagedIrbis.Biblio
             Groups = Groups.OrderBy(x => x.Name).ToList();
             foreach (BookGroup bookGroup in Groups)
             {
-                _OrderGroup(bookGroup);
+                _OrderGroup(context, bookGroup);
             }
-            _OrderGroup(others);
+            _OrderGroup(context, others);
             Groups.Add(others);
 
             log.WriteLine("End grouping {0}", this);
@@ -243,6 +284,7 @@ namespace ManagedIrbis.Biblio
                 .ThrowIfNull("processor.Report");
 
             RenderTitle(context);
+
             foreach (BookGroup bookGroup in Groups)
             {
                 string name = bookGroup.Name;
@@ -275,6 +317,8 @@ namespace ManagedIrbis.Biblio
                 }
                 log.WriteLine(" done");
             }
+
+            RenderDuplicates(context);
 
             log.WriteLine("End render {0}", this);
         }

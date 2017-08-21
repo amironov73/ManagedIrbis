@@ -90,6 +90,15 @@
           "name": "1",
           "format": "*rasputin_section1.pft"
         },
+        {
+          // Кумулирующая группа
+          // Собрания сочинений
+          "name": "1. 1. 1",
+          "type": "CumulatingSubChapter",
+          "general": "*rasputin_section111.pft",
+          "format": "*rasputin_specification.pft",
+          "order": "*order_years.pft"
+        },
         //{
         //  // Группа с авторскими комплексами
         //  "name": "2. 8",
@@ -104,7 +113,8 @@
           "type": "GroupingSubChapter",
           "groupBy": "*authors.pft",
           "values": "Байбородин А. Г.;Баранов Ю. И.;Барышников В. В.;Брюханенко Э.;Бурчевская С.;Горбунов А. К.;Гордиевских А.;Гурулев А. С.;Заступова Л.;Китайский С. Б.;Козлов В. В.;Лаптев А. К.;Никифорова В.;",
-          "others": "Прочие авторы"
+          "others": "Прочие авторы",
+          "groupedOrder": "*order_years.pft"
         }
       ],
       "attr": {
