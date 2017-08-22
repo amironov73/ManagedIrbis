@@ -1,1 +1,1 @@
-﻿{\rtf1\ansi\ansicpg1251\deff0\deflang1049{\fonttbl{\f0\froman\fcharset204 Times New Roman;}{\f1\fswiss\fcharset204 Arial;}}{\stylesheet{\s0\f0\fs24\snext0 Normal;}{\s1\f1\fs40\b\snext0 Heading;}}\viewkind4\uc1\pard\f0\fs16
+﻿{\rtf1\ansi\ansicpg1251\deff0\deflang1049{\fonttbl{\f0\froman\fcharset204 Times New Roman;}{\f1\fswiss\fcharset204 Arial;}}{\stylesheet{\s0\f0\fs24\snext0 Normal;}{\s1\f1\fs40\b\snext0 Heading;}}\viewkind4\uc1\pard\f0\fs16\widowctrl

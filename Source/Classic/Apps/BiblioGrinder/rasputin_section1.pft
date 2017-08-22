@@ -1,6 +1,6 @@
 mhl,
 'MFN ',f(mfn,0,0), ' ',
-if s(v982^s,v982^k)<>'' then v903' '&unifor("kstr.mnu|"v982^s),", "d982^k,&unifor('Av982^k#1')," "d982^i,&unifor('Av982^i#1'),". "d982^k,'\par ',fi,
+if s(v982^s,v982^k)<>'' then v903' '&unifor("kstr.mnu|"v982^s),", "d982^k,&unifor('Av982^k#1')," "d982^i,&unifor('Av982^i#1'),". "d982^k,'\par\keep ',fi,
 
 if p(v461)then 
    '\b '&unifor('E3'v461^c),'\b0  ',
@@ -13,7 +13,7 @@ if p(v461)then
    if s(v982^1,v982^4,v982^5)<>''then'. - 'v982^1|; |,|น ระ |v982^4,|; ศํโ.น |v982^5 fi,
    if v10^a:v461^i or s(v10^a)=''then else". - ISBN "v461^i fi,". - ISSN "v461^j,
 fi,
-"\par \pard \b "d461,
+"\par\pard\keep\b "d461,
 "\b "v200^v"\b0 ",
 if p(v200^v) and p(v200^a) then' : 'fi,
 

@@ -1,11 +1,11 @@
 mhl,
 'MFN ',f(mfn,0,0), ' ',
-if s(v982^s,v982^k)<>'' then v903' '&unifor("kstr.mnu|"v982^s),", "d982^k,&unifor('Av982^k#1')," "d982^i,&unifor('Av982^i#1'),". "d982^k,'\par ',fi,
-v461^x,
+if s(v982^s,v982^k)<>'' then v903' '&unifor("kstr.mnu|"v982^s),", "d982^k,&unifor('Av982^k#1')," "d982^i,&unifor('Av982^i#1'),". "d982^k,'\par\keep ',fi,
+"\keep\keepn "v461^x,
 v461^b,
 if v461^x:','or p(v461^b) then'.'fi,'\b0 ',
 if p(v461)then 
-   if s(v461^x,v461^b)<>''then'\par \pard ',v461^c
+   if s(v461^x,v461^b)<>''then'\par\pard\keep ',v461^c
    else '\b '&unifor('E3'v461^c),'\b0  ',
       if &unifor('F3'v461^c)<>''then' '&unifor('F3'v461^c) fi 
    fi,
@@ -17,7 +17,7 @@ if p(v461)then
    if s(v982^1,v982^4,v982^5)<>''then'. - 'v982^1|; |,|น ระ |v982^4,|; ศํโ.น |v982^5 fi,
    if v10^a:v461^i or s(v10^a)=''then else". - ISBN "v461^i fi,". - ISSN "v461^j,
 fi,
-"\par \pard \b "d461,
+"\par\pard\keep \b "d461,
 "\b "v200^v"\b0 ",
 if p(v200^v) and p(v200^a) then' : 'fi,
 if p(v200^a) then'\b 'v700^a," "v700^d,", "v700^g".",if a(v700^g)then", "v700^b fi'\b0 ',

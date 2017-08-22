@@ -1811,15 +1811,29 @@ namespace IrbisInterop
         {
             using (new BusyGuard(Busy))
             {
+                int retryCount = 30;
+
                 IntPtr space = Space;
                 int shelf = Shelf;
 
-                int retCode = Irbis65Dll.IrbisRecUpdate0
+AGAIN1:         int retCode = Irbis65Dll.IrbisRecUpdate0
                     (
                         space,
                         shelf,
                         Convert.ToInt32(keepLock)
                     );
+                if (retCode == -300
+                    || retCode == -301
+                    || retCode == -602
+                   )
+                {
+                    if (retryCount > 0)
+                    {
+                        retryCount--;
+                        ThreadUtility.Sleep(1000);
+                        goto AGAIN1;
+                    }
+                }
                 _HandleRetCode("IrbisRecUpdate0", retCode);
 
                 if (invUpdate)
@@ -1831,12 +1845,24 @@ namespace IrbisInterop
                         );
                     _HandleRetCode("IrbisMfn", mfn);
 
-                    retCode = Irbis65Dll.IrbisRecIfUpdate0
+                    retryCount = 30;
+AGAIN2:             retCode = Irbis65Dll.IrbisRecIfUpdate0
                         (
                             space,
                             shelf,
                             mfn
                         );
+                    if (retCode == -300
+                        || retCode == -301
+                       )
+                    {
+                        if (retryCount > 0)
+                        {
+                            retryCount--;
+                            ThreadUtility.Sleep(1000);
+                            goto AGAIN2;
+                        }
+                    }
                     _HandleRetCode("IrbisRecIfUpdate0", retCode);
                 }
             }

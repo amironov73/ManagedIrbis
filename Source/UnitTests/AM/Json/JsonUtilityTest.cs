@@ -33,10 +33,10 @@ namespace UnitTests.AM.Json
         public void JsonUtility_Include_2()
         {
             string mainFilePath = Path.Combine
-            (
-                TestDataPath,
-                "mainFile2.json"
-            );
+                (
+                    TestDataPath,
+                    "mainFile2.json"
+                );
             mainFilePath = Path.GetFullPath(mainFilePath);
             JObject mainObject = JsonUtility.ReadObjectFromFile(mainFilePath);
             JsonUtility.Include(mainObject);
