@@ -10,7 +10,7 @@
 #region Using directives
 
 using System;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -102,6 +102,25 @@ namespace ManagedIrbis.Client
 
             string result = Connection.FormatRecord(Source, mfn)
                 ?? string.Empty;
+
+            return result;
+        }
+
+        /// <inheritdoc cref="IPftFormatter.FormatRecords" />
+        public string[] FormatRecords
+            (
+                int[] mfns
+            )
+        {
+            Code.NotNull(mfns, "mfns");
+
+            string source = Source.ThrowIfNull("Source");
+            string[] result = Connection.FormatRecords
+                (
+                    Connection.Database,
+                    source,
+                    mfns
+                );
 
             return result;
         }

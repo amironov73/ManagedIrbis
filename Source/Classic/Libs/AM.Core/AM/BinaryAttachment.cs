@@ -17,6 +17,8 @@ using MoonSharp.Interpreter;
 
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
+
 namespace AM
 {
     /// <summary>
@@ -65,12 +67,8 @@ namespace AM
             Code.NotNullNorEmpty(name, "name");
             Code.NotNull(content, "content");
 
-            // ReSharper disable VirtualMemberCallInConstructor
-
             Name = name;
             Content = content;
-
-            // ReSharper restore VirtualMemberCallInConstructor
         }
 
         #endregion
@@ -81,7 +79,7 @@ namespace AM
 
         #region Public methods
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             string result = string.Format

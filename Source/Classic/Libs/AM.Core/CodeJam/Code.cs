@@ -406,6 +406,7 @@ namespace CodeJam
         #endregion
 
         #region Argument validation
+
         /// <summary>
         /// Ensures that <paramref name="arg" /> != <c>null</c>
         /// </summary>
@@ -436,7 +437,8 @@ namespace CodeJam
         public static void NotNull<T>
             (
                 [CanBeNull] T? arg,
-                [NotNull, InvokerParameterName] string argName)
+                [NotNull, InvokerParameterName] string argName
+            )
             where T : struct
         {
             if (arg == null)
@@ -731,6 +733,7 @@ namespace CodeJam
                 throw CodeExceptions.InvalidOperation(messageFormat, args);
             }
         }
+
         #endregion
     }
 }

@@ -13,9 +13,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Text.RegularExpressions;
 using AM;
 using AM.Collections;
+using AM.Text;
 using AM.Text.Output;
 
 using CodeJam;
@@ -115,6 +116,61 @@ namespace ManagedIrbis.Biblio
         #endregion
 
         #region Private members
+
+        private static char[] _delimiters = { '.', '!', '?', ')', ':', '}' };
+
+        private static Regex _commandRegex = new Regex(@"\\[a-z]\d+$");
+
+        [NotNull]
+        private static string _AddDot
+            (
+                [NotNull] string text
+            )
+        {
+            StringBuilder result = new StringBuilder(text.Length + 10);
+            TextNavigator navigator = new TextNavigator(text);
+            while (!navigator.IsEOF)
+            {
+                string line = navigator.ReadTo("\\par");
+                if (ReferenceEquals(line, null))
+                {
+                    break;
+                }
+
+                string recent = navigator.RecentText(4);
+                bool par = false;
+                if (recent == "\\par")
+                {
+                    if (navigator.PeekChar() == 'd')
+                    {
+                        result.Append(line);
+                        result.Append("\\par");
+                        result.Append(navigator.ReadChar());
+                        continue;
+                    }
+                    par = true;
+                }
+
+                line = line.TrimEnd();
+                result.Append(line);
+                if (!string.IsNullOrEmpty(line))
+                {
+                    char lastChar = line.LastChar();
+                    if (!lastChar.OneOf(_delimiters)
+                        && !_commandRegex.IsMatch(line))
+                    {
+                        result.Append('.');
+                    }
+                }
+
+                if (par)
+                {
+                    result.Append("\\par");
+                }
+            }
+
+            return result.ToString();
+        }
 
         [CanBeNull]
         private BiblioItem _FindItem
@@ -306,6 +362,9 @@ namespace ManagedIrbis.Biblio
                             .ThrowIfNull("processor.GetText");
                         formatter.ParseProgram(descriptionFormat);
 
+                        int[] mfns = Records.Select(r => r.Mfn).ToArray();
+                        string[] formatted = formatter.FormatRecords(mfns);
+
                         for (int i = 0; i < Records.Count; i++)
                         {
                             log.Write(".");
@@ -313,10 +372,14 @@ namespace ManagedIrbis.Biblio
                             //string description = 
                             //    "MFN " + record.Mfn + " "
                             //    + formatter.FormatRecord(record);
-                            string description
-                                = formatter.FormatRecord(record.Mfn);
+                            //string description
+                            //    = formatter.FormatRecord(record.Mfn);
+                            string description = formatted[i]
+                                .TrimEnd('\u001F');
 
                             // TODO handle string.IsNullOrEmpty(description)
+
+                            description = _AddDot(description);
 
                             BiblioItem item = new BiblioItem
                             {
@@ -342,14 +405,18 @@ namespace ManagedIrbis.Biblio
                             .ThrowIfNull("processor.GetText");
                         formatter.ParseProgram(orderFormat);
 
+                        int[] mfns = Records.Select(r => r.Mfn).ToArray();
+                        string[] formatted = formatter.FormatRecords(mfns);
+
                         for (int i = 0; i < Items.Count; i++)
                         {
                             log.Write(".");
                             BiblioItem item = Items[i];
-                            record = item.Record
-                                .ThrowIfNull("item.Record");
-                            string order
-                                = formatter.FormatRecord(record.Mfn);
+                            //record = item.Record
+                            //    .ThrowIfNull("item.Record");
+                            //string order
+                            //    = formatter.FormatRecord(record.Mfn);
+                            string order = formatted[i].TrimEnd('\u001F');
 
                             // TODO handle string.IsNullOrEmpty(order)
 

@@ -92,6 +92,24 @@ namespace IrbisInterop
             return result;
         }
 
+        /// <inheritdoc cref="IPftFormatter.FormatRecords" />
+        public string[] FormatRecords
+            (
+                int[] mfns
+            )
+        {
+            Code.NotNull(mfns, "mfns");
+
+            string[] result = new string[mfns.Length];
+            Irbis64Dll irbis = Provider.Irbis64;
+            for (int i = 0; i < mfns.Length; i++)
+            {
+                result[i] = irbis.FormatRecord(mfns[i]);
+            }
+
+            return result;
+        }
+
         /// <inheritdoc cref="IPftFormatter.ParseProgram" />
         public void ParseProgram
             (

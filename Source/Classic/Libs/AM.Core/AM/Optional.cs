@@ -155,6 +155,22 @@ namespace AM
             return _value.GetHashCode();
         }
 
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            if (!HasValue)
+            {
+                return "(null)";
+            }
+
+            if (ReferenceEquals(Value, null))
+            {
+                return "(null)";
+            }
+
+            return Value.ToString();
+        }
+
         #endregion
     }
 }

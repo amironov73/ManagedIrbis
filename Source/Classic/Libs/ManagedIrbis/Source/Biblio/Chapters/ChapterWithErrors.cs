@@ -28,6 +28,7 @@ using AM.Text.Output;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft;
 using ManagedIrbis.Reports;
 
@@ -106,7 +107,7 @@ namespace ManagedIrbis.Biblio
                         log.Write(".");
                         string description =
                             "MFN " + record.Mfn + " "
-                            + formatter.FormatRecord(record);
+                            + formatter.FormatRecord(record.Mfn);
                         ParagraphBand band 
                             = new ParagraphBand(description);
                         report.Body.Add(band);
@@ -120,7 +121,6 @@ namespace ManagedIrbis.Biblio
             }
 
             RenderChildren(context);
-
 
             log.WriteLine("End render {0}", this);
         }

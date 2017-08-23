@@ -248,6 +248,10 @@ namespace IrbisInterop
                         break;
 
                     case "provider": // pass through
+                    case "assembly":
+                    case "assemblies":
+                    case "register":
+                    case "type":
                         break;
 
                     default:

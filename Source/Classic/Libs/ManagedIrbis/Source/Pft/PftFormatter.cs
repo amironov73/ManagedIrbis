@@ -183,6 +183,24 @@ namespace ManagedIrbis.Pft
             return result;
         }
 
+        /// <inheritdoc cref="IPftFormatter.FormatRecords" />
+        public string[] FormatRecords
+            (
+                int[] mfns
+            )
+        {
+            Code.NotNull(mfns, "mfns");
+
+            string[] result = new string[mfns.Length];
+            for (int i = 0; i < mfns.Length; i++)
+            {
+                MarcRecord record = Context.Provider.ReadRecord(mfns[i]);
+                result[i] = FormatRecord(record);
+            }
+
+            return result;
+        }
+
         /// <inheritdoc cref="IPftFormatter.ParseProgram" />
         public virtual void ParseProgram
             (

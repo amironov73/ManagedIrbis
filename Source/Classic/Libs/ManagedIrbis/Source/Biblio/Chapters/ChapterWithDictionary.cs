@@ -110,7 +110,7 @@ namespace ManagedIrbis.Biblio
 
         private static char[] _charactersToTrim = { '[', ']' };
 
-        private static char[] _lineDelimiters = { '\r', '\n' };
+        private static char[] _lineDelimiters = { '\r', '\n', '\u001F' };
 
         private void _ChapterToTerms
             (
@@ -128,6 +128,18 @@ namespace ManagedIrbis.Biblio
             {
                 log.WriteLine("Gather terms from chapter {0}", chapter);
 
+                int[] mfns = items.Select(i => i.Record.Mfn)
+                    .Where(mfn => mfn > 0)
+                    .ToArray();
+                if (mfns.Length == 0)
+                {
+                    goto DONE;
+                }
+                if (mfns.Length != items.Count)
+                {
+                    throw new IrbisException();
+                }
+
                 int termCount = 0;
                 using (IPftFormatter formatter
                     = processor.AcquireFormatter(context))
@@ -138,22 +150,24 @@ namespace ManagedIrbis.Biblio
                         .ThrowIfNull("SelectClause");
                     formatter.ParseProgram(format);
 
+                    string[] formatted = formatter.FormatRecords(mfns);
+
                     for (int i = 0; i < items.Count; i++)
                     {
-                        log.Write(".");
-                        BiblioItem item = items[i];
-                        MarcRecord record = item.Record
-                            .ThrowIfNull("item.Record");
-                        int mfn = record.Mfn;
-                        if (mfn <= 0)
+                        //log.Write(".");
+                        //BiblioItem item = items[i];
+                        //MarcRecord record = item.Record
+                        //    .ThrowIfNull("item.Record");
+                        //int mfn = record.Mfn;
+                        //if (mfn <= 0)
+                        //{
+                        //    continue;
+                        //}
+                        //string formatted = formatter
+                        //    .FormatRecord(mfn);
+                        if (!string.IsNullOrEmpty(formatted[i]))
                         {
-                            continue;
-                        }
-                        string formatted = formatter
-                            .FormatRecord(mfn);
-                        if (!string.IsNullOrEmpty(formatted))
-                        {
-                            string[] lines = formatted
+                            string[] lines = formatted[i]
                                 .Split(_lineDelimiters)
                                 .TrimLines()
                                 .TrimLines(_charactersToTrim)
@@ -168,7 +182,7 @@ namespace ManagedIrbis.Biblio
                                     {
                                         Title = line,
                                         Dictionary = Terms,
-                                        Item = item
+                                        Item = items[i]
                                     };
                                     Terms.Add(term);
                                     termCount++;
@@ -181,6 +195,8 @@ namespace ManagedIrbis.Biblio
                 log.WriteLine(" done");
                 log.WriteLine("Term count: {0}", termCount);
             }
+
+            DONE:
 
             foreach (BiblioChapter child in chapter.Children)
             {
@@ -196,7 +212,7 @@ namespace ManagedIrbis.Biblio
 
         #region BiblioChapter members
 
-        /// <inheritdoc cref="BiblioChapter" />
+        /// <inheritdoc cref="BiblioChapter.BuildDictionary" />
         public override void BuildDictionary
             (
                 BiblioContext context
@@ -210,15 +226,13 @@ namespace ManagedIrbis.Biblio
             foreach (BiblioTerm term in Terms)
             {
                 string title = term.Title.ThrowIfNull("term.Title");
-                BiblioItem item = term.Item.ThrowIfNull("term.Item");
+                BiblioItem item = term.Item;
+                if (ReferenceEquals(item, null))
+                {
+                    continue;
+                }
                 Dictionary.Add(title, item.Number);
             }
-
-            //log.WriteLine(string.Empty);
-            //log.WriteLine(Title);
-            //log.WriteLine(string.Empty);
-            //Dictionary.Dump(log);
-            //log.WriteLine(string.Empty);
 
             log.WriteLine("End build dictionary {0}", this);
         }

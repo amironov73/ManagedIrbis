@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -101,7 +102,7 @@ namespace AM
 
         #region IAttachmentContainer members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IAttachmentContainer.ListAttachments" />
         public BinaryAttachment[] ListAttachments()
         {
             return Attachments.ToArray();
@@ -111,7 +112,7 @@ namespace AM
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             if (Attachments.Count == 0)

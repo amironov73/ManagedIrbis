@@ -142,7 +142,7 @@ fi,
 ,&uf('6opri699'), 
 if val(&unifor('J,I470='v903))>0 then '\par ' &unifor('+I?2,,,,I470='v903'?Есть рецензия / реферат') fi, 
 if p(v330)then 
-   if a(v905^k) then'\par \tab \b Содержание: \b0 ', 
+   if a(v905^k) then'\par \tab {\b Содержание:}', 
       (if p(v330)then'\par \b '
           if a(v330^f) then v330^8|. | fi,
           if p(v330^q) then else 

@@ -1374,6 +1374,33 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Get recent text.
+        /// </summary>
+        [NotNull]
+        public string RecentText
+            (
+                int length
+            )
+        {
+            int start = _position - length;
+            if (start < 0)
+            {
+                length += start;
+                start = 0;
+            }
+            if (start + length > _length)
+            {
+                length = _length - start;
+            }
+
+            return _text.Substring
+                (
+                    start,
+                    length
+                );
+        }
+
+        /// <summary>
         /// Restore previously saved position.
         /// </summary>
         public void RestorePosition

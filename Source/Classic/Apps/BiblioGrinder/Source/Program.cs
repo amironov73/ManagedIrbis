@@ -67,43 +67,45 @@ namespace BiblioGrinder
 
                 NativeIrbisProvider.Register();
 
-                provider = ProviderManager.GetAndConfigureProvider
-                    (
-                        configurationString
-                    );
-                log.WriteLine
-                    (
-                        "Connected to database {0}, max MFN={1}",
-                        provider.Database,
-                        provider.GetMaxMfn()
-                    );
-                document = BiblioDocument.LoadFile(documentPath);
-                context = new BiblioContext(document, provider, log);
+                using (provider = ProviderManager.GetAndConfigureProvider
+                (
+                    configurationString
+                ))
+                {
+                    log.WriteLine
+                        (
+                            "Connected to database {0}, max MFN={1}",
+                            provider.Database,
+                            provider.GetMaxMfn()
+                        );
+                    document = BiblioDocument.LoadFile(documentPath);
+                    context = new BiblioContext(document, provider, log);
 
-                processor = new BiblioProcessor();
-                processor.Initialize(context);
-                processor.BuildDocument(context);
+                    processor = new BiblioProcessor();
+                    processor.Initialize(context);
+                    processor.BuildDocument(context);
 
-                string outputText = processor.Output.Text;
-                File.WriteAllText
-                    (
-                        "output.rtf",
-                        outputText,
-                        IrbisEncoding.Ansi
-                    );
+                    string outputText = processor.Output.Text;
+                    File.WriteAllText
+                        (
+                            "output.rtf",
+                            outputText,
+                            IrbisEncoding.Ansi
+                        );
 
-                stopwatch.Stop();
-                TimeSpan elapsed = stopwatch.Elapsed;
-                log.WriteLine
-                    (
-                        "Elapsed: {0}",
-                        elapsed.ToAutoString()
-                    );
-                log.WriteLine
-                    (
-                        "Finished at: {0}",
-                        DateTime.Now
-                    );
+                    stopwatch.Stop();
+                    TimeSpan elapsed = stopwatch.Elapsed;
+                    log.WriteLine
+                        (
+                            "Elapsed: {0}",
+                            elapsed.ToAutoString()
+                        );
+                    log.WriteLine
+                        (
+                            "Finished at: {0}",
+                            DateTime.Now
+                        );
+                }
             }
             catch (Exception exception)
             {

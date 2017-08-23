@@ -138,7 +138,7 @@ namespace ManagedIrbis.Biblio
 
         #region Private members
 
-        private static char[] _lineDelimiters = { '\r', '\n' };
+        private static char[] _lineDelimiters = { '\r', '\n', '\u001F' };
 
         private MenuSubChapter _CreateChapter
             (
@@ -224,7 +224,8 @@ namespace ManagedIrbis.Biblio
                     = processor.AcquireFormatter(context))
                 {
                     IrbisProvider provider = context.Provider;
-                    RecordCollection records = Records.ThrowIfNull();
+                    RecordCollection records = Records
+                        .ThrowIfNull("Records");
 
                     string searchExpression = SearchExpression
                         .ThrowIfNull("SearchExpression");
@@ -236,13 +237,29 @@ namespace ManagedIrbis.Biblio
                     log.WriteLine("Found: {0} record(s)", found.Length);
 
                     log.Write("Reading records");
+
+                    //for (int i = 0; i < found.Length; i++)
+                    //{
+                    //    log.Write(".");
+                    //    record = provider.ReadRecord(found[i]);
+                    //    records.Add(record);
+                    //    context.Records.Add(record);
+                    //}
+
+                    // Пробуем не загружать записи,
+                    // а предоставить заглушки
+
                     for (int i = 0; i < found.Length; i++)
                     {
                         log.Write(".");
-                        record = provider.ReadRecord(found[i]);
+                        record = new MarcRecord
+                        {
+                            Mfn = found[i]
+                        };
                         records.Add(record);
                         context.Records.Add(record);
                     }
+
                     log.WriteLine(" done");
 
                     Dictionary<string, MenuSubChapter> dictionary
@@ -265,12 +282,21 @@ namespace ManagedIrbis.Biblio
                     formatter.ParseProgram(recordSelector);
                     log.Write("Distributing recors");
 
+                    int[] mfns = records.Select(r => r.Mfn).ToArray();
+                    string[] formatted = formatter.FormatRecords(mfns);
+                    if (formatted.Length != mfns.Length)
+                    {
+                        throw new IrbisException();
+                    }
+
                     for (int i = 0; i < records.Count; i++)
                     {
                         log.Write(".");
 
                         record = records[i];
-                        string key = formatter.FormatRecord(record);
+                        //string key
+                        //    = formatter.FormatRecord(record.Mfn);
+                        string key = formatted[i];
                         if (string.IsNullOrEmpty(key))
                         {
                             badRecords.Add(record);
@@ -437,7 +463,10 @@ namespace ManagedIrbis.Biblio
                 BiblioContext context
             )
         {
-            context.Processor.Report.Body.Add(new NewPageBand());
+            BiblioProcessor processor = context.Processor
+                .ThrowIfNull("context.Processor");
+
+            processor.Report.Body.Add(new NewPageBand());
 
             base.Render(context);
         }
