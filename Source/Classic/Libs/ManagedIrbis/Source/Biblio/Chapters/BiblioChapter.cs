@@ -22,6 +22,7 @@ using AM.Collections;
 using AM.IO;
 using AM.Logging;
 using AM.Runtime;
+using AM.Text;
 using AM.Text.Output;
 
 using CodeJam;
@@ -90,6 +91,14 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         public virtual bool IsServiceChapter { get { return false; } }
 
+        /// <summary>
+        /// Special settings associated with the chapter
+        /// and its children.
+        /// </summary>
+        [NotNull]
+        [JsonProperty("settings")]
+        public SpecialSettings Settings { get; set; }
+
         #endregion
 
         #region Construction
@@ -102,11 +111,43 @@ namespace ManagedIrbis.Biblio
             Active = true;
             Attributes = new ReportAttributes();
             Children = new ChapterCollection(this);
+            Settings = new SpecialSettings();
         }
 
         #endregion
 
         #region Private members
+
+        /// <summary>
+        /// Get property value.
+        /// </summary>
+        [CanBeNull]
+        protected TResult GetProperty<TChapter,TResult>
+            (
+                [NotNull] Func<TChapter,TResult> func
+            )
+            where TChapter: BiblioChapter
+        {
+            Code.NotNull(func, "func");
+
+            BiblioChapter chapter = this;
+            while (!ReferenceEquals(chapter, null))
+            {
+                TChapter subChapter = chapter as TChapter;
+                if (!ReferenceEquals(subChapter, null))
+                {
+                    TResult result = func(subChapter);
+                    if (!ReferenceEquals(result, null))
+                    {
+                        return result;
+                    }
+                }
+
+                chapter = chapter.Parent;
+            }
+
+            return default(TResult);
+        }
 
         /// <summary>
         /// Render children chapters.

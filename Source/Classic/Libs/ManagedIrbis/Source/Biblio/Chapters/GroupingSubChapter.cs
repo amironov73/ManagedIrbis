@@ -108,7 +108,7 @@ namespace ManagedIrbis.Biblio
         {
             if (!bookGroup.OtherGroup)
             {
-                SpecialSettings settings = SpecialSettings;
+                SpecialSettings settings = Settings;
                 if (ReferenceEquals(settings, null))
                 {
                     return;
@@ -163,7 +163,7 @@ namespace ManagedIrbis.Biblio
 
             base.BuildItems(context);
 
-            SpecialSettings settings = SpecialSettings;
+            SpecialSettings settings = Settings;
             if (ReferenceEquals(settings, null))
             {
                 return;

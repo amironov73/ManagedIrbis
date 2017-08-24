@@ -137,7 +137,7 @@ namespace ManagedIrbis.Biblio
 
             base.BuildItems(context);
 
-            SpecialSettings settings = SpecialSettings;
+            SpecialSettings settings = Settings;
             if (ReferenceEquals(settings, null))
             {
                 return;

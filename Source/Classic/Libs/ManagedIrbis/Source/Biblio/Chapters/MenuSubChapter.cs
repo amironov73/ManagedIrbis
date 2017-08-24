@@ -39,7 +39,7 @@ namespace ManagedIrbis.Biblio
     [PublicAPI]
     [MoonSharpUserData]
     public class MenuSubChapter
-        : BiblioChapter
+        : ChapterWithRecords
     {
         #region Properties
 
@@ -60,25 +60,6 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         [CanBeNull]
         public string Value { get; set; }
-
-        /// <summary>
-        /// Records.
-        /// </summary>
-        [NotNull]
-        public RecordCollection Records { get; private set; }
-
-        /// <summary>
-        /// Dublicates.
-        /// </summary>
-        [NotNull]
-        public RecordCollection Duplicates { get; private set; }
-
-        /// <summary>
-        /// Special settings associated with the chapter
-        /// and its children.
-        /// </summary>
-        [CanBeNull]
-        public SpecialSettings SpecialSettings { get; set; }
 
         /// <inheritdoc cref="BiblioChapter.IsServiceChapter" />
         public override bool IsServiceChapter
@@ -104,73 +85,9 @@ namespace ManagedIrbis.Biblio
 
         #region Construction
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public MenuSubChapter()
-        {
-            Records = new RecordCollection();
-            Duplicates = new RecordCollection();
-        }
-
         #endregion
 
         #region Private members
-
-        private static char[] _delimiters = { '.', '!', '?', ')', ':', '}' };
-
-        private static Regex _commandRegex = new Regex(@"\\[a-z]\d+$");
-
-        [NotNull]
-        private static string _AddDot
-            (
-                [NotNull] string text
-            )
-        {
-            StringBuilder result = new StringBuilder(text.Length + 10);
-            TextNavigator navigator = new TextNavigator(text);
-            while (!navigator.IsEOF)
-            {
-                string line = navigator.ReadTo("\\par");
-                if (ReferenceEquals(line, null))
-                {
-                    break;
-                }
-
-                string recent = navigator.RecentText(4);
-                bool par = false;
-                if (recent == "\\par")
-                {
-                    if (navigator.PeekChar() == 'd')
-                    {
-                        result.Append(line);
-                        result.Append("\\par");
-                        result.Append(navigator.ReadChar());
-                        continue;
-                    }
-                    par = true;
-                }
-
-                line = line.TrimEnd();
-                result.Append(line);
-                if (!string.IsNullOrEmpty(line))
-                {
-                    char lastChar = line.LastChar();
-                    if (!lastChar.OneOf(_delimiters)
-                        && !_commandRegex.IsMatch(line))
-                    {
-                        result.Append('.');
-                    }
-                }
-
-                if (par)
-                {
-                    result.Append("\\par");
-                }
-            }
-
-            return result.ToString();
-        }
 
         [CanBeNull]
         private BiblioItem _FindItem
@@ -239,16 +156,12 @@ namespace ManagedIrbis.Biblio
                 MenuSubChapter subChapter = chapter as MenuSubChapter;
                 if (!ReferenceEquals(subChapter, null))
                 {
-                    SpecialSettings settings = subChapter.SpecialSettings;
-                    if (!ReferenceEquals(settings, null))
-                    {
-                        StringDictionary dictionary = settings.Dictionary;
+                    SpecialSettings settings = subChapter.Settings;
 
-                        string result;
-                        if (dictionary.TryGetValue("format", out result))
-                        {
-                            return result;
-                        }
+                    string result = settings.GetSetting("format");
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        return result;
                     }
                 }
 
@@ -379,7 +292,8 @@ namespace ManagedIrbis.Biblio
 
                             // TODO handle string.IsNullOrEmpty(description)
 
-                            description = _AddDot(description);
+                            description
+                                = BiblioUtility.AddTrailingDot(description);
 
                             BiblioItem item = new BiblioItem
                             {

@@ -104,17 +104,17 @@ namespace ManagedIrbis.Biblio
         public string TitleFormat { get; set; }
 
         /// <summary>
-        /// Special settings for some chapters.
-        /// </summary>
-        [NotNull]
-        [JsonProperty("specialSettings")]
-        public List<SpecialSettings> SpecialSettings { get; private set; }
-
-        /// <summary>
         /// Records.
         /// </summary>
         [CanBeNull]
         public RecordCollection Records { get; private set; }
+
+        /// <summary>
+        /// List of settings.
+        /// </summary>
+        [NotNull]
+        [JsonProperty("settingsList")]
+        public List<SpecialSettings> SettingsList { get; private set; }
 
         /// <inheritdoc cref="BiblioChapter.IsServiceChapter" />
         public override bool IsServiceChapter
@@ -131,14 +131,15 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         public MenuChapter()
         {
-            SpecialSettings = new List<SpecialSettings>();
+            SettingsList = new List<SpecialSettings>();
         }
 
         #endregion
 
         #region Private members
 
-        private static char[] _lineDelimiters = { '\r', '\n', '\u001F' };
+        private static char[] _lineDelimiters
+            = { '\r', '\n', '\u001E', '\u001F' };
 
         private MenuSubChapter _CreateChapter
             (
@@ -147,7 +148,7 @@ namespace ManagedIrbis.Biblio
             )
         {
             string key = item.Prefix.Trim();
-            SpecialSettings settings = SpecialSettings.FirstOrDefault
+            SpecialSettings settings = SettingsList.FirstOrDefault
                 (
                     s => s.Name == key
                 );
@@ -182,7 +183,7 @@ namespace ManagedIrbis.Biblio
             result.MainChapter = this;
             result.Title = title;
             result.Value = value;
-            result.SpecialSettings = settings;
+            result.Settings = settings;
 
             foreach (IrbisTreeFile.Item child in item.Children)
             {
