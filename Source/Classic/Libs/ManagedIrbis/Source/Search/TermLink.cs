@@ -108,6 +108,51 @@ namespace ManagedIrbis.Search
         }
 
         /// <summary>
+        /// Convert <see cref="TermPosting"/>
+        /// to <see cref="TermLink"/>.
+        /// </summary>
+        [NotNull]
+        public static TermLink FromPosting
+            (
+                [NotNull] TermPosting posting
+            )
+        {
+            Code.NotNull(posting, "posting");
+
+            TermLink result = new TermLink
+            {
+                Mfn = posting.Mfn,
+                Tag = posting.Tag,
+                Occurrence = posting.Occurrence,
+                Index = posting.Count
+            };
+
+            return result;
+        }
+
+        /// <summary>
+        /// Convert array of <see cref="TermPosting"/>
+        /// to array of <see cref="TermLink"/>.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static TermLink[] FromPostings
+            (
+                [NotNull][ItemNotNull] TermPosting[] postings
+            )
+        {
+            Code.NotNull(postings, "postings");
+
+            TermLink[] result = new TermLink[postings.Length];
+            for (int i = 0; i < postings.Length; i++)
+            {
+                result[i] = FromPosting(postings[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Чтение ссылки из файла.
         /// </summary>
         [NotNull]

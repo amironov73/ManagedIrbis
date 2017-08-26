@@ -47,6 +47,12 @@ namespace ManagedIrbis.Search
         #region Properties
 
         /// <summary>
+        /// Empty array of the <see cref="TermPosting"/>.
+        /// </summary>
+        public static readonly TermPosting[] EmptyArray
+            = new TermPosting[0];
+
+        /// <summary>
         /// MFN записи с искомым термом.
         /// </summary>
         [JsonProperty("mfn")]

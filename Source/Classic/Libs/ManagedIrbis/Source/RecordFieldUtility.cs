@@ -131,6 +131,39 @@ namespace ManagedIrbis
         // ==========================================================
 
         /// <summary>
+        /// Apply subfield value.
+        /// </summary>
+        [NotNull]
+        public static RecordField ApplySubField
+            (
+                [NotNull] this RecordField field,
+                char code,
+                [CanBeNull] string value
+            )
+        {
+            Code.NotNull(field, "field");
+
+            if (string.IsNullOrEmpty(value))
+            {
+                field.RemoveSubField(code);
+            }
+            else
+            {
+                SubField subField = field.GetFirstSubField(code);
+                if (ReferenceEquals(subField, null))
+                {
+                    subField = new SubField(code);
+                    field.SubFields.Add(subField);
+                }
+                subField.Value = value;
+            }
+
+            return field;
+        }
+
+        // ==========================================================
+
+        /// <summary>
         /// Отбор подполей с указанными кодами.
         /// </summary>
         [NotNull]

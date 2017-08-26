@@ -9,22 +9,11 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Logging;
-using AM.Runtime;
-using AM.Text;
 
 using CodeJam;
 
@@ -48,6 +37,13 @@ namespace ManagedIrbis.Fields
     public sealed class AuthorInfo
     {
         #region Properties
+
+        /// <summary>
+        /// Known tags.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static string[] KnownTags { get { return _knownTags; } }
 
         /// <summary>
         /// Фамилия. Подполе a.
@@ -150,6 +146,14 @@ namespace ManagedIrbis.Fields
         [Description("Место работы автора. Подполе p.")]
         public string WorkPlace { get; set; }
 
+        /// <summary>
+        /// Associated field.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public RecordField Field { get; set; }
+
         #endregion
 
         #region Construction
@@ -158,18 +162,73 @@ namespace ManagedIrbis.Fields
 
         #region Private members
 
+        private static string[] _knownTags = { "700", "701", "702", "961" };
+
         #endregion
 
         #region Public methods
 
         /// <summary>
+        /// Apply the <see cref="AuthorInfo"/>
+        /// to the <see cref="RecordField"/>.
+        /// </summary>
+        public void ApplyToField
+            (
+                [NotNull] RecordField field
+            )
+        {
+            Code.NotNull(field, "field");
+
+            field
+                .ApplySubField('a', FamilyName)
+                .ApplySubField('b', Initials)
+                .ApplySubField('g', FullName)
+                .ApplySubField('1', Postfix)
+                .ApplySubField('c', Appendix)
+                .ApplySubField('d', Number)
+                .ApplySubField('f', Dates)
+                .ApplySubField('r', Variant)
+                .ApplySubField('p', WorkPlace);
+        }
+
+        /// <summary>
+        /// Parse the <see cref="MarcRecord"/>.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static AuthorInfo[] ParseRecord
+            (
+                [NotNull] MarcRecord record,
+                [NotNull][ItemNotNull] string[] tags
+            )
+        {
+            Code.NotNull(record, "record");
+            Code.NotNull(tags, "tags");
+
+            List<AuthorInfo> result = new List<AuthorInfo>();
+            foreach (RecordField field in record.Fields)
+            {
+                if (field.Tag.OneOf(tags))
+                {
+                    AuthorInfo author = ParseField700(field);
+                    result.Add(author);
+                }
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
         /// Parse the specified field.
         /// </summary>
+        [NotNull]
         public static AuthorInfo ParseField700
             (
                 [NotNull] RecordField field
             )
         {
+            Code.NotNull(field, "field");
+
             AuthorInfo result = new AuthorInfo()
             {
                 FamilyName = field.GetFirstSubFieldValue('a'),
@@ -184,7 +243,8 @@ namespace ManagedIrbis.Fields
                 Number = field.GetFirstSubFieldValue('d'),
                 Dates = field.GetFirstSubFieldValue('f'),
                 Variant = field.GetFirstSubFieldValue('r'),
-                WorkPlace = field.GetFirstSubFieldValue('p')
+                WorkPlace = field.GetFirstSubFieldValue('p'),
+                Field = field
             };
 
             return result;
@@ -220,6 +280,12 @@ namespace ManagedIrbis.Fields
         #endregion
 
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return FamilyName.ToVisibleString();
+        }
 
         #endregion
     }

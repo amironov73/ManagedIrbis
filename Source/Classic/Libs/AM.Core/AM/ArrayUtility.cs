@@ -369,8 +369,10 @@ namespace AM
         /// <returns><c>true</c> if the array is null or empty;
         /// otherwise, <c>false</c>.
         /// </returns>
+        [AssertionMethod]
         public static bool IsNullOrEmpty
             (
+                [AssertionCondition(AssertionConditionType.IS_NOT_NULL)]
                 [CanBeNull] Array array
             )
         {

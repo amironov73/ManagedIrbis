@@ -59,6 +59,12 @@ namespace Hairbrush
         #region Properties
 
         [NotNull]
+        public BusyController Controller
+        {
+            get { return MainForm.Controller; }
+        }
+
+        [NotNull]
         public string Prefix { get; set; }
 
         [CanBeNull]
@@ -100,12 +106,14 @@ namespace Hairbrush
         [NotNull]
         public IrbisProvider GetProvider()
         {
+            //return MainForm.Provider;
             return MainForm.GetIrbisProvider();
         }
 
         public void ReleaseProvider()
         {
             MainForm.ReleaseProvider();
+            Provider = null;
         }
 
         #endregion
@@ -127,11 +135,19 @@ namespace Hairbrush
                     StartTerm = startTerm,
                     NumberOfTerms = 100
                 };
-                TermInfo[] rawTerms = Provider.ReadTerms(parameters);
-                TermData[] termData = TermData.FromRawTerms
+                TermData[] termData = null;
+                Controller.Run
                     (
-                        rawTerms,
-                        Prefix
+                        () =>
+                        {
+                            TermInfo[] rawTerms
+                                = Provider.ReadTerms(parameters);
+                            termData = TermData.FromRawTerms
+                            (
+                                rawTerms,
+                                Prefix
+                            );
+                        }
                     );
                 _termDataBindingSource.DataSource = termData;
             }
@@ -152,6 +168,212 @@ namespace Hairbrush
                 e.Handled = true;
                 _keyBox_ButtonClick(sender, e);
             }
+        }
+
+        private void _termGrid_CellContentClick
+            (
+                object sender,
+                DataGridViewCellEventArgs e
+            )
+        {
+            DataGridView grid = sender as DataGridView;
+            if (ReferenceEquals(grid, null))
+            {
+                return;
+            }
+            if (e.ColumnIndex < 0
+                || e.ColumnIndex >= grid.ColumnCount
+                || e.RowIndex < 0
+                || e.RowIndex >= grid.RowCount)
+            {
+                return;
+            }
+            DataGridViewButtonColumn column
+                = grid.Columns[e.ColumnIndex] as DataGridViewButtonColumn;
+            if (ReferenceEquals(column, null))
+            {
+                return;
+            }
+            if (ReferenceEquals(grid.CurrentRow, null))
+            {
+                return;
+            }
+            TermData term = grid.CurrentRow.DataBoundItem as TermData;
+            if (ReferenceEquals(term, null))
+            {
+                return;
+            }
+            string text = term.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+
+            TextNavigator navigator = new TextNavigator(text);
+            string familyName = navigator.ReadUntil(' ', ',');
+            if (string.IsNullOrEmpty(familyName))
+            {
+                return;
+            }
+
+            _propertyGrid.SelectedObject = null;
+
+            string query = Prefix + text;
+            try
+            {
+                Provider = GetProvider();
+                AuthorInfo theAuthor = null;
+                Controller.Run
+                    (
+                        () =>
+                        {
+                            TermLink[] links
+                                = Provider.ExactSearchLinks(query);
+                            if (links.Length != 0)
+                            {
+                                int mfn = links[0].Mfn;
+                                MarcRecord record
+                                    = Provider.ReadRecord(mfn);
+                                if (!ReferenceEquals(record, null))
+                                {
+                                    AuthorInfo[] authors
+                                        = AuthorInfo.ParseRecord
+                                        (
+                                            record,
+                                            AuthorInfo.KnownTags
+                                        );
+                                    theAuthor = authors.FirstOrDefault
+                                        (
+                                            a => a.FamilyName
+                                                .SameString(familyName)
+                                        );
+                                }
+                            }
+                        }
+                    );
+
+                _propertyGrid.SelectedObject = theAuthor;
+                WriteLine
+                    (
+                        "Задан эталон: {0}",
+                        theAuthor.Field
+                    );
+            }
+            finally
+            {
+                ReleaseProvider();
+            }
+        }
+
+        private void _applyButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            AuthorInfo ethalon = _propertyGrid.SelectedObject as AuthorInfo;
+            if (ReferenceEquals(ethalon, null))
+            {
+                WriteLine("Не задан эталон");
+                return;
+            }
+            string familyName = ethalon.FamilyName;
+            if (string.IsNullOrEmpty(familyName))
+            {
+                WriteLine("Эталон пуст");
+                return;
+            }
+            TermData[] terms = _termDataBindingSource.DataSource as TermData[];
+            if (ArrayUtility.IsNullOrEmpty(terms))
+            {
+                WriteLine("Нет записей для коррекции");
+                return;
+            }
+            string[] selectedTerms = terms
+                .Where(term => term.Selected)
+                .Select(term => term.Text)
+                .ToArray();
+            if (ArrayUtility.IsNullOrEmpty(selectedTerms))
+            {
+                WriteLine("Нет записей для коррекции");
+                return;
+            }
+
+            StringBuilder query = new StringBuilder();
+            bool first = true;
+            foreach (string term in selectedTerms)
+            {
+                if (first)
+                {
+                    query.Append(" + ");
+                }
+                query.AppendFormat
+                    (
+                        "\"{0}{1}\"",
+                        Prefix,
+                        term
+                    );
+
+                first = false;
+            }
+
+            try
+            {
+                Provider = GetProvider();
+                Controller.Run
+                    (
+                        () =>
+                        {
+                            int[] found = Provider.Search(query.ToString());
+                            WriteLine
+                                (
+                                    "Отобрано для коррекции: {0}",
+                                    found.Length
+                                );
+                            foreach (int mfn in found)
+                            {
+                                MarcRecord record
+                                    = Provider.ReadRecord(mfn);
+                                if (!ReferenceEquals(record, null))
+                                {
+                                    AuthorInfo[] authors
+                                        = AuthorInfo.ParseRecord
+                                        (
+                                            record,
+                                            AuthorInfo.KnownTags
+                                        );
+                                    AuthorInfo theAuthor
+                                        = authors.FirstOrDefault
+                                        (
+                                            a => a.FamilyName
+                                                .SameString(familyName)
+                                        );
+                                    if (!ReferenceEquals(theAuthor, null))
+                                    {
+                                        WriteLine
+                                            (
+                                                "MFN {0}: {1}",
+                                                mfn,
+                                                theAuthor.Field
+                                            );
+                                        ethalon.ApplyToField
+                                            (
+                                                theAuthor.Field
+                                                    .ThrowIfNull("theAuthor.Field")
+                                            );
+                                        Provider.WriteRecord(record);
+                                    }
+                                }
+                            }
+                        }
+                    );
+            }
+            finally
+            {
+                ReleaseProvider();
+            }
+
+            _keyBox_ButtonClick(sender, e);
         }
     }
 }

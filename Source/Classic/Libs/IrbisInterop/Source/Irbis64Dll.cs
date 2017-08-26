@@ -593,6 +593,10 @@ namespace IrbisInterop
 
             using (new BusyGuard(Busy))
             {
+                // TODO Use IrbisUpperCaseTable
+
+                term = StringUtility.ToUpperInvariant(term);
+
                 IntPtr space = Space;
 
                 Encoding utf = IrbisEncoding.Utf8;
@@ -1290,6 +1294,7 @@ namespace IrbisInterop
         /// List terms starting from specified one.
         /// </summary>
         [NotNull]
+        [ItemNotNull]
         public TermInfo[] ListTerms
             (
                 [NotNull] string startTerm,
@@ -1816,12 +1821,12 @@ namespace IrbisInterop
                 IntPtr space = Space;
                 int shelf = Shelf;
 
-AGAIN1:         int retCode = Irbis65Dll.IrbisRecUpdate0
-                    (
-                        space,
-                        shelf,
-                        Convert.ToInt32(keepLock)
-                    );
+                AGAIN1: int retCode = Irbis65Dll.IrbisRecUpdate0
+                            (
+                                space,
+                                shelf,
+                                Convert.ToInt32(keepLock)
+                            );
                 if (retCode == -300
                     || retCode == -301
                     || retCode == -602
@@ -1846,12 +1851,12 @@ AGAIN1:         int retCode = Irbis65Dll.IrbisRecUpdate0
                     _HandleRetCode("IrbisMfn", mfn);
 
                     retryCount = 30;
-AGAIN2:             retCode = Irbis65Dll.IrbisRecIfUpdate0
-                        (
-                            space,
-                            shelf,
-                            mfn
-                        );
+                    AGAIN2: retCode = Irbis65Dll.IrbisRecIfUpdate0
+                                (
+                                    space,
+                                    shelf,
+                                    mfn
+                                );
                     if (retCode == -300
                         || retCode == -301
                        )

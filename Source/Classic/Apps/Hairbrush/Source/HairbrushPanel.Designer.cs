@@ -39,6 +39,7 @@
             this._termDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this._keyBox = new AM.Windows.Forms.TextBoxWithButton();
             this._propertyGrid = new System.Windows.Forms.PropertyGrid();
+            this._applyButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._splitContainer1)).BeginInit();
             this._splitContainer1.Panel1.SuspendLayout();
             this._splitContainer1.Panel2.SuspendLayout();
@@ -61,6 +62,7 @@
             // _splitContainer1.Panel2
             // 
             this._splitContainer1.Panel2.Controls.Add(this._propertyGrid);
+            this._splitContainer1.Panel2.Controls.Add(this._applyButton);
             this._splitContainer1.Size = new System.Drawing.Size(800, 600);
             this._splitContainer1.SplitterDistance = 289;
             this._splitContainer1.TabIndex = 0;
@@ -88,6 +90,7 @@
             this._termGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this._termGrid.Size = new System.Drawing.Size(289, 579);
             this._termGrid.TabIndex = 0;
+            this._termGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this._termGrid_CellContentClick);
             // 
             // _countColumn
             // 
@@ -163,9 +166,20 @@
             this._propertyGrid.Location = new System.Drawing.Point(0, 0);
             this._propertyGrid.Name = "_propertyGrid";
             this._propertyGrid.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this._propertyGrid.Size = new System.Drawing.Size(507, 600);
+            this._propertyGrid.Size = new System.Drawing.Size(507, 577);
             this._propertyGrid.TabIndex = 0;
             this._propertyGrid.ToolbarVisible = false;
+            // 
+            // _applyButton
+            // 
+            this._applyButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this._applyButton.Location = new System.Drawing.Point(0, 577);
+            this._applyButton.Name = "_applyButton";
+            this._applyButton.Size = new System.Drawing.Size(507, 23);
+            this._applyButton.TabIndex = 1;
+            this._applyButton.Text = "Применить к выбранным записям";
+            this._applyButton.UseVisualStyleBackColor = true;
+            this._applyButton.Click += new System.EventHandler(this._applyButton_Click);
             // 
             // HairbrushPanel
             // 
@@ -195,5 +209,6 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn _selectedColumn;
         private System.Windows.Forms.DataGridViewButtonColumn _buttonColumn;
         private System.Windows.Forms.PropertyGrid _propertyGrid;
+        private System.Windows.Forms.Button _applyButton;
     }
 }

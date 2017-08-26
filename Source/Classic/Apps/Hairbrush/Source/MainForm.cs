@@ -60,6 +60,9 @@ namespace Hairbrush
 
         public MainForm()
         {
+            FieldTag.ThrowOnValidate = false;
+            ReadRecordCommand.ThrowOnVerify = false;
+
             Initialize += _Initialize;
 
             InitializeComponent();

@@ -151,6 +151,25 @@ namespace ManagedIrbis.Client
             Connection.Connect();
         }
 
+        /// <inheritdoc cref="IrbisProvider.ExactSearchLinks"/>
+        public override TermLink[] ExactSearchLinks
+            (
+                string term
+            )
+        {
+            Code.NotNullNorEmpty(term, "term");
+
+            PostingParameters parameters = new PostingParameters
+            {
+                Database = Connection.Database,
+                Term = term
+            };
+            TermPosting[] postings = Connection.ReadPostings(parameters);
+            TermLink[] result = TermLink.FromPostings(postings);
+
+            return result;
+        }
+
         /// <inheritdoc cref="IrbisProvider.FormatRecord" />
         public override string FormatRecord
             (
@@ -270,7 +289,10 @@ namespace ManagedIrbis.Client
         {
             Code.NotNull(parameters, "parameters");
 
-            TermInfo[] result = Connection.ReadTerms(parameters);
+            TermInfo[] result = Connection
+                .ReadTerms(parameters)
+                .Where(term => term.Count != 0)
+                .ToArray();
 
             return result;
         }
@@ -304,6 +326,17 @@ namespace ManagedIrbis.Client
             int[] result = Connection.Search(expression);
 
             return result;
+        }
+
+        /// <inheritdoc cref="IrbisProvider.WriteRecord"/>
+        public override void WriteRecord
+            (
+                MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            Connection.WriteRecord(record, false, true);
         }
 
         #endregion
