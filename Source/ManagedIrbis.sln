@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedIrbis", "Classic\Libs\ManagedIrbis\ManagedIrbis.csproj", "{727C0B37-1E31-49BB-927A-A93DAC558C52}"
 EndProject
@@ -216,6 +216,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsgBox", "Classic\Apps\MsgBox\MsgBox.csproj", "{E38F7F15-A509-42DF-BE00-C559A1D8250C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoNotGive", "Classic\Apps\DoNotGive\DoNotGive.csproj", "{B74D43CB-372C-4D90-B8C3-5E07E45EAF54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hairbrush", "Classic\Apps\Hairbrush\Hairbrush.csproj", "{52761908-DE42-4ADB-9C8B-361DBDA5C6A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1057,6 +1059,14 @@ Global
 		{B74D43CB-372C-4D90-B8C3-5E07E45EAF54}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B74D43CB-372C-4D90-B8C3-5E07E45EAF54}.Release|x86.ActiveCfg = Release|Any CPU
 		{B74D43CB-372C-4D90-B8C3-5E07E45EAF54}.Release|x86.Build.0 = Release|Any CPU
+		{52761908-DE42-4ADB-9C8B-361DBDA5C6A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52761908-DE42-4ADB-9C8B-361DBDA5C6A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52761908-DE42-4ADB-9C8B-361DBDA5C6A7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{52761908-DE42-4ADB-9C8B-361DBDA5C6A7}.Debug|x86.Build.0 = Debug|Any CPU
+		{52761908-DE42-4ADB-9C8B-361DBDA5C6A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52761908-DE42-4ADB-9C8B-361DBDA5C6A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52761908-DE42-4ADB-9C8B-361DBDA5C6A7}.Release|x86.ActiveCfg = Release|Any CPU
+		{52761908-DE42-4ADB-9C8B-361DBDA5C6A7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1164,6 +1174,7 @@ Global
 		{3B050998-F495-43CB-9946-AB8392AAEB7E} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{E38F7F15-A509-42DF-BE00-C559A1D8250C} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{B74D43CB-372C-4D90-B8C3-5E07E45EAF54} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{52761908-DE42-4ADB-9C8B-361DBDA5C6A7} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9210D671-3170-4F79-9CE3-2FE2B1208056}

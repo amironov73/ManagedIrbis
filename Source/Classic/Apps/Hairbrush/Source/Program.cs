@@ -43,7 +43,7 @@ using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
-namespace MstExplorer
+namespace Hairbrush
 {
     static class Program
     {
