@@ -40,6 +40,7 @@
             this._keyBox = new AM.Windows.Forms.TextBoxWithButton();
             this._propertyGrid = new System.Windows.Forms.PropertyGrid();
             this._applyButton = new System.Windows.Forms.Button();
+            this._clearButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._splitContainer1)).BeginInit();
             this._splitContainer1.Panel1.SuspendLayout();
             this._splitContainer1.Panel2.SuspendLayout();
@@ -62,6 +63,7 @@
             // _splitContainer1.Panel2
             // 
             this._splitContainer1.Panel2.Controls.Add(this._propertyGrid);
+            this._splitContainer1.Panel2.Controls.Add(this._clearButton);
             this._splitContainer1.Panel2.Controls.Add(this._applyButton);
             this._splitContainer1.Size = new System.Drawing.Size(800, 600);
             this._splitContainer1.SplitterDistance = 289;
@@ -163,10 +165,10 @@
             // 
             this._propertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this._propertyGrid.LineColor = System.Drawing.SystemColors.ControlDark;
-            this._propertyGrid.Location = new System.Drawing.Point(0, 0);
+            this._propertyGrid.Location = new System.Drawing.Point(0, 23);
             this._propertyGrid.Name = "_propertyGrid";
             this._propertyGrid.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this._propertyGrid.Size = new System.Drawing.Size(507, 577);
+            this._propertyGrid.Size = new System.Drawing.Size(507, 554);
             this._propertyGrid.TabIndex = 0;
             this._propertyGrid.ToolbarVisible = false;
             // 
@@ -180,6 +182,17 @@
             this._applyButton.Text = "Применить к выбранным записям";
             this._applyButton.UseVisualStyleBackColor = true;
             this._applyButton.Click += new System.EventHandler(this._applyButton_Click);
+            // 
+            // _clearButton
+            // 
+            this._clearButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this._clearButton.Location = new System.Drawing.Point(0, 0);
+            this._clearButton.Name = "_clearButton";
+            this._clearButton.Size = new System.Drawing.Size(507, 23);
+            this._clearButton.TabIndex = 2;
+            this._clearButton.Text = "Очистить";
+            this._clearButton.UseVisualStyleBackColor = true;
+            this._clearButton.Click += new System.EventHandler(this._clearButton_Click);
             // 
             // HairbrushPanel
             // 
@@ -210,5 +223,6 @@
         private System.Windows.Forms.DataGridViewButtonColumn _buttonColumn;
         private System.Windows.Forms.PropertyGrid _propertyGrid;
         private System.Windows.Forms.Button _applyButton;
+        private System.Windows.Forms.Button _clearButton;
     }
 }

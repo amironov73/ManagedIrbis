@@ -80,6 +80,7 @@ namespace Hairbrush
             InitializeComponent();
 
             Prefix = "A=";
+            _clearButton_Click(this, EventArgs.Empty);
         }
 
         public HairbrushPanel
@@ -91,6 +92,7 @@ namespace Hairbrush
             InitializeComponent();
 
             Prefix = "A=";
+            _clearButton_Click(this, EventArgs.Empty);
         }
 
         #endregion
@@ -209,8 +211,7 @@ namespace Hairbrush
                 return;
             }
 
-            TextNavigator navigator = new TextNavigator(text);
-            string familyName = navigator.ReadUntil(' ', ',');
+            string familyName = AuthorInfo.ExtractFamilyName(text);
             if (string.IsNullOrEmpty(familyName))
             {
                 return;
@@ -240,7 +241,7 @@ namespace Hairbrush
                                         = AuthorInfo.ParseRecord
                                         (
                                             record,
-                                            AuthorInfo.KnownTags
+                                            AuthorInfo.AllKnownTags
                                         );
                                     theAuthor = authors.FirstOrDefault
                                         (
@@ -303,7 +304,7 @@ namespace Hairbrush
             bool first = true;
             foreach (string term in selectedTerms)
             {
-                if (first)
+                if (!first)
                 {
                     query.Append(" + ");
                 }
@@ -340,27 +341,38 @@ namespace Hairbrush
                                         = AuthorInfo.ParseRecord
                                         (
                                             record,
-                                            AuthorInfo.KnownTags
+                                            AuthorInfo.AllKnownTags
                                         );
-                                    AuthorInfo theAuthor
-                                        = authors.FirstOrDefault
+                                    AuthorInfo[] selected = authors.Where
                                         (
                                             a => a.FamilyName
                                                 .SameString(familyName)
-                                        );
-                                    if (!ReferenceEquals(theAuthor, null))
+                                        )
+                                        .ToArray();
+                                    if (selected.Length == 0)
                                     {
                                         WriteLine
                                             (
-                                                "MFN {0}: {1}",
-                                                mfn,
-                                                theAuthor.Field
+                                                "MFN {0} пропущен",
+                                                mfn
                                             );
-                                        ethalon.ApplyToField
-                                            (
-                                                theAuthor.Field
-                                                    .ThrowIfNull("theAuthor.Field")
-                                            );
+                                    }
+                                    else
+                                    {
+                                        foreach (AuthorInfo theAuthor in selected)
+                                        {
+                                            WriteLine
+                                                (
+                                                    "MFN {0}: {1}",
+                                                    mfn,
+                                                    theAuthor.Field
+                                                );
+                                            ethalon.ApplyToField
+                                                (
+                                                    theAuthor.Field
+                                                        .ThrowIfNull("theAuthor.Field")
+                                                );
+                                        }
                                         Provider.WriteRecord(record);
                                     }
                                 }
@@ -374,6 +386,16 @@ namespace Hairbrush
             }
 
             _keyBox_ButtonClick(sender, e);
+            WriteLine("Обработка завершена");
+        }
+
+        private void _clearButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            _propertyGrid.SelectedObject = new AuthorInfo();
         }
     }
 }
