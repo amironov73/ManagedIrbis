@@ -254,6 +254,8 @@ namespace Hairbrush
                     );
 
                 _propertyGrid.SelectedObject = theAuthor;
+                term.Ethalon = true;
+                _propertyGrid.Invalidate();
                 WriteLine
                     (
                         "Задан эталон: {0}",
@@ -396,6 +398,45 @@ namespace Hairbrush
             )
         {
             _propertyGrid.SelectedObject = new AuthorInfo();
+        }
+
+        private void _termGrid_RowPrePaint
+            (
+                object sender,
+                DataGridViewRowPrePaintEventArgs e
+            )
+        {
+            if ((e.State & DataGridViewElementStates.Selected) != 0)
+            {
+                return;
+            }
+
+            DataGridView grid = (DataGridView) sender;
+            int rowIndex = e.RowIndex;
+            if (rowIndex < 0 || rowIndex >= grid.RowCount)
+            {
+                return;
+            }
+            DataGridViewRow row = grid.Rows[rowIndex];
+            TermData term = (TermData) row.DataBoundItem;
+            Color color = Color.White;
+            if (term.Ethalon)
+            {
+                color = Color.YellowGreen;
+            }
+            else if (term.Selected)
+            {
+                color = Color.Yellow;
+            }
+            Graphics graphics = e.Graphics;
+            Rectangle rectangle = e.RowBounds;
+
+            e.PaintParts &= ~DataGridViewPaintParts.Background;
+
+            using (Brush brush = new SolidBrush(color))
+            {
+                graphics.FillRectangle(brush, rectangle);
+            }
         }
     }
 }

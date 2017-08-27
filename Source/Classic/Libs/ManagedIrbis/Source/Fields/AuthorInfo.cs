@@ -518,10 +518,17 @@ namespace ManagedIrbis.Fields
         {
             Code.NotNull(field, "field");
 
+            AuthorInfo one;
             string tag = field.Tag.ThrowIfNull("field.Tag");
             if (tag.OneOf(KnownTags1))
             {
-                return new[] { ParseField700(field) };
+                one = ParseField700(field);
+                if (!ReferenceEquals(one, null))
+                {
+                    return new[] { one };
+                }
+
+                return EmptyArray;
             }
             if (tag.OneOf(KnownTags2))
             {
@@ -533,7 +540,13 @@ namespace ManagedIrbis.Fields
             }
             if (tag.OneOf(KnownTags4))
             {
-                return new[] { ParseField600(field) };
+                one = ParseField600(field);
+                if (!ReferenceEquals(one, null))
+                {
+                    return new[] {one};
+                }
+
+                return EmptyArray;
             }
             if (tag.OneOf(KnownTags5))
             {
@@ -546,7 +559,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Parse the specified field.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
         public static AuthorInfo ParseField700
             (
                 [NotNull] RecordField field
@@ -554,9 +567,15 @@ namespace ManagedIrbis.Fields
         {
             Code.NotNull(field, "field");
 
+            string familyName = field.GetFirstSubFieldValue('a');
+            if (string.IsNullOrEmpty(familyName))
+            {
+                return null;
+            }
+
             AuthorInfo result = new AuthorInfo
             {
-                FamilyName = field.GetFirstSubFieldValue('a'),
+                FamilyName = familyName,
                 Initials = field.GetFirstSubFieldValue('b'),
                 FullName = field.GetFirstSubFieldValue('g'),
                 CantBeInverted = !string.IsNullOrEmpty
@@ -578,7 +597,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Parse the specified field.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
         public static AuthorInfo ParseField600
             (
                 [NotNull] RecordField field
@@ -587,6 +606,10 @@ namespace ManagedIrbis.Fields
             Code.NotNull(field, "field");
 
             string withInitials = field.GetFirstSubFieldValue('a');
+            if (string.IsNullOrEmpty(withInitials))
+            {
+                return null;
+            }
             TextNavigator navigator = new TextNavigator(withInitials);
             string familyName = navigator.ReadUntil(_delimiters);
             navigator.SkipChar(_delimiters);
@@ -598,9 +621,9 @@ namespace ManagedIrbis.Fields
                 Initials = initials,
                 FullName = field.GetFirstSubFieldValue('g'),
                 CantBeInverted = !string.IsNullOrEmpty
-                (
-                    field.GetFirstSubFieldValue('9')
-                ),
+                    (
+                        field.GetFirstSubFieldValue('9')
+                    ),
                 Postfix = field.GetFirstSubFieldValue('1'),
                 Appendix = field.GetFirstSubFieldValue('c'),
                 Number = field.GetFirstSubFieldValue('d'),

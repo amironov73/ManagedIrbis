@@ -85,6 +85,14 @@ namespace ManagedIrbis.Biblio
 
         #region Construction
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public MenuSubChapter()
+        {
+            Settings = new SpecialSettings();
+        }
+
         #endregion
 
         #region Private members
@@ -157,11 +165,13 @@ namespace ManagedIrbis.Biblio
                 if (!ReferenceEquals(subChapter, null))
                 {
                     SpecialSettings settings = subChapter.Settings;
-
-                    string result = settings.GetSetting("format");
-                    if (!string.IsNullOrEmpty(result))
+                    if (!ReferenceEquals(settings, null))
                     {
-                        return result;
+                        string result = settings.GetSetting("format");
+                        if (!string.IsNullOrEmpty(result))
+                        {
+                            return result;
+                        }
                     }
                 }
 

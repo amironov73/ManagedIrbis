@@ -45,6 +45,11 @@ namespace Hairbrush
         /// </summary>
         public bool Selected { get; set; }
 
+        /// <summary>
+        /// Ethalon?
+        /// </summary>
+        public bool Ethalon { get; set; }
+
         #endregion
 
         #region Construction

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this._splitContainer1 = new System.Windows.Forms.SplitContainer();
             this._termGrid = new System.Windows.Forms.DataGridView();
             this._countColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -39,8 +39,8 @@
             this._termDataBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this._keyBox = new AM.Windows.Forms.TextBoxWithButton();
             this._propertyGrid = new System.Windows.Forms.PropertyGrid();
-            this._applyButton = new System.Windows.Forms.Button();
             this._clearButton = new System.Windows.Forms.Button();
+            this._applyButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._splitContainer1)).BeginInit();
             this._splitContainer1.Panel1.SuspendLayout();
             this._splitContainer1.Panel2.SuspendLayout();
@@ -93,12 +93,13 @@
             this._termGrid.Size = new System.Drawing.Size(289, 579);
             this._termGrid.TabIndex = 0;
             this._termGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this._termGrid_CellContentClick);
+            this._termGrid.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this._termGrid_RowPrePaint);
             // 
             // _countColumn
             // 
             this._countColumn.DataPropertyName = "Count";
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this._countColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._countColumn.DefaultCellStyle = dataGridViewCellStyle1;
             this._countColumn.HeaderText = "Count";
             this._countColumn.Name = "_countColumn";
             this._countColumn.ReadOnly = true;
@@ -172,17 +173,6 @@
             this._propertyGrid.TabIndex = 0;
             this._propertyGrid.ToolbarVisible = false;
             // 
-            // _applyButton
-            // 
-            this._applyButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this._applyButton.Location = new System.Drawing.Point(0, 577);
-            this._applyButton.Name = "_applyButton";
-            this._applyButton.Size = new System.Drawing.Size(507, 23);
-            this._applyButton.TabIndex = 1;
-            this._applyButton.Text = "Применить к выбранным записям";
-            this._applyButton.UseVisualStyleBackColor = true;
-            this._applyButton.Click += new System.EventHandler(this._applyButton_Click);
-            // 
             // _clearButton
             // 
             this._clearButton.Dock = System.Windows.Forms.DockStyle.Top;
@@ -193,6 +183,17 @@
             this._clearButton.Text = "Очистить";
             this._clearButton.UseVisualStyleBackColor = true;
             this._clearButton.Click += new System.EventHandler(this._clearButton_Click);
+            // 
+            // _applyButton
+            // 
+            this._applyButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this._applyButton.Location = new System.Drawing.Point(0, 577);
+            this._applyButton.Name = "_applyButton";
+            this._applyButton.Size = new System.Drawing.Size(507, 23);
+            this._applyButton.TabIndex = 1;
+            this._applyButton.Text = "Применить к выбранным записям";
+            this._applyButton.UseVisualStyleBackColor = true;
+            this._applyButton.Click += new System.EventHandler(this._applyButton_Click);
             // 
             // HairbrushPanel
             // 
