@@ -143,6 +143,11 @@ namespace ManagedIrbis
         {
             Code.NotNull(field, "field");
 
+            if (code == SubField.NoCode)
+            {
+                return field;
+            }
+
             if (string.IsNullOrEmpty(value))
             {
                 field.RemoveSubField(code);

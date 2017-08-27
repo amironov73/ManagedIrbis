@@ -74,6 +74,20 @@ namespace ManagedIrbis.Fields
         public static string[] KnownTags3 { get { return _knownTags3; } }
 
         /// <summary>
+        /// Known tags.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static string[] KnownTags4 { get { return _knownTags4; } }
+
+        /// <summary>
+        /// Known tags.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static string[] KnownTags5 { get { return _knownTags5; } }
+
+        /// <summary>
         /// Фамилия. Подполе a.
         /// </summary>
         [CanBeNull]
@@ -81,6 +95,7 @@ namespace ManagedIrbis.Fields
         [XmlAttribute("familyName")]
         [JsonProperty("familyName")]
         [Description("Фамилия. Подполе a.")]
+        [DisplayName("Фамилия (без инициалов)")]
         public string FamilyName { get; set; }
 
         /// <summary>
@@ -91,6 +106,7 @@ namespace ManagedIrbis.Fields
         [XmlAttribute("initials")]
         [JsonProperty("initials")]
         [Description("Инициалы (сокращение). Подполе b.")]
+        [DisplayName("Инициалы (сокращенные)")]
         public string Initials { get; set; }
 
         /// <summary>
@@ -101,6 +117,7 @@ namespace ManagedIrbis.Fields
         [XmlAttribute("fullName")]
         [JsonProperty("fullName")]
         [Description("Расширение инициалов (имя и отчество). Подполе g.")]
+        [DisplayName("Расширение инициалов (имя и отчество)")]
         public string FullName { get; set; }
 
         /// <summary>
@@ -110,6 +127,7 @@ namespace ManagedIrbis.Fields
         [XmlAttribute("cantBeInverted")]
         [JsonProperty("cantBeInverted")]
         [Description("Инвертирование имени недопустимо? Подполе 9.")]
+        [DisplayName("Инвертирование имени недопустимо")]
         public bool CantBeInverted { get; set; }
 
         /// <summary>
@@ -121,6 +139,7 @@ namespace ManagedIrbis.Fields
         [XmlAttribute("postfix")]
         [JsonProperty("postfix")]
         [Description("Неотъемлемая часть имени. Подполе 1.")]
+        [DisplayName("Неотъемлемая часть имени")]
         public string Postfix { get; set; }
 
         /// <summary>
@@ -132,6 +151,7 @@ namespace ManagedIrbis.Fields
         [XmlAttribute("appendix")]
         [JsonProperty("appendix")]
         [Description("Дополнения к имени кроме дат. Подполе c.")]
+        [DisplayName("Дополнения к имени кроме дат")]
         public string Appendix { get; set; }
 
         /// <summary>
@@ -142,6 +162,7 @@ namespace ManagedIrbis.Fields
         [XmlAttribute("number")]
         [JsonProperty("number")]
         [Description("Династический номер (римские цифры). Подполе d.")]
+        [DisplayName("Династический номер (римские цифры)")]
         public string Number { get; set; }
 
         /// <summary>
@@ -152,6 +173,7 @@ namespace ManagedIrbis.Fields
         [XmlAttribute("dates")]
         [JsonProperty("dates")]
         [Description("Даты жизни. Подполе f.")]
+        [DisplayName("Даты жизни")]
         public string Dates { get; set; }
 
         /// <summary>
@@ -162,6 +184,7 @@ namespace ManagedIrbis.Fields
         [XmlAttribute("variant")]
         [JsonProperty("variant")]
         [Description("Разночтение фамилии. Подполе r.")]
+        [DisplayName("Разночтение фамилии")]
         public string Variant { get; set; }
 
         /// <summary>
@@ -172,6 +195,7 @@ namespace ManagedIrbis.Fields
         [XmlAttribute("workplace")]
         [JsonProperty("workplace")]
         [Description("Место работы автора. Подполе p.")]
+        [DisplayName("Место работы автора")]
         public string WorkPlace { get; set; }
 
         /// <summary>
@@ -180,6 +204,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
+        [DisplayName("Поле с подполями")]
         public RecordField Field { get; set; }
 
         #endregion
@@ -192,8 +217,8 @@ namespace ManagedIrbis.Fields
 
         private static readonly string[] _allKnownTags =
         {
-            "330", "391", "470", "481", "488", "700", "701",
-            "702", "922", "925", "926", "961", "970"
+            "330", "391", "454", "470", "481", "488", "600",
+            "700", "701", "702", "922", "925", "926", "961", "970"
         };
 
         private static readonly string[] _knownTags1 =
@@ -204,6 +229,12 @@ namespace ManagedIrbis.Fields
 
         private static readonly string[] _knownTags3 =
             { "481", "488" };
+
+        private static readonly string[] _knownTags4 =
+            { "600" };
+
+        private static readonly string[] _knownTags5 =
+            { "454" };
 
         private static readonly char[] _first330 =
             { 'f', '?', 'x', '=' };
@@ -216,6 +247,15 @@ namespace ManagedIrbis.Fields
 
         private static readonly char[] _first481 =
             { 'x', '?', '9', '=' };
+
+        private static readonly char[] _first454 =
+            { 'd', '\0', 'x', '\0' };
+
+        private static readonly char[] _second454 =
+            { 'e', '\0', '<', '\0' };
+
+        private static readonly char[] _third454 =
+            { 'f', '\0', '>', '\0' };
 
         private static readonly char[] _delimiters =
             { ' ', ',' };
@@ -247,6 +287,14 @@ namespace ManagedIrbis.Fields
             else if (tag.OneOf(KnownTags3))
             {
                 ApplyToField481(field);
+            }
+            else if (tag.OneOf(KnownTags4))
+            {
+                ApplyToField600(field);
+            }
+            else if (tag.OneOf(KnownTags5))
+            {
+                ApplyToField454(field);
             }
             else
             {
@@ -282,6 +330,35 @@ namespace ManagedIrbis.Fields
         /// Apply the <see cref="AuthorInfo"/>
         /// to the <see cref="RecordField"/>.
         /// </summary>
+        public void ApplyToField600
+            (
+                [NotNull] RecordField field
+            )
+        {
+            Code.NotNull(field, "field");
+
+            string withInitials = FamilyName;
+            if (!string.IsNullOrEmpty(Initials))
+            {
+                withInitials = withInitials + " " + Initials;
+            }
+
+            field
+                .ApplySubField('a', withInitials)
+                .ApplySubField('g', FullName)
+                .ApplySubField('9', CantBeInverted ? "1" : null)
+                .ApplySubField('1', Postfix)
+                .ApplySubField('c', Appendix)
+                .ApplySubField('d', Number)
+                .ApplySubField('f', Dates)
+                .ApplySubField('r', Variant)
+                .ApplySubField('p', WorkPlace);
+        }
+
+        /// <summary>
+        /// Apply the <see cref="AuthorInfo"/>
+        /// to the <see cref="RecordField"/>.
+        /// </summary>
         public void ApplyToField330
             (
                 [NotNull] RecordField field
@@ -294,6 +371,26 @@ namespace ManagedIrbis.Fields
                 if (!ApplyOneAuthor(field, _second330))
                 {
                     ApplyOneAuthor(field, _third330);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Apply the <see cref="AuthorInfo"/>
+        /// to the <see cref="RecordField"/>.
+        /// </summary>
+        public void ApplyToField454
+            (
+                [NotNull] RecordField field
+            )
+        {
+            Code.NotNull(field, "field");
+
+            if (!ApplyOneAuthor(field, _first454))
+            {
+                if (!ApplyOneAuthor(field, _second454))
+                {
+                    ApplyOneAuthor(field, _third454);
                 }
             }
         }
@@ -434,6 +531,14 @@ namespace ManagedIrbis.Fields
             {
                 return ParseField481(field);
             }
+            if (tag.OneOf(KnownTags4))
+            {
+                return new[] { ParseField600(field) };
+            }
+            if (tag.OneOf(KnownTags5))
+            {
+                return ParseField454(field);
+            }
 
             throw new IrbisException("Don't know how to handle field");
         }
@@ -458,6 +563,44 @@ namespace ManagedIrbis.Fields
                     (
                         field.GetFirstSubFieldValue('9')
                     ),
+                Postfix = field.GetFirstSubFieldValue('1'),
+                Appendix = field.GetFirstSubFieldValue('c'),
+                Number = field.GetFirstSubFieldValue('d'),
+                Dates = field.GetFirstSubFieldValue('f'),
+                Variant = field.GetFirstSubFieldValue('r'),
+                WorkPlace = field.GetFirstSubFieldValue('p'),
+                Field = field
+            };
+
+            return result;
+        }
+
+        /// <summary>
+        /// Parse the specified field.
+        /// </summary>
+        [NotNull]
+        public static AuthorInfo ParseField600
+            (
+                [NotNull] RecordField field
+            )
+        {
+            Code.NotNull(field, "field");
+
+            string withInitials = field.GetFirstSubFieldValue('a');
+            TextNavigator navigator = new TextNavigator(withInitials);
+            string familyName = navigator.ReadUntil(_delimiters);
+            navigator.SkipChar(_delimiters);
+            string initials = navigator.GetRemainingText();
+
+            AuthorInfo result = new AuthorInfo
+            {
+                FamilyName = familyName,
+                Initials = initials,
+                FullName = field.GetFirstSubFieldValue('g'),
+                CantBeInverted = !string.IsNullOrEmpty
+                (
+                    field.GetFirstSubFieldValue('9')
+                ),
                 Postfix = field.GetFirstSubFieldValue('1'),
                 Appendix = field.GetFirstSubFieldValue('c'),
                 Number = field.GetFirstSubFieldValue('d'),
@@ -506,6 +649,46 @@ namespace ManagedIrbis.Fields
 
             return result.ToArray();
         }
+
+        /// <summary>
+        /// Parse the specified field.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static AuthorInfo[] ParseField454
+            (
+                [NotNull] RecordField field
+            )
+        {
+            Code.NotNull(field, "field");
+
+            // TODO parse other authors
+
+            List<AuthorInfo> result = new List<AuthorInfo>();
+
+            AuthorInfo first = ParseOneAuthor(field, _first454);
+            if (!ReferenceEquals(first, null))
+            {
+                result.Add(first);
+            }
+
+            // Second author layout same as for 330
+            AuthorInfo second = ParseOneAuthor(field, _second454);
+            if (!ReferenceEquals(second, null))
+            {
+                result.Add(second);
+            }
+
+            // Third author layout same as for 330
+            AuthorInfo third = ParseOneAuthor(field, _third454);
+            if (!ReferenceEquals(third, null))
+            {
+                result.Add(third);
+            }
+
+            return result.ToArray();
+        }
+
 
         /// <summary>
         /// Parse the specified field.
