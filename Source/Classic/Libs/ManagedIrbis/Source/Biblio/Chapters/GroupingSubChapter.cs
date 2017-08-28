@@ -153,7 +153,7 @@ namespace ManagedIrbis.Biblio
 
         #region BiblioChapter members
 
-        /// <inheritdoc cref="BiblioChapter.BuildItems" />
+        /// <inheritdoc cref="MenuSubChapter.BuildItems" />
         public override void BuildItems
             (
                 BiblioContext context
@@ -267,7 +267,7 @@ namespace ManagedIrbis.Biblio
             log.WriteLine("End grouping {0}", this);
         }
 
-        /// <inheritdoc cref="BiblioChapter.Render" />
+        /// <inheritdoc cref="MenuSubChapter.Render" />
         public override void Render
             (
                 BiblioContext context
@@ -293,9 +293,10 @@ namespace ManagedIrbis.Biblio
                 report.Body.Add(new ParagraphBand());
                 ReportBand band = new ParagraphBand
                     (
-                        "\\b "
+                        "{\\b "
                         + name
-                        + "\\b0"
+                        + "\\b0}"
+                        + " (автор, редактор, составитель)"
                     );
                 report.Body.Add(band);
                 report.Body.Add(new ParagraphBand());

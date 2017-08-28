@@ -85,14 +85,6 @@ namespace ManagedIrbis.Biblio
 
         #region Construction
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public MenuSubChapter()
-        {
-            Settings = new SpecialSettings();
-        }
-
         #endregion
 
         #region Private members
@@ -274,78 +266,57 @@ namespace ManagedIrbis.Biblio
                     MenuChapter mainChapter = MainChapter
                         .ThrowIfNull("MainChapter");
 
-                    using (formatter = processor.AcquireFormatter(context))
+                    string descriptionFormat = GetDescriptionFormat();
+                    descriptionFormat = processor.GetText
+                        (
+                            context,
+                            descriptionFormat
+                        )
+                        .ThrowIfNull("processor.GetText");
+                    string[] formatted
+                        = FormatRecords(context, descriptionFormat);
+
+                    for (int i = 0; i < Records.Count; i++)
                     {
-                        string descriptionFormat = GetDescriptionFormat();
-                        descriptionFormat = processor.GetText
-                            (
-                                context,
-                                descriptionFormat
-                            )
-                            .ThrowIfNull("processor.GetText");
-                        formatter.ParseProgram(descriptionFormat);
+                        log.Write(".");
+                        record = Records[i];
+                        string description = formatted[i]
+                            .TrimEnd('\u001F');
 
-                        int[] mfns = Records.Select(r => r.Mfn).ToArray();
-                        string[] formatted = formatter.FormatRecords(mfns);
+                        // TODO handle string.IsNullOrEmpty(description)
 
-                        for (int i = 0; i < Records.Count; i++)
+                        description
+                            = BiblioUtility.AddTrailingDot(description);
+
+                        BiblioItem item = new BiblioItem
                         {
-                            log.Write(".");
-                            record = Records[i];
-                            //string description = 
-                            //    "MFN " + record.Mfn + " "
-                            //    + formatter.FormatRecord(record);
-                            //string description
-                            //    = formatter.FormatRecord(record.Mfn);
-                            string description = formatted[i]
-                                .TrimEnd('\u001F');
-
-                            // TODO handle string.IsNullOrEmpty(description)
-
-                            description
-                                = BiblioUtility.AddTrailingDot(description);
-
-                            BiblioItem item = new BiblioItem
-                            {
-                                Chapter = this,
-                                Record = record,
-                                Description = description
-                            };
-                            Items.Add(item);
-                        }
+                            Chapter = this,
+                            Record = record,
+                            Description = description
+                        };
+                        Items.Add(item);
                     }
 
                     log.WriteLine(" done");
 
-                    using (formatter = processor.AcquireFormatter(context))
+                    string orderFormat = mainChapter.OrderBy
+                        .ThrowIfNull("mainChapter.OrderBy");
+                    orderFormat = processor.GetText
+                        (
+                            context,
+                            orderFormat
+                        )
+                        .ThrowIfNull("processor.GetText");
+                    formatted = FormatRecords(context, orderFormat);
+                    for (int i = 0; i < Items.Count; i++)
                     {
-                        string orderFormat = mainChapter.OrderBy
-                            .ThrowIfNull("mainChapter.OrderBy");
-                        orderFormat = processor.GetText
-                            (
-                                context,
-                                orderFormat
-                            )
-                            .ThrowIfNull("processor.GetText");
-                        formatter.ParseProgram(orderFormat);
+                        log.Write(".");
+                        BiblioItem item = Items[i];
+                        string order = formatted[i].TrimEnd('\u001F');
 
-                        int[] mfns = Records.Select(r => r.Mfn).ToArray();
-                        string[] formatted = formatter.FormatRecords(mfns);
+                        // TODO handle string.IsNullOrEmpty(order)
 
-                        for (int i = 0; i < Items.Count; i++)
-                        {
-                            log.Write(".");
-                            BiblioItem item = Items[i];
-                            //record = item.Record
-                            //    .ThrowIfNull("item.Record");
-                            //string order
-                            //    = formatter.FormatRecord(record.Mfn);
-                            string order = formatted[i].TrimEnd('\u001F');
-
-                            // TODO handle string.IsNullOrEmpty(order)
-
-                            item.Order = order;
-                        }
+                        item.Order = order;
                     }
 
                     log.WriteLine(" done");

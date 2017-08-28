@@ -95,7 +95,7 @@ namespace ManagedIrbis.Biblio
         /// Special settings associated with the chapter
         /// and its children.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
         [JsonProperty("settings")]
         public SpecialSettings Settings { get; set; }
 

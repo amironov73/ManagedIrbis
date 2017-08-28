@@ -113,8 +113,8 @@ namespace ManagedIrbis.Biblio
         /// List of settings.
         /// </summary>
         [NotNull]
-        [JsonProperty("settingsList")]
-        public List<SpecialSettings> SettingsList { get; private set; }
+        [JsonProperty("menuSettings")]
+        public List<SpecialSettings> MenuSettings { get; private set; }
 
         /// <inheritdoc cref="BiblioChapter.IsServiceChapter" />
         public override bool IsServiceChapter
@@ -131,7 +131,7 @@ namespace ManagedIrbis.Biblio
         /// </summary>
         public MenuChapter()
         {
-            SettingsList = new List<SpecialSettings>();
+            MenuSettings = new List<SpecialSettings>();
         }
 
         #endregion
@@ -148,7 +148,7 @@ namespace ManagedIrbis.Biblio
             )
         {
             string key = item.Prefix.Trim();
-            SpecialSettings settings = SettingsList.FirstOrDefault
+            SpecialSettings settings = MenuSettings.FirstOrDefault
                 (
                     s => s.Name == key
                 );
@@ -281,7 +281,7 @@ namespace ManagedIrbis.Biblio
                     string recordSelector = RecordSelector
                         .ThrowIfNull("RecordSelector");
                     formatter.ParseProgram(recordSelector);
-                    log.Write("Distributing recors");
+                    log.Write("Distributing records");
 
                     int[] mfns = records.Select(r => r.Mfn).ToArray();
                     string[] formatted = formatter.FormatRecords(mfns);

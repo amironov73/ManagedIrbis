@@ -158,6 +158,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioTerm.cs">
       <Link>Source\Biblio\BiblioTerm.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioUtility.cs">
+      <Link>Source\Biblio\BiblioUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\BiblioChapter.cs">
       <Link>Source\Biblio\Chapters\BiblioChapter.cs</Link>
     </Compile>
