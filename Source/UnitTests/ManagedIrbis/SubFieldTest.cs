@@ -86,15 +86,31 @@ namespace UnitTests
         [TestMethod]
         public void SubField_SetValue_2()
         {
+            bool saveFlag = SubField.TrimValue;
+            SubField.TrimValue = false;
+            SubField subField = new SubField('a')
+            {
+                Value = "  Right Value  "
+            };
+            Assert.AreEqual("  Right Value  ", subField.Value);
+            SubField.TrimValue = saveFlag;
+        }
+
+        [TestMethod]
+        public void SubField_SetValue_3()
+        {
+            bool saveFlag = SubField.TrimValue;
+            SubField.TrimValue = true;
             SubField subField = new SubField('a')
             {
                 Value = "  Right Value  "
             };
             Assert.AreEqual("Right Value", subField.Value);
+            SubField.TrimValue = saveFlag;
         }
 
         [TestMethod]
-        public void SubField_SetValue_3()
+        public void SubField_SetValue_4()
         {
             SubField subField = new SubField('a')
             {
