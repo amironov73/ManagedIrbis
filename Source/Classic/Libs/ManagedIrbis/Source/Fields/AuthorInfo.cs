@@ -42,8 +42,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Empty array of the <see cref="AuthorInfo"/>.
         /// </summary>
-        public static readonly AuthorInfo[] EmptyArray
-            = new AuthorInfo[0];
+        public static readonly AuthorInfo[] EmptyArray = new AuthorInfo[0];
 
         /// <summary>
         /// Known tags.
