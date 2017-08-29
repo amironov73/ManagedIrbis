@@ -252,7 +252,6 @@ namespace ManagedIrbis.Biblio
 
             AbstractOutput log = context.Log;
             MarcRecord record = null;
-            IPftFormatter formatter = null;
 
             log.WriteLine("Begin build items {0}", this);
             Items = new ItemCollection();

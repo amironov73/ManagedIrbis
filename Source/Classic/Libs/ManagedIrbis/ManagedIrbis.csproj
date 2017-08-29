@@ -169,6 +169,7 @@
     <Compile Include="Source\Client\ConnectedFormatter.cs" />
     <Compile Include="Source\Fields\AuthorInfo.cs" />
     <Compile Include="Source\Fields\CollectiveInfo.cs" />
+    <Compile Include="Source\Fields\PersonaliaInfo.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblAdd.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblAll.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblCha.cs" />
