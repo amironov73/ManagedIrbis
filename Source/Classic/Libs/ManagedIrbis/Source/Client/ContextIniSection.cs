@@ -13,8 +13,6 @@ using System.Xml.Serialization;
 
 using AM.IO;
 
-using CodeJam;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -31,6 +29,7 @@ namespace ManagedIrbis.Client
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class ContextIniSection
+        : AbstractIniSection
     {
         #region Constants
 
@@ -42,16 +41,6 @@ namespace ManagedIrbis.Client
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// INI file section.
-        /// </summary>
-        [NotNull]
-        [XmlIgnore]
-        [JsonIgnore]
-        public IniFile.Section Section { get; private set; }
-
-        // ========================================================
 
         /// <summary>
         /// Database name.
@@ -156,9 +145,8 @@ namespace ManagedIrbis.Client
         /// Constructor.
         /// </summary>
         public ContextIniSection()
+            : base (SectionName)
         {
-            IniFile iniFile = new IniFile();
-            Section = iniFile.CreateSection(SectionName);
         }
 
         /// <summary>
@@ -168,10 +156,8 @@ namespace ManagedIrbis.Client
             (
                 [NotNull] IniFile iniFile
             )
+            : base(iniFile, SectionName)
         {
-            Code.NotNull(iniFile, "iniFile");
-
-            Section = iniFile.GetOrCreateSection(SectionName);
         }
 
         /// <summary>
@@ -181,10 +167,8 @@ namespace ManagedIrbis.Client
             (
                 [NotNull] IniFile.Section section
             )
+            : base(section)
         {
-            Code.NotNull(section, "section");
-
-            Section = section;
         }
 
         #endregion
@@ -194,17 +178,6 @@ namespace ManagedIrbis.Client
         #endregion
 
         #region Public methods
-
-        /// <summary>
-        /// Clear the section.
-        /// </summary>
-        [NotNull]
-        public ContextIniSection Clear()
-        {
-            Section.Clear();
-
-            return this;
-        }
 
         #endregion
 

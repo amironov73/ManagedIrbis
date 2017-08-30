@@ -168,20 +168,22 @@ namespace ManagedIrbis.Client
                 );
             File.Copy(mainIniPath, _copyIniPath);
 
-            IniFile iniFile = new IniFile
+            using (IniFile iniFile = new IniFile
                 (
                     _copyIniPath,
                     IrbisEncoding.Ansi,
                     false
-                );
-            ContextIniSection unused = new ContextIniSection(iniFile)
+                ))
+            using (ContextIniSection unused = new ContextIniSection(iniFile)
+                {
+                    Database = Database,
+                    Mfn = Mfn,
+                    Password = Password,
+                    UserName = UserName
+                })
             {
-                Database = Database,
-                Mfn = Mfn,
-                Password = Password,
-                UserName = UserName
-            };
-            iniFile.Save(_copyIniPath);
+                iniFile.Save(_copyIniPath);
+            }
 
             ProcessStartInfo startInfo = new ProcessStartInfo
                 (

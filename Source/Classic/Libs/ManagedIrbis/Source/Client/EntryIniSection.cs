@@ -14,8 +14,6 @@ using System.Xml.Serialization;
 using AM;
 using AM.IO;
 
-using CodeJam;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -35,6 +33,7 @@ namespace ManagedIrbis.Client
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class EntryIniSection
+        : AbstractIniSection
     {
         #region Constants
 
@@ -46,16 +45,6 @@ namespace ManagedIrbis.Client
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// INI file section.
-        /// </summary>
-        [NotNull]
-        [XmlIgnore]
-        [JsonIgnore]
-        public IniFile.Section Section { get; private set; }
-
-        // ========================================================
 
         /// <summary>
         /// Имя формата для ФЛК документа в целом.
@@ -97,35 +86,30 @@ namespace ManagedIrbis.Client
         /// Constructor.
         /// </summary>
         public EntryIniSection()
+            : base(SectionName)
         {
-            IniFile iniFile = new IniFile();
-            Section = iniFile.CreateSection(SectionName);
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
         public EntryIniSection
-        (
-            [NotNull] IniFile iniFile
-        )
+            (
+                [NotNull] IniFile iniFile
+            )
+            : base(iniFile, SectionName)
         {
-            Code.NotNull(iniFile, "iniFile");
-
-            Section = iniFile.GetOrCreateSection(SectionName);
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
         public EntryIniSection
-        (
-            [NotNull] IniFile.Section section
-        )
+            (
+                [NotNull] IniFile.Section section
+            )
+            : base(section)
         {
-            Code.NotNull(section, "section");
-
-            Section = section;
         }
 
         #endregion

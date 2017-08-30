@@ -53,7 +53,7 @@ namespace ManagedIrbis.Reports
 
         #region ReportBand members
 
-        /// <inheritdoc cref="ReportBand.Render"/>
+        /// <inheritdoc cref="CompositeBand.Render" />
         public override void Render
             (
                 ReportContext context

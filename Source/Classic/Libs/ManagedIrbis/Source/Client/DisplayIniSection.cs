@@ -13,8 +13,6 @@ using System.Xml.Serialization;
 
 using AM.IO;
 
-using CodeJam;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -34,6 +32,7 @@ namespace ManagedIrbis.Client
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class DisplayIniSection
+        : AbstractIniSection
     {
         #region Constants
 
@@ -45,16 +44,6 @@ namespace ManagedIrbis.Client
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// INI file section.
-        /// </summary>
-        [NotNull]
-        [XmlIgnore]
-        [JsonIgnore]
-        public IniFile.Section Section { get; private set; }
-
-        // ========================================================
 
         /// <summary>
         /// Размер порции для показа кратких описаний.
@@ -86,35 +75,30 @@ namespace ManagedIrbis.Client
         /// Constructor.
         /// </summary>
         public DisplayIniSection()
+            : base(SectionName)
         {
-            IniFile iniFile = new IniFile();
-            Section = iniFile.CreateSection(SectionName);
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
         public DisplayIniSection
-        (
-            [NotNull] IniFile iniFile
-        )
+            (
+                [NotNull] IniFile iniFile
+            )
+            : base(iniFile, SectionName)
         {
-            Code.NotNull(iniFile, "iniFile");
-
-            Section = iniFile.GetOrCreateSection(SectionName);
         }
 
         /// <summary>
         /// Constructor.
         /// </summary>
         public DisplayIniSection
-        (
-            [NotNull] IniFile.Section section
-        )
+            (
+                [NotNull] IniFile.Section section
+            )
+            : base(section)
         {
-            Code.NotNull(section, "section");
-
-            Section = section;
         }
 
         #endregion
@@ -124,17 +108,6 @@ namespace ManagedIrbis.Client
         #endregion
 
         #region Public methods
-
-        /// <summary>
-        /// Clear the section.
-        /// </summary>
-        [NotNull]
-        public DisplayIniSection Clear()
-        {
-            Section.Clear();
-
-            return this;
-        }
 
         #endregion
 

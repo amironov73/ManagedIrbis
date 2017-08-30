@@ -122,9 +122,9 @@ namespace ManagedIrbis.Biblio
         /// Get property value.
         /// </summary>
         [CanBeNull]
-        protected TResult GetProperty<TChapter,TResult>
+        protected TResult GetProperty<TChapter, TResult>
             (
-                [NotNull] Func<TChapter,TResult> func
+                [NotNull] Func<TChapter, TResult> func
             )
             where TChapter: BiblioChapter
         {
@@ -184,9 +184,9 @@ namespace ManagedIrbis.Biblio
             if (!string.IsNullOrEmpty(Title))
             {
                 ReportBand title = new ParagraphBand
-                    {
-                        StyleSpecification = @"\s1\plain\f1\fs40\sb400\sa400\b "
-                    };
+                {
+                    StyleSpecification = @"\s1\plain\f1\fs40\sb400\sa400\b "
+                };
                 report.Body.Add(title);
                 title.Cells.Add(new SimpleTextCell(Title));
             }
@@ -213,10 +213,7 @@ namespace ManagedIrbis.Biblio
             {
                 if (child.Active)
                 {
-                    if (child.Active)
-                    {
-                        child.BuildDictionary(context);
-                    }
+                    child.BuildDictionary(context);
                 }
             }
 
@@ -224,7 +221,7 @@ namespace ManagedIrbis.Biblio
         }
 
         /// <summary>
-        /// Build <inheritdoc cref="BiblioItem"/>s.
+        /// Build <see cref="BiblioItem"/>s.
         /// </summary>
         public virtual void BuildItems
             (

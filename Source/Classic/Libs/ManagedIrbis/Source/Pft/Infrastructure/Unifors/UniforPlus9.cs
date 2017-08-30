@@ -48,20 +48,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
 #if CLASSIC || DESKTOP
 
-            WebClient client = new WebClient();
-            try
+            using (WebClient client = new WebClient())
             {
-                client.DownloadString(address);
+                try
+                {
+                    client.DownloadString(address);
 
-                return true;
-            }
-            catch (Exception exception)
-            {
-                Log.TraceException
-                    (
-                        "UniforPlus9::_CheckUrlExist",
-                        exception
-                    );
+                    return true;
+                }
+                catch (Exception exception)
+                {
+                    Log.TraceException
+                        (
+                            "UniforPlus9::_CheckUrlExist",
+                            exception
+                        );
+                }
             }
 
             return false;
@@ -118,7 +120,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
 #endregion
 
-#region Public methods
+        #region Public methods
 
 
         /// <summary>

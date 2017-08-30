@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.Xml.Serialization;
 
 using AM;
@@ -32,6 +33,7 @@ namespace ManagedIrbis.Client
     [PublicAPI]
     [MoonSharpUserData]
     public abstract class AbstractIniSection
+        : IDisposable
     {
         #region Properties
 
@@ -52,6 +54,20 @@ namespace ManagedIrbis.Client
         /// </summary>
         protected AbstractIniSection
             (
+                [NotNull] string sectionName
+            )
+        {
+            Code.NotNullNorEmpty(sectionName, "sectionName");
+
+            _ourIniFile = new IniFile();
+            Section = _ourIniFile.GetOrCreateSection(sectionName);
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        protected AbstractIniSection
+            (
                 [NotNull] IniFile iniFile,
                 [NotNull] string sectionName
             )
@@ -59,6 +75,7 @@ namespace ManagedIrbis.Client
             Code.NotNull(iniFile, "iniFile");
             Code.NotNullNorEmpty(sectionName, "sectionName");
 
+            _ourIniFile = null;
             Section = iniFile.GetOrCreateSection(sectionName);
         }
 
@@ -72,8 +89,15 @@ namespace ManagedIrbis.Client
         {
             Code.NotNull(section, "section");
 
+            _ourIniFile = null;
             Section = section;
         }
+
+        #endregion
+
+        #region Private members
+
+        private readonly IniFile _ourIniFile;
 
         #endregion
 
@@ -126,6 +150,19 @@ namespace ManagedIrbis.Client
                     name,
                     value ? "1" : "0"
                 );
+        }
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc cref="IDisposable.Dispose" />
+        public void Dispose()
+        {
+            if (!ReferenceEquals(_ourIniFile, null))
+            {
+                _ourIniFile.Dispose();
+            }
         }
 
         #endregion

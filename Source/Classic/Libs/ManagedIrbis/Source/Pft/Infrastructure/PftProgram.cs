@@ -151,14 +151,16 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString" />
+        /// <inheritdoc cref="PftNode.ToString" />
         public override string ToString()
         {
-            PftPrettyPrinter printer = new PftPrettyPrinter();
-            PrettyPrint(printer);
-            string result = printer.ToString();
+            using (PftPrettyPrinter printer = new PftPrettyPrinter())
+            {
+                PrettyPrint(printer);
+                string result = printer.ToString();
 
-            return result;
+                return result;
+            }
         }
 
         #endregion
