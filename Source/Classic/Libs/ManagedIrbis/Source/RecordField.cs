@@ -76,6 +76,11 @@ namespace ManagedIrbis
         public static bool BreakOnValueContainDelimiters;
 
         /// <summary>
+        /// Флаг: удалять начальные и конечные пробелы в значении поля.
+        /// </summary>
+        public static bool TrimValue;
+
+        /// <summary>
         /// Метка поля.
         /// </summary>
         [CanBeNull]
@@ -1156,10 +1161,13 @@ namespace ManagedIrbis
                 {
                     value = StringUtility
                         .ReplaceControlCharacters(value);
-                    if (!string.IsNullOrEmpty(value))
+
+                    if (!string.IsNullOrEmpty(value)
+                        && TrimValue)
                     {
                         value = value.Trim();
                     }
+
                     _value = value;
                 }
             }

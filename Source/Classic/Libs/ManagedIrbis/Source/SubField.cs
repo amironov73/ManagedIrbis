@@ -64,6 +64,11 @@ namespace ManagedIrbis
         #region Properties
 
         /// <summary>
+        /// Флаг: удалять начальные и конечные пробелы в значении поля.
+        /// </summary>
+        public static bool TrimValue;
+
+        /// <summary>
         /// Код подполя.
         /// </summary>
         [XmlIgnore]
@@ -343,7 +348,8 @@ namespace ManagedIrbis
             {
                 value = StringUtility
                     .ReplaceControlCharacters(value);
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value)
+                    && TrimValue)
                 {
                     value = value.Trim();
                 }
