@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -302,11 +302,17 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FieldReference.cs">
       <Link>Source\FieldReference.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\AuthorInfo.cs">
+      <Link>Source\Fields\AuthorInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\BinaryResource.cs">
       <Link>Source\Fields\BinaryResource.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\CodesInfo.cs">
       <Link>Source\Fields\CodesInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\CollectiveInfo.cs">
+      <Link>Source\Fields\CollectiveInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ExemplarInfo.cs">
       <Link>Source\Fields\ExemplarInfo.cs</Link>
@@ -322,6 +328,21 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\FieldFilter.cs">
       <Link>Source\Fields\FieldFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\HeadingInfo.cs">
+      <Link>Source\Fields\HeadingInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ImprintInfo.cs">
+      <Link>Source\Fields\ImprintInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\IsbnInfo.cs">
+      <Link>Source\Fields\IsbnInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\PersonaliaInfo.cs">
+      <Link>Source\Fields\PersonaliaInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\QuantitativeCharacteristics.cs">
+      <Link>Source\Fields\QuantitativeCharacteristics.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\RevisionInfo.cs">
       <Link>Source\Fields\RevisionInfo.cs</Link>

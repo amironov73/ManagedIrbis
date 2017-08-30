@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if NOTDEF
+#if PORTABLE || UAP
 
 #region Using directives
 
@@ -17,29 +17,53 @@ using System;
 
 namespace System.ComponentModel
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class BrowsableAttribute
         : Attribute
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public BrowsableAttribute()
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="flag"></param>
         public BrowsableAttribute(bool flag)
         {
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class DesignerCategoryAttribute
         : Attribute
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
         public DesignerCategoryAttribute(string name)
         {
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class DesignerSerializationVisibilityAttribute
         : Attribute
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="visibility"></param>
         public DesignerSerializationVisibilityAttribute
             (
                 DesignerSerializationVisibility visibility
@@ -49,9 +73,59 @@ namespace System.ComponentModel
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public enum DesignerSerializationVisibility
     {
+        /// <summary>
+        /// 
+        /// </summary>
         Hidden = 0
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class DescriptionAttribute
+        : Attribute
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public DescriptionAttribute()
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="description"></param>
+        public DescriptionAttribute(string description)
+        {
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class DisplayNameAttribute
+        : Attribute
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public DisplayNameAttribute()
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        public DisplayNameAttribute(string name)
+        {
+        }
     }
 }
 

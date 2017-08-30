@@ -716,6 +716,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\Compatibility\BufferedStream.cs">
       <Link>Compatibility\BufferedStream.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\Compatibility\ComponentModel.cs">
+      <Link>Compatibility\ComponentModel.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\Compatibility\ExcludeFromCodeCoverageAttribute.cs">
       <Link>Compatibility\ExcludeFromCodeCoverageAttribute.cs</Link>
     </Compile>
