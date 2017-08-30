@@ -166,6 +166,46 @@ namespace AM
         }
 
         /// <summary>
+        /// Безопасное преобразование строки
+        /// в число с фиксированной точкой.
+        /// </summary>
+        public static decimal SafeToDecimal
+            (
+                [CanBeNull] this string text,
+                decimal defaultValue
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return defaultValue;
+            }
+
+            decimal result;
+
+#if WINMOBILE || PocketPC
+
+            try
+            {
+                result = decimal.Parse(text);
+            }
+            catch (Exception)
+            {
+                result = defaultValue;
+            }
+
+#else
+
+            if (!TryParseDecimal(text, out result))
+            {
+                result = defaultValue;
+            }
+
+#endif
+
+            return result;
+        }
+
+        /// <summary>
         /// Безопасное преобразование строки в целое.
         /// </summary>
         public static int SafeToInt32

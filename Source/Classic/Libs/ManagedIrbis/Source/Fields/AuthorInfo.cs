@@ -205,7 +205,7 @@ namespace ManagedIrbis.Fields
         [XmlIgnore]
         [JsonIgnore]
         [DisplayName("Поле с подполями")]
-        public RecordField Field { get; set; }
+        public RecordField Field { get; private set; }
 
         #endregion
 
@@ -811,10 +811,6 @@ namespace ManagedIrbis.Fields
                 .AddNonEmptySubField('f', Dates)
                 .AddNonEmptySubField('r', Variant)
                 .AddNonEmptySubField('p', WorkPlace);
-            if (CantBeInverted)
-            {
-                result.AddSubField('9', "1");
-            }
 
             return result;
         }

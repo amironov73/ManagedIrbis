@@ -168,6 +168,7 @@
     <Compile Include="Source\BibTex\BibTex.cs" />
     <Compile Include="Source\Client\ConnectedFormatter.cs" />
     <Compile Include="Source\Fields\AuthorInfo.cs" />
+    <Compile Include="Source\Fields\IsbnInfo.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblAdd.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblAll.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblCha.cs" />
