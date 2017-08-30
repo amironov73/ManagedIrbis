@@ -168,8 +168,23 @@
     <Compile Include="Source\BibTex\BibTex.cs" />
     <Compile Include="Source\Client\ConnectedFormatter.cs" />
     <Compile Include="Source\Fields\AuthorInfo.cs" />
-    <Compile Include="Source\Fields\CollectiveInfo.cs" />    <Compile Include="Source\Fields\HeadingInfo.cs" />    <Compile Include="Source\Fields\IsbnInfo.cs" />
-    <Compile Include="Source\Fields\IsbnInfo.cs" />    <Compile Include="Source\Gbl\Infrastructure\Ast\GblAdd.cs" />
+    <Compile Include="Source\Fields\BinaryResource.cs" />
+    <Compile Include="Source\Fields\CodesInfo.cs" />
+    <Compile Include="Source\Fields\CollectiveInfo.cs" />
+    <Compile Include="Source\Fields\ExemplarInfo.cs" />
+    <Compile Include="Source\Fields\ExemplarInfoComparer.cs" />
+    <Compile Include="Source\Fields\ExemplarManager.cs" />
+    <Compile Include="Source\Fields\ExemplarStatus.cs" />
+    <Compile Include="Source\Fields\ExternalResource.cs" />
+    <Compile Include="Source\Fields\FieldFilter.cs" />
+    <Compile Include="Source\Fields\HeadingInfo.cs" />
+    <Compile Include="Source\Fields\ImprintInfo.cs" />
+    <Compile Include="Source\Fields\IsbnInfo.cs" />
+    <Compile Include="Source\Fields\PersonaliaInfo.cs" />
+    <Compile Include="Source\Fields\QuantitativeCharacteristics.cs" />
+    <Compile Include="Source\Fields\RevisionInfo.cs" />
+    <Compile Include="Source\Fields\TitleInfo.cs" />
+    <Compile Include="Source\Gbl\Infrastructure\Ast\GblAdd.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblAll.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblCha.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblChac.cs" />
@@ -283,13 +298,6 @@
     <Compile Include="Source\Extensibility\ExtensionManager.cs" />
     <Compile Include="Source\Extensibility\ExtensionInfo.cs" />
     <Compile Include="Source\Extensibility\IrbisExtension.cs" />
-    <Compile Include="Source\Fields\ExemplarInfoComparer.cs" />
-    <Compile Include="Source\Fields\ExemplarStatus.cs" />
-    <Compile Include="Source\Fields\ExternalResource.cs" />
-    <Compile Include="Source\Fields\FieldFilter.cs" />
-    <Compile Include="Source\Fields\ImprintInfo.cs" />
-    <Compile Include="Source\Fields\QuantitativeCharacteristics.cs" />
-    <Compile Include="Source\Fields\TitleInfo.cs" />
     <Compile Include="Source\Fst\FstProcessor.cs" />
     <Compile Include="Source\Fst\LocalFstProcessor.cs" />
     <Compile Include="Source\Identifiers\CodeDigit.cs" />
@@ -328,7 +336,6 @@
     <Compile Include="Source\Infrastructure\Sockets\ClientSocketUtility.cs" />
     <Compile Include="Source\Infrastructure\Sockets\SlowSocket.cs" />
     <Compile Include="Source\Infrastructure\StandardEngine.cs" />
-    <Compile Include="Source\Fields\BinaryResource.cs" />
     <Compile Include="Source\Flc\FlcConstants.cs" />
     <Compile Include="Source\Flc\FlcProcessor.cs" />
     <Compile Include="Source\Flc\FlcResult.cs" />
@@ -363,10 +370,6 @@
     <Compile Include="Source\EmbeddedField.cs" />
     <Compile Include="Source\FieldIndicator.cs" />
     <Compile Include="Source\FieldReference.cs" />
-    <Compile Include="Source\Fields\CodesInfo.cs" />
-    <Compile Include="Source\Fields\ExemplarInfo.cs" />
-    <Compile Include="Source\Fields\ExemplarManager.cs" />
-    <Compile Include="Source\Fields\RevisionInfo.cs" />
     <Compile Include="Source\FieldTag.cs" />
     <Compile Include="Source\FieldValue.cs" />
     <Compile Include="Source\IlfFile.cs" />
