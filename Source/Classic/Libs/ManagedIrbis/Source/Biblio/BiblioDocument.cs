@@ -87,29 +87,6 @@ namespace ManagedIrbis.Biblio
 
         #region Private members
 
-        private int _itemCount;
-
-        private void _NumberChapter
-            (
-                [NotNull] BiblioChapter chapter
-            )
-        {
-            ItemCollection items = chapter.Items;
-
-            if (!ReferenceEquals(items, null))
-            {
-                foreach (BiblioItem item in items)
-                {
-                    item.Number = ++_itemCount;
-                }
-            }
-
-            foreach (BiblioChapter child in chapter.Children)
-            {
-                _NumberChapter(child);
-            }
-        }
-
         #endregion
 
         #region Public methods
@@ -300,19 +277,18 @@ namespace ManagedIrbis.Biblio
 
             AbstractOutput log = context.Log;
             log.WriteLine("Begin number items");
-            _itemCount = 0;
+            context.ItemCount = 0;
 
             foreach (BiblioChapter chapter in Chapters)
             {
                 if (chapter.Active)
                 {
-                    _NumberChapter(chapter);
+                    chapter.NumberItems(context);
                 }
             }
 
-            log.WriteLine("Total items: {0}", _itemCount);
+            log.WriteLine("Total items: {0}", context.ItemCount);
             log.WriteLine("End number items");
-
         }
 
         /// <summary>

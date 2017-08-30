@@ -126,7 +126,7 @@ namespace ManagedIrbis.Biblio
             (
                 [NotNull] Func<TChapter, TResult> func
             )
-            where TChapter: BiblioChapter
+            where TChapter : BiblioChapter
         {
             Code.NotNull(func, "func");
 
@@ -312,6 +312,33 @@ namespace ManagedIrbis.Biblio
             }
 
             log.WriteLine("End initialize {0}", this);
+        }
+
+        /// <summary>
+        /// Number items.
+        /// </summary>
+        public virtual void NumberItems
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            ItemCollection items = Items;
+
+            if (!ReferenceEquals(items, null))
+            {
+                foreach (BiblioItem item in items)
+                {
+                    item.Number = ++context.ItemCount;
+                }
+            }
+
+            foreach (BiblioChapter child in Children)
+            {
+                child.NumberItems(context);
+            }
+
         }
 
         /// <summary>

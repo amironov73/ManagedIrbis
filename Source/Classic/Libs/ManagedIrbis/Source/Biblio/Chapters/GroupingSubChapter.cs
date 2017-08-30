@@ -267,6 +267,23 @@ namespace ManagedIrbis.Biblio
             log.WriteLine("End grouping {0}", this);
         }
 
+        /// <inheritdoc cref="BiblioChapter.NumberItems" />
+        public override void NumberItems
+            (
+                BiblioContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            foreach (BookGroup bookGroup in Groups)
+            {
+                foreach (BiblioItem item in bookGroup)
+                {
+                    item.Number = ++context.ItemCount;
+                }
+            }
+        }
+
         /// <inheritdoc cref="MenuSubChapter.Render" />
         public override void Render
             (
@@ -291,13 +308,15 @@ namespace ManagedIrbis.Biblio
                 log.WriteLine(name);
 
                 report.Body.Add(new ParagraphBand());
-                ReportBand band = new ParagraphBand
-                    (
-                        "{\\b "
-                        + name
-                        + "\\b0}"
-                        + " (автор, редактор, составитель)"
-                    );
+                string groupTitle =
+                    "{\\b "
+                    + name
+                    + "\\b0}";
+                if (!bookGroup.OtherGroup)
+                {
+                    groupTitle += " (автор, редактор, составитель)";
+                }
+                ReportBand band = new ParagraphBand(groupTitle);
                 report.Body.Add(band);
                 report.Body.Add(new ParagraphBand());
 

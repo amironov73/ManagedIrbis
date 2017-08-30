@@ -73,7 +73,7 @@ if a(v215^1)then
       if p(v215^a) then &unifor('Korg.mnu|4') fi,
       if s(v215^c,v215^d,v215^e)<>''then |.|d215^a 
 fi fi fi,| : |d215^c,
-if v215^c*1.1='-'then v215^c*2,|, |v215^0*2,|, |v215^7*2,|, |v215^8*2 else v215^c fi,| ; |v215^d,
+if v215^c*1.1='-'then v215^c*2,|, |v215^0*2,|, |v215^7*2,|, |v215^8*2 else v215^c fi,
 if s(&unifor('G2='v230^b),&unifor('G2='v230^c))<>''then' : '&unifor('G2='v230^b),
    if &unifor('G2='v230^c)<>''then if &unifor('G2='v230^b)<>''then', 'fi,&unifor('G2='v230^c) 
 fi fi),
@@ -89,9 +89,6 @@ fi fi),
 if v920:'NJ' then else if p(v463) then ,&uf('6OISTASPK'), fi fi,
 |. - |v912,|. - |v320,|. - |v314,
 if s(v461^j)=''then". - \b ISSN \b0 "|. - |+v11^a fi,
-if p(v215^x)then 
-   if val(v215^x)=0 then|  тираж |v215^x else|  |v215^x| экз.|fi 
-fi,
 
 if p(v101) and v101 <> &uf('Korg.mnu!6') then 
   '. - ',
@@ -108,7 +105,7 @@ if p(v101) and v101 <> &uf('Korg.mnu!6') then
    '.'
 fi,
 
-|\par \pard |v331,
+|\par\pard\fi360 |v331,
 
 if v920.1:'A' then else if s(v905^m)=''and &unifor('IPRIVATE,FPP,')=''then mhl,"\par  "|. |+v300,mpl fi fi, 
 "\par \b   Перевод заглавия: \b0  "v541, 

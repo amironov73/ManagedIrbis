@@ -49,7 +49,7 @@ namespace AM.IO
                 [NotNull] this BinaryWriter writer,
                 [NotNull] NonNullCollection<T> collection
             )
-            where T: class, IHandmadeSerializable, new()
+            where T : class, IHandmadeSerializable, new()
         {
             Code.NotNull(writer, "writer");
 
@@ -395,7 +395,7 @@ namespace AM.IO
                 [NotNull] this BinaryWriter writer,
                 [NotNull][ItemNotNull] T[] array
             )
-            where T: IHandmadeSerializable, new ()
+            where T : IHandmadeSerializable, new()
         {
             Code.NotNull(writer, "writer");
             Code.NotNull(array, "array");
@@ -419,7 +419,7 @@ namespace AM.IO
                 [NotNull] this BinaryWriter writer,
                 [NotNull][ItemNotNull] NonNullCollection<T> collection
             )
-            where T: class, IHandmadeSerializable, new()
+            where T : class, IHandmadeSerializable, new()
         {
             Code.NotNull(writer, "writer");
             Code.NotNull(collection, "collection");
@@ -443,7 +443,7 @@ namespace AM.IO
                 [NotNull] this BinaryWriter writer,
                 [NotNull][ItemNotNull] List<T> list
             )
-            where T: IHandmadeSerializable, new ()
+            where T : IHandmadeSerializable, new()
         {
             Code.NotNull(writer, "writer");
             Code.NotNull(list, "list");
@@ -550,7 +550,7 @@ namespace AM.IO
                 [NotNull] this BinaryWriter writer,
                 [CanBeNull] T[] array
             )
-            where T: IHandmadeSerializable
+            where T : IHandmadeSerializable
         {
             Code.NotNull(writer, "writer");
 
@@ -583,15 +583,18 @@ namespace AM.IO
                 int value
             )
         {
-            uint v = (uint) value;
-            while (v >= 0x80)
+            unchecked
             {
-                writer.Write((byte) (v | 0x80));
-                v >>= 7;
-            }
-            writer.Write((byte)v);
+                uint v = (uint)value;
+                while (v >= 0x80)
+                {
+                    writer.Write((byte)(v | 0x80));
+                    v >>= 7;
+                }
+                writer.Write((byte)v);
 
-            return writer;
+                return writer;
+            }
         }
 
         /// <summary>
@@ -606,15 +609,18 @@ namespace AM.IO
                 long value
             )
         {
-            ulong v = (ulong)value;
-            while (v >= 0x80)
+            unchecked
             {
-                writer.Write((byte)(v | 0x80));
-                v >>= 7;
-            }
-            writer.Write((byte)v);
+                ulong v = (ulong)value;
+                while (v >= 0x80)
+                {
+                    writer.Write((byte)(v | 0x80));
+                    v >>= 7;
+                }
+                writer.Write((byte)v);
 
-            return writer;
+                return writer;
+            }
         }
 
         #endregion

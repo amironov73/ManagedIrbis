@@ -71,6 +71,11 @@ namespace ManagedIrbis.Biblio
         public AbstractOutput Log { get; private set; }
 
         /// <summary>
+        /// Count of <see cref="BiblioItem"/>s.
+        /// </summary>
+        public int ItemCount { get; set; }
+
+        /// <summary>
         /// All the gathered records.
         /// </summary>
         [NotNull]
@@ -109,6 +114,7 @@ namespace ManagedIrbis.Biblio
             Document = document;
             Provider = provider;
             Log = log;
+            ItemCount = 0;
             ReportContext = new ReportContext(provider);
             Records = new RecordCollection();
             BadRecords = new RecordCollection();

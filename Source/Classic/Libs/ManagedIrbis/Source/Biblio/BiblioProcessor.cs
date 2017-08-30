@@ -371,6 +371,5 @@ namespace ManagedIrbis.Biblio
         #region Object members
 
         #endregion
-
     }
 }
