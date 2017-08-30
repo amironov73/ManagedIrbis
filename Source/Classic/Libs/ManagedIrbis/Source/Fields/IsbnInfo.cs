@@ -136,7 +136,7 @@ namespace ManagedIrbis.Fields
         /// Apply the <see cref="IsbnInfo"/>
         /// to the <see cref="RecordField"/>.
         /// </summary>
-        public void ApplyToField700
+        public void ApplyToField
             (
                 [NotNull] RecordField field
             )
@@ -224,7 +224,6 @@ namespace ManagedIrbis.Fields
 
             return result;
         }
-
 
         #endregion
 
