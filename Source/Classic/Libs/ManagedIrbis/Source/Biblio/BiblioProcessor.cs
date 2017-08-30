@@ -302,7 +302,7 @@ namespace ManagedIrbis.Biblio
                 string fileName;
                 if (path.StartsWith("*"))
                 {
-#if !PORTABLE
+#if !PORTABLE && !WINMOBILE
 
                     fileName = path.Substring(1);
                     result = File.ReadAllText(fileName, IrbisEncoding.Ansi);

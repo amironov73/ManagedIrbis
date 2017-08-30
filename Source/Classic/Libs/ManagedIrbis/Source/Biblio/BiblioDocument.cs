@@ -38,7 +38,7 @@ using MoonSharp.Interpreter;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-#if !PORTABLE
+#if !PORTABLE && !WINMOBILE
 
 using AM.Json;
 
@@ -244,7 +244,7 @@ namespace ManagedIrbis.Biblio
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if PORTABLE
+#if PORTABLE || WINMOBILE
 
             throw new NotSupportedException();
 

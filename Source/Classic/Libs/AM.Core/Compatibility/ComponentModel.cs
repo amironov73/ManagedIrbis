@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if PORTABLE || UAP
+#if PORTABLE || UAP || WINMOBILE
 
 #region Using directives
 
@@ -39,6 +39,8 @@ namespace System.ComponentModel
         }
     }
 
+#if !WINMOBILE
+
     /// <summary>
     /// 
     /// </summary>
@@ -53,6 +55,8 @@ namespace System.ComponentModel
         {
         }
     }
+
+#endif
 
     /// <summary>
     /// 

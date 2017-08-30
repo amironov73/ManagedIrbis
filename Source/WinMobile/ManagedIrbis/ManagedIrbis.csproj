@@ -104,6 +104,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioTerm.cs">
       <Link>Source\Biblio\BiblioTerm.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioUtility.cs">
+      <Link>Source\Biblio\BiblioUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\BiblioChapter.cs">
       <Link>Source\Biblio\Chapters\BiblioChapter.cs</Link>
     </Compile>
@@ -113,23 +116,50 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithDictionary.cs">
       <Link>Source\Biblio\Chapters\ChapterWithDictionary.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithErrors.cs">
+      <Link>Source\Biblio\Chapters\ChapterWithErrors.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithRecords.cs">
       <Link>Source\Biblio\Chapters\ChapterWithRecords.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithStatistics.cs">
+      <Link>Source\Biblio\Chapters\ChapterWithStatistics.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithText.cs">
       <Link>Source\Biblio\Chapters\ChapterWithText.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\CumulatingSubChapter.cs">
+      <Link>Source\Biblio\Chapters\CumulatingSubChapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\GroupingSubChapter.cs">
+      <Link>Source\Biblio\Chapters\GroupingSubChapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\MenuChapter.cs">
+      <Link>Source\Biblio\Chapters\MenuChapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\MenuSubChapter.cs">
+      <Link>Source\Biblio\Chapters\MenuSubChapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\SimpleChapter.cs">
+      <Link>Source\Biblio\Chapters\SimpleChapter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\BiblioDictionary.cs">
       <Link>Source\Biblio\Dictionaries\BiblioDictionary.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\PftDictionary.cs">
-      <Link>Source\Biblio\Dictionaries\PftDictionary.cs</Link>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\DictionaryEntry.cs">
+      <Link>Source\Biblio\Dictionaries\DictionaryEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\TermCollection.cs">
+      <Link>Source\Biblio\Dictionaries\TermCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\ItemCollection.cs">
       <Link>Source\Biblio\ItemCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\RecordCollection.cs">
       <Link>Source\Biblio\RecordCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\SpecialSettings.cs">
+      <Link>Source\Biblio\SpecialSettings.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\TermComparer.cs">
       <Link>Source\Biblio\TermComparer.cs</Link>
@@ -149,6 +179,15 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ClientInfo.cs">
       <Link>Source\ClientInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\AbstractIniSection.cs">
+      <Link>Source\Client\AbstractIniSection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\Alias.cs">
+      <Link>Source\Client\Alias.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\AliasManager.cs">
+      <Link>Source\Client\AliasManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\CatalogDelta.cs">
       <Link>Source\Client\CatalogDelta.cs</Link>
     </Compile>
@@ -158,17 +197,32 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\ClientLM.cs">
       <Link>Source\Client\ClientLM.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\IrbisProvider.cs">
-      <Link>Source\Client\IrbisProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\Alias.cs">
-      <Link>Source\Client\Alias.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\AliasManager.cs">
-      <Link>Source\Client\AliasManager.cs</Link>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\ClientRunner.cs">
+      <Link>Source\Client\ClientRunner.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\ConnectedClient.cs">
       <Link>Source\Client\ConnectedClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\ConnectedFormatter.cs">
+      <Link>Source\Client\ConnectedFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\ContextIniSection.cs">
+      <Link>Source\Client\ContextIniSection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\DesktopIniSection.cs">
+      <Link>Source\Client\DesktopIniSection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\DisplayIniSection.cs">
+      <Link>Source\Client\DisplayIniSection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\EntryIniSection.cs">
+      <Link>Source\Client\EntryIniSection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\IrbisProvider.cs">
+      <Link>Source\Client\IrbisProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\IrbisProviderAsyncExtensions.cs">
+      <Link>Source\Client\IrbisProviderAsyncExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\LocalCatalogerIniFile.cs">
       <Link>Source\Client\LocalCatalogerIniFile.cs</Link>
@@ -308,11 +362,17 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FieldReference.cs">
       <Link>Source\FieldReference.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\AuthorInfo.cs">
+      <Link>Source\Fields\AuthorInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\BinaryResource.cs">
       <Link>Source\Fields\BinaryResource.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\CodesInfo.cs">
       <Link>Source\Fields\CodesInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\CollectiveInfo.cs">
+      <Link>Source\Fields\CollectiveInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ExemplarInfo.cs">
       <Link>Source\Fields\ExemplarInfo.cs</Link>
@@ -331,6 +391,21 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\FieldFilter.cs">
       <Link>Source\Fields\FieldFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\HeadingInfo.cs">
+      <Link>Source\Fields\HeadingInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ImprintInfo.cs">
+      <Link>Source\Fields\ImprintInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\IsbnInfo.cs">
+      <Link>Source\Fields\IsbnInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\PersonaliaInfo.cs">
+      <Link>Source\Fields\PersonaliaInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\QuantitativeCharacteristics.cs">
+      <Link>Source\Fields\QuantitativeCharacteristics.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\RevisionInfo.cs">
       <Link>Source\Fields\RevisionInfo.cs</Link>
@@ -1469,6 +1544,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Walking\VisitorContext.cs">
       <Link>Source\Pft\Infrastructure\Walking\VisitorContext.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\IPftFormatter.cs">
+      <Link>Source\Pft\IPftFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftException.cs">
       <Link>Source\Pft\PftException.cs</Link>
     </Compile>
@@ -1700,6 +1778,12 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\HeaderBand.cs">
       <Link>Source\Reports\Bands\HeaderBand.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\NewPageBand.cs">
+      <Link>Source\Reports\Bands\NewPageBand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\ParagraphBand.cs">
+      <Link>Source\Reports\Bands\ParagraphBand.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\ReportBand.cs">
       <Link>Source\Reports\Bands\ReportBand.cs</Link>
     </Compile>
@@ -1741,6 +1825,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\ReportCell.cs">
       <Link>Source\Reports\Cells\ReportCell.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\SimpleTextCell.cs">
+      <Link>Source\Reports\Cells\SimpleTextCell.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\TextCell.cs">
       <Link>Source\Reports\Cells\TextCell.cs</Link>

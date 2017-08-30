@@ -50,6 +50,24 @@ namespace JetBrains.Annotations
         : Attribute
     {
     }
+
+    public sealed class AssertionConditionAttribute
+        : Attribute
+    {
+        public AssertionConditionAttribute()
+        {
+        }
+
+        public AssertionConditionAttribute(AssertionConditionType condition)
+        {
+        }
+    }
+
+    public enum AssertionConditionType
+    {
+        IS_NOT_NULL = 0
+    }
+
 }
 
 #endif
