@@ -11,5 +11,4 @@ if p(v461)then
    |. - |v461^h,(|. - (|v46^a,| ; |v46^v,
    if s(v46^a,v46^v)<>''then|)|d46 fi,   |. - |v46^p),
    if s(v982^1,v982^4,v982^5)<>''then'. - 'v982^1|; |,|น ระ |v982^4,|; ศํโ.น |v982^5 fi,
-   if v10^a:v461^i or s(v10^a)=''then else". - ISBN "v461^i fi,". - ISSN "v461^j,
 fi,

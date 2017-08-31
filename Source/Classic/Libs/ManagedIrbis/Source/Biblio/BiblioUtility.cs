@@ -50,6 +50,28 @@ namespace ManagedIrbis.Biblio
 
         private static Regex _commandRegex = new Regex(@"\\[a-z]\d+$");
 
+        private static void _AddDot
+            (
+                [NotNull] StringBuilder builder,
+                [CanBeNull] string line
+            )
+        {
+            if (!string.IsNullOrEmpty(line))
+            {
+                line = line.TrimEnd();
+                builder.Append(line);
+                if (!string.IsNullOrEmpty(line))
+                {
+                    char lastChar = line.LastChar();
+                    if (!lastChar.OneOf(_delimiters)
+                        && !_commandRegex.IsMatch(line))
+                    {
+                        builder.Append('.');
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region Public methods
@@ -65,9 +87,10 @@ namespace ManagedIrbis.Biblio
         {
             StringBuilder result = new StringBuilder(text.Length + 10);
             TextNavigator navigator = new TextNavigator(text);
+            string line;
             while (!navigator.IsEOF)
             {
-                string line = navigator.ReadTo("\\par");
+                line = navigator.ReadTo("\\par");
                 if (ReferenceEquals(line, null))
                 {
                     break;
@@ -87,23 +110,16 @@ namespace ManagedIrbis.Biblio
                     par = true;
                 }
 
-                line = line.TrimEnd();
-                result.Append(line);
-                if (!string.IsNullOrEmpty(line))
-                {
-                    char lastChar = line.LastChar();
-                    if (!lastChar.OneOf(_delimiters)
-                        && !_commandRegex.IsMatch(line))
-                    {
-                        result.Append('.');
-                    }
-                }
+                _AddDot(result, line);
 
                 if (par)
                 {
                     result.Append("\\par");
                 }
             }
+
+            line = navigator.GetRemainingText();
+            _AddDot(result, line);
 
             return result.ToString();
         }
