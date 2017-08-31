@@ -170,6 +170,8 @@
     <Compile Include="Source\Client\ConnectedFormatter.cs" />
     <Compile Include="Source\Fields\AuthorInfo.cs" />
     <Compile Include="Source\Fields\BinaryResource.cs" />
+    <Compile Include="Source\Fields\CatalogingRules.cs" />
+    <Compile Include="Source\Fields\CharacterSetCode.cs" />
     <Compile Include="Source\Fields\CodesInfo.cs" />
     <Compile Include="Source\Fields\CollectiveInfo.cs" />
     <Compile Include="Source\Fields\ExemplarInfo.cs" />
@@ -181,10 +183,13 @@
     <Compile Include="Source\Fields\HeadingInfo.cs" />
     <Compile Include="Source\Fields\ImprintInfo.cs" />
     <Compile Include="Source\Fields\IsbnInfo.cs" />
+    <Compile Include="Source\Fields\LanguageCode.cs" />
+    <Compile Include="Source\Fields\LanguageInfo.cs" />
     <Compile Include="Source\Fields\PartInfo.cs" />
     <Compile Include="Source\Fields\PersonaliaInfo.cs" />
     <Compile Include="Source\Fields\QuantitativeCharacteristics.cs" />
     <Compile Include="Source\Fields\RevisionInfo.cs" />
+    <Compile Include="Source\Fields\TitleCharacterSet.cs" />
     <Compile Include="Source\Fields\TitleInfo.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblAdd.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblAll.cs" />
