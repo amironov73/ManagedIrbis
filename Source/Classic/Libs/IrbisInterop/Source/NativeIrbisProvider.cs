@@ -328,6 +328,12 @@ namespace IrbisInterop
             return result.ToArray();
         }
 
+        /// <inheritdoc cref="IrbisProvider.GetFileSearchPath" />
+        public override string[] GetFileSearchPath()
+        {
+            return Irbis64.PftSearchPath;
+        }
+
         /// <inheritdoc cref="IrbisProvider.GetMaxMfn" />
         public override int GetMaxMfn()
         {

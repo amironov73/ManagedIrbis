@@ -34,7 +34,7 @@ using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Search;
-
+using ManagedIrbis.Server;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -78,6 +78,52 @@ namespace ManagedIrbis.Client
         /// Access mode.
         /// </summary>
         public DirectAccessMode Mode { get; private set; }
+
+        /// <summary>
+        /// Current database PFT path.
+        /// </summary>
+        [NotNull]
+        public string DatabasePftPath
+        {
+            get
+            {
+                string result = Path.Combine
+                    (
+                        DataPath,
+                        Database
+                    );
+
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// PFT search path alternatives.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public string[] PftSearchPath
+        {
+            get
+            {
+                string[] result = new string[3];
+
+                string systemPath = DataPath;
+                result[0] = Path.Combine
+                    (
+                        systemPath,
+                        "Deposit_USER"
+                    );
+                result[1] = DatabasePftPath;
+                result[2] = Path.Combine
+                    (
+                        systemPath,
+                        "Deposit"
+                    );
+
+                return result;
+            }
+        }
 
         #endregion
 
@@ -353,6 +399,12 @@ namespace ManagedIrbis.Client
             string result = context.GetProcessedOutput();
 
             return result;
+        }
+
+        /// <inheritdoc cref="IrbisProvider.GetFileSearchPath" />
+        public override string[] GetFileSearchPath()
+        {
+            return PftSearchPath;
         }
 
         /// <inheritdoc cref="IrbisProvider.GetMaxMfn" />

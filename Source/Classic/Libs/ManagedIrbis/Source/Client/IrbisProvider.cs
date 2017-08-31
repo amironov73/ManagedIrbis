@@ -231,6 +231,16 @@ namespace ManagedIrbis.Client
         }
 
         /// <summary>
+        /// Get path for file searching.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public virtual string[] GetFileSearchPath()
+        {
+            return StringUtility.EmptyArray;
+        }
+
+        /// <summary>
         /// Get user server INI-file.
         /// </summary>
         [NotNull]

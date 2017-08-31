@@ -72,14 +72,14 @@ namespace ManagedIrbis.Server
             Code.NotNull(extension, "extension");
             Code.NotNull(pathArray, "pathArray");
 
+            if (!text.Contains(InclusionStart))
+            {
+                return text;
+            }
+
             if (pathArray.Length == 0)
             {
                 throw new IrbisException();
-            }
-
-            if (text.Contains(InclusionStart))
-            {
-                return text;
             }
 
             StringBuilder result = new StringBuilder(text.Length * 2);
@@ -99,45 +99,67 @@ namespace ManagedIrbis.Server
                 {
                     break;
                 }
-                if (!fileName.Contains('.'))
-                {
-                    if (!extension.StartsWith("."))
-                    {
-                        fileName += '.';
-                    }
-                    fileName += extension;
-                }
 
-                bool found = false;
-                foreach (string path in pathArray)
-                {
-                    string fullPath = Path.Combine(path, fileName);
-                    if (File.Exists(fullPath))
-                    {
-                        string fileContent = File.ReadAllText
-                            (
-                                fullPath,
-                                IrbisEncoding.Ansi
-                            );
-                        fileContent = ExpandInclusion
-                            (
-                                fileContent,
-                                extension,
-                                pathArray
-                            );
-                        result.Append(fileContent);
-                        found = true;
-                        break;
-                    }
-                }
+                string fullPath = FindFileOnPath
+                    (
+                        fileName,
+                        extension,
+                        pathArray
+                    );
+                string fileContent = File.ReadAllText
+                    (
+                        fullPath,
+                        IrbisEncoding.Ansi
+                    );
+                fileContent = ExpandInclusion
+                    (
+                        fileContent,
+                        extension,
+                        pathArray
+                    );
+                result.Append(fileContent);
+            }
 
-                if (!found)
+            string remaining = navigator.GetRemainingText();
+            result.Append(remaining);
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Find file on path.
+        /// </summary>
+        [NotNull]
+        public static string FindFileOnPath
+            (
+                [NotNull] string fileName,
+                [NotNull] string extension,
+                [NotNull] string[] pathArray
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNull(extension, "extension");
+            Code.NotNull(pathArray, "pathArray");
+
+            if (!fileName.Contains('.'))
+            {
+                if (!extension.StartsWith("."))
                 {
-                    throw new IrbisException();
+                    fileName += '.';
+                }
+                fileName += extension;
+            }
+
+            foreach (string path in pathArray)
+            {
+                string fullPath = Path.Combine(path, fileName);
+                if (File.Exists(fullPath))
+                {
+                    return fullPath;
                 }
             }
 
-            return result.ToString();
+            throw new IrbisException();
         }
 
         #endregion
