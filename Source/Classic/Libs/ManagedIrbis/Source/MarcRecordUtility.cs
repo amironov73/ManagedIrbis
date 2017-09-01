@@ -202,6 +202,49 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Remove all the fields with specified tag.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord RemoveField
+            (
+                [NotNull] this MarcRecord record,
+                [NotNull] string tag
+            )
+        {
+            Code.NotNull(record, "record");
+            Code.NotNullNorEmpty(tag, "tag");
+
+            RecordField[] found = record.Fields.GetField(tag);
+            foreach (RecordField field in found)
+            {
+                record.Fields.Remove(field);
+            }
+
+            return record;
+        }
+
+        /// <summary>
+        /// Replace fields with specified tag.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord ReplaceField
+            (
+                [NotNull] this MarcRecord record,
+                [NotNull] string tag,
+                [NotNull] IEnumerable<RecordField> newFields
+            )
+        {
+            Code.NotNull(record, "record");
+            Code.NotNullNorEmpty(tag, "tag");
+            Code.NotNull(newFields, "newFields");
+
+            record.RemoveField(tag);
+            record.Fields.AddRange(newFields);
+
+            return record;
+        }
+
+        /// <summary>
         /// Sets the field.
         /// </summary>
         /// <returns></returns>

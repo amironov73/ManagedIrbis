@@ -751,6 +751,9 @@
     <Compile Include="Source\Reports\Testing\ReportTester.cs" />
     <Compile Include="Source\Reports\Testing\ReportTestResult.cs" />
     <Compile Include="Source\Requests\RequestStatus.cs" />
+    <Compile Include="Source\Reservations\ReservationClaim.cs" />
+    <Compile Include="Source\Reservations\ReservationInfo.cs" />
+    <Compile Include="Source\Reservations\ReservationStatus.cs" />
     <Compile Include="Source\Search\FoundLine.cs" />
     <Compile Include="Source\Search\Infrastructure\ComplexLevel.cs" />
     <Compile Include="Source\Search\Infrastructure\ISearchTree.cs" />

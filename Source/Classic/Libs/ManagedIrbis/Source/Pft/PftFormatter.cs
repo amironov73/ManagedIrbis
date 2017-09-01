@@ -20,7 +20,6 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Client;
 using ManagedIrbis.Pft.Infrastructure;
-using ManagedIrbis.Server;
 
 using MoonSharp.Interpreter;
 
@@ -210,13 +209,6 @@ namespace ManagedIrbis.Pft
         {
             Code.NotNull(source, "source");
 
-            string[] pathArray = Context.Provider.GetFileSearchPath();
-            source = ServerUtility.ExpandInclusion
-                (
-                    source,
-                    "pft",
-                    pathArray
-                );
             Program = PftUtility.CompileProgram(source);
         }
 

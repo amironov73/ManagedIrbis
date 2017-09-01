@@ -170,6 +170,45 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Apply the field value.
+        /// </summary>
+        /// <remarks>
+        /// For non-repeating fields only.
+        /// </remarks>
+        [NotNull]
+        public RecordFieldCollection ApplyFieldValue
+            (
+                [NotNull] string tag,
+                [CanBeNull] string value
+            )
+        {
+            Code.NotNullNorEmpty(tag, "tag");
+
+            RecordField field = this.FirstOrDefault
+                (
+                    item => item.Tag.SameString(tag)
+                );
+
+            if (string.IsNullOrEmpty(value))
+            {
+                if (!ReferenceEquals(field, null))
+                {
+                    Remove(field);
+                }
+            }
+            else
+            {
+                if (ReferenceEquals(field, null))
+                {
+                    field = new RecordField(tag);
+                }
+                field.Value = value;
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Begin record update.
         /// </summary>
         public void BeginUpdate()
@@ -282,7 +321,7 @@ namespace ManagedIrbis
         protected override void InsertItem
             (
                 int index,
-                [NotNull] RecordField item
+                RecordField item
             )
         {
             ThrowIfReadOnly();
@@ -325,7 +364,7 @@ namespace ManagedIrbis
         protected override void SetItem
             (
                 int index,
-                [NotNull] RecordField item
+                RecordField item
             )
         {
             ThrowIfReadOnly();
