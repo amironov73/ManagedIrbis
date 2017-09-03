@@ -302,7 +302,9 @@ namespace ManagedIrbis.Biblio
 
                 builder.Append(entry.Title);
                 builder.Append(" {\\i ");
-                int[] refs = entry.References.ToArray();
+                int[] refs = entry.References
+                    .Where(item => item > 0)
+                    .ToArray();
                 Array.Sort(refs);
                 bool first = true;
                 foreach (int reference in refs)
