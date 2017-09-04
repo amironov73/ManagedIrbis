@@ -146,6 +146,7 @@
             "pageBreak": true
           },
           "select": "*authors.pft",
+          "extended": "*authors_extended.pft",
           "orderBy": "*authors.pft",
           "exclude": [
             "Распутин, Валентин Григорьевич",

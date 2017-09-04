@@ -58,6 +58,12 @@ namespace ManagedIrbis.Biblio
         public string Title { get; set; }
 
         /// <summary>
+        /// Extended title.
+        /// </summary>
+        [CanBeNull]
+        public string Extended { get; set; }
+
+        /// <summary>
         /// 
         /// </summary>
         [CanBeNull]

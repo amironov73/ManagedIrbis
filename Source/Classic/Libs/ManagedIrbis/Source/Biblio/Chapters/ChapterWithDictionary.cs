@@ -78,6 +78,13 @@ namespace ManagedIrbis.Biblio
         public string SelectClause { get; set; }
 
         /// <summary>
+        /// Extended format.
+        /// </summary>
+        [CanBeNull]
+        [JsonProperty("extended")]
+        public string ExtendedFormat { get; set; }
+
+        /// <summary>
         /// Entries to exclude.
         /// </summary>
         [NotNull]
@@ -151,20 +158,23 @@ namespace ManagedIrbis.Biblio
                     formatter.ParseProgram(format);
 
                     string[] formatted = formatter.FormatRecords(mfns);
+                    string[] formatted2 = new string[mfns.Length];
+
+                    string extendedFormat = ExtendedFormat;
+                    if (!string.IsNullOrEmpty(extendedFormat))
+                    {
+                        extendedFormat = processor.GetText
+                            (
+                                context,
+                                extendedFormat
+                            )
+                            .ThrowIfNull("ExtendedFormat");
+                        formatter.ParseProgram(extendedFormat);
+                        formatted2 = formatter.FormatRecords(mfns);
+                    }
 
                     for (int i = 0; i < items.Count; i++)
                     {
-                        //log.Write(".");
-                        //BiblioItem item = items[i];
-                        //MarcRecord record = item.Record
-                        //    .ThrowIfNull("item.Record");
-                        //int mfn = record.Mfn;
-                        //if (mfn <= 0)
-                        //{
-                        //    continue;
-                        //}
-                        //string formatted = formatter
-                        //    .FormatRecord(mfn);
                         if (!string.IsNullOrEmpty(formatted[i]))
                         {
                             string[] lines = formatted[i]
@@ -174,13 +184,27 @@ namespace ManagedIrbis.Biblio
                                 .NonEmptyLines()
                                 .Distinct()
                                 .ToArray();
-                            foreach (string line in lines)
+                            string[] lines2 = new string[lines.Length];
+                            if (!string.IsNullOrEmpty(formatted2[i]))
                             {
-                                if (!ExcludeList.Contains(line))
+                                lines2 = formatted2[i]
+                                    .Split(_lineDelimiters)
+                                    .TrimLines()
+                                    .TrimLines(_charactersToTrim)
+                                    .NonEmptyLines()
+                                    .Distinct()
+                                    .ToArray();
+                            }
+                            for (int j = 0; j < lines.Length; j++)
+                            {
+                                string line1 = lines[j];
+                                string line2 = lines2[j];
+                                if (!ExcludeList.Contains(line1))
                                 {
                                     BiblioTerm term = new BiblioTerm
                                     {
-                                        Title = line,
+                                        Title = line1,
+                                        Extended = line2,
                                         Dictionary = Terms,
                                         Item = items[i]
                                     };
@@ -300,7 +324,39 @@ namespace ManagedIrbis.Biblio
                 ParagraphBand band = new ParagraphBand();
                 report.Body.Add(band);
 
-                builder.Append(entry.Title);
+                string title = entry.Title;
+                if (string.IsNullOrEmpty(title))
+                {
+                    continue;
+                }
+                if (!string.IsNullOrEmpty(ExtendedFormat))
+                {
+                    int maxLength = 0;
+                    string longest = null;
+                    foreach (BiblioTerm term in Terms)
+                    {
+                        if (term.Title == title)
+                        {
+                            string candidate = term.Extended;
+                            if (!string.IsNullOrEmpty(candidate))
+                            {
+                                int length = candidate.Length;
+                                if (length > maxLength)
+                                {
+                                    maxLength = length;
+                                    longest = candidate;
+                                }
+                            }
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(longest)
+                        && longest.StartsWith(title))
+                    {
+                        title = longest;
+                    }
+                }
+
+                builder.Append(title);
                 builder.Append(" {\\i ");
                 int[] refs = entry.References
                     .Where(item => item > 0)
