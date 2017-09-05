@@ -18,8 +18,7 @@ namespace ManagedIrbis.Mapping
     /// <summary>
     /// Задаёт отображение поля на свойство.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field|AttributeTargets.Property,
-        AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class FieldAttribute
         : Attribute
     {
@@ -31,6 +30,11 @@ namespace ManagedIrbis.Mapping
         public string Tag { get; set; }
 
         /// <summary>
+        /// Код подполя.
+        /// </summary>
+        public char Code { get; set; }
+
+        /// <summary>
         /// Повторение.
         /// </summary>
         public int Occurrence { get; set; }
@@ -40,23 +44,36 @@ namespace ManagedIrbis.Mapping
         #region Construction
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
-        public FieldAttribute 
+        public FieldAttribute
             (
-                string tag 
+                string tag
             )
         {
             Tag = tag;
         }
 
         /// <summary>
+        /// Constructor.
+        /// </summary>
+        public FieldAttribute
+            (
+                string tag,
+                char code
+            )
+        {
+            Tag = tag;
+            Code = code;
+        }
+
+        /// <summary>
         /// Конструктор.
         /// </summary>
-        public FieldAttribute 
-            ( 
-                string tag, 
-                int occurrence 
+        public FieldAttribute
+            (
+                string tag,
+                int occurrence
             )
         {
             Tag = tag;
