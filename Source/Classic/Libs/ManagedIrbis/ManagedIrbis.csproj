@@ -190,6 +190,7 @@
     <Compile Include="Source\Fields\PersonaliaInfo.cs" />
     <Compile Include="Source\Fields\QuantitativeCharacteristics.cs" />
     <Compile Include="Source\Fields\RevisionInfo.cs" />
+    <Compile Include="Source\Fields\SourceInfo.cs" />
     <Compile Include="Source\Fields\TitleCharacterSet.cs" />
     <Compile Include="Source\Fields\TitleInfo.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblAdd.cs" />

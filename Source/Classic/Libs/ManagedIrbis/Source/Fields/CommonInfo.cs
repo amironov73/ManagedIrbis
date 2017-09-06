@@ -366,6 +366,7 @@ namespace ManagedIrbis.Fields
                     // This can happen only if both fields = null
                     break;
                 }
+
                 CommonInfo info = new CommonInfo();
                 result.Add(info);
 
