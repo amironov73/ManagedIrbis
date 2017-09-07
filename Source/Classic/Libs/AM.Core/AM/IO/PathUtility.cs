@@ -169,8 +169,17 @@ namespace AM.IO
             // absolutePath = Path.GetFullPath(absolutePath);
             // baseDirectory = Path.GetFullPath(baseDirectory);
 
+#if PORTABLE
+
+            string mainSeparator = "\\";
+            string altSeparator = "/";
+
+#else
+
             string mainSeparator = char.ToString(Path.DirectorySeparatorChar);
             string altSeparator = char.ToString(Path.AltDirectorySeparatorChar);
+
+#endif
 
             string[] separators =
             {
@@ -183,7 +192,7 @@ namespace AM.IO
                     separators,
                     StringSplitOptions.RemoveEmptyEntries
                 );
-            string[] baseDirectoryParts = baseDirectory.Split
+            string[] baseParts = baseDirectory.Split
                 (
                     separators,
                     StringSplitOptions.RemoveEmptyEntries
@@ -191,17 +200,16 @@ namespace AM.IO
             int length = Math.Min
                 (
                     absoluteParts.Length,
-                    baseDirectoryParts.Length
+                    baseParts.Length
                 );
 
             int offset = 0;
             for (int i = 0; i < length; i++)
             {
-                if (absoluteParts[i]
-                    .Equals
+                if (StringUtility.CompareNoCase
                     (
-                        baseDirectoryParts[i],
-                        StringComparison.InvariantCultureIgnoreCase
+                        absoluteParts[i],
+                        baseParts[i]
                     ))
                 {
                     offset++;
@@ -225,16 +233,16 @@ namespace AM.IO
 
             var relativePath = new StringBuilder();
 
-            for (int i = 0; i < baseDirectoryParts.Length - offset; i++)
+            for (int i = 0; i < baseParts.Length - offset; i++)
             {
                 relativePath.Append("..");
-                relativePath.Append(Path.DirectorySeparatorChar);
+                relativePath.Append(mainSeparator);
             }
 
             for (int i = offset; i < absoluteParts.Length - 1; i++)
             {
                 relativePath.Append(absoluteParts[i]);
-                relativePath.Append(Path.DirectorySeparatorChar);
+                relativePath.Append(mainSeparator);
             }
 
             relativePath.Append(absoluteParts[absoluteParts.Length - 1]);
