@@ -11,7 +11,9 @@
 
 #region Using directives
 
+using System;
 using System.IO;
+using System.Text;
 
 using AM.Runtime;
 
@@ -36,7 +38,7 @@ namespace AM.IO
 
 #if PORTABLE
 
-        private static string _backslash = "\\";
+        private static string _backslash = "/";
 
 #else
 
@@ -151,6 +153,95 @@ namespace AM.IO
             return result;
         }
 
+        /// <summary>
+        /// Get relative path.
+        /// </summary>
+        [NotNull]
+        public static string GetRelativePath
+            (
+                [NotNull] string absolutePath,
+                [NotNull] string baseDirectory
+            )
+        {
+            Code.NotNullNorEmpty(absolutePath, "absolutePath");
+            Code.NotNullNorEmpty(baseDirectory, "baseDirectory");
+
+            // absolutePath = Path.GetFullPath(absolutePath);
+            // baseDirectory = Path.GetFullPath(baseDirectory);
+
+            string mainSeparator = char.ToString(Path.DirectorySeparatorChar);
+            string altSeparator = char.ToString(Path.AltDirectorySeparatorChar);
+
+            string[] separators =
+            {
+                mainSeparator,
+                altSeparator
+            };
+
+            string[] absoluteParts = absolutePath.Split
+                (
+                    separators,
+                    StringSplitOptions.RemoveEmptyEntries
+                );
+            string[] baseDirectoryParts = baseDirectory.Split
+                (
+                    separators,
+                    StringSplitOptions.RemoveEmptyEntries
+                );
+            int length = Math.Min
+                (
+                    absoluteParts.Length,
+                    baseDirectoryParts.Length
+                );
+
+            int offset = 0;
+            for (int i = 0; i < length; i++)
+            {
+                if (absoluteParts[i]
+                    .Equals
+                    (
+                        baseDirectoryParts[i],
+                        StringComparison.InvariantCultureIgnoreCase
+                    ))
+                {
+                    offset++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (0 == offset)
+            {
+                if (!absolutePath.StartsWith(mainSeparator)) // Linux
+                {
+                    throw new ArgumentException
+                        (
+                            "Paths do not have a common base!"
+                        );
+                }
+            }
+
+            var relativePath = new StringBuilder();
+
+            for (int i = 0; i < baseDirectoryParts.Length - offset; i++)
+            {
+                relativePath.Append("..");
+                relativePath.Append(Path.DirectorySeparatorChar);
+            }
+
+            for (int i = offset; i < absoluteParts.Length - 1; i++)
+            {
+                relativePath.Append(absoluteParts[i]);
+                relativePath.Append(Path.DirectorySeparatorChar);
+            }
+
+            relativePath.Append(absoluteParts[absoluteParts.Length - 1]);
+
+            return relativePath.ToString();
+        }
+
 #if CLASSIC
 
         /// <summary>
@@ -198,7 +289,7 @@ namespace AM.IO
             {
                 result = result.Substring
                     (
-                        0, 
+                        0,
                         result.Length - extension.Length
                     );
             }
@@ -225,7 +316,7 @@ namespace AM.IO
             {
                 result = result.Substring
                     (
-                        0, 
+                        0,
                         result.Length - _backslash.Length
                     );
             }
@@ -233,7 +324,7 @@ namespace AM.IO
             return result;
         }
 
-#endregion
+        #endregion
     }
 }
 
