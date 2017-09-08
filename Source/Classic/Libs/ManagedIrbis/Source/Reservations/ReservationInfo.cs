@@ -133,10 +133,10 @@ namespace ManagedIrbis.Reservations
             Code.NotNull(record, "record");
 
             record.Fields
-                .ApplyFieldValue("10", Room)
-                .ApplyFieldValue("11", Number)
-                .ApplyFieldValue("12", Status)
-                .ApplyFieldValue("13", Description);
+                .ApplyFieldValue(10, Room)
+                .ApplyFieldValue(11, Number)
+                .ApplyFieldValue(12, Status)
+                .ApplyFieldValue(13, Description);
             RecordField[] claims = Claims
                 .Select(item => item.ToField())
                 .ToArray();

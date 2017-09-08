@@ -75,7 +75,7 @@ namespace ManagedIrbis.Quality.Rules
             {
                 AddDefect
                     (
-                        "101",
+                        101,
                         10,
                         "Не заполнено поле 101: Язык основного текста"
                     );

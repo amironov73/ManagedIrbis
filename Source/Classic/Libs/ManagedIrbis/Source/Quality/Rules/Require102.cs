@@ -78,7 +78,7 @@ namespace ManagedIrbis.Quality.Rules
             {
                 AddDefect
                     (
-                        "102",
+                        102,
                         10,
                         "Не заполнено поле 102: Страна"
                     );

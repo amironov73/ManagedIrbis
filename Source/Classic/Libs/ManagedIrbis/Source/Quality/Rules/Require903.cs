@@ -59,7 +59,7 @@ namespace ManagedIrbis.Quality.Rules
             {
                 AddDefect
                     (
-                        "903",
+                        903,
                         20,
                         "Отсутствует поле 903: Шифр документа"
                     );
@@ -68,7 +68,7 @@ namespace ManagedIrbis.Quality.Rules
             {
                 AddDefect
                     (
-                        "903",
+                        903,
                         20,
                         "Повторяется поле 903: Шифр документа"
                     );

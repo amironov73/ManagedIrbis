@@ -61,7 +61,7 @@ namespace ManagedIrbis.Quality.Rules
                 {
                     AddDefect
                         (
-                            "60",
+                            60,
                             3,
                             "Отстутсвует поле 60: Раздел знаний"
                         );

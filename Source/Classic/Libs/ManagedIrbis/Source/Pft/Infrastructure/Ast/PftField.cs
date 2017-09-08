@@ -317,9 +317,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         /// <inheritdoc cref="PftNode.GetAffectedFields" />
-        public override string[] GetAffectedFields()
+        public override int[] GetAffectedFields()
         {
-            return new[] { Tag };
+            return new[] { Tag.SafeToInt32() };
         }
 
         /// <summary>

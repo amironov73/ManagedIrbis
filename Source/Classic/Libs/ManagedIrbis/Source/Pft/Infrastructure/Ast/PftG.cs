@@ -351,13 +351,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc cref="PftNode.GetAffectedFields" />
-        public override string[] GetAffectedFields()
+        /// <inheritdoc cref="PftField.GetAffectedFields" />
+        public override int[] GetAffectedFields()
         {
-            return StringUtility.EmptyArray;
+            return new int[0];
         }
 
-        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        /// <inheritdoc cref="PftField.PrettyPrint" />
         public override void PrettyPrint
             (
                 PftPrettyPrinter printer

@@ -62,7 +62,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc cref="PftNode.Compile" />
+        /// <inheritdoc cref="PftField.Compile" />
         public override void Compile(PftCompiler compiler)
         {
             compiler.StartMethod(this);
@@ -73,13 +73,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             compiler.MarkReady(this);
         }
 
-        /// <inheritdoc cref="PftNode.GetAffectedFields" />
-        public override string[] GetAffectedFields()
+        /// <inheritdoc cref="PftField.GetAffectedFields" />
+        public override int[] GetAffectedFields()
         {
-            return StringUtility.EmptyArray;
+            return new int[0];
         }
 
-        /// <inheritdoc cref="PftNode.Execute"/>
+        /// <inheritdoc cref="PftField.Execute" />
         public override void Execute
             (
                 PftContext context

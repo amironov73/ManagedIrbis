@@ -61,7 +61,7 @@ namespace ManagedIrbis.Quality.Rules
                 {
                     AddDefect
                         (
-                            "461",
+                            461,
                             10,
                             "Присутствует поле 461 при рабочем листе PAZK"
                         );
@@ -75,7 +75,7 @@ namespace ManagedIrbis.Quality.Rules
                 {
                     AddDefect
                         (
-                            "461",
+                            461,
                             10,
                             "Не заполнено поле 461: Основные сведения"
                         );

@@ -59,7 +59,7 @@ namespace ManagedIrbis.Quality.Rules
             {
                 AddDefect
                     (
-                        "200",
+                        200,
                         10,
                         "Не заполнено поле 200: Заглавие"
                     );
@@ -68,7 +68,7 @@ namespace ManagedIrbis.Quality.Rules
             {
                 AddDefect
                     (
-                        "200",
+                        200,
                         10,
                         "Повторяется поле 200: Заглавие"
                     );

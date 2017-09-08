@@ -135,7 +135,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 try
                 {
-                    string[] affectedFields = GetAffectedFields();
+                    int[] affectedFields = GetAffectedFields();
                     int repeatCount = PftUtility.GetFieldCount
                         (
                             context,

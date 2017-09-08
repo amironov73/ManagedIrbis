@@ -101,7 +101,7 @@ namespace ManagedIrbis.Quality.Rules
             {
                 AddDefect
                     (
-                        "910",
+                        910,
                         10,
                         "Нет сведений об экземплярах: поле 910"
                     );

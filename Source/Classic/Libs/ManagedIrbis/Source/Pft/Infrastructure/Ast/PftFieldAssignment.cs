@@ -217,7 +217,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftUtility.AssignField
                     (
                         context,
-                        tag,
+                        tag.SafeToInt32(),
                         field.FieldRepeat,
                         value
                     );
@@ -227,7 +227,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftUtility.AssignSubField
                     (
                         context,
-                        tag,
+                        tag.SafeToInt32(),
                         field.FieldRepeat,
                         field.SubField,
                         field.SubFieldRepeat,

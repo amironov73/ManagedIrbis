@@ -256,7 +256,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     Value = !PftP.HaveRepeat
                         (
                             record,
-                            tag,
+                            tag.SafeToInt32(),
                             Field.SubField,
                             index
                         );
@@ -264,7 +264,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     // Само по себе обращение к A крутит группу
                     // при наличии повторения поля
 
-                    if (PftP.HaveRepeat(record, tag, SubField.NoCode, index))
+                    if (PftP.HaveRepeat(record, tag.SafeToInt32(), SubField.NoCode, index))
                     {
                         context.OutputFlag = true;
                     }

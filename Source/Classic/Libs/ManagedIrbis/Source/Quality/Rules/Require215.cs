@@ -94,7 +94,7 @@ namespace ManagedIrbis.Quality.Rules
             {
                 AddDefect
                     (
-                        "215",
+                        215,
                         5,
                         "Отсутствует поле 215: Количественные характеристики"
                     );

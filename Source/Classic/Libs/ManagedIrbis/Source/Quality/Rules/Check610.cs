@@ -81,7 +81,7 @@ namespace ManagedIrbis.Quality.Rules
             {
                 AddDefect
                     (
-                        "610",
+                        610,
                         5,
                         "Отсутствуют ключевые слова: поле 610"
                     );

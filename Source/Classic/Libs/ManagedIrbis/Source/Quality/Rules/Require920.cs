@@ -68,7 +68,7 @@ namespace ManagedIrbis.Quality.Rules
             {
                 AddDefect
                     (
-                        "920",
+                        920,
                         20,
                         "Отсутствует поле 920: Рабочий лист"
                     );
@@ -79,7 +79,7 @@ namespace ManagedIrbis.Quality.Rules
             {
                 AddDefect
                     (
-                        "920",
+                        920,
                         20,
                         "Повторяется поле 920: Рабочий лист"
                     );

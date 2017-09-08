@@ -162,7 +162,7 @@ namespace ManagedIrbis.Quality.Rules
             {
                 AddDefect
                     (
-                        "210",
+                        210,
                         10,
                         "Отсутствует поле 210: Выходные данные"
                     );

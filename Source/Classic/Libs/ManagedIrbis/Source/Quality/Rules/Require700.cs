@@ -62,18 +62,18 @@ namespace ManagedIrbis.Quality.Rules
                 {
                     AddDefect
                         (
-                            "700",
+                            700,
                             10,
                             "Отсутствуют сведения об авторах"
                         );
                 }
                 else
                 {
-                    if (Record.HaveField("700") && Record.HaveField("710"))
+                    if (Record.HaveField(700) && Record.HaveField(710))
                     {
                         AddDefect
                             (
-                                "700",
+                                700,
                                 10,
                                 "Одновременно присутствуют поля 700 и 710"
                             );

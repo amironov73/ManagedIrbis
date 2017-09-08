@@ -439,13 +439,13 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// косвенных.
         /// </summary>
         [NotNull]
-        public virtual string[] GetAffectedFields()
+        public virtual int[] GetAffectedFields()
         {
-            string[] result = StringUtility.EmptyArray;
+            int[] result = new int[0];
 
             foreach (PftNode child in Children)
             {
-                string[] sub = child.GetAffectedFields();
+                int[] sub = child.GetAffectedFields();
                 if (sub.Length != 0)
                 {
                     result = result

@@ -118,7 +118,7 @@ namespace ManagedIrbis.Quality.Rules
 
                 AddDefect
                     (
-                        "908",
+                        908,
                         5,
                         "Повторяется поле 908: Авторский знак"
                     );
