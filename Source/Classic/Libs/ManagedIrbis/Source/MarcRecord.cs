@@ -303,11 +303,9 @@ namespace ManagedIrbis
         public string FM
         // ReSharper restore InconsistentNaming
             (
-                [NotNull] string tag
+                int tag
             )
         {
-            Code.NotNull(tag, "tag");
-
             return Fields.GetFirstFieldValue(tag);
         }
 
@@ -320,11 +318,9 @@ namespace ManagedIrbis
         public string[] FMA
         // ReSharper restore InconsistentNaming
             (
-                [NotNull] string tag
+                int tag
             )
         {
-            Code.NotNull(tag, "tag");
-
             return Fields.GetFieldValue(tag);
         }
 
@@ -336,12 +332,10 @@ namespace ManagedIrbis
         public string FM
         // ReSharper restore InconsistentNaming
             (
-                [NotNull] string tag,
+                int tag,
                 char code
             )
         {
-            Code.NotNull(tag, "tag");
-
             return Fields.GetFirstSubFieldValue(tag, code);
         }
 
@@ -354,12 +348,10 @@ namespace ManagedIrbis
         public string[] FMA
         // ReSharper restore InconsistentNaming
             (
-                [NotNull] string tag,
+                int tag,
                 char code
             )
         {
-            Code.NotNull(tag, "tag");
-
             return Fields.GetSubFieldValue(tag, code);
         }
 

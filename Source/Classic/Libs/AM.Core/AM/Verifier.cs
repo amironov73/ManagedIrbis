@@ -327,6 +327,22 @@ namespace AM
         }
 
         /// <summary>
+        /// Not null?
+        /// </summary>
+        public Verifier<T> Positive
+            (
+                int value,
+                string name
+            )
+        {
+            return Assert
+            (
+                value > 0,
+                name
+            );
+        }
+
+        /// <summary>
         /// Reference equals?
         /// </summary>
         public Verifier<T> ReferenceEquals

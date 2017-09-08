@@ -156,10 +156,10 @@ namespace ManagedIrbis.Reservations
 
             ReservationInfo result = new ReservationInfo
             {
-                Room = record.FM("10"),
-                Number = record.FM("11"),
-                Status = record.FM("12"),
-                Description = record.FM("13")
+                Room = record.FM(10),
+                Number = record.FM(11),
+                Status = record.FM(12),
+                Description = record.FM(13)
             };
             result.Claims.AddRange
                 (

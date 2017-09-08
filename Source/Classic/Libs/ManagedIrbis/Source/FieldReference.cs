@@ -23,7 +23,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedIrbis.Pft;
+
 using ManagedIrbis.Pft.Infrastructure;
 
 using ManagedIrbis.Pft.Infrastructure.Ast;
@@ -116,8 +116,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Tag.
         /// </summary>
-        [CanBeNull]
-        public string Tag { get; set; }
+        public int Tag { get; set; }
 
         /// <summary>
         /// Tag specification.
@@ -146,36 +145,32 @@ namespace ManagedIrbis
         #region Construction
 
         /// <summary>
-        /// Конструктор по умолчанию.
+        /// Constructor.
         /// </summary>
         public FieldReference()
         {
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public FieldReference
             (
-                [NotNull] string tag
+                int tag
             )
         {
-            Code.NotNull(tag, "tag");
-
             Tag = tag;
         }
 
         /// <summary>
-        /// Конструктор.
+        /// Constructor.
         /// </summary>
         public FieldReference
             (
-                [NotNull] string tag,
+                int tag,
                 char subField
             )
         {
-            Code.NotNull(tag, tag);
-
             Tag = tag;
             SubField = subField;
         }
@@ -281,8 +276,8 @@ namespace ManagedIrbis
         {
             string[] result;
 
-            string tag = Tag;
-            if (string.IsNullOrEmpty(tag))
+            int tag = Tag;
+            if (tag <= 0)
             {
                 result = StringUtility.EmptyArray;
             }
@@ -363,7 +358,7 @@ namespace ManagedIrbis
             Length = reader.ReadPackedInt32();
             Offset = reader.ReadPackedInt32();
             SubField = reader.ReadChar();
-            Tag = reader.ReadNullableString();
+            Tag = reader.ReadPackedInt32();
             TagSpecification = reader.ReadNullableString();
         }
 
@@ -384,7 +379,7 @@ namespace ManagedIrbis
                 .WritePackedInt32(Length)
                 .WritePackedInt32(Offset)
                 .Write(SubField);
-            writer.WriteNullable(Tag);
+            writer.WritePackedInt32(Tag);
             writer.WriteNullable(TagSpecification);
         }
 
@@ -405,7 +400,7 @@ namespace ManagedIrbis
                 );
 
             verifier
-                .NotNullNorEmpty(Tag, "Tag");
+                .Positive(Tag, "Tag");
 
             return verifier.Result;
         }

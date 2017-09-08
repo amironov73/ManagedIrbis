@@ -216,7 +216,7 @@ namespace ManagedIrbis
         public static RecordField GetField
             (
                 [NotNull] this RecordFieldCollection fields,
-                [CanBeNull] string tag,
+                int tag,
                 int occurrence
             )
         {
@@ -246,7 +246,7 @@ namespace ManagedIrbis
         public static RecordField[] GetField
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag
+                int tag
             )
         {
             Code.NotNull(fields, "fields");
@@ -265,7 +265,7 @@ namespace ManagedIrbis
         public static RecordField[] GetField
             (
                 [NotNull] this RecordFieldCollection fields,
-                [CanBeNull] string tag
+                int tag
             )
         {
             Code.NotNull(fields, "fields");
@@ -296,7 +296,7 @@ namespace ManagedIrbis
         public static RecordField GetField
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag,
+                int tag,
                 int occurrence
             )
         {
@@ -325,7 +325,7 @@ namespace ManagedIrbis
         public static RecordField[] GetField
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                params string[] tags
+                params int[] tags
             )
         {
             Code.NotNull(fields, "fields");
@@ -344,7 +344,7 @@ namespace ManagedIrbis
         public static RecordField[] GetField
             (
                 [NotNull] this RecordFieldCollection fields,
-                params string[] tags
+                params int[] tags
             )
         {
             Code.NotNull(fields, "fields");
@@ -375,7 +375,7 @@ namespace ManagedIrbis
         public static RecordField GetField
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [NotNull] string[] tags,
+                [NotNull] int[] tags,
                 int occurrence
             )
         {
@@ -394,7 +394,7 @@ namespace ManagedIrbis
         public static RecordField GetField
             (
                 [NotNull] this RecordFieldCollection fields,
-                [NotNull] string[] tags,
+                [NotNull] int[] tags,
                 int occurrence
             )
         {
@@ -679,7 +679,7 @@ namespace ManagedIrbis
         public static RecordField[] GetField
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [NotNull] string[] tags,
+                [NotNull] int[] tags,
                 [NotNull] char[] codes,
                 [NotNull] string[] values
             )
@@ -735,7 +735,7 @@ namespace ManagedIrbis
         public static int GetFieldCount
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag
+                int tag
             )
         {
             Code.NotNull(fields, "fields");
@@ -759,7 +759,7 @@ namespace ManagedIrbis
         public static int GetFieldCount
             (
                 [NotNull] this RecordFieldCollection fields,
-                [CanBeNull] string tag
+                int tag
             )
         {
             Code.NotNull(fields, "fields");
@@ -796,19 +796,19 @@ namespace ManagedIrbis
             return fields
                 .NonNullItems()
                 .Where
-                (
-                    field =>
-                    {
-                        string tag = field.Tag;
+                    (
+                        field =>
+                        {
+                            string tag = field.Tag.ToInvariantString();
 
-                        return !string.IsNullOrEmpty(tag)
-                            && Regex.IsMatch
-                               (
-                                   tag,
-                                   tagRegex
-                               );
-                    }
-                )
+                            return !string.IsNullOrEmpty(tag)
+                                && Regex.IsMatch
+                                   (
+                                       tag,
+                                       tagRegex
+                                   );
+                        }
+                    )
                 .ToArray();
         }
 
@@ -839,7 +839,7 @@ namespace ManagedIrbis
         public static RecordField[] GetFieldRegex
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [NotNull] string[] tags,
+                [NotNull] int[] tags,
                 [NotNull] string textRegex
             )
         {
@@ -875,7 +875,7 @@ namespace ManagedIrbis
         public static RecordField GetFieldRegex
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [NotNull] string[] tags,
+                [NotNull] int[] tags,
                 [NotNull] string textRegex,
                 int occurrence
             )
@@ -896,7 +896,7 @@ namespace ManagedIrbis
         public static RecordField[] GetFieldRegex
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [NotNull][ItemNotNull] string[] tags,
+                [NotNull] int[] tags,
                 [NotNull] char[] codes,
                 [NotNull] string textRegex
             )
@@ -921,7 +921,7 @@ namespace ManagedIrbis
         public static RecordField GetFieldRegex
             (
                 this IEnumerable<RecordField> fields,
-                string[] tags,
+                int[] tags,
                 char[] codes,
                 string textRegex,
                 int occurrence
@@ -1010,7 +1010,7 @@ namespace ManagedIrbis
         public static string[] GetFieldValue
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag
+                int tag
             )
         {
             Code.NotNull(fields, "fields");
@@ -1038,7 +1038,7 @@ namespace ManagedIrbis
         public static RecordField GetFirstField
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag
+                int tag
             )
         {
             Code.NotNull(fields, "fields");
@@ -1061,7 +1061,7 @@ namespace ManagedIrbis
         public static RecordField GetFirstField
             (
                 [NotNull] this RecordFieldCollection fields,
-                [CanBeNull] string tag
+                int tag
             )
         {
             Code.NotNull(fields, "fields");
@@ -1085,7 +1085,7 @@ namespace ManagedIrbis
         public static RecordField GetFirstField
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                params string[] tags
+                params int[] tags
             )
         {
             Code.NotNull(fields, "fields");
@@ -1108,7 +1108,7 @@ namespace ManagedIrbis
         public static RecordField GetFirstField
             (
                 [NotNull] this RecordFieldCollection fields,
-                params string[] tags
+                params int[] tags
             )
         {
             Code.NotNull(fields, "fields");
@@ -1134,7 +1134,7 @@ namespace ManagedIrbis
         public static string GetFirstFieldValue
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag
+                int tag
             )
         {
             Code.NotNull(fields, "fields");
@@ -1157,7 +1157,7 @@ namespace ManagedIrbis
         public static string GetFirstFieldValue
             (
                 [NotNull] this RecordFieldCollection fields,
-                [CanBeNull] string tag
+                int tag
             )
         {
             Code.NotNull(fields, "fields");
@@ -1209,7 +1209,7 @@ namespace ManagedIrbis
         public static SubField GetFirstSubField
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag,
+                int tag,
                 char code
             )
         {
@@ -1242,7 +1242,7 @@ namespace ManagedIrbis
         public static SubField GetFirstSubField
             (
                 [NotNull] this RecordFieldCollection fields,
-                [CanBeNull] string tag,
+                int tag,
                 char code
             )
         {
@@ -1304,7 +1304,7 @@ namespace ManagedIrbis
         public static string GetFirstSubFieldValue
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag,
+                int tag,
                 char code
             )
         {
@@ -1312,7 +1312,7 @@ namespace ManagedIrbis
 
             foreach (RecordField field in fields.NonNullItems())
             {
-                if (field.Tag.SameString(tag))
+                if (field.Tag == tag)
                 {
                     foreach (SubField subField in field.SubFields)
                     {
@@ -1472,7 +1472,7 @@ namespace ManagedIrbis
         public static SubField[] GetSubField
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag,
+                int tag,
                 char code
             )
         {
@@ -1543,7 +1543,7 @@ namespace ManagedIrbis
         public static SubField GetSubField
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag,
+                int tag,
                 int fieldOccurrence,
                 char code,
                 int subOccurrence
@@ -1586,7 +1586,7 @@ namespace ManagedIrbis
         public static SubField GetSubField
             (
                 [NotNull] this RecordFieldCollection fields,
-                [CanBeNull] string tag,
+                int tag,
                 int fieldOccurrence,
                 char code,
                 int subOccurrence
@@ -1630,7 +1630,7 @@ namespace ManagedIrbis
         public static SubField GetSubField
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [CanBeNull] string tag,
+                int tag,
                 char code,
                 int occurrence
             )
@@ -1667,7 +1667,7 @@ namespace ManagedIrbis
         public static SubField GetSubField
             (
                 [NotNull] this RecordFieldCollection fields,
-                [CanBeNull] string tag,
+                int tag,
                 char code,
                 int occurrence
             )
@@ -1741,7 +1741,7 @@ namespace ManagedIrbis
         public static string[] GetSubFieldValue
         (
             [NotNull] this IEnumerable<RecordField> fields,
-            [CanBeNull] string tag,
+            int tag,
             char code
         )
         {
@@ -1751,7 +1751,7 @@ namespace ManagedIrbis
 
             foreach (RecordField field in fields)
             {
-                if (field.Tag.SameString(tag))
+                if (field.Tag == tag)
                 {
                     foreach (SubField subField in field.SubFields)
                     {
@@ -1883,7 +1883,7 @@ namespace ManagedIrbis
                 .NonNullItems()
                 .Where
                     (
-                        field => !string.IsNullOrEmpty(field.Tag)
+                        field => field.Tag != 0
                     )
                 .ToArray();
         }
@@ -2284,7 +2284,7 @@ namespace ManagedIrbis
                 .NonNullItems()
                 .Where
                     (
-                        field => string.IsNullOrEmpty(field.Tag)
+                        field => field.Tag == 0
                     )
                 .ToArray();
         }

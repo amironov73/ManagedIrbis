@@ -41,7 +41,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Tag.
         /// </summary>
-        public const string Tag = "606";
+        public const int Tag = 606;
 
         #endregion
 
@@ -233,7 +233,7 @@ namespace ManagedIrbis.Fields
             List<HeadingInfo> result = new List<HeadingInfo>();
             foreach (RecordField field in record.Fields)
             {
-                if (field.Tag.SameString(Tag))
+                if (field.Tag == Tag)
                 {
                     HeadingInfo heading = ParseField(field);
                     result.Add(heading);

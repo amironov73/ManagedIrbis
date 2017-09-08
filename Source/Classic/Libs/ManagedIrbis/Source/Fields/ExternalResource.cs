@@ -55,7 +55,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Тег поля.
         /// </summary>
-        public const string Tag = "951";
+        public const int Tag = 951;
 
         #endregion
 
@@ -332,12 +332,10 @@ namespace ManagedIrbis.Fields
         public static ExternalResource[] Parse
             (
                 [NotNull] MarcRecord record,
-                string tag
+                int tag
             )
         {
             Code.NotNull(record, "record");
-            Code.NotNullNorEmpty(tag, "tag");
-
 
             return record.Fields
                 .GetField(tag)

@@ -49,42 +49,42 @@ namespace ManagedIrbis.Fields
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public static string[] AllKnownTags { get { return _allKnownTags; } }
+        public static int[] AllKnownTags { get { return _allKnownTags; } }
 
         /// <summary>
         /// Known tags.
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public static string[] KnownTags1 { get { return _knownTags1; } }
+        public static int[] KnownTags1 { get { return _knownTags1; } }
 
         /// <summary>
         /// Known tags.
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public static string[] KnownTags2 { get { return _knownTags2; } }
+        public static int[] KnownTags2 { get { return _knownTags2; } }
 
         /// <summary>
         /// Known tags.
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public static string[] KnownTags3 { get { return _knownTags3; } }
+        public static int[] KnownTags3 { get { return _knownTags3; } }
 
         /// <summary>
         /// Known tags.
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public static string[] KnownTags4 { get { return _knownTags4; } }
+        public static int[] KnownTags4 { get { return _knownTags4; } }
 
         /// <summary>
         /// Known tags.
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public static string[] KnownTags5 { get { return _knownTags5; } }
+        public static int[] KnownTags5 { get { return _knownTags5; } }
 
         /// <summary>
         /// Фамилия. Подполе a.
@@ -214,26 +214,26 @@ namespace ManagedIrbis.Fields
 
         #region Private members
 
-        private static readonly string[] _allKnownTags =
+        private static readonly int[] _allKnownTags =
         {
-            "330", "391", "454", "470", "481", "488", "600",
-            "700", "701", "702", "922", "925", "926", "961", "970"
+            330, 391, 454, 470, 481, 488, 600,
+            700, 701, 702, 922, 925, 926, 961, 970
         };
 
-        private static readonly string[] _knownTags1 =
-            { "391", "470", "700", "701", "702", "926", "961", "970" };
+        private static readonly int[] _knownTags1 =
+            { 391, 470, 700, 701, 702, 926, 961, 970 };
 
-        private static readonly string[] _knownTags2 =
-            { "330", "922", "925" };
+        private static readonly int[] _knownTags2 =
+            { 330, 922, 925 };
 
-        private static readonly string[] _knownTags3 =
-            { "481", "488" };
+        private static readonly int[] _knownTags3 =
+            { 481, 488 };
 
-        private static readonly string[] _knownTags4 =
-            { "600" };
+        private static readonly int[] _knownTags4 =
+            { 600 };
 
-        private static readonly string[] _knownTags5 =
-            { "454" };
+        private static readonly int[] _knownTags5 =
+            { 454 };
 
         private static readonly char[] _first330 =
             { 'f', '?', 'x', '=' };
@@ -274,7 +274,7 @@ namespace ManagedIrbis.Fields
         {
             Code.NotNull(field, "field");
 
-            string tag = field.Tag.ThrowIfNull("field.Tag");
+            int tag = field.Tag;
             if (tag.OneOf(KnownTags1))
             {
                 ApplyToField700(field);
@@ -486,7 +486,7 @@ namespace ManagedIrbis.Fields
         public static AuthorInfo[] ParseRecord
             (
                 [NotNull] MarcRecord record,
-                [NotNull][ItemNotNull] string[] tags
+                [NotNull] int[] tags
             )
         {
             Code.NotNull(record, "record");
@@ -518,7 +518,7 @@ namespace ManagedIrbis.Fields
             Code.NotNull(field, "field");
 
             AuthorInfo one;
-            string tag = field.Tag.ThrowIfNull("field.Tag");
+            int tag = field.Tag;
             if (tag.OneOf(KnownTags1))
             {
                 one = ParseField700(field);

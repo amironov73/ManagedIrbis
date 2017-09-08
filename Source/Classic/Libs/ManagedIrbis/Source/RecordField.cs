@@ -83,10 +83,9 @@ namespace ManagedIrbis
         /// <summary>
         /// Метка поля.
         /// </summary>
-        [CanBeNull]
         [XmlAttribute("tag")]
         [JsonProperty("tag")]
-        public string Tag
+        public int Tag
         {
             get { return _tag; }
             set { SetTag(value); }
@@ -205,7 +204,7 @@ namespace ManagedIrbis
                 string result = string.Format
                     (
                         "{0}/{1}",
-                        Tag,
+                        Tag.ToInvariantString(),
                         Repeat
                     );
 
@@ -223,8 +222,7 @@ namespace ManagedIrbis
             [DebuggerStepThrough]
             get
             {
-                return !ReferenceEquals(Tag, null)
-                    && Tag.Length == 1;
+                return Tag > 0 && Tag < 10;
             }
         }
 
@@ -240,6 +238,8 @@ namespace ManagedIrbis
             _subFields = new SubFieldCollection()
                 ._SetField(this);
 
+#if WITH_INDICATORS
+
             _indicator1 = new FieldIndicator
             {
                 _field = this
@@ -248,6 +248,8 @@ namespace ManagedIrbis
             {
                 _field = this
             };
+
+#endif
         }
 
         /// <summary>
@@ -267,7 +269,7 @@ namespace ManagedIrbis
             _indicator2 = other.Indicator2.Clone();
 
 #endif
-            
+
             Tag = other.Tag;
             _value = other.Value;
             _subFields = other.SubFields.Clone();
@@ -283,9 +285,9 @@ namespace ManagedIrbis
             )
             : this()
         {
-            Code.Positive(tag, "tag");
+            Code.Nonnegative(tag, "tag");
 
-            Tag = tag.ToInvariantString();
+            Tag = tag;
         }
 
         /// <summary>
@@ -297,7 +299,7 @@ namespace ManagedIrbis
             )
             : this()
         {
-            Tag = tag;
+            SetTag(tag);
         }
 
         /// <summary>
@@ -312,7 +314,7 @@ namespace ManagedIrbis
         {
             Code.Positive(tag, "tag");
 
-            Tag = tag.ToInvariantString();
+            SetTag(tag);
             Value = value;
         }
 
@@ -326,7 +328,7 @@ namespace ManagedIrbis
             )
             : this()
         {
-            Tag = tag;
+            SetTag(tag);
             Value = value;
         }
 
@@ -342,7 +344,7 @@ namespace ManagedIrbis
             )
             : this()
         {
-            Tag = tag;
+            SetTag(tag);
             Value = value;
             Record = record;
             if (readOnly)
@@ -356,12 +358,12 @@ namespace ManagedIrbis
         /// </summary>
         public RecordField
             (
-                [CanBeNull] string tag,
+                int tag,
                 [ItemNotNull] params SubField[] subFields
             )
             : this()
         {
-            Tag = tag;
+            SetTag(tag);
             SubFields.AddRange(subFields);
         }
 
@@ -398,9 +400,13 @@ namespace ManagedIrbis
             }
         }
 
+#if WITH_INDICATORS
+
         private readonly FieldIndicator _indicator1, _indicator2;
 
-        private string _tag;
+#endif
+
+        private int _tag;
 
         private string _value;
 
@@ -452,7 +458,7 @@ namespace ManagedIrbis
         {
             RecordField parsed = Parse
                 (
-                    Tag.ThrowIfNull(),
+                    Tag,
                     encodedText
                 );
             if (!string.IsNullOrEmpty(parsed.Value))
@@ -646,11 +652,7 @@ namespace ManagedIrbis
             Code.NotNull(field1, "field1");
             Code.NotNull(field2, "field2");
 
-            int result = string.CompareOrdinal
-                (
-                    field1.Tag,
-                    field2.Tag
-                );
+            int result = field1.Tag - field2.Tag;
             if (result != 0)
             {
                 return result;
@@ -973,7 +975,7 @@ namespace ManagedIrbis
             }
 
             string[] parts = line.SplitFirst('#');
-            string tag = parts[0];
+            int tag = NumericUtility.ParseInt32(parts[0]);
             string body = parts[1];
 
             return Parse
@@ -989,7 +991,7 @@ namespace ManagedIrbis
         [NotNull]
         public static RecordField Parse
             (
-                [NotNull] string tag,
+                int tag,
                 [NotNull] string body
             )
         {
@@ -1106,18 +1108,35 @@ namespace ManagedIrbis
         [NotNull]
         public RecordField SetTag
             (
-                [CanBeNull] string tag
+                int tag
             )
         {
             ThrowIfReadOnly();
 
-            _tag = FieldTag.Normalize(tag);
+            _tag = tag;
             if (!ReferenceEquals(Record, null))
             {
                 Record.Fields._RenumberFields();
             }
 
             return this;
+        }
+
+        /// <summary>
+        /// Sets the tag for the field
+        /// </summary>
+        /// <returns></returns>
+        public RecordField SetTag
+            (
+                [CanBeNull] string tag
+            )
+        {
+            return SetTag
+                (
+                    string.IsNullOrEmpty(tag)
+                    ? 0
+                    : NumericUtility.ParseInt32(tag)
+                );
         }
 
         /// <summary>
@@ -1214,7 +1233,7 @@ namespace ManagedIrbis
 
             Code.NotNull(reader, "reader");
 
-            Tag = reader.ReadNullableString();
+            Tag = reader.ReadPackedInt32();
 
 #if WITH_INDICATORS
 
@@ -1235,7 +1254,7 @@ namespace ManagedIrbis
         {
             Code.NotNull(writer, "writer");
 
-            writer.WriteNullable(Tag);
+            writer.WritePackedInt32(Tag);
 
 #if WITH_INDICATORS
 
@@ -1312,15 +1331,15 @@ namespace ManagedIrbis
 
             verifier
                 .Assert
-                (
-                    FieldTag.Verify(Tag),
-                    "Field " + Path + ": Tag"
-                )
+                    (
+                        FieldTag.Verify(Tag),
+                        "Field " + Path + ": Tag"
+                    )
                 .Assert
-                (
-                    FieldValue.Verify(Value),
-                    "Field " + Path + ": Value"
-                );
+                    (
+                        FieldValue.Verify(Value),
+                        "Field " + Path + ": Value"
+                    );
 
             foreach (SubField subField in SubFields)
             {

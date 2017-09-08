@@ -39,7 +39,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Default tag for binary resources.
         /// </summary>
-        public const string Tag = "953";
+        public const int Tag = 953;
 
         #endregion
 
@@ -149,11 +149,10 @@ namespace ManagedIrbis.Fields
         public static BinaryResource[] Parse
             (
                 [NotNull] MarcRecord record,
-                [NotNull] string tag
+                int tag
             )
         {
             Code.NotNull(record, "record");
-            Code.NotNullNorEmpty(tag, "tag");
 
             RecordField[] fields = record
                 .Fields

@@ -262,21 +262,21 @@ namespace ManagedIrbis.Requests
             BookRequest result = new BookRequest
                 {
                     Mfn = record.Mfn,
-                    BookDescription = record.FM("201"),
-                    BookCode = record.FM("903"),
-                    RequestDate = record.FM("40"),
-                    FulfillmentDate = record.FM("41"),
-                    ReservationDate = record.FM("43"),
-                    ReaderID = record.FM("30"),
-                    ReaderDescription = record.FM("31"),
-                    Database = record.FM("1"),
-                    Department = record.FM("102"),
-                    ResponsiblePerson = record.FM("50"),
+                    BookDescription = record.FM(201),
+                    BookCode = record.FM(903),
+                    RequestDate = record.FM(40),
+                    FulfillmentDate = record.FM(41),
+                    ReservationDate = record.FM(43),
+                    ReaderID = record.FM(30),
+                    ReaderDescription = record.FM(31),
+                    Database = record.FM(1),
+                    Department = record.FM(102),
+                    ResponsiblePerson = record.FM(50),
                     RequestRecord = record
                 };
 
             RecordField field44 = record.Fields
-                .GetField("44")
+                .GetField(44)
                 .FirstOrDefault();
             if (!ReferenceEquals(field44, null))
             {

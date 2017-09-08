@@ -143,21 +143,21 @@ namespace ManagedIrbis.Fields
                 [NotNull] MarcRecord record
             )
         {
-            string workList = record.FM("920");
-            string result = record.FM("210", 'd');
+            string workList = record.FM(920);
+            string result = record.FM(210, 'd');
             if (string.IsNullOrEmpty(result))
             {
-                result = record.FM("461", 'h');
+                result = record.FM(461, 'h');
             }
             if (string.IsNullOrEmpty(result))
             {
-                result = record.FM("461", 'z');
+                result = record.FM(461, 'z');
             }
             if (string.IsNullOrEmpty(result))
             {
                 if (workList.SameString("NJ"))
                 {
-                    result = record.FM("934");
+                    result = record.FM(934);
                 }
             }
 
@@ -185,7 +185,7 @@ namespace ManagedIrbis.Fields
             {
                 return exemplar.Price;
             }
-            string price = record.FM("10", 'd');
+            string price = record.FM(10, 'd');
             if (!string.IsNullOrEmpty(price))
             {
                 return price;
@@ -340,19 +340,19 @@ namespace ManagedIrbis.Fields
 
             if (!ReferenceEquals(record, null))
             {
-                string workList = record.FM("920");
+                string workList = record.FM(920);
 
                 if (string.IsNullOrEmpty(exemplar.ShelfIndex))
                 {
-                    exemplar.ShelfIndex = record.FM("906")
-                                          ?? record.FM("621")
-                                          ?? record.FM("686");
+                    exemplar.ShelfIndex = record.FM(906)
+                                          ?? record.FM(621)
+                                          ?? record.FM(686);
                 }
 
                 if (string.IsNullOrEmpty(exemplar.ShelfIndex)
                     && workList.SameString("NJ"))
                 {
-                    string consolidatedIndex = record.FM("933");
+                    string consolidatedIndex = record.FM(933);
                     if (!string.IsNullOrEmpty(consolidatedIndex))
                     {
                         string expression = string.Format
@@ -364,16 +364,16 @@ namespace ManagedIrbis.Fields
                             = Connection.SearchReadOneRecord(expression);
                         if (!ReferenceEquals(consolidatedRecord, null))
                         {
-                            exemplar.ShelfIndex = consolidatedRecord.FM("906")
-                                ?? consolidatedRecord.FM("621")
-                                ?? consolidatedRecord.FM("686");
+                            exemplar.ShelfIndex = consolidatedRecord.FM(906)
+                                ?? consolidatedRecord.FM(621)
+                                ?? consolidatedRecord.FM(686);
                         }
                     }
                 }
 
                 exemplar.Year = _GetYear(record);
                 exemplar.Price = _GetPrice(record, exemplar);
-                exemplar.Issue = record.FM("936");
+                exemplar.Issue = record.FM(936);
             }
 
             return exemplar;
@@ -428,7 +428,7 @@ namespace ManagedIrbis.Fields
                 [NotNull] MarcRecord record
             )
         {
-            string worklist = record.FM("920");
+            string worklist = record.FM(920);
             if (string.IsNullOrEmpty(worklist))
             {
                 return false;
@@ -437,7 +437,7 @@ namespace ManagedIrbis.Fields
             {
                 return false;
             }
-            string index = record.FM("933");
+            string index = record.FM(933);
             if (string.IsNullOrEmpty(index))
             {
                 return false;
@@ -459,7 +459,7 @@ namespace ManagedIrbis.Fields
                 return false;
             }
 
-            string kind = main.FM("110", 'b');
+            string kind = main.FM(110, 'b');
             result = kind.SameString("c");
             _newspapers[index] = result;
             return result;

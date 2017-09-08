@@ -50,7 +50,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Tag.
         /// </summary>
-        public const string Tag = "923";
+        public const int Tag = 923;
 
         #endregion
 
@@ -165,7 +165,7 @@ namespace ManagedIrbis.Fields
             List<PartInfo> result = new List<PartInfo>();
             foreach (RecordField field in record.Fields)
             {
-                if (field.Tag.SameString(Tag))
+                if (field.Tag == Tag)
                 {
                     PartInfo part = ParseField(field);
                     result.Add(part);

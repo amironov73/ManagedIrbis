@@ -51,7 +51,7 @@ namespace ManagedIrbis.Fields
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public static string[] KnownTags { get { return _knownTags; } }
+        public static int[] KnownTags { get { return _knownTags; } }
 
         /// <summary>
         /// Наименование. Подполе a.
@@ -168,9 +168,9 @@ namespace ManagedIrbis.Fields
 
         #region Private members
 
-        private static readonly string[] _knownTags =
+        private static readonly int[] _knownTags =
         {
-            "710", "711", "962", "972"
+            710, 711, 962, 972
         };
 
         #endregion
@@ -208,7 +208,7 @@ namespace ManagedIrbis.Fields
         public static CollectiveInfo[] ParseRecord
             (
                 [NotNull] MarcRecord record,
-                [NotNull][ItemNotNull] string[] tags
+                [NotNull] int[] tags
             )
         {
             Code.NotNull(record, "record");

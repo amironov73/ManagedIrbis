@@ -85,16 +85,16 @@ namespace AM
             var last = previous;
             foreach (var i in n.Skip(1))
             {
-                if (i != (last + 1))
+                if (i != last + 1)
                 {
-                    result.AppendFormat("{0}{1}", (first ? "" : ", "),
+                    result.AppendFormat("{0}{1}", first ? "" : ", ",
                         FormatRange(previous, last));
                     previous = i;
                     first = false;
                 }
                 last = i;
             }
-            result.AppendFormat("{0}{1}", (first ? "" : ", "),
+            result.AppendFormat("{0}{1}", first ? "" : ", ",
                 FormatRange(previous, last));
 
             return result.ToString();
@@ -142,6 +142,48 @@ namespace AM
             )
         {
             return text.SafeToInt32() > 0;
+        }
+
+        /// <summary>
+        /// One of many?
+        /// </summary>
+        public static bool OneOf
+            (
+                this int one,
+                params int[] many
+            )
+        {
+            foreach (int i in many)
+            {
+                if (i == one)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// One of many?
+        /// </summary>
+        public static bool OneOf
+            (
+                this int one,
+                [NotNull] IEnumerable<int> many
+            )
+        {
+            Code.NotNull(many, "many");
+
+            foreach (int i in many)
+            {
+                if (i == one)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -243,8 +285,8 @@ namespace AM
 
 #endif
 
-            if ((result < minValue)
-                || (result > maxValue))
+            if (result < minValue
+                || result > maxValue)
             {
                 result = defaultValue;
             }

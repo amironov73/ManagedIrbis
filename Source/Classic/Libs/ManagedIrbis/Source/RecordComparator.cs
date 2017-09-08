@@ -38,8 +38,7 @@ namespace ManagedIrbis
         {
             #region Properties
 
-            [NotNull]
-            private string Tag { get; set; }
+            private int Tag { get; set; }
 
             [NotNull]
             private string Text { get; set; }
@@ -59,7 +58,7 @@ namespace ManagedIrbis
                 )
             {
                 Field = field;
-                Tag = FieldTag.Normalize(field.Tag);
+                Tag = field.Tag;
                 Text = field.ToText();
             }
 
@@ -73,7 +72,7 @@ namespace ManagedIrbis
                 )
             {
                 other = other.ThrowIfNull();
-                return string.CompareOrdinal(Tag, other.Tag) == 0
+                return Tag == other.Tag
                    && string.CompareOrdinal(Text,other.Text) == 0;
             }
 

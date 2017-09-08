@@ -160,7 +160,7 @@ namespace ManagedIrbis.Direct
         {
             MstDictionaryEntry64 result = new MstDictionaryEntry64
             {
-                Tag = int.Parse(field.Tag.ThrowIfNull("field.Tag")),
+                Tag = field.Tag,
                 Text = field.ToText()
             };
 

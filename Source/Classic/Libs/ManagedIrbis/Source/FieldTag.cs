@@ -147,6 +147,54 @@ namespace ManagedIrbis
         /// </summary>
         public static bool Verify
             (
+                int tag,
+                bool throwOnError
+            )
+        {
+            bool result = tag > 0;
+
+            if (!result)
+            {
+                Log.Error
+                (
+                    "FieldTag::Verify: "
+                    + "bad tag="
+                    + tag.ToInvariantString()
+                );
+
+                if (throwOnError)
+                {
+                    throw new VerificationException
+                    (
+                        "bad tag="
+                        + tag.ToInvariantString()
+                    );
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Verify the tag value.
+        /// </summary>
+        public static bool Verify
+            (
+                int tag
+            )
+        {
+            return Verify
+                (
+                    tag,
+                    ThrowOnValidate
+                );
+        }
+
+        /// <summary>
+        /// Verify the tag value.
+        /// </summary>
+        public static bool Verify
+            (
                 [CanBeNull] string tag
             )
         {

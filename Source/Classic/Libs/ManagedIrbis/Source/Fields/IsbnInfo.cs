@@ -51,7 +51,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Tag.
         /// </summary>
-        public const string Tag = "10";
+        public const int Tag = 10;
 
         #endregion
 
@@ -170,7 +170,7 @@ namespace ManagedIrbis.Fields
             List<IsbnInfo> result = new List<IsbnInfo>();
             foreach (RecordField field in record.Fields)
             {
-                if (field.Tag.SameString(Tag))
+                if (field.Tag == Tag)
                 {
                     IsbnInfo isbn = ParseField(field);
                     result.Add(isbn);

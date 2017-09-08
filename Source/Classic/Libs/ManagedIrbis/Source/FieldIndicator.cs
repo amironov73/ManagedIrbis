@@ -15,9 +15,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
 
-#if FW4
-using System.ComponentModel;
-#endif
+//#if FW4
+//using System.ComponentModel;
+//#endif
 
 using AM;
 using AM.Logging;
@@ -132,13 +132,13 @@ namespace ManagedIrbis
 
         #region Properties
 
-        /// <summary>
-        /// Field.
-        /// </summary>
-        [CanBeNull]
-        [XmlIgnore]
-        [JsonIgnore]
-        public RecordField Field { get { return _field; } }
+        ///// <summary>
+        ///// Field.
+        ///// </summary>
+        //[CanBeNull]
+        //[XmlIgnore]
+        //[JsonIgnore]
+        //public RecordField Field { get { return _field; } }
 
         /// <summary>
         /// Whether value is set?
@@ -209,9 +209,9 @@ namespace ManagedIrbis
 
         private string _value;
 
-        // ReSharper disable InconsistentNaming
-        internal RecordField _field;
-        // ReSharper restore InconsistentNaming
+        //// ReSharper disable InconsistentNaming
+        //internal RecordField _field;
+        //// ReSharper restore InconsistentNaming
 
         #endregion
 
@@ -292,7 +292,7 @@ namespace ManagedIrbis
             writer.Write(Value);
         }
 
-        #endregion
+#endregion
 
         #region IReadOnly<T> members
 

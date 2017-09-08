@@ -90,8 +90,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// Tag.
         /// </summary>
-        [CanBeNull]
-        public string Tag { get; set; }
+        public int Tag { get; set; }
 
         /// <summary>
         /// Tag specification.
@@ -223,11 +222,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         left.SubFieldRepeat,
                         right.SubFieldRepeat
                     )
-                && PftSerializationUtility.CompareStrings
-                    (
-                        left.Tag,
-                        right.Tag
-                    )
+                && left.Tag == right.Tag
                 && PftSerializationUtility.CompareStrings
                     (
                         left.TagSpecification,
@@ -261,7 +256,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             FieldRepeat.Deserialize(reader);
             SubField = reader.ReadChar();
             SubFieldRepeat.Deserialize(reader);
-            Tag = reader.ReadNullableString();
+            Tag = reader.ReadPackedInt32();
             TagSpecification = reader.ReadNullableString();
             SubFieldSpecification = reader.ReadNullableString();
             RawText = reader.ReadNullableString();
@@ -380,7 +375,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     navigator.ReadCharNoCrLf();
                     builder.Append(c);
                 }
-                Tag = builder.ToString();
+                Tag = NumericUtility.ParseInt32(builder.ToString());
             }
 
             navigator.SkipWhitespace();
@@ -748,7 +743,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 navigator.ReadChar();
                 builder.Append(c);
             }
-            Tag = builder.ToString();
+            Tag = NumericUtility.ParseInt32(builder.ToString());
 
             navigator.SkipWhitespace();
             c = navigator.PeekChar();
@@ -850,7 +845,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 navigator.ReadChar();
                 builder.Append(c);
             }
-            Tag = builder.ToString();
+            Tag = NumericUtility.ParseInt32(builder.ToString());
 
             // now c is peeked char
 
@@ -936,7 +931,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             FieldRepeat.Serialize(writer);
             writer.Write(SubField);
             SubFieldRepeat.Serialize(writer);
-            writer.WriteNullable(Tag);
+            writer.WritePackedInt32(Tag);
             writer.WriteNullable(TagSpecification);
             writer.WriteNullable(SubFieldSpecification);
             writer.WriteNullable(RawText);

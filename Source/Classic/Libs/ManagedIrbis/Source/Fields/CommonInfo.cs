@@ -52,12 +52,12 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// 
         /// </summary>
-        public const string MainTag = "461";
+        public const int MainTag = 461;
 
         /// <summary>
         /// 
         /// </summary>
-        public const string AdditionalTag = "46";
+        public const int AdditionalTag = 46;
 
         #endregion
 
@@ -359,8 +359,10 @@ namespace ManagedIrbis.Fields
             List<CommonInfo> result = new List<CommonInfo>();
             for (int i = 0;; i++)
             {
-                RecordField field461 = record.Fields.GetField("461", i);
-                RecordField field46 = record.Fields.GetField("46", i);
+                RecordField field461 = record.Fields
+                    .GetField(MainTag, i);
+                RecordField field46 = record.Fields
+                    .GetField(AdditionalTag, i);
                 if (ReferenceEquals(field461, field46))
                 {
                     // This can happen only if both fields = null

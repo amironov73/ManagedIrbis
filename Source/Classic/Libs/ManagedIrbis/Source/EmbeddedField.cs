@@ -143,11 +143,10 @@ namespace ManagedIrbis
         public static RecordField[] GetEmbeddedField
             (
                 [NotNull] this RecordField field,
-                [NotNull] string tag
+                int tag
             )
         {
             Code.NotNull(field, "field");
-            Code.NotNullNorEmpty(tag, "tag");
 
             RecordField[] result = GetEmbeddedFields
                 (

@@ -12,7 +12,6 @@
 using System.Collections.Generic;
 
 using AM;
-using AM.Text;
 
 using JetBrains.Annotations;
 
@@ -37,15 +36,12 @@ namespace ManagedIrbis
             /// <inheritdoc cref="Comparer{T}.Compare" />
             public override int Compare
                 (
-                    RecordField left, 
+                    RecordField left,
                     RecordField right
                 )
             {
-                return NumberText.Compare
-                    (
-                        left.ThrowIfNull().Tag,
-                        right.ThrowIfNull().Tag
-                    );
+                return left.ThrowIfNull("left").Tag
+                    - right.ThrowIfNull("right").Tag;
             }
         }
 
@@ -54,7 +50,7 @@ namespace ManagedIrbis
         #region Public methods
 
         /// <summary>
-        /// Compare <inheritdoc cref="RecordField"/> by
+        /// Compare <see cref="RecordField"/> by
         /// <see cref="RecordField.Tag"/>.
         /// </summary>
         [NotNull]

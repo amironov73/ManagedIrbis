@@ -52,7 +52,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Тег полей, содержащих сведения об экземплярах.
         /// </summary>
-        public const string ExemplarTag = "910";
+        public const int ExemplarTag = 910;
 
         #endregion
 
@@ -458,11 +458,10 @@ namespace ManagedIrbis.Fields
         public static ExemplarInfo[] Parse
             (
                 [NotNull] MarcRecord record,
-                [NotNull] string tagNumber
+                int tagNumber
             )
         {
             Code.NotNull(record, "record");
-            Code.NotNullNorEmpty(tagNumber, "tagNumber");
 
             ExemplarInfo[] result = record.Fields
                 .GetField(tagNumber)

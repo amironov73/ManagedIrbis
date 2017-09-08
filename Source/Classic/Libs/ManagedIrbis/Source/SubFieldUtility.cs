@@ -385,7 +385,7 @@ namespace ManagedIrbis
         public static SubField[] GetSubField
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [NotNull] string[] tags,
+                [NotNull] int[] tags,
                 [NotNull] char[] codes
             )
         {
@@ -469,7 +469,7 @@ namespace ManagedIrbis
         public static SubField[] GetSubFieldRegex
             (
                 [NotNull] this IEnumerable<RecordField> fields,
-                [NotNull] string[] tags,
+                [NotNull] int[] tags,
                 [NotNull] char[] codes,
                 [NotNull] string textRegex
             )

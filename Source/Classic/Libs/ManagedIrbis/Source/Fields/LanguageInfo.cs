@@ -46,7 +46,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Tag.
         /// </summary>
-        public const string Tag = "919";
+        public const int Tag = 919;
 
         #endregion
 
@@ -260,7 +260,7 @@ namespace ManagedIrbis.Fields
             List<LanguageInfo> result = new List<LanguageInfo>();
             foreach (RecordField field in record.Fields)
             {
-                if (field.Tag.SameString(Tag))
+                if (field.Tag == Tag)
                 {
                     LanguageInfo heading = ParseField(field);
                     result.Add(heading);

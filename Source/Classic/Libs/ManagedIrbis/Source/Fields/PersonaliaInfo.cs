@@ -41,7 +41,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Tag.
         /// </summary>
-        public const string Tag = "600";
+        public const int Tag = 600;
 
         #endregion
 
@@ -223,16 +223,15 @@ namespace ManagedIrbis.Fields
         public static PersonaliaInfo[] ParseRecord
             (
                 [NotNull] MarcRecord record,
-                [NotNull] string tag
+                int tag
             )
         {
             Code.NotNull(record, "record");
-            Code.NotNullNorEmpty(tag, "tag");
 
             List<PersonaliaInfo> result = new List<PersonaliaInfo>();
             foreach (RecordField field in record.Fields)
             {
-                if (field.Tag.SameString(tag))
+                if (field.Tag == tag)
                 {
                     PersonaliaInfo personalia = ParseField(field);
                     result.Add(personalia);
