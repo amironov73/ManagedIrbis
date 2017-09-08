@@ -460,12 +460,16 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (!ReferenceEquals(record, null)
                 && !string.IsNullOrEmpty(expression))
             {
-                int count = record.Fields
-                    .GetField(expression)
-                    .Length;
-                string output = count.ToInvariantString();
-                context.Write(node, output);
-                context.OutputFlag = true;
+                int tag = expression.SafeToInt32();
+                if (tag > 0)
+                {
+                    int count = record.Fields
+                        .GetField(tag)
+                        .Length;
+                    string output = count.ToInvariantString();
+                    context.Write(node, output);
+                    context.OutputFlag = true;
+                }
             }
         }
 
@@ -486,7 +490,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 && !string.IsNullOrEmpty(expression))
             {
                 string[] parts = expression.Split('#');
-                string tag = parts[0];
+                int tag = parts[0].SafeToInt32();
                 string occText = parts.Length > 1
                     ? parts[1]
                     : "1";

@@ -89,10 +89,10 @@ namespace ManagedIrbis.Morphology
 
             MorphologyEntry result = new MorphologyEntry
             {
-                MainTerm = record.FM("10"),
-                Dictionary = record.FM("11"),
-                Language = record.FM("12"),
-                Forms = record.FMA("20")
+                MainTerm = record.FM(10),
+                Dictionary = record.FM(11),
+                Language = record.FM(12),
+                Forms = record.FMA(20)
             };
 
             return result;

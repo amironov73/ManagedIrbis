@@ -128,10 +128,10 @@ namespace ManagedIrbis.Morphology
             SynonymEntry result = new SynonymEntry
             {
                 Mfn = record.Mfn,
-                MainWord = record.FM("10"),
-                Synonyms = record.FMA("11"),
-                Language = record.FM("12"),
-                Worksheet = record.FM("920")
+                MainWord = record.FM(10),
+                Synonyms = record.FMA(11),
+                Language = record.FM(12),
+                Worksheet = record.FM(920)
             };
 
             return result;

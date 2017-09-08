@@ -190,7 +190,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             RecordField field = context.Record.Fields
-                .GetField(tag, context.Index);
+                .GetField(tag.SafeToInt32(), context.Index);
             if (ReferenceEquals(field, null))
             {
                 return;
@@ -239,7 +239,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             RecordField field = context.Record.Fields
-                .GetField(tag, context.Index);
+                .GetField(tag.SafeToInt32(), context.Index);
             if (ReferenceEquals(field, null))
             {
                 return;
@@ -306,7 +306,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             RecordField field = context.Record.Fields
-                .GetField(tag, context.Index);
+                .GetField(tag.SafeToInt32(), context.Index);
             if (ReferenceEquals(field, null))
             {
                 return;
@@ -418,14 +418,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             RecordField field = context.Record.Fields
-                .GetField(tag, context.Index);
+                .GetField(tag.SafeToInt32(), context.Index);
             if (ReferenceEquals(field, null))
             {
                 return;
             }
 
             field = field.GetEmbeddedFields()
-                .GetField(embed)
+                .GetField(embed.SafeToInt32())
                 .GetOccurrence(0);
             if (ReferenceEquals(field, null))
             {

@@ -153,7 +153,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 return 0;
             }
 
-            int result = record.Fields.GetField(Tag).Length;
+            int result = record.Fields.GetField(Tag.SafeToInt32()).Length;
 
             return result;
         }

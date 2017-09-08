@@ -205,7 +205,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 #endif
 
                 string tag = parts[0];
-                RecordField[] fields = record.Fields.GetField(tag);
+                RecordField[] fields = record.Fields.GetField(tag.SafeToInt32());
 
                 if (parts.Length == 2)
                 {
@@ -458,7 +458,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             foreach (PftV field in fields)
             {
-                int count = context.Record.Fields.GetField(field.Tag).Length;
+                int count = context.Record.Fields.GetField(field.Tag.SafeToInt32()).Length;
                 if (count > result)
                 {
                     result = count;
@@ -775,14 +775,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             MarcRecord record = context.Record;
             if (!ReferenceEquals(record, null))
             {
-                string[] tags = record.Fields.Select
+                int[] tags = record.Fields.Select
                     (
                         field => field.Tag
                     )
                     .Distinct()
                     .ToArray();
 
-                tags = NumberText.Sort(tags).ToArray();
+                Array.Sort(tags);
 
                 string expression = context.GetStringArgument(arguments, 0);
                 if (!string.IsNullOrEmpty(expression))
@@ -790,7 +790,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     Regex regex = new Regex(expression);
                     tags = tags.Where
                         (
-                            tag => regex.IsMatch(tag)
+                            tag => regex.IsMatch(tag.ToInvariantString())
                         )
                         .ToArray();
                 }

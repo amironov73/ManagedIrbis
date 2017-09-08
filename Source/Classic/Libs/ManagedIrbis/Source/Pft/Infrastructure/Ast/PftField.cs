@@ -216,7 +216,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Offset = specification.Offset;
             Length = specification.Length;
             SubField = specification.SubField;
-            Tag = specification.Tag;
+            Tag = specification.Tag.ToInvariantString();
             TagSpecification = specification.TagSpecification;
             FieldRepeat = specification.FieldRepeat;
             SubFieldRepeat = specification.SubFieldRepeat;
@@ -241,7 +241,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Offset = reference.Offset;
             Length = reference.Length;
             SubField = reference.SubField;
-            Tag = reference.Tag;
+            Tag = reference.Tag.ToInvariantString();
             TagSpecification = reference.TagSpecification;
             FieldRepeat = reference.FieldRepeat;
             SubFieldRepeat = reference.SubFieldRepeat;
@@ -349,7 +349,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             RecordField[] fields = PftUtility.GetArrayItem
                 (
                     context,
-                    record.Fields.GetField(Tag),
+                    record.Fields.GetField(Tag.SafeToInt32()),
                     FieldRepeat
                 );
 
@@ -389,7 +389,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 return false;
             }
 
-            RecordField field = record.Fields.GetField(Tag, context.Index);
+            RecordField field = record.Fields.GetField(Tag.SafeToInt32(), context.Index);
 
             return !ReferenceEquals(field, null);
         }
@@ -467,7 +467,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 Offset = Offset,
                 Length = Length,
                 SubField = SubField,
-                Tag = Tag
+                Tag = Tag.SafeToInt32()
             };
 
             return result;

@@ -357,7 +357,7 @@ namespace ManagedIrbis.Readers
             Code.NotNull(bookRecord, "bookRecord");
 
             RecordField[] fields = bookRecord.Fields
-                .GetField("910");
+                .GetField(910);
 
             string result = null;
 
@@ -388,7 +388,7 @@ namespace ManagedIrbis.Readers
 
             if (string.IsNullOrEmpty(result))
             {
-                result = bookRecord.FM("10", 'd');
+                result = bookRecord.FM(10, 'd');
             }
 
             return result;
@@ -405,8 +405,8 @@ namespace ManagedIrbis.Readers
         {
             Code.NotNull(bookRecord, "bookRecord");
 
-            string result = bookRecord.FM("210", 'd')
-                ?? bookRecord.FM("934");
+            string result = bookRecord.FM(210, 'd')
+                ?? bookRecord.FM(934);
 
             return result;
         }

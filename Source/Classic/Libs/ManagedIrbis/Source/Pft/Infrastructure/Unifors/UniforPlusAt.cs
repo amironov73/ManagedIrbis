@@ -135,7 +135,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            string[] tags = record.Fields.Select
+            int[] tags = record.Fields.Select
                 (
                     field => field.Tag
                 )
@@ -145,10 +145,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             JObject obj = new JObject();
 
-            foreach (string tag in tags)
+            foreach (int tag in tags)
             {
                 JObject tagObj = new JObject();
-                obj.Add(tag, tagObj);
+                obj.Add(tag.ToInvariantString(), tagObj);
 
                 RecordField[] fields = record.Fields.GetField(tag);
 

@@ -11,7 +11,7 @@
 
 using System.IO;
 using System.Text;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -310,7 +310,7 @@ namespace ManagedIrbis.ImportExport
             {
                 // Кодируем справочник
                 RecordField fld = record.Fields[i];
-                _Encode(chars, dictionaryPosition, fld.Tag);
+                _Encode(chars, dictionaryPosition, fld.Tag.ToInvariantString());
                 _Encode(chars, dictionaryPosition + 3, 4, fieldLength[i]);
                 _Encode(chars, dictionaryPosition + 7, 5, currentAddress - baseAddress);
 

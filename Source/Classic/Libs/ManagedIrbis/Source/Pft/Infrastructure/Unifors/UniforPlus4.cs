@@ -101,7 +101,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             switch (command)
             {
                 case 'T':
-                    output = currentField.Tag;
+                    output = currentField.Tag.ToInvariantString();
                     break;
 
                 case 'F':

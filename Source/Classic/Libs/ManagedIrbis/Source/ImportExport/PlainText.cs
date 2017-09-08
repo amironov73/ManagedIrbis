@@ -128,7 +128,7 @@ namespace ManagedIrbis.ImportExport
             }
             RecordField result = new RecordField
             {
-                Tag = _ReadTo(reader, ':')
+                Tag = NumericUtility.ParseInt32(_ReadTo(reader, ':'))
             };
 
             c = (char) reader.Read();

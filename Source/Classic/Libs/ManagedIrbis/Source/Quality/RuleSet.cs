@@ -101,7 +101,7 @@ namespace ManagedIrbis.Quality
                     context.BriefFormat,
                     context.Record.Mfn
                 ),
-                Index = context.Record.FM("903"),
+                Index = context.Record.FM(903),
                 Mfn = context.Record.Mfn
             };
             RuleUtility.RenumberFields

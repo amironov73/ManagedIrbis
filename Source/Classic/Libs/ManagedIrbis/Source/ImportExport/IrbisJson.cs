@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -45,15 +45,15 @@ namespace ManagedIrbis.ImportExport
 
             JObject result = new JObject();
 
-            string[] tags = record.Fields
+            int[] tags = record.Fields
                 .Select(field => field.Tag)
                 .Distinct()
                 .ToArray();
 
-            foreach (string tag in tags)
+            foreach (int tag in tags)
             {
                 RecordField[] fields = record.Fields.GetField(tag);
-                JProperty tagProperty = new JProperty(tag);
+                JProperty tagProperty = new JProperty(tag.ToInvariantString());
                 result.Add(tagProperty);
 
                 for (int i = 0; i < fields.Length; i++)

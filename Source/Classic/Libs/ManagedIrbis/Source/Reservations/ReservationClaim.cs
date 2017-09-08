@@ -51,7 +51,7 @@ namespace ManagedIrbis.Reservations
         /// <summary>
         /// Tag.
         /// </summary>
-        public const string Tag = "20";
+        public const int Tag = 20;
 
         #endregion
 
@@ -201,7 +201,7 @@ namespace ManagedIrbis.Reservations
                 = new NonNullCollection<ReservationClaim>();
             foreach (RecordField field in record.Fields)
             {
-                if (field.Tag.SameString(Tag))
+                if (field.Tag == Tag)
                 {
                     ReservationClaim claim = ParseField(field);
                     result.Add(claim);

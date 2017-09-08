@@ -109,10 +109,10 @@ namespace ManagedIrbis
         public static bool HaveField
             (
                 this MarcRecord record,
-                params string[] tags
+                params int[] tags
             )
         {
-            return (record.Fields.GetField(tags).Length != 0);
+            return record.Fields.GetField(tags).Length != 0;
         }
 
         /// <summary>
@@ -121,10 +121,10 @@ namespace ManagedIrbis
         public static bool HaveNotField
             (
                 this MarcRecord record,
-                params string[] tags
+                params int[] tags
             )
         {
-            return (record.Fields.GetField(tags).Length == 0);
+            return record.Fields.GetField(tags).Length == 0;
         }
 
         /// <summary>
@@ -208,11 +208,10 @@ namespace ManagedIrbis
         public static MarcRecord RemoveField
             (
                 [NotNull] this MarcRecord record,
-                [NotNull] string tag
+                int tag
             )
         {
             Code.NotNull(record, "record");
-            Code.NotNullNorEmpty(tag, "tag");
 
             RecordField[] found = record.Fields.GetField(tag);
             foreach (RecordField field in found)
@@ -230,12 +229,11 @@ namespace ManagedIrbis
         public static MarcRecord ReplaceField
             (
                 [NotNull] this MarcRecord record,
-                [NotNull] string tag,
+                int tag,
                 [NotNull] IEnumerable<RecordField> newFields
             )
         {
             Code.NotNull(record, "record");
-            Code.NotNullNorEmpty(tag, "tag");
             Code.NotNull(newFields, "newFields");
 
             record.RemoveField(tag);
@@ -255,7 +253,7 @@ namespace ManagedIrbis
         public static MarcRecord SetField
             (
                 [NotNull] this MarcRecord record,
-                string tag,
+                int tag,
                 string text
             )
         {
@@ -283,7 +281,7 @@ namespace ManagedIrbis
         public static MarcRecord SetField
             (
                 [NotNull] this MarcRecord record,
-                string tag,
+                int tag,
                 int occurrence,
                 string newText
             )
@@ -309,7 +307,7 @@ namespace ManagedIrbis
         public static MarcRecord SetSubField
             (
                 [NotNull] this MarcRecord record,
-                string tag,
+                int tag,
                 char code,
                 string text
             )
@@ -338,7 +336,7 @@ namespace ManagedIrbis
         public static MarcRecord SetSubField
             (
                 [NotNull] this MarcRecord record,
-                string tag,
+                int tag,
                 int fieldOccurrence,
                 char code,
                 int subFieldOccurrence,

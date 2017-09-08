@@ -45,12 +45,12 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// 
         /// </summary>
-        public const string Tag463 = "463";
+        public const int Tag463 = 463;
 
         /// <summary>
         /// 
         /// </summary>
-        public const string Tag963 = "963";
+        public const int Tag963 = 963;
 
         #endregion
 

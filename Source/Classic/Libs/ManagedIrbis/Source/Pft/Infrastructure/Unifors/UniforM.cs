@@ -46,13 +46,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         internal static void SortField
             (
                 [NotNull] MarcRecord record,
-                [NotNull] string tag,
+                int tag,
                 char code,
                 bool descending
             )
         {
             Code.NotNull(record, "record");
-            Code.NotNullNorEmpty(tag,"tag");
 
             RecordField[] found = record.Fields.GetField(tag);
             FieldToSort[] fields = new FieldToSort[found.Length];
@@ -108,11 +107,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     return;
                 }
-                string tag = navigator.ReadUntil('^');
-                if (string.IsNullOrEmpty(tag))
+                string tagText = navigator.ReadUntil('^');
+                if (string.IsNullOrEmpty(tagText))
                 {
                     return;
                 }
+                int tag = NumericUtility.ParseInt32(tagText);
                 char code = '\0';
                 if (!navigator.IsEOF)
                 {

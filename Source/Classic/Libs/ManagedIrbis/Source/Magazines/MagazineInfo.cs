@@ -218,15 +218,15 @@ namespace ManagedIrbis.Magazines
 
             MagazineInfo result = new MagazineInfo
             {
-                Index = record.FM("903"),
-                Title = record.FM("200", 'a'),
-                SubTitle = record.FM("200", 'e'),
+                Index = record.FM(903),
+                Title = record.FM(200, 'a'),
+                SubTitle = record.FM(200, 'e'),
                 Cumulation = MagazineCumulation.Parse(record),
-                SeriesNumber = record.FM("923",'h'),
-                SeriesTitle = record.FM("923", 'i'),
-                MagazineType = record.FM("110", 't'),
-                MagazineKind = record.FM("110", 'b'),
-                Periodicity = record.FM("110", 'x'),
+                SeriesNumber = record.FM(923,'h'),
+                SeriesTitle = record.FM(923, 'i'),
+                MagazineType = record.FM(110, 't'),
+                MagazineKind = record.FM(110, 'b'),
+                Periodicity = record.FM(110, 'x'),
                 Mfn = record.Mfn
             };
 

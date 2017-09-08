@@ -46,7 +46,7 @@ namespace ManagedIrbis.Magazines
         /// <summary>
         /// Тег поля.
         /// </summary>
-        public const string Tag = "909";
+        public const int Tag = 909;
 
         #endregion
 
@@ -134,11 +134,10 @@ namespace ManagedIrbis.Magazines
         public static MagazineCumulation[] Parse
             (
                 [NotNull] MarcRecord record,
-                [NotNull] string tag
+                int tag
             )
         {
             Code.NotNull(record, "record");
-            Code.NotNullNorEmpty(tag, "tag");
 
             return record.Fields
                 .GetField(tag)

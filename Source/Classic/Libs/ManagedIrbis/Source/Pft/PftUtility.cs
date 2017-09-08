@@ -163,15 +163,12 @@ namespace ManagedIrbis.Pft
         public static void AssignField
             (
                 [NotNull] PftContext context,
-                [NotNull] string tag,
+                int tag,
                 IndexSpecification index,
                 [CanBeNull] string value
             )
         {
             Code.NotNull(context, "context");
-            Code.NotNullNorEmpty(tag, "tag");
-
-            tag = FieldTag.Normalize(tag);
 
             MarcRecord record = context.Record;
             if (ReferenceEquals(record, null))
@@ -249,7 +246,7 @@ namespace ManagedIrbis.Pft
         public static void AssignSubField
             (
                 [NotNull] PftContext context,
-                [NotNull] string tag,
+                int tag,
                 IndexSpecification fieldIndex,
                 char code,
                 IndexSpecification subfieldIndex,
@@ -257,9 +254,7 @@ namespace ManagedIrbis.Pft
             )
         {
             Code.NotNull(context, "context");
-            Code.NotNullNorEmpty(tag, "tag");
 
-            tag = FieldTag.Normalize(tag);
             code = SubFieldCode.Normalize(code);
 
             MarcRecord record = context.Record;
@@ -853,7 +848,7 @@ namespace ManagedIrbis.Pft
         public static int GetFieldCount
             (
                 [NotNull] PftContext context,
-                params string[] tags
+                params int[] tags
             )
         {
             Code.NotNull(context, "context");
@@ -863,7 +858,7 @@ namespace ManagedIrbis.Pft
             MarcRecord record = context.Record;
             if (!ReferenceEquals(record, null))
             {
-                foreach (string tag in tags)
+                foreach (int tag in tags)
                 {
                     int count = record.Fields.GetFieldCount(tag);
                     result = Math.Max(count, result);
@@ -882,14 +877,11 @@ namespace ManagedIrbis.Pft
         public static string[] GetFieldValue
             (
                 [NotNull] PftContext context,
-                [NotNull] string tag,
+                int tag,
                 IndexSpecification index
             )
         {
             Code.NotNull(context, "context");
-            Code.NotNullNorEmpty(tag, "tag");
-
-            tag = FieldTag.Normalize(tag);
 
             MarcRecord record = context.Record;
             if (ReferenceEquals(record, null))
@@ -1046,14 +1038,13 @@ namespace ManagedIrbis.Pft
         public static string[] GetSubFieldValue
             (
                 [NotNull] PftContext context,
-                [NotNull] string tag,
+                int tag,
                 IndexSpecification fieldIndex,
                 char code,
                 IndexSpecification subfieldIndex
             )
         {
             Code.NotNull(context, "context");
-            Code.NotNullNorEmpty(tag, "tag");
 
             MarcRecord record = context.Record;
             if (ReferenceEquals(record, null))
@@ -1067,7 +1058,6 @@ namespace ManagedIrbis.Pft
                 return StringUtility.EmptyArray;
             }
 
-            tag = FieldTag.Normalize(tag);
             code = SubFieldCode.Normalize(code);
 
             RecordField[] fields = record.Fields.GetField(tag);

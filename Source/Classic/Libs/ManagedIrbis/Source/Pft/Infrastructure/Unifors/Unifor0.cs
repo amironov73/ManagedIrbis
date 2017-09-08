@@ -72,7 +72,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 Encoding encoding = IrbisEncoding.Utf8;
                 foreach (RecordField field in record.Fields)
                 {
-                    string tag = field.Tag.ThrowIfNull("Tag");
+                    int tag = field.Tag;
                     fieldCount++;
                     string text = field.ToText();
                     int byteCount = encoding.GetByteCount(text);
@@ -82,7 +82,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     builder.AppendFormat
                         (
                             "\\b #{0}/{1}:_\\b0 {2}\\par ",
-                            tag,
+                            tag.ToInvariantString(),
                             field.Repeat,
                             RichText.Encode(text)
                         );

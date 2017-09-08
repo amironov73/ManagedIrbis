@@ -192,13 +192,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         public static bool HaveRepeat
             (
                 [NotNull] MarcRecord record,
-                [NotNull] string tag,
+                int tag,
                 char code,
                 int index
             )
         {
             Code.NotNull(record, "record");
-            Code.NotNullNorEmpty(tag, "tag");
 
             RecordField field = record.Fields.GetField
                 (
@@ -402,7 +401,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     Value = HaveRepeat
                         (
                             record,
-                            tag,
+                            tag.SafeToInt32(),
                             Field.SubField,
                             index
                         );
@@ -410,7 +409,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     // Само по себе обращение к P крутит группу
                     // при наличии повторения поля
 
-                    if (HaveRepeat(record, tag, SubField.NoCode, index))
+                    if (HaveRepeat(record, tag.SafeToInt32(), SubField.NoCode, index))
                     {
                         context.OutputFlag = true;
                         //if (!ReferenceEquals(context._vMonitor, null))

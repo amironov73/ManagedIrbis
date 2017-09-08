@@ -95,7 +95,7 @@ namespace ManagedIrbis.ImportExport
 
             RecordField result = new RecordField
             {
-                Tag = _ReadTo(reader, '#'),
+                Tag = NumericUtility.ParseInt32(_ReadTo(reader, '#')),
                 Value = _ReadTo(reader, '^')
             };
 
@@ -150,7 +150,7 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] RecordField field
             )
         {
-            int fieldNumber = field.Tag.SafeToInt32();
+            int fieldNumber = field.Tag;
             if (fieldNumber != 0)
             {
                 builder.AppendFormat
@@ -297,7 +297,7 @@ namespace ManagedIrbis.ImportExport
                         break;
                     }
                     RecordField field = _ParseLine(line);
-                    if (!string.IsNullOrEmpty(field.Tag))
+                    if (field.Tag > 0)
                     {
                         record.Fields.Add(field);
                     }
@@ -355,7 +355,7 @@ namespace ManagedIrbis.ImportExport
                 {
                     string line = split[i];
                     RecordField field = _ParseLine(line);
-                    if (!string.IsNullOrEmpty(field.Tag))
+                    if (field.Tag > 0)
                     {
                         record.Fields.Add(field);
                     }
@@ -401,7 +401,7 @@ namespace ManagedIrbis.ImportExport
                 {
                     string line = split[i];
                     RecordField field = _ParseLine(line);
-                    if (!string.IsNullOrEmpty(field.Tag))
+                    if (field.Tag > 0)
                     {
                         record.Fields.Add(field);
                     }
@@ -451,7 +451,7 @@ namespace ManagedIrbis.ImportExport
                 {
                     line = split[i];
                     RecordField field = _ParseLine(line);
-                    if (!string.IsNullOrEmpty(field.Tag))
+                    if (field.Tag > 0)
                     {
                         record.Fields.Add(field);
                     }
@@ -499,7 +499,7 @@ namespace ManagedIrbis.ImportExport
                 {
                     line = split[i];
                     RecordField field = _ParseLine(line);
-                    if (!string.IsNullOrEmpty(field.Tag))
+                    if (field.Tag > 0)
                     {
                         record.Fields.Add(field);
                     }
@@ -541,7 +541,7 @@ namespace ManagedIrbis.ImportExport
                 {
                     line = split[i];
                     RecordField field = _ParseLine(line);
-                    if (!string.IsNullOrEmpty(field.Tag))
+                    if (field.Tag > 0)
                     {
                         record.Fields.Add(field);
                     }

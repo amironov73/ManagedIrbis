@@ -161,25 +161,14 @@ namespace ManagedIrbis.Readers
         public static ReaderRegistration[] Parse
             (
                 [NotNull] MarcRecord record,
-                [NotNull] string tag
+                int tag
             )
         {
             Code.NotNull(record, "record");
-            Code.NotNullNorEmpty(tag, "tag");
 
             ReaderRegistration[] result = record.Fields
                 .GetField(tag)
-
-#if !WINMOBILE && !PocketPC
-
-                .Select(Parse)
-
-#else
-
                 .Select(field => Parse(field))
-
-#endif
-
                 .ToArray();
 
             return result;

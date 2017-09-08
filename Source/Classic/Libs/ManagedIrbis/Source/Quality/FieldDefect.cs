@@ -43,9 +43,8 @@ namespace ManagedIrbis.Quality
         /// <summary>
         /// Поле.
         /// </summary>
-        [CanBeNull]
         [JsonProperty("field")]
-        public string Field { get; set; }
+        public int Field { get; set; }
 
         /// <summary>
         /// Повторение поля.
@@ -92,7 +91,7 @@ namespace ManagedIrbis.Quality
         {
             Code.NotNull(reader, "reader");
 
-            Field = reader.ReadNullableString();
+            Field = reader.ReadPackedInt32();
             FieldRepeat = reader.ReadPackedInt32();
             Subfield = reader.ReadNullableString();
             Value = reader.ReadNullableString();
@@ -109,7 +108,7 @@ namespace ManagedIrbis.Quality
             Code.NotNull(writer, "writer");
 
             writer
-                .WriteNullable(Field)
+                .WritePackedInt32(Field)
                 .WritePackedInt32(FieldRepeat)
                 .WriteNullable(Subfield)
                 .WriteNullable(Value)
@@ -131,7 +130,7 @@ namespace ManagedIrbis.Quality
                 = new Verifier<FieldDefect>(this, throwOnError);
 
             verifier
-                .NotNullNorEmpty(Field, "Field")
+                .Positive(Field, "Field")
                 .Assert(FieldRepeat >= 0, "FieldRepeat")
                 .NotNullNorEmpty(Message, "Message")
                 .Assert(Damage >= 0, "Damage");

@@ -88,21 +88,15 @@ namespace ManagedIrbis
                 return;
             }
 
-            DictionaryCounterInt32<string> seen
-                = new DictionaryCounterInt32<string>();
+            DictionaryCounterInt32<int> seen
+                = new DictionaryCounterInt32<int>();
 
             foreach (RecordField field in this)
             {
-                string tag = field.Tag;
-                if (string.IsNullOrEmpty(tag))
-                {
-                    field.Repeat = 0;
-                }
-                else
-                {
-                    tag = FieldTag.Normalize(tag);
-                    field.Repeat = seen.Increment(tag);
-                }
+                int tag = field.Tag;
+                field.Repeat = tag <= 0
+                    ? 0
+                    : seen.Increment(tag);
             }
         }
 
@@ -178,15 +172,13 @@ namespace ManagedIrbis
         [NotNull]
         public RecordFieldCollection ApplyFieldValue
             (
-                [NotNull] string tag,
+                int tag,
                 [CanBeNull] string value
             )
         {
-            Code.NotNullNorEmpty(tag, "tag");
-
             RecordField field = this.FirstOrDefault
                 (
-                    item => item.Tag.SameString(tag)
+                    item => item.Tag == tag
                 );
 
             if (string.IsNullOrEmpty(value))

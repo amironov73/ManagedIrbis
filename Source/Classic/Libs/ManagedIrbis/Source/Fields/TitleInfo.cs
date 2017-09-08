@@ -59,7 +59,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Тег поля.
         /// </summary>
-        public const string Tag = "200";
+        public const int Tag = 200;
 
         #endregion
 
@@ -214,12 +214,10 @@ namespace ManagedIrbis.Fields
         public static TitleInfo[] Parse
             (
                 [NotNull] MarcRecord record,
-                string tag
+                int tag
             )
         {
             Code.NotNull(record, "record");
-            Code.NotNullNorEmpty(tag, "tag");
-
 
             return record.Fields
                 .GetField(tag)

@@ -623,7 +623,7 @@ namespace ManagedIrbis
                 return null;
             }
 
-            RecordField field = RecordField.Parse("1", text);
+            RecordField field = RecordField.Parse(1, text);
             text = field.GetFirstSubFieldValue('b');
             byte[] result = IrbisUtility.DecodePercentString(text);
 
@@ -660,7 +660,7 @@ namespace ManagedIrbis
 
             if (!string.IsNullOrEmpty(result))
             {
-                RecordField field = RecordField.Parse("1", result);
+                RecordField field = RecordField.Parse(1, result);
                 result = field.GetFirstSubFieldValue('b');
                 byte[] bytes = IrbisUtility.DecodePercentString(result);
                 result = EncodingUtility.GetString
@@ -699,7 +699,7 @@ namespace ManagedIrbis
 
             if (!string.IsNullOrEmpty(result))
             {
-                RecordField field = RecordField.Parse("1", result);
+                RecordField field = RecordField.Parse(1, result);
                 result = field.GetFirstSubFieldValue('b');
                 byte[] bytes = IrbisUtility.DecodePercentString(result);
                 result = EncodingUtility.GetString

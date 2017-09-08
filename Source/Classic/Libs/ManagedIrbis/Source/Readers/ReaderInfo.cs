@@ -490,78 +490,47 @@ namespace ManagedIrbis.Readers
 
             ReaderInfo result = new ReaderInfo
                 {
-                    FamilyName = record.FM("10"),
-                    FirstName = record.FM("11"),
-                    Patronymic = record.FM("12"),
-                    DateOfBirth = record.FM("21"),
-                    Ticket = record.FM("30"),
-                    Gender = record.FM("23"),
-                    Category = record.FM("50"),
+                    FamilyName = record.FM(10),
+                    FirstName = record.FM(11),
+                    Patronymic = record.FM(12),
+                    DateOfBirth = record.FM(21),
+                    Ticket = record.FM(30),
+                    Gender = record.FM(23),
+                    Category = record.FM(50),
                     Address = ReaderAddress.Parse
                         (
                             record.Fields
-                            .GetField("13")
-                            .FirstOrDefault()
+                            .GetFirstField(13)
                         ),
-                    WorkPlace = record.FM("15"),
-                    Education = record.FM("20"),
-                    Email = record.FM("32"),
-                    HomePhone = record.FM("17"),
-                    RegistrationDateString = record.FM("51"),
+                    WorkPlace = record.FM(15),
+                    Education = record.FM(20),
+                    Email = record.FM(32),
+                    HomePhone = record.FM(17),
+                    RegistrationDateString = record.FM(51),
 
                     Enrollment = record.Fields
-                        .GetField("51")
-
-#if !WINMOBILE && !PocketPC
-
-                        .Select(ReaderRegistration.Parse)
-
-#else
-
+                        .GetField(51)
                         .Select(field => ReaderRegistration.Parse(field))
-
-#endif
-
-                            .ToArray(),
+                        .ToArray(),
 
                     Registrations = record.Fields
-                        .GetField("52")
-
-#if !WINMOBILE && !PocketPC
-
-                        .Select(ReaderRegistration.Parse)
-
-#else
-
+                        .GetField(52)
                         .Select(field => ReaderRegistration.Parse(field))
+                        .ToArray(),
 
-#endif
-
-                            .ToArray(),
-                    
-                    EnabledPlaces = record.FM("56"),
-                    DisabledPlaces = record.FM("57"),
-                    Rights = record.FM("29"),
-                    Remarks = record.FM("33"),
-                    PhotoFile = record.FM("950"),
+                    EnabledPlaces = record.FM(56),
+                    DisabledPlaces = record.FM(57),
+                    Rights = record.FM(29),
+                    Remarks = record.FM(33),
+                    PhotoFile = record.FM(950),
                     
                     Visits = record.Fields
-                        .GetField("40")
-
-#if !WINMOBILE && !PocketPC
-
-                        .Select(VisitInfo.Parse)
-
-#else
-
+                        .GetField(40)
                         .Select(field => VisitInfo.Parse(field))
-
-#endif
-
-                            .ToArray(),
+                        .ToArray(),
 
                     Profiles = IriProfile.ParseRecord(record),
-                    Status = record.FM("2015") ?? "0"
+                    Status = record.FM(2015) ?? "0"
                 };
 
             foreach (ReaderRegistration registration in result.Registrations)

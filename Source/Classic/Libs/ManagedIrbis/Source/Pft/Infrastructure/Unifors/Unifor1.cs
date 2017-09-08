@@ -103,11 +103,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            string tag = navigator.ReadInteger();
-            if (string.IsNullOrEmpty(tag))
+            string tagText = navigator.ReadInteger();
+            if (string.IsNullOrEmpty(tagText))
             {
                 return;
             }
+            int tag = NumericUtility.ParseInt32(tagText);
 
             char code = SubField.NoCode;
             if (navigator.PeekChar() == '^')

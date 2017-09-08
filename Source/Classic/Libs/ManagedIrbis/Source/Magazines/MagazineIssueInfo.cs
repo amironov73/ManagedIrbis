@@ -204,28 +204,26 @@ namespace ManagedIrbis.Magazines
             MagazineIssueInfo result = new MagazineIssueInfo
             {
                 Mfn = record.Mfn,
-                DocumentCode = record.FM("903"),
-                MagazineCode = record.FM("933"),
-                Year = record.FM("934"),
-                Volume = record.FM("935"),
-                Number = record.FM("936"),
-                Supplement = record.FM("931", 'c'),
-                Worksheet = record.FM("920"),
+                DocumentCode = record.FM(903),
+                MagazineCode = record.FM(933),
+                Year = record.FM(934),
+                Volume = record.FM(935),
+                Number = record.FM(936),
+                Supplement = record.FM(931, 'c'),
+                Worksheet = record.FM(920),
 
                 Articles = record.Fields
-                    .GetField("922")
+                    .GetField(922)
                     .Select(field => MagazineArticleInfo.Parse(field))
                     .ToArray(),
 
                 Exemplars = record.Fields
-                    .GetField("910")
+                    .GetField(910)
                     .Select(field => ExemplarInfo.Parse(field))
-                        .ToArray()
-            };
+                    .ToArray(),
 
-            int count;
-            NumericUtility.TryParseInt32(record.FM("999"), out count);
-            result.LoanCount = count;
+                LoanCount = record.FM(999).SafeToInt32()
+            };
 
             return result;
         }

@@ -275,7 +275,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 foreach (FieldSpecification field in Fields)
                 {
-                    string tag = field.Tag.ThrowIfNull("field.Tag");
+                    int tag = field.Tag;
                     string[] lines = field.SubField == SubField.NoCode
                         ? PftUtility.GetFieldValue
                             (

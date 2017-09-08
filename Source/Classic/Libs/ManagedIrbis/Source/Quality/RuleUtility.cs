@@ -139,7 +139,7 @@ namespace ManagedIrbis.Quality
             }
             return oneSpec.Contains("[")
                 ? fields.GetFieldRegex(oneSpec)
-                : fields.GetField(oneSpec);
+                : fields.GetField(NumericUtility.ParseInt32(oneSpec));
         }
 
         private static IEnumerable<RecordField> _GetField2
@@ -305,13 +305,13 @@ namespace ManagedIrbis.Quality
             Code.NotNull(record, "record");
             Code.NotNull(fields, "fields");
 
-            List<string> seen = new List<string>();
+            List<int> seen = new List<int>();
 
             foreach (RecordField field in fields)
             {
                 field.Record = record;
                 int count = 1;
-                foreach (string s in seen)
+                foreach (int s in seen)
                 {
                     if (s == field.Tag)
                     {

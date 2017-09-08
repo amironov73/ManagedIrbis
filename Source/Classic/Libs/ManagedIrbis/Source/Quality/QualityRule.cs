@@ -82,7 +82,7 @@ namespace ManagedIrbis.Quality
         [JsonIgnore]
         public string Worksheet
         {
-            get { return Record.FM("920"); }
+            get { return Record.FM(920); }
         }
 
         #endregion
@@ -94,13 +94,13 @@ namespace ManagedIrbis.Quality
         /// </summary>
         protected void AddDefect
             (
-                [NotNull] string tag,
+                int tag,
                 int damage,
                 [NotNull] string format,
                 params object[] args
             )
         {
-            Code.NotNullNorEmpty(tag, "tag");
+            Code.Positive(tag, "tag");
             Code.Nonnegative(damage, "damage");
             Code.NotNullNorEmpty(format, "format");
 

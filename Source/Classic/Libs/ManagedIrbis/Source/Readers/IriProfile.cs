@@ -47,7 +47,7 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Тег поля ИРИ.
         /// </summary>
-        public const string IriTag = "140";
+        public const int IriTag = 140;
 
         #endregion
 

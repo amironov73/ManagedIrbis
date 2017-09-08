@@ -46,7 +46,7 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Тег поля.
         /// </summary>
-        public const string Tag = "13";
+        public const int Tag = 13;
 
         #endregion
 
@@ -180,11 +180,10 @@ namespace ManagedIrbis.Readers
         public static ReaderAddress Parse
             (
                 [NotNull]MarcRecord record,
-                [NotNull]string tag
+                int tag
             )
         {
             Code.NotNull(record, "record");
-            Code.NotNullNorEmpty(tag, "tag");
 
             RecordField field = record.Fields
                 .GetField(tag)

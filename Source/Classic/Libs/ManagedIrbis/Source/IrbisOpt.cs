@@ -268,7 +268,7 @@ namespace ManagedIrbis
         /// Tag that identifies worksheet.
         /// Common used: 920
         /// </summary>
-        public string WorksheetTag { get; private set; }
+        public int WorksheetTag { get; private set; }
 
         #endregion
 
@@ -430,7 +430,7 @@ namespace ManagedIrbis
 
             IrbisOpt result = new IrbisOpt();
 
-            result.SetWorksheetTag(reader.RequireLine().Trim());
+            result.SetWorksheetTag(NumericUtility.ParseInt32(reader.RequireLine().Trim()));
             result.SetWorksheetLength(int.Parse(reader.RequireLine().Trim()));
 
             while (true)
@@ -547,10 +547,10 @@ namespace ManagedIrbis
         /// </summary>
         public void SetWorksheetTag
             (
-                [NotNull] string tag
+                int tag
             )
         {
-            Code.NotNullNorEmpty(tag, "tag");
+            Code.Positive(tag, "tag");
 
             WorksheetTag = tag;
         }
@@ -616,7 +616,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -624,7 +624,7 @@ namespace ManagedIrbis
         {
             _items = reader.ReadNonNullCollection<Item>();
             WorksheetLength = reader.ReadPackedInt32();
-            WorksheetTag = reader.ReadString();
+            WorksheetTag = reader.ReadPackedInt32();
         }
 
         /// <inheritdoc />
@@ -635,7 +635,7 @@ namespace ManagedIrbis
         {
             writer.Write(Items);
             writer.WritePackedInt32(WorksheetLength);
-            writer.Write(WorksheetTag);
+            writer.WritePackedInt32(WorksheetTag);
         }
 
         #endregion
