@@ -68,7 +68,7 @@ namespace UnitTests.ManagedIrbis.Fields
             MarcRecord record = new MarcRecord();
             record.Fields.Add(_GetField());
             BinaryResource[] resources
-                = BinaryResource.Parse(record, "953");
+                = BinaryResource.Parse(record, 953);
             Assert.AreEqual(1, resources.Length);
             Assert.AreEqual("jpg", resources[0].Kind);
             Assert.AreEqual("%01%02%03%04%05", resources[0].Resource);
@@ -81,7 +81,7 @@ namespace UnitTests.ManagedIrbis.Fields
             MarcRecord record = new MarcRecord();
             record.Fields.Add(_GetField());
             BinaryResource[] resources
-                = BinaryResource.Parse(record, "953");
+                = BinaryResource.Parse(record, 953);
             Assert.AreEqual(1, resources.Length);
             Assert.AreEqual("jpg", resources[0].Kind);
             Assert.AreEqual("%01%02%03%04%05", resources[0].Resource);

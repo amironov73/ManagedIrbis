@@ -76,7 +76,7 @@ namespace UnitTests.ManagedIrbis
                 (
                     new RecordField
                         (
-                            "200",
+                            200,
                             new SubField('a', "Hello")
                         )
                 );
@@ -84,7 +84,7 @@ namespace UnitTests.ManagedIrbis
 
         private RecordField _GetField()
         {
-            RecordField result = new RecordField("200", "Значение");
+            RecordField result = new RecordField(200, "Значение");
 
             result.AddSubField('a', "Заглавие");
             result.AddSubField('e', "подзаголовочные");
@@ -160,7 +160,7 @@ namespace UnitTests.ManagedIrbis
 
             JObject jObject = field.ToJObject();
 
-            Assert.AreEqual("200", jObject["tag"]);
+            Assert.AreEqual(200, jObject["tag"]);
             Assert.AreEqual("Заглавие", jObject["subfields"][0]["value"]);
         }
 
@@ -172,7 +172,7 @@ namespace UnitTests.ManagedIrbis
             string actual = field.ToJson()
                 .Replace("\r","").Replace("\n","")
                 .Replace("\"", "'");
-            const string expected = "{'tag':'200','value':'Значение','subfields':[{'code':'a','value':'Заглавие'},{'code':'e','value':'подзаголовочные'},{'code':'f','value':'об ответственности'}]}";
+            const string expected = "{'tag':200,'value':'Значение','subfields':[{'code':'a','value':'Заглавие'},{'code':'e','value':'подзаголовочные'},{'code':'f','value':'об ответственности'}]}";
 
             Assert.AreEqual(expected, actual);
         }
@@ -185,7 +185,7 @@ namespace UnitTests.ManagedIrbis
 
             RecordField field = RecordFieldUtility.FromJObject(jObject);
 
-            Assert.AreEqual("200", field.Tag);
+            Assert.AreEqual(200, field.Tag);
         }
 
         [TestMethod]
@@ -196,7 +196,7 @@ namespace UnitTests.ManagedIrbis
 
             RecordField field = RecordFieldUtility.FromJson(text);
 
-            Assert.AreEqual("200", field.Tag);
+            Assert.AreEqual(200, field.Tag);
             Assert.AreEqual(3, field.SubFields.Count);
         }
 
@@ -228,7 +228,7 @@ namespace UnitTests.ManagedIrbis
 +@"</field>";
             RecordField field = RecordFieldUtility.FromXml(text);
 
-            Assert.AreEqual("200", field.Tag);
+            Assert.AreEqual(200, field.Tag);
             Assert.AreEqual(3, field.SubFields.Count);
         }
 

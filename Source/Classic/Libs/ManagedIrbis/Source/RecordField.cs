@@ -53,7 +53,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Нет тега, т. е. тег ещё не присвоен.
         /// </summary>
-        public const string NoTag = null;
+        public const int NoTag = 0;
 
         /// <summary>
         /// Разделитель подполей.

@@ -60,7 +60,7 @@ namespace UnitTests.ManagedIrbis.Reports
                     (
                         new RecordField
                             (
-                                "200",
+                                200,
                                 new SubField
                                     (
                                         'a',
@@ -72,7 +72,7 @@ namespace UnitTests.ManagedIrbis.Reports
                     (
                         new RecordField
                             (
-                                "10",
+                                10,
                                 new SubField
                                     (
                                         'd',

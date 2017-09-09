@@ -21,7 +21,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200^a", specification.RawText);
         }
 
@@ -59,7 +59,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('\0', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200", specification.RawText);
         }
 
@@ -107,7 +107,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200^a#10", specification.RawText);
         }
 
@@ -125,7 +125,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             FieldSpecification specification = new FieldSpecification
             {
                 Command = 'v',
-                Tag = "200",
+                Tag = 200,
                 SubField = 'a'
             };
             string actual = specification.ToString();
@@ -138,7 +138,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             FieldSpecification specification = new FieldSpecification
             {
                 Command = 'v',
-                Tag = "200",
+                Tag = 200,
                 SubField = 'a',
                 Embedded = "461"
             };
@@ -152,7 +152,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             FieldSpecification specification = new FieldSpecification
             {
                 Command = 'v',
-                Tag = "200",
+                Tag = 200,
                 SubField = 'a',
                 Offset = 10
             };
@@ -166,7 +166,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             FieldSpecification specification = new FieldSpecification
             {
                 Command = 'v',
-                Tag = "200",
+                Tag = 200,
                 SubField = 'a',
                 Length = 5
             };
@@ -180,7 +180,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             FieldSpecification specification = new FieldSpecification
             {
                 Command = 'v',
-                Tag = "200",
+                Tag = 200,
                 SubField = 'a',
                 Offset = 10,
                 Length = 5
@@ -195,7 +195,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             FieldSpecification specification = new FieldSpecification
             {
                 Command = 'v',
-                Tag = "200",
+                Tag = 200,
                 SubField = 'a',
                 ParagraphIndent = 10
             };
@@ -216,7 +216,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual(null, specification.Tag);
+            Assert.AreEqual(0, specification.Tag);
             Assert.AreEqual("200", specification.TagSpecification);
             Assert.AreEqual("v[200]^a", specification.RawText);
         }
@@ -234,7 +234,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual(null, specification.Tag);
+            Assert.AreEqual(0, specification.Tag);
             Assert.AreEqual("$x + 2", specification.TagSpecification);
             Assert.AreEqual("v[$x + 2]^a", specification.RawText);
         }

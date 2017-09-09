@@ -36,7 +36,7 @@ namespace RangeStat
             NativeRecord native = irbis.GetRecord();
             MarcRecord record = native.ToMarcRecord();
             string description = irbis.FormatRecord(mfn);
-            int count = record.FM("999").SafeToInt32();
+            int count = record.FM(999).SafeToInt32();
             Console.WriteLine
                 (
                     "{0}\t{1}\t{2}",

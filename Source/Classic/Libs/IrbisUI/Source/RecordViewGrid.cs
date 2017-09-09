@@ -50,7 +50,7 @@ namespace IrbisUI
         {
             #region Properties
 
-            public string Tag { get; set; }
+            public int Tag { get; set; }
 
             public int Repeat { get; set; }
 

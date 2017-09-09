@@ -98,7 +98,7 @@ namespace CutTail
 
                             VisitInfo[] visits = record
                                 .Fields
-                                .GetField("40")
+                                .GetField(40)
                                 .Select(VisitInfo.Parse)
                                 .Where(loan => loan.IsVisit
                                         || loan.IsReturned)
@@ -136,7 +136,7 @@ namespace CutTail
                                         copy = new MarcRecord();
                                         RecordField[] non40 = record
                                             .Fields
-                                            .Where(field => field.Tag != "40")
+                                            .Where(field => field.Tag != 40)
                                             .ToArray();
                                         copy.Fields.AddRange(non40);
                                         Console.WriteLine("COPY CREATED");
@@ -178,7 +178,7 @@ namespace CutTail
 
                                 RecordField[] toDelete = r2
                                     .Fields
-                                    .GetField("40")
+                                    .GetField(40)
                                     .Select(VisitInfo.Parse)
                                     .Where(loan => loan.IsVisit || loan.IsReturned)
                                     .Where(visit => visit.DateGiven < Threshold)

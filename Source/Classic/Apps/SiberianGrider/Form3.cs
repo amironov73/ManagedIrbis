@@ -50,7 +50,7 @@ namespace SiberianGrider
                 );
 
             RecordField field = Record.Fields
-                .GetFirstField("692");
+                .GetFirstField(692);
 
             Grid.Load
                 (

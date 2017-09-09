@@ -79,11 +79,11 @@ namespace UnitTests.ManagedIrbis
             field.AddSubField('f', "И. И. Иванов, П. П. Петров");
             result.Fields.Add(field);
 
-            field = new RecordField("300", "Первое примечание");
+            field = new RecordField(300, "Первое примечание");
             result.Fields.Add(field);
-            field = new RecordField("300", "Второе примечание");
+            field = new RecordField(300, "Второе примечание");
             result.Fields.Add(field);
-            field = new RecordField("300", "Третье примечание");
+            field = new RecordField(300, "Третье примечание");
             result.Fields.Add(field);
 
             return result;
@@ -94,8 +94,8 @@ namespace UnitTests.ManagedIrbis
         {
             MarcRecord record = _GetRecord();
 
-            Assert.AreEqual("Иванов", record.FM("700", 'a'));
-            Assert.AreEqual("Первое примечание", record.FM("300"));
+            Assert.AreEqual("Иванов", record.FM(700, 'a'));
+            Assert.AreEqual("Первое примечание", record.FM(300));
         }
 
         [TestMethod]
@@ -103,11 +103,11 @@ namespace UnitTests.ManagedIrbis
         {
             MarcRecord record = _GetRecord();
 
-            string[] actual = record.FMA("700", 'a');
+            string[] actual = record.FMA(700, 'a');
             Assert.AreEqual(1, actual.Length);
             Assert.AreEqual("Иванов", actual[0]);
 
-            actual = record.FMA("300");
+            actual = record.FMA(300);
             Assert.AreEqual(3, actual.Length);
             Assert.AreEqual("Первое примечание", actual[0]);
             Assert.AreEqual("Второе примечание", actual[1]);
@@ -183,7 +183,7 @@ namespace UnitTests.ManagedIrbis
             string actual = record.ToJson()
                 .Replace("\r", "").Replace("\n", "")
                 .Replace("\"", "'");
-            const string expected = "{'fields':[{'tag':'700','subfields':[{'code':'a','value':'Иванов'},{'code':'b','value':'И. И.'}]},{'tag':'701','subfields':[{'code':'a','value':'Петров'},{'code':'b','value':'П. П.'}]},{'tag':'200','subfields':[{'code':'a','value':'Заглавие'},{'code':'e','value':'подзаголовочное'},{'code':'f','value':'И. И. Иванов, П. П. Петров'}]},{'tag':'300','value':'Первое примечание'},{'tag':'300','value':'Второе примечание'},{'tag':'300','value':'Третье примечание'}]}";
+            const string expected = "{'fields':[{'tag':700,'subfields':[{'code':'a','value':'Иванов'},{'code':'b','value':'И. И.'}]},{'tag':701,'subfields':[{'code':'a','value':'Петров'},{'code':'b','value':'П. П.'}]},{'tag':200,'subfields':[{'code':'a','value':'Заглавие'},{'code':'e','value':'подзаголовочное'},{'code':'f','value':'И. И. Иванов, П. П. Петров'}]},{'tag':300,'value':'Первое примечание'},{'tag':300,'value':'Второе примечание'},{'tag':300,'value':'Третье примечание'}]}";
 
             Assert.AreEqual(expected, actual);
         }
@@ -193,12 +193,12 @@ namespace UnitTests.ManagedIrbis
         {
             MarcRecord record = _GetRecord();
 
-            string[] tags = record.Fields
-                .Select(field => field.Tag.ToUpper())
+            int[] tags = record.Fields
+                .Select(field => field.Tag)
                 .Distinct()
                 .ToArray();
 
-            foreach (string tag in tags)
+            foreach (int tag in tags)
             {
                 RecordField[] fields = record.Fields.GetField(tag);
                 for (int i = 0; i < fields.Length; i++)

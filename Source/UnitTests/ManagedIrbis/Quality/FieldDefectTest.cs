@@ -34,7 +34,7 @@ namespace UnitTests.ManagedIrbis.Quality
             FieldDefect fieldDefect = new FieldDefect();
             _TestSerialization(fieldDefect);
 
-            fieldDefect.Field = "200";
+            fieldDefect.Field = 200;
             fieldDefect.Message = "Отсутствует поле 200";
             fieldDefect.Damage = 100;
             _TestSerialization(fieldDefect);

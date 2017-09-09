@@ -80,7 +80,7 @@ namespace UnitTests.ManagedIrbis
 
             IrbisOpt opt = IrbisOpt.LoadFromOptFile(filePath);
             Assert.IsNotNull(opt);
-            Assert.AreEqual("920", opt.WorksheetTag);
+            Assert.AreEqual(920, opt.WorksheetTag);
             Assert.AreEqual(5, opt.WorksheetLength);
             Assert.AreEqual(14, opt.Items.Count);
 
@@ -111,39 +111,39 @@ namespace UnitTests.ManagedIrbis
         {
             MarcRecord result = new MarcRecord();
 
-            RecordField field = new RecordField("700");
+            RecordField field = new RecordField(700);
             field.AddSubField('a', "Иванов");
             field.AddSubField('b', "И. И.");
             result.Fields.Add(field);
 
-            field = new RecordField("701");
+            field = new RecordField(701);
             field.AddSubField('a', "Петров");
             field.AddSubField('b', "П. П.");
             result.Fields.Add(field);
 
-            field = new RecordField("200");
+            field = new RecordField(200);
             field.AddSubField('a', "Заглавие");
             field.AddSubField('e', "подзаголовочное");
             field.AddSubField('f', "И. И. Иванов, П. П. Петров");
             result.Fields.Add(field);
 
-            field = new RecordField("210");
+            field = new RecordField(210);
             field.AddSubField('a', "Иркутск");
             field.AddSubField('d', "2016");
             result.Fields.Add(field);
 
-            field = new RecordField("215");
+            field = new RecordField(215);
             field.AddSubField('a', "123");
             result.Fields.Add(field);
 
-            field = new RecordField("300", "Первое примечание");
+            field = new RecordField(300, "Первое примечание");
             result.Fields.Add(field);
-            field = new RecordField("300", "Второе примечание");
+            field = new RecordField(300, "Второе примечание");
             result.Fields.Add(field);
-            field = new RecordField("300", "Третье примечание");
+            field = new RecordField(300, "Третье примечание");
             result.Fields.Add(field);
 
-            field = new RecordField("920", "PAZK");
+            field = new RecordField(920, "PAZK");
             result.Fields.Add(field);
 
             return result;
@@ -153,7 +153,7 @@ namespace UnitTests.ManagedIrbis
         public void IrbisOpt_GetWorksheet_1()
         {
             IrbisOpt opt = new IrbisOpt();
-            opt.SetWorksheetTag("920");
+            opt.SetWorksheetTag(920);
             MarcRecord record = _GetRecord();
             const string expected = "PAZK";
             string actual = opt.GetWorksheet(record);

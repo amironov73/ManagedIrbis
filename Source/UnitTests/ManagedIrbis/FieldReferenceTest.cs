@@ -21,7 +21,7 @@ namespace UnitTests.ManagedIrbis
             Assert.AreEqual(0, reference.Offset);
             Assert.AreEqual(0, reference.Length);
             Assert.AreEqual(FieldReference.NoCode, reference.SubField);
-            Assert.IsNull(reference.Tag);
+            Assert.AreEqual(0, reference.Tag);
             Assert.IsNull(reference.TagSpecification);
             Assert.IsNull(reference.SubFieldSpecification);
         }
@@ -29,14 +29,14 @@ namespace UnitTests.ManagedIrbis
         [TestMethod]
         public void FieldReference_Constructor_2()
         {
-            FieldReference reference = new FieldReference("200");
+            FieldReference reference = new FieldReference(200);
             Assert.AreEqual('\0', reference.Command);
             Assert.IsNull(reference.Embedded);
             Assert.AreEqual(0, reference.Indent);
             Assert.AreEqual(0, reference.Offset);
             Assert.AreEqual(0, reference.Length);
             Assert.AreEqual(FieldReference.NoCode, reference.SubField);
-            Assert.AreEqual("200", reference.Tag);
+            Assert.AreEqual(200, reference.Tag);
             Assert.IsNull(reference.TagSpecification);
             Assert.IsNull(reference.SubFieldSpecification);
         }
@@ -44,14 +44,14 @@ namespace UnitTests.ManagedIrbis
         [TestMethod]
         public void FieldReference_Constructor_3()
         {
-            FieldReference reference = new FieldReference("200", 'a');
+            FieldReference reference = new FieldReference(200, 'a');
             Assert.AreEqual('\0', reference.Command);
             Assert.IsNull(reference.Embedded);
             Assert.AreEqual(0, reference.Indent);
             Assert.AreEqual(0, reference.Offset);
             Assert.AreEqual(0, reference.Length);
             Assert.AreEqual('a', reference.SubField);
-            Assert.AreEqual("200", reference.Tag);
+            Assert.AreEqual(200, reference.Tag);
             Assert.IsNull(reference.TagSpecification);
             Assert.IsNull(reference.SubFieldSpecification);
         }
@@ -86,7 +86,7 @@ namespace UnitTests.ManagedIrbis
             FieldReference reference = new FieldReference();
             _TestSerialization(reference);
 
-            reference.Tag = "200";
+            reference.Tag = 200;
             reference.SubField = 'a';
             _TestSerialization(reference);
         }
@@ -95,27 +95,27 @@ namespace UnitTests.ManagedIrbis
         {
             MarcRecord result = new MarcRecord();
 
-            RecordField field = new RecordField("700");
+            RecordField field = new RecordField(700);
             field.AddSubField('a', "Иванов");
             field.AddSubField('b', "И. И.");
             result.Fields.Add(field);
 
-            field = new RecordField("701");
+            field = new RecordField(701);
             field.AddSubField('a', "Петров");
             field.AddSubField('b', "П. П.");
             result.Fields.Add(field);
 
-            field = new RecordField("200");
+            field = new RecordField(200);
             field.AddSubField('a', "Заглавие");
             field.AddSubField('e', "подзаголовочное");
             field.AddSubField('f', "И. И. Иванов, П. П. Петров");
             result.Fields.Add(field);
 
-            field = new RecordField("300", "Первое примечание");
+            field = new RecordField(300, "Первое примечание");
             result.Fields.Add(field);
-            field = new RecordField("300", "Второе примечание");
+            field = new RecordField(300, "Второе примечание");
             result.Fields.Add(field);
-            field = new RecordField("300", "Третье примечание");
+            field = new RecordField(300, "Третье примечание");
             result.Fields.Add(field);
 
             return result;
@@ -125,18 +125,18 @@ namespace UnitTests.ManagedIrbis
         public void FieldReference_Format_1()
         {
             MarcRecord record = _GetRecord();
-            FieldReference reference = new FieldReference("200", 'a');
+            FieldReference reference = new FieldReference(200, 'a');
 
             string actual = reference.Format(record);
             Assert.AreEqual
-            (
-                record.FM
                 (
-                    reference.Tag.ThrowIfNull(),
-                    reference.SubField
-                ),
-                actual
-            );
+                    record.FM
+                        (
+                            reference.Tag,
+                            reference.SubField
+                        ),
+                    actual
+                );
         }
 
         [TestMethod]
@@ -144,33 +144,33 @@ namespace UnitTests.ManagedIrbis
         {
             FieldReference reference = FieldReference.Parse("v200");
             Assert.AreEqual('v', reference.Command);
-            Assert.AreEqual("200", reference.Tag);
+            Assert.AreEqual(200, reference.Tag);
             Assert.AreEqual(FieldReference.NoCode, reference.SubField);
             Assert.AreEqual(0, reference.Offset);
             Assert.AreEqual(0, reference.Length);
 
             reference = FieldReference.Parse("v200^a");
             Assert.AreEqual('v', reference.Command);
-            Assert.AreEqual("200", reference.Tag);
+            Assert.AreEqual(200, reference.Tag);
             Assert.AreEqual('a', reference.SubField);
             Assert.AreEqual(0, reference.Offset);
             Assert.AreEqual(0, reference.Length);
 
             reference = FieldReference.Parse("v200^a*5.7");
             Assert.AreEqual('v', reference.Command);
-            Assert.AreEqual("200", reference.Tag);
+            Assert.AreEqual(200, reference.Tag);
             Assert.AreEqual('a', reference.SubField);
             Assert.AreEqual(5, reference.Offset);
             Assert.AreEqual(7, reference.Length);
         }
 
         private void _TestParse
-        (
-            string expected
-        )
+            (
+                string expected
+            )
         {
             FieldReference reference = FieldReference.Parse(expected);
-            Assert.AreEqual("200", reference.Tag);
+            Assert.AreEqual(200, reference.Tag);
         }
 
         [TestMethod]
@@ -189,7 +189,7 @@ namespace UnitTests.ManagedIrbis
             FieldReference reference = new FieldReference();
             Assert.IsFalse(reference.Verify(false));
 
-            reference = new FieldReference("200", 'a');
+            reference = new FieldReference(200, 'a');
             Assert.IsTrue(reference.Verify(false));
         }
     }

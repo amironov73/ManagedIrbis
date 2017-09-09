@@ -10,7 +10,7 @@ namespace UnitTests.ManagedIrbis
     {
         private RecordField _GetField_1()
         {
-            RecordField result = new RecordField("461")
+            RecordField result = new RecordField(461)
                 .AddSubField('1', "2001#")
                 .AddSubField('a', "Златая цепь")
                 .AddSubField('e', "Записки. Повести. Рассказы")
@@ -22,7 +22,7 @@ namespace UnitTests.ManagedIrbis
 
         private RecordField _GetField_2()
         {
-            RecordField result = new RecordField("461")
+            RecordField result = new RecordField(461)
                 .AddSubField('1', "2001#")
                 .AddSubField('a', "Златая цепь")
                 .AddSubField('e', "Записки. Повести. Рассказы")
@@ -37,7 +37,7 @@ namespace UnitTests.ManagedIrbis
 
         private RecordField _GetField_3()
         {
-            RecordField result = new RecordField("461")
+            RecordField result = new RecordField(461)
                 .AddSubField('1', null)
                 .AddSubField('a', "Златая цепь")
                 .AddSubField('e', "Записки. Повести. Рассказы")
@@ -49,7 +49,7 @@ namespace UnitTests.ManagedIrbis
 
         private RecordField _GetField_4()
         {
-            RecordField result = new RecordField("461")
+            RecordField result = new RecordField(461)
                 .AddSubField('1', "0011#")
                 .AddSubField('a', "Златая цепь")
                 .AddSubField('e', "Записки. Повести. Рассказы")
@@ -97,10 +97,10 @@ namespace UnitTests.ManagedIrbis
         {
             RecordField field = _GetField_1();
             
-            RecordField[] embeddedFields = field.GetEmbeddedField("200");
+            RecordField[] embeddedFields = field.GetEmbeddedField(200);
             Assert.AreEqual(1, embeddedFields.Length);
 
-            embeddedFields = field.GetEmbeddedField("210");
+            embeddedFields = field.GetEmbeddedField(210);
             Assert.AreEqual(0, embeddedFields.Length);
         }
     }

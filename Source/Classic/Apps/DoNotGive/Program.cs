@@ -51,7 +51,7 @@ namespace DoNotGive
                 }
 
                 bool modified = false;
-                foreach (RecordField field in record.Fields.GetField("910"))
+                foreach (RecordField field in record.Fields.GetField(910))
                 {
                     string n2 = field.GetFirstSubFieldValue('b');
                     if (!n2.SameString(n1))

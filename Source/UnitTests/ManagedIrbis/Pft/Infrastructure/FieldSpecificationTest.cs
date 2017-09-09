@@ -22,7 +22,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('\0', specification.SubField);
-            Assert.AreEqual(null, specification.Tag);
+            Assert.AreEqual(0, specification.Tag);
             Assert.AreEqual(null, specification.RawText);
         }
 
@@ -39,7 +39,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200^a", specification.RawText);
         }
 
@@ -56,7 +56,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200 \r\n^a", specification.RawText);
         }
 
@@ -73,7 +73,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('\0', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200", specification.RawText);
         }
 
@@ -90,7 +90,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('\0', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200\r\n", specification.RawText);
         }
 
@@ -138,7 +138,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('\0', specification.SubField);
-            Assert.AreEqual("461", specification.Tag);
+            Assert.AreEqual(461, specification.Tag);
             Assert.AreEqual("v461@200", specification.RawText);
         }
 
@@ -155,7 +155,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('\0', specification.SubField);
-            Assert.AreEqual("461", specification.Tag);
+            Assert.AreEqual(461, specification.Tag);
             Assert.AreEqual("v461 @ 200", specification.RawText);
         }
 
@@ -174,7 +174,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200[2]^a[3]", specification.RawText);
         }
 
@@ -193,7 +193,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200 [ 2 ] ^a [ 3 ]", specification.RawText);
         }
 
@@ -212,7 +212,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200[2]^a[3] ", specification.RawText);
         }
 
@@ -247,7 +247,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200^a[2]", specification.RawText);
         }
 
@@ -266,7 +266,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("d200^a[2]", specification.RawText);
         }
 
@@ -285,7 +285,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("n200^a[2]", specification.RawText);
         }
 
@@ -304,7 +304,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("g200^a[2]", specification.RawText);
         }
 
@@ -321,7 +321,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200^a[*]", specification.RawText);
         }
 
@@ -338,7 +338,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200^a[+]", specification.RawText);
         }
 
@@ -355,7 +355,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(5, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200^a*5", specification.RawText);
         }
 
@@ -372,7 +372,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(5, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200^a * 5", specification.RawText);
         }
 
@@ -397,7 +397,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(5, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200^a.5", specification.RawText);
         }
 
@@ -414,7 +414,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(5, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200^a . 5", specification.RawText);
         }
 
@@ -439,7 +439,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(5, specification.Offset);
             Assert.AreEqual(5, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200^a*5.5", specification.RawText);
         }
 
@@ -456,7 +456,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(5, specification.Offset);
             Assert.AreEqual(5, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200^a * 5 . 5", specification.RawText);
         }
 
@@ -473,7 +473,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200^a(10)", specification.RawText);
         }
 
@@ -490,7 +490,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200^a ( 10)", specification.RawText);
         }
 
@@ -524,7 +524,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200[$x+1]^a", specification.RawText);
         }
 
@@ -543,7 +543,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(4, specification.Offset);
             Assert.AreEqual(5, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("461", specification.Tag);
+            Assert.AreEqual(461, specification.Tag);
             Assert.AreEqual("v461@200[2]^a[3]*4.5(6)", specification.RawText);
         }
 
@@ -562,7 +562,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(4, specification.Offset);
             Assert.AreEqual(5, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("461", specification.Tag);
+            Assert.AreEqual(461, specification.Tag);
             Assert.AreEqual("v461 @ 200 [ 2 ] ^a [ 3 ] * 4 . 5 ( 6)", specification.RawText);
         }
 
@@ -611,7 +611,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200^a", specification.RawText);
         }
 
@@ -628,7 +628,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('a', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("g200^a", specification.RawText);
         }
 
@@ -659,7 +659,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual(0, specification.Offset);
             Assert.AreEqual(0, specification.Length);
             Assert.AreEqual('\0', specification.SubField);
-            Assert.AreEqual("200", specification.Tag);
+            Assert.AreEqual(200, specification.Tag);
             Assert.AreEqual("v200", specification.RawText);
         }
 

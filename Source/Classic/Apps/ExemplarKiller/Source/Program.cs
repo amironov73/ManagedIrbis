@@ -52,11 +52,11 @@ namespace ExemplarKiller
             Console.Write
                 (
                     " <ticket {0}>",
-                    record.FM("30")
+                    record.FM(30)
                 );
 
             RecordField[] fields = record.Fields
-                .GetField("40");
+                .GetField(40);
             foreach (RecordField field in fields)
             {
                 bool ok = field.GetFirstSubFieldValue('b')
@@ -102,7 +102,7 @@ namespace ExemplarKiller
                 );
 
             RecordField found = bookRecord.Fields
-                .GetField("910")
+                .GetField(910)
                 .GetField('b', number)
                 .FirstOrDefault();
 

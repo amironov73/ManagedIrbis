@@ -14,7 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-
+using AM;
 using ManagedIrbis;
 using ManagedIrbis.ImportExport;
 using ManagedIrbis.Infrastructure;
@@ -62,13 +62,13 @@ namespace Marsohod2017
                 MarcRecord record
             )
         {
-            string marsCode = CM.AppSettings["mars-code"];
-            string marsFlag = CM.AppSettings["mars-flag"];
+            int marsCode = NumericUtility.ParseInt32(CM.AppSettings["mars-code"]);
+            int marsFlag = NumericUtility.ParseInt32(CM.AppSettings["mars-flag"]);
 
             MagazineInfo result = new MagazineInfo
             {
-                Title = record.FM("200", 'a'),
-                Index = record.FM("903"),
+                Title = record.FM(200, 'a'),
+                Index = record.FM(903),
                 MarsCode = record.FM(marsCode),
                 Flag = record.FM(marsFlag),
                 Mfn = record.Mfn
@@ -453,7 +453,7 @@ namespace Marsohod2017
             )
         {
             return record.Fields
-                .GetField("903")
+                .GetField(903)
                 .GetField('a', name)
                 .GetSubField('b')
                 .GetSubFieldValue()
@@ -465,7 +465,7 @@ namespace Marsohod2017
                 MarcRecord record
             )
         {
-            string article = record.FM("001");
+            string article = record.FM(1);
 
             if (string.IsNullOrEmpty(article))
             {
@@ -626,15 +626,15 @@ namespace Marsohod2017
                     WriteLog("Нет записи I={0}, создаем ее... ", issueIndex);
                     issueRecord = new MarcRecord();
                     issueRecord
-                        .SetField("920", "NJ")
-                        .SetField("933", magazine.Index)
-                        .SetField("903", issueIndex)
-                        .SetField("934", year)
-                        .SetField("936", number)
-                        .SetField("300", "Запись создана при импорте статей МАРС");
+                        .SetField(920, "NJ")
+                        .SetField(933, magazine.Index)
+                        .SetField(903, issueIndex)
+                        .SetField(934, year)
+                        .SetField(936, number)
+                        .SetField(300, "Запись создана при импорте статей МАРС");
                     if (!string.IsNullOrEmpty(volume))
                     {
-                        issueRecord.SetField("935", volume);
+                        issueRecord.SetField(935, volume);
                     }
                     lock (SyncRoot)
                     {
@@ -685,8 +685,8 @@ namespace Marsohod2017
                         );
                     if (targetRecord != null)
                     {
-                        targetRecord.SetSubField("463", 'w', taskInfo.CurrentIssue);
-                        targetRecord.SetSubField("463", 'c', taskInfo.Magazine.Title);
+                        targetRecord.SetSubField(463, 'w', taskInfo.CurrentIssue);
+                        targetRecord.SetSubField(463, 'c', taskInfo.Magazine.Title);
 
                         lock (SyncRoot)
                         {

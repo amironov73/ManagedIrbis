@@ -58,7 +58,7 @@ namespace DumpTerms
                 {
                     MarcRecord record = connection.ReadRecord(posting.Mfn);
                     RecordField field = record.Fields
-                        .GetField(posting.Tag.ToInvariantString())
+                        .GetField(posting.Tag)
                         .GetOccurrence(posting.Occurrence - 1);
                     if (ReferenceEquals(field, null))
                     {

@@ -321,7 +321,7 @@ namespace AM.Istu.OldModel
 
 
             RecordField field = record.Fields
-                .GetField("910")
+                .GetField(910)
                 .FirstOrDefault
                 (
                     f => barcode.SameString(f.GetFirstSubFieldValue('b'))

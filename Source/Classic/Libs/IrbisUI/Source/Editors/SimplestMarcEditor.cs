@@ -94,14 +94,8 @@ namespace IrbisUI.Editors
 
             foreach (FieldItem item in _items)
             {
-                string tag = item.Tag;
+                int tag = item.Tag;
                 string text = item.Text;
-
-                if (string.IsNullOrEmpty(tag)
-                    || string.IsNullOrEmpty(text))
-                {
-                    continue;
-                }
 
                 RecordField field = RecordField.Parse(tag, text);
                 if (field.Verify(false))

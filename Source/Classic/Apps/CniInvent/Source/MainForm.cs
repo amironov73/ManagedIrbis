@@ -231,7 +231,7 @@ namespace CniInvent
 
             MarcRecord record = podsob.Record.ThrowIfNull("podsob.Record");
             RecordField field = record.Fields
-                .GetField("910")
+                .GetField(910)
                 .FirstOrDefault
                 (
                     f => rfid.SameString(f.GetFirstSubFieldValue('b'))

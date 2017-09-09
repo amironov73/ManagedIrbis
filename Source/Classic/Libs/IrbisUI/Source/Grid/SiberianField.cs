@@ -44,8 +44,7 @@ namespace IrbisUI.Grid
         /// <summary>
         /// Field tag.
         /// </summary>
-        [CanBeNull]
-        public string Tag { get; set; }
+        public int Tag { get; set; }
 
         /// <summary>
         /// Title.
@@ -118,7 +117,7 @@ namespace IrbisUI.Grid
 
             SiberianField result = new SiberianField
             {
-                Tag = item.Tag,
+                Tag = NumericUtility.ParseInt32(item.Tag),
                 Title = item.Title,
                 Repeatable = item.Repeatable
             };

@@ -87,7 +87,7 @@ namespace IrbisInterop
 
             NativeField result = new NativeField
             {
-                Tag = NumericUtility.ParseInt32(field.Tag),
+                Tag = field.Tag,
                 Value = field.ToText()
             };
 

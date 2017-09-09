@@ -177,17 +177,17 @@ namespace Shortage
                         500
                     )
                     .SelectMany
-                    (
-                        ExemplarInfo.Parse
-                    )
+                        (
+                            x => ExemplarInfo.Parse (x)
+                        )
                     .Where
-                    (
-                        exemplar => exemplar.KsuNumber1.SameString(ksu)
-                    )
+                        (
+                            exemplar => exemplar.KsuNumber1.SameString(ksu)
+                        )
                     .Select
-                    (
-                        exemplar => manager.Extend(exemplar, null)
-                    )
+                        (
+                            exemplar => manager.Extend(exemplar, null)
+                        )
                     .ToList();
 
                 result.Sort(_ExemplarComparison);

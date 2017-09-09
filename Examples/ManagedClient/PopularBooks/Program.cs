@@ -43,7 +43,7 @@ namespace PopularBooks
                 MarcRecord record
             )
         {
-            string countText = record.FM("999");
+            string countText = record.FM(999);
             if (!string.IsNullOrEmpty(countText))
             {
                 int count;

@@ -94,7 +94,7 @@ namespace Proxy2017
                 text = text.Replace("\r\n", "\r");
                 result = text.Split(new[] { '\r', '\n' });
             }
-            catch (Exception ex)
+            catch //(Exception ex)
             {
                 // IrbisProxy.WriteException(ex);
             }

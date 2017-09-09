@@ -49,13 +49,13 @@ namespace UnitTests.ManagedIrbis.Pft
                 Record = record
             };
 
-            Assert.AreEqual(1, PftUtility.GetFieldCount(context, "700"));
-            Assert.AreEqual(1, PftUtility.GetFieldCount(context, "701"));
-            Assert.AreEqual(0, PftUtility.GetFieldCount(context, "710"));
-            Assert.AreEqual(1, PftUtility.GetFieldCount(context, "700", "710"));
-            Assert.AreEqual(1, PftUtility.GetFieldCount(context, "700", "701"));
-            Assert.AreEqual(3, PftUtility.GetFieldCount(context, "300"));
-            Assert.AreEqual(3, PftUtility.GetFieldCount(context, "300", "700"));
+            Assert.AreEqual(1, PftUtility.GetFieldCount(context, 700));
+            Assert.AreEqual(1, PftUtility.GetFieldCount(context, 701));
+            Assert.AreEqual(0, PftUtility.GetFieldCount(context, 710));
+            Assert.AreEqual(1, PftUtility.GetFieldCount(context, 700, 710));
+            Assert.AreEqual(1, PftUtility.GetFieldCount(context, 700, 701));
+            Assert.AreEqual(3, PftUtility.GetFieldCount(context, 300));
+            Assert.AreEqual(3, PftUtility.GetFieldCount(context, 300, 700));
         }
     }
 }

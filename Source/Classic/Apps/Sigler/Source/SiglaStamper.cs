@@ -100,7 +100,7 @@ namespace Sigler
             )
         {
             RecordField field = record.Fields
-                .GetField("910")
+                .GetField(910)
                 .GetField('b', number)
                 .FirstOrDefault();
             if (ReferenceEquals(field, null))

@@ -109,7 +109,10 @@ namespace IrbisUI.Grid
             {
                 int repeat = 1;
 
-                RecordField[] found = record.Fields.GetField(item.Tag);
+                RecordField[] found = record.Fields.GetField
+                    (
+                        item.Tag.SafeToInt32()
+                    );
                 if (found.Length == 0)
                 {
                     SiberianField line = SiberianField.FromWorksheetItem

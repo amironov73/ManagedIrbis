@@ -27,7 +27,7 @@ namespace IrbisUI.Editors
     {
         #region Properties
 
-        public string Tag { get; set; }
+        public int Tag { get; set; }
 
         public string Text { get; set; }
 
