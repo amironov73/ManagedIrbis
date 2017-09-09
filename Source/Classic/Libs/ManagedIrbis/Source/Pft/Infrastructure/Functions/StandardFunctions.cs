@@ -775,14 +775,14 @@ namespace ManagedIrbis.Pft.Infrastructure
             MarcRecord record = context.Record;
             if (!ReferenceEquals(record, null))
             {
-                int[] tags = record.Fields.Select
+                string[] tags = record.Fields.Select
                     (
                         field => field.Tag
                     )
                     .Distinct()
+                    .OrderBy(tag => tag)
+                    .Select(tag => tag.ToInvariantString())
                     .ToArray();
-
-                Array.Sort(tags);
 
                 string expression = context.GetStringArgument(arguments, 0);
                 if (!string.IsNullOrEmpty(expression))
@@ -790,12 +790,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                     Regex regex = new Regex(expression);
                     tags = tags.Where
                         (
-                            tag => regex.IsMatch(tag.ToInvariantString())
+                            tag => regex.IsMatch(tag)
                         )
                         .ToArray();
                 }
 
-                string output = string.Join
+                string output = StringUtility.Join
                     (
                         Environment.NewLine,
                         tags
