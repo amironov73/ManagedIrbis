@@ -461,8 +461,8 @@ namespace ManagedIrbis
         public void PrintReport()
         {
             const ConsoleColor tableColor = ConsoleColor.White;
-            const string tableFormat = "| {0,-50} | {1,-5} | {2,8} |";
-            const int tableWidth = 50 + 3 + 5 + 3 + 8 + 3;
+            const string tableFormat = "| {0,-50} | {1,-5} | {2,10} |";
+            const int tableWidth = 50 + 3 + 5 + 3 + 10 + 3;
             string horizontalLine = new string('-', tableWidth);
 
             WriteLine(ConsoleColor.Blue, string.Empty);

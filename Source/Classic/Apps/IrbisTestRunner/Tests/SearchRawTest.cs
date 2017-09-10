@@ -17,6 +17,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Search;
 using ManagedIrbis.Testing;
 
 using Newtonsoft.Json;
@@ -44,51 +45,46 @@ namespace IrbisTestRunner.Tests
         #region Public methods
 
         [TestMethod]
-        public void SearchRaw_Test1()
+        public void SearchRaw_Simple()
         {
             IrbisConnection connection = Connection.ThrowIfNull("Connection");
 
-            string[] result = connection.SearchRaw
+            SearchParameters parameters = new SearchParameters
+            {
+                Database = "IBIS",
+                SearchExpression = "K=A$"
+            };
+            string[] found = connection.SearchRaw(parameters);
+            Write
                 (
-                    "IBIS",
-                    "K=A$",
-                    1,
-                    0,
-                    null
+                    string.Join
+                        (
+                            Environment.NewLine,
+                            found
+                        )
                 );
-
-            string text = string.Join
-                (
-                    "| ",
-                    result
-                )
-                .SafeSubstring(0, 80);
-
-            Write(text);
         }
 
         [TestMethod]
-        public void SearchRaw_Test2()
+        public void SearchRaw_Format()
         {
             IrbisConnection connection = Connection.ThrowIfNull("Connection");
 
-            string[] result = connection.SearchRaw
+            SearchParameters parameters = new SearchParameters
+            {
+                Database = "IBIS",
+                SearchExpression = "K=A$",
+                FormatSpecification = "v200^a"
+            };
+            string[] found = connection.SearchRaw(parameters);
+            Write
                 (
-                    "IBIS",
-                    "K=A$",
-                    1,
-                    0,
-                    "v200^a"
+                    string.Join
+                        (
+                            Environment.NewLine,
+                            found
+                        )
                 );
-
-            string text = string.Join
-                (
-                    "| ",
-                    result
-                )
-                .SafeSubstring(0, 80);
-
-            Write(text);
         }
 
         [TestMethod]
@@ -96,26 +92,22 @@ namespace IrbisTestRunner.Tests
         {
             IrbisConnection connection = Connection.ThrowIfNull("Connection");
 
-            string[] result = connection.SequentialSearchRaw
+            SearchParameters parameters = new SearchParameters
+            {
+                Database = "IBIS",
+                SearchExpression = "K=A$",
+                SequentialSpecification = "if v200^a:'A' then '1' else '0' fi",
+                FormatSpecification = "@brief"
+            };
+            string[] found = connection.SearchRaw(parameters);
+            Write
                 (
-                    "IBIS",
-                    "K=A$",
-                    1,
-                    0,
-                    0,
-                    0,
-                    "!if v200^a:'A' then '1' else '0' fi",
-                    "@brief"
+                    string.Join
+                        (
+                            Environment.NewLine,
+                            found
+                        )
                 );
-
-            string text = string.Join
-                (
-                    Environment.NewLine,
-                    result
-                )
-                .SafeSubstring(0, 80);
-
-            Write(text);
         }
 
         #endregion

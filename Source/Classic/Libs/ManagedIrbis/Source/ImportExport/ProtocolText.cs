@@ -498,10 +498,13 @@ namespace ManagedIrbis.ImportExport
                 for (int i = 3; i < split.Length; i++)
                 {
                     line = split[i];
-                    RecordField field = _ParseLine(line);
-                    if (field.Tag > 0)
+                    if (!string.IsNullOrEmpty(line))
                     {
-                        record.Fields.Add(field);
+                        RecordField field = _ParseLine(line);
+                        if (field.Tag > 0)
+                        {
+                            record.Fields.Add(field);
+                        }
                     }
                 }
             }
