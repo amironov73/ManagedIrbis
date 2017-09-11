@@ -172,7 +172,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 = (PftCondition) PftSerializer.DeserializeNullable(reader);
         }
 
-        /// <inheritdoc cref="PftNode.Execute" />
+        /// <inheritdoc cref="PftNumeric.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -213,7 +213,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                     condition.Execute(context);
 
-                    if (!context._vMonitor.Output //-V3022
+                    // ReSharper disable ConditionIsAlwaysTrueOrFalse
+                    // ReSharper disable HeuristicUnreachableCode
+                    if (ReferenceEquals(context._vMonitor, null))
+                    {
+                        // Coverity says:
+                        // condition.Execute() may set _vMonitor to null
+                        context._vMonitor = new VMonitor();
+                    }
+                    // ReSharper restore ConditionIsAlwaysTrueOrFalse
+                    // ReSharper restore HeuristicUnreachableCode
+
+                    if (!context._vMonitor.Output
                         || context.BreakFlag
                        )
                     {
