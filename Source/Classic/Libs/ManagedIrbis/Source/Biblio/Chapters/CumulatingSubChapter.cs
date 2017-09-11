@@ -127,7 +127,7 @@ namespace ManagedIrbis.Biblio
 
         #region BiblioChapter members
 
-        /// <inheritdoc cref="BiblioChapter.BuildItems" />
+        /// <inheritdoc cref="MenuSubChapter.BuildItems" />
         public override void BuildItems
             (
                 BiblioContext context
@@ -225,7 +225,7 @@ namespace ManagedIrbis.Biblio
             log.WriteLine("End grouping {0}", this);
         }
 
-        /// <inheritdoc cref="BiblioChapter.Render" />
+        /// <inheritdoc cref="MenuSubChapter.Render" />
         public override void Render
             (
                 BiblioContext context

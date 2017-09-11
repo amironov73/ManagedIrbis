@@ -388,7 +388,7 @@ namespace ManagedIrbis.Biblio
 
         #region IVerifiable mebers
 
-        /// <inheritdoc cref="IVerifiable.Verify" />
+        /// <inheritdoc cref="BiblioChapter.Verify" />
         public override bool Verify
             (
                 bool throwOnError

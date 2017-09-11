@@ -345,7 +345,7 @@ namespace ManagedIrbis.Client
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IrbisProvider.Dispose"/>
         public override void Dispose()
         {
             base.Dispose();

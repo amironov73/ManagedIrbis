@@ -408,7 +408,7 @@ namespace ManagedIrbis.Biblio
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString" />
+        /// <inheritdoc cref="BiblioChapter.ToString" />
         public override string ToString()
         {
             string result = base.ToString()

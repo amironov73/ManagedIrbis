@@ -180,7 +180,7 @@ namespace ManagedIrbis.Client
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString"/>
+        /// <inheritdoc cref="ValueType.ToString"/>
         public override string ToString()
         {
             return string.Format

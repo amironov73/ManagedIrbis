@@ -126,7 +126,7 @@ namespace ManagedIrbis.Identifiers
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString" />
+        /// <inheritdoc cref="ValueType.ToString" />
         public override string ToString()
         {
             return Digit.ToString();

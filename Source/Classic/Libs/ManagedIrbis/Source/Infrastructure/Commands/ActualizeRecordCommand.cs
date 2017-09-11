@@ -102,7 +102,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region IVerifiable members
 
-        /// <inheritdoc cref="IVerifiable.Verify"/>
+        /// <inheritdoc cref="AbstractCommand.Verify"/>
         public override bool Verify
             (
                 bool throwOnError

@@ -36,7 +36,7 @@ namespace ManagedIrbis.Client
 
         #region IrbisProvider members
 
-        /// <inheritdoc cref="IrbisProvider.FormatRecord" />
+        /// <inheritdoc cref="ConnectedClient.FormatRecord" />
         public override string FormatRecord
             (
                 MarcRecord record,

@@ -95,7 +95,7 @@ namespace ManagedIrbis.Biblio
 
         #region NonNullCollection<T> members
 
-        /// <inheritdoc cref="Collection{T}.InsertItem" />
+        /// <inheritdoc cref="NonNullCollection{T}.InsertItem" />
         protected override void InsertItem
             (
                 int index,
@@ -106,7 +106,7 @@ namespace ManagedIrbis.Biblio
             item.Parent = _parent;
         }
 
-        /// <inheritdoc cref="Collection{T}.SetItem" />
+        /// <inheritdoc cref="NonNullCollection{T}.SetItem" />
         protected override void SetItem
             (
                 int index,
