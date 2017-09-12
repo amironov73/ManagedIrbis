@@ -93,7 +93,7 @@ namespace ManagedIrbis.Biblio
         /// Search expression.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("searchExpression")]
+        [JsonProperty("search")]
         public string SearchExpression { get; set; }
 
         /// <summary>

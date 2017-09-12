@@ -89,61 +89,6 @@ namespace ManagedIrbis.Biblio
 
         #region Private members
 
-        [CanBeNull]
-        private BiblioItem _FindItem
-            (
-                [NotNull] MenuSubChapter chapter,
-                [NotNull] MarcRecord record
-            )
-        {
-            foreach (BiblioItem item in chapter.Items)
-            {
-                if (ReferenceEquals(item.Record, record))
-                {
-                    return item;
-                }
-            }
-
-            foreach (BiblioChapter child in chapter.Children)
-            {
-                MenuSubChapter subChapter = child as MenuSubChapter;
-                if (!ReferenceEquals(subChapter, null))
-                {
-                    BiblioItem found = _FindItem(subChapter, record);
-                    if (!ReferenceEquals(found, null))
-                    {
-                        return found;
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        [CanBeNull]
-        private BiblioItem _FindItem
-            (
-                [NotNull] MarcRecord record
-            )
-        {
-            MenuChapter mainChapter = MainChapter
-                .ThrowIfNull("MainChapter");
-            foreach (BiblioChapter child in mainChapter.Children)
-            {
-                MenuSubChapter chapter = child as MenuSubChapter;
-                if (!ReferenceEquals(chapter, null))
-                {
-                    BiblioItem found = _FindItem(chapter, record);
-                    if (!ReferenceEquals(found, null))
-                    {
-                        return found;
-                    }
-                }
-            }
-
-            return null;
-        }
-
         /// <summary>
         /// Get description format from chapter hierarchy.
         /// </summary>
@@ -174,64 +119,6 @@ namespace ManagedIrbis.Biblio
                 .ThrowIfNull("MainChapter")
                 .Format
                 .ThrowIfNull("MainChapter.Format");
-        }
-
-        /// <summary>
-        /// Render duplicates.
-        /// </summary>
-        protected void RenderDuplicates
-            (
-                [NotNull] BiblioContext context
-            )
-        {
-            AbstractOutput log = context.Log;
-            BiblioProcessor processor = context.Processor
-                .ThrowIfNull("context.Processor");
-            IrbisReport report = processor.Report
-                .ThrowIfNull("processor.Report");
-
-            if (Duplicates.Count != 0)
-            {
-                List<BiblioItem> items
-                    = new List<BiblioItem>(Duplicates.Count);
-                foreach (MarcRecord dublicate in Duplicates)
-                {
-                    BiblioItem item = _FindItem(dublicate);
-                    if (!ReferenceEquals(item, null))
-                    {
-                        items.Add(item);
-                    }
-                    else
-                    {
-                        log.WriteLine
-                            (
-                                "Проблема с дубликатом MFN="
-                                + dublicate.Mfn
-                            );
-                    }
-                }
-                items = items
-                    .OrderBy(x => x.Number)
-                    .Distinct()
-                    .ToList();
-
-                StringBuilder builder = new StringBuilder();
-                builder.Append("См. также: {\\i ");
-                bool first = true;
-                foreach (BiblioItem item in items)
-                {
-                    if (!first)
-                    {
-                        builder.Append(", ");
-                    }
-                    builder.Append(item.Number.ToInvariantString());
-                    first = false;
-                }
-                builder.Append('}');
-
-                report.Body.Add(new ParagraphBand());
-                report.Body.Add(new ParagraphBand(builder.ToString()));
-            }
         }
 
         #endregion

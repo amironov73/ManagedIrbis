@@ -29,7 +29,9 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
 using ManagedIrbis.Pft;
+using ManagedIrbis.Reports;
 
 using MoonSharp.Interpreter;
 
@@ -53,8 +55,8 @@ namespace ManagedIrbis.Biblio
         /// Filter.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("filter")]
-        public string Filter { get; set; }
+        [JsonProperty("search")]
+        public string SearchExpression { get; set; }
 
         /// <summary>
         /// Format.
@@ -223,6 +225,64 @@ namespace ManagedIrbis.Biblio
 
             AbstractOutput log = context.Log;
             log.WriteLine("Begin gather records {0}", this);
+            MarcRecord record = null;
+
+            try
+            {
+                BiblioProcessor processor = context.Processor
+                    .ThrowIfNull("context.Processor");
+                using (IPftFormatter formatter
+                    = processor.AcquireFormatter(context))
+                {
+                    IrbisProvider provider = context.Provider;
+                    RecordCollection records = Records
+                        .ThrowIfNull("Records");
+
+                    string searchExpression = SearchExpression
+                        .ThrowIfNull("SearchExpression");
+                    formatter.ParseProgram(searchExpression);
+                    record = new MarcRecord();
+                    searchExpression = formatter.FormatRecord(record);
+
+                    int[] found = provider.Search(searchExpression);
+                    log.WriteLine("Found: {0} record(s)", found.Length);
+
+                    log.Write("Reading records");
+
+                    // Пробуем не загружать записи,
+                    // а предоставить заглушки
+
+                    for (int i = 0; i < found.Length; i++)
+                    {
+                        log.Write(".");
+                        record = new MarcRecord
+                        {
+                            Mfn = found[i]
+                        };
+                        records.Add(record);
+                        context.Records.Add(record);
+                    }
+
+                    log.WriteLine(" done");
+                }
+
+                foreach (BiblioChapter chapter in Children)
+                {
+                    chapter.GatherRecords(context);
+                }
+
+            }
+            catch (Exception exception)
+            {
+                string message = string.Format
+                    (
+                        "Exception: {0}",
+                        exception
+                    );
+
+                log.WriteLine(message);
+                throw;
+            }
 
             log.WriteLine("End gather records {0}", this);
         }
@@ -238,6 +298,42 @@ namespace ManagedIrbis.Biblio
             AbstractOutput log = context.Log;
             log.WriteLine("Begin render {0}", this);
 
+            BiblioProcessor processor = context.Processor
+                .ThrowIfNull("context.Processor");
+            IrbisReport report = processor.Report
+                .ThrowIfNull("processor.Report");
+
+            if (Records.Count != 0
+                || Duplicates.Count != 0
+                || Children.Count != 0)
+            {
+                RenderTitle(context);
+
+                for (int i = 0; i < Items.Count; i++)
+                {
+                    log.Write(".");
+                    BiblioItem item = Items[i];
+                    int number = item.Number;
+                    string description = item.Description
+                        .ThrowIfNull("item.Description");
+
+                    ReportBand band = new ParagraphBand
+                        (
+                            number.ToInvariantString() + ") "
+                        );
+                    report.Body.Add(band);
+                    band.Cells.Add(new SimpleTextCell(description));
+                }
+
+                log.WriteLine(" done");
+
+            }
+
+            RenderDuplicates(context);
+
+            RenderChildren(context);
+
+            log.WriteLine(string.Empty);
             log.WriteLine("End render {0}", this);
         }
 
