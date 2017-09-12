@@ -247,6 +247,7 @@
     <Compile Include="ManagedIrbis\Fields\RevisionInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fields\ExemplarInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fst\FstFileTest.cs" />
+    <Compile Include="ManagedIrbis\Gbl\Infrastructure\RepeatSpecificationTest.cs" />
     <Compile Include="ManagedIrbis\Gbl\ProtocolLineTest.cs" />
     <Compile Include="ManagedIrbis\Gbl\GblEventArgsTest.cs" />
     <Compile Include="ManagedIrbis\Gbl\GblParameterTest.cs" />
