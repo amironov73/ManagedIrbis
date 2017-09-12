@@ -1,14 +1,61 @@
 ﻿using System;
+using System.IO;
+
 using ManagedIrbis;
+using ManagedIrbis.Gbl.Infrastructure;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using ManagedIrbis.Gbl.Infrastructure;
+using Newtonsoft.Json;
 
 namespace UnitTests.ManagedIrbis.Gbl.Infrastructure
 {
     [TestClass]
     public class RepeatSpecificationTest
     {
+        private void _TestSerialization
+            (
+                RepeatSpecification source
+            )
+        {
+            byte[] bytes;
+            RepeatSpecification target;
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                using (BinaryWriter writer = new BinaryWriter(stream))
+                {
+                    source.SaveToStream(writer);
+                }
+                bytes = stream.ToArray();
+            }
+
+            using (MemoryStream stream = new MemoryStream(bytes))
+            {
+                using (BinaryReader reader = new BinaryReader(stream))
+                {
+                    target = new RepeatSpecification();
+                    target.RestoreFromStream(reader);
+                }
+            }
+
+            Assert.AreEqual(source.Kind, target.Kind);
+            Assert.AreEqual(source.Index, target.Index);
+        }
+
+        private void _TestJson
+            (
+                RepeatSpecification specification,
+                string expected
+            )
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            StringWriter writer = new StringWriter();
+            serializer.Serialize(writer, specification);
+            string actual = writer.ToString();
+            Assert.AreEqual(expected, actual);
+        }
+
         [TestMethod]
         public void RepeatSpecification_Constructor_1()
         {
@@ -176,6 +223,65 @@ namespace UnitTests.ManagedIrbis.Gbl.Infrastructure
                 = RepeatSpecification.Parse("0");
             Assert.AreEqual(RepeatKind.Last, specification.Kind);
             Assert.AreEqual(2, specification.Index);
+        }
+
+        [TestMethod]
+        public void RepeatSpecification_Serialization_1()
+        {
+            RepeatSpecification specification = new RepeatSpecification();
+            _TestSerialization(specification);
+        }
+
+        [TestMethod]
+        public void RepeatSpecification_Serialization_2()
+        {
+            RepeatSpecification specification
+                = new RepeatSpecification(RepeatKind.All);
+            _TestSerialization(specification);
+        }
+
+        [TestMethod]
+        public void RepeatSpecification_Serialization_3()
+        {
+            RepeatSpecification specification
+                = new RepeatSpecification(4);
+            _TestSerialization(specification);
+        }
+
+        [TestMethod]
+        public void RepeatSpecification_Serialization_4()
+        {
+            RepeatSpecification specification
+                = new RepeatSpecification(RepeatKind.Last, 4);
+            _TestSerialization(specification);
+        }
+
+        [TestMethod]
+        public void RepeatSpecification_ShouldSerializeIndex_1()
+        {
+            RepeatSpecification specification = new RepeatSpecification();
+            Assert.IsFalse(specification.ShouldSerializeIndex());
+        }
+
+        [TestMethod]
+        public void RepeatSpecification_ShouldSerializeIndex_2()
+        {
+            RepeatSpecification specification = new RepeatSpecification(10);
+            Assert.IsTrue(specification.ShouldSerializeIndex());
+        }
+
+        [TestMethod]
+        public void RepeatSpecification_ToJson_1()
+        {
+            RepeatSpecification specification = new RepeatSpecification(4);
+            _TestJson(specification, "{\"kind\":3,\"index\":4}");
+        }
+
+        [TestMethod]
+        public void RepeatSpecification_ToJson_2()
+        {
+            RepeatSpecification specification = new RepeatSpecification();
+            _TestJson(specification, "{\"kind\":0}");
         }
 
         [TestMethod]

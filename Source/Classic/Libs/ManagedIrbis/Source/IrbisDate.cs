@@ -14,7 +14,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
-
+using AM;
 using AM.Runtime;
 
 using CodeJam;
@@ -184,6 +184,49 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Convert string to time.
+        /// </summary>
+        public static TimeSpan ConvertStringToTime
+            (
+                [CanBeNull] string time
+            )
+        {
+            if (string.IsNullOrEmpty(time)
+                || time.Length < 2)
+            {
+                return new TimeSpan();
+            }
+
+            int hours = NumericUtility.ParseInt32(time.Substring(0, 2));
+            int minutes = NumericUtility.ParseInt32(time.Substring(2, 2));
+            int seconds = time.Length < 4
+                ? 0
+                : NumericUtility.ParseInt32(time.Substring(4, 2));
+            TimeSpan result = new TimeSpan(hours, minutes, seconds);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Convert time to string.
+        /// </summary>
+        [NotNull]
+        public static string ConvertTimeToString
+            (
+                TimeSpan time
+            )
+        {
+            return String.Format
+                (
+                    CultureInfo.InvariantCulture,
+                    "{0:00}{1:00}{2:00}",
+                    time.Hours,
+                    time.Minutes,
+                    time.Seconds
+                );
+        }
+
+        /// <summary>
         /// Неявное преобразование
         /// </summary>
         [NotNull]
@@ -274,3 +317,4 @@ namespace ManagedIrbis
         #endregion
     }
 }
+
