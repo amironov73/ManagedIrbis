@@ -358,6 +358,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\RevisionInfo.cs">
       <Link>Source\Fields\RevisionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\SourceInfo.cs">
+      <Link>Source\Fields\SourceInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\TitleInfo.cs">
       <Link>Source\Fields\TitleInfo.cs</Link>
     </Compile>
