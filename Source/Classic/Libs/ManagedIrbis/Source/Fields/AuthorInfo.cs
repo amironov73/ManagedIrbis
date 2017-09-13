@@ -202,8 +202,21 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
+        [Description("Поле с подполями")]
         [DisplayName("Поле с подполями")]
         public RecordField Field { get; private set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        [Description("Пользовательские данные")]
+        [DisplayName("Пользовательские данные")]
+        public object UserData { get; private set; }
 
         #endregion
 

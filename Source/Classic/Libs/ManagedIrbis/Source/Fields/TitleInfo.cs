@@ -69,6 +69,8 @@ namespace ManagedIrbis.Fields
         [SubField('v')]
         [XmlAttribute("volume")]
         [JsonProperty("volume")]
+        [Description("Обозначение и номер тома")]
+        [DisplayName("Обозначение и номер тома")]
         public string VolumeNumber { get; set; }
 
         /// <summary>
@@ -78,6 +80,8 @@ namespace ManagedIrbis.Fields
         [SubField('a')]
         [XmlAttribute("title")]
         [JsonProperty("title")]
+        [Description("Заглавие")]
+        [DisplayName("Заглавие")]
         public string Title { get; set; }
 
         /// <summary>
@@ -87,6 +91,8 @@ namespace ManagedIrbis.Fields
         [SubField('u')]
         [XmlAttribute("specific")]
         [JsonProperty("specific")]
+        [Description("Нехарактерное заглавие")]
+        [DisplayName("Нехарактерное заглавие")]
         public string Specific { get; set; }
 
         /// <summary>
@@ -96,6 +102,8 @@ namespace ManagedIrbis.Fields
         [SubField('b')]
         [XmlAttribute("general")]
         [JsonProperty("general")]
+        [Description("Общее обозначение материала")]
+        [DisplayName("Общее обозначение материала")]
         public string General { get; set; }
 
         /// <summary>
@@ -105,6 +113,8 @@ namespace ManagedIrbis.Fields
         [SubField('e')]
         [XmlAttribute("subtitle")]
         [JsonProperty("subtitle")]
+        [Description("Сведения, относящиеся к заглавию")]
+        [DisplayName("Сведения, относящиеся к заглавию")]
         public string Subtitle { get; set; }
 
         /// <summary>
@@ -114,6 +124,8 @@ namespace ManagedIrbis.Fields
         [SubField('f')]
         [XmlAttribute("first")]
         [JsonProperty("first")]
+        [Description("Первые сведения об ответственности")]
+        [DisplayName("Первые сведения об ответственности")]
         public string FirstResponsibility { get; set; }
 
         /// <summary>
@@ -123,7 +135,19 @@ namespace ManagedIrbis.Fields
         [SubField('g')]
         [XmlAttribute("other")]
         [JsonProperty("other")]
+        [Description("Последующие сведения об ответственности")]
+        [DisplayName("Последующие сведения об ответственности")]
         public string OtherResponsibility { get; set; }
+
+        /// <summary>
+        /// Associated field.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Description("Поле")]
+        [DisplayName("Поле")]
+        public RecordField Field { get; private set; }
 
         /// <summary>
         /// Arbitrary user data.
@@ -131,6 +155,8 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
+        [Description("Произвольные данные")]
+        [DisplayName("Произвольные данные")]
         public object UserData { get; set; }
 
         #endregion
@@ -197,7 +223,8 @@ namespace ManagedIrbis.Fields
                 General = field.GetFirstSubFieldValue('b'),
                 Subtitle = field.GetFirstSubFieldValue('e'),
                 FirstResponsibility = field.GetFirstSubFieldValue('f'),
-                OtherResponsibility = field.GetFirstSubFieldValue('g')
+                OtherResponsibility = field.GetFirstSubFieldValue('g'),
+                Field = field
             };
 
             return result;
@@ -220,7 +247,8 @@ namespace ManagedIrbis.Fields
             {
                 Title = field.GetFirstSubFieldValue('c'),
                 Subtitle = field.GetFirstSubFieldValue('e'),
-                FirstResponsibility = field.GetFirstSubFieldValue('g')
+                FirstResponsibility = field.GetFirstSubFieldValue('g'),
+                Field = field
             };
 
             return result;

@@ -40,7 +40,8 @@ namespace ManagedIrbis.Reservations
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class ReservationInfo
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -102,6 +103,17 @@ namespace ManagedIrbis.Reservations
         [DisplayName("Заявки")]
         public NonNullCollection<ReservationClaim> Claims { get; private set; }
 
+        /// <summary>
+        /// История выдач.
+        /// </summary>
+        [NotNull]
+        [Field("30")]
+        [XmlElement("history")]
+        [JsonProperty("history")]
+        [Description("История")]
+        [DisplayName("История")]
+        public NonNullCollection<HistoryInfo> History { get; private set; }
+
         #endregion
 
         #region Construction
@@ -112,6 +124,7 @@ namespace ManagedIrbis.Reservations
         public ReservationInfo()
         {
             Claims = new NonNullCollection<ReservationClaim>();
+            History = new NonNullCollection<HistoryInfo>();
         }
 
         #endregion
@@ -141,6 +154,10 @@ namespace ManagedIrbis.Reservations
                 .Select(item => item.ToField())
                 .ToArray();
             record.ReplaceField(ReservationClaim.Tag, claims);
+            RecordField[] history = History
+                .Select(item => item.ToField())
+                .ToArray();
+            record.ReplaceField(HistoryInfo.Tag, history);
         }
 
         /// <summary>
@@ -164,6 +181,10 @@ namespace ManagedIrbis.Reservations
             result.Claims.AddRange
                 (
                     ReservationClaim.ParseRecord(record)
+                );
+            result.History.AddRange
+                (
+                    HistoryInfo.ParseRecord(record)
                 );
 
             return result;
@@ -198,6 +219,7 @@ namespace ManagedIrbis.Reservations
             Status = reader.ReadNullableString();
             Description = reader.ReadNullableString();
             Claims = reader.ReadNonNullCollection<ReservationClaim>();
+            History = reader.ReadNonNullCollection<HistoryInfo>();
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -213,7 +235,38 @@ namespace ManagedIrbis.Reservations
                 .WriteNullable(Number)
                 .WriteNullable(Status)
                 .WriteNullable(Description)
-                .WriteCollection(Claims);
+                .WriteCollection(Claims)
+                .WriteCollection(History);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ReservationInfo> verifier
+                = new Verifier<ReservationInfo>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Room, "Room")
+                .NotNullNorEmpty(Number, "Number")
+                .NotNullNorEmpty(Status, "Status");
+
+            foreach (ReservationClaim claim in Claims)
+            {
+                verifier.VerifySubObject(claim, "Claims");
+            }
+            foreach (HistoryInfo history in History)
+            {
+                verifier.VerifySubObject(history, "History");
+            }
+
+            return verifier.Result;
         }
 
         #endregion

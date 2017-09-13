@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
@@ -39,7 +40,8 @@ namespace ManagedIrbis.Reservations
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class ReservationClaim
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Constants
 
@@ -77,7 +79,19 @@ namespace ManagedIrbis.Reservations
         [JsonProperty("date")]
         [Description("Дата")]
         [DisplayName("Дата")]
-        public string Date { get; set; }
+        public string DateString { get; set; }
+
+        /// <summary>
+        /// Date.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public DateTime Date
+        {
+            get { return IrbisDate.ConvertStringToDate(DateString); }
+            set { DateString = IrbisDate.ConvertDateToString(value); }
+        }
 
         /// <summary>
         /// Time.
@@ -88,7 +102,19 @@ namespace ManagedIrbis.Reservations
         [JsonProperty("time")]
         [Description("Время")]
         [DisplayName("Время")]
-        public string Time { get; set; }
+        public string TimeString { get; set; }
+
+        /// <summary>
+        /// Time.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public TimeSpan Time
+        {
+            get { return IrbisDate.ConvertStringToTime(TimeString); }
+            set { TimeString = IrbisDate.ConvertTimeToString(value); }
+        }
 
         /// <summary>
         /// Duration.
@@ -99,11 +125,26 @@ namespace ManagedIrbis.Reservations
         [JsonProperty("duration")]
         [Description("Продолжительность")]
         [DisplayName("Продолжительность")]
-        public string Duration { get; set; }
+        public string DurationString { get; set; }
+
+        /// <summary>
+        /// Duration.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public TimeSpan Duration
+        {
+            get { return IrbisDate.ConvertStringToTime(DurationString); }
+            set { DurationString = IrbisDate.ConvertTimeToString(value); }
+        }
 
         /// <summary>
         /// Whether the claim is active?
         /// </summary>
+        /// <remarks>
+        /// Non-empty string means 'not active'.
+        /// </remarks>
         [CanBeNull]
         [SubField('z')]
         [XmlAttribute("status")]
@@ -118,6 +159,7 @@ namespace ManagedIrbis.Reservations
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         [Description("Поле с подполями")]
         [DisplayName("Поле с подполями")]
         public RecordField Field { get; set; }
@@ -128,9 +170,21 @@ namespace ManagedIrbis.Reservations
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         [Description("Читатель")]
         [DisplayName("Читатель")]
         public ReaderInfo Reader { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        [Description("Пользовательские данные")]
+        [DisplayName("Пользовательские данные")]
+        public object UserData { get; set; }
 
         #endregion
 
@@ -156,9 +210,9 @@ namespace ManagedIrbis.Reservations
 
             field
                 .ApplySubField('a', Ticket)
-                .ApplySubField('b', Date)
-                .ApplySubField('c', Time)
-                .ApplySubField('d', Duration)
+                .ApplySubField('b', DateString)
+                .ApplySubField('c', TimeString)
+                .ApplySubField('d', DurationString)
                 .ApplySubField('z', Status);
         }
 
@@ -176,9 +230,9 @@ namespace ManagedIrbis.Reservations
             ReservationClaim result = new ReservationClaim
             {
                 Ticket = field.GetFirstSubFieldValue('a'),
-                Date = field.GetFirstSubFieldValue('b'),
-                Time = field.GetFirstSubFieldValue('c'),
-                Duration = field.GetFirstSubFieldValue('d'),
+                DateString = field.GetFirstSubFieldValue('b'),
+                TimeString = field.GetFirstSubFieldValue('c'),
+                DurationString = field.GetFirstSubFieldValue('d'),
                 Status = field.GetFirstSubFieldValue('z'),
                 Field = field
             };
@@ -241,9 +295,9 @@ namespace ManagedIrbis.Reservations
             Code.NotNull(reader, "reader");
 
             Ticket = reader.ReadNullableString();
-            Date = reader.ReadNullableString();
-            Time = reader.ReadNullableString();
-            Duration = reader.ReadNullableString();
+            DateString = reader.ReadNullableString();
+            TimeString = reader.ReadNullableString();
+            DurationString = reader.ReadNullableString();
             Status = reader.ReadNullableString();
         }
 
@@ -257,10 +311,32 @@ namespace ManagedIrbis.Reservations
 
             writer
                 .WriteNullable(Ticket)
-                .WriteNullable(Date)
-                .WriteNullable(Time)
-                .WriteNullable(Duration)
+                .WriteNullable(DateString)
+                .WriteNullable(TimeString)
+                .WriteNullable(DurationString)
                 .WriteNullable(Status);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ReservationClaim> verifier
+                = new Verifier<ReservationClaim>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Ticket, "Ticket")
+                .NotNullNorEmpty(DateString, "DateString")
+                .NotNullNorEmpty(TimeString, "TimeString")
+                .NotNullNorEmpty(DurationString, "DurationString");
+
+            return verifier.Result;
         }
 
         #endregion
