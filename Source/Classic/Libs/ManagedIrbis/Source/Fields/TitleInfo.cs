@@ -9,15 +9,11 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
@@ -47,7 +43,8 @@ namespace ManagedIrbis.Fields
     [MoonSharpUserData]
     [DebuggerDisplay("{VolumeNumber} {Title}")]
     public sealed class TitleInfo
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Constants
 
@@ -180,15 +177,15 @@ namespace ManagedIrbis.Fields
         #region Public methods
 
         /// <summary>
-        /// Parse the field.
+        /// Parse field 200.
         /// </summary>
         [NotNull]
-        public static TitleInfo Parse
+        public static TitleInfo ParseField200
             (
                 [NotNull] RecordField field
             )
         {
-            Code.NotNull (field, "field");
+            Code.NotNull(field, "field");
 
             // TODO: support for unknown subfields
 
@@ -201,6 +198,29 @@ namespace ManagedIrbis.Fields
                 Subtitle = field.GetFirstSubFieldValue('e'),
                 FirstResponsibility = field.GetFirstSubFieldValue('f'),
                 OtherResponsibility = field.GetFirstSubFieldValue('g')
+            };
+
+            return result;
+        }
+
+        /// <summary>
+        /// Parse field 330 or 922.
+        /// </summary>
+        [NotNull]
+        public static TitleInfo ParseField330
+            (
+                [NotNull] RecordField field
+            )
+        {
+            Code.NotNull(field, "field");
+
+            // TODO: support for unknown subfields
+
+            TitleInfo result = new TitleInfo
+            {
+                Title = field.GetFirstSubFieldValue('c'),
+                Subtitle = field.GetFirstSubFieldValue('e'),
+                FirstResponsibility = field.GetFirstSubFieldValue('g')
             };
 
             return result;
@@ -221,7 +241,7 @@ namespace ManagedIrbis.Fields
 
             return record.Fields
                 .GetField(tag)
-                .Select(field => Parse(field))
+                .Select(field => ParseField200(field))
                 .ToArray();
         }
 
@@ -313,10 +333,10 @@ namespace ManagedIrbis.Fields
         }
 
         /// <summary>
-        /// Превращение обратно в поле.
+        /// Превращение обратно в поле 200.
         /// </summary>
         [NotNull]
-        public RecordField ToField()
+        public RecordField ToField200()
         {
             RecordField result = new RecordField(Tag)
                 .AddNonEmptySubField('v', VolumeNumber)
@@ -326,6 +346,23 @@ namespace ManagedIrbis.Fields
                 .AddNonEmptySubField('e', Subtitle)
                 .AddNonEmptySubField('f', FirstResponsibility)
                 .AddNonEmptySubField('g', OtherResponsibility);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Convert back to field 330/922.
+        /// </summary>
+        [NotNull]
+        public RecordField ToField330
+            (
+                int tag
+            )
+        {
+            RecordField result = new RecordField(tag)
+                .AddNonEmptySubField('c', Title)
+                .AddNonEmptySubField('e', Subtitle)
+                .AddNonEmptySubField('g', FirstResponsibility);
 
             return result;
         }
@@ -371,11 +408,40 @@ namespace ManagedIrbis.Fields
 
         #endregion
 
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<TitleInfo> verifier
+                = new Verifier<TitleInfo>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Title, "Title");
+
+            return verifier.Result;
+        }
+
+        #endregion
+
         #region Object members
 
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
+            if (string.IsNullOrEmpty(VolumeNumber))
+            {
+                return string.Format
+                (
+                    "Title: {0}, Subtitle: {1}",
+                    Title.ToVisibleString(),
+                    Subtitle.ToVisibleString()
+                );
+            }
+
             return string.Format
                 (
                     "Volume: {0}, Title: {1}, Subtitle: {2}",

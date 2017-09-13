@@ -3,6 +3,6 @@
 12 0 (if p(v12) then 'STATUS=', v12, /, fi)
 20 0 (if p(v20) then if v20^z='' and p(v20^b) then 'CLAIM=', v20^b, /, fi, fi)
 30 0 (if p(v30) then 'VISIT=', v30^a, /, fi)
-30 0 (if p(v30) then 'VISIT=', v30^a.4, /, fi)
+30 0 (if p(v30) then 'VISIT=', v30^a.6, /, fi)
 30 0 (if p(v30) then 'VISIT=', &uf('Av10#1'), '/', v30^a, /, fi)
-30 0 (if p(v30) then 'VISIT=', &uf('Av10#1'), '/', v30^a.4, /, fi)
+30 0 (if p(v30) then 'VISIT=', &uf('Av10#1'), '/', v30^a.6, /, fi)

@@ -102,7 +102,7 @@ namespace UnitTests.ManagedIrbis.Fields
                 OtherResponsibility = "Рос. акад. художеств, Гос. музей изобр. искусств им. А. С. Пушкина"
             };
 
-            RecordField actual = title.ToField();
+            RecordField actual = title.ToField200();
             Assert.AreEqual("Пикассо сегодня", actual.GetFirstSubFieldValue('a'));
             Assert.AreEqual("[сборник статей]", actual.GetFirstSubFieldValue('e'));
             Assert.AreEqual("А. А. Бабин, Т. В. Балашова ; отв. ред. М. А. Бусев", actual.GetFirstSubFieldValue('f'));
@@ -120,7 +120,7 @@ namespace UnitTests.ManagedIrbis.Fields
                 OtherResponsibility = "Рос. акад. художеств, Гос. музей изобр. искусств им. А. С. Пушкина"
             };
 
-            const string expected = "Volume: (null), Title: Пикассо сегодня, Subtitle: [сборник статей]";
+            const string expected = "Title: Пикассо сегодня, Subtitle: [сборник статей]";
             string actual = title.ToString();
             Assert.AreEqual(expected, actual);
         }

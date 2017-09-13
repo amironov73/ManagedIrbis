@@ -214,7 +214,7 @@ namespace ManagedIrbis.Magazines
 
                 Articles = record.Fields
                     .GetField(922)
-                    .Select(field => MagazineArticleInfo.Parse(field))
+                    .Select(field => MagazineArticleInfo.ParseField330(field))
                     .ToArray(),
 
                 Exemplars = record.Fields

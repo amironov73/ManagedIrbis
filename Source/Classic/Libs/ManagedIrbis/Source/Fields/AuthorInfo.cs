@@ -11,9 +11,12 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Xml.Serialization;
 
 using AM;
+using AM.IO;
+using AM.Runtime;
 using AM.Text;
 
 using CodeJam;
@@ -36,6 +39,8 @@ namespace ManagedIrbis.Fields
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class AuthorInfo
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -48,42 +53,36 @@ namespace ManagedIrbis.Fields
         /// Known tags.
         /// </summary>
         [NotNull]
-        [ItemNotNull]
         public static int[] AllKnownTags { get { return _allKnownTags; } }
 
         /// <summary>
         /// Known tags.
         /// </summary>
         [NotNull]
-        [ItemNotNull]
         public static int[] KnownTags1 { get { return _knownTags1; } }
 
         /// <summary>
         /// Known tags.
         /// </summary>
         [NotNull]
-        [ItemNotNull]
         public static int[] KnownTags2 { get { return _knownTags2; } }
 
         /// <summary>
         /// Known tags.
         /// </summary>
         [NotNull]
-        [ItemNotNull]
         public static int[] KnownTags3 { get { return _knownTags3; } }
 
         /// <summary>
         /// Known tags.
         /// </summary>
         [NotNull]
-        [ItemNotNull]
         public static int[] KnownTags4 { get { return _knownTags4; } }
 
         /// <summary>
         /// Known tags.
         /// </summary>
         [NotNull]
-        [ItemNotNull]
         public static int[] KnownTags5 { get { return _knownTags5; } }
 
         /// <summary>
@@ -812,6 +811,70 @@ namespace ManagedIrbis.Fields
                 .AddNonEmptySubField('p', WorkPlace);
 
             return result;
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            FamilyName = reader.ReadNullableString();
+            Initials = reader.ReadNullableString();
+            FullName = reader.ReadNullableString();
+            Postfix = reader.ReadNullableString();
+            Appendix = reader.ReadNullableString();
+            Number = reader.ReadNullableString();
+            Dates = reader.ReadNullableString();
+            Variant = reader.ReadNullableString();
+            WorkPlace = reader.ReadNullableString();
+            CantBeInverted = reader.ReadBoolean();
+        }
+
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer
+                .WriteNullable(FamilyName)
+                .WriteNullable(Initials)
+                .WriteNullable(FullName)
+                .WriteNullable(Postfix)
+                .WriteNullable(Appendix)
+                .WriteNullable(Number)
+                .WriteNullable(Dates)
+                .WriteNullable(Variant)
+                .WriteNullable(WorkPlace)
+                .Write(CantBeInverted);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<AuthorInfo> verifier
+                = new Verifier<AuthorInfo>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(FamilyName, "FamilyName");
+
+            return verifier.Result;
         }
 
         #endregion
