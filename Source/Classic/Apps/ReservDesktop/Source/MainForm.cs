@@ -45,21 +45,19 @@ using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
-namespace MstExplorer
+namespace ReservDesktop
 {
     public partial class MainForm
         : UniversalForm
     {
-        #region Properties
-
-
-
-        #endregion
 
         #region Construction
 
         public MainForm()
         {
+            FieldTag.ThrowOnValidate = false;
+            ReadRecordCommand.ThrowOnVerify = false;
+
             Initialize += _Initialize;
 
             InitializeComponent();
@@ -68,7 +66,7 @@ namespace MstExplorer
             //HideToolStrip();
             //HideStatusStrip();
 
-            MstPanel panel = new MstPanel(this);
+            ReservPanel panel = new ReservPanel(this);
             SetupCentralControl(panel);
         }
 
@@ -82,7 +80,26 @@ namespace MstExplorer
                 EventArgs e
             )
         {
-            Icon = Properties.Resources.Explorer;
+            Icon = Properties.Resources.Reserved;
+
+            if (TestProviderConnection())
+            {
+                WriteLine("Connection OK");
+                Active = true;
+                Controller.EnableControls();
+
+                UniversalCentralControl universal = CentralControl
+                    as UniversalCentralControl;
+                if (!ReferenceEquals(universal, null))
+                {
+                    universal.SetDefaultFocus();
+                }
+            }
+            else
+            {
+                Controller.DisableControls();
+                return;
+            }
 
             WriteLine("Application ready");
         }
