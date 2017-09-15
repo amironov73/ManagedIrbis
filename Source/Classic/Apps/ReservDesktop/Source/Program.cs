@@ -30,7 +30,9 @@ using AM.Collections;
 using AM.Windows.Forms;
 
 using CodeJam;
+
 using IrbisUI.Universal;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis;
