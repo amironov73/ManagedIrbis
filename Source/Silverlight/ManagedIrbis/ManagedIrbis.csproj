@@ -258,11 +258,26 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\BinaryResource.cs">
       <Link>Source\Fields\BinaryResource.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\CatalogingRules.cs">
+      <Link>Source\Fields\CatalogingRules.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\CharacterSetCode.cs">
+      <Link>Source\Fields\CharacterSetCode.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\CodesInfo.cs">
       <Link>Source\Fields\CodesInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\CollectiveInfo.cs">
+      <Link>Source\Fields\CollectiveInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\CommonInfo.cs">
+      <Link>Source\Fields\CommonInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ExemplarInfo.cs">
       <Link>Source\Fields\ExemplarInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ExemplarInfoComparer.cs">
+      <Link>Source\Fields\ExemplarInfoComparer.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ExemplarManager.cs">
       <Link>Source\Fields\ExemplarManager.cs</Link>
@@ -276,11 +291,41 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\FieldFilter.cs">
       <Link>Source\Fields\FieldFilter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\HeadingInfo.cs">
+      <Link>Source\Fields\HeadingInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ImprintInfo.cs">
+      <Link>Source\Fields\ImprintInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\IsbnInfo.cs">
+      <Link>Source\Fields\IsbnInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\LanguageCode.cs">
+      <Link>Source\Fields\LanguageCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\LanguageInfo.cs">
+      <Link>Source\Fields\LanguageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\PartInfo.cs">
+      <Link>Source\Fields\PartInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\PersonaliaInfo.cs">
+      <Link>Source\Fields\PersonaliaInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\QuantitativeCharacteristics.cs">
+      <Link>Source\Fields\QuantitativeCharacteristics.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ResourceView.cs">
+      <Link>Source\Fields\ResourceView.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\RevisionInfo.cs">
       <Link>Source\Fields\RevisionInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\SourceInfo.cs">
       <Link>Source\Fields\SourceInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\TitleCharacterSet.cs">
+      <Link>Source\Fields\TitleCharacterSet.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\TitleInfo.cs">
       <Link>Source\Fields\TitleInfo.cs</Link>

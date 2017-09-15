@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -235,6 +236,12 @@ namespace ManagedIrbis.Fields
                 BinaryReader reader
             )
         {
+#if SILVERLIGHT
+
+            throw new NotImplementedException();
+
+#else
+
             Code.NotNull(reader, "reader");
 
             Isbn = reader.ReadNullableString();
@@ -242,6 +249,8 @@ namespace ManagedIrbis.Fields
             Erroneous = reader.ReadNullableString();
             Currency = reader.ReadNullableString();
             Price = reader.ReadDecimal();
+
+#endif
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -250,6 +259,12 @@ namespace ManagedIrbis.Fields
                 BinaryWriter writer
             )
         {
+#if SILVERLIGHT
+
+            throw new NotImplementedException();
+
+#else
+
             Code.NotNull(writer, "writer");
 
             writer
@@ -258,6 +273,8 @@ namespace ManagedIrbis.Fields
                 .WriteNullable(Erroneous)
                 .WriteNullable(Currency)
                 .Write(Price);
+
+#endif
         }
 
         #endregion

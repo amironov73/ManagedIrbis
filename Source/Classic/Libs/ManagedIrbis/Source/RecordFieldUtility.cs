@@ -138,6 +138,80 @@ namespace ManagedIrbis
             (
                 [NotNull] this RecordField field,
                 char code,
+                [CanBeNull] object value
+            )
+        {
+            Code.NotNull(field, "field");
+
+            if (code == SubField.NoCode)
+            {
+                return field;
+            }
+
+            if (ReferenceEquals(value, null))
+            {
+                field.RemoveSubField(code);
+            }
+            else
+            {
+                SubField subField = field.GetFirstSubField(code);
+                if (ReferenceEquals(subField, null))
+                {
+                    subField = new SubField(code);
+                    field.SubFields.Add(subField);
+                }
+                subField.Value = value.ToString();
+            }
+
+            return field;
+        }
+
+        /// <summary>
+        /// Apply subfield value.
+        /// </summary>
+        [NotNull]
+        public static RecordField ApplySubField
+            (
+                [NotNull] this RecordField field,
+                char code,
+                bool value,
+                [NotNull] string text
+            )
+        {
+            Code.NotNull(field, "field");
+            Code.NotNullNorEmpty(text, "text");
+
+            if (code == SubField.NoCode)
+            {
+                return field;
+            }
+
+            if (value == false)
+            {
+                field.RemoveSubField(code);
+            }
+            else
+            {
+                SubField subField = field.GetFirstSubField(code);
+                if (ReferenceEquals(subField, null))
+                {
+                    subField = new SubField(code);
+                    field.SubFields.Add(subField);
+                }
+                subField.Value = text;
+            }
+
+            return field;
+        }
+
+        /// <summary>
+        /// Apply subfield value.
+        /// </summary>
+        [NotNull]
+        public static RecordField ApplySubField
+            (
+                [NotNull] this RecordField field,
+                char code,
                 [CanBeNull] string value
             )
         {

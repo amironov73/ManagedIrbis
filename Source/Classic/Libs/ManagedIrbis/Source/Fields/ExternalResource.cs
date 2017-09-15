@@ -10,11 +10,13 @@
 #region Using directives
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -41,9 +43,8 @@ namespace ManagedIrbis.Fields
     [MoonSharpUserData]
     [DebuggerDisplay("File={FileName} Url={Url} Description={Description}")]
     public sealed class ExternalResource
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-        : IHandmadeSerializable
-#endif
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Constants
 
@@ -68,6 +69,8 @@ namespace ManagedIrbis.Fields
         [SubField('a')]
         [XmlAttribute("filename")]
         [JsonProperty("filename")]
+        [Description("Имя файла")]
+        [DisplayName("Имя файла")]
         public string FileName { get; set; }
 
         /// <summary>
@@ -77,6 +80,8 @@ namespace ManagedIrbis.Fields
         [SubField('i')]
         [XmlAttribute("url")]
         [JsonProperty("url")]
+        [Description("URL")]
+        [DisplayName("URL")]
         public string Url { get; set; }
 
         /// <summary>
@@ -86,6 +91,8 @@ namespace ManagedIrbis.Fields
         [SubField('t')]
         [XmlAttribute("description")]
         [JsonProperty("description")]
+        [Description("Текст для ссылки")]
+        [DisplayName("Текст для ссылки")]
         public string Description { get; set; }
 
         /// <summary>
@@ -95,6 +102,8 @@ namespace ManagedIrbis.Fields
         [SubField('n')]
         [XmlAttribute("fileCount")]
         [JsonProperty("fileCount")]
+        [Description("Количество файлов")]
+        [DisplayName("Количество файлов")]
         public int? FileCount { get; set; }
 
         /// <summary>
@@ -104,6 +113,8 @@ namespace ManagedIrbis.Fields
         [SubField('m')]
         [XmlAttribute("nameTemplate")]
         [JsonProperty("nameTemplate")]
+        [Description("Имя-шаблон первого файла")]
+        [DisplayName("Имя-шаблон первого файла")]
         public string NameTemplate { get; set; }
 
         /// <summary>
@@ -113,6 +124,8 @@ namespace ManagedIrbis.Fields
         [SubField('h')]
         [XmlAttribute("fileType")]
         [JsonProperty("fileType")]
+        [Description("Тип внешнего файла")]
+        [DisplayName("Тип внешнего файла")]
         public string FileType { get; set; }
 
         /// <summary>
@@ -122,6 +135,8 @@ namespace ManagedIrbis.Fields
         [SubField('k')]
         [XmlAttribute("textbook")]
         [JsonProperty("textbook")]
+        [Description("Признак электронного учебника")]
+        [DisplayName("Признак электронного учебника")]
         public string Textbook { get; set; }
 
         /// <summary>
@@ -132,6 +147,8 @@ namespace ManagedIrbis.Fields
         [SubField('d')]
         [XmlAttribute("access")]
         [JsonProperty("access")]
+        [Description("Уровень доступа")]
+        [DisplayName("Уровень доступа")]
         public string AccessLevel { get; set; }
 
         /// <summary>
@@ -140,6 +157,8 @@ namespace ManagedIrbis.Fields
         [SubField('l')]
         [XmlAttribute("lan")]
         [JsonProperty("lan")]
+        [Description("Доступен только в ЛВС")]
+        [DisplayName("Доступен только в ЛВС")]
         public bool LanOnly { get; set; }
 
         /// <summary>
@@ -149,6 +168,8 @@ namespace ManagedIrbis.Fields
         [SubField('1')]
         [XmlAttribute("inputDate")]
         [JsonProperty("inputDate")]
+        [Description("Дата ввода информации")]
+        [DisplayName("Дата ввода информации")]
         public DateTime? InputDate { get; set; }
 
         /// <summary>
@@ -157,6 +178,8 @@ namespace ManagedIrbis.Fields
         [SubField('2')]
         [XmlAttribute("fileSize")]
         [JsonProperty("fileSize")]
+        [Description("Размер файла")]
+        [DisplayName("Размер файла")]
         public long FileSize { get; set; }
 
         /// <summary>
@@ -166,6 +189,8 @@ namespace ManagedIrbis.Fields
         [SubField('3')]
         [XmlAttribute("number")]
         [JsonProperty("number")]
+        [Description("Номер источника копии")]
+        [DisplayName("Номер источника копии")]
         public string Number { get; set; }
 
         /// <summary>
@@ -175,6 +200,8 @@ namespace ManagedIrbis.Fields
         [SubField('5')]
         [XmlAttribute("lastCheck")]
         [JsonProperty("lastCheck")]
+        [Description("Дата последней проверки")]
+        [DisplayName("Дата последней проверки")]
         public DateTime? LastCheck { get; set; }
 
         /// <summary>
@@ -184,6 +211,8 @@ namespace ManagedIrbis.Fields
         [SubField('6')]
         [XmlAttribute("imageSize")]
         [JsonProperty("imageSize")]
+        [Description("Размеры изображения")]
+        [DisplayName("Размеры изображения")]
         public string ImageSize { get; set; }
 
         /// <summary>
@@ -193,6 +222,8 @@ namespace ManagedIrbis.Fields
         [SubField('x')]
         [XmlAttribute("issn")]
         [JsonProperty("issn")]
+        [Description("ISSN")]
+        [DisplayName("ISSN")]
         public string Issn { get; set; }
 
         /// <summary>
@@ -202,6 +233,8 @@ namespace ManagedIrbis.Fields
         [SubField('b')]
         [XmlAttribute("form")]
         [JsonProperty("form")]
+        [Description("Форма представления")]
+        [DisplayName("Форма представления")]
         public string Form { get; set; }
 
         /// <summary>
@@ -211,6 +244,8 @@ namespace ManagedIrbis.Fields
         [SubField('f')]
         [XmlAttribute("provider")]
         [JsonProperty("provider")]
+        [Description("Код поставщика информации")]
+        [DisplayName("Код поставщика информации")]
         public string Provider { get; set; }
 
         /// <summary>
@@ -220,6 +255,8 @@ namespace ManagedIrbis.Fields
         [SubField('e')]
         [XmlAttribute("price")]
         [JsonProperty("price")]
+        [Description("Цена")]
+        [DisplayName("Цена")]
         public string Price { get; set; }
 
         /// <summary>
@@ -229,6 +266,8 @@ namespace ManagedIrbis.Fields
         [SubField('w')]
         [XmlAttribute("index")]
         [JsonProperty("index")]
+        [Description("Шифр в БД")]
+        [DisplayName("Шифр в БД")]
         public string Index { get; set; }
 
         /// <summary>
@@ -238,6 +277,8 @@ namespace ManagedIrbis.Fields
         [SubField('p')]
         [XmlAttribute("remarks")]
         [JsonProperty("remarks")]
+        [Description("Примечания в свободной форме")]
+        [DisplayName("Примечания в свободной форме")]
         public string Remarks { get; set; }
 
         /// <summary>
@@ -247,7 +288,20 @@ namespace ManagedIrbis.Fields
         [SubField('s')]
         [XmlAttribute("system")]
         [JsonProperty("system")]
+        [Description("Электронная библиотечная система")]
+        [DisplayName("Электронная библиотечная система")]
         public string System { get; set; }
+
+        /// <summary>
+        /// Associated field.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        [Description("Поле")]
+        [DisplayName("Поле")]
+        public RecordField Field { get; private set; }
 
         /// <summary>
         /// Arbitrary user data.
@@ -255,6 +309,9 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
+        [Description("Пользовательские данные")]
+        [DisplayName("Пользовательские данные")]
         public object UserData { get; set; }
 
         #endregion
@@ -288,6 +345,40 @@ namespace ManagedIrbis.Fields
         #region Public methods
 
         /// <summary>
+        /// Apply to the field.
+        /// </summary>
+        public void ApplyToField
+            (
+                [NotNull] RecordField field
+            )
+        {
+            // TODO check the applying
+
+            field
+                .ApplySubField('a', FileName)
+                .ApplySubField('i', Url)
+                .ApplySubField('t', Description)
+                .ApplySubField('m', NameTemplate)
+                .ApplySubField('h', FileType)
+                .ApplySubField('n', FileCount)
+                .ApplySubField('k', Textbook)
+                .ApplySubField('d', AccessLevel)
+                .ApplySubField('l', LanOnly, "да")
+                .ApplySubField('1', InputDate)
+                .ApplySubField('2', FileSize)
+                .ApplySubField('3', Number)
+                .ApplySubField('5', LastCheck)
+                .ApplySubField('6', ImageSize)
+                .ApplySubField('x', Issn)
+                .ApplySubField('b', Form)
+                .ApplySubField('f', Provider)
+                .ApplySubField('e', Price)
+                .ApplySubField('w', Index)
+                .ApplySubField('p', Remarks)
+                .ApplySubField('s', System);
+        }
+
+        /// <summary>
         /// Parse the field.
         /// </summary>
         [NotNull]
@@ -318,7 +409,8 @@ namespace ManagedIrbis.Fields
                 Price = field.GetFirstSubFieldValue('e'),
                 Index = field.GetFirstSubFieldValue('w'),
                 Remarks = field.GetFirstSubFieldValue('p'),
-                System = field.GetFirstSubFieldValue('s')
+                System = field.GetFirstSubFieldValue('s'),
+                Field = field
             };
 
             return result;
@@ -394,11 +486,9 @@ namespace ManagedIrbis.Fields
 
         #endregion
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-
         #region IHandmadeSerializable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         void IHandmadeSerializable.RestoreFromStream
             (
                 BinaryReader reader
@@ -429,7 +519,7 @@ namespace ManagedIrbis.Fields
             System = reader.ReadNullableString();
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         void IHandmadeSerializable.SaveToStream
             (
                 BinaryWriter writer
@@ -464,19 +554,40 @@ namespace ManagedIrbis.Fields
 
         #endregion
 
-#endif
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ExternalResource> verifier
+                = new Verifier<ExternalResource>(this, throwOnError);
+
+            verifier.Assert
+                (
+                    !string.IsNullOrEmpty(FileName)
+                    ^ !string.IsNullOrEmpty(Url),
+                    "FileName or URL"
+                );
+
+            return verifier.Result;
+        }
+
+        #endregion
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format
                 (
                     "FileName: {0}, Url: {1}, Description: {2}",
-                    FileName,
-                    Url,
-                    Description
+                    FileName.ToVisibleString(),
+                    Url.ToVisibleString(),
+                    Description.ToVisibleString()
                 );
         }
 
