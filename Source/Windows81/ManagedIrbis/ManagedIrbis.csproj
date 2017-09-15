@@ -284,6 +284,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FieldReference.cs">
       <Link>Source\FieldReference.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\AuthorInfo.cs">
+      <Link>Source\Fields\AuthorInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\BinaryResource.cs">
       <Link>Source\Fields\BinaryResource.cs</Link>
     </Compile>
@@ -304,6 +307,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\SourceInfo.cs">
       <Link>Source\Fields\SourceInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\TitleInfo.cs">
+      <Link>Source\Fields\TitleInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FieldTag.cs">
       <Link>Source\FieldTag.cs</Link>

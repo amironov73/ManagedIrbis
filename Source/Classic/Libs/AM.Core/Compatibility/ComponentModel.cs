@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if PORTABLE || UAP || WINMOBILE
+#if PORTABLE || UAP || WINMOBILE || SILVERLIGHT || WIN81
 
 #region Using directives
 
@@ -17,6 +17,9 @@ using System;
 
 namespace System.ComponentModel
 {
+
+#if !SILVERLIGHT
+
     /// <summary>
     /// 
     /// </summary>
@@ -38,6 +41,8 @@ namespace System.ComponentModel
         {
         }
     }
+
+#endif
 
 #if !WINMOBILE
 
@@ -88,6 +93,8 @@ namespace System.ComponentModel
         Hidden = 0
     }
 
+#if !SILVERLIGHT
+
     /// <summary>
     /// 
     /// </summary>
@@ -109,6 +116,8 @@ namespace System.ComponentModel
         {
         }
     }
+
+#endif
 
     /// <summary>
     /// 

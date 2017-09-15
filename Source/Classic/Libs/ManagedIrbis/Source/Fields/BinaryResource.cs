@@ -49,6 +49,11 @@ namespace ManagedIrbis.Fields
         #region Constants
 
         /// <summary>
+        /// Known codes.
+        /// </summary>
+        public const string KnownCodes = "abpt";
+
+        /// <summary>
         /// Default tag for binary resources.
         /// </summary>
         public const int Tag = 953;
@@ -104,6 +109,27 @@ namespace ManagedIrbis.Fields
         [Description("Характер просмотра")]
         [DisplayName("Характер просмотр")]
         public string View { get; set; }
+
+        /// <summary>
+        /// Associated field.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        [Description("Поле")]
+        [DisplayName("Поле")]
+        public RecordField Field { get; private set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Description("Пользовательские данные")]
+        [DisplayName("Пользовательские данные")]
+        public object UserData { get; set; }
 
         #endregion
 
@@ -217,7 +243,8 @@ namespace ManagedIrbis.Fields
                 Kind = field.GetFirstSubFieldValue('a'),
                 Resource = field.GetFirstSubFieldValue('b'),
                 Title = field.GetFirstSubFieldValue('t'),
-                View = field.GetFirstSubFieldValue('p')
+                View = field.GetFirstSubFieldValue('p'),
+                Field = field
             };
 
             return result;
