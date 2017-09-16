@@ -23,16 +23,16 @@ using ManagedIrbis.Fields;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Вывод сведений обо всех экземплярах по всем местам хранения – &uf('O…
-    // Вид функции: O.
-    // Назначение: Вывод сведений обо всех экземплярах по всем местам хранения.
+    // Возвращает данные обо всех свободных (не выданных) экземплярах по всем местах хранения – &uf('Y…
+    // Вид функции: Y.
+    // Назначение: Возвращает данные обо всех свободных(не выданных) экземплярах по всем местах хранения.
     // Формат(передаваемая строка):
     // нет
     // Пример:
-    // &unifor('O')
+    // &unifor('Y')
     //
 
-    static class UniforO
+    static class UniforY
     {
         #region Public methods
 
@@ -40,7 +40,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Вспомогательный метод.
         /// </summary>
         [NotNull]
-        public static string AllExemplars
+        public static string FreeExemplars
             (
                 [NotNull] MarcRecord record
             )
@@ -65,11 +65,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         int amount;
                         if (NumericUtility.TryParseInt32(amountText, out amount))
                         {
-                            counter.Augment(place, amount);
+                            string onHandText = exemplar.OnHand;
+                            int onHand;
+                            if (NumericUtility.TryParseInt32(onHandText, out onHand))
+                            {
+                                amount -= onHand;
+                            }
                         }
+                        counter.Augment(place, amount);
                         break;
 
-                    default:
+                    case ExemplarStatus.Free:
                         counter.Augment(place, 1);
                         break;
                 }
@@ -97,9 +103,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         }
 
         /// <summary>
-        /// Реализация &amp;uf('O').
+        /// Реализация &amp;uf('y').
         /// </summary>
-        public static void AllExemplars
+        public static void FreeExemplars
             (
                 PftContext context,
                 PftNode node,
@@ -108,7 +114,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             if (!ReferenceEquals(context.Record, null))
             {
-                string output = AllExemplars(context.Record);
+                string output = FreeExemplars(context.Record);
                 if (!string.IsNullOrEmpty(output))
                 {
                     context.Write(node, output);

@@ -9,19 +9,11 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -65,7 +57,7 @@ namespace ManagedIrbis
         /// </summary>
         public long FullOffset
         {
-            get { return unchecked ((((long) HighOffset) << 32) + LowOffset); }
+            get { return unchecked (((long) HighOffset << 32) + LowOffset); }
         }
 
         /// <summary>
@@ -73,7 +65,7 @@ namespace ManagedIrbis
         /// </summary>
         public bool RefersToLeaf
         {
-            get { return (LowOffset < 0); }
+            get { return LowOffset < 0; }
         }
 
         /// <summary>
@@ -85,12 +77,7 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format

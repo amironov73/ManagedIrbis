@@ -118,7 +118,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("V", UniforU.Decumulate);
             Registry.Add("W", UniforU.Check);
             Registry.Add("X", RemoveAngleBrackets);
-            Registry.Add("Y", UniforO.FreeExemplars);
+            Registry.Add("Y", UniforY.FreeExemplars);
             Registry.Add("+0", UniforPlus0.FormatAll);
             Registry.Add("+1", UniforPlus1.ClearGlobals);
             Registry.Add("+1A", UniforPlus1.AddGlobals);
