@@ -9,21 +9,11 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using AM;
-
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -41,13 +31,13 @@ namespace ManagedIrbis.Quality.Rules
 
         private void CheckField
             (
-                RecordField field
+                [NotNull] RecordField field
             )
         {
             MustNotContainSubfields(field);
 
             string text = field.Value;
-            if (StringUtility.SafeContains(text, "."))
+            if (text.SafeContains("."))
             {
                 AddDefect
                     (
@@ -62,13 +52,13 @@ namespace ManagedIrbis.Quality.Rules
 
         #region QualityRule members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="QualityRule.FieldSpec" />
         public override string FieldSpec
         {
             get { return "610"; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="QualityRule.CheckRecord" />
         public override RuleReport CheckRecord
             (
                 RuleContext context

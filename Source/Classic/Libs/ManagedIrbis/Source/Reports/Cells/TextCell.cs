@@ -9,19 +9,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
 
 using CodeJam;
 

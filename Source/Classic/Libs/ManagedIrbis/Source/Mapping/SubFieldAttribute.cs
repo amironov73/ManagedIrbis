@@ -18,8 +18,7 @@ namespace ManagedIrbis.Mapping
     /// <summary>
     /// Задаёт отображение подполя на свойство.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field|AttributeTargets.Property,
-        AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Field|AttributeTargets.Property)]
     public sealed class SubFieldAttribute
         : Attribute
     {

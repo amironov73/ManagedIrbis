@@ -86,7 +86,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
         /// </summary>
         public override void AbortRequest()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>

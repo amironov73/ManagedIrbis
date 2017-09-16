@@ -10,27 +10,17 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
-using AM.IO;
 using AM.Logging;
-using AM.Text;
-using AM.Text.Tokenizer;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -88,7 +78,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftA result = new PftA(Tokens.Current);
             Tokens.RequireNext(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext(PftTokenKind.V);
-            PftField field = (PftField)ParseField();
+            PftField field = ParseField();
             if (ReferenceEquals(field, null))
             {
                 Log.Error

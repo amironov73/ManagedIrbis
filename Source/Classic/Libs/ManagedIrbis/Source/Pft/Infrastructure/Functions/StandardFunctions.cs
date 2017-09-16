@@ -10,27 +10,17 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 using AM;
-using AM.Collections;
 using AM.Logging;
 using AM.Text;
 
-using CodeJam;
-
-using JetBrains.Annotations;
-
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
@@ -154,7 +144,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         private static void CommandLine(PftContext context, PftNode node, PftNode[] arguments)
         {
 #if DESKTOP
-            context.Write(node, global::System.Environment.CommandLine);
+            context.Write(node, Environment.CommandLine);
 #endif
         }
 
@@ -273,7 +263,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
 #else
 
-            global::System.Environment.FailFast(message);
+            Environment.FailFast(message);
 
 #endif
         }
@@ -287,7 +277,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
-                string result = global::System.Environment.GetEnvironmentVariable(expression);
+                string result = Environment.GetEnvironmentVariable(expression);
                 context.Write(node, result);
             }
 
@@ -507,7 +497,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         private static void OsVersion(PftContext context, PftNode node, PftNode[] arguments)
         {
 #if CLASSIC
-            context.Write(node, global::System.Environment.OSVersion.ToString());
+            context.Write(node, Environment.OSVersion.ToString());
 #endif
         }
 
@@ -631,7 +621,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         .ToArray();
                     string output = string.Join
                         (
-                            global::System.Environment.NewLine,
+                            Environment.NewLine,
                             foundLines
                         );
                     context.Write(node, output);
@@ -670,7 +660,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     node,
                     string.Join
                     (
-                        global::System.Environment.NewLine,
+                        Environment.NewLine,
                         lines
                     )
                 );
@@ -736,8 +726,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
 #if CLASSIC || DESKTOP
 
-                string comspec = global::System.Environment
-                    .GetEnvironmentVariable("comspec")
+                string comspec = Environment.GetEnvironmentVariable("comspec")
                     ?? "cmd.exe";
 
                 expression = "/c " + expression;

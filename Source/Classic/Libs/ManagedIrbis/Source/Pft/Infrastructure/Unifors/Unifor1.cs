@@ -14,9 +14,6 @@ using AM.Text;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Pft.Infrastructure.Ast;
-using ManagedIrbis.PlatformSpecific;
-
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
@@ -185,7 +182,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             string output = null;
 
-            string[] items = text.Split(new[] {left, right});
+            string[] items = text.Split(left, right);
             if (mode == 'R' || mode == 'r')
             {
                 output = items.GetOccurrence(index);

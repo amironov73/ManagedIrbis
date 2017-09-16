@@ -11,13 +11,9 @@
 
 using AM;
 
-using CodeJam;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -46,7 +42,7 @@ namespace ManagedIrbis.Quality.Rules
 
             if (city != null)
             {
-                if (StringUtility.SafeContains(city.Value, ",", ";"))
+                if (city.Value.SafeContains(",", ";"))
                 {
                     AddDefect
                         (
@@ -57,7 +53,7 @@ namespace ManagedIrbis.Quality.Rules
                         );
                 }
 
-                if (StringUtility.SafeContains(city.Value, "б."))
+                if (city.Value.SafeContains("б."))
                 {
                     AddDefect
                         (
@@ -67,7 +63,7 @@ namespace ManagedIrbis.Quality.Rules
                             "Город Б. М. в подполе 210^a"
                         );
                 }
-                else if (StringUtility.SafeContains(city.Value, "."))
+                else if (city.Value.SafeContains("."))
                 {
                     AddDefect
                         (
@@ -81,7 +77,7 @@ namespace ManagedIrbis.Quality.Rules
 
             if (publisher != null)
             {
-                if (StringUtility.SafeContains(publisher.Value, ",", ";"))
+                if (publisher.Value.SafeContains(",", ";"))
                 {
                     AddDefect
                         (
@@ -92,7 +88,7 @@ namespace ManagedIrbis.Quality.Rules
                         );
                 }
 
-                if (StringUtility.SafeContains(publisher.Value, "б."))
+                if (publisher.Value.SafeContains("б."))
                 {
                     AddDefect
                         (
@@ -102,7 +98,7 @@ namespace ManagedIrbis.Quality.Rules
                             "Издательство Б. И. в подполе 210^c"
                         );
                 }
-                else if (StringUtility.SafeContains(publisher.Value, "."))
+                else if (publisher.Value.SafeContains("."))
                 {
                     AddDefect
                         (
@@ -116,7 +112,7 @@ namespace ManagedIrbis.Quality.Rules
 
             if (year != null)
             {
-                if (StringUtility.SafeContains(year.Value, "б."))
+                if (year.Value.SafeContains("б."))
                 {
                     AddDefect
                         (
@@ -143,13 +139,13 @@ namespace ManagedIrbis.Quality.Rules
 
         #region QualityRule members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="QualityRule.FieldSpec" />
         public override string FieldSpec
         {
             get { return "210"; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="QualityRule.CheckRecord" />
         public override RuleReport CheckRecord
             (
                 RuleContext context

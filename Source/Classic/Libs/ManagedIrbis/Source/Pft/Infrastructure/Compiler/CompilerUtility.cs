@@ -170,7 +170,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                     "CreateInstance",
                     BindingFlags.Public | BindingFlags.Static,
                     null,
-                    new Type[] { typeof(PftContext) },
+                    new [] { typeof(PftContext) },
                     null
                 );
 

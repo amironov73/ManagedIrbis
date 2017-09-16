@@ -13,14 +13,9 @@ using System.Text.RegularExpressions;
 
 using AM;
 
-using CodeJam;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
-
 
 #endregion
 
@@ -46,7 +41,7 @@ namespace ManagedIrbis.Quality.Rules
             SubField isbn = field.GetFirstSubField('a');
             if (isbn != null)
             {
-                if (StringUtility.SafeContains(isbn.Value, "(", " ", ".", ";", "--"))
+                if (isbn.Value.SafeContains("(", " ", ".", ";", "--"))
                 {
                     AddDefect
                         (
@@ -82,13 +77,13 @@ namespace ManagedIrbis.Quality.Rules
 
         #region QualityRule members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="QualityRule.FieldSpec" />
         public override string FieldSpec
         {
             get { return "10"; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="QualityRule.CheckRecord" />
         public override RuleReport CheckRecord
             (
                 RuleContext context
