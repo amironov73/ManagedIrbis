@@ -113,7 +113,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc cref="ICloneable.Clone" />
+        /// <inheritdoc cref="PftNode.Clone" />
         public override object Clone()
         {
             PftConditionNot result = (PftConditionNot) base.Clone();
@@ -187,7 +187,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 = (PftCondition) PftSerializer.DeserializeNullable(reader);
         }
 
-        /// <inheritdoc cref="PftNode.Execute" />
+        /// <inheritdoc cref="PftCondition.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -254,7 +254,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString"/>
+        /// <inheritdoc cref="PftNode.ToString"/>
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();

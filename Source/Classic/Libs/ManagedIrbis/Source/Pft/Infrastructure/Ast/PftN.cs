@@ -115,7 +115,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return string.IsNullOrEmpty(value);
         }
 
-        /// <inheritdoc cref="PftNode.Execute" />
+        /// <inheritdoc cref="PftField.Execute" />
         public override void Execute
             (
                 PftContext context

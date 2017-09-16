@@ -98,7 +98,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString" />
+        /// <inheritdoc cref="ValueType.ToString" />
         public override string ToString()
         {
             return ChildContext.ToString();

@@ -114,13 +114,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             compiler.MarkReady(this);
         }
 
-        /// <inheritdoc cref="PftNode.Execute" />
+        /// <inheritdoc cref="PftNumeric.Execute" />
         public override void Execute
             (
                 PftContext context
             )
         {
             OnBeforeExecution(context);
+
+            // Nothing to do here
 
             OnAfterExecution(context);
         }
@@ -138,7 +140,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString" />
+        /// <inheritdoc cref="PftNode.ToString" />
         public override string ToString()
         {
             return Value.ToInvariantString();

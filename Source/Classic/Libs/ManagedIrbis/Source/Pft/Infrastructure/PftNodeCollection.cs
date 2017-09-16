@@ -102,7 +102,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             base.ClearItems();
         }
 
-        /// <inheritdoc cref="Collection{T}.InsertItem" />
+        /// <inheritdoc cref="NonNullCollection{T}.InsertItem" />
         protected override void InsertItem
             (
                 int index,
@@ -123,7 +123,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             base.InsertItem(index, item);
         }
 
-        /// <inheritdoc cref="Collection{T}.SetItem" />
+        /// <inheritdoc cref="NonNullCollection{T}.SetItem" />
         protected override void SetItem
             (
                 int index,

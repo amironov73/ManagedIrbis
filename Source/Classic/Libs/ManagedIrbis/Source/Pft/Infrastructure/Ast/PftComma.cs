@@ -109,7 +109,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        /// <inheritdoc cref="PftNode.Optimize" />
         public override PftNode Optimize()
         {
             // Take the node away from the AST
@@ -117,7 +117,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return null;
         }
 
-        /// <inheritdoc cref="PftNode.Optimize" />
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
         public override void PrettyPrint
             (
                 PftPrettyPrinter printer
@@ -157,7 +157,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString"/>
+        /// <inheritdoc cref="PftNode.ToString"/>
         public override string ToString()
         {
             return ",";
