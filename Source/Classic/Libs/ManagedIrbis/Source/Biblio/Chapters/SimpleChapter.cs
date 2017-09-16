@@ -39,6 +39,8 @@ using Newtonsoft.Json;
 
 #endregion
 
+// ReSharper disable ForCanBeConvertedToForeach
+
 namespace ManagedIrbis.Biblio
 {
     /// <summary>

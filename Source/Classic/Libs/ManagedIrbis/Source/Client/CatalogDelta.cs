@@ -167,17 +167,17 @@ namespace ManagedIrbis.Client
             {
                 FirstDate = first.Date,
                 SecondDate = second.Date,
-                Database = first.Database
+                Database = first.Database,
+                NewRecords = secondRecords.Except
+                    (
+                        firstRecords,
+                        new RecordStateComparer.ByMfn()
+                    )
+                    .Select(state => state.Mfn)
+                    .Where(mfn => mfn != 0)
+                    .ToArray()
             };
 
-            result.NewRecords = secondRecords.Except
-                (
-                    firstRecords,
-                    new RecordStateComparer.ByMfn()
-                )
-                .Select(state => state.Mfn)
-                .Where(mfn => mfn != 0)
-                .ToArray();
 
             result.AlteredRecords = secondRecords.Except
                 (
@@ -186,7 +186,7 @@ namespace ManagedIrbis.Client
                 )
                 .Select(state => state.Mfn)
                 .Where(mfn => mfn != 0)
-                .Except(result.NewRecords)
+                .Except(result.NewRecords.ThrowIfNull("result.NewRecords"))
                 .ToArray();
 
             result.DeletedRecords 

@@ -32,6 +32,8 @@ using MoonSharp.Interpreter;
 
 #endregion
 
+// ReSharper disable ForCanBeConvertedToForeach
+
 namespace ManagedIrbis.Extensibility
 {
     /// <summary>

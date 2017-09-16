@@ -9,13 +9,10 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
 using AM;
-using AM.ConsoleIO;
 using AM.IO;
 using AM.Logging;
 
@@ -285,14 +282,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 string textValue = context.Evaluate(_tagProgram);
                 int integerValue = (int)_tagProgram.Value;
-                if (integerValue != 0)
-                {
-                    Tag = integerValue.ToInvariantString();
-                }
-                else
-                {
-                    Tag = textValue;
-                }
+                Tag = integerValue != 0
+                    ? integerValue.ToInvariantString()
+                    : textValue;
             }
 
             string subFieldSpecification = SubFieldSpecification;
@@ -477,7 +469,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc cref="ICloneable.Clone" />
+        /// <inheritdoc cref="PftNode.Clone" />
         public override object Clone()
         {
             PftField result = (PftField)base.Clone();
@@ -513,7 +505,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             base.CompareNode(otherNode);
 
-            PftField otherField = (PftField) otherNode;
+            PftField otherField = (PftField)otherNode;
             if (Command != otherField.Command
                 || Embedded != otherField.Embedded
                 || Indent != otherField.Indent

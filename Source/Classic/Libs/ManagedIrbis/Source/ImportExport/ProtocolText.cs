@@ -150,28 +150,13 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] RecordField field
             )
         {
-            int fieldNumber = field.Tag;
-            if (fieldNumber != 0)
-            {
-                builder.AppendFormat
-                    (
-                        "{0}#",
-                        fieldNumber
-                    );
-            }
-            else
-            {
-                builder.AppendFormat
-                    (
-                        "{0}#",
-                        field.Tag
-                    );
-            }
+            builder.AppendFormat
+                (
+                    "{0}#",
+                    field.Tag
+                );
 
-            if (!string.IsNullOrEmpty(field.Value))
-            {
-                builder.Append(field.Value);
-            }
+            builder.Append(field.Value);
 
             foreach (SubField subField in field.SubFields)
             {

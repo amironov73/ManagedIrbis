@@ -36,7 +36,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     {
         #region Properties
 
-        /// <inheritdoc cref="ExtendedSyntax" />
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
         {
             get { return true; }
@@ -111,7 +111,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             compiler.MarkReady(this);
         }
 
-        /// <inheritdoc cref="PftNode.Execute" />
+        /// <inheritdoc cref="PftNumeric.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -146,7 +146,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString" />
+        /// <inheritdoc cref="PftNode.ToString" />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();

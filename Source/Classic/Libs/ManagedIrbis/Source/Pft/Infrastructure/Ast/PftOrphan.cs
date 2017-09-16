@@ -9,7 +9,6 @@
 
 #region Using directives
 
-using AM;
 using AM.Logging;
 
 using JetBrains.Annotations;
@@ -32,7 +31,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     {
         #region Properties
 
-        /// <inheritdoc cref="PftNode.ComplexExpression" />
+        /// <inheritdoc cref="PftNode.ConstantExpression" />
         public override bool ConstantExpression
         {
             get { return true; }
@@ -98,7 +97,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc cref="PftNode.Optimize" />
+        /// <inheritdoc cref="PftField.Optimize" />
         public override PftNode Optimize()
         {
             // Take the node away from the AST

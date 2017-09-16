@@ -439,14 +439,9 @@ namespace ManagedIrbis
 #endif
 
                     entry.Description = parts[0];
-                    if (parts.Length > 1)
-                    {
-                        entry.Data = parts[1];
-                    }
-                    else
-                    {
-                        entry.Data = string.Empty;
-                    }
+                    entry.Data = parts.Length > 1
+                        ? parts[1]
+                        : string.Empty;
                 }
             }
 

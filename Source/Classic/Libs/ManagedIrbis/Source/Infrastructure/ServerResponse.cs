@@ -278,14 +278,12 @@ namespace ManagedIrbis.Infrastructure
             for (; index < count; index++)
             {
                 line = GetAnsiString();
-                if (ReferenceEquals(line, null))
-                {
-                    result.Add(string.Empty);
-                }
-                else
-                {
-                    result.Add(line);
-                }
+                result.Add
+                    (
+                        ReferenceEquals(line, null)
+                        ? string.Empty
+                        : line
+                    );
             }
 
             return result.ToArray();

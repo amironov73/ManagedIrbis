@@ -11,8 +11,6 @@
 
 using CodeJam;
 
-using ManagedIrbis.Client;
-
 #endregion
 
 namespace ManagedIrbis.Search.Infrastructure
@@ -37,7 +35,7 @@ namespace ManagedIrbis.Search.Infrastructure
 
         #region ISearchTree members
 
-        /// <inheritdoc cref="ISearchTree.Find"/>
+        /// <inheritdoc cref="ComplexLevel{T}.Find"/>
         public override TermLink[] Find
             (
                 SearchContext context
@@ -54,7 +52,7 @@ namespace ManagedIrbis.Search.Infrastructure
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString" />
+        /// <inheritdoc cref="ComplexLevel{T}.ToString" />
         public override string ToString()
         {
             SearchLevel6 item = Items[0];
