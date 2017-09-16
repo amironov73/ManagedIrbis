@@ -35,19 +35,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     {
         #region Private members
 
-        private static string[] monthNames1 =
+        private static readonly string[] monthNames1 =
         {
             "январь", "февраль", "март", "апрель", "май", "июнь",
             "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь"
         };
 
-        private static string[] monthNames2 =
+        private static readonly string[] monthNames2 =
         {
             "января", "февраля", "марта", "апреля", "мая", "июня",
             "июля", "августа", "сентября", "октября", "ноября", "декабря"
         };
 
-        private static string[] monthNames3 =
+        private static readonly string[] monthNames3 =
         {
             "january", "february", "march", "april", "may", "june",
             "july", "august", "september", "october", "november", "december"

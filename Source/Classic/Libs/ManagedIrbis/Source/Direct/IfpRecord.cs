@@ -29,6 +29,8 @@ using Newtonsoft.Json;
 
 #endregion
 
+// ReSharper disable MemberCanBePrivate.Local
+
 namespace ManagedIrbis.Direct
 {
     //

@@ -73,7 +73,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
 #else
 
-            Type type = Type.GetType(className, true, true);
+            Type type = Type.GetType(className, true, true)
+                .ThrowIfNull("Type.GetType");
             string name = Guid.NewGuid().ToString("N");
             OuterObject result 
                 = (OuterObject) Activator.CreateInstance(type, name);

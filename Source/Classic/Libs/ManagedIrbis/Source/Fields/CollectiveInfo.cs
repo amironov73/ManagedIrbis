@@ -50,7 +50,6 @@ namespace ManagedIrbis.Fields
         /// Known tags.
         /// </summary>
         [NotNull]
-        [ItemNotNull]
         public static int[] KnownTags { get { return _knownTags; } }
 
         /// <summary>

@@ -61,7 +61,7 @@ namespace ManagedIrbis.Infrastructure
             throw new NotImplementedException();
 #else
 
-            Type type = Type.GetType(typeName, true);
+            Type type = Type.GetType(typeName, true).ThrowIfNull("Type.GetType");
             AbstractClientSocket result
                 = (AbstractClientSocket)Activator.CreateInstance
                 (

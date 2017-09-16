@@ -279,7 +279,7 @@ namespace ManagedIrbis
         protected override void InsertItem
             (
                 int index,
-                [NotNull] SubField item
+                SubField item
             )
         {
             ThrowIfReadOnly();
@@ -318,7 +318,7 @@ namespace ManagedIrbis
         protected override void SetItem
             (
                 int index,
-                [NotNull] SubField item
+                SubField item
             )
         {
             ThrowIfReadOnly();

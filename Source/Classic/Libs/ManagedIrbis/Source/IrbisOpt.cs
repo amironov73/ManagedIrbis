@@ -127,13 +127,13 @@ namespace ManagedIrbis
             /// <summary>
             /// Ключ.
             /// </summary>
-            [NotNull]
+            [CanBeNull]
             public string Key { get; set; }
 
             /// <summary>
             /// Значение.
             /// </summary>
-            [NotNull]
+            [CanBeNull]
             public string Value { get; set; }
 
             #endregion
@@ -461,7 +461,7 @@ namespace ManagedIrbis
             {
                 if (item.Compare(tagValue))
                 {
-                    return item.Value;
+                    return item.Value.ThrowIfNull("item.Value");
                 }
             }
 
@@ -512,7 +512,8 @@ namespace ManagedIrbis
                 writer.WriteLine
                     (
                         "{0} {1}",
-                        item.Key.PadRight(WorksheetLength),
+                        item.Key.ThrowIfNull("item.Key")
+                            .PadRight(WorksheetLength),
                         item.Value
                     );
             }
@@ -592,14 +593,15 @@ namespace ManagedIrbis
             {
                 result = Items.All
                     (
-                        item => item.Key.Length <= WorksheetLength
+                        item => item.Key.ThrowIfNull("item.Key")
+                            .Length <= WorksheetLength
                     );
             }
 
             if (result)
             {
                 result = Items
-                    .GroupBy(item => item.Key.ToUpper())
+                    .GroupBy(item => item.Key.ThrowIfNull("item.Key").ToUpper())
                     .Count(grp => grp.Count() > 1)
                     == 0;
             }
@@ -622,17 +624,21 @@ namespace ManagedIrbis
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             _items = reader.ReadNonNullCollection<Item>();
             WorksheetLength = reader.ReadPackedInt32();
             WorksheetTag = reader.ReadPackedInt32();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer.Write(Items);
             writer.WritePackedInt32(WorksheetLength);
             writer.WritePackedInt32(WorksheetTag);

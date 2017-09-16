@@ -186,7 +186,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             return string.Empty;
         }
 
-        [NotNull]
         internal static void Write
             (
                 [NotNull] string fileName,
@@ -201,7 +200,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
-        [NotNull]
         internal static void WriteLine
             (
                 [NotNull] string fileName,

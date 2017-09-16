@@ -145,8 +145,8 @@ namespace ManagedIrbis.Reports
         /// <inheritdoc cref="ReportBand.RenderOnce(ReportContext,PftFormatter)"/>
         public override void RenderOnce
             (
-                [NotNull] ReportContext context,
-                [CanBeNull] PftFormatter formatter
+                ReportContext context,
+                PftFormatter formatter
             )
         {
             Code.NotNull(context, "context");

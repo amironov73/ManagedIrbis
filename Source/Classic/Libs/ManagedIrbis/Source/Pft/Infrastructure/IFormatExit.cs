@@ -42,7 +42,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         void Execute
             (
                 [NotNull] PftContext context,
-                [NotNull] PftNode node,
+                [CanBeNull] PftNode node,
                 [CanBeNull] string expression
             );
     }

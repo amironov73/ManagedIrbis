@@ -61,7 +61,11 @@ namespace ManagedIrbis.Quality.Rules
             SubField price = field.GetFirstSubField('d');
             if (price != null)
             {
-                if (!Regex.IsMatch(price.Value, @"\d+\.\d{2}"))
+                if (!Regex.IsMatch
+                    (
+                        price.Value.ThrowIfNull("price.Value"),
+                        @"\d+\.\d{2}"
+                    ))
                 {
                     AddDefect
                         (

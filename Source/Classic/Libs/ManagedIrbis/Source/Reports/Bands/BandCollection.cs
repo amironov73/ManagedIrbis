@@ -237,7 +237,7 @@ namespace ManagedIrbis.Reports
         protected override void InsertItem
             (
                 int index,
-                [NotNull] T item
+                T item
             )
         {
             ThrowIfReadOnly();
@@ -274,7 +274,7 @@ namespace ManagedIrbis.Reports
         protected override void SetItem
             (
                 int index,
-                [NotNull] T item
+                T item
             )
         {
             ThrowIfReadOnly();

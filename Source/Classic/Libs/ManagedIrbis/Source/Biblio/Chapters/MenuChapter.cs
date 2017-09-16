@@ -11,18 +11,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Logging;
-using AM.Runtime;
-using AM.Text;
 using AM.Text.Output;
 
 using CodeJam;
@@ -176,7 +167,8 @@ namespace ManagedIrbis.Biblio
                 {
                     className = "ManagedIrbis.Biblio." + className;
                 }
-                Type type = Type.GetType(className, true);
+                Type type = Type.GetType(className, true)
+                    .ThrowIfNull("Type.GetType");
                 result = (MenuSubChapter) Activator.CreateInstance(type);
             }
             result.Key = key;

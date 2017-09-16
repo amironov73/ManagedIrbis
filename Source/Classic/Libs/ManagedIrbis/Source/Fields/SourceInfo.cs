@@ -428,6 +428,16 @@ namespace ManagedIrbis.Fields
         [DisplayName("Поле 963")]
         public RecordField Field963 { get; private set; }
 
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Description("Пользовательские данные")]
+        [DisplayName("Пользовательские данные")]
+        public object UserData { get; set; }
+
         #endregion
 
         #region Construction
