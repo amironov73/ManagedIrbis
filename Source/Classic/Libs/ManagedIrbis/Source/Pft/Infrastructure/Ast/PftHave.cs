@@ -9,11 +9,9 @@
 
 #region Using directives
 
-using System;
 using System.IO;
 
 using AM.IO;
-using AM.Logging;
 
 using CodeJam;
 
@@ -92,7 +90,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc cref="ICloneable.Clone" />
+        /// <inheritdoc cref="PftNode.Clone" />
         public override object Clone()
         {
             PftHave result = (PftHave) base.Clone();
@@ -122,7 +120,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Identifier = reader.ReadNullableString();
         }
 
-        /// <inheritdoc cref="PftNode.Execute" />
+        /// <inheritdoc cref="PftCondition.Execute" />
         public override void Execute
             (
                 PftContext context

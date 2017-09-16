@@ -9,19 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -76,7 +63,7 @@ namespace ManagedIrbis.Reports
 
         #region ReportCell
 
-        /// <inheritdoc cref="ReportCell.Compute"/>
+        /// <inheritdoc cref="TextCell.Compute"/>
         public override string Compute
             (
                 ReportContext context
@@ -93,7 +80,7 @@ namespace ManagedIrbis.Reports
             return result;
         }
 
-        /// <inheritdoc cref="ReportCell.Render" />
+        /// <inheritdoc cref="TextCell.Render" />
         public override void Render
             (
                 ReportContext context

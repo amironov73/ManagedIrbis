@@ -74,7 +74,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc cref="PftNode.Execute" />
+        /// <inheritdoc cref="PftNumeric.Execute" />
         public override void Execute
             (
                 PftContext context

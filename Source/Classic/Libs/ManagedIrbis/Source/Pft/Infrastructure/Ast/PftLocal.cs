@@ -9,7 +9,6 @@
 
 #region Using directives
 
-using System;
 using System.IO;
 using System.Text;
 
@@ -102,7 +101,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region ICloneable members
 
-        /// <inheritdoc cref="ICloneable.Clone" />
+        /// <inheritdoc cref="PftNode.Clone" />
         public override object Clone()
         {
             PftLocal result = (PftLocal) base.Clone();

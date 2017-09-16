@@ -97,7 +97,7 @@ namespace ManagedIrbis.Reports
 
         #region IVerifiable members
 
-        /// <inheritdoc cref="IVerifiable.Verify"/>
+        /// <inheritdoc cref="CompositeBand.Verify"/>
         public override bool Verify
             (
                 bool throwOnError

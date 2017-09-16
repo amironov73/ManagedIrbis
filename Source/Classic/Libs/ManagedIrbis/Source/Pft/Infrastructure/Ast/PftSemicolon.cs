@@ -108,7 +108,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString"/>
+        /// <inheritdoc cref="PftNode.ToString"/>
         public override string ToString()
         {
             return ";";
