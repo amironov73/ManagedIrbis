@@ -11,6 +11,8 @@
 
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Xml;
 using System.Xml.Serialization;
 
 using AM;
@@ -24,6 +26,7 @@ using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Formatting = Newtonsoft.Json.Formatting;
 
 #endregion
 
@@ -89,9 +92,7 @@ namespace ManagedIrbis.Menus
             }
             else
             {
-                string textValue =
-                    ConversionUtility
-                        .ConvertTo<string>(value);
+                string textValue = ConversionUtility.ConvertTo<string>(value);
                 menu.Add(code, textValue);
             }
 
@@ -110,11 +111,11 @@ namespace ManagedIrbis.Menus
         {
             return menu.Entries
                 .Where
-                (
-                    entry => entry.Code.SameString(code)
-                             || MenuFile.TrimCode(entry.Code)
-                                 .SameString(code)
-                )
+                    (
+                        entry => entry.Code.SameString(code)
+                                 || MenuFile.TrimCode(entry.Code.ThrowIfNull("entry.Code"))
+                                     .SameString(code)
+                    )
                 .Select(entry => entry.Comment)
                 .ToArray();
         }
@@ -264,7 +265,7 @@ namespace ManagedIrbis.Menus
 
             foreach (MenuEntry entry in menu.Entries)
             {
-                entry.Code = entry.Code.Trim();
+                entry.Code = entry.Code.ThrowIfNull("entryCode").Trim();
             }
 
             foreach (MenuEntry first in menu.Entries)
@@ -326,12 +327,22 @@ namespace ManagedIrbis.Menus
         {
             Code.NotNull(menu, "menu");
 
-            XmlSerializer serializer
-                = new XmlSerializer(typeof(MenuFile));
-            StringWriter writer = new StringWriter();
-            serializer.Serialize(writer, menu);
+            XmlWriterSettings settings = new XmlWriterSettings
+            {
+                OmitXmlDeclaration = true,
+                Indent = false,
+                NewLineHandling = NewLineHandling.None
+            };
+            StringBuilder output = new StringBuilder();
+            XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
+            namespaces.Add(string.Empty, string.Empty);
+            using (XmlWriter writer = XmlWriter.Create(output, settings))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(MenuFile));
+                serializer.Serialize(writer, menu, namespaces);
+            }
 
-            return writer.ToString();
+            return output.ToString();
         }
 
 #endif

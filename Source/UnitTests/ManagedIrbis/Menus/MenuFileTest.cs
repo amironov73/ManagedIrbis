@@ -9,7 +9,7 @@ using ManagedIrbis.Menus;
 namespace UnitTests.ManagedIrbis.Menus
 {
     [TestClass]
-    public class IrbisMenuFileTest
+    public class MenuFileTest
         : Common.CommonUnitTest
     {
         private void _CompareMenu
@@ -62,7 +62,7 @@ namespace UnitTests.ManagedIrbis.Menus
         }
 
         [TestMethod]
-        public void TestIrbisMenuFileConstruction()
+        public void MenuFile_Constructor_1()
         {
             MenuFile menu = _GetMenu();
 
@@ -74,7 +74,7 @@ namespace UnitTests.ManagedIrbis.Menus
         }
 
         [TestMethod]
-        public void TestIrbisMenuFileLoadLocalFile()
+        public void MenuFile_LoadLocalFile_1()
         {
             string fileName = Path.Combine
                 (
@@ -92,7 +92,7 @@ namespace UnitTests.ManagedIrbis.Menus
         }
 
         [TestMethod]
-        public void TestIrbisMenuFileSerialization()
+        public void MenuFile_Serialization_1()
         {
             MenuFile menu = new MenuFile();
 
@@ -100,7 +100,7 @@ namespace UnitTests.ManagedIrbis.Menus
         }
 
         [TestMethod]
-        public void TestIrbisMenuFileToJson()
+        public void MenuFile_ToJson_1()
         {
             MenuFile menu = _GetMenu();
 
@@ -113,7 +113,7 @@ namespace UnitTests.ManagedIrbis.Menus
         }
 
         [TestMethod]
-        public void TestIrbisMenuFileFromJson()
+        public void MenuFile_FromJson_1()
         {
             string text = "[{'code':'a','comment':'Comment for a'},{'code':'b','comment':'Comment for b'},{'code':'c','comment':'Comment for c'}]"
                 .Replace("'", "\"");
@@ -125,7 +125,7 @@ namespace UnitTests.ManagedIrbis.Menus
         }
 
         [TestMethod]
-        public void TestIrbisMenuFileParseLocalJsonFile()
+        public void MenuFile_ParseLocalJsonFile_1()
         {
             string fileName = Path.Combine
                 (
@@ -141,14 +141,14 @@ namespace UnitTests.ManagedIrbis.Menus
         }
 
         [TestMethod]
-        public void TestIrbisMenuToXml()
+        public void MenuFile_ToXml_1()
         {
             MenuFile menu = _GetMenu();
 
             string actual = menu.ToXml()
                 .Replace("\r", "").Replace("\n", "")
                 .Replace("\"", "'");
-            string expected = "<?xml version='1.0' encoding='utf-16'?><menu xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>  <entry code='a' comment='Comment for a' />  <entry code='b' comment='Comment for b' />  <entry code='c' comment='Comment for c' /></menu>";
+            string expected = "<menu><entry code='a' comment='Comment for a' /><entry code='b' comment='Comment for b' /><entry code='c' comment='Comment for c' /></menu>";
 
             Assert.AreEqual(expected, actual);
         }

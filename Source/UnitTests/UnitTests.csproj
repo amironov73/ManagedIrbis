@@ -271,6 +271,7 @@
     <Compile Include="ManagedIrbis\LocalizationManagerTest.cs" />
     <Compile Include="ManagedIrbis\Menus\MenuEntryTest.cs" />
     <Compile Include="ManagedIrbis\Menus\MenuSpecificationTest.cs" />
+    <Compile Include="ManagedIrbis\Menus\MenuUtilityTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftMaskTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftNodeTest1.cs" />
     <Compile Include="ManagedIrbis\Pft\PftUtilityTest.cs" />
@@ -280,7 +281,7 @@
     <Compile Include="ManagedIrbis\Search\KeywordPermutatorTest.cs" />
     <Compile Include="ManagedIrbis\Mapping\SubFieldMapperTest.cs" />
     <Compile Include="ManagedIrbis\Marc\Schema\MarcSchemaTest.cs" />
-    <Compile Include="ManagedIrbis\Menus\IrbisMenuFileTest.cs" />
+    <Compile Include="ManagedIrbis\Menus\MenuFileTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\ClientQueryTest.cs" />
     <Compile Include="ManagedIrbis\Morphology\WordShortenerTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\FieldSpecificationTest.cs" />

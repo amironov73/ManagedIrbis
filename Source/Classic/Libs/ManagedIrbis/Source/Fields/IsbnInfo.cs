@@ -237,7 +237,7 @@ namespace ManagedIrbis.Fields
         {
 #if SILVERLIGHT
 
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
 
 #else
 
@@ -260,7 +260,7 @@ namespace ManagedIrbis.Fields
         {
 #if SILVERLIGHT
 
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
 
 #else
 
