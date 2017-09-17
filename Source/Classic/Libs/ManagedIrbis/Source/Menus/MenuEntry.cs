@@ -12,6 +12,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
+
 using AM;
 using AM.IO;
 using AM.Runtime;
@@ -41,12 +42,10 @@ namespace ManagedIrbis.Menus
         /// <summary>
         /// First line -- the code.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
         [XmlAttribute("code")]
         [JsonProperty("code")]
-        // ReSharper disable NotNullMemberIsNotInitialized
         public string Code { get; set; }
-        // ReSharper restore NotNullMemberIsNotInitialized
 
         /// <summary>
         /// Second line -- the comment.
@@ -74,10 +73,8 @@ namespace ManagedIrbis.Menus
                 BinaryReader reader
             )
         {
-            // ReSharper disable AssignNullToNotNullAttribute
             Code = reader.ReadNullableString();
             Comment = reader.ReadNullableString();
-            // ReSharper restore AssignNullToNotNullAttribute
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
