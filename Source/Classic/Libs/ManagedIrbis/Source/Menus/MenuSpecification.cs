@@ -10,6 +10,7 @@
 #region Using directives
 
 using System.IO;
+using System.Xml.Serialization;
 
 using AM;
 using AM.IO;
@@ -23,6 +24,8 @@ using JetBrains.Annotations;
 using ManagedIrbis.Infrastructure;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -51,6 +54,7 @@ namespace ManagedIrbis.Menus
     /// 
     /// </summary>
     [PublicAPI]
+    [XmlRoot("menu")]
     [MoonSharpUserData]
     public sealed class MenuSpecification
         : IHandmadeSerializable,
@@ -62,22 +66,30 @@ namespace ManagedIrbis.Menus
         /// File name (with extension).
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("file")]
+        [JsonProperty("file")]
         public string FileName { get; set; }
 
         /// <summary>
         /// Database name.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("db")]
+        [JsonProperty("db")]
         public string Database { get; set; }
 
         /// <summary>
         /// Path.
         /// </summary>
+        [XmlAttribute("path")]
+        [JsonProperty("path")]
         public IrbisPath Path { get; set; }
 
         /// <summary>
         /// Sort mode.
         /// </summary>
+        [XmlAttribute("sort")]
+        [JsonProperty("sort")]
         public int SortMode { get; set; }
 
         #endregion
@@ -131,11 +143,17 @@ namespace ManagedIrbis.Menus
             {
                 TextNavigator navigator = new TextNavigator(text);
                 result.FileName = navigator.ReadUntil('\\');
+                if (navigator.PeekChar() == '\\')
+                {
+                    navigator.ReadChar();
+                }
                 if (!navigator.IsEOF)
                 {
                     string db = navigator.ReadUntil('\\');
-
-                    // TODO: implement properly
+                    if (navigator.PeekChar() == '\\')
+                    {
+                        navigator.ReadChar();
+                    }
 
                     result.Database = db; 
 
@@ -150,6 +168,22 @@ namespace ManagedIrbis.Menus
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="Database"/> field?
+        /// </summary>
+        public bool ShouldSerializeDatabase()
+        {
+            return !string.IsNullOrEmpty(Database);
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="SortMode"/> field?
+        /// </summary>
+        public bool ShouldSerializeSortMode()
+        {
+            return SortMode != 0;
         }
 
         /// <summary>
@@ -172,7 +206,7 @@ namespace ManagedIrbis.Menus
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -186,7 +220,7 @@ namespace ManagedIrbis.Menus
             SortMode = reader.ReadPackedInt32();
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -205,7 +239,7 @@ namespace ManagedIrbis.Menus
 
         #region IVerifiable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
@@ -228,7 +262,7 @@ namespace ManagedIrbis.Menus
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return FileName.ToVisibleString();

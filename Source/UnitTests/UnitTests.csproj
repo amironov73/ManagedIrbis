@@ -270,6 +270,7 @@
     <Compile Include="ManagedIrbis\IrbisUpperCaseTableTest.cs" />
     <Compile Include="ManagedIrbis\LocalizationManagerTest.cs" />
     <Compile Include="ManagedIrbis\Menus\MenuEntryTest.cs" />
+    <Compile Include="ManagedIrbis\Menus\MenuSpecificationTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftMaskTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftNodeTest1.cs" />
     <Compile Include="ManagedIrbis\Pft\PftUtilityTest.cs" />
