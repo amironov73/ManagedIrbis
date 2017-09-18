@@ -9,16 +9,13 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
+
 using AM;
 using AM.IO;
 using AM.Runtime;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
