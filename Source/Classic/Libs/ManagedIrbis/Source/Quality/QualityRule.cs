@@ -131,7 +131,7 @@ namespace ManagedIrbis.Quality
             FieldDefect defect = new FieldDefect
             {
                 Field = field.Tag,
-                FieldRepeat = field.Repeat,
+                Repeat = field.Repeat,
                 Value = field.ToText(),
                 Damage = damage,
                 Message = string.Format(format, args)
@@ -159,7 +159,7 @@ namespace ManagedIrbis.Quality
             FieldDefect defect = new FieldDefect
             {
                 Field = field.Tag,
-                FieldRepeat = field.Repeat,
+                Repeat = field.Repeat,
                 Subfield = subfield.Code.ToString(),
                 Value = subfield.Value,
                 Damage = damage,

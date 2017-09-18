@@ -307,6 +307,32 @@ namespace AM.Json
 
 #endif
 
+        /// <summary>
+        /// Serialize to short string.
+        /// </summary>
+        [NotNull]
+        public static string SerializeShort
+            (
+                [NotNull] object obj
+            )
+        {
+            Code.NotNull(obj, "obj");
+
+            JsonSerializer serializer = new JsonSerializer
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            };
+            StringWriter textWriter = new StringWriter();
+            JsonWriter jsonWriter = new JsonTextWriter(textWriter)
+            {
+                Formatting = Formatting.None,
+                QuoteChar = '\''
+            };
+            serializer.Serialize(jsonWriter, obj);
+
+            return textWriter.ToString();
+        }
+
         #endregion
     }
 }

@@ -9,8 +9,10 @@
 
 #region Using directives
 
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Xml.Serialization;
 
 using AM;
 using AM.IO;
@@ -33,6 +35,7 @@ namespace ManagedIrbis.Quality
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [XmlRoot("defect")]
     [DebuggerDisplay("Field={Field} Value={Value} Message={Message}")]
     public sealed class FieldDefect
         : IHandmadeSerializable,
@@ -43,19 +46,23 @@ namespace ManagedIrbis.Quality
         /// <summary>
         /// Поле.
         /// </summary>
+        [XmlAttribute("field")]
         [JsonProperty("field")]
+
         public int Field { get; set; }
 
         /// <summary>
         /// Повторение поля.
         /// </summary>
-        [JsonProperty("field-repeat")]
-        public int FieldRepeat { get; set; }
+        [XmlAttribute("repeat")]
+        [JsonProperty("repeat")]
+        public int Repeat { get; set; }
 
         /// <summary>
         /// Подполе (если есть).
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("subfield")]
         [JsonProperty("subfield")]
         public string Subfield { get; set; }
 
@@ -70,20 +77,59 @@ namespace ManagedIrbis.Quality
         /// Сообщение об ошибке.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("message")]
         [JsonProperty("message")]
         public string Message { get; set; }
 
         /// <summary>
         /// Урон от дефекта.
         /// </summary>
+        [XmlAttribute("damage")]
         [JsonProperty("damage")]
         public int Damage { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Should serialize <see cref="Damage"/> field?
+        /// </summary>
+        public bool ShouldSerializeDamage()
+        {
+            return Damage != 0;
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="Repeat"/> field?
+        /// </summary>
+        public bool ShouldSerializeRepeat()
+        {
+            return Repeat != 0;
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="Subfield"/> field?
+        /// </summary>
+        public bool ShouldSerializeSubfield()
+        {
+            return !string.IsNullOrEmpty(Subfield);
+        }
 
         #endregion
 
         #region IHandmadeSerializable
 
-        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -92,14 +138,14 @@ namespace ManagedIrbis.Quality
             Code.NotNull(reader, "reader");
 
             Field = reader.ReadPackedInt32();
-            FieldRepeat = reader.ReadPackedInt32();
+            Repeat = reader.ReadPackedInt32();
             Subfield = reader.ReadNullableString();
             Value = reader.ReadNullableString();
             Message = reader.ReadNullableString();
             Damage = reader.ReadPackedInt32();
         }
 
-        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -109,7 +155,7 @@ namespace ManagedIrbis.Quality
 
             writer
                 .WritePackedInt32(Field)
-                .WritePackedInt32(FieldRepeat)
+                .WritePackedInt32(Repeat)
                 .WriteNullable(Subfield)
                 .WriteNullable(Value)
                 .WriteNullable(Message)
@@ -120,7 +166,7 @@ namespace ManagedIrbis.Quality
 
         #region IVerifiable members
 
-        /// <inheritdoc cref="IVerifiable.Verify"/>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
@@ -131,7 +177,7 @@ namespace ManagedIrbis.Quality
 
             verifier
                 .Positive(Field, "Field")
-                .Assert(FieldRepeat >= 0, "FieldRepeat")
+                .Assert(Repeat >= 0, "Repeat")
                 .NotNullNorEmpty(Message, "Message")
                 .Assert(Damage >= 0, "Damage");
 
@@ -142,15 +188,15 @@ namespace ManagedIrbis.Quality
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString"/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format
                 (
                     "Field: {0}, Value: {1}, Message: {2}",
                     Field,
-                    Value,
-                    Message
+                    Value.ToVisibleString(),
+                    Message.ToVisibleString()
                );
         }
 

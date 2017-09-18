@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -349,8 +350,37 @@ namespace AM.Xml
                        : (T)Enum.Parse(typeof(T), value);
         }
 
+        /// <summary>
+        /// Serialize to string without standard
+        /// XML header and namespaces.
+        /// </summary>
+        [NotNull]
+        public static string SerializeShort
+            (
+                [NotNull] object obj
+            )
+        {
+            Code.NotNull(obj, "obj");
 
-#endregion
+            XmlWriterSettings settings = new XmlWriterSettings
+            {
+                OmitXmlDeclaration = true,
+                Indent = false,
+                NewLineHandling = NewLineHandling.None
+            };
+            StringBuilder output = new StringBuilder();
+            XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
+            namespaces.Add(string.Empty, string.Empty);
+            using (XmlWriter writer = XmlWriter.Create(output, settings))
+            {
+                XmlSerializer serializer = new XmlSerializer(obj.GetType());
+                serializer.Serialize(writer, obj, namespaces);
+            }
+
+            return output.ToString();
+        }
+
+        #endregion
     }
 }
 
