@@ -275,6 +275,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftMaskTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftNodeTest1.cs" />
     <Compile Include="ManagedIrbis\Pft\PftUtilityTest.cs" />
+    <Compile Include="ManagedIrbis\Quality\QualityRuleTest.cs" />
     <Compile Include="ManagedIrbis\RawRecordTest.cs" />
     <Compile Include="ManagedIrbis\RecordComparatorTest.cs" />
     <Compile Include="ManagedIrbis\Reports\IrbisReportTest.cs" />

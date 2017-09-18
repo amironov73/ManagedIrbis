@@ -10,7 +10,9 @@
 #region Using directives
 
 using System;
+using System.ComponentModel;
 using System.Linq;
+using System.Xml.Serialization;
 
 using AM;
 
@@ -42,48 +44,73 @@ namespace ManagedIrbis.Quality
         /// Specification of the fields to check.
         /// </summary>
         [NotNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
         public abstract string FieldSpec { get; }
 
         /// <summary>
         /// Клиент.
         /// </summary>
         [NotNull]
+        [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public IrbisConnection Connection
         {
-            get { return Context.Connection; }
+            get { return Context.ThrowIfNull("Context").Connection; }
         }
 
         /// <summary>
         /// Текущий контекст.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
+        [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public RuleContext Context { get; protected set; }
 
         /// <summary>
         /// Текущая проверяемая запись.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
+        [XmlIgnore]
         [JsonIgnore]
-        public MarcRecord Record { get { return Context.Record; } }
+        [Browsable(false)]
+        public MarcRecord Record
+        {
+            get { return Context.ThrowIfNull("Context").Record; }
+        }
 
         /// <summary>
         /// Накопленный отчёт.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
+        [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public RuleReport Report { get; protected set; }
 
         /// <summary>
         /// Рабочий лист.
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public string Worksheet
         {
-            get { return Record.FM(920); }
+            get { return Record.ThrowIfNull("Record").FM(920); }
         }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
 
         #endregion
 
@@ -110,7 +137,7 @@ namespace ManagedIrbis.Quality
                 Damage = damage,
                 Message = string.Format(format, args)
             };
-            Report.Defects.Add(defect);
+            Report.ThrowIfNull("Report").Defects.Add(defect);
         }
 
         /// <summary>
@@ -136,7 +163,7 @@ namespace ManagedIrbis.Quality
                 Damage = damage,
                 Message = string.Format(format, args)
             };
-            Report.Defects.Add(defect);
+            Report.ThrowIfNull("Report").Defects.Add(defect);
         }
 
         /// <summary>
@@ -165,7 +192,7 @@ namespace ManagedIrbis.Quality
                 Damage = damage,
                 Message = string.Format(format, args)
             };
-            Report.Defects.Add(defect);
+            Report.ThrowIfNull("Report").Defects.Add(defect);
         }
 
         /// <summary>
@@ -420,10 +447,10 @@ namespace ManagedIrbis.Quality
         [NotNull]
         protected RuleReport EndCheck()
         {
-            Report.Damage = Report.Defects
-                .Sum(defect => defect.Damage);
+            RuleReport result = Report.ThrowIfNull("Report");
+            result.Damage = result.Defects.Sum(defect => defect.Damage);
 
-            return Report;
+            return result;
         }
 
         /// <summary>
@@ -469,7 +496,7 @@ namespace ManagedIrbis.Quality
         [NotNull]
         protected RecordField[] GetFields()
         {
-            return Record.Fields
+            return Record.ThrowIfNull("Record").Fields
                 .GetFieldBySpec(FieldSpec);
         }
 
