@@ -52,7 +52,6 @@ namespace UnitTests.ManagedIrbis.Quality
             RuleReport report = new RuleReport();
             _TestSerialization(report);
 
-
             report.UserData = "User data";
             _TestSerialization(report);
 

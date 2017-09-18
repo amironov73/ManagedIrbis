@@ -74,7 +74,7 @@ namespace ManagedIrbis.Quality
                         first.Defects.Concat(second.Defects)
                     ),
                 Description = first.Description,
-                Gold = first.Gold + second.Gold - 1000,
+                Quality = first.Quality + second.Quality - 1000,
                 Mfn = first.Mfn,
                 Index = first.Index
             };
@@ -97,10 +97,10 @@ namespace ManagedIrbis.Quality
             RecordReport result = new RecordReport
             {
                 Description = context.Connection.FormatRecord
-                (
-                    context.BriefFormat,
-                    context.Record.Mfn
-                ),
+                    (
+                        context.BriefFormat,
+                        context.Record.Mfn
+                    ),
                 Index = context.Record.FM(903),
                 Mfn = context.Record.Mfn
             };
@@ -109,20 +109,20 @@ namespace ManagedIrbis.Quality
                     context.Record
                 );
 
-            result.Gold = 1000;
+            result.Quality = 1000;
             int bonus = 0;
 
             foreach (QualityRule rule in Rules)
             {
                 RuleReport oneReport = rule.CheckRecord(context);
                 result.Defects.AddRange(oneReport.Defects);
-                result.Gold -= oneReport.Damage;
+                result.Quality -= oneReport.Damage;
                 bonus += oneReport.Bonus;
             }
 
-            if (result.Gold >= 900)
+            if (result.Quality >= 900)
             {
-                result.Gold += bonus;
+                result.Quality += bonus;
             }
 
             return result;

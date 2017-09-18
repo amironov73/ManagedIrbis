@@ -11,8 +11,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
-
+using System.Xml.Serialization;
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -32,6 +34,7 @@ namespace ManagedIrbis.Quality
     /// Отчёт о проверке записи.
     /// </summary>
     [PublicAPI]
+    [XmlRoot("report")]
     [MoonSharpUserData]
     public sealed class RecordReport
         : IHandmadeSerializable
@@ -41,21 +44,27 @@ namespace ManagedIrbis.Quality
         /// <summary>
         /// MFN записи.
         /// </summary>
+        [XmlAttribute("mfn")]
         [JsonProperty("mfn")]
+        [DisplayName("MFN")]
         public int Mfn { get; set; }
 
         /// <summary>
         /// Шифр записи.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("index")]
         [JsonProperty("index")]
+        [DisplayName("Шифр")]
         public string Index { get; set; }
 
         /// <summary>
         /// Краткое БО.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("description")]
         [JsonProperty("description")]
+        [DisplayName("Описание")]
         public string Description { get; set; }
 
         /// <summary>
@@ -63,21 +72,34 @@ namespace ManagedIrbis.Quality
         /// </summary>
         [NotNull]
         [ItemNotNull]
+        [XmlElement("defect")]
         [JsonProperty("defects")]
+        [DisplayName("Дефекты")]
         public DefectList Defects { get; internal set; }
 
         /// <summary>
         /// Формальная оценка качества.
         /// </summary>
-        [JsonProperty("gold")]
-        public int Gold { get; set; }
+        [XmlAttribute("quality")]
+        [JsonProperty("quality")]
+        [DisplayName("Качество")]
+        public int Quality { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
 
         #endregion
 
         #region Construction
 
         /// <summary>
-        /// Конструктор по умолчанию.
+        /// Constructor.
         /// </summary>
         public RecordReport()
         {
@@ -86,11 +108,37 @@ namespace ManagedIrbis.Quality
 
         #endregion
 
-        #region IHandmadeSerializable
+        #region Public methods
 
         /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
+        /// Should serialize <see cref="Defects"/> property?
         /// </summary>
+        public bool ShouldSerializeDefects()
+        {
+            return Defects.Count != 0;
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="Description"/> property?
+        /// </summary>
+        public bool ShouldSerializeDescription()
+        {
+            return !string.IsNullOrEmpty(Description);
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="Index"/> property?
+        /// </summary>
+        public bool ShouldSerializeIndex()
+        {
+            return !string.IsNullOrEmpty(Index);
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable
+
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -99,13 +147,11 @@ namespace ManagedIrbis.Quality
             Mfn = reader.ReadPackedInt32();
             Index = reader.ReadNullableString();
             Description = reader.ReadNullableString();
-            Gold = reader.ReadPackedInt32();
+            Quality = reader.ReadPackedInt32();
             Defects.RestoreFromStream(reader);
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -115,7 +161,7 @@ namespace ManagedIrbis.Quality
                 .WritePackedInt32(Mfn)
                 .WriteNullable(Index)
                 .WriteNullable(Description)
-                .WritePackedInt32(Gold);
+                .WritePackedInt32(Quality);
             Defects.SaveToStream(writer);
         }
 
@@ -123,20 +169,16 @@ namespace ManagedIrbis.Quality
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format
                 (
-                    "Mfn: {0}, Defects: {1}, Description: {2}",
+                    "MFN: {0}, Defects: {1}, Quality: {2}, Description: {3}",
                     Mfn,
                     Defects.Count,
-                    Description
+                    Quality,
+                    Description.ToVisibleString()
                 );
         }
 
