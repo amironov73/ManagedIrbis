@@ -93,7 +93,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("6", Unifor6.ExecuteNestedFormat);
             Registry.Add("7", Unifor7.FormatDocuments);
             Registry.Add("9", RemoveDoubleQuotes);
-            Registry.Add("A", GetFieldRepeat);
+            Registry.Add("A", UniforA.GetFieldRepeat);
             Registry.Add("B", UniforB.Convolution);
             Registry.Add("C", CheckIsbn);
             Registry.Add("D", UniforD.FormatDocumentDB);
@@ -525,50 +525,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         // ================================================================
 
-        /// <summary>
-        /// Get field repeat.
-        /// </summary>
-        public static void GetFieldRepeat
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
-        {
-            try
-            {
-                MarcRecord record = context.Record;
-                if (!ReferenceEquals(record, null))
-                {
-                    FieldSpecification specification = new FieldSpecification();
-                    if (specification.ParseUnifor(expression))
-                    {
-                        FieldReference reference = new FieldReference();
-                        reference.Apply(specification);
-
-                        string result = reference.Format(record);
-                        if (!string.IsNullOrEmpty(result))
-                        {
-                            context.Write(node, result);
-                            context.OutputFlag = true;
-
-                            if (!ReferenceEquals(context._vMonitor, null))
-                            {
-                                context._vMonitor.Output = true;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                Log.TraceException
-                    (
-                        "Unifor::GetFieldRepeat",
-                        exception
-                    );
-            }
-        }
 
         // ================================================================
 
