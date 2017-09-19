@@ -14,13 +14,34 @@ using System.Text.RegularExpressions;
 using AM;
 using AM.Text;
 
+using CodeJam;
+
 using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
 
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
-    static class UniforE
+    //
+    // Вернуть заданное количество слов с начала строки – &uf('E…
+    // Вид функции: E.
+    // Назначение: Вернуть заданное количество слов с начала строки.
+    // Формат (передаваемая строка):
+    // EN<строка>
+    // где N – количество слов (одна цифра).
+    //
+    // Примеры:
+    // &unifor("E3"v200^a)
+    //
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
+    public static class UniforE
     {
         #region Private members
 
@@ -96,13 +117,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
         #region Public methods
 
+        /// <summary>
+        /// Первые N слов в строке.
+        /// </summary>
         public static void GetFirstWords
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
+            Code.NotNull(context, "context");
+
             if (!string.IsNullOrEmpty(expression))
             {
                 TextNavigator navigator = new TextNavigator(expression);
@@ -123,35 +149,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 }
             }
         }
-
-        public static void GetLastWords
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            if (!string.IsNullOrEmpty(expression))
-            {
-                TextNavigator navigator = new TextNavigator(expression);
-                string countText = navigator.ReadInteger();
-                if (!string.IsNullOrEmpty(countText))
-                {
-                    int wordCount;
-                    if (NumericUtility.TryParseInt32(countText, out wordCount))
-                    {
-                        string text = navigator.GetRemainingText();
-                        string output = GetLastWords(text, wordCount);
-                        if (!string.IsNullOrEmpty(output))
-                        {
-                            context.Write(node, output);
-                            context.OutputFlag = true;
-                        }
-                    }
-                }
-            }
-        }
-
 
         #endregion
     }

@@ -98,7 +98,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("C", UniforC.CheckIsbn);
             Registry.Add("D", UniforD.FormatDocumentDB);
             Registry.Add("E", UniforE.GetFirstWords);
-            Registry.Add("F", UniforE.GetLastWords);
+            Registry.Add("F", UniforF.GetLastWords);
             Registry.Add("G", GetPart);
             Registry.Add("I", GetIniFileEntry);
             Registry.Add("J", UniforJ.GetTermRecordCountDB);
@@ -805,9 +805,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                 context.OutputFlag = true;
             }
         }
-
-        // ================================================================
-
 
         // ================================================================
 
