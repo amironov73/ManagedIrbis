@@ -92,7 +92,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("4", Unifor4.FormatPreviousVersion);
             Registry.Add("6", Unifor6.ExecuteNestedFormat);
             Registry.Add("7", Unifor7.FormatDocuments);
-            Registry.Add("9", RemoveDoubleQuotes);
+            Registry.Add("9", Unifor9.RemoveDoubleQuotes);
             Registry.Add("A", UniforA.GetFieldRepeat);
             Registry.Add("B", UniforB.Convolution);
             Registry.Add("C", UniforC.CheckIsbn);
@@ -808,23 +808,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         // ================================================================
 
-        /// <summary>
-        /// Remove double quotes from the string.
-        /// </summary>
-        public static void RemoveDoubleQuotes
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            if (!string.IsNullOrEmpty(expression))
-            {
-                string clear = expression.Replace("\"", string.Empty);
-                context.Write(node, clear);
-                context.OutputFlag = true;
-            }
-        }
 
         // ================================================================
 
