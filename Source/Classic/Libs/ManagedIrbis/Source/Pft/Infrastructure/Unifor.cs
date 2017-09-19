@@ -95,7 +95,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("9", RemoveDoubleQuotes);
             Registry.Add("A", UniforA.GetFieldRepeat);
             Registry.Add("B", UniforB.Convolution);
-            Registry.Add("C", CheckIsbn);
+            Registry.Add("C", UniforC.CheckIsbn);
             Registry.Add("D", UniforD.FormatDocumentDB);
             Registry.Add("E", UniforE.GetFirstWords);
             Registry.Add("F", UniforE.GetLastWords);
@@ -213,52 +213,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             return result;
-        }
-
-        // ================================================================
-
-        /// <summary>
-        /// Контроль ISSN/ISBN.
-        /// Возвращаемое значение: 0 – при положительном
-        /// результате, 1 – при отрицательном.
-        /// </summary>
-        public static void CheckIsbn
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expresion
-            )
-        {
-            string output = "1";
-
-            if (!string.IsNullOrEmpty(expresion))
-            {
-                List<char> digits = new List<char>(expresion.Length);
-                foreach (char c in expresion)
-                {
-                    if (PftUtility.DigitsX.Contains(c))
-                    {
-                        digits.Add(c);
-                    }
-                }
-                if (digits.Count == 8)
-                {
-                    if (Issn.CheckControlDigit(expresion))
-                    {
-                        output = "0";
-                    }
-                }
-                else if (digits.Count == 10)
-                {
-                    if (Isbn.Validate(expresion, false))
-                    {
-                        output = "0";
-                    }
-                }
-            }
-
-            context.Write(node, output);
-            context.OutputFlag = true;
         }
 
         // ================================================================
