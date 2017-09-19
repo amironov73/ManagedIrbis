@@ -37,6 +37,7 @@ namespace ManagedIrbis.Reservations
     /// Информация о посещении. Поле 30.
     /// </summary>
     [PublicAPI]
+    [XmlRoot("history")]
     [MoonSharpUserData]
     public sealed class HistoryInfo
         : IHandmadeSerializable,
@@ -164,6 +165,18 @@ namespace ManagedIrbis.Reservations
         }
 
         /// <summary>
+        /// Продолжительность.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public TimeSpan Duration
+        {
+            get { return EndTime - BeginTime; }
+            set { EndTime = BeginTime + value; }
+        }
+
+        /// <summary>
         /// Номер билета.
         /// </summary>
         [CanBeNull]
@@ -217,6 +230,24 @@ namespace ManagedIrbis.Reservations
         #region Public methods
 
         /// <summary>
+        /// Apply to the field
+        /// </summary>
+        public void ApplyToField
+            (
+                [NotNull] RecordField field
+            )
+        {
+            Code.NotNull(field, "field");
+
+            field
+                .ApplySubField('a', DateString)
+                .ApplySubField('b', BeginTimeString)
+                .ApplySubField('c', EndTimeString)
+                .ApplySubField('d', Ticket)
+                .ApplySubField('e', Name);
+        }
+
+        /// <summary>
         /// Parse the field.
         /// </summary>
         [NotNull]
@@ -264,7 +295,7 @@ namespace ManagedIrbis.Reservations
         [NotNull]
         public RecordField ToField()
         {
-            RecordField result = new RecordField();
+            RecordField result = new RecordField(Tag);
             result
                 .AddNonEmptySubField('a', DateString)
                 .AddNonEmptySubField('b', BeginTimeString)
@@ -273,6 +304,30 @@ namespace ManagedIrbis.Reservations
                 .AddNonEmptySubField('e', Name);
 
             return result;
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="EndTimeString"/> field?
+        /// </summary>
+        public bool ShouldSerializeEndTimeString()
+        {
+            return !string.IsNullOrEmpty(EndTimeString);
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="Name"/> field?
+        /// </summary>
+        public bool ShouldSerializeName()
+        {
+            return !string.IsNullOrEmpty(Name);
+        }
+
+        /// <summary>
+        /// /// Should serialize <see cref="Ticket"/> field?
+        /// </summary>
+        public bool ShouldSerializeTicket()
+        {
+            return !string.IsNullOrEmpty(Ticket);
         }
 
         #endregion
@@ -355,8 +410,8 @@ namespace ManagedIrbis.Reservations
             return string.Format
                 (
                     "{0}: {1}-{2} [{3}] ({4})",
-                    DateString,
-                    BeginTimeString,
+                    DateString.ToVisibleString(),
+                    BeginTimeString.ToVisibleString(),
                     EndTimeString.ToVisibleString(),
                     Ticket.ToVisibleString(),
                     Name.ToVisibleString()

@@ -38,6 +38,7 @@ namespace ManagedIrbis.Reservations
     /// Заявка на резревирование компьютера.
     /// </summary>
     [PublicAPI]
+    [XmlRoot("claim")]
     [MoonSharpUserData]
     public sealed class ReservationClaim
         : IHandmadeSerializable,
@@ -117,6 +118,23 @@ namespace ManagedIrbis.Reservations
         }
 
         /// <summary>
+        /// Begin date and time.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public DateTime BeginDateTime
+        {
+            get { return Date + Time; }
+            set
+            {
+                DateTime date = value.Date;
+                Date = date;
+                Time = value - date;
+            }
+        }
+
+        /// <summary>
         /// Duration.
         /// </summary>
         [CanBeNull]
@@ -137,6 +155,23 @@ namespace ManagedIrbis.Reservations
         {
             get { return IrbisDate.ConvertStringToTime(DurationString); }
             set { DurationString = IrbisDate.ConvertTimeToString(value); }
+        }
+
+        /// <summary>
+        /// End date and time.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public DateTime EndDateTime
+        {
+            get { return Date + Time + Duration; }
+            set
+            {
+                DateTime date = value.Date;
+                Date = date;
+                Duration = value - BeginDateTime;
+            }
         }
 
         /// <summary>
@@ -266,6 +301,14 @@ namespace ManagedIrbis.Reservations
         }
 
         /// <summary>
+        /// Should serialize <see cref="Status"/> field?
+        /// </summary>
+        public bool ShouldSerializeStatus()
+        {
+            return !string.IsNullOrEmpty(Status);
+        }
+
+        /// <summary>
         /// Convert back to field.
         /// </summary>
         [NotNull]
@@ -274,9 +317,9 @@ namespace ManagedIrbis.Reservations
             RecordField result = new RecordField(Tag);
             result
                 .AddNonEmptySubField('a', Ticket)
-                .AddNonEmptySubField('b', Date)
-                .AddNonEmptySubField('c', Time)
-                .AddNonEmptySubField('d', Duration)
+                .AddNonEmptySubField('b', DateString)
+                .AddNonEmptySubField('c', TimeString)
+                .AddNonEmptySubField('d', DurationString)
                 .AddNonEmptySubField('z', Status);
 
             return result;
@@ -346,7 +389,14 @@ namespace ManagedIrbis.Reservations
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            return Ticket.ToVisibleString();
+            return string.Format
+                (
+                    "{0}: {1} {2} [{3}]",
+                    DateString.ToVisibleString(),
+                    TimeString.ToVisibleString(),
+                    DurationString.ToVisibleString(),
+                    Ticket.ToVisibleString()
+                );
         }
 
         #endregion

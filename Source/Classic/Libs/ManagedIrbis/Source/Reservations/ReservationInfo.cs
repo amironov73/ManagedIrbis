@@ -39,6 +39,7 @@ namespace ManagedIrbis.Reservations
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [XmlRoot("reservation")]
     public sealed class ReservationInfo
         : IHandmadeSerializable,
         IVerifiable
@@ -114,6 +115,24 @@ namespace ManagedIrbis.Reservations
         [DisplayName("История")]
         public NonNullCollection<HistoryInfo> History { get; private set; }
 
+        /// <summary>
+        /// Associated record.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public MarcRecord Record { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
+
         #endregion
 
         #region Construction
@@ -176,7 +195,8 @@ namespace ManagedIrbis.Reservations
                 Room = record.FM(10),
                 Number = record.FM(11),
                 Status = record.FM(12),
-                Description = record.FM(13)
+                Description = record.FM(13),
+                Record = record
             };
             result.Claims.AddRange
                 (
@@ -188,6 +208,22 @@ namespace ManagedIrbis.Reservations
                 );
 
             return result;
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="Claims"/> field?
+        /// </summary>
+        public bool ShouldSerializeClaims()
+        {
+            return Claims.Count != 0;
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="History"/> field?
+        /// </summary>
+        public bool ShouldSerializeHistory()
+        {
+            return History.Count != 0;
         }
 
         /// <summary>

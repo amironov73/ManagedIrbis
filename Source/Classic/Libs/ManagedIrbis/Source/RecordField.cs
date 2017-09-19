@@ -609,6 +609,28 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Добавление подполя, при условии,
+        /// что у него не пустое значение.
+        /// </summary>
+        [NotNull]
+        public RecordField AddNonEmptySubField
+            (
+                char code,
+                DateTime value
+            )
+        {
+            ThrowIfReadOnly();
+
+            if (value != DateTime.MinValue)
+            {
+                string text = IrbisDate.ConvertDateToString(value);
+                AddSubField(code, text);
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Assign the field from another.
         /// </summary>
         [NotNull]
