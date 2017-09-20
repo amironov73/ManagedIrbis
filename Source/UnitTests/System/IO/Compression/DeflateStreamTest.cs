@@ -51,7 +51,7 @@ namespace UnitTests.System.IO.Compression
         }
 
         [TestMethod]
-        public void TestDeflateStreamCompression()
+        public void DeflateStream_Compression_1()
         {
             _TestCompression(new byte[0]);
             _TestCompression(new byte[10]);

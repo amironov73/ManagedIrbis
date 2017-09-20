@@ -1,4 +1,5 @@
 ﻿using System;
+using ManagedIrbis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis.Identifiers;
@@ -48,6 +49,39 @@ namespace UnitTests.ManagedIrbis.Identifiers
         }
 
         [TestMethod]
+        public void Ismn_CheckControlDigit_4()
+        {
+            Assert.IsFalse(Ismn.CheckControlDigit(null));
+            Assert.IsFalse(Ismn.CheckControlDigit(string.Empty));
+        }
+
+        [TestMethod]
+        public void Ismn_CheckControlDigit_5()
+        {
+            Assert.IsFalse
+                (
+                    Ismn.CheckControlDigit("979-0-9016791-A-7")
+                );
+            Assert.IsFalse
+                (
+                    Ismn.CheckControlDigit("N-060-11561-5")
+                );
+            Assert.IsFalse
+                (
+                    Ismn.CheckControlDigit("0-M60-11561-5")
+                );
+        }
+
+        [TestMethod]
+        public void Ismn_CheckControlDigit_6()
+        {
+            Assert.IsFalse
+                (
+                    Ismn.CheckControlDigit("979-0-9016791-77-7")
+                );
+        }
+
+        [TestMethod]
         public void Ismn_CheckHyphens_1()
         {
             Assert.IsTrue
@@ -90,6 +124,27 @@ namespace UnitTests.ManagedIrbis.Identifiers
         }
 
         [TestMethod]
+        public void Ismn_CheckHyphens_3()
+        {
+            Assert.IsFalse
+                (
+                    Ismn.CheckHyphens("979-0--60-11561-5")
+                );
+            Assert.IsFalse
+                (
+                    Ismn.CheckHyphens("M-0601156--15")
+                );
+            Assert.IsFalse
+                (
+                    Ismn.CheckHyphens("-M0601156--15")
+                );
+            Assert.IsFalse
+                (
+                    Ismn.CheckHyphens("M--0601156-15")
+                );
+        }
+
+        [TestMethod]
         public void Ismn_Verify_1()
         {
             Assert.IsTrue
@@ -116,6 +171,13 @@ namespace UnitTests.ManagedIrbis.Identifiers
                 (
                     Ismn.Verify("979-0-9016791-7-8", false)
                 );
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IrbisException))]
+        public void Ismn_Verify_2()
+        {
+            Ismn.Verify("M-060-11561-4", true);
         }
     }
 }

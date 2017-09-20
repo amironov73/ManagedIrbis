@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM;
 
-namespace UnitTests
+namespace UnitTests.AM
 {
     [TestClass]
     public class NumericUtilityTest

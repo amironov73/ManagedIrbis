@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -19,6 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -111,6 +113,7 @@ namespace ManagedIrbis.Identifiers
     /// DOI
     /// </summary>
     [PublicAPI]
+    [XmlRoot("doi")]
     [MoonSharpUserData]
     [DebuggerDisplay("{Prefix} {Suffix}")]
     public sealed class Doi
@@ -126,13 +129,26 @@ namespace ManagedIrbis.Identifiers
         /// Префикс.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("prefix")]
+        [JsonProperty("prefix")]
         public string Prefix { get; set; }
 
         /// <summary>
         /// Суффикс.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("suffix")]
+        [JsonProperty("suffix")]
         public string Suffix { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
 
         #endregion
 
@@ -150,26 +166,26 @@ namespace ManagedIrbis.Identifiers
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             Prefix = reader.ReadNullableString();
             Suffix = reader.ReadNullableString();
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer
                 .WriteNullable(Prefix)
                 .WriteNullable(Suffix);
@@ -179,19 +195,14 @@ namespace ManagedIrbis.Identifiers
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format
                 (
                     "Prefix: {0}, Suffix: {1}",
-                    Prefix,
-                    Suffix
+                    Prefix.ToVisibleString(),
+                    Suffix.ToVisibleString()
                 );
         }
 

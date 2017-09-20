@@ -11,14 +11,12 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
-#if FW4
-using System.Diagnostics.CodeAnalysis;
-#endif
 
 using AM;
 using AM.IO;
@@ -308,9 +306,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Should serialize <see cref="MaxMfn"/>?
         /// </summary>
-        #if FW4
         [ExcludeFromCodeCoverage]
-        #endif
         public bool ShouldSerializeMaxMfn()
         {
             return MaxMfn != 0;
@@ -319,9 +315,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Should serialize <see cref="LogicallyDeletedRecords"/>?
         /// </summary>
-        #if FW4
         [ExcludeFromCodeCoverage]
-        #endif
         public bool ShouldSerializeLogicallyDeletedRecords()
         {
             return !ReferenceEquals(LogicallyDeletedRecords, null);
@@ -330,9 +324,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Should serialize <see cref="PhysicallyDeletedRecords"/>?
         /// </summary>
-        #if FW4
         [ExcludeFromCodeCoverage]
-        #endif
         public bool ShouldSerializePhysicallyDeletedRecords()
         {
             return !ReferenceEquals(PhysicallyDeletedRecords, null);
@@ -341,9 +333,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Should serialize <see cref="NonActualizedRecords"/>?
         /// </summary>
-        #if FW4
         [ExcludeFromCodeCoverage]
-        #endif
         public bool ShouldSerializeNonActualizedRecords()
         {
             return !ReferenceEquals(NonActualizedRecords, null);
@@ -352,9 +342,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Should serialize <see cref="LockedRecords"/>?
         /// </summary>
-        #if FW4
         [ExcludeFromCodeCoverage]
-        #endif
         public bool ShouldSerializeLockedRecords()
         {
             return !ReferenceEquals(LockedRecords, null);
@@ -363,9 +351,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Should serialize <see cref="DatabaseLocked"/>?
         /// </summary>
-        #if FW4
         [ExcludeFromCodeCoverage]
-        #endif
         public bool ShouldSerializeDatabaseLocked()
         {
             return DatabaseLocked;
@@ -374,9 +360,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Should serialize <see cref="ReadOnly"/>?
         /// </summary>
-        #if FW4
         [ExcludeFromCodeCoverage]
-        #endif
         public bool ShouldSerializeReadOnly()
         {
             return ReadOnly;

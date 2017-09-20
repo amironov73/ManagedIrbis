@@ -261,6 +261,8 @@
     <Compile Include="ManagedIrbis\Identifiers\Ean8Test.cs" />
     <Compile Include="ManagedIrbis\Identifiers\IsmnTest.cs" />
     <Compile Include="ManagedIrbis\Identifiers\IssnTest.cs" />
+    <Compile Include="ManagedIrbis\Identifiers\CodeDigitTest.cs" />
+    <Compile Include="ManagedIrbis\Identifiers\DoiTest.cs" />
     <Compile Include="ManagedIrbis\Identifiers\Upc12Test.cs" />
     <Compile Include="ManagedIrbis\ImportExport\IsoReaderTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\FileSpecificationTest.cs" />
@@ -345,8 +347,8 @@
     <Compile Include="NumericUtilityTest.cs" />
     <Compile Include="AM\IO\StreamPackerTest.cs" />
     <Compile Include="ManagedIrbis\IrbisDateTest.cs" />
-    <Compile Include="BbkTest.cs" />
-    <Compile Include="BbkRangeTest.cs" />
+    <Compile Include="ManagedIrbis\Systematization\BbkIndexTest.cs" />
+    <Compile Include="ManagedIrbis\Systematization\BbkRangeTest.cs" />
     <Compile Include="ManagedIrbis\SubFieldTest.cs" />
     <Compile Include="AM\SequenceTest.cs" />
     <Compile Include="System\IO\Compression\DeflateStreamTest.cs" />

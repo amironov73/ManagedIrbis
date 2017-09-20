@@ -9,8 +9,6 @@
 
 #region Using directives
 
-using System.Globalization;
-
 using AM;
 using AM.Logging;
 
@@ -152,11 +150,6 @@ namespace ManagedIrbis.Identifiers
         #endregion
 
         #region Private members
-
-        private static CultureInfo Invariant
-        {
-            get { return CultureInfo.InvariantCulture; }
-        }
 
         private static int[] _IsoWeight =
         {

@@ -7,7 +7,7 @@ using AM.Runtime;
 using ManagedIrbis;
 using Newtonsoft.Json.Linq;
 
-namespace UnitTests
+namespace UnitTests.ManagedIrbis
 {
     [TestClass]
     public class SubFieldTest

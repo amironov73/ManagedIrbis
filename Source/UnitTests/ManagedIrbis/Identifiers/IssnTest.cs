@@ -40,5 +40,18 @@ namespace UnitTests.ManagedIrbis.Identifiers
                         )
                 );
         }
+
+        [TestMethod]
+        public void Issn_CheckControlDigit_2()
+        {
+            Assert.IsFalse(Issn.CheckControlDigit("003376X".ToCharArray()));
+        }
+
+        [TestMethod]
+        public void Issn_CheckControlDigit_3()
+        {
+            Assert.IsTrue(Issn.CheckControlDigit("0033765X"));
+            Assert.IsFalse(Issn.CheckControlDigit("00337651"));
+        }
     }
 }

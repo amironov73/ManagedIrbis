@@ -10,23 +10,13 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 using AM;
 using AM.Logging;
 
-using CodeJam;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -184,23 +174,6 @@ namespace ManagedIrbis.Identifiers
         #endregion
 
         #region Private members
-
-        private static CultureInfo Invariant
-        {
-            get { return CultureInfo.InvariantCulture; }
-        }
-
-        private static int ConvertDigit
-            (
-                char c
-            )
-        {
-            int result = c == 'X' || c == 'x'
-                ? 10
-                : c - '0';
-
-            return result;
-        }
 
         #endregion
 
@@ -383,8 +356,11 @@ namespace ManagedIrbis.Identifiers
                 string isbn
             )
         {
-            if (isbn == null || isbn.Length != 13)
+            if (string.IsNullOrEmpty(isbn)
+                || isbn.Length != 13)
+            {
                 return null;
+            }
 
             char[] digits =
             {
@@ -415,7 +391,7 @@ namespace ManagedIrbis.Identifiers
                 [CanBeNull] string ean
             )
         {
-            if (ReferenceEquals(ean, null)
+            if (string.IsNullOrEmpty(ean)
                 || ean.Length != 13)
             {
                 return null;

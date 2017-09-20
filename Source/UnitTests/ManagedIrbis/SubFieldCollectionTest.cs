@@ -6,7 +6,7 @@ using AM.Runtime;
 
 using ManagedIrbis;
 
-namespace UnitTests
+namespace UnitTests.ManagedIrbis
 {
     [TestClass]
     public class SubFieldCollectionTest
