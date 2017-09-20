@@ -17,6 +17,7 @@ using System.IO;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -71,10 +72,9 @@ namespace ManagedIrbis.Marc.Schema
         /// <summary>
         /// Tag.
         /// </summary>
-        [CanBeNull]
         [XmlAttribute("tag")]
         [JsonProperty("tag")]
-        public string Tag { get; set; }
+        public int Tag { get; set; }
 
         #endregion
 
@@ -93,7 +93,7 @@ namespace ManagedIrbis.Marc.Schema
 
             RelatedField result = new RelatedField
             {
-                Tag = element.GetAttributeText("tag", null),
+                Tag = element.GetAttributeText("tag", null).SafeToInt32(),
                 Name = element.GetAttributeText("name", null),
                 Description = element.GetInnerXml("DESCRIPTION")
             };
@@ -101,41 +101,69 @@ namespace ManagedIrbis.Marc.Schema
             return result;
         }
 
+        /// <summary>
+        /// Should serialize the <see cref="Description"/> field?
+        /// </summary>
+        public bool ShouldSerializeDescription()
+        {
+            return !string.IsNullOrEmpty(Description);
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Name"/> field?
+        /// </summary>
+        /// <returns></returns>
+        public bool ShouldSerializeName()
+        {
+            return !string.IsNullOrEmpty(Name);
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore object state from the given stream
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             Description = reader.ReadNullableString();
             Name = reader.ReadNullableString();
-            Tag = reader.ReadNullableString();
+            Tag = reader.ReadPackedInt32();
         }
 
-        /// <summary>
-        /// Save object stat to the given stream
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer
                 .WriteNullable(Description)
                 .WriteNullable(Name)
-                .WriteNullable(Tag);
+                .WritePackedInt32(Tag);
         }
 
         #endregion
 
         #region Object members
-        
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return string.Format
+                (
+                    "[{0}]: {1}",
+                    Tag,
+                    Name.ToVisibleString()
+                );
+        }
+
         #endregion
     }
 }

@@ -19,6 +19,7 @@ using System.IO;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -55,14 +56,17 @@ namespace ManagedIrbis.Marc.Schema
         /// For serialization.
         /// </summary>
         [CanBeNull]
-#if !WINMOBILE && !PocketPC && !WINMOBILE && !UAP && !WIN81 && !PORTABLE
         [Browsable(false)]
-#endif
         [XmlAttribute("code")]
         [JsonProperty("code")]
         public string CodeString
         {
-            get { return Code.ToString(); }
+            get
+            {
+                return Code < ' '
+                    ? " "
+                    : Code.ToString();
+            }
             set
             {
                 Code = string.IsNullOrEmpty(value)
@@ -132,7 +136,6 @@ namespace ManagedIrbis.Marc.Schema
 
         #region Private members
 
-
         #endregion
 
         #region Public methods
@@ -163,18 +166,50 @@ namespace ManagedIrbis.Marc.Schema
             return result;
         }
 
+        /// <summary>
+        /// Should serialize the <see cref="Description"/> field?
+        /// </summary>
+        public bool ShouldSerializeDescription()
+        {
+            return !string.IsNullOrEmpty(Description);
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="MandatoryText"/> field?
+        /// </summary>
+        public bool ShouldSerializeMandatoryText()
+        {
+            return !string.IsNullOrEmpty(MandatoryText);
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Name"/> field?
+        /// </summary>
+        public bool ShouldSerializeName()
+        {
+            return !string.IsNullOrEmpty(Name);
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="RepeatableText"/> field?
+        /// </summary>
+        public bool ShouldSerializeRepeatableText()
+        {
+            return !string.IsNullOrEmpty(RepeatableText);
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore object state from the given stream
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            CodeJam.Code.NotNull(reader, "reader");
+
             Code = reader.ReadChar();
             Description = reader.ReadNullableString();
             Display = reader.ReadBoolean();
@@ -185,14 +220,14 @@ namespace ManagedIrbis.Marc.Schema
             RepeatableText = reader.ReadNullableString();
         }
 
-        /// <summary>
-        /// Save object stat to the given stream
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
+            CodeJam.Code.NotNull(writer, "writer");
+
             writer.Write(Code);
             writer.WriteNullable(Description);
             writer.Write(Display);
@@ -205,8 +240,18 @@ namespace ManagedIrbis.Marc.Schema
 
         #endregion
 
-
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return string.Format
+                (
+                    "'{0}' : {1}",
+                    CodeString.ToVisibleString(),
+                    Name.ToVisibleString()
+                );
+        }
 
         #endregion
     }
