@@ -3,7 +3,7 @@
 cd Source\Universal
 
 SET MSBUILD=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
-SET OUTPUT=..\..\..\Binaries
+SET OUTPUT=..\..\..\..\Binaries
 SET PARAMS=/consoleloggerparameters:ErrorsOnly /m
 SET NUGET=..\..\Nuget\nuget.exe
 
