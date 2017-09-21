@@ -594,6 +594,7 @@
     <Compile Include="Source\Pft\Infrastructure\Text\PlainTextDriver.cs" />
     <Compile Include="Source\Pft\Infrastructure\Text\TextDriver.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\Unifor0.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Unifors\Unifor2.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\Unifor7.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\Unifor9.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforA.cs" />
