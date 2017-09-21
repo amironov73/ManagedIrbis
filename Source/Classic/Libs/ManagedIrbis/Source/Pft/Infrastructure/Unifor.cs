@@ -106,7 +106,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             // "H" unknown
             Registry.Add("I", UniforI.GetIniFileEntry);
             Registry.Add("J", UniforJ.GetTermRecordCountDB);
-            Registry.Add("K", GetMenuEntry);
+            Registry.Add("K", UniforK.GetMenuEntry);
             Registry.Add("L", UniforL.ContinueTerm);
             Registry.Add("M", UniforM.Sort);
             Registry.Add("O", UniforO.AllExemplars);
@@ -477,73 +477,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                     string output = index.ToInvariantString();
                     context.Write(node, output);
                     context.OutputFlag = true;
-                }
-            }
-        }
-
-        // ================================================================
-
-        /// <summary>
-        /// Get MNU-file entry.
-        /// </summary>
-        public static void GetMenuEntry
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            if (!string.IsNullOrEmpty(expression))
-            {
-                TextNavigator navigator = new TextNavigator(expression);
-                string menuName = navigator.ReadUntil('\\', '!', '|');
-                if (string.IsNullOrEmpty(menuName))
-                {
-                    return;
-                }
-                char separator = navigator.ReadChar();
-                if (separator != '\\'
-                    && separator != '!'
-                    && separator != '|')
-                {
-                    return;
-                }
-                string key = navigator.GetRemainingText();
-                if (string.IsNullOrEmpty(key))
-                {
-                    return;
-                }
-                FileSpecification specification = new FileSpecification
-                        (
-                            IrbisPath.MasterFile,
-                            context.Provider.Database,
-                            menuName
-                        );
-                MenuFile menu = context.Provider.ReadMenuFile
-                    (
-                        specification
-                    );
-                if (!ReferenceEquals(menu, null))
-                {
-                    string output = null;
-
-                    switch (separator)
-                    {
-                        case '\\':
-                        case '|': // nondocumented but used in scripts
-                            output = menu.GetStringSensitive(key);
-                            break;
-
-                        case '!':
-                            output = menu.GetString(key);
-                            break;
-                    }
-
-                    if (!string.IsNullOrEmpty(output))
-                    {
-                        context.Write(node, output);
-                        context.OutputFlag = true;
-                    }
                 }
             }
         }
