@@ -10,8 +10,10 @@
 #region Using directives
 
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Xml.Serialization;
 
 using AM;
 using AM.IO;
@@ -25,6 +27,8 @@ using ManagedIrbis.Infrastructure;
 
 using MoonSharp.Interpreter;
 
+using Newtonsoft.Json;
+
 #endregion
 
 namespace ManagedIrbis.Search
@@ -33,6 +37,7 @@ namespace ManagedIrbis.Search
     /// Found item.
     /// </summary>
     [PublicAPI]
+    [XmlRoot("item")]
     [MoonSharpUserData]
     [DebuggerDisplay("{Mfn} {Text}")]
     public sealed class FoundItem
@@ -54,12 +59,47 @@ namespace ManagedIrbis.Search
         /// Text.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("text")]
+        [JsonProperty("text")]
+        [Description("Библиографическое описание")]
+        [DisplayName("Библиографическое описание")]
         public string Text { get; set; }
 
         /// <summary>
         /// MFN.
         /// </summary>
+        [XmlAttribute("mfn")]
+        [JsonProperty("mfn")]
+        [Description("MFN")]
+        [DisplayName("MFN")]
         public int Mfn { get; set; }
+
+        /// <summary>
+        /// Associated record.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("record")]
+        [JsonProperty("record")]
+        [Browsable(false)]
+        public MarcRecord Record { get; set; }
+
+        /// <summary>
+        /// Is selected?
+        /// </summary>
+        [XmlAttribute("selected")]
+        [JsonProperty("selected")]
+        [Description("Пометка")]
+        [DisplayName("Пометка")]
+        public bool Selected { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
 
         #endregion
 
@@ -69,9 +109,7 @@ namespace ManagedIrbis.Search
 
         #region Private members
 
-        // ReSharper disable InconsistentNaming
-        private static readonly char[] _delimiters = {Delimiter};
-        // ReSharper restore InconsistentNaming
+        private static readonly char[] _delimiters = { Delimiter };
 
         #endregion
 
@@ -129,18 +167,7 @@ namespace ManagedIrbis.Search
         {
             Code.NotNull(line, "line");
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-
-            string[] parts = line.Split(_delimiters, 2);
-
-#else
-
-            // TODO Implement properly
-
-            string[] parts = line.Split(_delimiters);
-
-#endif
-
+            string[] parts = StringUtility.SplitString(line, _delimiters, 2);
             FoundItem result = new FoundItem
             {
                 Mfn = int.Parse(parts[0])
@@ -168,7 +195,7 @@ namespace ManagedIrbis.Search
         {
             Code.NotNull(response, "response");
 
-            List<FoundItem> result = (sizeHint > 0)
+            List<FoundItem> result = sizeHint > 0
                 ? new List<FoundItem>(sizeHint)
                 : new List<FoundItem>();
 
@@ -182,13 +209,27 @@ namespace ManagedIrbis.Search
             return result;
         }
 
+        /// <summary>
+        /// Should serialize the <see cref="Text"/> field?
+        /// </summary>
+        public bool ShouldSerializeText()
+        {
+            return !string.IsNullOrEmpty(Text);
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Selected"/> field?
+        /// </summary>
+        public bool ShouldSerializeSelected()
+        {
+            return Selected;
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore the object state from the specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -198,11 +239,11 @@ namespace ManagedIrbis.Search
 
             Mfn = reader.ReadPackedInt32();
             Text = reader.ReadNullableString();
+            Record = reader.RestoreNullable<MarcRecord>();
+            Selected = reader.ReadBoolean();
         }
 
-        /// <summary>
-        /// Save the object state to the specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -212,16 +253,16 @@ namespace ManagedIrbis.Search
 
             writer
                 .WritePackedInt32(Mfn)
-                .WriteNullable(Text);
+                .WriteNullable(Text)
+                .WriteNullable(Record)
+                .Write(Selected);
         }
 
         #endregion
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify the object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
@@ -244,10 +285,7 @@ namespace ManagedIrbis.Search
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format

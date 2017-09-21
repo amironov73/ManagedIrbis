@@ -37,7 +37,7 @@ namespace ManagedIrbis.Search
     /// Search term info
     /// </summary>
     [PublicAPI]
-    [XmlRoot("term-info")]
+    [XmlRoot("term")]
     [MoonSharpUserData]
     [DebuggerDisplay("[{Count}] {Text}")]
     public class TermInfo
@@ -121,6 +121,14 @@ namespace ManagedIrbis.Search
         }
 
         /// <summary>
+        /// Should serialize the <see cref="Text"/> field?
+        /// </summary>
+        public bool ShouldSerializeText()
+        {
+            return !string.IsNullOrEmpty(Text);
+        }
+
+        /// <summary>
         /// Trim prefix from terms.
         /// </summary>
         [NotNull]
@@ -165,9 +173,7 @@ namespace ManagedIrbis.Search
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore object state from the specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public virtual void RestoreFromStream
             (
                 BinaryReader reader
@@ -177,9 +183,7 @@ namespace ManagedIrbis.Search
             Text = reader.ReadNullableString();
         }
 
-        /// <summary>
-        /// Save object state to the specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public virtual void SaveToStream
             (
                 BinaryWriter writer
@@ -194,9 +198,7 @@ namespace ManagedIrbis.Search
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public virtual bool Verify
             (
                 bool throwOnError
@@ -216,19 +218,14 @@ namespace ManagedIrbis.Search
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format
                 (
                     "{0}#{1}",
                     Count,
-                    Text
+                    Text.ToVisibleString()
                 );
         }
 

@@ -1,12 +1,13 @@
-﻿using System;
-using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.IO;
 
 using AM.IO;
+using AM.Json;
 using AM.Runtime;
+using AM.Xml;
 
-using ManagedIrbis;
 using ManagedIrbis.Search;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.ManagedIrbis.Search
 {
@@ -39,12 +40,12 @@ namespace UnitTests.ManagedIrbis.Search
         }
 
         [TestMethod]
-        public void SearchScenario_Clone()
+        public void SearchScenario_Clone_1()
         {
             SearchScenario first = new SearchScenario
             {
                 Name = "Author",
-                Prefix = "A=",
+                Prefix = "A",
                 Truncation = true,
                 Logic = SearchLogicType.OrAndNot
             };
@@ -65,7 +66,7 @@ namespace UnitTests.ManagedIrbis.Search
         }
 
         [TestMethod]
-        public void SearchScenario_ParseIniFile()
+        public void SearchScenario_ParseIniFile_1()
         {
             string fileName = Path.Combine
                 (
@@ -85,7 +86,7 @@ namespace UnitTests.ManagedIrbis.Search
         }
 
         [TestMethod]
-        public void SearchScenario_Serialization()
+        public void SearchScenario_Serialization_1()
         {
             SearchScenario scenario = new SearchScenario();
             _TestSerialization(scenario);
@@ -93,7 +94,7 @@ namespace UnitTests.ManagedIrbis.Search
             scenario = new SearchScenario
             {
                 Name = "Author",
-                Prefix = "A=",
+                Prefix = "A",
                 Truncation = true,
                 Logic = SearchLogicType.OrAndNot
             };
@@ -101,16 +102,64 @@ namespace UnitTests.ManagedIrbis.Search
         }
 
         [TestMethod]
-        public void SearchScenario_Verify()
+        public void SearchScenario_Verify_1()
         {
             SearchScenario scenario = new SearchScenario
             {
                 Name = "Author",
-                Prefix = "A=",
+                Prefix = "A",
                 Truncation = true,
                 Logic = SearchLogicType.OrAndNot
             };
             Assert.IsTrue(scenario.Verify(false));
+        }
+
+        [TestMethod]
+        public void SearchScenario_ToXml_1()
+        {
+            SearchScenario scenario = new SearchScenario();
+            Assert.AreEqual("<search type=\"Standard\" truncation=\"false\" logic=\"Or\" />", XmlUtility.SerializeShort(scenario));
+
+            scenario = new SearchScenario
+            {
+                Name = "Author",
+                Prefix = "A",
+                Truncation = true,
+                Logic = SearchLogicType.OrAndNot
+            };
+            Assert.AreEqual("<search name=\"Author\" prefix=\"A\" type=\"Standard\" truncation=\"true\" logic=\"OrAndNot\" />", XmlUtility.SerializeShort(scenario));
+        }
+
+        [TestMethod]
+        public void SearchScenario_ToJson_1()
+        {
+            SearchScenario scenario = new SearchScenario();
+            Assert.AreEqual("{'type':0,'truncation':false,'logic':0}", JsonUtility.SerializeShort(scenario));
+
+            scenario = new SearchScenario
+            {
+                Name = "Author",
+                Prefix = "A",
+                Truncation = true,
+                Logic = SearchLogicType.OrAndNot
+            };
+            Assert.AreEqual("{'name':'Author','prefix':'A','type':0,'truncation':true,'logic':2}", JsonUtility.SerializeShort(scenario));
+        }
+
+        [TestMethod]
+        public void SearchScenario_ToString_1()
+        {
+            SearchScenario scenario = new SearchScenario();
+            Assert.AreEqual("(null) (null)", scenario.ToString());
+
+            scenario = new SearchScenario
+            {
+                Name = "Author",
+                Prefix = "A",
+                Truncation = true,
+                Logic = SearchLogicType.OrAndNot
+            };
+            Assert.AreEqual("A Author", scenario.ToString());
         }
     }
 }

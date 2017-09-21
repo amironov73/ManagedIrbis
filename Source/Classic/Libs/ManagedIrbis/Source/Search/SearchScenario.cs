@@ -399,8 +399,8 @@ namespace ManagedIrbis.Search
             return string.Format
                 (
                     "{0} {1}",
-                    Prefix,
-                    Name
+                    Prefix.ToVisibleString(),
+                    Name.ToVisibleString()
                 );
         }
 
