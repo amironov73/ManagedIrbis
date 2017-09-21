@@ -91,8 +91,10 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("2", Unifor2.GetMaxMfn);
             Registry.Add("3", Unifor3.PrintDate);
             Registry.Add("4", Unifor4.FormatPreviousVersion);
+            // "5" unknown
             Registry.Add("6", Unifor6.ExecuteNestedFormat);
             Registry.Add("7", Unifor7.FormatDocuments);
+            // "8" unknown
             Registry.Add("9", Unifor9.RemoveDoubleQuotes);
             Registry.Add("A", UniforA.GetFieldRepeat);
             Registry.Add("B", UniforB.Convolution);
@@ -101,7 +103,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("E", UniforE.GetFirstWords);
             Registry.Add("F", UniforF.GetLastWords);
             Registry.Add("G", UniforG.GetPart);
-            Registry.Add("I", GetIniFileEntry);
+            // "H" unknown
+            Registry.Add("I", UniforI.GetIniFileEntry);
             Registry.Add("J", UniforJ.GetTermRecordCountDB);
             Registry.Add("K", GetMenuEntry);
             Registry.Add("L", UniforL.ContinueTerm);
@@ -474,65 +477,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                     string output = index.ToInvariantString();
                     context.Write(node, output);
                     context.OutputFlag = true;
-                }
-            }
-        }
-
-        // ================================================================
-
-
-        // ================================================================
-
-        /// <summary>
-        /// Get INI-file entry.
-        /// </summary>
-        public static void GetIniFileEntry
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            if (!string.IsNullOrEmpty(expression))
-            {
-#if PocketPC || WINMOBILE || SILVERLIGHT
-
-                string[] parts = expression.Split(new[] { ',' });
-
-#else
-
-                string[] parts = expression.Split(new[] { ',' }, 3);
-
-#endif
-
-                if (parts.Length >= 2)
-                {
-                    string section = parts[0];
-                    string parameter = parts[1];
-                    string defaultValue = parts.Length > 2
-                        ? parts[2]
-                        : null;
-
-                    if (!string.IsNullOrEmpty(section)
-                        && !string.IsNullOrEmpty(parameter))
-                    {
-                        string result;
-                        using (IniFile iniFile
-                            = context.Provider.GetUserIniFile())
-                        {
-                            result = iniFile.GetValue
-                                (
-                                    section,
-                                    parameter,
-                                    defaultValue
-                                );
-                        }
-                        if (!string.IsNullOrEmpty(result))
-                        {
-                            context.Write(node, result);
-                            context.OutputFlag = true;
-                        }
-                    }
                 }
             }
         }

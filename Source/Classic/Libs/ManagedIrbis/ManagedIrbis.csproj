@@ -603,6 +603,7 @@
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforEqual.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforF.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforG.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Unifors\UniforI.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforL.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlus0.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlus1.cs" />

@@ -1519,6 +1519,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor1.cs">
       <Link>Source\Pft\Infrastructure\Unifors\Unifor1.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor2.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\Unifor2.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor3.cs">
       <Link>Source\Pft\Infrastructure\Unifors\Unifor3.cs</Link>
     </Compile>
@@ -1557,6 +1560,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforG.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforG.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforI.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforI.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforJ.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforJ.cs</Link>
