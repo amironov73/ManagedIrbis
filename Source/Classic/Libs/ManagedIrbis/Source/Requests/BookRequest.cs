@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -174,6 +175,7 @@ namespace ManagedIrbis.Requests
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public bool CanBeDeleted
         {
             get
@@ -189,6 +191,7 @@ namespace ManagedIrbis.Requests
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public MarcRecord BookRecord { get; set; }
 
         /// <summary>
@@ -197,6 +200,7 @@ namespace ManagedIrbis.Requests
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public ReaderInfo Reader { get; set; }
 
         /// <summary>
@@ -206,6 +210,7 @@ namespace ManagedIrbis.Requests
         [ItemNotNull]
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public string[] FreeNumbers { get; set; }
 
         /// <summary>
@@ -215,6 +220,7 @@ namespace ManagedIrbis.Requests
         [ItemNotNull]
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public string[] MyNumbers { get; set; }
 
         /// <summary>
@@ -223,7 +229,17 @@ namespace ManagedIrbis.Requests
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public MarcRecord RequestRecord { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
 
         #endregion
 
@@ -231,8 +247,8 @@ namespace ManagedIrbis.Requests
 
         private static void _AddField
             (
-                MarcRecord record,
-                string tag,
+                [NotNull] MarcRecord record,
+                int tag,
                 string text
             )
         {
@@ -260,20 +276,20 @@ namespace ManagedIrbis.Requests
             Code.NotNull(record, "record");
 
             BookRequest result = new BookRequest
-                {
-                    Mfn = record.Mfn,
-                    BookDescription = record.FM(201),
-                    BookCode = record.FM(903),
-                    RequestDate = record.FM(40),
-                    FulfillmentDate = record.FM(41),
-                    ReservationDate = record.FM(43),
-                    ReaderID = record.FM(30),
-                    ReaderDescription = record.FM(31),
-                    Database = record.FM(1),
-                    Department = record.FM(102),
-                    ResponsiblePerson = record.FM(50),
-                    RequestRecord = record
-                };
+            {
+                Mfn = record.Mfn,
+                BookDescription = record.FM(201),
+                BookCode = record.FM(903),
+                RequestDate = record.FM(40),
+                FulfillmentDate = record.FM(41),
+                ReservationDate = record.FM(43),
+                ReaderID = record.FM(30),
+                ReaderDescription = record.FM(31),
+                Database = record.FM(1),
+                Department = record.FM(102),
+                ResponsiblePerson = record.FM(50),
+                RequestRecord = record
+            };
 
             RecordField field44 = record.Fields
                 .GetField(44)
@@ -293,21 +309,21 @@ namespace ManagedIrbis.Requests
         public MarcRecord Encode()
         {
             MarcRecord result = new MarcRecord
-                {
-                    Mfn = Mfn
-                };
+            {
+                Mfn = Mfn
+            };
 
-            _AddField(result, "201", BookDescription);
-            _AddField(result, "903", BookCode);
-            _AddField(result, "40", RequestDate);
-            _AddField(result, "41", FulfillmentDate);
-            _AddField(result, "43", ReservationDate);
-            _AddField(result, "30", ReaderID);
-            _AddField(result, "31", ReaderDescription);
-            _AddField(result, "1", Database);
-            _AddField(result, "44", RejectInfo);
-            _AddField(result, "102", Department);
-            _AddField(result, "50", ResponsiblePerson);
+            _AddField(result, 201, BookDescription);
+            _AddField(result, 903, BookCode);
+            _AddField(result, 40, RequestDate);
+            _AddField(result, 41, FulfillmentDate);
+            _AddField(result, 43, ReservationDate);
+            _AddField(result, 30, ReaderID);
+            _AddField(result, 31, ReaderDescription);
+            _AddField(result, 1, Database);
+            _AddField(result, 44, RejectInfo);
+            _AddField(result, 102, Department);
+            _AddField(result, 50, ResponsiblePerson);
 
             return result;
         }
@@ -316,16 +332,20 @@ namespace ManagedIrbis.Requests
 
         #region IHandmadeSerializable
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             Mfn = reader.ReadPackedInt32();
             BookDescription = reader.ReadNullableString();
             BookCode = reader.ReadNullableString();
             RequestDate = reader.ReadNullableString();
+            FulfillmentDate = reader.ReadNullableString();
+            ReservationDate = reader.ReadNullableString();
             ReaderID = reader.ReadNullableString();
             ReaderDescription = reader.ReadNullableString();
             Database = reader.ReadNullableString();
@@ -334,17 +354,21 @@ namespace ManagedIrbis.Requests
             ResponsiblePerson = reader.ReadNullableString();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer
                 .WritePackedInt32(Mfn)
                 .WriteNullable(BookDescription)
                 .WriteNullable(BookCode)
                 .WriteNullable(RequestDate)
+                .WriteNullable(FulfillmentDate)
+                .WriteNullable(ReservationDate)
                 .WriteNullable(ReaderID)
                 .WriteNullable(ReaderDescription)
                 .WriteNullable(Database)
@@ -357,7 +381,7 @@ namespace ManagedIrbis.Requests
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
@@ -368,7 +392,11 @@ namespace ManagedIrbis.Requests
                     ReaderDescription.ToVisibleString()
                 );
             result.AppendLine();
-            result.AppendLine(BookDescription);
+            result.AppendFormat
+                (
+                    "Book: {0}",
+                    BookDescription.ToVisibleString()
+                );
             result.AppendLine();
             if (FreeNumbers != null)
             {
