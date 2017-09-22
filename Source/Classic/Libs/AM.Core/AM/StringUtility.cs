@@ -1305,6 +1305,27 @@ namespace AM
             return one.OneOf(many.AsEnumerable());
         }
 
+#if PORTABLE
+
+        /// <summary>
+        /// Проверяет, является ли искомый символ одним
+        /// из перечисленных. Регистр символов не учитывается.
+        /// </summary>
+        /// <param name="one">Искомый символ.</param>
+        /// <param name="many">Массив проверяемых символов.</param>
+        /// <returns>Найден ли искомый символ.</returns>
+        public static bool OneOf
+            (
+                this char one,
+                [NotNull] string many
+            )
+        {
+            return many.ToCharArray()
+                .Any(_ => _.SameChar(one));
+        }
+
+#endif
+
         /// <summary>
         /// Проверяет, является ли искомый символ одним
         /// из перечисленных. Регистр символов не учитывается.
