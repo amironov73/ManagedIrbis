@@ -191,9 +191,11 @@
     <Compile Include="Source\Fields\QuantitativeCharacteristics.cs" />
     <Compile Include="Source\Fields\ResourceView.cs" />
     <Compile Include="Source\Fields\RevisionInfo.cs" />
+    <Compile Include="Source\Fields\SignatureInfo.cs" />
     <Compile Include="Source\Fields\SourceInfo.cs" />
     <Compile Include="Source\Fields\TitleCharacterSet.cs" />
     <Compile Include="Source\Fields\TitleInfo.cs" />
+    <Compile Include="Source\Fields\UserInfo.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblAdd.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblAll.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblCha.cs" />

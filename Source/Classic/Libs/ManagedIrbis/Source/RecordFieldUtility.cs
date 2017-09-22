@@ -110,6 +110,51 @@ namespace ManagedIrbis
         // ==========================================================
 
         /// <summary>
+        /// Добавление подполей.
+        /// </summary>
+        [NotNull]
+        public static RecordField AddSubFields
+            (
+                [NotNull] this RecordField field,
+                [CanBeNull] IEnumerable<SubField> subFields
+            )
+        {
+            Code.NotNull(field, "field");
+
+            if (!ReferenceEquals(subFields, null))
+            {
+                foreach (SubField subField in subFields)
+                {
+                    field.SubFields.Add(subField);
+                }
+            }
+
+            return field;
+        }
+
+        /// <summary>
+        /// Добавление подполей.
+        /// </summary>
+        [NotNull]
+        public static RecordField AddSubFields
+            (
+                [NotNull] this RecordField field,
+                [CanBeNull] SubField[] subFields
+            )
+        {
+            Code.NotNull(field, "field");
+
+            if (!ReferenceEquals(subFields, null))
+            {
+                field.SubFields.AddRange(subFields);
+            }
+
+            return field;
+        }
+
+        // ==========================================================
+
+        /// <summary>
         /// Все подполя.
         /// </summary>
         [NotNull]
@@ -2121,6 +2166,72 @@ namespace ManagedIrbis
             }
 
             return field;
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Get unknown subfields.
+        /// </summary>
+        [CanBeNull]
+        [ItemNotNull]
+        public static SubField[] GetUnknownSubFields
+            (
+                [NotNull] this IEnumerable<SubField> subFields,
+                [NotNull] string knownCodes
+            )
+        {
+            Code.NotNull(subFields, "subFields");
+            Code.NotNullNorEmpty(knownCodes, "knownCodes");
+
+            List<SubField> result = null;
+            foreach (SubField subField in subFields)
+            {
+                if (!subField.Code.OneOf(knownCodes))
+                {
+                    if (ReferenceEquals(result, null))
+                    {
+                        result = new List<SubField>();
+                    }
+                    result.Add(subField);
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? SubFieldUtility.EmptyArray
+                : result.ToArray();
+        }
+
+        /// <summary>
+        /// Get unknown subfields.
+        /// </summary>
+        [CanBeNull]
+        [ItemNotNull]
+        public static SubField[] GetUnknownSubFields
+            (
+                [NotNull] this SubFieldCollection subFields,
+                [NotNull] string knownCodes
+            )
+        {
+            Code.NotNull(subFields, "subFields");
+            Code.NotNullNorEmpty(knownCodes, "knownCodes");
+
+            List<SubField> result = null;
+            for (int i = 0; i < subFields.Count; i++)
+            {
+                if (!subFields[i].Code.OneOf(knownCodes))
+                {
+                    if (ReferenceEquals(result, null))
+                    {
+                        result = new List<SubField>();
+                    }
+                    result.Add(subFields[i]);
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? SubFieldUtility.EmptyArray
+                : result.ToArray();
         }
 
         // ==========================================================

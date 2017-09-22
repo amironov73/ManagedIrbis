@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -88,11 +89,30 @@ namespace ManagedIrbis.Fields
         public string Name { get; set; }
 
         /// <summary>
+        /// Associated field.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public RecordField Field { get; set; }
+
+        /// <summary>
+        /// Unknown subfields.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("unknown")]
+        [JsonProperty("unknown")]
+        [Browsable(false)]
+        public SubField[] UnknownSubFields { get; set; }
+
+        /// <summary>
         /// Arbitrary user data.
         /// </summary>
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public object UserData { get; set; }
 
         #endregion
@@ -102,6 +122,22 @@ namespace ManagedIrbis.Fields
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Apply to the <see cref="RecordField"/>.
+        /// </summary>
+        public void ApplyToField
+            (
+                [NotNull] RecordField field
+            )
+        {
+            Code.NotNull(field, "field");
+
+            field
+                .ApplySubField('a', Date)
+                .ApplySubField('b', Name)
+                .ApplySubField('c', Stage);
+        }
 
         /// <summary>
         /// Разбор поля.
@@ -114,13 +150,13 @@ namespace ManagedIrbis.Fields
         {
             Code.NotNull (field, "field");
 
-            // TODO: support for unknown subfields
-
             RevisionInfo result = new RevisionInfo
                 {
                     Date = field.GetFirstSubFieldValue('a'),
                     Name = field.GetFirstSubFieldValue('b'),
-                    Stage = field.GetFirstSubFieldValue('c')
+                    Stage = field.GetFirstSubFieldValue('c'),
+                    UnknownSubFields = field.SubFields.GetUnknownSubFields(KnownCodes),
+                    Field = field
                 };
 
             return result;
@@ -165,9 +201,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Should serialize <see cref="Date"/> field?
         /// </summary>
-#if FW4
         [EditorBrowsable(EditorBrowsableState.Never)]
-#endif
         [ExcludeFromCodeCoverage]
         public bool ShouldSerializeDate()
         {
@@ -195,6 +229,16 @@ namespace ManagedIrbis.Fields
         }
 
         /// <summary>
+        /// Should serialize the <see cref="UnknownSubFields"/> array?
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeUnknownSubFields()
+        {
+            return !ArrayUtility.IsNullOrEmpty(UnknownSubFields);
+        }
+
+        /// <summary>
         /// Превращение обратно в поле.
         /// </summary>
         [NotNull]
@@ -203,7 +247,8 @@ namespace ManagedIrbis.Fields
             RecordField result = new RecordField(Tag)
                 .AddNonEmptySubField('a', Date)
                 .AddNonEmptySubField('b', Name)
-                .AddNonEmptySubField('c', Stage);
+                .AddNonEmptySubField('c', Stage)
+                .AddSubFields(UnknownSubFields);
 
             return result;
         }
@@ -221,6 +266,7 @@ namespace ManagedIrbis.Fields
             Stage = reader.ReadNullableString();
             Date = reader.ReadNullableString();
             Name = reader.ReadNullableString();
+            UnknownSubFields = reader.ReadNullableArray<SubField>();
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -232,7 +278,8 @@ namespace ManagedIrbis.Fields
             writer
                 .WriteNullable(Stage)
                 .WriteNullable(Date)
-                .WriteNullable(Name);
+                .WriteNullable(Name)
+                .WriteNullableArray(UnknownSubFields);
         }
 
         #endregion

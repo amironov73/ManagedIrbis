@@ -175,6 +175,7 @@
     <Compile Include="ManagedIrbis\Fields\CodesInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fields\FieldFilterTest.cs" />
     <Compile Include="ManagedIrbis\Fields\TitleInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Fields\SignatureInfoTest.cs" />
     <Compile Include="ManagedIrbis\Gbl\GblFileTest.cs" />
     <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
     <Compile Include="AM\Globalization\RussianStringComparerTest.cs" />

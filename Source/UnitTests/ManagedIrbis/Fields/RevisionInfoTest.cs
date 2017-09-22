@@ -17,6 +17,8 @@ namespace UnitTests.ManagedIrbis.Fields
             Assert.IsNull(revision.Stage);
             Assert.IsNull(revision.Date);
             Assert.IsNull(revision.Name);
+            Assert.IsNull(revision.UnknownSubFields);
+            Assert.IsNull(revision.Field);
             Assert.IsNull(revision.UserData);
         }
 
@@ -32,13 +34,27 @@ namespace UnitTests.ManagedIrbis.Fields
             Assert.AreEqual(first.Date, second.Date);
             Assert.AreEqual(first.Name, second.Name);
             Assert.AreEqual(first.Stage, second.Stage);
+            Assert.AreSame(first.UnknownSubFields, second.UnknownSubFields);
+            Assert.IsNull(second.UserData);
         }
 
         [TestMethod]
         public void RevisionInfo_Serialization_1()
         {
-            var revisionInfo = new RevisionInfo();
-            _TestSerialization(revisionInfo);
+            var revision = new RevisionInfo();
+            _TestSerialization(revision);
+
+            revision.UserData = "User data";
+            revision.Field = new RecordField();
+            _TestSerialization(revision);
+
+            revision = new RevisionInfo
+            {
+                Date = "20051010",
+                Name = "ТНП",
+                Stage = "ПК"
+            };
+            _TestSerialization(revision);
         }
 
         private MarcRecord _GetRecord()
@@ -91,6 +107,24 @@ namespace UnitTests.ManagedIrbis.Fields
             const string expected = "Stage: ПК, Date: 20051010, Name: ТНП";
             string actual = revision.ToString();
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void RevisionInfo_ApplyToField_1()
+        {
+            RecordField field = new RecordField(RevisionInfo.Tag)
+                .AddSubField('a', "----")
+                .AddSubField('b', "???");
+            RevisionInfo revision = new RevisionInfo
+            {
+                Date = "20051010",
+                Name = "ТНП",
+                Stage = "ПК"
+            };
+            revision.ApplyToField(field);
+            Assert.AreEqual("20051010", field.GetFirstSubFieldValue('a'));
+            Assert.AreEqual("ТНП", field.GetFirstSubFieldValue('b'));
+            Assert.AreEqual("ПК", field.GetFirstSubFieldValue('c'));
         }
     }
 }
