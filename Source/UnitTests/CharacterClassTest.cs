@@ -1,9 +1,10 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Text;
 
-namespace UnitTests
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace UnitTests.AM.Text
 {
     [TestClass]
     public class CharacterClassTest
