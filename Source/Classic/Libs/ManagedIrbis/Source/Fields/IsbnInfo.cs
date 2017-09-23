@@ -11,6 +11,8 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -39,12 +41,13 @@ namespace ManagedIrbis.Fields
     [XmlRoot("isbn")]
     [MoonSharpUserData]
     public sealed class IsbnInfo
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Constants
 
         /// <summary>
-        /// Known codes.
+        /// Known subfield codes.
         /// </summary>
         public const string KnownCodes = "abcdz";
 
@@ -93,12 +96,28 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Цена общая для всех экземпляров. Подполе d.
         /// </summary>
+        [CanBeNull]
         [SubField('d')]
         [XmlElement("price")]
         [JsonProperty("price")]
         [Description("Цена общая для всех экземпляров")]
         [DisplayName("Цена общая для всех экземпляров")]
-        public decimal Price { get; set; }
+        public string PriceString { get; set; }
+
+        /// <summary>
+        /// Цена общая для всех экземпляров. Подполе d.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public decimal Price
+        {
+            get { return PriceString.SafeToDecimal(0.0m); }
+            set
+            {
+                PriceString = value.ToString("#.00", CultureInfo.InvariantCulture);
+            }
+        }
 
         /// <summary>
         /// Обозначение валюты. Подполе c.
@@ -112,13 +131,31 @@ namespace ManagedIrbis.Fields
         public string Currency { get; set; }
 
         /// <summary>
+        /// Unknown subfields.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public SubField[] UnknownSubFields { get; set; }
+
+        /// <summary>
         /// Associated field.
         /// </summary>
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        [DisplayName("Поле с подполями")]
+        [Browsable(false)]
         public RecordField Field { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
 
         #endregion
 
@@ -147,11 +184,7 @@ namespace ManagedIrbis.Fields
                 .ApplySubField('a', Isbn)
                 .ApplySubField('b', Refinement)
                 .ApplySubField('z', Erroneous)
-                .ApplySubField
-                    (
-                        'd',
-                        Price != 0 ? Price.ToInvariantString() : null
-                    )
+                .ApplySubField('d', PriceString)
                 .ApplySubField('c', Currency);
         }
 
@@ -196,13 +229,23 @@ namespace ManagedIrbis.Fields
                 Isbn = field.GetFirstSubFieldValue('a'),
                 Refinement = field.GetFirstSubFieldValue('b'),
                 Erroneous = field.GetFirstSubFieldValue('z'),
-                Price = field.GetFirstSubFieldValue('d')
-                    .SafeToDecimal(0.0m),
+                PriceString = field.GetFirstSubFieldValue('d'),
                 Currency = field.GetFirstSubFieldValue('c'),
+                UnknownSubFields = field.SubFields.GetUnknownSubFields(KnownCodes),
                 Field = field
             };
 
             return result;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="UnknownSubFields"/> array?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeUnknownSubFields()
+        {
+            return !ArrayUtility.IsNullOrEmpty(UnknownSubFields);
         }
 
         /// <summary>
@@ -235,21 +278,13 @@ namespace ManagedIrbis.Fields
                 BinaryReader reader
             )
         {
-#if SILVERLIGHT
-
-            throw new System.NotImplementedException();
-
-#else
-
             Code.NotNull(reader, "reader");
 
             Isbn = reader.ReadNullableString();
             Refinement = reader.ReadNullableString();
             Erroneous = reader.ReadNullableString();
             Currency = reader.ReadNullableString();
-            Price = reader.ReadDecimal();
-
-#endif
+            PriceString = reader.ReadNullableString();
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -258,12 +293,6 @@ namespace ManagedIrbis.Fields
                 BinaryWriter writer
             )
         {
-#if SILVERLIGHT
-
-            throw new System.NotImplementedException();
-
-#else
-
             Code.NotNull(writer, "writer");
 
             writer
@@ -271,9 +300,30 @@ namespace ManagedIrbis.Fields
                 .WriteNullable(Refinement)
                 .WriteNullable(Erroneous)
                 .WriteNullable(Currency)
-                .Write(Price);
+                .WriteNullable(PriceString);
+        }
 
-#endif
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<IsbnInfo> verifier
+                = new Verifier<IsbnInfo>(this, throwOnError);
+
+            verifier.Assert
+                (
+                    !string.IsNullOrEmpty(PriceString)
+                    || !string.IsNullOrEmpty(Isbn)
+                    || !string.IsNullOrEmpty(Erroneous)
+                );
+
+            return verifier.Result;
         }
 
         #endregion
@@ -283,7 +333,20 @@ namespace ManagedIrbis.Fields
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            return Isbn.ToVisibleString();
+            if (string.IsNullOrEmpty(Isbn))
+            {
+                if (string.IsNullOrEmpty(PriceString))
+                {
+                    return "(null)";
+                }
+                return PriceString;
+            }
+
+            if (string.IsNullOrEmpty(PriceString))
+            {
+                return Isbn;
+            }
+            return Isbn + " : " + PriceString;
         }
 
         #endregion
