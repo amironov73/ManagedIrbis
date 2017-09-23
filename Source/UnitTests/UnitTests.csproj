@@ -178,6 +178,7 @@
     <Compile Include="ManagedIrbis\Fields\SignatureInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fields\ManagementInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fields\SenderInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Fields\HeadingInfoTest.cs" />
     <Compile Include="ManagedIrbis\Gbl\GblFileTest.cs" />
     <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
     <Compile Include="AM\Globalization\RussianStringComparerTest.cs" />
