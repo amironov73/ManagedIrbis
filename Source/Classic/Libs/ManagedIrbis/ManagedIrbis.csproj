@@ -192,6 +192,7 @@
     <Compile Include="Source\Fields\QuantitativeCharacteristics.cs" />
     <Compile Include="Source\Fields\ResourceView.cs" />
     <Compile Include="Source\Fields\RevisionInfo.cs" />
+    <Compile Include="Source\Fields\SenderInfo.cs" />
     <Compile Include="Source\Fields\SignatureInfo.cs" />
     <Compile Include="Source\Fields\SourceInfo.cs" />
     <Compile Include="Source\Fields\TitleCharacterSet.cs" />
