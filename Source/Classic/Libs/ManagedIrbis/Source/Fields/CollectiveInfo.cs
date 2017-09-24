@@ -11,9 +11,13 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Xml.Serialization;
 
 using AM;
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -35,10 +39,21 @@ namespace ManagedIrbis.Fields
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [XmlRoot("collective")]
     public sealed class CollectiveInfo
+        : IHandmadeSerializable,
+        IVerifiable
     {
-        #region Properties
+        #region Constants
 
+        /// <summary>
+        /// Known subfield codes.
+        /// </summary>
+        public const string KnownCodes = "abcfnrsx7";
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Empty array of the <see cref="CollectiveInfo"/>.
@@ -151,17 +166,53 @@ namespace ManagedIrbis.Fields
         public string Gost { get; set; }
 
         /// <summary>
+        /// Unknown subfields.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("unknown")]
+        [JsonProperty("unknown")]
+        [Browsable(false)]
+        public SubField[] UnknownSubFields { get; set; }
+
+        /// <summary>
         /// Associated field.
         /// </summary>
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        [DisplayName("Поле с подполями")]
+        [Browsable(false)]
         public RecordField Field { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
 
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public CollectiveInfo()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public CollectiveInfo
+            (
+                [CanBeNull] string title
+            )
+        {
+            Title = title;
+        }
 
         #endregion
 
@@ -251,6 +302,7 @@ namespace ManagedIrbis.Fields
                         field.GetFirstSubFieldValue('x')
                     ),
                 Gost = field.GetFirstSubFieldValue('7'),
+                UnknownSubFields = field.SubFields.GetUnknownSubFields(KnownCodes),
                 Field = field
             };
 
@@ -258,16 +310,36 @@ namespace ManagedIrbis.Fields
         }
 
         /// <summary>
-        /// Convert <see cref="CollectiveInfo"/>
-        /// to <see cref="RecordField"/>.
+        /// Should serialize the <see cref="Characteristic"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeCharacteristic()
+        {
+            return Characteristic;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="UnknownSubFields"/> array?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeUnknownSubFields()
+        {
+            return !ArrayUtility.IsNullOrEmpty(UnknownSubFields);
+        }
+
+        /// <summary>
+        /// Convert the <see cref="CollectiveInfo"/>
+        /// back to <see cref="RecordField"/>.
         /// </summary>
         [NotNull]
         public RecordField ToField
             (
-                [NotNull] string tag
+                int tag
             )
         {
-            Code.NotNullNorEmpty(tag, "tag");
+            Code.Positive(tag, "tag");
 
             RecordField result = new RecordField(tag);
             result
@@ -279,9 +351,74 @@ namespace ManagedIrbis.Fields
                 .AddNonEmptySubField('c', City1)
                 .AddNonEmptySubField('b', Department)
                 .AddNonEmptySubField('x', Characteristic ? "1" : null)
-                .AddNonEmptySubField('7', Gost);
+                .AddNonEmptySubField('7', Gost)
+                .AddSubFields(UnknownSubFields);
 
             return result;
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            Title = reader.ReadNullableString();
+            Country = reader.ReadNullableString();
+            Abbreviation = reader.ReadNullableString();
+            Number = reader.ReadNullableString();
+            Date = reader.ReadNullableString();
+            City1 = reader.ReadNullableString();
+            Department = reader.ReadNullableString();
+            Gost = reader.ReadNullableString();
+            UnknownSubFields = reader.ReadNullableArray<SubField>();
+            Characteristic = reader.ReadBoolean();
+        }
+
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer
+                .WriteNullable(Title)
+                .WriteNullable(Country)
+                .WriteNullable(Abbreviation)
+                .WriteNullable(Number)
+                .WriteNullable(Date)
+                .WriteNullable(City1)
+                .WriteNullable(Department)
+                .WriteNullable(Gost)
+                .WriteNullableArray(UnknownSubFields)
+                .Write(Characteristic);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<CollectiveInfo> verifier
+                = new Verifier<CollectiveInfo>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Title, "Title");
+
+            return verifier.Result;
         }
 
         #endregion

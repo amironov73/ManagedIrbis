@@ -184,6 +184,7 @@
     <Compile Include="ManagedIrbis\Fields\PartInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fields\PersonaliaInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fields\ImprintInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Fields\CollectiveInfoTest.cs" />
     <Compile Include="ManagedIrbis\Gbl\GblFileTest.cs" />
     <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
     <Compile Include="AM\Globalization\RussianStringComparerTest.cs" />
