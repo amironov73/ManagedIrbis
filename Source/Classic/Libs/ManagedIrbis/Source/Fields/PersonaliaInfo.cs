@@ -11,9 +11,13 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Xml.Serialization;
 
 using AM;
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -34,7 +38,10 @@ namespace ManagedIrbis.Fields
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [XmlRoot("personalia")]
     public sealed class PersonaliaInfo
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Constants
 
@@ -42,6 +49,11 @@ namespace ManagedIrbis.Fields
         /// Tag.
         /// </summary>
         public const int Tag = 600;
+
+        /// <summary>
+        /// Known subfield codes.
+        /// </summary>
+        public const string KnownCodes = "abcdfgrp19)";
 
         #endregion
 
@@ -170,13 +182,31 @@ namespace ManagedIrbis.Fields
         public string WorkPlace { get; set; }
 
         /// <summary>
+        /// Unknown subfields.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("unknown")]
+        [JsonProperty("unknown")]
+        [Browsable(false)]
+        public SubField[] UnknownSubFields { get; set; }
+
+        /// <summary>
         /// Associated field.
         /// </summary>
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        [DisplayName("Поле с подполями")]
+        [Browsable(false)]
         public RecordField Field { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
 
         #endregion
 
@@ -222,8 +252,7 @@ namespace ManagedIrbis.Fields
         [ItemNotNull]
         public static PersonaliaInfo[] ParseRecord
             (
-                [NotNull] MarcRecord record,
-                int tag
+                [NotNull] MarcRecord record
             )
         {
             Code.NotNull(record, "record");
@@ -231,7 +260,7 @@ namespace ManagedIrbis.Fields
             List<PersonaliaInfo> result = new List<PersonaliaInfo>();
             foreach (RecordField field in record.Fields)
             {
-                if (field.Tag == tag)
+                if (field.Tag == Tag)
                 {
                     PersonaliaInfo personalia = ParseField(field);
                     result.Add(personalia);
@@ -244,7 +273,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Parse the specified field.
         /// </summary>
-        [CanBeNull]
+        [NotNull]
         public static PersonaliaInfo ParseField
             (
                 [NotNull] RecordField field
@@ -268,10 +297,31 @@ namespace ManagedIrbis.Fields
                 Dates = field.GetFirstSubFieldValue('f'),
                 Variant = field.GetFirstSubFieldValue('r'),
                 WorkPlace = field.GetFirstSubFieldValue('p'),
+                UnknownSubFields = field.SubFields.GetUnknownSubFields(KnownCodes),
                 Field = field
             };
 
             return result;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="CantBeInverted"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeCantBeInverted()
+        {
+            return CantBeInverted;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="UnknownSubFields"/> array?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeUnknownSubFields()
+        {
+            return !ArrayUtility.IsNullOrEmpty(UnknownSubFields);
         }
 
         /// <summary>
@@ -293,9 +343,79 @@ namespace ManagedIrbis.Fields
                 .AddNonEmptySubField('d', Number)
                 .AddNonEmptySubField('f', Dates)
                 .AddNonEmptySubField('r', Variant)
-                .AddNonEmptySubField('p', WorkPlace);
+                .AddNonEmptySubField('p', WorkPlace)
+                .AddSubFields(UnknownSubFields);
 
             return result;
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            DataKind = reader.ReadNullableString();
+            Text = reader.ReadNullableString();
+            Name = reader.ReadNullableString();
+            Extension = reader.ReadNullableString();
+            CantBeInverted = reader.ReadBoolean();
+            Postfix = reader.ReadNullableString();
+            Appendix = reader.ReadNullableString();
+            Number = reader.ReadNullableString();
+            Dates = reader.ReadNullableString();
+            Variant = reader.ReadNullableString();
+            WorkPlace = reader.ReadNullableString();
+            UnknownSubFields = reader.ReadNullableArray<SubField>();
+        }
+
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer
+                .WriteNullable(DataKind)
+                .WriteNullable(Text)
+                .WriteNullable(Name)
+                .WriteNullable(Extension)
+                .Write(CantBeInverted);
+            writer
+                .WriteNullable(Postfix)
+                .WriteNullable(Appendix)
+                .WriteNullable(Number)
+                .WriteNullable(Dates)
+                .WriteNullable(Variant)
+                .WriteNullable(WorkPlace)
+                .WriteNullableArray(UnknownSubFields);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<PersonaliaInfo> verifier
+                = new Verifier<PersonaliaInfo>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Name, "Name");
+
+            return verifier.Result;
         }
 
         #endregion
