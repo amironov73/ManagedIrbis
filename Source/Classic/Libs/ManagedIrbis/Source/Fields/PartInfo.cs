@@ -11,6 +11,7 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -36,9 +37,11 @@ namespace ManagedIrbis.Fields
     /// Выпуск, часть. Поле 923.
     /// </summary>
     [PublicAPI]
+    [XmlRoot("part")]
     [MoonSharpUserData]
     public sealed class PartInfo
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Constants
 
@@ -112,13 +115,32 @@ namespace ManagedIrbis.Fields
         public string Role { get; set; }
 
         /// <summary>
+        /// Unknown subfields.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("unknown")]
+        [JsonProperty("unknown")]
+        [Browsable(false)]
+        public SubField[] UnknownSubFields { get; set; }
+
+        /// <summary>
         /// Associated field.
         /// </summary>
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
         [DisplayName("Поле с подполями")]
-        public RecordField Field { get; private set; }
+        public RecordField Field { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
+
         #endregion
 
         #region Construction
@@ -193,10 +215,21 @@ namespace ManagedIrbis.Fields
                 ThirdLevelNumber = field.GetFirstSubFieldValue('k'),
                 ThirdLevelTitle = field.GetFirstSubFieldValue('l'),
                 Role = field.GetFirstSubFieldValue('u'),
+                UnknownSubFields = field.SubFields.GetUnknownSubFields(KnownCodes),
                 Field = field
             };
 
             return result;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="UnknownSubFields"/> array?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeUnknownSubFields()
+        {
+            return !ArrayUtility.IsNullOrEmpty(UnknownSubFields);
         }
 
         /// <summary>
@@ -210,7 +243,8 @@ namespace ManagedIrbis.Fields
                 .AddNonEmptySubField('i', SecondLevelTitle)
                 .AddNonEmptySubField('k', ThirdLevelNumber)
                 .AddNonEmptySubField('l', ThirdLevelTitle)
-                .AddNonEmptySubField('u', Role);
+                .AddNonEmptySubField('u', Role)
+                .AddSubFields(UnknownSubFields);
 
             return result;
         }
@@ -232,6 +266,7 @@ namespace ManagedIrbis.Fields
             ThirdLevelNumber = reader.ReadNullableString();
             ThirdLevelTitle = reader.ReadNullableString();
             Role = reader.ReadNullableString();
+            UnknownSubFields = reader.ReadNullableArray<SubField>();
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -247,7 +282,32 @@ namespace ManagedIrbis.Fields
                 .WriteNullable(SecondLevelTitle)
                 .WriteNullable(ThirdLevelNumber)
                 .WriteNullable(ThirdLevelTitle)
-                .WriteNullable(Role);
+                .WriteNullable(Role)
+                .WriteNullableArray(UnknownSubFields);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<PartInfo> verifier
+                = new Verifier<PartInfo>(this, throwOnError);
+
+            verifier.Assert
+                (
+                    !string.IsNullOrEmpty(SecondLevelNumber)
+                    || !string.IsNullOrEmpty(SecondLevelTitle)
+                    || !string.IsNullOrEmpty(ThirdLevelNumber)
+                    || !string.IsNullOrEmpty(ThirdLevelTitle)
+                );
+
+            return verifier.Result;
         }
 
         #endregion
@@ -259,13 +319,13 @@ namespace ManagedIrbis.Fields
         {
             return StringUtility.Join
                 (
-                    " ",
+                    " -- ",
                     new[]
                     {
                         SecondLevelNumber, SecondLevelTitle,
                         ThirdLevelNumber, ThirdLevelTitle
                     }
-                );
+                ).ToVisibleString();
         }
 
         #endregion

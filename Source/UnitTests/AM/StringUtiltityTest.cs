@@ -12,7 +12,7 @@ namespace UnitTests.AM
     public class StringUtilityTest
     {
         [TestMethod]
-        public void StringUtility_CCat1()
+        public void StringUtility_CCat_1()
         {
             Assert.AreEqual
             (
@@ -27,7 +27,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void StringUtility_CCat2()
+        public void StringUtility_CCat_2()
         {
             Assert.AreEqual
             (
@@ -42,7 +42,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void StringUtility_ChangeEncoding1()
+        public void StringUtility_ChangeEncoding_1()
         {
             Assert.AreEqual
                 (
@@ -68,7 +68,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void StringUtility_ChangeEncoding2()
+        public void StringUtility_ChangeEncoding_2()
         {
             Assert.AreEqual
                 (
@@ -83,7 +83,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void StringUtility_CompareNoCase1()
+        public void StringUtility_CompareNoCase_1()
         {
             Assert.IsTrue(StringUtility.CompareNoCase('A', 'a'));
             Assert.IsTrue(StringUtility.CompareNoCase('A', 'A'));
@@ -92,7 +92,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void StringUtility_CompareNoCase2()
+        public void StringUtility_CompareNoCase_2()
         {
             Assert.IsTrue(StringUtility.CompareNoCase(string.Empty, string.Empty));
             Assert.IsTrue(StringUtility.CompareNoCase(" ", " "));
@@ -101,7 +101,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void StringUtility_CountSubstrings1()
+        public void StringUtility_CountSubstrings_1()
         {
             Assert.AreEqual(0, StringUtility.CountSubstrings(null, null));
             Assert.AreEqual(0, "".CountSubstrings(null));
@@ -111,7 +111,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void StringUtility_CountSubstrings2()
+        public void StringUtility_CountSubstrings_2()
         {
             Assert.AreEqual(2, "aga".CountSubstrings("a"));
             Assert.AreEqual(1, "aga".CountSubstrings("ag"));
@@ -120,7 +120,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void StringUtility_ConsistOf1()
+        public void StringUtility_ConsistOf_1()
         {
             Assert.IsFalse(string.Empty.ConsistOf('a'));
             Assert.IsTrue("aaa".ConsistOf('a'));
@@ -128,7 +128,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void StringUtility_ConsistOf2()
+        public void StringUtility_ConsistOf_2()
         {
             Assert.IsFalse(string.Empty.ConsistOf('a', 'b'));
             Assert.IsTrue("abc".ConsistOf('a', 'b', 'c'));
@@ -136,7 +136,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void StringUtility_ConsistOfDigits1()
+        public void StringUtility_ConsistOfDigits_1()
         {
             Assert.IsFalse
                 (
@@ -385,16 +385,18 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void StringUtility_Join()
+        public void StringUtility_Join_1()
         {
             const string comma = ", ";
             _TestJoin(string.Empty, comma);
             _TestJoin("1", comma, 1);
             _TestJoin(string.Empty, comma, new object[]{null});
-            _TestJoin("1, ", comma, 1, null);
-            _TestJoin(", 1", comma, null, 1);
+            _TestJoin("1", comma, 1, null);
+            _TestJoin("1", comma, null, 1);
             _TestJoin("1, 2, 3", comma, 1, 2, 3);
             _TestJoin("12", null, 1, 2);
+            _TestJoin("1", comma, 1, null, null);
+            _TestJoin("1, 4", comma, 1, null, null, 4);
         }
 
         private void _TestSparse

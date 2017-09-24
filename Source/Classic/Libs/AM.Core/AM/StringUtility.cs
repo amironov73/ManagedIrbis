@@ -1702,19 +1702,25 @@ namespace AM
             IEnumerator enumerator = objects.GetEnumerator();
             if (enumerator.MoveNext())
             {
+                bool flag = false;
                 object o = enumerator.Current;
                 if (!ReferenceEquals(o, null))
                 {
                     result.Append(o);
+                    flag = true;
                 }
 
                 while (enumerator.MoveNext())
                 {
-                    result.Append(separator);
                     o = enumerator.Current;
                     if (!ReferenceEquals(o, null))
                     {
+                        if (flag)
+                        {
+                            result.Append(separator);
+                        }
                         result.Append(o);
+                        flag = true;
                     }
                 }
             }
