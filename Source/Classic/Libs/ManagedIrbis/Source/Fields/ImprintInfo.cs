@@ -9,15 +9,10 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
@@ -45,15 +40,17 @@ namespace ManagedIrbis.Fields
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [XmlRoot("imprint")]
     public sealed class ImprintInfo
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Constants
 
         /// <summary>
         /// Известные коды подполей.
         /// </summary>
-        public const string KnownCodes = "1acltxy";
+        public const string KnownCodes = "1acdltxy";
 
         /// <summary>
         /// Тег поля.
@@ -136,6 +133,34 @@ namespace ManagedIrbis.Fields
         [JsonProperty("printingHouse")]
         public string PrintingHouse { get; set; }
 
+        /// <summary>
+        /// Unknown subfields.
+        /// </summary>
+        [CanBeNull]
+        [ItemNotNull]
+        [XmlElement("unknown")]
+        [JsonProperty("unknown")]
+        [Browsable(false)]
+        public SubField[] UnknownSubFields { get; set; }
+
+        /// <summary>
+        /// Associated field.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public RecordField Field { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
+
         #endregion
 
         #region Construction
@@ -171,17 +196,37 @@ namespace ManagedIrbis.Fields
         #region Public methods
 
         /// <summary>
-        /// Parse the field.
+        /// Apply the <see cref="ImprintInfo"/>
+        /// to the <see cref="RecordField"/>.
         /// </summary>
-        [NotNull]
-        public static ImprintInfo Parse
+        public void ApplyToField
             (
                 [NotNull] RecordField field
             )
         {
             Code.NotNull(field, "field");
 
-            // TODO: support for unknown subfields
+            field
+                .ApplySubField('c', Publisher)
+                .ApplySubField('l', PrintedPublisher)
+                .ApplySubField('a', City1)
+                .ApplySubField('x', City2)
+                .ApplySubField('y', City3)
+                .ApplySubField('d', Year)
+                .ApplySubField('1', Place)
+                .ApplySubField('t', PrintingHouse);
+        }
+
+        /// <summary>
+        /// Parse the field.
+        /// </summary>
+        [NotNull]
+        public static ImprintInfo ParseField
+            (
+                [NotNull] RecordField field
+            )
+        {
+            Code.NotNull(field, "field");
 
             ImprintInfo result = new ImprintInfo
             {
@@ -192,7 +237,9 @@ namespace ManagedIrbis.Fields
                 City3 = field.GetFirstSubFieldValue('y'),
                 Year = field.GetFirstSubFieldValue('d'),
                 Place = field.GetFirstSubFieldValue('1'),
-                PrintingHouse = field.GetFirstSubFieldValue('t')
+                PrintingHouse = field.GetFirstSubFieldValue('t'),
+                UnknownSubFields = field.SubFields.GetUnknownSubFields(KnownCodes),
+                Field = field
             };
 
             return result;
@@ -203,35 +250,24 @@ namespace ManagedIrbis.Fields
         /// </summary>
         [NotNull]
         [ItemNotNull]
-        public static ImprintInfo[] Parse
+        public static ImprintInfo[] ParseRecord
             (
-                [NotNull] MarcRecord record,
-                int tag
+                [NotNull] MarcRecord record
             )
         {
             Code.NotNull(record, "record");
 
-            return record.Fields
-                .GetField(tag)
-                .Select(field => Parse(field))
-                .ToArray();
-        }
+            List<ImprintInfo> result = new List<ImprintInfo>();
+            foreach (RecordField field in record.Fields)
+            {
+                if (field.Tag == Tag)
+                {
+                    ImprintInfo print = ParseField(field);
+                    result.Add(print);
+                }
+            }
 
-        /// <summary>
-        /// Разбор записи.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static ImprintInfo[] Parse
-        (
-            [NotNull] MarcRecord record
-        )
-        {
-            return Parse
-                (
-                    record,
-                    Tag
-                );
+            return result.ToArray();
         }
 
         /// <summary>
@@ -315,6 +351,16 @@ namespace ManagedIrbis.Fields
         }
 
         /// <summary>
+        /// Should serialize the <see cref="UnknownSubFields"/> array?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeUnknownSubFields()
+        {
+            return !ArrayUtility.IsNullOrEmpty(UnknownSubFields);
+        }
+
+        /// <summary>
         /// Превращение обратно в поле.
         /// </summary>
         [NotNull]
@@ -328,7 +374,8 @@ namespace ManagedIrbis.Fields
                 .AddNonEmptySubField('y', City3)
                 .AddNonEmptySubField('d', Year)
                 .AddNonEmptySubField('1', Place)
-                .AddNonEmptySubField('t', PrintingHouse);
+                .AddNonEmptySubField('t', PrintingHouse)
+                .AddSubFields(UnknownSubFields);
 
             return result;
         }
@@ -376,6 +423,29 @@ namespace ManagedIrbis.Fields
 
         #endregion
 
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ImprintInfo> verifier
+                = new Verifier<ImprintInfo>(this, throwOnError);
+
+            verifier.Assert
+                (
+                    !string.IsNullOrEmpty(Publisher)
+                    || !string.IsNullOrEmpty(City1)
+                    || !string.IsNullOrEmpty(Year)
+                );
+
+            return verifier.Result;
+        }
+
+        #endregion
+
         #region Object members
 
         /// <inheritdoc cref="object.ToString" />
@@ -383,7 +453,7 @@ namespace ManagedIrbis.Fields
         {
             return string.Format
             (
-                "City1: {0}, Publisher: {1}, Year: {2}",
+                "{0}: {1}, {2}",
                 City1.ToVisibleString(),
                 Publisher.ToVisibleString(),
                 Year.ToVisibleString()
