@@ -167,6 +167,7 @@
     <Compile Include="AM\Text\RichTextStripperTest.cs" />
     <Compile Include="AM\Text\SourceCodeUtilityTest.cs" />
     <Compile Include="AM\Text\TextSeparatorTest.cs" />
+    <Compile Include="AM\NumberOrStringTest.cs" />
     <Compile Include="ManagedIrbis\ClientInfoTest.cs" />
     <Compile Include="ManagedIrbis\DatabaseInfoTest.cs" />
     <Compile Include="ManagedIrbis\Direct\DirectUtilityTest.cs" />

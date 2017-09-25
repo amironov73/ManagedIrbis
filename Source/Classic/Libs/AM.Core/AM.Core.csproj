@@ -239,6 +239,7 @@
     <Compile Include="AM\Net\AsyncSocket.cs" />
     <Compile Include="AM\Net\AsyncSocketResult.cs" />
     <Compile Include="AM\NonNullValue.cs" />
+    <Compile Include="AM\NumberOrString.cs" />
     <Compile Include="AM\ObjectDumper.cs" />
     <Compile Include="AM\Operator.cs" />
     <Compile Include="AM\Optional.cs" />

@@ -187,6 +187,69 @@ namespace AM
         }
 
         /// <summary>
+        /// Parse decimal in standard manner.
+        /// </summary>
+        [MethodImpl(Aggressive)]
+        public static decimal ParseDecimal
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            decimal result = decimal.Parse
+                (
+                    text,
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Parse double in standard manner.
+        /// </summary>
+        [MethodImpl(Aggressive)]
+        public static double ParseDouble
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            double result = double.Parse
+                (
+                    text,
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Parse short integer in standard manner.
+        /// </summary>
+        [MethodImpl(Aggressive)]
+        public static short ParseInt16
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            short result = short.Parse
+                (
+                    text,
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Parse integer in standard manner.
         /// </summary>
         [MethodImpl(Aggressive)]
@@ -198,6 +261,27 @@ namespace AM
             Code.NotNullNorEmpty(text, "text");
 
             int result = int.Parse
+                (
+                    text,
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture
+                );
+
+            return result;
+        }
+
+        /// <summary>
+        /// Parse long integer in standard manner.
+        /// </summary>
+        [MethodImpl(Aggressive)]
+        public static long ParseInt64
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            long result = long.Parse
                 (
                     text,
                     NumberStyles.Any,
@@ -369,6 +453,21 @@ namespace AM
 
             return result;
         }
+
+        /// <summary>
+        /// Преобразование числа в строку по правилам инвариантной 
+        /// (не зависящей от региона) культуры.
+        /// </summary>
+        /// <param name="value">Число для преобразования.</param>
+        /// <returns>Строковое представление числа.</returns>
+        public static string ToInvariantString
+            (
+                this short value
+            )
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
+        }
+
 
         /// <summary>
         /// Преобразование числа в строку по правилам инвариантной 
