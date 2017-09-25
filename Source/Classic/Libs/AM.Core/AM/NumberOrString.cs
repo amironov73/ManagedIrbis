@@ -10,25 +10,15 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-using AM;
-using AM.Collections;
 using AM.IO;
-using AM.Logging;
 using AM.Runtime;
-using AM.Text;
 
 using CodeJam;
 
@@ -501,11 +491,19 @@ namespace AM
         {
             Code.NotNull(reader, "reader");
 
+#if NETCORE
+
+            throw new NotImplementedException();
+
+#else
+
             string value = reader.ReadString();
             _value = value == "(null)"
                 ? null
                 : value;
             reader.ReadEndElement();
+
+#endif
         }
 
         /// <inheritdoc cref="IXmlSerializable.WriteXml" />
