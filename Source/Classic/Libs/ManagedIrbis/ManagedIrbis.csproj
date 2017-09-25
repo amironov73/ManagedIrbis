@@ -187,6 +187,7 @@
     <Compile Include="Source\Fields\LanguageCode.cs" />
     <Compile Include="Source\Fields\LanguageInfo.cs" />
     <Compile Include="Source\Fields\ManagementInfo.cs" />
+    <Compile Include="Source\Fields\NumberOfTitlesInfo.cs" />
     <Compile Include="Source\Fields\PartInfo.cs" />
     <Compile Include="Source\Fields\PersonaliaInfo.cs" />
     <Compile Include="Source\Fields\QuantitativeCharacteristics.cs" />
