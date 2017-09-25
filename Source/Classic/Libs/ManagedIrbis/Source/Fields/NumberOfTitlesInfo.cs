@@ -33,7 +33,8 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Fields
 {
     /// <summary>
-    /// 
+    /// Число наименований, впервые поступивших в библиотеку,
+    /// поле 18 в БД CMPL.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
