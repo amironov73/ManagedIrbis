@@ -9,8 +9,6 @@
 
 #region Using directives
 
-using CodeJam;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -33,54 +31,40 @@ namespace AM.Text.Output
 
         #region AbstractOutput members
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc cref="AbstractOutput.HaveError" />
         public override bool HaveError { get; set; }
         
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc cref="AbstractOutput.Clear" />
         public override AbstractOutput Clear()
         {
             HaveError = false;
+
             return this;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="configuration"></param>
-        /// <returns></returns>
+        /// <inheritdoc cref="AbstractOutput.Configure" />
         public override AbstractOutput Configure
             (
                 string configuration
             )
         {
             // Noting to do here
+
             return this;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
+        /// <inheritdoc cref="AbstractOutput.Write(string)" />
         public override AbstractOutput Write
             (
                 string text
             )
         {
             // Nothing to do here
+
             return this;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
+        /// <inheritdoc cref="AbstractOutput.WriteError(string)" />
         public override AbstractOutput WriteError
             (
                 string text
@@ -88,6 +72,7 @@ namespace AM.Text.Output
         {
             // Nothing to do here
             HaveError = true;
+
             return this;
         }
 

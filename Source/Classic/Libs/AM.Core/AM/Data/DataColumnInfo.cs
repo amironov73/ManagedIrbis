@@ -9,9 +9,14 @@
 
 #region Using directives
 
-using System;
 using System.ComponentModel;
+using System.IO;
 using System.Xml.Serialization;
+
+using AM.IO;
+using AM.Runtime;
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -30,6 +35,8 @@ namespace AM.Data
     [XmlRoot("column")]
     [MoonSharpUserData]
     public sealed class DataColumnInfo
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -56,8 +63,8 @@ namespace AM.Data
         /// </summary>
         /// <value>The width of the column.</value>
         [DefaultValue(0)]
-        [JsonProperty("width")]
         [XmlAttribute("width")]
+        [JsonProperty("width", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Width { get; set; }
 
         /// <summary>
@@ -73,8 +80,8 @@ namespace AM.Data
         /// Gets or sets the default value.
         /// </summary>
         [DefaultValue(null)]
-        [JsonProperty("defaultValue")]
         [XmlAttribute("defaultValue")]
+        [JsonProperty("defaultValue", NullValueHandling = NullValueHandling.Ignore)]
         public string DefaultValue { get; set; }
 
         /// <summary>
@@ -82,16 +89,16 @@ namespace AM.Data
         /// the column is frozen.
         /// </summary>
         [DefaultValue(false)]
-        [JsonProperty("frozen")]
         [XmlAttribute("frozen")]
+        [JsonProperty("frozen", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool Frozen { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this column is invisible.
         /// </summary>
         [DefaultValue(false)]
-        [JsonProperty("invisible")]
         [XmlAttribute("invisible")]
+        [JsonProperty("invisible", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool Invisible { get; set; }
 
         /// <summary>
@@ -99,8 +106,8 @@ namespace AM.Data
         /// the column is read only.
         /// </summary>
         [DefaultValue(false)]
-        [JsonProperty("readOnly")]
         [XmlAttribute("readOnly")]
+        [JsonProperty("readOnly", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool ReadOnly { get; set; }
 
         /// <summary>
@@ -108,13 +115,83 @@ namespace AM.Data
         /// this column is sorted.
         /// </summary>
         [DefaultValue(false)]
-        [JsonProperty("sorted")]
         [XmlAttribute("sorted")]
+        [JsonProperty("sorted", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool Sorted { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public object UserData { get; set; }
 
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            Name = reader.ReadNullableString();
+            Title = reader.ReadNullableString();
+            Width = reader.ReadPackedInt32();
+            Type = reader.ReadNullableString();
+            DefaultValue = reader.ReadNullableString();
+            Frozen = reader.ReadBoolean();
+            Invisible = reader.ReadBoolean();
+            ReadOnly = reader.ReadBoolean();
+            Sorted = reader.ReadBoolean();
+        }
+
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer
+                .WriteNullable(Name)
+                .WriteNullable(Title)
+                .WritePackedInt32(Width)
+                .WriteNullable(Type)
+                .WriteNullable(DefaultValue);
+            writer.Write(Frozen);
+            writer.Write(Invisible);
+            writer.Write(ReadOnly);
+            writer.Write(Sorted);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<DataColumnInfo> verifier
+                = new Verifier<DataColumnInfo>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Name, "Name");
+
+            return verifier.Result;
+        }
 
         #endregion
 
