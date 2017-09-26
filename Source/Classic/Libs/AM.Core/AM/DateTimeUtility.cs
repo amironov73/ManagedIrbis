@@ -28,52 +28,6 @@ namespace AM
         #region Properties
 
         /// <summary>
-        /// Searches maximal date/time from given ones.
-        /// </summary>
-        /// <param name="first">First date/time.</param>
-        /// <param name="other">Other dates/times.</param>
-        /// <returns>Maximum.</returns>
-        public static DateTime MaxDate
-            (
-                DateTime first,
-                params DateTime[] other
-            )
-        {
-            DateTime result = first;
-            foreach (DateTime time in other)
-            {
-                if (time > result)
-                {
-                    result = time;
-                }
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Searches minimal date/time from given ones.
-        /// </summary>
-        /// <param name="first">First date/time.</param>
-        /// <param name="other">Other dates/times.</param>
-        /// <returns>Minimum.</returns>
-        public static DateTime MinDate
-            (
-                DateTime first,
-                params DateTime[] other
-            )
-        {
-            DateTime result = first;
-            foreach (DateTime time in other)
-            {
-                if (time < result)
-                {
-                    result = time;
-                }
-            }
-            return result;
-        }
-
-        /// <summary>
         /// Gets the date of next month first day.
         /// </summary>
         /// <value>Next month first day.</value>
@@ -202,6 +156,53 @@ namespace AM
             return date >= start && date <= end;
         }
 
+        /// <summary>
+        /// Finds maximal date/time from given ones.
+        /// </summary>
+        /// <param name="first">First date/time.</param>
+        /// <param name="other">Other dates/times.</param>
+        /// <returns>Maximum.</returns>
+        public static DateTime MaxDate
+            (
+                DateTime first,
+                params DateTime[] other
+            )
+        {
+            DateTime result = first;
+            foreach (DateTime time in other)
+            {
+                if (time > result)
+                {
+                    result = time;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Finds minimal date/time from given ones.
+        /// </summary>
+        /// <param name="first">First date/time.</param>
+        /// <param name="other">Other dates/times.</param>
+        /// <returns>Minimum.</returns>
+        public static DateTime MinDate
+            (
+                DateTime first,
+                params DateTime[] other
+            )
+        {
+            DateTime result = first;
+            foreach (DateTime time in other)
+            {
+                if (time < result)
+                {
+                    result = time;
+                }
+            }
+            return result;
+        }
+
 #if CLASSIC
 
         // Borrowed from: https://mikearnett.wordpress.com/2011/09/13/c-convert-julian-date/
@@ -235,12 +236,12 @@ namespace AM
                 year = year - 1;
             }
 
-            return day 
-                + (153 * month - 457) / 5 
-                + 365 * year 
-                + (year / 4) 
-                - (year / 100) 
-                + (year / 400) 
+            return day
+                + (153 * month - 457) / 5
+                + 365 * year
+                + year / 4
+                - year / 100
+                + year / 400
                 + 1721119;
         }
 
@@ -254,12 +255,12 @@ namespace AM
             )
         {
             long L = julianDate + 68569;
-            long N = (long)((4 * L) / 146097);
-            L = L - ((long)((146097 * N + 3) / 4));
-            long I = (long)((4000 * (L + 1) / 1461001));
-            L = L - (long)((1461 * I) / 4) + 31;
-            long J = (long)((80 * L) / 2447);
-            int Day = (int)(L - (long)((2447 * J) / 80));
+            long N = (long)(4 * L / 146097);
+            L = L - (long)((146097 * N + 3) / 4);
+            long I = (long)(4000 * (L + 1) / 1461001);
+            L = L - (long)(1461 * I / 4) + 31;
+            long J = (long)(80 * L / 2447);
+            int Day = (int)(L - (long)(2447 * J / 80));
             L = (long)(J / 11);
             int Month = (int)(J + 2 - 12 * L);
             int Year = (int)(100 * (N - 49) + I + L);
@@ -287,7 +288,7 @@ namespace AM
                     gregorian.Second,
                     gregorian.Millisecond
                 );
-            
+
             return dateInJulian.ToString("yyyyMMdd");
         }
 
@@ -301,7 +302,7 @@ namespace AM
                 this DateTime dateTime
             )
         {
-            return (long)((dateTime - UnixStart).TotalSeconds);
+            return (long)(dateTime - UnixStart).TotalSeconds;
         }
 
         #endregion

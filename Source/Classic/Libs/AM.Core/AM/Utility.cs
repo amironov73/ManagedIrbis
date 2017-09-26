@@ -114,7 +114,7 @@ namespace AM
             }
             if (ReferenceEquals(left, right))
             {
-                return false;
+                return true;
             }
 
             IEnumerator rightEnumerator = right.GetEnumerator();
