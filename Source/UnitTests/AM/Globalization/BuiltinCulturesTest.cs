@@ -10,7 +10,7 @@ namespace UnitTests.AM.Globalization
     public class BuiltinCulturesTest
     {
         [TestMethod]
-        public void BuiltinCultures_AmericanEnglish()
+        public void BuiltinCultures_AmericanEnglish_1()
         {
             CultureInfo culture = BuiltinCultures.AmericanEnglish;
             Assert.IsNotNull(culture);
@@ -18,7 +18,7 @@ namespace UnitTests.AM.Globalization
         }
 
         [TestMethod]
-        public void BuiltinCultures_Russian()
+        public void BuiltinCultures_Russian_1()
         {
             CultureInfo culture = BuiltinCultures.Russian;
             Assert.IsNotNull(culture);

@@ -426,7 +426,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if ((PostProcessing & PftCleanup.Html) != 0)
             {
-                result = HtmlText.HtmlToPlainText(result);
+                result = HtmlText.ToPlainText(result);
             }
 
             if ((PostProcessing & PftCleanup.DoubleText) != 0)

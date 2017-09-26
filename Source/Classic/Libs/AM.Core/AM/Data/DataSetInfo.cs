@@ -9,11 +9,15 @@
 
 #region Using directives
 
+using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
 
 using AM.Collections;
+using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -34,6 +38,8 @@ namespace AM.Data
     [XmlRoot("dataset")]
     [MoonSharpUserData]
     public class DataSetInfo
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -42,7 +48,7 @@ namespace AM.Data
         /// </summary>
         [CanBeNull]
         [XmlElement("connectionString")]
-        [JsonProperty("connectionString")]
+        [JsonProperty("connectionString", NullValueHandling = NullValueHandling.Ignore)]
         public string ConnectionString { get; set; }
 
         /// <summary>
@@ -50,7 +56,7 @@ namespace AM.Data
         /// the dataset is read only.
         /// </summary>
         [XmlAttribute("readOnly")]
-        [JsonProperty("readOnly")]
+        [JsonProperty("readOnly", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool ReadOnly { get; set; }
 
         /// <summary>
@@ -59,19 +65,29 @@ namespace AM.Data
         /// <value>The select command text.</value>
         [CanBeNull]
         [XmlElement("selectCommand")]
-        [JsonProperty("selectCommand")]
+        [JsonProperty("selectCommand", NullValueHandling = NullValueHandling.Ignore)]
         public string SelectCommandText { get; set; }
 
         /// <summary>
         /// Gets the table list.
         /// </summary>
         [NotNull]
+        [ItemNotNull]
         [XmlElement("table")]
         [JsonProperty("tables")]
         public NonNullCollection<DataTableInfo> Tables
         {
             get; private set;
         }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
 
         #endregion
 
@@ -130,6 +146,79 @@ namespace AM.Data
 
 #endif
 
-#endregion
+        /// <summary>
+        /// Should serialize the <see cref="ReadOnly"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeReadOnly()
+        {
+            return ReadOnly;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Tables"/> collection?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeTables()
+        {
+            return Tables.Count != 0;
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            ConnectionString = reader.ReadNullableString();
+            ReadOnly = reader.ReadBoolean();
+            SelectCommandText = reader.ReadNullableString();
+            Tables = reader.ReadNonNullCollection<DataTableInfo>();
+        }
+
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer.WriteNullable(ConnectionString);
+            writer.Write(ReadOnly);
+            writer.WriteNullable(SelectCommandText);
+            writer.WriteCollection(Tables);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<DataSetInfo> verifier
+                = new Verifier<DataSetInfo>(this, throwOnError);
+
+            foreach (DataTableInfo table in Tables)
+            {
+                verifier.VerifySubObject(table, "Table");
+            }
+
+            return verifier.Result;
+        }
+
+        #endregion
     }
 }

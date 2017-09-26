@@ -9,17 +9,9 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-
-using CodeJam;
 
 using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
@@ -30,12 +22,6 @@ namespace AM.Text
     /// </summary>
     public static class RichText
     {
-        #region Constants
-
-        
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -97,11 +83,22 @@ namespace AM.Text
                 return text;
             }
 
-            StringBuilder result = new StringBuilder
-                (
-                    text.Length
-                );
+            int length = text.Length;
+            int found = 0;
+            for (int i = 0; i < length; i++)
+            {
+                char c = text[i];
+                if (c == '{' || c == '}' || c == '\\')
+                {
+                    found++;
+                }
+            }
+            if (found == 0)
+            {
+                return text;
+            }
 
+            StringBuilder result = new StringBuilder(length + found);
             foreach (char c in text)
             {
                 switch (c)

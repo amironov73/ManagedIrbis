@@ -9,9 +9,16 @@
 
 #region Using directives
 
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Xml.Serialization;
 
 using AM.Collections;
+using AM.IO;
+using AM.Runtime;
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -30,6 +37,8 @@ namespace AM.Data
     [XmlRoot("table")]
     [MoonSharpUserData]
     public class DataTableInfo
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -37,8 +46,9 @@ namespace AM.Data
         /// Gets the columns.
         /// </summary>
         [NotNull]
-        [JsonProperty("columns")]
+        [ItemNotNull]
         [XmlElement("column")]
+        [JsonProperty("columns")]
         public NonNullCollection<DataColumnInfo> Columns
             {
                 get;
@@ -49,9 +59,18 @@ namespace AM.Data
         /// Gets or sets the name of the table.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("name")]
         [XmlAttribute("name")]
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
 
         #endregion
 
@@ -63,6 +82,72 @@ namespace AM.Data
         public DataTableInfo()
         {
             Columns = new NonNullCollection<DataColumnInfo>();
+        }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Should serialize the <see cref="Columns"/> collection?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeColumns()
+        {
+            return Columns.Count != 0;
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            Name = reader.ReadNullableString();
+            Columns = reader.ReadNonNullCollection<DataColumnInfo>();
+        }
+
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer
+                .WriteNullable(Name)
+                .WriteCollection(Columns);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<DataTableInfo> verifier
+                = new Verifier<DataTableInfo>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Name, "Name");
+            foreach (DataColumnInfo column in Columns)
+            {
+                verifier.VerifySubObject(column, "Column");
+            }
+
+            return verifier.Result;
         }
 
         #endregion

@@ -1,75 +1,185 @@
 ﻿using System;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Data;
+using AM.IO;
+using AM.Json;
+using AM.Runtime;
+using AM.Xml;
+
+using JetBrains.Annotations;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.AM.Data
 {
     [TestClass]
     public class DataSetInfoTest
     {
-        [TestMethod]
-        public void DataSetInfo_Construction()
+        [NotNull]
+        private DataSetInfo _GetDataSet()
         {
-            DataSetInfo info = new DataSetInfo();
-            Assert.AreEqual(null, info.ConnectionString);
-            Assert.AreEqual(false, info.ReadOnly);
-            Assert.AreEqual(null, info.SelectCommandText);
-            Assert.AreEqual(0, info.Tables.Count);
-        }
-
-        [TestMethod]
-        public void DataSetInfo_ConnectionString()
-        {
-            const string expected = "server=(local)";
-            DataSetInfo info = new DataSetInfo
+            return new DataSetInfo
             {
-                ConnectionString = expected
-            };
-            Assert.AreEqual(expected, info.ConnectionString);
-        }
-
-        [TestMethod]
-        public void DataSetInfo_ReadOnly()
-        {
-            const bool expected = true;
-            DataSetInfo info = new DataSetInfo
-            {
-                ReadOnly = expected
-            };
-            Assert.AreEqual(expected, info.ReadOnly);
-        }
-
-        [TestMethod]
-        public void DataSetInfo_SelectCommandText()
-        {
-            const string expected = "select * from users";
-            DataSetInfo info = new DataSetInfo
-            {
-                SelectCommandText = expected
-            };
-            Assert.AreEqual(expected, info.SelectCommandText);
-        }
-
-        [TestMethod]
-        public void DataSetInfo_Tables()
-        {
-            DataSetInfo info = new DataSetInfo
-            {
+                ConnectionString = "DataSource=(local);Initial Catalog=Library;",
                 Tables =
                 {
                     new DataTableInfo
                     {
-                        Name = "Users"
+                        Name = "Readers",
+                        Columns =
+                        {
+                            new DataColumnInfo
+                            {
+                                Name = "FIO",
+                                Title = "ФИО",
+                                Width = 100,
+                                Type = "System.String",
+                                Frozen = true
+                            },
+                            new DataColumnInfo
+                            {
+                                Name = "Age",
+                                Title = "Возраст",
+                                Width = 30,
+                                Type = "System.Int32"
+                            },
+                            new DataColumnInfo
+                            {
+                                Name = "Ticket",
+                                Title = "Билет",
+                                Width = 50,
+                                Type = "System.String",
+                                ReadOnly = true
+                            }
+                        }
+                    },
+                    new DataTableInfo
+                    {
+                        Name = "Books",
+                        Columns =
+                        {
+                            new DataColumnInfo
+                            {
+                                Name = "Author",
+                                Title = "Автор",
+                                Width = 100,
+                                Type = "System.String",
+                                Frozen = true
+                            },
+                            new DataColumnInfo
+                            {
+                                Name = "Title",
+                                Title = "Заглавие",
+                                Width = 150,
+                                Type = "System.String",
+                                ReadOnly = true
+                            },
+                            new DataColumnInfo
+                            {
+                                Name = "Price",
+                                Title = "Цена",
+                                Width = 30,
+                                Type = "System.Decimal"
+                            }
+                        }
                     }
                 }
             };
-            Assert.AreEqual(1, info.Tables.Count);
         }
 
         [TestMethod]
-        public void DataSetInfo_Load_Save()
+        public void DataSetInfo_Construction_1()
+        {
+            DataSetInfo dataSet = new DataSetInfo();
+            Assert.IsNull(dataSet.ConnectionString);
+            Assert.IsFalse(dataSet.ReadOnly);
+            Assert.IsNull(dataSet.SelectCommandText);
+            Assert.AreEqual(0, dataSet.Tables.Count);
+            Assert.IsNull(dataSet.UserData);
+        }
+
+        [TestMethod]
+        public void DataSetInfo_ConnectionString_1()
+        {
+            const string expected = "server=(local)";
+            DataSetInfo dataSet = new DataSetInfo
+            {
+                ConnectionString = expected
+            };
+            Assert.AreEqual(expected, dataSet.ConnectionString);
+        }
+
+        [TestMethod]
+        public void DataSetInfo_ReadOnly_1()
+        {
+            const bool expected = true;
+            DataSetInfo dataSet = new DataSetInfo
+            {
+                ReadOnly = expected
+            };
+            Assert.AreEqual(expected, dataSet.ReadOnly);
+        }
+
+        [TestMethod]
+        public void DataSetInfo_SelectCommandText_1()
+        {
+            const string expected = "select * from users";
+            DataSetInfo dataSet = new DataSetInfo
+            {
+                SelectCommandText = expected
+            };
+            Assert.AreEqual(expected, dataSet.SelectCommandText);
+        }
+
+        private void _TestSerialization
+            (
+                [NotNull] DataSetInfo first
+            )
+        {
+            byte[] bytes = first.SaveToMemory();
+            DataSetInfo second = bytes.RestoreObjectFromMemory<DataSetInfo>();
+            Assert.AreEqual(first.ConnectionString, second.ConnectionString);
+            Assert.AreEqual(first.ReadOnly, second.ReadOnly);
+            Assert.AreEqual(first.SelectCommandText, second.SelectCommandText);
+            Assert.AreEqual(first.Tables.Count, second.Tables.Count);
+            for (int i = 0; i < first.Tables.Count; i++)
+            {
+                Assert.AreEqual(first.Tables[i].Name, second.Tables[i].Name);
+                Assert.AreEqual(first.Tables[i].Columns.Count, second.Tables[i].Columns.Count);
+                for (int j = 0; j < first.Tables[i].Columns.Count; j++)
+                {
+                    Assert.AreEqual(first.Tables[i].Columns[j].Name, second.Tables[i].Columns[j].Name);
+                    Assert.AreEqual(first.Tables[i].Columns[j].Title, second.Tables[i].Columns[j].Title);
+                    Assert.AreEqual(first.Tables[i].Columns[j].Width, second.Tables[i].Columns[j].Width);
+                    Assert.AreEqual(first.Tables[i].Columns[j].Type, second.Tables[i].Columns[j].Type);
+                    Assert.AreEqual(first.Tables[i].Columns[j].DefaultValue, second.Tables[i].Columns[j].DefaultValue);
+                    Assert.AreEqual(first.Tables[i].Columns[j].Frozen, second.Tables[i].Columns[j].Frozen);
+                    Assert.AreEqual(first.Tables[i].Columns[j].Invisible, second.Tables[i].Columns[j].Invisible);
+                    Assert.AreEqual(first.Tables[i].Columns[j].ReadOnly, second.Tables[i].Columns[j].ReadOnly);
+                    Assert.AreEqual(first.Tables[i].Columns[j].Sorted, second.Tables[i].Columns[j].Sorted);
+                    Assert.IsNull(second.UserData);
+                }
+                Assert.IsNull(second.Tables[i].UserData);
+            }
+            Assert.IsNull(second.UserData);
+        }
+
+        [TestMethod]
+        public void DataSetInfo_Serialization_1()
+        {
+            DataSetInfo dataSet = new DataSetInfo();
+            _TestSerialization(dataSet);
+
+            dataSet.UserData = "User data";
+            _TestSerialization(dataSet);
+
+            dataSet = _GetDataSet();
+            _TestSerialization(dataSet);
+        }
+
+        [TestMethod]
+        public void DataSetInfo_Load_Save_1()
         {
             string fileName = Path.GetTempFileName();
 
@@ -128,6 +238,36 @@ namespace UnitTests.AM.Data
                 Assert.AreEqual(column1.Width, column2.Width);
                 Assert.AreEqual(column1.Frozen, column2.Frozen);
             }
+        }
+
+        [TestMethod]
+        public void DataSetInfo_Verify_1()
+        {
+            DataSetInfo dataSet = new DataSetInfo();
+            Assert.IsTrue(dataSet.Verify(false));
+
+            dataSet = _GetDataSet();
+            Assert.IsTrue(dataSet.Verify(false));
+        }
+
+        [TestMethod]
+        public void DataSetInfo_ToXml_1()
+        {
+            DataSetInfo dataSet = new DataSetInfo();
+            Assert.AreEqual("<dataset />", XmlUtility.SerializeShort(dataSet));
+
+            dataSet = _GetDataSet();
+            Assert.AreEqual("<dataset><connectionString>DataSource=(local);Initial Catalog=Library;</connectionString><table name=\"Readers\"><column name=\"FIO\" title=\"ФИО\" width=\"100\" type=\"System.String\" frozen=\"true\" /><column name=\"Age\" title=\"Возраст\" width=\"30\" type=\"System.Int32\" /><column name=\"Ticket\" title=\"Билет\" width=\"50\" type=\"System.String\" readOnly=\"true\" /></table><table name=\"Books\"><column name=\"Author\" title=\"Автор\" width=\"100\" type=\"System.String\" frozen=\"true\" /><column name=\"Title\" title=\"Заглавие\" width=\"150\" type=\"System.String\" readOnly=\"true\" /><column name=\"Price\" title=\"Цена\" width=\"30\" type=\"System.Decimal\" /></table></dataset>", XmlUtility.SerializeShort(dataSet));
+        }
+
+        [TestMethod]
+        public void DataSetInfo_ToJson_1()
+        {
+            DataSetInfo dataSet = new DataSetInfo();
+            Assert.AreEqual("{}", JsonUtility.SerializeShort(dataSet));
+
+            dataSet = _GetDataSet();
+            Assert.AreEqual("{'connectionString':'DataSource=(local);Initial Catalog=Library;','tables':[{'columns':[{'name':'FIO','title':'ФИО','width':100,'type':'System.String','frozen':true},{'name':'Age','title':'Возраст','width':30,'type':'System.Int32'},{'name':'Ticket','title':'Билет','width':50,'type':'System.String','readOnly':true}],'name':'Readers'},{'columns':[{'name':'Author','title':'Автор','width':100,'type':'System.String','frozen':true},{'name':'Title','title':'Заглавие','width':150,'type':'System.String','readOnly':true},{'name':'Price','title':'Цена','width':30,'type':'System.Decimal'}],'name':'Books'}]}", JsonUtility.SerializeShort(dataSet));
         }
     }
 }

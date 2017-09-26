@@ -125,6 +125,7 @@ namespace AM.Data
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public object UserData { get; set; }
 
         #endregion
