@@ -153,10 +153,10 @@ namespace AM.Caching
             }
 
             TValue result = item.Value;
-            if (ReferenceEquals(result, null))
-            {
-                _dictionary.TryRemove(key, out item);
-            }
+            //if (ReferenceEquals(result, null))
+            //{
+            //    _dictionary.TryRemove(key, out item);
+            //}
 
             return result;
         }

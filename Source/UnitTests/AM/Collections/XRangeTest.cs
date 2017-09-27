@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -10,7 +11,7 @@ namespace UnitTests.AM.Collections
     public class XRangeTest
     {
         [TestMethod]
-        public void XRange_Construction1()
+        public void XRange_Construction_1()
         {
             const int Length = 10;
             XRange range = new XRange(Length);
@@ -19,7 +20,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void XRange_Construction2()
+        public void XRange_Construction_2()
         {
             const int Start = 1;
             const int Length = 10;
@@ -29,7 +30,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void XRange_Enumeration()
+        public void XRange_Enumeration_1()
         {
             const int Length = 10;
             XRange range = new XRange(Length);
@@ -41,6 +42,23 @@ namespace UnitTests.AM.Collections
             {
                 Assert.AreEqual(i, array[i]);
             }
+        }
+
+        [TestMethod]
+        public void XRange_Enumeration_2()
+        {
+            const int Length = 10;
+            XRange range = new XRange(Length);
+
+            IEnumerator enumerator = range.GetEnumerator();
+            Assert.IsNotNull(enumerator);
+            for (int i = 0; i < Length; i++)
+            {
+                Assert.IsTrue(enumerator.MoveNext());
+                int item = (int) enumerator.Current;
+                Assert.AreEqual(i, item);
+            }
+            Assert.IsFalse(enumerator.MoveNext());
         }
     }
 }

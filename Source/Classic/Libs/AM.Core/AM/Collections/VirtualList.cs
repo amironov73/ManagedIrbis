@@ -12,8 +12,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using AM.Logging;
 
@@ -22,8 +20,6 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -294,10 +290,10 @@ namespace AM.Collections
                 GetItem(0);
             }
 
-            if (ReferenceEquals(_cache, null))
-            {
-                throw new InvalidOperationException();
-            }
+            //if (ReferenceEquals(_cache, null))
+            //{
+            //    throw new InvalidOperationException();
+            //}
 
             foreach (T item in _cache)
             {

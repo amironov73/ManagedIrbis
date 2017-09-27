@@ -108,5 +108,20 @@ namespace AM.Caching
 
 
         #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return string.Format
+                (
+                    "{0}: {1}",
+                    Key.ToVisibleString(),
+                    Value.ToVisibleString()
+                );
+        }
+
+        #endregion
     }
 }
