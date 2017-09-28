@@ -112,7 +112,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("O", UniforO.AllExemplars);
             Registry.Add("P", UniforP.UniqueField);
             Registry.Add("Q", UniforQ.ToLower);
-            Registry.Add("R", RandomNumber);
+            Registry.Add("R", UniforR.RandomNumber);
             Registry.Add("S", UniforS.Add);
             Registry.Add("S0", UniforS.Clear);
             Registry.Add("SA", UniforS.Arabic);
@@ -502,41 +502,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             context.Write(node, result);
-            context.OutputFlag = true;
-        }
-
-        // ================================================================
-
-        /// <summary>
-        /// Generate random number.
-        /// </summary>
-        public static void RandomNumber
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            int length = 6;
-            if (!string.IsNullOrEmpty(expression))
-            {
-                NumericUtility.TryParseInt32(expression, out length);
-            }
-            if (length <= 0 || length > 9)
-            {
-                return;
-            }
-
-            int maxValue = 1;
-            for (int i = 0; i < length; i++)
-            {
-                maxValue = maxValue * 10;
-            }
-
-            int result = new Random().Next(maxValue);
-            string format = new string('0', length);
-            string output = result.ToString(format);
-            context.Write(node, output);
             context.OutputFlag = true;
         }
 
