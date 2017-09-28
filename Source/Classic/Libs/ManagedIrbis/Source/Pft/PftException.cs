@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* PftException.cs --
+/* PftException.cs -- base class for PFT-related exceptions.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -18,17 +18,12 @@ using JetBrains.Annotations;
 namespace ManagedIrbis.Pft
 {
     /// <summary>
-    /// Базовый класс для исключений, происходящих при
-    /// разборе и исполнении PFT-скриптов.
+    /// Base class for PFT script parsing and exection related exceptions.
     /// </summary>
     [PublicAPI]
     public class PftException
         : IrbisException
     {
-        #region Properties
-
-        #endregion
-
         #region Construciton
 
         /// <summary>
@@ -41,8 +36,10 @@ namespace ManagedIrbis.Pft
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="message"></param>
-        public PftException(string message)
+        public PftException
+            (
+                string message
+            )
             : base(message)
         {
         }
@@ -62,10 +59,6 @@ namespace ManagedIrbis.Pft
             )
         {
         }
-
-        #endregion
-
-        #region Public methods
 
         #endregion
     }

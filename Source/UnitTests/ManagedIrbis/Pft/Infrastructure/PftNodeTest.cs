@@ -8,7 +8,7 @@ using ManagedIrbis.Pft.Infrastructure;
 namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 {
     [TestClass]
-    public class PftNodeTest1
+    public class PftNodeTest
     {
         private void _TestAffectedFields
             (

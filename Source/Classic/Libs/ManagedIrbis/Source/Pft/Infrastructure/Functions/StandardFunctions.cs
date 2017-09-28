@@ -40,16 +40,12 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (!string.IsNullOrEmpty(expression)
                 && !ReferenceEquals(context.Record, null))
             {
-#if PocketPC || WINMOBILE || SILVERLIGHT
-
-                string[] parts = expression.Split(new[] { '#' });
-
-#else
-
-                string[] parts = expression.Split(new[] { '#' }, 2);
-
-#endif
-
+                string[] parts = StringUtility.SplitString
+                    (
+                        expression,
+                        new[] {'#'},
+                        2
+                    );
                 if (parts.Length == 2)
                 {
                     string tag = parts[0];
@@ -118,6 +114,10 @@ namespace ManagedIrbis.Pft.Infrastructure
             char c;
 
             PftFunctionCall call = (PftFunctionCall)node;
+            if (call.Arguments.Count == 0)
+            {
+                return;
+            }
             PftNumeric numeric = call.Arguments[0] as PftNumeric;
             if (!ReferenceEquals(numeric, null))
             {
@@ -183,17 +183,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                 && !ReferenceEquals(record, null))
             {
                 int repeat = -1;
-
-#if PocketPC || WINMOBILE || SILVERLIGHT
-
-                string[] parts = expression.Split(new[] { '#' });
-
-#else
-
-                string[] parts = expression.Split(new[] { '#' }, 2);
-
-#endif
-
+                string[] parts = StringUtility.SplitString
+                    (
+                        expression,
+                        new[] { '#' },
+                        2
+                    );
                 string tag = parts[0];
                 RecordField[] fields = record.Fields.GetField(tag.SafeToInt32());
 
