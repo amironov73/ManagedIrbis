@@ -111,7 +111,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("M", UniforM.Sort);
             Registry.Add("O", UniforO.AllExemplars);
             Registry.Add("P", UniforP.UniqueField);
-            Registry.Add("Q", ToLower);
+            Registry.Add("Q", UniforQ.ToLower);
             Registry.Add("R", RandomNumber);
             Registry.Add("S", UniforS.Add);
             Registry.Add("S0", UniforS.Clear);
@@ -556,35 +556,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 string clear = Regex.Replace(expression, "<.*?>", string.Empty);
                 context.Write(node, clear);
-                context.OutputFlag = true;
-            }
-        }
-
-        // ================================================================
-
-        /// <summary>
-        /// Convert the string to lower case.
-        /// </summary>
-        public static void ToLower
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            if (!string.IsNullOrEmpty(expression))
-            {
-#if PocketPC || WINMOBILE
-
-                string output = expression.ToLower();
-
-#else
-
-                string output = expression.ToLowerInvariant();
-
-#endif
-
-                context.Write(node, output);
                 context.OutputFlag = true;
             }
         }
