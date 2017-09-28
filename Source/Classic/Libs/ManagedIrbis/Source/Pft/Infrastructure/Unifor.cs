@@ -110,7 +110,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("L", UniforL.ContinueTerm);
             Registry.Add("M", UniforM.Sort);
             Registry.Add("O", UniforO.AllExemplars);
-            Registry.Add("P", UniqueField);
+            Registry.Add("P", UniforP.UniqueField);
             Registry.Add("Q", ToLower);
             Registry.Add("R", RandomNumber);
             Registry.Add("S", UniforS.Add);
@@ -673,87 +673,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
             }
         }
-
-        // ================================================================
-
-        /// <summary>
-        /// Get unique field value.
-        /// </summary>
-        public static void UniqueField
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
-        {
-            if (!string.IsNullOrEmpty(expression))
-            {
-                try
-                {
-                    MarcRecord record = context.Record;
-                    if (!ReferenceEquals(record, null))
-                    {
-                        FieldSpecification specification = new FieldSpecification();
-                        if (specification.ParseUnifor(expression))
-                        {
-                            FieldReference reference = new FieldReference();
-                            reference.Apply(specification);
-
-                            string[] array = reference.GetUniqueValues(record);
-                            string result = null;
-                            switch (reference.FieldRepeat.Kind)
-                            {
-                                case IndexKind.None:
-                                    result = StringUtility.Join(",", array);
-                                    break;
-
-                                case IndexKind.Literal:
-                                    result = array.GetOccurrence
-                                        (
-                                            reference.FieldRepeat.Literal - 1
-                                        );
-                                    break;
-
-                                case IndexKind.LastRepeat:
-                                    if (array.Length != 0)
-                                    {
-                                        result = array[array.Length - 1];
-                                    }
-                                    break;
-
-                                default:
-                                    throw new IrbisException
-                                        (
-                                            "Unexpected repeat: "
-                                            + reference.FieldRepeat.Kind
-                                        );
-                            }
-
-                            if (!string.IsNullOrEmpty(result))
-                            {
-                                context.Write(node, result);
-                                context.OutputFlag = true;
-
-                                if (!ReferenceEquals(context._vMonitor, null))
-                                {
-                                    context._vMonitor.Output = true;
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (Exception exception)
-                {
-                    Log.TraceException
-                    (
-                        "Unifor::UniqueField",
-                        exception
-                    );
-                }
-
-            }
-        }
-
 
         // ================================================================
 
