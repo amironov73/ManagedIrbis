@@ -1,12 +1,16 @@
 ﻿using System;
 using System.IO;
+
 using AM.Runtime;
+
 using JetBrains.Annotations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis;
+
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Infrastructure.Sockets;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.ManagedIrbis
 {
@@ -66,7 +70,7 @@ namespace UnitTests.ManagedIrbis
               "pwd=who is;db=NODB;arm=A;unknown=nothing";
 
         [TestMethod]
-        public void TestConnectionSettings_ParseConnectionString()
+        public void ConnectionSettings_ParseConnectionString_1()
         {
             ConnectionSettings settings = new ConnectionSettings();
             settings.ParseConnectionString(GoodConnectionString);
@@ -84,8 +88,117 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
+        public void ConnectionSettings_ParseConnectionString_2()
+        {
+            ConnectionSettings settings = new ConnectionSettings();
+            settings.ParseConnectionString
+                (
+                    GoodConnectionString + ";smart=yes;"
+                );
+
+            Assert.AreEqual("127.0.0.1", settings.Host);
+            Assert.AreEqual(5555, settings.Port);
+            Assert.AreEqual("john galt", settings.Username);
+            Assert.AreEqual("who is", settings.Password);
+            Assert.AreEqual("NODB", settings.Database);
+            Assert.AreEqual("yes", settings.Smart);
+            Assert.AreEqual
+                (
+                    IrbisWorkstation.Administrator,
+                    settings.Workstation
+                );
+        }
+
+        [TestMethod]
+        public void ConnectionSettings_ParseConnectionString_3()
+        {
+            ConnectionSettings settings = new ConnectionSettings();
+            settings.ParseConnectionString
+                (
+                    GoodConnectionString + ";broken=yes;"
+                );
+
+            Assert.AreEqual("127.0.0.1", settings.Host);
+            Assert.AreEqual(5555, settings.Port);
+            Assert.AreEqual("john galt", settings.Username);
+            Assert.AreEqual("who is", settings.Password);
+            Assert.AreEqual("NODB", settings.Database);
+            Assert.AreEqual("yes", settings.Broken);
+            Assert.AreEqual
+                (
+                    IrbisWorkstation.Administrator,
+                    settings.Workstation
+                );
+        }
+
+        [TestMethod]
+        public void ConnectionSettings_ParseConnectionString_4()
+        {
+            ConnectionSettings settings = new ConnectionSettings();
+            settings.ParseConnectionString
+                (
+                    GoodConnectionString + ";slow=yes;"
+                );
+
+            Assert.AreEqual("127.0.0.1", settings.Host);
+            Assert.AreEqual(5555, settings.Port);
+            Assert.AreEqual("john galt", settings.Username);
+            Assert.AreEqual("who is", settings.Password);
+            Assert.AreEqual("NODB", settings.Database);
+            Assert.AreEqual("yes", settings.Slow);
+            Assert.AreEqual
+                (
+                    IrbisWorkstation.Administrator,
+                    settings.Workstation
+                );
+        }
+
+        [TestMethod]
+        public void ConnectionSettings_ParseConnectionString_5()
+        {
+            ConnectionSettings settings = new ConnectionSettings();
+            settings.ParseConnectionString
+                (
+                    GoodConnectionString + ";provider=connected;"
+                );
+
+            Assert.AreEqual("127.0.0.1", settings.Host);
+            Assert.AreEqual(5555, settings.Port);
+            Assert.AreEqual("john galt", settings.Username);
+            Assert.AreEqual("who is", settings.Password);
+            Assert.AreEqual("NODB", settings.Database);
+            Assert.AreEqual
+                (
+                    IrbisWorkstation.Administrator,
+                    settings.Workstation
+                );
+        }
+
+        [TestMethod]
+        public void ConnectionSettings_ParseConnectionString_6()
+        {
+            ConnectionSettings settings = new ConnectionSettings();
+            settings.ParseConnectionString
+            (
+                GoodConnectionString + ";cgi=/irbis/webcgi;"
+            );
+
+            Assert.AreEqual("127.0.0.1", settings.Host);
+            Assert.AreEqual(5555, settings.Port);
+            Assert.AreEqual("john galt", settings.Username);
+            Assert.AreEqual("who is", settings.Password);
+            Assert.AreEqual("NODB", settings.Database);
+            Assert.AreEqual("/irbis/webcgi", settings.WebCgi);
+            Assert.AreEqual
+                (
+                    IrbisWorkstation.Administrator,
+                    settings.Workstation
+                );
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void TestConnectionSettings_ParseConnectionString_Exception()
+        public void ConnectionSettings_ParseConnectionString_Exception_1()
         {
             ConnectionSettings settings = new ConnectionSettings();
             settings.ParseConnectionString(BadConnectionString);
@@ -93,7 +206,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestConnectionSettings_Encode()
+        public void ConnectionSettings_Encode_1()
         {
             ConnectionSettings settings = new ConnectionSettings
             {
@@ -116,7 +229,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestConnectionSettings_Clone()
+        public void ConnectionSettings_Clone_1()
         {
             ConnectionSettings expected = new ConnectionSettings
             {
@@ -156,7 +269,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestConnectionSettings_Serialization()
+        public void ConnectionSettings_Serialization_1()
         {
             ConnectionSettings settings = new ConnectionSettings();
             _TestSerialization(settings);
@@ -166,7 +279,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestConnectionSettings_Encrypt()
+        public void ConnectionSettings_Encrypt_1()
         {
             ConnectionSettings expected = new ConnectionSettings()
                 .ParseConnectionString(GoodConnectionString);
@@ -185,7 +298,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestConnectionSettings_ApplyToConnection()
+        public void ConnectionSettings_ApplyToConnection_1()
         {
             ConnectionSettings expected = new ConnectionSettings()
                 .ParseConnectionString(GoodConnectionString);
@@ -201,13 +314,108 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestConnectionSettings_SocketTypeName()
+        public void ConnectionSettings_ApplyToConnection_2()
+        {
+            ConnectionSettings expected = new ConnectionSettings()
+                .ParseConnectionString
+                    (
+                        GoodConnectionString + ";smart=yes;"
+                    );
+            IrbisConnection connection = new IrbisConnection();
+            expected.ApplyToConnection(connection);
+
+            Assert.AreEqual(expected.Host, connection.Host);
+            Assert.AreEqual(expected.Port, connection.Port);
+            Assert.AreEqual(expected.Username, connection.Username);
+            Assert.AreEqual(expected.Password, connection.Password);
+            Assert.AreEqual(expected.Database, connection.Database);
+            Assert.AreEqual(expected.Workstation, connection.Workstation);
+        }
+
+        [TestMethod]
+        public void ConnectionSettings_ApplyToConnection_3()
+        {
+            ConnectionSettings expected = new ConnectionSettings()
+                .ParseConnectionString
+                    (
+                        GoodConnectionString + ";broken=yes;"
+                    );
+            IrbisConnection connection = new IrbisConnection();
+            expected.ApplyToConnection(connection);
+
+            Assert.AreEqual(expected.Host, connection.Host);
+            Assert.AreEqual(expected.Port, connection.Port);
+            Assert.AreEqual(expected.Username, connection.Username);
+            Assert.AreEqual(expected.Password, connection.Password);
+            Assert.AreEqual(expected.Database, connection.Database);
+            Assert.AreEqual(expected.Workstation, connection.Workstation);
+        }
+
+        [TestMethod]
+        public void ConnectionSettings_ApplyToConnection_3a()
+        {
+            ConnectionSettings expected = new ConnectionSettings()
+                .ParseConnectionString
+                    (
+                        GoodConnectionString + ";broken=0.5;"
+                    );
+            IrbisConnection connection = new IrbisConnection();
+            expected.ApplyToConnection(connection);
+
+            Assert.AreEqual(expected.Host, connection.Host);
+            Assert.AreEqual(expected.Port, connection.Port);
+            Assert.AreEqual(expected.Username, connection.Username);
+            Assert.AreEqual(expected.Password, connection.Password);
+            Assert.AreEqual(expected.Database, connection.Database);
+            Assert.AreEqual(expected.Workstation, connection.Workstation);
+        }
+
+        [TestMethod]
+        public void ConnectionSettings_ApplyToConnection_4()
+        {
+            ConnectionSettings expected = new ConnectionSettings()
+                .ParseConnectionString
+                    (
+                        GoodConnectionString + ";slow=yes;"
+                    );
+            IrbisConnection connection = new IrbisConnection();
+            expected.ApplyToConnection(connection);
+
+            Assert.AreEqual(expected.Host, connection.Host);
+            Assert.AreEqual(expected.Port, connection.Port);
+            Assert.AreEqual(expected.Username, connection.Username);
+            Assert.AreEqual(expected.Password, connection.Password);
+            Assert.AreEqual(expected.Database, connection.Database);
+            Assert.AreEqual(expected.Workstation, connection.Workstation);
+        }
+
+        [TestMethod]
+        public void ConnectionSettings_ApplyToConnection_4a()
+        {
+            ConnectionSettings expected = new ConnectionSettings()
+                .ParseConnectionString
+                    (
+                        GoodConnectionString + ";slow=1000;"
+                    );
+            IrbisConnection connection = new IrbisConnection();
+            expected.ApplyToConnection(connection);
+
+            Assert.AreEqual(expected.Host, connection.Host);
+            Assert.AreEqual(expected.Port, connection.Port);
+            Assert.AreEqual(expected.Username, connection.Username);
+            Assert.AreEqual(expected.Password, connection.Password);
+            Assert.AreEqual(expected.Database, connection.Database);
+            Assert.AreEqual(expected.Workstation, connection.Workstation);
+        }
+
+        [TestMethod]
+        public void ConnectionSettings_SocketTypeName_1()
         {
             string connectionString = string.Format
-            (
-                "socket={0};",
-                typeof(MySocket).AssemblyQualifiedName
-            );
+                (
+                    "socket={0};",
+                    typeof(MySocket).AssemblyQualifiedName
+                );
 
             ConnectionSettings settings = new ConnectionSettings()
                 .ParseConnectionString(connectionString);
@@ -222,13 +430,13 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestConnectionSettings_EngineTypeName()
+        public void ConnectionSettings_EngineTypeName_1()
         {
             string connectionString = string.Format
-            (
-                "engine={0};",
-                typeof(MyEngine).AssemblyQualifiedName
-            );
+                (
+                    "engine={0};",
+                    typeof(MyEngine).AssemblyQualifiedName
+                );
 
             ConnectionSettings settings = new ConnectionSettings()
                 .ParseConnectionString(connectionString);
@@ -243,12 +451,12 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestConnectionSettings_FactoryTypeName()
+        public void ConnectionSettings_FactoryTypeName_1()
         {
             string connectionString = string.Format
-            (
-                "factory={0};",
-                typeof(MyFactory).AssemblyQualifiedName
+                (
+                    "factory={0};",
+                    typeof(MyFactory).AssemblyQualifiedName
             );
 
             ConnectionSettings settings = new ConnectionSettings()
@@ -264,7 +472,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestConnectionSettings_UserData()
+        public void ConnectionSettings_UserData_1()
         {
             string connectionString = "userdata=hello;";
 
@@ -281,7 +489,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestConnectionSettings_NetworkLogging()
+        public void ConnectionSettings_NetworkLogging_1()
         {
             string logPath = Path.Combine
                 (
@@ -315,7 +523,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestConnectionSettings_RetryCount()
+        public void ConnectionSettings_RetryCount_1()
         {
             string connectionString = "retry=3;";
 
@@ -332,7 +540,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestConnectionSettings_FromConnection1()
+        public void ConnectionSettings_FromConnection_1()
         {
             string source = "host=127.0.0.1;port=5555;"
                 + "database=NODB;username=john galt;password=who is;"
@@ -361,7 +569,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestConnectionSettings_FromConnection2()
+        public void ConnectionSettings_FromConnection_2()
         {
             string logPath = Path.Combine
                 (
@@ -403,7 +611,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestConnectionSettings_FromConnection3()
+        public void ConnectionSettings_FromConnection_3()
         {
             string source = "host=127.0.0.1;port=5555;"
                 + "database=NODB;username=john galt;password=who is;"
@@ -429,5 +637,37 @@ namespace UnitTests.ManagedIrbis
             Assert.AreEqual(source, target);
         }
 
+        [TestMethod]
+        public void ConnectionSettings_GetMissingElements_1()
+        {
+            ConnectionSettings settings = new ConnectionSettings();
+
+            Assert.AreEqual
+                (
+                    ConnectionElement.Username|ConnectionElement.Password,
+                    settings.GetMissingElements()
+                );
+
+            settings.Host = null;
+            settings.Port = 0;
+            settings.Workstation = IrbisWorkstation.None;
+            Assert.AreEqual
+                (
+                    ConnectionElement.Host | ConnectionElement.Port
+                    | ConnectionElement.Workstation
+                    | ConnectionElement.Username | ConnectionElement.Password,
+                    settings.GetMissingElements()
+                );
+        }
+
+        [TestMethod]
+        public void ConnectionSettings_Verify_1()
+        {
+            ConnectionSettings settings = new ConnectionSettings();
+            Assert.IsFalse(settings.Verify(false));
+
+            settings = settings.ParseConnectionString(GoodConnectionString);
+            Assert.IsTrue(settings.Verify(false));
+        }
     }
 }

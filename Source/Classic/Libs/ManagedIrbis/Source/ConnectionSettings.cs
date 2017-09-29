@@ -706,11 +706,11 @@ namespace ManagedIrbis
 
                     default:
                         Log.Error
-                        (
-                            "ConnectionSettings::ParseConnectionString: "
-                            + "unknown parameter: "
-                            + name
-                        );
+                            (
+                                "ConnectionSettings::ParseConnectionString: "
+                                + "unknown parameter: "
+                                + name
+                            );
 
                         string message = string.Format
                             (

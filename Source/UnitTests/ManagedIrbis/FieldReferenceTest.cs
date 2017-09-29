@@ -1,10 +1,11 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using AM;
 using AM.Runtime;
 
 using ManagedIrbis;
+using ManagedIrbis.Pft;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.ManagedIrbis
 {
@@ -57,9 +58,9 @@ namespace UnitTests.ManagedIrbis
         }
 
         private void _TestSerialization
-        (
-            FieldReference first
-        )
+            (
+                FieldReference first
+            )
         {
             byte[] bytes = first.SaveToMemory();
 
@@ -140,6 +141,51 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
+        public void FieldReference_GetValues_1()
+        {
+            MarcRecord record = _GetRecord();
+            FieldReference reference = new FieldReference(300);
+            string[] values = reference.GetValues(record);
+            Assert.AreEqual(3, values.Length);
+        }
+
+        [TestMethod]
+        public void FieldReference_GetValues_2()
+        {
+            MarcRecord record = _GetRecord();
+            FieldReference reference = new FieldReference();
+            string[] values = reference.GetValues(record);
+            Assert.AreEqual(0, values.Length);
+        }
+
+        [TestMethod]
+        public void FieldReference_GetValues_3()
+        {
+            MarcRecord record = _GetRecord();
+            FieldReference reference = new FieldReference(200, 'a');
+            string[] values = reference.GetValues(record);
+            Assert.AreEqual(1, values.Length);
+        }
+
+        [TestMethod]
+        public void FieldReference_GetUniqueValues_1()
+        {
+            MarcRecord record = _GetRecord();
+            FieldReference reference = new FieldReference(300);
+            string[] values = reference.GetUniqueValues(record);
+            Assert.AreEqual(3, values.Length);
+        }
+
+        [TestMethod]
+        public void FieldReference_GetUniqueValuesIgnoreCase_1()
+        {
+            MarcRecord record = _GetRecord();
+            FieldReference reference = new FieldReference(300);
+            string[] values = reference.GetUniqueValuesIgnoreCase(record);
+            Assert.AreEqual(3, values.Length);
+        }
+
+        [TestMethod]
         public void FieldReference_Parse_1()
         {
             FieldReference reference = FieldReference.Parse("v200");
@@ -181,6 +227,28 @@ namespace UnitTests.ManagedIrbis
             _TestParse("v200[1]");
             _TestParse("v200*5");
             _TestParse("v200.2");
+        }
+
+        [TestMethod]
+        public void FieldReference_Parse_3()
+        {
+            FieldReference reference = FieldReference.Parse("q1");
+            Assert.IsFalse(reference.Verify(false));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSyntaxException))]
+        public void FieldReference_Parse_4()
+        {
+            FieldReference reference = FieldReference.Parse("v1[");
+            Assert.IsTrue(reference.Verify(false));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void FieldReference_Parse_5()
+        {
+            FieldReference reference = FieldReference.Parse(null);
         }
 
         [TestMethod]

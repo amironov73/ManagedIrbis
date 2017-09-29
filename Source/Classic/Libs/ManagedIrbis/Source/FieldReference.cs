@@ -252,9 +252,9 @@ namespace ManagedIrbis
         /// </summary>
         [NotNull]
         public string[] GetUniqueValuesIgnoreCase
-        (
-            [NotNull] MarcRecord record
-        )
+            (
+                [NotNull] MarcRecord record
+            )
         {
             Code.NotNull(record, "record");
 
