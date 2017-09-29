@@ -727,6 +727,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\PacketInterpreter.cs">
       <Link>Source\Infrastructure\PacketInterpreter.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\ResponseBuilder.cs">
+      <Link>Source\Infrastructure\ResponseBuilder.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\ServerResponse.cs">
       <Link>Source\Infrastructure\ServerResponse.cs</Link>
     </Compile>

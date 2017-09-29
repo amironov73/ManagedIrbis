@@ -257,6 +257,7 @@
     <Compile Include="Source\Ibf\Infrastructure\IbfContext.cs" />
     <Compile Include="Source\Ibf\Infrastructure\IbfExitException.cs" />
     <Compile Include="Source\Ibf\Infrastructure\IbfNode.cs" />
+    <Compile Include="Source\Infrastructure\ResponseBuilder.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\CompilerProxy.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexInfo.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexDictionary.cs" />

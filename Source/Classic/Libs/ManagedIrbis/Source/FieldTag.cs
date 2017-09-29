@@ -156,11 +156,11 @@ namespace ManagedIrbis
             if (!result)
             {
                 Log.Error
-                (
-                    "FieldTag::Verify: "
-                    + "bad tag="
-                    + tag.ToInvariantString()
-                );
+                    (
+                        "FieldTag::Verify: "
+                        + "bad tag="
+                        + tag.ToInvariantString()
+                    );
 
                 if (throwOnError)
                 {

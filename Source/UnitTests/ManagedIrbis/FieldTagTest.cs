@@ -1,8 +1,8 @@
-﻿using System;
-using AM;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AM;
 
 using ManagedIrbis;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.ManagedIrbis
 {
@@ -69,10 +69,25 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
+        public void FieldTag_Verify_2()
+        {
+            Assert.IsTrue(FieldTag.Verify(100, false));
+            Assert.IsFalse(FieldTag.Verify(0, false));
+            Assert.IsFalse(FieldTag.Verify(-100, false));
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(VerificationException))]
         public void FieldTag_Verify_Exception_1()
         {
             FieldTag.Verify("Ф", true);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(VerificationException))]
+        public void FieldTag_Verify_Exception_2()
+        {
+            FieldTag.Verify(-100, true);
         }
     }
 }

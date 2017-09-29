@@ -10,6 +10,7 @@
 #region Using directives
 
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -76,7 +77,7 @@ namespace ManagedIrbis
         /// Максимальный MFN.
         /// </summary>
         [XmlAttribute("maxMfn")]
-        [JsonProperty("maxMfn")]
+        [JsonProperty("maxMfn", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int MaxMfn { get; set; }
 
         /// <summary>
@@ -85,7 +86,7 @@ namespace ManagedIrbis
         [CanBeNull]
         [XmlArrayItem("mfn")]
         [XmlArray("logicallyDeleted")]
-        [JsonProperty("logicallyDeleted")]
+        [JsonProperty("logicallyDeleted", NullValueHandling = NullValueHandling.Ignore)]
         public int[] LogicallyDeletedRecords { get; set; }
 
         /// <summary>
@@ -94,7 +95,7 @@ namespace ManagedIrbis
         [CanBeNull]
         [XmlArrayItem("mfn")]
         [XmlArray("physicallyDeleted")]
-        [JsonProperty("physicallyDeleted")]
+        [JsonProperty("physicallyDeleted", NullValueHandling = NullValueHandling.Ignore)]
         public int[] PhysicallyDeletedRecords { get; set; }
 
         /// <summary>
@@ -103,7 +104,7 @@ namespace ManagedIrbis
         [CanBeNull]
         [XmlArrayItem("mfn")]
         [XmlArray("nonActualizedRecords")]
-        [JsonProperty("nonActualizedRecords")]
+        [JsonProperty("nonActualizedRecords", NullValueHandling = NullValueHandling.Ignore)]
         public int[] NonActualizedRecords { get; set; }
 
         /// <summary>
@@ -112,21 +113,21 @@ namespace ManagedIrbis
         [CanBeNull]
         [XmlArrayItem("mfn")]
         [XmlArray("lockedRecords")]
-        [JsonProperty("lockedRecords")]
+        [JsonProperty("lockedRecords", NullValueHandling = NullValueHandling.Ignore)]
         public int[] LockedRecords { get; set; }
 
         /// <summary>
         /// Флаг монопольной блокировки базы данных.
         /// </summary>
         [XmlAttribute("databaseLocked")]
-        [JsonProperty("databaseLocked")]
+        [JsonProperty("databaseLocked", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DatabaseLocked { get; set; }
 
         /// <summary>
         /// База данных только для чтения.
         /// </summary>
         [XmlAttribute("readOnly")]
-        [JsonProperty("readOnly")]
+        [JsonProperty("readOnly", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool ReadOnly { get; set; }
 
         #endregion
@@ -307,6 +308,7 @@ namespace ManagedIrbis
         /// Should serialize <see cref="MaxMfn"/>?
         /// </summary>
         [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public bool ShouldSerializeMaxMfn()
         {
             return MaxMfn != 0;
@@ -316,6 +318,7 @@ namespace ManagedIrbis
         /// Should serialize <see cref="LogicallyDeletedRecords"/>?
         /// </summary>
         [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public bool ShouldSerializeLogicallyDeletedRecords()
         {
             return !ReferenceEquals(LogicallyDeletedRecords, null);
@@ -325,6 +328,7 @@ namespace ManagedIrbis
         /// Should serialize <see cref="PhysicallyDeletedRecords"/>?
         /// </summary>
         [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public bool ShouldSerializePhysicallyDeletedRecords()
         {
             return !ReferenceEquals(PhysicallyDeletedRecords, null);
@@ -343,6 +347,7 @@ namespace ManagedIrbis
         /// Should serialize <see cref="LockedRecords"/>?
         /// </summary>
         [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public bool ShouldSerializeLockedRecords()
         {
             return !ReferenceEquals(LockedRecords, null);
@@ -352,6 +357,7 @@ namespace ManagedIrbis
         /// Should serialize <see cref="DatabaseLocked"/>?
         /// </summary>
         [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public bool ShouldSerializeDatabaseLocked()
         {
             return DatabaseLocked;
@@ -361,6 +367,7 @@ namespace ManagedIrbis
         /// Should serialize <see cref="ReadOnly"/>?
         /// </summary>
         [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public bool ShouldSerializeReadOnly()
         {
             return ReadOnly;
