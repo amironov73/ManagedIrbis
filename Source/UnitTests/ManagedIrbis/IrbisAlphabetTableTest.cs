@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.IO;
 using AM.Runtime;
 
 using ManagedIrbis;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.ManagedIrbis
 {
@@ -28,14 +29,14 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void IrbisAlphabetTable_ParseLocalFile()
+        public void IrbisAlphabetTable_ParseLocalFile_1()
         {
             IrbisAlphabetTable table = _GetTable();
             Assert.AreEqual(182, table.Characters.Length);
         }
 
         [TestMethod]
-        public void IrbisAlphabetTable_SplitWords()
+        public void IrbisAlphabetTable_SplitWords_1()
         {
             IrbisAlphabetTable table = _GetTable();
             const string text = "Hello, world! Съешь ещё(этих)мягких "
@@ -56,7 +57,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void IrbisAlphabetTable_TrimText()
+        public void IrbisAlphabetTable_TrimText_1()
         {
             IrbisAlphabetTable table = _GetTable();
 
@@ -74,7 +75,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void IrbisAlphabetTable_ToSourceCode()
+        public void IrbisAlphabetTable_ToSourceCode_1()
         {
             IrbisAlphabetTable table = _GetTable();
             StringWriter writer = new StringWriter();
@@ -84,7 +85,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void IrbisAlphabetTable_Serialize()
+        public void IrbisAlphabetTable_Serialize_1()
         {
             IrbisAlphabetTable table1 = _GetTable();
 

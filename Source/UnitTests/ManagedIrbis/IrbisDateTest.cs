@@ -1,7 +1,8 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis;
 
@@ -80,9 +81,17 @@ namespace UnitTests.ManagedIrbis
         [TestMethod]
         public void IrbisDate_ConvertStringToDate_2()
         {
-            DateTime date1 = IrbisDate.ConvertStringToDate("20170225");
-            DateTime date2 = new DateTime(2017, 2, 25);
-            Assert.AreEqual(date2, date1);
+            DateTime actual = IrbisDate.ConvertStringToDate("20170225");
+            DateTime expected = new DateTime(2017, 2, 25);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void IrbisDateConvertStringToDate_3()
+        {
+            DateTime actual = IrbisDate.ConvertStringToDate("201702251015");
+            DateTime expected = new DateTime(2017, 2, 25);
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
@@ -104,11 +113,59 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
+        public void IrbisDate_Operator_DateTime_2()
+        {
+            DateTime expected = new DateTime(2017, 2, 25);
+            IrbisDate date = expected;
+            DateTime actual = date;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void IrbisDate_ToString_1()
         {
             const string expected = "20170225";
             IrbisDate date = expected;
             Assert.AreEqual(expected, date.ToString());
+        }
+
+        [TestMethod]
+        public void IrbisDate_TodayText_1()
+        {
+            string expected = DateTime.Today.ToString("yyyyMMdd");
+            Assert.AreEqual(expected, IrbisDate.TodayText);
+        }
+
+        [TestMethod]
+        public void IrbisDate_ConvertStringToTime_1()
+        {
+            TimeSpan time = IrbisDate.ConvertStringToTime(null);
+            Assert.AreEqual(0, time.Ticks);
+        }
+
+        [TestMethod]
+        public void IrbisDate_ConvertStringToTime_2()
+        {
+            TimeSpan time = IrbisDate.ConvertStringToTime("1");
+            Assert.AreEqual(0, time.Ticks);
+        }
+
+        [TestMethod]
+        public void IrbisDate_ConvertStringToTime_3()
+        {
+            TimeSpan time = IrbisDate.ConvertStringToTime("1011");
+            Assert.AreEqual(10, time.Hours);
+            Assert.AreEqual(11, time.Minutes);
+            Assert.AreEqual(0, time.Seconds);
+        }
+
+        [TestMethod]
+        public void IrbisDate_ConvertStringToTime_4()
+        {
+            TimeSpan time = IrbisDate.ConvertStringToTime("101112");
+            Assert.AreEqual(10, time.Hours);
+            Assert.AreEqual(11, time.Minutes);
+            Assert.AreEqual(12, time.Seconds);
         }
     }
 }

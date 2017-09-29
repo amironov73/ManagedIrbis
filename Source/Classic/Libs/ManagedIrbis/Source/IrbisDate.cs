@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
+
 using AM;
 using AM.Runtime;
 
@@ -192,14 +193,14 @@ namespace ManagedIrbis
             )
         {
             if (string.IsNullOrEmpty(time)
-                || time.Length < 2)
+                || time.Length < 4)
             {
                 return new TimeSpan();
             }
 
             int hours = NumericUtility.ParseInt32(time.Substring(0, 2));
             int minutes = NumericUtility.ParseInt32(time.Substring(2, 2));
-            int seconds = time.Length < 4
+            int seconds = time.Length < 6
                 ? 0
                 : NumericUtility.ParseInt32(time.Substring(4, 2));
             TimeSpan result = new TimeSpan(hours, minutes, seconds);
@@ -281,9 +282,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -293,9 +292,7 @@ namespace ManagedIrbis
             Date = ConvertStringToDate(Text);
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <see cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -308,10 +305,10 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            return Text;
+            return Text.ToVisibleString();
         }
 
         #endregion
