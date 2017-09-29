@@ -11,8 +11,8 @@
 
 using System;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security;
 
 #endregion
 
@@ -50,3 +50,11 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.8.0.2000")]
 
 [assembly: CLSCompliant(true)]
+
+[assembly: AllowPartiallyTrustedCallers]
+
+#if FW4
+
+[assembly: SecurityRules(SecurityRuleSet.Level1)]
+
+#endif
