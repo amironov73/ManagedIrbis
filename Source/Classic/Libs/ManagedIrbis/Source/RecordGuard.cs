@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
@@ -39,6 +40,15 @@ namespace ManagedIrbis
         : IDisposable,
         IVerifiable
     {
+        #region Events
+
+        /// <summary>
+        /// Raised on <see cref="Commit"/> call.
+        /// </summary>
+        public event EventHandler CommitChanges;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -139,6 +149,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Destructor.
         /// </summary>
+        [ExcludeFromCodeCoverage]
         ~RecordGuard()
         {
             Log.Error
@@ -196,6 +207,7 @@ namespace ManagedIrbis
         {
             bool result = false;
 
+            CommitChanges.Raise(this);
             foreach (MarcRecord record in Records)
             {
                 if (record.Modified)
@@ -286,7 +298,7 @@ namespace ManagedIrbis
 
             verifier
                 .Assert(!ReferenceEquals(Provider, null)
-                        && !ReferenceEquals(Connection, null));
+                        || !ReferenceEquals(Connection, null));
 
             return verifier.Result;
         }
