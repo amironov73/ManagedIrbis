@@ -11,6 +11,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -337,7 +338,7 @@ namespace ManagedIrbis
         /// </summary>
         public RecordField
             (
-                [CanBeNull] string tag,
+                int tag,
                 [CanBeNull] string value,
                 bool readOnly,
                 [CanBeNull] MarcRecord record
@@ -377,6 +378,7 @@ namespace ManagedIrbis
         [NonSerialized]
         private object _userData;
 
+        [ExcludeFromCodeCoverage]
         private string DebugText
         {
             get

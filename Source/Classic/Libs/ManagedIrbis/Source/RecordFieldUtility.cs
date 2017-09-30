@@ -2128,49 +2128,6 @@ namespace ManagedIrbis
         // ==========================================================
 
         /// <summary>
-        /// Установка значения подполя.
-        /// </summary>
-        /// <remarks>Устанавливает значение только первого
-        /// подполя с указанным кодом (если в поле их несколько)!
-        /// Если соответствующего подполя нет, оно добавляется!
-        /// </remarks>
-        [NotNull]
-        public static RecordField SetSubField
-            (
-                [NotNull] this RecordField field,
-                char code,
-                [CanBeNull] string value
-            )
-        {
-            Code.NotNull(field, "field");
-
-            SubFieldCollection subFields = field.SubFields;
-            int count = subFields.Count;
-            bool flag = false;
-            SubField subField;
-            for (int i = 0; i < count; i++)
-            {
-                subField = subFields[i];
-                if (subField.Code.SameChar(code))
-                {
-                    subField.Value = value;
-                    flag = true;
-                    break;
-                }
-            }
-
-            if (!flag)
-            {
-                subField = new SubField(code, value);
-                subFields.Add(subField);
-            }
-
-            return field;
-        }
-
-        // ==========================================================
-
-        /// <summary>
         /// Get unknown subfields.
         /// </summary>
         [CanBeNull]

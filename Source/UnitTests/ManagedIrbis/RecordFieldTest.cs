@@ -1,9 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
 
 using AM;
 using AM.Runtime;
 
 using ManagedIrbis;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Newtonsoft.Json.Linq;
 
@@ -26,6 +28,18 @@ namespace UnitTests.ManagedIrbis
         {
             RecordField field = new RecordField();
             Assert.AreEqual(field, field.SubFields.Field);
+        }
+
+        [TestMethod]
+        public void RecordField_Constructor_3()
+        {
+            const string expected = "Value";
+            MarcRecord record = new MarcRecord();
+            RecordField field = new RecordField(100, expected, true, record);
+            Assert.AreEqual(100, field.Tag);
+            Assert.AreEqual(expected, field.Value);
+            Assert.IsTrue(field.ReadOnly);
+            Assert.AreSame(record, field.Record);
         }
 
         [TestMethod]
@@ -247,6 +261,231 @@ namespace UnitTests.ManagedIrbis
                         target
                     )
                 );
+        }
+
+        [TestMethod]
+        public void RecordField_IsFixed_1()
+        {
+            RecordField field = new RecordField(100);
+            Assert.IsFalse(field.IsFixed);
+
+            field = new RecordField(5);
+            Assert.IsTrue(field.IsFixed);
+        }
+
+        [TestMethod]
+        public void RecordField_SetValue_1()
+        {
+            bool save = RecordField.BreakOnValueContainDelimiters;
+            RecordField.BreakOnValueContainDelimiters = false;
+            try
+            {
+                RecordField field = new RecordField(200);
+                field.SetValue("^aSubfieldA^bSubfieldB");
+                Assert.AreEqual(2, field.SubFields.Count);
+                Assert.AreEqual("SubfieldA", field.GetFirstSubFieldValue('a'));
+                Assert.AreEqual("SubfieldB", field.GetFirstSubFieldValue('b'));
+                Assert.IsNull(field.Value);
+            }
+            finally
+            {
+                RecordField.BreakOnValueContainDelimiters = save;
+            }
+        }
+
+        [TestMethod]
+        public void RecordField_SetValue_2()
+        {
+            bool save = RecordField.BreakOnValueContainDelimiters;
+            RecordField.BreakOnValueContainDelimiters = false;
+            try
+            {
+                RecordField field = new RecordField(200);
+                field.SetValue("Value^aSubfieldA^bSubfieldB");
+                Assert.AreEqual(2, field.SubFields.Count);
+                Assert.AreEqual("SubfieldA", field.GetFirstSubFieldValue('a'));
+                Assert.AreEqual("SubfieldB", field.GetFirstSubFieldValue('b'));
+                Assert.AreEqual("Value", field.Value);
+            }
+            finally
+            {
+                RecordField.BreakOnValueContainDelimiters = save;
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void RecordField_SetValue_3()
+        {
+            bool save = RecordField.BreakOnValueContainDelimiters;
+            RecordField.BreakOnValueContainDelimiters = true;
+            try
+            {
+                RecordField field = new RecordField(200);
+                field.SetValue("^aSubfieldA^bSubfieldB");
+            }
+            finally
+            {
+                RecordField.BreakOnValueContainDelimiters = save;
+            }
+        }
+
+        [TestMethod]
+        public void RecordField_SetValue_4()
+        {
+            const string expected = "Value";
+            RecordField field = new RecordField(200);
+            field.SetValue(expected);
+            Assert.AreEqual(expected, field.Value);
+        }
+
+        [TestMethod]
+        public void RecordField_SetValue_5()
+        {
+            bool save = RecordField.TrimValue;
+            RecordField.TrimValue = true;
+            try
+            {
+                RecordField field = new RecordField(200);
+                field.SetValue(" Value ");
+                Assert.AreEqual("Value", field.Value);
+            }
+            finally
+            {
+                RecordField.TrimValue = save;
+            }
+        }
+
+        [TestMethod]
+        public void RecordField_SetValue_6()
+        {
+            const string expected = " Value ";
+            bool save = RecordField.TrimValue;
+            RecordField.TrimValue = false;
+            try
+            {
+                RecordField field = new RecordField(200);
+                field.SetValue(expected);
+                Assert.AreEqual(expected, field.Value);
+            }
+            finally
+            {
+                RecordField.TrimValue = save;
+            }
+        }
+
+        [TestMethod]
+        public void RecordField_SetTag_1()
+        {
+            MarcRecord record = new MarcRecord();
+            RecordField field = new RecordField(100);
+            record.Fields.Add(field);
+            field.SetTag(200);
+            Assert.AreSame(field, record.Fields.GetFirstField(200));
+            Assert.IsNull(record.Fields.GetFirstField(100));
+        }
+
+        [TestMethod]
+        public void RecordField_SetSubField_1()
+        {
+            const string expected = "SubFieldA1";
+            RecordField field = new RecordField(200)
+                .AddSubField('a', "SubfieldA");
+            field.SetSubField('a', expected);
+            Assert.AreEqual(expected, field.GetFirstSubFieldValue('a'));
+        }
+
+        [TestMethod]
+        public void RecordField_SetSubField_2()
+        {
+            const string expected = "SubFieldB";
+            RecordField field = new RecordField(200)
+                .AddSubField('a', "SubfieldA");
+            field.SetSubField('b', expected);
+            Assert.AreEqual(expected, field.GetFirstSubFieldValue('b'));
+        }
+
+        [TestMethod]
+        public void RecordField_ReplaceSubField_1()
+        {
+            const string previous = "SubfieldA";
+            const string expected = "SubFieldA1";
+            RecordField field = new RecordField(200)
+                .AddSubField('a', previous);
+            field.ReplaceSubField('a', previous, expected);
+            Assert.AreEqual(expected, field.GetFirstSubFieldValue('a'));
+        }
+
+        [TestMethod]
+        public void RecordField_RemoveSubField_1()
+        {
+            RecordField field = new RecordField(200)
+                .AddSubField('a', "SubfieldA")
+                .AddSubField('b', "SubfieldB");
+            Assert.AreEqual(2, field.SubFields.Count);
+            field.RemoveSubField('a');
+            Assert.AreEqual(1, field.SubFields.Count);
+            Assert.AreEqual('b', field.SubFields[0].Code);
+            Assert.AreEqual("SubfieldB", field.SubFields[0].Value);
+        }
+
+        [TestMethod]
+        public void RecordField_RemoveSubField_2()
+        {
+            RecordField field = new RecordField(200)
+                .AddSubField('a', "SubfieldA")
+                .AddSubField('b', "SubfieldB");
+            Assert.AreEqual(2, field.SubFields.Count);
+            field.RemoveSubField('c');
+            Assert.AreEqual(2, field.SubFields.Count);
+        }
+
+        [TestMethod]
+        public void RecordField_Parse_1()
+        {
+            RecordField field = RecordField.Parse("200#Value^aSubfieldA^bSubfieldB");
+            Assert.IsNotNull(field);
+            Assert.AreEqual(200, field.Tag);
+            Assert.AreEqual("Value", field.Value);
+            Assert.AreEqual(2, field.SubFields.Count);
+            Assert.AreEqual('a', field.SubFields[0].Code);
+            Assert.AreEqual("SubfieldA", field.SubFields[0].Value);
+            Assert.AreEqual('b', field.SubFields[1].Code);
+            Assert.AreEqual("SubfieldB", field.SubFields[1].Value);
+        }
+
+        [TestMethod]
+        public void RecordField_Parse_2()
+        {
+            RecordField field = RecordField.Parse("200#Value");
+            Assert.IsNotNull(field);
+            Assert.AreEqual(200, field.Tag);
+            Assert.AreEqual("Value", field.Value);
+            Assert.AreEqual(0, field.SubFields.Count);
+        }
+
+        [TestMethod]
+        public void RecordField_Parse_3()
+        {
+            RecordField field = RecordField.Parse("200#^aSubfieldA^bSubfieldB");
+            Assert.IsNotNull(field);
+            Assert.AreEqual(200, field.Tag);
+            Assert.IsNull(field.Value);
+            Assert.AreEqual(2, field.SubFields.Count);
+            Assert.AreEqual('a', field.SubFields[0].Code);
+            Assert.AreEqual("SubfieldA", field.SubFields[0].Value);
+            Assert.AreEqual('b', field.SubFields[1].Code);
+            Assert.AreEqual("SubfieldB", field.SubFields[1].Value);
+        }
+
+        [TestMethod]
+        public void RecordField_Parse_4()
+        {
+            RecordField field = RecordField.Parse(null);
+            Assert.IsNull(field);
+
+            field = RecordField.Parse(string.Empty);
+            Assert.IsNull(field);
         }
     }
 }
