@@ -87,29 +87,6 @@ namespace ManagedIrbis
         // ==========================================================
 
         /// <summary>
-        /// Добавление подполя.
-        /// </summary>
-        [NotNull]
-        public static RecordField AddSubField
-            (
-                [NotNull] this RecordField field,
-                char code,
-                [CanBeNull] string value
-            )
-        {
-            Code.NotNull(field, "field");
-
-            field.SubFields.Add
-                (
-                    new SubField(code, value)
-                );
-
-            return field;
-        }
-
-        // ==========================================================
-
-        /// <summary>
         /// Добавление подполей.
         /// </summary>
         [NotNull]

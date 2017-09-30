@@ -523,19 +523,19 @@ namespace ManagedIrbis
 
         /// <summary>
         /// Добавление подполя, при условии,
-        /// что у него значение не false.
+        /// что выполняется некое условие.
         /// </summary>
         [NotNull]
         public RecordField AddNonEmptySubField
             (
                 char code,
-                bool value,
+                bool condition,
                 [NotNull] string text
             )
         {
             ThrowIfReadOnly();
 
-            if (value)
+            if (condition)
             {
                 AddSubField(code, text);
             }
