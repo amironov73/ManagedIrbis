@@ -10,50 +10,22 @@
 #region Using directives
 
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-
 using System.Windows.Forms;
 
-using AM;
-using AM.Collections;
 using AM.Windows.Forms;
-
-using CodeJam;
-
-using IrbisUI.Universal;
-
-using JetBrains.Annotations;
-
-using ManagedIrbis;
-using ManagedIrbis.Batch;
-using ManagedIrbis.Readers;
-
-using Newtonsoft.Json;
-
-using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
-namespace ReservDesktop
+namespace LitresTicket
 {
     static class Program
     {
         static void _ThreadException
-        (
-            object sender,
-            ThreadExceptionEventArgs eventArgs
-        )
+            (
+                object sender,
+                ThreadExceptionEventArgs eventArgs
+            )
         {
             ExceptionBox.Show(eventArgs.Exception);
             Environment.FailFast
@@ -67,10 +39,7 @@ namespace ReservDesktop
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main
-        (
-            string[] args
-        )
+        static void Main()
         {
             try
             {
@@ -83,8 +52,7 @@ namespace ReservDesktop
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                UniversalForm form = new MainForm();
-                UniversalForm.Run(form, args);
+                Application.Run(new MainForm());
             }
             catch (Exception exception)
             {
