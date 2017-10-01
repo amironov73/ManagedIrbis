@@ -9,13 +9,10 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
@@ -96,7 +93,7 @@ namespace ManagedIrbis.Worksheet
     // DXXYY - каждый отобранный элемент заключать слева разделителями
     // XX и справа - YY.
     // Если параметр остается пустым - групповой ввод в одно поле запрещен.
-
+    //
 
     //
     // Столбцы РЛ подполей:
@@ -113,7 +110,7 @@ namespace ManagedIrbis.Worksheet
     // 8. Умолчание - не используется.
     // 9. Подсказка - то же, что и для РЛ полей.
     // 10. [резерв] - то же, что и для РЛ полей.
-
+    //
 
     /// <summary>
     /// Одна строчка в рабочем листе.
@@ -123,7 +120,8 @@ namespace ManagedIrbis.Worksheet
     [MoonSharpUserData]
     [DebuggerDisplay("{Tag} {Title} [{Repeatable}][{EditMode}]")]
     public sealed class WorksheetItem
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -131,38 +129,39 @@ namespace ManagedIrbis.Worksheet
         /// Числовая метка поля.
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("tag")]
-        [JsonProperty("tag")]
+        [XmlElement("tag")]
+        [JsonProperty("tag", NullValueHandling = NullValueHandling.Ignore)]
         public string Tag { get; set; }
 
         /// <summary>
         /// Наименование поля.
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("title")]
-        [JsonProperty("title")]
+        [XmlElement("title")]
+        [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
         public string Title { get; set; }
 
         /// <summary>
         /// Повторяемость поля.
         /// </summary>
-        [XmlAttribute("repeatable")]
-        [JsonProperty("repeatable")]
+        [XmlElement("repeatable")]
+        [JsonProperty("repeatable", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool Repeatable { get; set; }
 
         /// <summary>
         /// Индекс контекстной помощи.
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("help")]
-        [JsonProperty("help")]
+        [XmlElement("help")]
+        [JsonProperty("help", NullValueHandling = NullValueHandling.Ignore)]
         public string Help { get; set; }
 
         /// <summary>
         /// Режим ввода.
         /// </summary>
-        [XmlAttribute("input-mode")]
-        [JsonProperty("input-mode")]
+        [CanBeNull]
+        [XmlElement("input-mode")]
+        [JsonProperty("input-mode", NullValueHandling = NullValueHandling.Ignore)]
         public string EditMode { get; set; }
 
         /// <summary>
@@ -170,16 +169,16 @@ namespace ManagedIrbis.Worksheet
         /// средств ввода.
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("input-info")]
-        [JsonProperty("input-info")]
+        [XmlElement("input-info")]
+        [JsonProperty("input-info", NullValueHandling = NullValueHandling.Ignore)]
         public string InputInfo { get; set; }
 
         /// <summary>
         /// ФЛК.
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("formal-verification")]
-        [JsonProperty("formal-verification")]
+        [XmlElement("formal-verification")]
+        [JsonProperty("formal-verification", NullValueHandling = NullValueHandling.Ignore)]
         public string FormalVerification { get; set; }
 
         /// <summary>
@@ -187,8 +186,8 @@ namespace ManagedIrbis.Worksheet
         /// сопровождающий ввод в поле.
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("hint")]
-        [JsonProperty("hint")]
+        [XmlElement("hint")]
+        [JsonProperty("hint", NullValueHandling = NullValueHandling.Ignore)]
         public string Hint { get; set; }
 
         /// <summary>
@@ -196,29 +195,52 @@ namespace ManagedIrbis.Worksheet
         /// новой записи.
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("default-value")]
-        [JsonProperty("default-value")]
+        [XmlElement("default-value")]
+        [JsonProperty("default-value", NullValueHandling = NullValueHandling.Ignore)]
         public string DefaultValue { get; set; }
 
         /// <summary>
         /// Используется при определенных режимах ввода.
         /// </summary>
         [CanBeNull]
-        [XmlAttribute("reserved")]
-        [JsonProperty("reserved")]
+        [XmlElement("reserved")]
+        [JsonProperty("reserved", NullValueHandling = NullValueHandling.Ignore)]
         public string Reserved { get; set; }
 
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
 
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Encode the item.
+        /// </summary>
+        public void Encode
+            (
+                [NotNull] TextWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer.WriteLine(Tag);
+            writer.WriteLine(Title);
+            writer.WriteLine(Repeatable ? "1" : "0");
+            writer.WriteLine(Help);
+            writer.WriteLine(EditMode);
+            writer.WriteLine(InputInfo);
+            writer.WriteLine(FormalVerification);
+            writer.WriteLine(Hint);
+            writer.WriteLine(DefaultValue);
+            writer.WriteLine(Reserved);
+        }
 
         /// <summary>
         /// Разбор потока.
@@ -233,32 +255,37 @@ namespace ManagedIrbis.Worksheet
 
             WorksheetItem result = new WorksheetItem
             {
-                Tag = reader.RequireLine(),
-                Title = reader.RequireLine().Trim(),
-                Repeatable = int.Parse
-                    (
-                        reader.RequireLine()
-                    ) != 0,
-                Help = reader.RequireLine().Trim(),
-                EditMode = reader.RequireLine(),
-                InputInfo = reader.RequireLine(),
-                FormalVerification = reader.RequireLine().Trim(),
-                Hint = reader.RequireLine().Trim(),
-                DefaultValue = reader.RequireLine().Trim(),
-                Reserved = reader.RequireLine().Trim()
-                
+                Tag = reader.RequireLine().EmptyToNull(),
+                Title = reader.RequireLine().Trim().EmptyToNull(),
+                Repeatable = NumericUtility.ParseInt32(reader.RequireLine()) != 0,
+                Help = reader.RequireLine().Trim().EmptyToNull(),
+                EditMode = reader.RequireLine().EmptyToNull(),
+                InputInfo = reader.RequireLine().EmptyToNull(),
+                FormalVerification = reader.RequireLine().Trim().EmptyToNull(),
+                Hint = reader.RequireLine().Trim().EmptyToNull(),
+                DefaultValue = reader.RequireLine().Trim().EmptyToNull(),
+                Reserved = reader.RequireLine().Trim().EmptyToNull()
+
             };
 
             return result;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Repeatable"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeRepeatable()
+        {
+            return Repeatable;
         }
 
         #endregion
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -278,9 +305,7 @@ namespace ManagedIrbis.Worksheet
             Reserved = reader.ReadNullableString();
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -305,18 +330,39 @@ namespace ManagedIrbis.Worksheet
 
         #endregion
 
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<WorksheetItem> verifier
+                = new Verifier<WorksheetItem>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Tag, "Tag")
+                .NotNullNorEmpty(Title, "Title")
+                .NotNullNorEmpty(EditMode, "EditMode");
+
+            return verifier.Result;
+        }
+
+        #endregion
+
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format
                 (
                     "{0}: {1} [{2}][{3}]",
-                    Tag,
-                    Title,
+                    Tag.ToVisibleString(),
+                    Title.ToVisibleString(),
                     Repeatable,
-                    EditMode
+                    EditMode.ToVisibleString()
                 );
         }
 

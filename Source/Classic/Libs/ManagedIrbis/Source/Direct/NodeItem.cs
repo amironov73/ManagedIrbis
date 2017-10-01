@@ -17,7 +17,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis
+namespace ManagedIrbis.Direct
 {
     /// <summary>
     /// Справочник в N01/L01 является таблицей, определяющей
@@ -57,7 +57,7 @@ namespace ManagedIrbis
         /// </summary>
         public long FullOffset
         {
-            get { return unchecked (((long) HighOffset << 32) + LowOffset); }
+            get { return unchecked(((long)HighOffset << 32) + LowOffset); }
         }
 
         /// <summary>
@@ -85,12 +85,12 @@ namespace ManagedIrbis
                     "Length: {0}, KeyOffset: {1}, "
                     + "LowOffset: {2}, HighOffset: {3}, "
                     + "FullOffset: {4}, RefersToLeaf: {5}, "
-                    + "Text: {6}", 
-                    Length, 
-                    KeyOffset, 
-                    LowOffset, 
-                    HighOffset, 
-                    FullOffset, 
+                    + "Text: {6}",
+                    Length,
+                    KeyOffset,
+                    LowOffset,
+                    HighOffset,
+                    FullOffset,
                     RefersToLeaf,
                     Text
                 );
