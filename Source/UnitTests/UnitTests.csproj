@@ -379,6 +379,7 @@
     <Compile Include="AM\SequenceTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\StandardFunctionsTest.cs" />
     <Compile Include="ManagedIrbis\Pft\PftExceptionTest.cs" />
+    <Compile Include="ManagedIrbis\UserInfoTest.cs" />
     <Compile Include="System\IO\Compression\DeflateStreamTest.cs" />
   </ItemGroup>
   <ItemGroup>
