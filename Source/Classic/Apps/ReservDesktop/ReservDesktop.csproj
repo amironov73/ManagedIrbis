@@ -125,6 +125,7 @@
     <EmbeddedResource Include="Source\ReservPanel.resx">
       <DependentUpon>ReservPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\ManagedIrbis.Reservations.ReservationInfo.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

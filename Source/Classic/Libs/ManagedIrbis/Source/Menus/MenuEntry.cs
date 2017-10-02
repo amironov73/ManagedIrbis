@@ -107,11 +107,16 @@ namespace ManagedIrbis.Menus
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
+            if (string.IsNullOrEmpty(Comment))
+            {
+                return Code.ToVisibleString();
+            }
+
             return string.Format
                 (
-                    "Code: {0}, Comment: {1}",
-                    Code.ToVisibleString(),
-                    Comment.ToVisibleString()
+                    "{0} - {1}",
+                    Code,
+                    Comment
                 );
         }
 

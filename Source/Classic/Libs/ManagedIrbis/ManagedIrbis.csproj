@@ -783,6 +783,7 @@
     <Compile Include="Source\Reservations\ReservationManager.cs" />
     <Compile Include="Source\Reservations\ReservationStatus.cs" />
     <Compile Include="Source\Reservations\HistoryInfo.cs" />
+    <Compile Include="Source\Reservations\ReservationUtility.cs" />
     <Compile Include="Source\Search\FoundLine.cs" />
     <Compile Include="Source\Search\Infrastructure\ComplexLevel.cs" />
     <Compile Include="Source\Search\Infrastructure\ISearchTree.cs" />

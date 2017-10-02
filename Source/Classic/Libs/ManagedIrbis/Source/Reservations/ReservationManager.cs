@@ -28,6 +28,10 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
+using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Menus;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -45,9 +49,28 @@ namespace ManagedIrbis.Reservations
     {
         #region Properties
 
+        /// <summary>
+        /// Provider.
+        /// </summary>
+        [NotNull]
+        public IrbisProvider Provider { get; private set; }
+
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ReservationManager
+            (
+                [NotNull] IrbisProvider provider
+            )
+        {
+            Code.NotNull(provider, "provider");
+
+            Provider = provider;
+        }
 
         #endregion
 
@@ -56,6 +79,59 @@ namespace ManagedIrbis.Reservations
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// List rooms.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public MenuEntry[] ListRooms()
+        {
+            FileSpecification specification = new FileSpecification
+                (
+                    IrbisPath.MasterFile,
+                    Provider.Database,
+                    ReservationUtility.RoomMenu
+                );
+            MenuFile menuFile = Provider.ReadMenuFile(specification);
+            if (ReferenceEquals(menuFile, null))
+            {
+                return new MenuEntry[0];
+            }
+
+            return menuFile.Entries.ToArray();
+        }
+
+        /// <summary>
+        /// List resources.
+        /// </summary>
+        [NotNull]
+        public ReservationInfo[] ListResources
+            (
+                [CanBeNull] string roomCode
+            )
+        {
+            string expression = string.Format
+                (
+                    "\"{0}{1}\"",
+                    ReservationUtility.RoomPrefix,
+                    roomCode
+                );
+            int[] found = Provider.Search(expression);
+            List<ReservationInfo> result
+                = new List<ReservationInfo>(found.Length);
+            foreach (int mfn in found)
+            {
+                MarcRecord record = Provider.ReadRecord(mfn);
+                if (!ReferenceEquals(record, null))
+                {
+                    ReservationInfo item = ReservationInfo.ParseRecord(record);
+                    result.Add(item);
+                }
+            }
+
+            return result.ToArray();
+        }
 
         #endregion
 

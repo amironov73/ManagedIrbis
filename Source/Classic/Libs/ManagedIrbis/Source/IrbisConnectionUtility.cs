@@ -778,9 +778,9 @@ namespace ManagedIrbis
 
             string text = connection.ReadTextFile(fileSpecification);
             MenuFile result = MenuFile.ParseServerResponse
-            (
-                text.ThrowIfNull("text")
-            );
+                (
+                    text.ThrowIfNull("text")
+                );
 
             return result;
         }

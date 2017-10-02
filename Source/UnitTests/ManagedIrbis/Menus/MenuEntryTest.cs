@@ -158,13 +158,13 @@ namespace UnitTests.ManagedIrbis.Menus
         public void MenuEntry_ToString_1()
         {
             MenuEntry entry = new MenuEntry();
-            Assert.AreEqual("Code: (null), Comment: (null)", entry.ToString());
+            Assert.AreEqual("(null)", entry.ToString());
             entry.Code = "the code";
-            Assert.AreEqual("Code: the code, Comment: (null)", entry.ToString());
+            Assert.AreEqual("the code", entry.ToString());
             entry.Comment = "the comment";
-            Assert.AreEqual("Code: the code, Comment: the comment", entry.ToString());
+            Assert.AreEqual("the code - the comment", entry.ToString());
             entry.OtherEntry = new MenuEntry();
-            Assert.AreEqual("Code: the code, Comment: the comment", entry.ToString());
+            Assert.AreEqual("the code - the comment", entry.ToString());
         }
     }
 }

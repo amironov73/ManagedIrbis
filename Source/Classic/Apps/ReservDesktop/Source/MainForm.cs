@@ -63,7 +63,7 @@ namespace ReservDesktop
             InitializeComponent();
 
             HideMainMenu();
-            //HideToolStrip();
+            HideToolStrip();
             //HideStatusStrip();
 
             ReservPanel panel = new ReservPanel(this);
