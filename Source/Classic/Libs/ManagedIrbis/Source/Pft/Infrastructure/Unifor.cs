@@ -121,7 +121,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("U", UniforU.Cumulate);
             Registry.Add("V", UniforU.Decumulate);
             Registry.Add("W", UniforU.Check);
-            Registry.Add("X", RemoveAngleBrackets);
+            Registry.Add("X", UniforX.RemoveAngleBrackets);
             Registry.Add("Y", UniforY.FreeExemplars);
             Registry.Add("+0", UniforPlus0.FormatAll);
             Registry.Add("+1", UniforPlus1.ClearGlobals);
@@ -503,26 +503,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             context.Write(node, result);
             context.OutputFlag = true;
-        }
-
-        // ================================================================
-
-        /// <summary>
-        /// Remove text surrounded with angle brackets.
-        /// </summary>
-        public static void RemoveAngleBrackets
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
-        {
-            if (!string.IsNullOrEmpty(expression))
-            {
-                string clear = Regex.Replace(expression, "<.*?>", string.Empty);
-                context.Write(node, clear);
-                context.OutputFlag = true;
-            }
         }
 
         // ================================================================
