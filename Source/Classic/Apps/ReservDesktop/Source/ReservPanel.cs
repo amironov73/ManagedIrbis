@@ -43,6 +43,7 @@ using ManagedIrbis;
 using ManagedIrbis.Client;
 using ManagedIrbis.Fields;
 using ManagedIrbis.Menus;
+using ManagedIrbis.Readers;
 using ManagedIrbis.Reservations;
 using ManagedIrbis.Search;
 
@@ -66,6 +67,21 @@ namespace ReservDesktop
         public BusyController Controller
         {
             get { return MainForm.ThrowIfNull().Controller; }
+        }
+
+        [CanBeNull]
+        public string CurrentRoom
+        {
+            get
+            {
+                string result = null;
+                MenuEntry current = _roomBox.SelectedItem as MenuEntry;
+                if (!ReferenceEquals(current, null))
+                {
+                    result = current.Code;
+                }
+                return result;
+            }
         }
 
         /// <summary>
@@ -167,27 +183,31 @@ namespace ReservDesktop
 
         #endregion
 
+        private void _RefreshGrid()
+        {
+            _bindingSource.DataSource = null;
+            string roomCode = CurrentRoom;
+            if (!string.IsNullOrEmpty(roomCode))
+            {
+                ReservationInfo[] items = null;
+                Controller.Run
+                (
+                    () =>
+                    {
+                        items = Manager.ListResources(roomCode);
+                    }
+                );
+                _bindingSource.DataSource = items;
+            }
+        }
+
         private void _roomBox_SelectedIndexChanged
             (
                 object sender,
                 EventArgs e
             )
         {
-            _bindingSource.DataSource = null;
-            MenuEntry current = _roomBox.SelectedItem as MenuEntry;
-            if (!ReferenceEquals(current, null))
-            {
-                string roomCode = current.Code;
-                ReservationInfo[] items = null;
-                Controller.Run
-                    (
-                        () =>
-                        {
-                            items = Manager.ListResources(roomCode);
-                        }
-                    );
-                _bindingSource.DataSource = items;
-            }
+            _RefreshGrid();
         }
 
         private void _connectButton_Click(object sender, EventArgs e)
@@ -201,7 +221,7 @@ namespace ReservDesktop
                 DataGridViewRowPrePaintEventArgs e
             )
         {
-            DataGridView grid = (DataGridView) sender;
+            DataGridView grid = (DataGridView)sender;
             int index = e.RowIndex;
             if (index < 0 || index >= grid.RowCount)
             {
@@ -241,12 +261,13 @@ namespace ReservDesktop
             Code.NotNullNorEmpty(ticket, "ticket");
 
             string previousDatabase = Provider.Database;
-            Provider.Database = "RDR";
+            Provider.Database = ReaderUtility.DatabaseName;
             try
             {
                 string expression = string.Format
                     (
-                        "\"RI={0}\"",
+                        "\"{0}{1}\"",
+                        ReaderUtility.IdentifierPrefix,
                         ticket
                     );
                 int[] found = Provider.Search(expression);
@@ -335,15 +356,65 @@ namespace ReservDesktop
                     () =>
                     {
                         int index = _bindingSource.Position;
-                        resource = Manager.GiveResource(resource, ticket);
+                        resource = Manager.AssignResource(resource, ticket);
                         ReservationInfo[] array
-                            = (ReservationInfo[]) _bindingSource.DataSource;
+                            = (ReservationInfo[])_bindingSource.DataSource;
                         array[index] = resource;
                     }
                 );
 
             _bindingSource.ResetCurrentItem();
             Invalidate();
+        }
+
+        private void _returnButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            ReservationInfo resource = CurrentResource;
+            if (ReferenceEquals(resource, null))
+            {
+                return;
+            }
+            if (resource.Status == ReservationStatus.Free)
+            {
+                return;
+            }
+
+            Controller.Run
+                (
+                    () =>
+                    {
+                        int index = _bindingSource.Position;
+                        resource = Manager.ReleaseResource(resource);
+                        ReservationInfo[] array
+                            = (ReservationInfo[])_bindingSource.DataSource;
+                        array[index] = resource;
+                    }
+                );
+
+            _bindingSource.ResetCurrentItem();
+            Invalidate();
+        }
+
+        private void _refreshButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            _RefreshGrid();
+        }
+
+        private void _refreshTimer_Tick
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            _grid.Invalidate();
         }
     }
 }

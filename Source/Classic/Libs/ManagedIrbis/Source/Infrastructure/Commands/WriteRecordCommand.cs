@@ -134,9 +134,8 @@ namespace ManagedIrbis.Infrastructure.Commands
         {
             Code.NotNull(query, "query");
 
-            // ReSharper disable PossibleNullReferenceException
-            string database = Record.Database ?? Connection.Database;
-            // ReSharper restore PossibleNullReferenceException
+            string database = Record.ThrowIfNull("Record").Database
+                ?? Connection.Database;
 
             ServerResponse result = base.Execute(query);
 

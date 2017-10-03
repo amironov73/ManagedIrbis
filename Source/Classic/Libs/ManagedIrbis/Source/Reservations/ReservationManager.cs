@@ -94,12 +94,13 @@ namespace ManagedIrbis.Reservations
             Code.NotNullNorEmpty(ticket, "ticket");
 
             string previousDatabase = Provider.Database;
-            Provider.Database = "RDR";
+            Provider.Database = ReaderUtility.DatabaseName;
             try
             {
                 string expression = string.Format
                 (
-                    "\"RI={0}\"",
+                    "\"{0}{1}\"",
+                    ReaderUtility.IdentifierPrefix,
                     ticket
                 );
                 int[] found = Provider.Search(expression);
@@ -160,9 +161,9 @@ namespace ManagedIrbis.Reservations
         }
 
         /// <summary>
-        /// Give the resource.
+        /// Assign the resource to the reader.
         /// </summary>
-        public ReservationInfo GiveResource
+        public ReservationInfo AssignResource
             (
                 [NotNull] ReservationInfo resource,
                 [NotNull] string ticket
@@ -198,15 +199,8 @@ namespace ManagedIrbis.Reservations
             };
             resource.History.Add(entry);
 
-            //int mfn = record.Mfn;
-            //int version = record.Version;
             resource.ApplyToRecord(record);
-            //record = resource.ToRecord();
-            //record.Database = Provider.Database;
-            //record.Mfn = mfn;
-            //record.Version = version;
             Provider.WriteRecord(record);
-            resource.Record = record;
 
             return resource;
         }
@@ -262,6 +256,40 @@ namespace ManagedIrbis.Reservations
             }
 
             return result.ToArray();
+        }
+
+        /// <summary>
+        /// Release the resource.
+        /// </summary>
+        [NotNull]
+        public ReservationInfo ReleaseResource
+            (
+                [NotNull] ReservationInfo resource
+            )
+        {
+            Code.NotNull(resource, "resource");
+
+            MarcRecord record = GetResourceRecord
+                (
+                    resource.Room.ThrowIfNull("resource.Room"),
+                    resource.Number.ThrowIfNull("resource.Number")
+                );
+            if (ReferenceEquals(record, null))
+            {
+                throw new IrbisException();
+            }
+            resource = ReservationInfo.ParseRecord(record);
+            resource.Status = ReservationStatus.Free;
+            HistoryInfo entry = resource.History.LastOrDefault();
+            if (!ReferenceEquals(entry, null))
+            {
+                entry.EndDate = DateTime.Now;
+            }
+
+            resource.ApplyToRecord(record);
+            Provider.WriteRecord(record);
+
+            return resource;
         }
 
         #endregion

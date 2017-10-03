@@ -812,6 +812,30 @@ namespace ManagedIrbis.Infrastructure
             return result;
         }
 
+        /// <summary>
+        /// Get remaining length of the response.
+        /// </summary>
+        public int GetRemainingLength()
+        {
+            return (int) (RawAnswer.Length - _stream.Position);
+        }
+
+        /// <summary>
+        /// Peek remaining text.
+        /// </summary>
+        [NotNull]
+        public string PeekRemainingUtf8()
+        {
+            string result = IrbisEncoding.Utf8.GetString
+                (
+                    RawAnswer,
+                    (int) _stream.Position,
+                    (int) (RawAnswer.Length - _stream.Position)
+                );
+
+            return result;
+        }
+
         #endregion
 
         #region IVerifiable members

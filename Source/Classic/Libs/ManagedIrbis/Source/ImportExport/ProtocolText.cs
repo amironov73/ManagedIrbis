@@ -320,13 +320,18 @@ namespace ManagedIrbis.ImportExport
             Code.NotNull(response, "response");
             Code.NotNull(record, "record");
 
+            string first = response.RequireUtfString();
+            string second = response.GetUtfString();
+            if (string.IsNullOrEmpty(second))
+            {
+                return record;
+            }
+
             try
             {
                 record.Fields.BeginUpdate();
                 record.Fields.Clear();
 
-                string first = response.RequireUtfString();
-                string second = response.RequireUtfString();
                 string[] split = second.Split('\x1E');
 
                 ParseMfnStatusVersion

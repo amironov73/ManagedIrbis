@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -114,6 +115,29 @@ namespace ManagedIrbis.Reservations
         [Description("История")]
         [DisplayName("История")]
         public NonNullCollection<HistoryInfo> History { get; private set; }
+
+        /// <summary>
+        /// Duration.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        public TimeSpan Duration
+        {
+            get
+            {
+                TimeSpan result = new TimeSpan();
+                if (Status == ReservationStatus.Busy)
+                {
+                    HistoryInfo entry = History.LastOrDefault();
+                    if (!ReferenceEquals(entry, null)
+                        && string.IsNullOrEmpty(entry.EndTimeString))
+                    {
+                        result = DateTime.Now - entry.BeginDate;
+                    }
+                }
+                return result;
+            }
+        }
 
         /// <summary>
         /// Associated record.

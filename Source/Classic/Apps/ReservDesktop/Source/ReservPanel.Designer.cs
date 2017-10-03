@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReservPanel));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this._toolStrip = new System.Windows.Forms.ToolStrip();
             this._connectButton = new System.Windows.Forms.ToolStripButton();
@@ -40,11 +41,14 @@
             this._bindingSource = new System.Windows.Forms.BindingSource(this.components);
             this._roomBox = new System.Windows.Forms.ComboBox();
             this._grid = new System.Windows.Forms.DataGridView();
+            this._ticketBox = new System.Windows.Forms.TextBox();
+            this._readerBox = new System.Windows.Forms.TextBox();
+            this._refreshButton = new System.Windows.Forms.ToolStripButton();
             this._numberColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._statusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._descriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._ticketBox = new System.Windows.Forms.TextBox();
-            this._readerBox = new System.Windows.Forms.TextBox();
+            this._durationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._refreshTimer = new System.Windows.Forms.Timer(this.components);
             this._toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._bindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
@@ -54,6 +58,7 @@
             // 
             this._toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._connectButton,
+            this._refreshButton,
             this.toolStripSeparator1,
             this._giveButton,
             this._returnButton});
@@ -93,6 +98,7 @@
             this._returnButton.Name = "_returnButton";
             this._returnButton.Size = new System.Drawing.Size(71, 22);
             this._returnButton.Text = "Вернуть";
+            this._returnButton.Click += new System.EventHandler(this._returnButton_Click);
             // 
             // _bindingSource
             // 
@@ -122,19 +128,47 @@
             this._grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._numberColumn,
             this._statusColumn,
-            this._descriptionColumn});
+            this._descriptionColumn,
+            this._durationColumn});
             this._grid.DataSource = this._bindingSource;
             this._grid.Dock = System.Windows.Forms.DockStyle.Fill;
             this._grid.Location = new System.Drawing.Point(0, 86);
             this._grid.Name = "_grid";
             this._grid.ReadOnly = true;
             this._grid.RowHeadersVisible = false;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this._grid.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this._grid.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this._grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this._grid.Size = new System.Drawing.Size(639, 385);
             this._grid.TabIndex = 2;
             this._grid.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this._grid_RowPrePaint);
+            // 
+            // _ticketBox
+            // 
+            this._ticketBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this._ticketBox.Location = new System.Drawing.Point(0, 46);
+            this._ticketBox.Name = "_ticketBox";
+            this._ticketBox.Size = new System.Drawing.Size(639, 20);
+            this._ticketBox.TabIndex = 3;
+            this._ticketBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this._ticketBox_KeyDown);
+            // 
+            // _readerBox
+            // 
+            this._readerBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this._readerBox.Location = new System.Drawing.Point(0, 66);
+            this._readerBox.Name = "_readerBox";
+            this._readerBox.ReadOnly = true;
+            this._readerBox.Size = new System.Drawing.Size(639, 20);
+            this._readerBox.TabIndex = 4;
+            // 
+            // _refreshButton
+            // 
+            this._refreshButton.Image = ((System.Drawing.Image)(resources.GetObject("_refreshButton.Image")));
+            this._refreshButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._refreshButton.Name = "_refreshButton";
+            this._refreshButton.Size = new System.Drawing.Size(81, 22);
+            this._refreshButton.Text = "Обновить";
+            this._refreshButton.Click += new System.EventHandler(this._refreshButton_Click);
             // 
             // _numberColumn
             // 
@@ -160,23 +194,20 @@
             this._descriptionColumn.Name = "_descriptionColumn";
             this._descriptionColumn.ReadOnly = true;
             // 
-            // _ticketBox
+            // _durationColumn
             // 
-            this._ticketBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this._ticketBox.Location = new System.Drawing.Point(0, 46);
-            this._ticketBox.Name = "_ticketBox";
-            this._ticketBox.Size = new System.Drawing.Size(639, 20);
-            this._ticketBox.TabIndex = 3;
-            this._ticketBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this._ticketBox_KeyDown);
+            this._durationColumn.DataPropertyName = "Duration";
+            dataGridViewCellStyle2.Format = "hh\':\'mm\':\'ss";
+            this._durationColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this._durationColumn.HeaderText = "Занят";
+            this._durationColumn.Name = "_durationColumn";
+            this._durationColumn.ReadOnly = true;
             // 
-            // _readerBox
+            // _refreshTimer
             // 
-            this._readerBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this._readerBox.Location = new System.Drawing.Point(0, 66);
-            this._readerBox.Name = "_readerBox";
-            this._readerBox.ReadOnly = true;
-            this._readerBox.Size = new System.Drawing.Size(639, 20);
-            this._readerBox.TabIndex = 4;
+            this._refreshTimer.Enabled = true;
+            this._refreshTimer.Interval = 1000;
+            this._refreshTimer.Tick += new System.EventHandler(this._refreshTimer_Tick);
             // 
             // ReservPanel
             // 
@@ -204,14 +235,17 @@
         private System.Windows.Forms.BindingSource _bindingSource;
         private System.Windows.Forms.ComboBox _roomBox;
         private System.Windows.Forms.DataGridView _grid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _numberColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _statusColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _descriptionColumn;
         private System.Windows.Forms.ToolStripButton _connectButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton _returnButton;
         private System.Windows.Forms.ToolStripButton _giveButton;
         private System.Windows.Forms.TextBox _ticketBox;
         private System.Windows.Forms.TextBox _readerBox;
+        private System.Windows.Forms.ToolStripButton _refreshButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _numberColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _statusColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _descriptionColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _durationColumn;
+        private System.Windows.Forms.Timer _refreshTimer;
     }
 }

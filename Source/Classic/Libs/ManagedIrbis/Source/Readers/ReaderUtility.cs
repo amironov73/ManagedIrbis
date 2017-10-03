@@ -33,7 +33,41 @@ namespace ManagedIrbis.Readers
     [PublicAPI]
     public static class ReaderUtility
     {
-        #region Private members
+        #region Constants
+
+        /// <summary>
+        /// Default database name.
+        /// </summary>
+        public const string DefaultDatabaseName = "RDR";
+
+        /// <summary>
+        /// Default reader identifier search prefix.
+        /// </summary>
+        public const string DefaultIdentifierPrefix = "RI=";
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Database name.
+        /// </summary>
+        public static NonNullValue<string> DatabaseName { get; set; }
+
+        /// <summary>
+        /// Reader identifier search prefix.
+        /// </summary>
+        public static NonNullValue<string> IdentifierPrefix { get; set; }
+
+        #endregion
+
+        #region Construction
+
+        static ReaderUtility()
+        {
+            DatabaseName = DefaultDatabaseName;
+            IdentifierPrefix = DefaultIdentifierPrefix;
+        }
 
         #endregion
 
