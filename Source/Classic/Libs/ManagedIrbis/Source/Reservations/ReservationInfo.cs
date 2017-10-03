@@ -233,7 +233,19 @@ namespace ManagedIrbis.Reservations
         public MarcRecord ToRecord()
         {
             MarcRecord result = new MarcRecord();
-            ApplyToRecord(result);
+            result
+                .AddNonEmptyField(10, Room)
+                .AddNonEmptyField(11, Number)
+                .AddNonEmptyField(12, Status)
+                .AddNonEmptyField(13, Description);
+            RecordField[] claims = Claims
+                .Select(item => item.ToField())
+                .ToArray();
+            result.ReplaceField(ReservationClaim.Tag, claims);
+            RecordField[] history = History
+                .Select(item => item.ToField())
+                .ToArray();
+            result.ReplaceField(HistoryInfo.Tag, history);
 
             return result;
         }

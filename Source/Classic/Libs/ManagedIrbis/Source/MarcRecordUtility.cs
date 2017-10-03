@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -57,6 +58,28 @@ namespace ManagedIrbis
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Add non-empty field.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord AddNonEmptyField
+            (
+                [NotNull] this MarcRecord record,
+                int tag,
+                [CanBeNull] object value
+            )
+        {
+            Code.NotNull(record, "record");
+
+            if (!ReferenceEquals(value, null))
+            {
+                RecordField field = new RecordField(tag, value.ToString());
+                record.Fields.Add(field);
+            }
+
+            return record;
+        }
 
         /// <summary>
         /// Begin update the record.

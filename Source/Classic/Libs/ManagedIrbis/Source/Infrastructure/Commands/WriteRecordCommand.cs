@@ -150,10 +150,10 @@ namespace ManagedIrbis.Infrastructure.Commands
             if (!DontParseResponse)
             {
                 ProtocolText.ParseResponseForWriteRecord
-                (
-                    result,
-                    record
-                );
+                    (
+                        result,
+                        record
+                    );
             }
 
             return result;

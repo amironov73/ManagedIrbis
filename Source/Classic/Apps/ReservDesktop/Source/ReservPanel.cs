@@ -68,6 +68,15 @@ namespace ReservDesktop
             get { return MainForm.ThrowIfNull().Controller; }
         }
 
+        /// <summary>
+        /// Current grid line.
+        /// </summary>
+        [CanBeNull]
+        public ReservationInfo CurrentResource
+        {
+            get { return _bindingSource.Current as ReservationInfo; }
+        }
+
         [NotNull]
         public string Prefix { get; set; }
 
@@ -89,6 +98,12 @@ namespace ReservDesktop
 
                 return _manager;
             }
+        }
+
+        [CanBeNull]
+        public string Ticket
+        {
+            get { return _ticketBox.Text.Trim(); }
         }
 
         #endregion
@@ -158,7 +173,7 @@ namespace ReservDesktop
                 EventArgs e
             )
         {
-            _grid.DataSource = null;
+            _bindingSource.DataSource = null;
             MenuEntry current = _roomBox.SelectedItem as MenuEntry;
             if (!ReferenceEquals(current, null))
             {
@@ -171,7 +186,7 @@ namespace ReservDesktop
                             items = Manager.ListResources(roomCode);
                         }
                     );
-                _grid.DataSource = items;
+                _bindingSource.DataSource = items;
             }
         }
 
@@ -215,6 +230,120 @@ namespace ReservDesktop
                     graphics.FillRectangle(brush, rectangle);
                 }
             }
+        }
+
+        [CanBeNull]
+        private string _GetReaderDescription
+            (
+                [NotNull] string ticket
+            )
+        {
+            Code.NotNullNorEmpty(ticket, "ticket");
+
+            string previousDatabase = Provider.Database;
+            Provider.Database = "RDR";
+            try
+            {
+                string expression = string.Format
+                    (
+                        "\"RI={0}\"",
+                        ticket
+                    );
+                int[] found = Provider.Search(expression);
+                if (found.Length == 0)
+                {
+                    WriteLine("Читатель с билетом {0} не найден", ticket);
+
+                    return null;
+                }
+                if (found.Length != 1)
+                {
+                    WriteLine("Много читателей с билетом {0}", ticket);
+
+                    return null;
+                }
+                int mfn = found[0];
+                MarcRecord record = Provider.ReadRecord(mfn);
+                if (ReferenceEquals(record, null))
+                {
+                    WriteLine("Ошибка при чтении записи MFN={0}");
+
+                    return null;
+                }
+                string result = Provider.FormatRecord(record, "@brief");
+
+                return result;
+            }
+            finally
+            {
+                Provider.Database = previousDatabase;
+            }
+        }
+
+        private void _ticketBox_KeyDown
+            (
+                object sender,
+                KeyEventArgs e
+            )
+        {
+            if (e.KeyData != Keys.Enter)
+            {
+                return;
+            }
+            _readerBox.Text = null;
+            e.Handled = true;
+            string ticket = Ticket;
+            if (string.IsNullOrEmpty(ticket))
+            {
+                return;
+            }
+            string description = null;
+            Controller.Run
+                (
+                    () =>
+                    {
+                        description = _GetReaderDescription(ticket);
+                    }
+                );
+            _readerBox.Text = description;
+        }
+
+        private void _giveButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            ReservationInfo resource = CurrentResource;
+            if (ReferenceEquals(resource, null))
+            {
+                return;
+            }
+            if (resource.Status != ReservationStatus.Free)
+            {
+                return;
+            }
+
+            string ticket = Ticket;
+            if (string.IsNullOrEmpty(ticket))
+            {
+                return;
+            }
+
+            Controller.Run
+                (
+                    () =>
+                    {
+                        int index = _bindingSource.Position;
+                        resource = Manager.GiveResource(resource, ticket);
+                        ReservationInfo[] array
+                            = (ReservationInfo[]) _bindingSource.DataSource;
+                        array[index] = resource;
+                    }
+                );
+
+            _bindingSource.ResetCurrentItem();
+            Invalidate();
         }
     }
 }

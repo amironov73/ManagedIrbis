@@ -51,6 +51,11 @@ namespace ManagedIrbis.Reservations
         public const string DefaultDatabaseName = "RESERV";
 
         /// <summary>
+        /// Default prefix for number search index.
+        /// </summary>
+        public const string DefaultNumberPrefix = "N=";
+
+        /// <summary>
         /// Default prefix for room search index.
         /// </summary>
         public const string DefaultRoomPrefix = "ROOM=";
@@ -70,6 +75,11 @@ namespace ManagedIrbis.Reservations
         public static NonNullValue<string> DatabaseName { get; set; }
 
         /// <summary>
+        /// Number search prefix.
+        /// </summary>
+        public static NonNullValue<string> NumberPrefix { get; set; }
+
+        /// <summary>
         /// Room search prefix.
         /// </summary>
         public static NonNullValue<string> RoomPrefix { get; set; }
@@ -86,6 +96,7 @@ namespace ManagedIrbis.Reservations
         static ReservationUtility()
         {
             DatabaseName = DefaultDatabaseName;
+            NumberPrefix = DefaultNumberPrefix;
             RoomPrefix = DefaultRoomPrefix;
             RoomMenu = DefaultRoomMenu;
         }
