@@ -201,8 +201,6 @@
     <Compile Include="Source\Fields\TitleCharacterSet.cs" />
     <Compile Include="Source\Fields\TitleInfo.cs" />
     <Compile Include="Source\Fields\UserInfo.cs" />
-    <Compile Include="Source\Fst\FstContext.cs" />
-    <Compile Include="Source\Fst\TermExtractor.cs" />
     <Compile Include="Source\Fst\FstTerm.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblAdd.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblAll.cs" />

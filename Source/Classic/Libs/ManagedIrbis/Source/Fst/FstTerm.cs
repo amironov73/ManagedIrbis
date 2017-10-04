@@ -11,8 +11,6 @@
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Search;
-
 using MoonSharp.Interpreter;
 
 #endregion
@@ -29,6 +27,11 @@ namespace ManagedIrbis.Fst
         #region Properties
 
         /// <summary>
+        /// MFN.
+        /// </summary>
+        public int Mfn { get; set; }
+
+        /// <summary>
         /// Текстовое значение термина.
         /// </summary>
         [CanBeNull]
@@ -40,11 +43,14 @@ namespace ManagedIrbis.Fst
         public int Tag { get; set; }
 
         /// <summary>
-        /// Ссылки.
+        /// Номер повторения (начиная с 1).
         /// </summary>
-        [CanBeNull]
-        [ItemNotNull]
-        public TermLink[] Links { get; set; }
+        public int Occurrence { get; set; }
+
+        /// <summary>
+        /// Смещение от начала поля.
+        /// </summary>
+        public int Offset { get; set; }
 
         #endregion
     }

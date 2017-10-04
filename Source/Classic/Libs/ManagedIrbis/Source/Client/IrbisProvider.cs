@@ -241,6 +241,15 @@ namespace ManagedIrbis.Client
         }
 
         /// <summary>
+        /// Get stop words.
+        /// </summary>
+        [NotNull]
+        public virtual IrbisStopWords GetStopWords()
+        {
+            return new IrbisStopWords();
+        }
+
+        /// <summary>
         /// Get user server INI-file.
         /// </summary>
         [NotNull]
