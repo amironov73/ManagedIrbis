@@ -130,6 +130,30 @@ namespace ManagedIrbis.Reservations
         }
 
         /// <summary>
+        /// Get the <see cref="MarcRecord"/> for the resource.
+        /// </summary>
+        [NotNull]
+        public MarcRecord GetResourceRecord
+            (
+                [NotNull] ReservationInfo resource
+            )
+        {
+            Code.NotNull(resource, "resource");
+
+            MarcRecord result = GetResourceRecord
+                (
+                    resource.Room.ThrowIfNull("resource.Room"),
+                    resource.Number.ThrowIfNull("resource.Number")
+                );
+            if (ReferenceEquals(result, null))
+            {
+                throw new IrbisException();
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Get record for the resource.
         /// </summary>
         [CanBeNull]
@@ -172,17 +196,13 @@ namespace ManagedIrbis.Reservations
             Code.NotNull(resource, "resource");
             Code.NotNullNorEmpty(ticket, "ticket");
 
-            MarcRecord record = GetResourceRecord
-                (
-                    resource.Room.ThrowIfNull("resource.Room"),
-                    resource.Number.ThrowIfNull("resource.Number")
-                );
-            if (ReferenceEquals(record, null))
-            {
-                throw new IrbisException();
-            }
+            MarcRecord record = GetResourceRecord(resource);
             resource = ReservationInfo.ParseRecord(record);
-            if (resource.Status != ReservationStatus.Free)
+            if (!resource.Status.OneOf
+                (
+                    ReservationStatus.Free,
+                    ReservationStatus.Reserved
+                ))
             {
                 // TODO some reaction?
 
@@ -269,15 +289,7 @@ namespace ManagedIrbis.Reservations
         {
             Code.NotNull(resource, "resource");
 
-            MarcRecord record = GetResourceRecord
-                (
-                    resource.Room.ThrowIfNull("resource.Room"),
-                    resource.Number.ThrowIfNull("resource.Number")
-                );
-            if (ReferenceEquals(record, null))
-            {
-                throw new IrbisException();
-            }
+            MarcRecord record = GetResourceRecord(resource);
             resource = ReservationInfo.ParseRecord(record);
             resource.Status = ReservationStatus.Free;
             HistoryInfo entry = resource.History.LastOrDefault();
@@ -286,6 +298,38 @@ namespace ManagedIrbis.Reservations
                 entry.EndDate = DateTime.Now;
             }
 
+            resource.ApplyToRecord(record);
+            Provider.WriteRecord(record);
+
+            return resource;
+        }
+
+        /// <summary>
+        /// Create claim.
+        /// </summary>
+        [NotNull]
+        public ReservationInfo CreateClaim
+            (
+                [NotNull] ReservationInfo resource,
+                DateTime beginDate,
+                TimeSpan duration
+            )
+        {
+            Code.NotNull(resource, "resource");
+
+            MarcRecord record = GetResourceRecord(resource);
+            resource = ReservationInfo.ParseRecord(record);
+            if (resource.Status.OneOf(ReservationStatus.Free, ReservationStatus.Busy))
+            {
+                throw new IrbisException();
+            }
+            resource.Status = ReservationStatus.Reserved;
+            ReservationClaim claim = new ReservationClaim
+            {
+                BeginDateTime = beginDate,
+                Duration = duration
+            };
+            resource.Claims.Add(claim);
             resource.ApplyToRecord(record);
             Provider.WriteRecord(record);
 

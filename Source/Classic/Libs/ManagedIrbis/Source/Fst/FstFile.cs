@@ -15,8 +15,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
+using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Runtime;
@@ -40,7 +40,8 @@ namespace ManagedIrbis.Fst
     [MoonSharpUserData]
     [DebuggerDisplay("FileName = {FileName}")]
     public sealed class FstFile
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -149,33 +150,59 @@ namespace ManagedIrbis.Fst
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore object state from specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             FileName = reader.ReadNullableString();
             reader.ReadCollection(Lines);
         }
 
-        /// <summary>
-        /// Save object state to specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer.WriteNullable(FileName);
             writer.WriteCollection(Lines);
         }
 
         #endregion
 
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify"  />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<FstFile> verifier = new Verifier<FstFile>(this, throwOnError);
+
+            foreach (FstLine line in Lines)
+            {
+                verifier.VerifySubObject(line);
+            }
+
+            return verifier.Result;
+        }
+
+        #endregion
+
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return FileName.ToVisibleString();
+        }
 
         #endregion
     }

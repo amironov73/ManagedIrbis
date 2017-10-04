@@ -320,7 +320,14 @@ namespace ManagedIrbis.ImportExport
             Code.NotNull(response, "response");
             Code.NotNull(record, "record");
 
-            string first = response.RequireUtfString();
+            // Если в БД нет autoin.gbl, сервер не присылает
+            // обработанную запись.
+
+            string first = response.GetUtfString();
+            if (string.IsNullOrEmpty(first))
+            {
+                return record;
+            }
             string second = response.GetUtfString();
             if (string.IsNullOrEmpty(second))
             {

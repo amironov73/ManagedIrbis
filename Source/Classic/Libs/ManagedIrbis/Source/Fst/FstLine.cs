@@ -10,12 +10,13 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
+
 using AM;
 using AM.IO;
 using AM.Logging;
@@ -33,42 +34,71 @@ using Newtonsoft.Json;
 
 namespace ManagedIrbis.Fst
 {
+    //
+    // ТВП состоит из набора строк, каждая из которых содержит
+    // следующие три параметра, разделенные знаком пробел:
+    // * формат выборки данных, представленный на языке форматирования системы,
+    // * идентификатор поля(ИП),
+    // * метод индексирования(МИ).
+    //
+
     /// <summary>
     /// FST file line.
     /// </summary>
     [PublicAPI]
+    [XmlRoot("line")]
     [MoonSharpUserData]
     [DebuggerDisplay("{Tag} {Method} {Format}")]
     public sealed class FstLine
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
         /// <summary>
         /// Line number.
         /// </summary>
+        [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public int LineNumber { get; set; }
 
         /// <summary>
         /// Field tag.
         /// </summary>
-        [CanBeNull]
-        [JsonProperty("tag")]
-        public string Tag { get; set; }
+        [XmlElement("tag")]
+        [JsonProperty("tag", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [Description("Метка поля")]
+        [DisplayName("Метка поля")]
+        public int Tag { get; set; }
 
         /// <summary>
         /// Index method.
         /// </summary>
-        [JsonProperty("method")]
+        [XmlElement("method")]
+        [JsonProperty("method", DefaultValueHandling = DefaultValueHandling.Include)]
+        [Description("Метод")]
+        [DisplayName("Метод")]
         public FstIndexMethod Method { get; set; }
 
         /// <summary>
         /// Format itself.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("format")]
+        [XmlElement("format")]
+        [JsonProperty("format", NullValueHandling = NullValueHandling.Ignore)]
+        [Description("Формат")]
+        [DisplayName("Формат")]
         public string Format { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
 
         #endregion
 
@@ -152,18 +182,34 @@ namespace ManagedIrbis.Fst
                     );
             }
 
-            FstIndexMethod method = (FstIndexMethod) int.Parse
-                (
-                    parts[1]
-                );
             FstLine result = new FstLine
             {
-                Tag = parts[0],
-                Method = method,
+                Tag = NumericUtility.ParseInt32(parts[0]),
+                Method = (FstIndexMethod)int.Parse(parts[1]),
                 Format = parts[2]
             };
 
             return result;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Tag"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeTag()
+        {
+            return Tag != 0;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Format"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeFormat()
+        {
+            return !string.IsNullOrEmpty(Format);
         }
 
         /// <summary>
@@ -192,37 +238,67 @@ namespace ManagedIrbis.Fst
 
         #region IHandmadeSerializable
 
-        /// <summary>
-        /// Restore object state from specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             LineNumber = reader.ReadPackedInt32();
-            Tag = reader.ReadNullableString();
+            Tag = reader.ReadPackedInt32();
             Method = (FstIndexMethod) reader.ReadPackedInt32();
             Format = reader.ReadNullableString();
         }
 
-        /// <summary>
-        /// Save object state to specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
-            writer.WritePackedInt32(LineNumber);
-            writer.WriteNullable(Tag);
-            writer.WritePackedInt32((int)Method);
-            writer.WriteNullable(Format);
+            Code.NotNull(writer, "writer");
+
+            writer.WritePackedInt32(LineNumber)
+                .WritePackedInt32(Tag)
+                .WritePackedInt32((int)Method)
+                .WriteNullable(Format);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<FstLine> verifier = new Verifier<FstLine>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Format, "Format");
+
+            return verifier.Result;
         }
 
         #endregion
 
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return string.Format
+                (
+                    "{0} {1} {2}",
+                    Tag,
+                    (int)Method,
+                    Format.ToVisibleString()
+                );
+        }
 
         #endregion
     }
