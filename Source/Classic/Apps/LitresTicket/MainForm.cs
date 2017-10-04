@@ -70,7 +70,8 @@ namespace LitresTicket
             string ticket = _ticketBox.Text.Trim();
             if (string.IsNullOrEmpty(ticket))
             {
-                _resultBox.Text = Resources.MainForm_NoIogunbTicket;
+                _resultBox.Text = Environment.NewLine
+                    + Resources.MainForm_NoIogunbTicket;
 
                 return;
             }
@@ -85,14 +86,16 @@ namespace LitresTicket
                 int[] found = connection.Search(expression);
                 if (found.Length == 0)
                 {
-                    _resultBox.Text = Resources.MainForm_NoReaderFound;
+                    _resultBox.Text = Environment.NewLine
+                        + Resources.MainForm_NoReaderFound;
                     _ticketBox.Focus();
 
                     return;
                 }
                 if (found.Length != 1)
                 {
-                    _resultBox.Text = Resources.MainForm_ManyReadersFound;
+                    _resultBox.Text = Environment.NewLine
+                        + Resources.MainForm_ManyReadersFound;
                     _ticketBox.Focus();
 
                     return;
@@ -100,7 +103,7 @@ namespace LitresTicket
 
                 MarcRecord record = connection.ReadRecord(found[0]);
                 string description = connection.FormatRecord("@brief", found[0]);
-                _resultBox.Text = description;
+                _resultBox.Text = Environment.NewLine + description;
 
                 RecordField litresField = record.Fields
                     .GetFirstField(_litresTag);
@@ -138,7 +141,8 @@ namespace LitresTicket
             string ticket = _ticketBox.Text.Trim();
             if (string.IsNullOrEmpty(ticket))
             {
-                _resultBox.Text = Resources.MainForm_NoIogunbTicket;
+                _resultBox.Text = Environment.NewLine
+                    + Resources.MainForm_NoIogunbTicket;
                 _ticketBox.Focus();
 
                 return;
@@ -148,7 +152,8 @@ namespace LitresTicket
             if (string.IsNullOrEmpty(login)
                 != string.IsNullOrEmpty(pasword))
             {
-                _resultBox.Text = Resources.MainForm_BothLoginAndPasswordRequired;
+                _resultBox.Text = Environment.NewLine
+                    + Resources.MainForm_BothLoginAndPasswordRequired;
                 _loginBox.Focus();
 
                 return;
@@ -164,14 +169,16 @@ namespace LitresTicket
                 int[] found = connection.Search(expression);
                 if (found.Length == 0)
                 {
-                    _resultBox.Text = Resources.MainForm_NoReaderFound;
+                    _resultBox.Text = Environment.NewLine
+                        + Resources.MainForm_NoReaderFound;
                     _ticketBox.Focus();
 
                     return;
                 }
                 if (found.Length != 1)
                 {
-                    _resultBox.Text = Resources.MainForm_ManyReadersFound;
+                    _resultBox.Text = Environment.NewLine
+                        + Resources.MainForm_ManyReadersFound;
                     _ticketBox.Focus();
 
                     return;
@@ -227,7 +234,8 @@ namespace LitresTicket
                 if (record.Modified)
                 {
                     connection.WriteRecord(record);
-                    _resultBox.Text = Resources.MainForm_DataWasCommited;
+                    _resultBox.Text = Environment.NewLine
+                        + Resources.MainForm_DataWasCommited;
                 }
 
                 _ticketBox.Clear();
