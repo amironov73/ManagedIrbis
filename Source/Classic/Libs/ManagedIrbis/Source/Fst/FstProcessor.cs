@@ -31,6 +31,7 @@ using JetBrains.Annotations;
 using ManagedIrbis.Client;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Pft;
+using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
 
@@ -119,6 +120,8 @@ namespace ManagedIrbis.Fst
 
         private IrbisStopWords _stopWords;
 
+        private IrbisUpperCaseTable _upperCaseTable;
+
         [NotNull]
         [ItemNotNull]
         private string[] _BetweenAngles
@@ -192,10 +195,18 @@ namespace ManagedIrbis.Fst
                 [NotNull][ItemNotNull] string[] items
             )
         {
+            if (ReferenceEquals(_upperCaseTable, null))
+            {
+                _upperCaseTable = Provider.GetUpperCaseTable();
+            }
+
             FstTerm[] result = new FstTerm[items.Length];
             for (int i = 0; i < items.Length; i++)
             {
-                string text = items[i];
+                string text = SearchUtility.TrimTerm
+                    (
+                        _upperCaseTable.ToUpper(items[i])
+                    );
                 FstTerm link = new FstTerm
                 {
                     Mfn = record.Mfn,

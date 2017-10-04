@@ -250,6 +250,15 @@ namespace ManagedIrbis.Client
         }
 
         /// <summary>
+        /// Get upper case table.
+        /// </summary>
+        [NotNull]
+        public virtual IrbisUpperCaseTable GetUpperCaseTable()
+        {
+            return new IrbisUpperCaseTable();
+        }
+
+        /// <summary>
         /// Get user server INI-file.
         /// </summary>
         [NotNull]

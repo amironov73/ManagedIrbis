@@ -263,6 +263,12 @@ namespace ManagedIrbis.Client
             return Connection.GetMaxMfn();
         }
 
+        /// <inheritdoc cref="IrbisProvider.GetStopWords" />
+        public override IrbisStopWords GetStopWords()
+        {
+            return IrbisStopWords.FromServer(Connection);
+        }
+
         /// <inheritdoc cref="IrbisProvider.ReadRecord" />
         public override MarcRecord ReadRecord
             (

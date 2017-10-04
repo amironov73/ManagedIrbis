@@ -59,10 +59,8 @@ namespace ManagedIrbis
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class IrbisUpperCaseTable
-        : IVerifiable
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
-        , IHandmadeSerializable
-#endif
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Constants
 
@@ -494,8 +492,6 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
-
         /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
@@ -504,9 +500,11 @@ namespace ManagedIrbis
         {
             Code.NotNull(reader, "reader");
 
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
             _encoding = Encoding.GetEncoding(reader.ReadInt32());
             _table = reader.ReadByteArray();
             _BuildMapping();
+#endif
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -517,17 +515,18 @@ namespace ManagedIrbis
         {
             Code.NotNull(writer, "writer");
 
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
             writer.Write(_encoding.CodePage);
             writer.WriteArray(_table);
+#endif
         }
 
-#endif
 
         #endregion
 
         #region IVerifiable members
 
-        /// <inheritdoc cref="IVerifiable.Verify"/>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError

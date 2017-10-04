@@ -407,6 +407,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fst\FstLine.cs">
       <Link>Source\Fst\FstLine.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fst\FstTerm.cs">
+      <Link>Source\Fst\FstTerm.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fst\FstProcessor.cs">
       <Link>Source\Fst\FstProcessor.cs</Link>
     </Compile>

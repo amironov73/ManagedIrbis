@@ -158,7 +158,7 @@ namespace ManagedIrbis.Search
 
             Encoding encoding = IrbisEncoding.Utf8;
             char[] charArray = term.ToCharArray();
-            int currentLength = originalLength;
+            int currentLength = Math.Max(originalLength, MaxTermLength);
 
             while (currentLength > 0)
             {

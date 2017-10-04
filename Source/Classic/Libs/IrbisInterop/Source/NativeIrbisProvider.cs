@@ -340,6 +340,26 @@ namespace IrbisInterop
             return Irbis64.GetMaxMfn();
         }
 
+        /// <inheritdoc cref="IrbisProvider.GetStopWords" />
+        public override IrbisStopWords GetStopWords()
+        {
+            string fileName = Database + ".stw";
+            FileSpecification specification = new FileSpecification
+                (
+                    IrbisPath.MasterFile,
+                    Database,
+                    fileName
+                );
+            string content = ReadFile(specification) ?? string.Empty;
+            IrbisStopWords result = IrbisStopWords.ParseText
+                (
+                    fileName,
+                    content
+                );
+
+            return result;
+        }
+
         /// <inheritdoc cref="IrbisProvider.ReadFile" />
         public override string ReadFile
             (

@@ -448,6 +448,26 @@ namespace ManagedIrbis.Client
             return result;
         }
 
+        /// <inheritdoc cref="IrbisProvider.GetStopWords" />
+        public override IrbisStopWords GetStopWords()
+        {
+            string fileName = Database + ".stw";
+            FileSpecification specification = new FileSpecification
+                (
+                    IrbisPath.MasterFile,
+                    DataPath,
+                    fileName
+                );
+            string content = ReadFile(specification) ?? string.Empty;
+            IrbisStopWords result = IrbisStopWords.ParseText
+                (
+                    fileName,
+                    content
+                );
+
+            return result;
+        }
+
         /// <inheritdoc cref="IrbisProvider.ListDatabases" />
         public override DatabaseInfo[] ListDatabases()
         {
