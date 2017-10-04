@@ -72,7 +72,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 string result = expression;
 
-                if (expression.Contains('<'))
+                if (expression.Contains("<"))
                 {
                     StringBuilder builder = new StringBuilder(expression.Length);
                     TextNavigator navigator = new TextNavigator(expression);

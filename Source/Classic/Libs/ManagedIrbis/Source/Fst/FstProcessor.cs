@@ -132,7 +132,7 @@ namespace ManagedIrbis.Fst
             List<string> result = new List<string>(items.Length);
             foreach (string item in items)
             {
-                if (item.Contains('<'))
+                if (item.Contains("<"))
                 {
                     TextNavigator navigator = new TextNavigator(item);
                     while (!navigator.IsEOF)
@@ -164,7 +164,7 @@ namespace ManagedIrbis.Fst
             List<string> result = new List<string>(items.Length);
             foreach (string item in items)
             {
-                if (item.Contains('/'))
+                if (item.Contains("/"))
                 {
                     TextNavigator navigator = new TextNavigator(item);
                     while (!navigator.IsEOF)
@@ -260,7 +260,7 @@ namespace ManagedIrbis.Fst
             List<string> result = new List<string>(items.Length);
             foreach (string item in items)
             {
-                if (!item.Contains('^'))
+                if (!item.Contains("^"))
                 {
                     result.Add(item);
                 }
