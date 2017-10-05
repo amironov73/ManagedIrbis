@@ -208,6 +208,13 @@ namespace ManagedIrbis.Client
             return result;
         }
 
+
+        /// <inheritdoc cref="IrbisProvider.GetAlphabetTable" />
+        public override IrbisAlphabetTable GetAlphabetTable()
+        {
+            return new IrbisAlphabetTable(Connection);
+        }
+
         /// <inheritdoc cref="IrbisProvider.GetCatalogState" />
         public override CatalogState GetCatalogState
             (

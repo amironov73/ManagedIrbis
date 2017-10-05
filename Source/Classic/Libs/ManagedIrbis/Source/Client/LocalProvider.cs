@@ -401,6 +401,18 @@ namespace ManagedIrbis.Client
             return result;
         }
 
+        /// <inheritdoc cref="IrbisProvider.GetAlphabetTable" />
+        public override IrbisAlphabetTable GetAlphabetTable()
+        {
+            FileSpecification specification = new FileSpecification
+                (
+                    IrbisPath.System,
+                    IrbisAlphabetTable.FileName
+                );
+            string path = _ExpandPath(specification);
+            return IrbisAlphabetTable.ParseLocalFile(path);
+        }
+
         /// <inheritdoc cref="IrbisProvider.GetFileSearchPath" />
         public override string[] GetFileSearchPath()
         {
