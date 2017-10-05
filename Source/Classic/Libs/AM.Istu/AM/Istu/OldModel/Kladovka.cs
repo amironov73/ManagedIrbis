@@ -245,6 +245,65 @@ namespace AM.Istu.OldModel
         }
 
         /// <summary>
+        /// Find reader by the barcode.
+        /// </summary>
+        [CanBeNull]
+        public ReaderRecord FindReaderByBarcode
+            (
+                [JetBrains.Annotations.NotNull] string barcode
+            )
+        {
+            Code.NotNullNorEmpty(barcode, "barcode");
+
+            return Readers
+                .FirstOrDefault(reader => reader.Barcode == barcode);
+        }
+
+        /// <summary>
+        /// Find reader by the name.
+        /// </summary>
+        [CanBeNull]
+        public ReaderRecord FindReaderByName
+            (
+                [JetBrains.Annotations.NotNull] string name
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
+
+            return Readers
+                .FirstOrDefault(reader => reader.Name.StartsWith(name));
+        }
+
+        /// <summary>
+        /// Find reader by the ticket.
+        /// </summary>
+        [CanBeNull]
+        public ReaderRecord FindReaderByTicket
+            (
+                [JetBrains.Annotations.NotNull] string ticket
+            )
+        {
+            Code.NotNullNorEmpty(ticket, "ticket");
+
+            return Readers
+                .FirstOrDefault(reader => reader.Ticket == ticket);
+        }
+
+        /// <summary>
+        /// Find reader by the RFID.
+        /// </summary>
+        public ReaderRecord FindReaderByRfid
+            (
+                [JetBrains.Annotations.NotNull] string rfid
+            )
+        {
+            Code.NotNullNorEmpty(rfid, "rfid");
+
+            return Readers
+                .FirstOrDefault(reader => reader.Rfid == rfid);
+        }
+
+        /// <summary>
         /// Find records using specified expression.
         /// </summary>
         [JetBrains.Annotations.NotNull]
