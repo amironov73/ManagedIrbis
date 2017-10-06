@@ -202,11 +202,19 @@ namespace ManagedIrbis.Client
 
         private DirectAccess64 _accessor;
 
+#endif
+
         private string _ExpandPath
             (
                 [NotNull] FileSpecification fileSpecification
             )
         {
+#if WIN81 || PORTABLE || SILVERLIGHT
+
+            throw new NotImplementedException();
+
+#else
+
             string fileName = fileSpecification.FileName;
             if (string.IsNullOrEmpty(fileName))
             {
@@ -269,10 +277,15 @@ namespace ManagedIrbis.Client
             }
 
             return result;
+
+#endif
         }
+
+#if !WIN81 && !PORTABLE && !SILVERLIGHT
 
         private DirectAccess64 _GetAccessor()
         {
+
             if (ReferenceEquals(_accessor, null))
             {
                 string fileName = Path.Combine

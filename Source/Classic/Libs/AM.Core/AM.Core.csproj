@@ -303,6 +303,8 @@
     <Compile Include="AM\Text\Transliterator.cs" />
     <Compile Include="AM\Threading\BusyGuard.cs" />
     <Compile Include="AM\Threading\BusyState.cs" />
+    <Compile Include="AM\Threading\ScopedLock.cs" />
+    <Compile Include="AM\Threading\ScopedLockFactory.cs" />
     <Compile Include="AM\Threading\StateGuard.cs" />
     <Compile Include="AM\Threading\StateHolder.cs" />
     <Compile Include="AM\Threading\Tasks\BatchParallelProcessor.cs" />
