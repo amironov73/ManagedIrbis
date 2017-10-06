@@ -64,7 +64,7 @@ namespace AM.Threading
         /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
-            _semaphore.Dispose();
+            _semaphore.Close();
         }
 
         #endregion
