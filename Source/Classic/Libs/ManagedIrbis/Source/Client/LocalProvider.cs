@@ -423,7 +423,10 @@ namespace ManagedIrbis.Client
                     IrbisAlphabetTable.FileName
                 );
             string path = _ExpandPath(specification);
-            return IrbisAlphabetTable.ParseLocalFile(path);
+
+            return File.Exists(path)
+                ? IrbisAlphabetTable.ParseLocalFile(path)
+                : new IrbisAlphabetTable();
         }
 
         /// <inheritdoc cref="IrbisProvider.GetFileSearchPath" />
