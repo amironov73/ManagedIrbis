@@ -15,7 +15,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+
 using AM;
+
+using JetBrains.Annotations;
+
 using ManagedIrbis;
 using ManagedIrbis.Infrastructure;
 
@@ -793,7 +797,7 @@ namespace OfficialWrapper
 
             CheckReturnCode(returnCode);
 
-            string result = NativeMethods64.FromUtfZ(buffer);
+            string result = NativeUtility.FromUtfZ(buffer);
 
             if (!string.IsNullOrEmpty(result))
             {
@@ -973,7 +977,10 @@ namespace OfficialWrapper
 
         #region Utility
 
-        public void ParseConnectionString(string connectionString)
+        public void ParseConnectionString
+            (
+                [NotNull] string connectionString
+            )
         {
             if (string.IsNullOrEmpty(connectionString))
             {
@@ -1150,12 +1157,12 @@ namespace OfficialWrapper
         /// <returns></returns>
         public byte[] ToUtf(string text)
         {
-            return NativeMethods64.ToUtf(text);
+            return NativeUtility.ToUtf(text);
         }
 
         public string FromUtf(byte[] buffer)
         {
-            return NativeMethods64.FromUtf(buffer);
+            return NativeUtility.FromUtf(buffer);
         }
 
         /// <summary>
@@ -1165,7 +1172,7 @@ namespace OfficialWrapper
         /// <returns></returns>
         public string FromUtfZ(byte[] buffer)
         {
-            return NativeMethods64.FromUtfZ(buffer);
+            return NativeUtility.FromUtfZ(buffer);
         }
 
         /// <summary>
@@ -1201,7 +1208,10 @@ namespace OfficialWrapper
         /// <param name="disposing">true to release both 
         /// managed and unmanaged resources; false to release 
         /// only unmanaged resources.</param>
-        protected override void Dispose(bool disposing)
+        protected override void Dispose
+            (
+                bool disposing
+            )
         {
             WriteLog
                 (

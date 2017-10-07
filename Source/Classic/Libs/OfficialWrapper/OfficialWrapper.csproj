@@ -129,6 +129,7 @@
     <Compile Include="Source\IrbisBuffer.cs" />
     <Compile Include="Source\IrbisEncoder.cs" />
     <Compile Include="Source\NativeMethods64.cs" />
+    <Compile Include="Source\NativeUtility.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

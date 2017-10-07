@@ -137,7 +137,7 @@ namespace OfficialWrapper
             get
             {
                 string result = UnicodeString;
-                result = NativeMethods64.TrimAtZero(result);
+                result = NativeUtility.TrimAtZero(result);
                 return result;
             }
             set
@@ -170,7 +170,7 @@ namespace OfficialWrapper
             get
             {
                 string result = Utf8String;
-                result = NativeMethods64.TrimAtZero(result);
+                result = NativeUtility.TrimAtZero(result);
                 return result;
             }
             set

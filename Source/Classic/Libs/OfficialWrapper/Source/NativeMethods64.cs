@@ -13,6 +13,8 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
+using AM.ConsoleIO;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis;
@@ -24,6 +26,13 @@ using MoonSharp.Interpreter;
 
 namespace OfficialWrapper
 {
+    //
+    // Библиотека irbis64_client.dll предназначена
+    // для полнофункционального доступа к базам данных ИРБИС64
+    // на основе клиент-серверной архитектуры
+    //(т.е.путем взаимодействия с TCP/IP сервером ИРБИС64).
+    //
+
     /// <summary>
     /// 
     /// </summary>
@@ -33,7 +42,10 @@ namespace OfficialWrapper
     {
         #region Constants
 
-        private const string DllName = "irbis64_client.dll";
+        /// <summary>
+        /// DLL file name.
+        /// </summary>
+        public const string DllName = "irbis64_client.dll";
 
         #endregion
 
@@ -58,11 +70,11 @@ namespace OfficialWrapper
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_reg
             (
-                string host,
-                string port,
+                [NotNull] string host,
+                [NotNull] string port,
                 char workstation,
-                string username,
-                string password,
+                [NotNull] string username,
+                [NotNull] string password,
                 ref IntPtr buffer,
                 int bufferSize
             );
@@ -78,14 +90,13 @@ namespace OfficialWrapper
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_unreg
             (
-                string username
+                [NotNull] string username
             );
 
         /// <summary>
         /// Установка режима работы через Web-шлюз.
         /// </summary>
         /// <param name="enable">Включить режим веб-шлюза.</param>
-        /// <returns></returns>
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_set_webserver
             (
@@ -96,12 +107,11 @@ namespace OfficialWrapper
         /// Установка имени шлюза при работе через Web-шлюз.
         /// </summary>
         /// <param name="name">Имя шлюза.</param>
-        /// <returns></returns>
         /// <remarks>По умолчанию /cgi-bin/wwwirbis.exe</remarks>
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_set_webcgi
             (
-                string name
+                [NotNull] string name
             );
 
         /// <summary>
@@ -109,7 +119,6 @@ namespace OfficialWrapper
         /// </summary>
         /// <param name="enable">Включить режим "мертвого" ожидания ответа
         /// от сервера.</param>
-        /// <returns></returns>
         /// <remarks>По умолчанию отключен.</remarks>
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_set_blocksocket
@@ -133,7 +142,6 @@ namespace OfficialWrapper
         /// Установка интервала подтверждения.
         /// </summary>
         /// <param name="time">Интервал времени в минутах.</param>
-        /// <returns></returns>
         /// <remarks>По умолчанию - 1 минута.</remarks>
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_set_client_time_live
@@ -144,57 +152,149 @@ namespace OfficialWrapper
         /// <summary>
         /// Определение завершения очередного обращения к серверу.
         /// </summary>
-        /// <returns>true - обращение к серверу не завершено.</returns>
+        /// <returns><c>true</c> - обращение к серверу не завершено.</returns>
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
-        public static extern bool IC_isbusy
-            (
-            );
+        public static extern bool IC_isbusy();
 
+        /// <summary>
+        /// Обновление INI-файла – профиля пользователя на сервере.
+        /// </summary>
+        /// <param name="inifile">Набор строк в виде структуры
+        /// INI-файла (в ANSI-кодировке).</param>
+        /// <remarks>
+        /// В результате успешного выполнения функции обновляется
+        /// (пополняется) INI-файл – профиль пользователя на сервере,
+        /// в соответствии с которым выполнялась его регистрация
+        /// (см. функцию IC_reg).
+        /// </remarks>
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_update_ini
             (
-                string inifile
+                [NotNull] string inifile
             );
 
+        /// <summary>
+        /// Чтение текстового ресурса (файла).
+        /// </summary>
+        /// <param name="path">Код, определяющий относительный путь
+        /// размещения ресурса ИРБИС64.</param>
+        /// <param name="database">Имя базы данных (не используется,
+        /// если в качестве Apath указывается SYSPATH или DATAPATH).
+        /// </param>
+        /// <param name="filename">Имя требуемого текстового файла
+        /// (ресурса) с расширением.</param>
+        /// <param name="buffer">Буфер, в котором возвращается
+        /// требуемый ресурс.</param>
+        /// <param name="bufferSize">Размер буфера для возвращаемых
+        /// данных.</param>
+        /// <remarks>При успешном завершении функции в answer 
+        /// возвращается требуемый текстовый ресурс.
+        /// Данные возвращаются в ANSI-кодировке.</remarks>
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_getresourse
             (
                 IrbisPath path,
-                string database,
-                string filename,
+                [NotNull] string database,
+                [NotNull] string filename,
                 ref IntPtr buffer,
                 int bufferSize
             );
 
+        /// <summary>
+        /// Очистка памяти кэша.
+        /// </summary>
+        /// <remarks>В результате выполнения функции очищается кэш,
+        /// в котором сохраняются запрошенные текстовые ресурсы
+        /// (после чего при их запросе они берутся с сервера).
+        /// При выполнении функции не производится обращение
+        /// на сервер.</remarks>
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
-        public static extern IrbisReturnCode IC_clearresourse
-            (
-            );
+        public static extern IrbisReturnCode IC_clearresourse();
 
+        /// <summary>
+        /// Групповое чтение текстовых ресурсов.
+        /// </summary>
+        /// <param name="context">Набор строк, каждая из которых
+        /// соответствует одному запрашиваемому ресурсу и имеет вид:
+        /// Apath+’.’+Adbn+’.’+Afilename
+        /// Например: DBNPATH10.IBIS.BRIEF.PFT
+        /// </param>
+        /// <param name="buffer">Буфер для возвращаемых данных</param>
+        /// <param name="bufferSize"></param>
+        /// <remarks>
+        /// После успешного выполнения функции в acontext сохраняются
+        /// строки, соответствующие НЕ ПУСТЫМ ресурсам
+        /// (число и порядок строк в acontext может измениться).
+        /// В answer возвращается набор строк, каждая из которых
+        /// соответствует строке в acontext и содержит соответствующий
+        /// текстовый ресурс – в котором реальные разделители
+        /// строк $0D0A заменены на псевдоразделители $3130.
+        /// (Для подобных преобразований предлагаются специальные
+        /// вспомогательные функции IC_reset_delim и IC_delim_reset).
+        /// Данные возвращаются в ANSI-кодировке.
+        /// Содержимое запрашиваемых ресурсов кэшируется
+        /// в памяти IRBIS64_CLIENT.DLL.
+        /// </remarks>
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_getresourcegroup
             (
-                byte[] context,
-                byte[] buffer,
+                [NotNull] byte[] context,
+                [NotNull] byte[] buffer,
                 int bufferSize
             );
 
-        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        /// <summary>
+        /// Чтение двоичного ресурса.
+        /// </summary>
+        /// <param name="path">Код, определяющий относительный путь
+        /// размещения ресурса ИРБИС64.</param>
+        /// <param name="database">Имя базы данных (не используется,
+        /// если в качестве Apath указывается SYSPATH или DATAPATH).
+        /// </param>
+        /// <param name="filename">Имя требуемого текстового файла
+        /// (ресурса) с расширением.</param>
+        /// <param name="buffer">Указатель на специальный буфер
+        /// для двоичного ресурса, тип которого описан
+        /// в irbis64_client.pas. Память для этого буфера
+        /// выделяется и освобождается в irbis64_client.dll.</param>
+        /// <remarks>После успешного выполнения функции сведения
+        /// о двоичном ресурсе возвращаются в Abuffer
+        /// (собственно двоичный ресурс в Abuffer^.data).
+        /// Содержимое запрашиваемого ресурса кэшируется в памяти.
+        /// </remarks>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall,
+            CharSet = CharSet.Ansi)]
         public static extern IrbisReturnCode IC_getbinaryresourse
             (
                 IrbisPath path,
-                string database,
-                string filename,
+                [NotNull] string database,
+                [NotNull] string filename,
                 ref IrbisBuffer buffer
             );
 
-        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        /// <summary>
+        /// Запись текстового ресурса на сервер.
+        /// </summary>
+        /// <param name="path">Код, определяющий относительный путь
+        /// размещения ресурса ИРБИС64.</param>
+        /// <param name="database">Имя базы данных (не используется,
+        /// если в качестве Apath указывается SYSPATH или DATAPATH).
+        /// </param>
+        /// <param name="filename">Имя требуемого текстового файла
+        /// (ресурса) с расширением.</param>
+        /// <param name="resource">Буфер, содержащий исходный
+        /// текстовый ресурс (в ANSI-кодировке).</param>
+        /// <remarks>Содержимое исходного ресурса кэшируется в памяти;
+        /// если таковой уже запрашивался (находился в кэше)
+        /// – он обновляется.</remarks>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall,
+            CharSet = CharSet.Ansi)]
         public static extern IrbisReturnCode IC_putresourse
             (
                 IrbisPath path,
-                string database,
-                string filename,
-                string resource
+                [NotNull] string database,
+                [NotNull] string filename,
+                [NotNull] string resource
             );
 
         /// <summary>
@@ -218,7 +318,7 @@ namespace OfficialWrapper
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_read
             (
-                string database,
+                [NotNull] string database,
                 int mfn,
                 bool lockFlag,
                 ref IntPtr buffer,
@@ -235,21 +335,27 @@ namespace OfficialWrapper
         /// в клиентском представлении; в нем же будет возвращаться 
         /// обновленная запись при успешном выполнении.</param>
         /// <param name="bufferSize">Размер записи.</param>
-        /// <returns></returns>
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_update
             (
-                string database,
+                [NotNull] string database,
                 bool lockFlag,
                 bool ifUpdate,
                 ref IntPtr buffer,
                 int bufferSize
             );
 
+        /// <summary>
+        /// Подтверждение регистрации.
+        /// </summary>
+        /// <remarks>Функцию необходимо выполнять периодически
+        /// с учетом того, что сервер автоматически разрегистрирует
+        /// клиента, если от него не поступает никаких запросов
+        /// в течение времени, которое определяется параметром
+        /// CLIENT_TIME_LIVE в INI-файле сервера (irbis_server.ini).
+        /// </remarks>
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
-        public static extern IrbisReturnCode IC_nooperation
-            (
-            );
+        public static extern IrbisReturnCode IC_nooperation();
 
         /// <summary>
         /// Расформатирование записи, заданной по номеру.
@@ -259,14 +365,13 @@ namespace OfficialWrapper
         /// <param name="format">Формат.</param>
         /// <param name="buffer">Буфер для возвращаемых данных.</param>
         /// <param name="bufferSize">Размер буфера.</param>
-        /// <returns></returns>
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_sformat
             (
-                string database,
+                [NotNull] string database,
                 int mfn,
-                byte[] format,
-                byte[] buffer,
+                [NotNull] byte[] format,
+                [NotNull] byte[] buffer,
                 int bufferSize
             );
 
@@ -280,28 +385,24 @@ namespace OfficialWrapper
         /// представлении.</param>
         /// <param name="buffer">Буфер для возвращаемых данных.</param>
         /// <param name="bufferSize">Размер буфера.</param>
-        /// <returns></returns>
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_record_sformat
             (
-                string database,
-                byte[] format,
-                byte[] record,
-                byte [] buffer,
+                [NotNull] string database,
+                [NotNull] byte[] format,
+                [NotNull] byte[] record,
+                [NotNull] byte[] buffer,
                 int bufferSize
             );
-
-
 
         /// <summary>
         /// Получает максимальный MFN базы данных.
         /// </summary>
         /// <param name="database">Имя базы данных.</param>
-        /// <returns></returns>
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_maxmfn
             (
-                string database
+                [NotNull]string database
             );
 
         /// <summary>
@@ -314,7 +415,7 @@ namespace OfficialWrapper
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_recdummy
             (
-                byte [] buffer,
+                [NotNull] byte[] buffer,
                 int bufferSize
             );
 
@@ -331,11 +432,14 @@ namespace OfficialWrapper
         /// <param name="first">Номер первой возвращаемой записи 
         /// из общего числа найденных; если задается 0 – возвращается 
         /// только количество найденных записей.</param>
-        /// <param name="format">формат для расформатирования найденных записей, может быть задан следующими способами:
+        /// <param name="format">формат для расформатирования
+        /// найденных записей, может быть задан следующими способами:
         /// – строка непосредственного формата на языке форматирвания ИРБИС;
         /// – имя файла формата, предваряемого символом @ (например @brief);
-        /// – символ @ - в этом случае производится ОПТИМИЗИРОВАННОЕ форматирование (т.е. имя формата определяется видом записи);
-        /// – пустая строка. В этом случае расформатирование записей не производится
+        /// – символ @ - в этом случае производится ОПТИМИЗИРОВАННОЕ
+        /// форматирование (т.е. имя формата определяется видом записи);
+        /// – пустая строка. В этом случае расформатирование записей
+        /// не производится
         /// </param>
         /// <param name="buffer">Буфер для возвращаемых данных.</param>
         /// <param name="bufferSize">Размер буфера.</param>
@@ -344,12 +448,12 @@ namespace OfficialWrapper
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_search
             (
-                string database,
-                byte [] expression,
+                [NotNull] string database,
+                [NotNull] byte[] expression,
                 int howMany,
                 int first,
-                byte [] format,
-                byte [] buffer,
+                [NotNull] byte[] format,
+                [NotNull] byte[] buffer,
                 int bufferSize
             );
 
@@ -357,100 +461,21 @@ namespace OfficialWrapper
 
         #region Utility routines
 
+        /// <summary>
+        /// Retrieves the current size of the specified global
+        /// memory object, in bytes.
+        /// </summary>
+        /// <param name="hMem">A handle to the global memory object.
+        /// This handle is returned by either the GlobalAlloc
+        /// or GlobalReAlloc function.</param>
+        /// <returns>If the function succeeds, the return value
+        /// is the size of the specified global memory object, in bytes.
+        /// If the specified handle is not valid or if the object
+        /// has been discarded, the return value is zero.
+        /// To get extended error information, call GetLastError.
+        /// </returns>
         [DllImport("Kernel32")]
         public static extern IntPtr GlobalSize(IntPtr hMem);
-
-        public static IntPtr AllocateMemory ( int size )
-        {
-            return Marshal.AllocHGlobal(size);
-        }
-
-        public static void FreeMemory ( IntPtr pointer )
-        {
-            Marshal.FreeHGlobal(pointer);
-        }
-
-        public static Encoding GetUtfEncoding ()
-        {
-            return new UTF8Encoding(false,true);
-        }
-
-        public static byte[] ToUtf ( string text )
-        {
-            Encoding utf = GetUtfEncoding();
-            int len = utf.GetByteCount(text);
-            byte [] result = new byte[len + 5];
-            utf.GetBytes(text, 0, text.Length, result, 0);
-            //DumpBuffer(result,0,result.Length);
-            return result;
-        }
-
-        public static byte[] ToUtfLen(string text)
-        {
-            Encoding utf = GetUtfEncoding();
-            int len = utf.GetByteCount(text);
-            byte[] result = new byte[len + 5];
-            Array.Copy
-                (
-                    BitConverter.GetBytes(len), 
-                    0, 
-                    result, 
-                    0, 
-                    4
-                );
-            utf.GetBytes
-                (
-                    text.ToCharArray(), 
-                    0, 
-                    text.Length, 
-                    result, 
-                    4
-                );
-            return result;
-        }
-
-        public static string FromUtf(byte[] bytes)
-        {
-            return GetUtfEncoding().GetString(bytes);
-        }
-
-        public static string FromUtfZ(byte[] bytes)
-        {
-            int index = Array.IndexOf<byte>(bytes, 0);
-            if (index < 0)
-            {
-                index = bytes.Length;
-            }
-            return GetUtfEncoding().GetString
-                (
-                    bytes,
-                    0,
-                    index
-                );
-        }
-
-        public static string TrimAtZero ( string text )
-        {
-            int index = text.IndexOf((char) 0);
-            return (index >= 0)
-                       ? text.Substring(0, index)
-                       : text;
-        }
-
-        public static void DumpBuffer 
-            ( 
-                byte[] buffer, 
-                int start, 
-                int length 
-            )
-        {
-            length = Math.Max(0, Math.Min(buffer.Length - start, length));
-            for (int i = 0; i < length; i++)
-            {
-                byte b = buffer[start + i];
-                Console.Write("{0} ", b.ToString("X2"));
-            }
-        }
 
         #endregion
     }
