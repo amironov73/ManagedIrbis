@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 using AM;
+using AM.Logging;
 
 using JetBrains.Annotations;
 
@@ -86,6 +87,22 @@ namespace OfficialWrapper
 
         #endregion
 
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public Irbis64Client()
+        {
+            Host = DefaultHost;
+            Port = DefaultPort;
+            Database = DefaultDatabase;
+            Username = DefaultUsername;
+            Password = DefaultPassword;
+            Workstation = DefaultWorkstation;
+            BufferSize = DefaultBufferSize;
+        }
+
         #region Private members
 
         /// <summary>
@@ -98,36 +115,16 @@ namespace OfficialWrapper
         /// </summary>
         private readonly Regex _mfnRegex = new Regex
             (
-            @"^(?<MFN>\d+)#",
-            RegexOptions.IgnoreCase
-            | RegexOptions.Multiline
-            | RegexOptions.IgnorePatternWhitespace
+                @"^(?<MFN>\d+)#",
+                RegexOptions.IgnoreCase
+                | RegexOptions.Multiline
+                | RegexOptions.IgnorePatternWhitespace
             );
 
         private string _configuration;
         private bool _connected;
 
         #endregion
-
-        #region Construction
-
-        /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="Irbis64Client"/> class.
-        /// </summary>
-        public Irbis64Client
-            (
-
-            )
-        {
-            Host = DefaultHost;
-            Port = DefaultPort;
-            Database = DefaultDatabase;
-            Username = DefaultUsername;
-            Password = DefaultPassword;
-            Workstation = DefaultWorkstation;
-            BufferSize = DefaultBufferSize;
-        }
 
         #endregion
 
@@ -224,15 +221,15 @@ namespace OfficialWrapper
         /// </summary>
         public void Connect()
         {
-            WriteLog("Connect ENTER");
-            WriteLog
+            Log.Trace("Irbis64Client::Connect: enter");
+            Log.Trace(string.Format
                 (
                     "\thost={0}, port={1}, username={2}, password={3}",
-                    Host,
+                    Host.ToVisibleString(),
                     Port,
-                    Username,
-                    Password
-                );
+                    Username.ToVisibleString(),
+                    Password.ToVisibleString()
+                ));
 
             using (var buffer = new InteropBuffer())
             {
@@ -251,7 +248,7 @@ namespace OfficialWrapper
             }
             _connected = true;
 
-            WriteLog("Connect LEAVE");
+            Log.Trace("Irbis64Client::Connect: leave");
         }
 
         /// <summary>
@@ -259,7 +256,7 @@ namespace OfficialWrapper
         /// </summary>
         public void Disconnect()
         {
-            WriteLog("Disconnect ENTER");
+            Log.Trace("Irbis64Client::Disconnect: enter");
 
             if (Connected)
             {
@@ -267,70 +264,73 @@ namespace OfficialWrapper
                 _connected = false;
             }
 
-            WriteLog("Disconnect LEAVE");
+            Log.Trace("Irbis64Client::Disconnect: leave");
         }
 
         /// <summary>
         /// Установка режима работы через Web-шлюз.
         /// </summary>
-        /// <param name="enable">if set to <c>true</c> [enable].</param>
-        public void SetWebServerMode(bool enable)
+        public void SetWebServerMode
+            (
+                bool enable
+            )
         {
-            WriteLog
+            Log.Trace
                 (
-                    "SerWebServerMode ENTER: enable={0}",
-                    enable);
+                    "Irbis64Client::SetWebServerMode: "
+                    + "enable" + enable
+                );
             CheckConnected();
             IrbisReturnCode returnCode = NativeMethods64.IC_set_webserver
                 (
                     enable
                 );
             CheckReturnCode(returnCode);
-            WriteLog("SerWebServerMode LEAVE");
+            Log.Trace("Irbis64Client::SetWebServerMode: leave");
         }
 
         /// <summary>
         /// Установка имени шлюза при работе через Web-шлюз.
         /// </summary>
-        /// <param name="name">The name.</param>
-        public void SetWebCgiMode(string name)
+        public void SetWebCgiMode
+            (
+                [NotNull] string name
+            )
         {
-            WriteLog
+            Log.Trace
                 (
-                    "SetWebCgiMode ENTER: name={0}",
-                    name);
+                    "Irbis64Client::SetWebCgiMode: "
+                    + "name=" + name.ToVisibleString()
+                );
 
             CheckConnected();
-            IrbisReturnCode returnCode = NativeMethods64.IC_set_webcgi
-                (
-                    name
-                );
+            IrbisReturnCode returnCode
+                = NativeMethods64.IC_set_webcgi(name);
             CheckReturnCode(returnCode);
 
-            WriteLog("SetWebCgiMode LEAVE");
+            Log.Trace("Irbis64Client::SetWebCgiMode: leave");
         }
 
         /// <summary>
-        /// Установка режима ожидания ответа от сервера.
+        /// Включить режим "мертвого" ожидания ответа от сервера.
         /// </summary>
-        /// <param name="enable">Включить режим "мертвого" ожидания
-        /// ответа от сервера.</param>
-        public void SetSocketBlockingMode(bool enable)
+        public void SetSocketBlockingMode
+            (
+                bool enable
+            )
         {
-            WriteLog
+            Log.Trace
                 (
-                    "SetSocketBlockingMode ENTER: enable={0}",
-                    enable);
+                    "Irbis64Client::SetSocketBlockingMode: "
+                    + "enable=" + enable
+                );
 
             CheckConnected();
-            IrbisReturnCode returnCode = NativeMethods64
-                .IC_set_blocksocket
-                (
-                    enable
-                );
+            IrbisReturnCode returnCode
+                = NativeMethods64.IC_set_blocksocket(enable);
             CheckReturnCode(returnCode);
 
-            WriteLog("SetSocketBlockingMode LEAVE");
+            Log.Trace("Irbis64Client::SetSocketBlockingMode: leave");
         }
 
         /// <summary>
@@ -341,21 +341,22 @@ namespace OfficialWrapper
         /// ответа от сервера (в секундах), после чего прерванная функция 
         /// возвращает ERR_USER. По умолчанию этот интервал - 30 сек.
         /// </param>
-        public void SetShowWaiting(int timeout)
+        public void SetShowWaiting
+            (
+                int timeout
+            )
         {
-            WriteLog
+            Log.Trace
                 (
-                    "SetShowWaiting ENTER: timeout={0}",
-                    timeout);
-
-            IrbisReturnCode returnCode = NativeMethods64
-                .IC_set_show_waiting
-                (
-                    timeout
+                    "Irbis64Client:SetShowWaiting: "
+                    + "interval" + timeout
                 );
+
+            IrbisReturnCode returnCode
+                = NativeMethods64.IC_set_show_waiting(timeout);
             CheckReturnCode(returnCode);
 
-            WriteLog("SetShowWaiting LEAVE");
+            Log.Trace("Irbis64Client::SetShowWaiting: leave");
         }
 
         /// <summary>
@@ -369,22 +370,23 @@ namespace OfficialWrapper
         /// ни один запрос на сервер. По умолчанию – 1 минута. 
         /// Автоматическое подтверждение выполняется с помощью 
         /// функции IC_nooperation.</remarks>
-        public void SetClientTimeLive(int interval)
+        public void SetClientTimeLive
+            (
+                int interval
+            )
         {
-            WriteLog
+            Log.Trace
                 (
-                    "SetClientTimeLive ENTER: interval={0}",
-                    interval);
+                    "Irbis64Client::SetClientTimeLive: "
+                    + "interval=" + interval
+                );
 
             CheckConnected();
-            IrbisReturnCode returnCode = NativeMethods64
-                .IC_set_client_time_live
-                (
-                    interval
-                );
+            IrbisReturnCode returnCode
+                = NativeMethods64.IC_set_client_time_live(interval);
             CheckReturnCode(returnCode);
 
-            WriteLog("SetClientTimeLive LEAVE");
+            Log.Trace("Irbis64Client::SetClientTimeLive: leave");
         }
 
         /// <summary>
@@ -393,12 +395,7 @@ namespace OfficialWrapper
         /// <returns>Обращение к серверу еще не завершено.</returns>
         public bool IsBusy()
         {
-            //WriteLog("IsBusy ENTER");
-
-            CheckConnected();
-            bool result = NativeMethods64.IC_isbusy();
-
-            //WriteLog("IsBusy LEAVE: result={0}", result);
+            bool result = Connected && NativeMethods64.IC_isbusy();
 
             return result;
         }
@@ -406,23 +403,22 @@ namespace OfficialWrapper
         /// <summary>
         /// Обновление клиентской конфигурации на сервере.
         /// </summary>
-        /// <param name="inifile">The inifile.</param>
-        public void UpdateConfiguration(string inifile)
+        public void UpdateConfiguration
+            (
+                [NotNull] string content
+            )
         {
-            WriteLog("UpdateConfiguration ENTER");
+            Log.Trace("Irbis64Client::UpdateConfiguration: enter");
 
             CheckConnected();
             IrbisReturnCode returnCode;
             do
             {
-                returnCode = NativeMethods64.IC_update_ini
-                    (
-                        inifile
-                    );
+                returnCode = NativeMethods64.IC_update_ini(content);
             } while (TryReconnect(returnCode));
             CheckReturnCode(returnCode);
 
-            WriteLog("UpdateConfiguration LEAVE");
+            Log.Trace("Irbis64Client::UpdateConfiguration: leave");
         }
 
         /// <summary>
@@ -435,18 +431,17 @@ namespace OfficialWrapper
         public string ReadTextResource
             (
                 IrbisPath path,
-                string filename,
+                [NotNull] string filename,
                 int size
             )
         {
-            WriteLog
+            Log.Trace
                 (
-                    "ReadTextResource ENTER: path={0}, "
-                    + "database={1}, filename={2}, size={3}",
-                    path,
-                    Database,
-                    filename,
-                    size
+                    "Irbis64::ReadTextResource: "
+                    + "path=" + path + ", "
+                    + "database=" + Database.ToVisibleString() + ", "
+                    + "fileName=" + filename + ", "
+                    + "size=" + size
                 );
 
             CheckConnected();
@@ -466,7 +461,9 @@ namespace OfficialWrapper
                 } while (TryReconnect(returnCode));
                 CheckReturnCode(returnCode);
                 string result = buffer.AnsiZString;
-                WriteLog("ReadTextResource LEAVE");
+
+                Log.Trace("Irbis64::ReadTextResource: leave");
+
                 return result;
             }
         }
@@ -476,22 +473,19 @@ namespace OfficialWrapper
         /// </summary>
         public void ClearResourceCache()
         {
-            WriteLog("ClearResourceCache ENTER");
+            Log.Trace("Irbis64::ClearResourceCache: enter");
 
-            CheckConnected();
-            IrbisReturnCode returnCode;
-            do
-            {
-                returnCode = NativeMethods64.IC_clearresourse();
-            } while (TryReconnect(returnCode));
-            CheckReturnCode(returnCode);
+            NativeMethods64.IC_clearresourse();
 
-            WriteLog("ClearResourceCache LEAVE");
+            Log.Trace("Irbis64::ClearResourceCache: leave");
         }
 
+        /// <summary>
+        /// Групповое чтение текстовых ресурсов.
+        /// </summary>
         public Dictionary<string, string> ReadTextResourceGroup
             (
-            IEnumerable<string> names
+                [NotNull] IEnumerable<string> names
             )
         {
             throw new NotImplementedException();
@@ -503,28 +497,26 @@ namespace OfficialWrapper
         /// <param name="path">The path.</param>
         /// <param name="filename">The filename.</param>
         /// <returns></returns>
+        [CanBeNull]
         public byte[] ReadBinaryResource
             (
-            IrbisPath path,
-            string filename
+                IrbisPath path,
+                [NotNull] string filename
             )
         {
-            WriteLog
+            Log.Trace
                 (
-                    "ReadBinaryResource ENTER: path={0}, "
-                    + "filename={1}",
-                    path,
-                    filename
+                    "Irbis64Client::ReadBinaryResource: "
+                    + "path=" + path + ", "
+                    + "filename=" + filename.ToVisibleString()
                 );
 
             CheckConnected();
-
             IrbisBuffer result = null;
             IrbisReturnCode returnCode;
             do
             {
-                returnCode
-                    = NativeMethods64.IC_getbinaryresourse
+                returnCode = NativeMethods64.IC_getbinaryresourse
                         (
                             path,
                             Database,
@@ -534,7 +526,8 @@ namespace OfficialWrapper
             } while (TryReconnect(returnCode));
             CheckReturnCode(returnCode);
 
-            WriteLog("ReadBinaryResource LEAVE");
+            Log.Trace("Irbis64::ReadBinaryResource: leave");
+
             return result.Data;
         }
 
@@ -546,9 +539,9 @@ namespace OfficialWrapper
         /// <param name="text">The text.</param>
         public void WriteTextResource
             (
-            IrbisPath path,
-            string filename,
-            string text
+                IrbisPath path,
+                [NotNull] string filename,
+                [NotNull] string text
             )
         {
             WriteLog
@@ -585,8 +578,8 @@ namespace OfficialWrapper
         /// <returns></returns>
         public string ReadRawRecord
             (
-            int mfn,
-            bool lockFlag
+                int mfn,
+                bool lockFlag
             )
         {
             WriteLog
@@ -669,10 +662,10 @@ namespace OfficialWrapper
 
         public string WriteRawRecord
             (
-            int mfn,
-            string record,
-            bool lockFlag,
-            bool ifUpdate
+                int mfn,
+                string record,
+                bool lockFlag,
+                bool ifUpdate
             )
         {
             WriteLog
@@ -721,12 +714,12 @@ namespace OfficialWrapper
         /// <returns>Запись после обработки сервером.</returns>
         public string WriteRecord
             (
-            int mfn,
-            int version,
-            int status,
-            MarcRecord record,
-            bool lockFlag,
-            bool ifUpdate
+                int mfn,
+                int version,
+                int status,
+                MarcRecord record,
+                bool lockFlag,
+                bool ifUpdate
             )
         {
             WriteLog
@@ -766,8 +759,8 @@ namespace OfficialWrapper
         /// <returns></returns>
         public string FormatRecord
             (
-            int mfn,
-            string format
+                int mfn,
+                [NotNull] string format
             )
         {
             WriteLog
@@ -825,8 +818,8 @@ namespace OfficialWrapper
         /// <returns></returns>
         public string FormatRawRecord
             (
-            string record,
-            string format
+                string record,
+                string format
             )
         {
             WriteLog("FormatRawRecord ENTER");
@@ -871,8 +864,8 @@ namespace OfficialWrapper
         /// <returns></returns>
         public string Search
             (
-            string expression,
-            string format
+                string expression,
+                string format
             )
         {
             WriteLog
@@ -916,7 +909,7 @@ namespace OfficialWrapper
         /// <returns></returns>
         public int[] Search
             (
-            string expression
+                string expression
             )
         {
             WriteLog
@@ -940,36 +933,30 @@ namespace OfficialWrapper
         /// <summary>
         /// Pings this instance.
         /// </summary>
-        public void Ping()
+        public void NoOp()
         {
-            WriteLog("Ping ENTER");
+            Log.Trace("Irbis64Client::NoOp: enter");
 
             CheckConnected();
             NativeMethods64.IC_nooperation();
 
-            WriteLog("Ping LEAVE");
+            Log.Trace("Irbis64Client::NoOp: leave");
         }
 
         /// <summary>
         /// Gets the max MFN.
         /// </summary>
-        /// <returns></returns>
         public int GetMaxMfn()
         {
-            WriteLog("GetMaxMfn ENTER");
+            Log.Trace("Irbis64Client::GetMaxMfn: enter");
 
             CheckConnected();
-            IrbisReturnCode returnCode = NativeMethods64
-                .IC_maxmfn
-                (
-                    Database
-                );
+            IrbisReturnCode returnCode
+                = NativeMethods64.IC_maxmfn(Database);
             CheckReturnCode(returnCode);
 
-            WriteLog
-                (
-                    "GetMaxMfn LEAVE, return={0}",
-                    returnCode);
+            Log.Trace("Irbis64Client::GetMaxMfn: leave");
+
             return (int)returnCode;
         }
 
@@ -1046,7 +1033,12 @@ namespace OfficialWrapper
         {
             if (!Connected)
             {
-                WriteLog("NOT CONNECTED!!!");
+                Log.Error
+                    (
+                        "Irbis64Client::CheckConnected: "
+                        + "not connected"
+                    );
+
                 throw new IrbisException("Not connected");
             }
         }
@@ -1055,22 +1047,26 @@ namespace OfficialWrapper
         /// Checks the return code.
         /// </summary>
         /// <param name="returnCode">The return code.</param>
-        public void CheckReturnCode(IrbisReturnCode returnCode)
+        public void CheckReturnCode
+            (
+                IrbisReturnCode returnCode
+            )
         {
             if (returnCode < 0)
             {
-                WriteLog
+                Log.Error
                     (
-                        "Irbis return code={0}",
-                        returnCode
+                        "Irbis64Client::CheckReturnCode: "
+                        + "returnCode=" + returnCode
                     );
+
                 throw new IrbisException
                     (
-                    string.Format
-                        (
-                            "Irbis return code={0}",
-                            returnCode
-                        )
+                        string.Format
+                            (
+                                "IRBIS return code={0}",
+                                returnCode
+                            )
                     );
             }
         }
@@ -1082,8 +1078,8 @@ namespace OfficialWrapper
         /// <param name="args">The args.</param>
         public void WriteLog
             (
-            string format,
-            params object[] args
+                string format,
+                params object[] args
             )
         {
             if (LogListener != null)
@@ -1103,16 +1099,17 @@ namespace OfficialWrapper
         /// Tries the reconnect.
         /// </summary>
         /// <param name="returnCode">The return code.</param>
-        /// <returns></returns>
         public bool TryReconnect(IrbisReturnCode returnCode)
         {
             if (AutoReconnect &&
-                 (returnCode == IrbisReturnCode.ClientNotInUse))
+                 returnCode == IrbisReturnCode.ClientNotInUse)
             {
                 _connected = false;
                 Connect();
+
                 return true;
             }
+
             return false;
         }
 
@@ -1200,31 +1197,21 @@ namespace OfficialWrapper
 
         #endregion
 
-        /// <summary>
-        /// Releases the unmanaged resources used by the 
-        /// <see cref="T:System.ComponentModel.Component"/> 
-        /// and optionally releases the managed resources.
-        /// </summary>
-        /// <param name="disposing">true to release both 
-        /// managed and unmanaged resources; false to release 
-        /// only unmanaged resources.</param>
+        /// <inheritdoc cref="Component.Dispose(bool)" />
         protected override void Dispose
             (
                 bool disposing
             )
         {
-            WriteLog
+            Log.Trace
                 (
-                    "Dispose ENTER: disposing={0}",
-                    disposing
+                    "Irbis64Client::Dispose: "
+                    + "disposing=" + disposing
                 );
 
-            if (Connected)
-            {
-                Disconnect();
-            }
+            Disconnect();
 
-            WriteLog("Dispose LEAVE");
+            Log.Trace("Irbis64Client::Dispose: leave");
         }
     }
 }
