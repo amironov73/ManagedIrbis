@@ -326,6 +326,38 @@ namespace OfficialWrapper
             );
 
         /// <summary>
+        /// Чтение записи с расформатированием.
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="mfn">MFN записи.</param>
+        /// <param name="lockFlag">Блокировать ли запись.</param>
+        /// <param name="format">Непосредственный формат (на языке
+        /// форматирования ИРБИС) или имя файла формата без расширения
+        /// с предшествующим символом @ - например @brief, 
+        /// - в соответствии с которым будет расформатироваться документ.
+        /// </param>
+        /// <param name="buffer1">Буфер, в котором возвращается
+        /// запрашиваемая запись.</param>
+        /// <param name="bufferSize1">Размер буфера под запрашиваемую
+        /// запись.</param>
+        /// <param name="buffer2">Буфер для результата
+        /// расформатирования.</param>
+        /// <param name="bufferSize2">Размер буфера для расформатирования.
+        /// </param>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_readformat
+            (
+                [NotNull] string database,
+                int mfn,
+                bool lockFlag,
+                [NotNull] string format,
+                ref IntPtr buffer1,
+                int bufferSize1,
+                ref IntPtr buffer2,
+                int bufferSize2
+            );
+
+        /// <summary>
         /// Запись/обновление записи в базе данных.
         /// </summary>
         /// <param name="database">Имя базы данных.</param>
@@ -334,13 +366,90 @@ namespace OfficialWrapper
         /// <param name="buffer">Буфер, содержащий исходную запись 
         /// в клиентском представлении; в нем же будет возвращаться 
         /// обновленная запись при успешном выполнении.</param>
-        /// <param name="bufferSize">Размер записи.</param>
+        /// <param name="bufferSize">Размер буфера.</param>
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
         public static extern IrbisReturnCode IC_update
             (
                 [NotNull] string database,
                 bool lockFlag,
                 bool ifUpdate,
+                ref IntPtr buffer,
+                int bufferSize
+            );
+
+        /// <summary>
+        /// Групповая запись/обновление записей в базе данных.
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="lockFlag">Блокировать ли записи.</param>
+        /// <param name="ifUpdate">Актуализировать ли записи.</param>
+        /// <param name="buffer">Буфер с исходными записями;
+        /// каждая запись представляется в виде одной строки
+        /// – которую необходимо сформировать из клиентского
+        /// представления записи путем замены реальных разделителей
+        /// полей $0D0A на псевдоразделители $3130.</param>
+        /// <param name="bufferSize">Размер буфера.</param>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_updategroup
+            (
+                [NotNull] string database,
+                bool lockFlag,
+                bool ifUpdate,
+                ref IntPtr buffer,
+                int bufferSize
+            );
+
+        /// <summary>
+        /// Разблокирование записи.
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="mfn">MFN записи.</param>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_runlock
+            (
+                [NotNull] string database,
+                int mfn
+            );
+
+        /// <summary>
+        /// Актуализация записи.
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="mfn">MFN записи.</param>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_ifupdate
+            (
+                [NotNull] string database,
+                int mfn
+            );
+
+        /// <summary>
+        /// Связанная групповая запись/обновление записей в базах данных.
+        /// </summary>
+        /// <param name="lockFlag">Блокировать ли записи.</param>
+        /// <param name="ifUpdate">Актуализировать ли записи.</param>
+        /// <param name="databases">Буфер со списком имен исходных баз
+        /// данных, соответствующих исходным записям в answer,
+        /// в виде набора строк.</param>
+        /// <param name="buffer">Буфер с исходными записями;
+        /// каждая запись представляется в виде одной строки
+        /// – которую необходимо сформировать из клиентского
+        /// представления записи путем замены реальных разделителей
+        /// полей $0D0A на псевдоразделители $3130.</param>
+        /// <param name="bufferSize">Размер буфера.</param>
+        /// <remarks>Данная функция отличается от .IC_updategroup
+        /// тем, что, во-первых, исходные записи могут быть из
+        /// разных баз данных, и во-вторых – редактирование записей
+        /// происходит только в том случае, если этот процесс
+        /// оказывается успешным для ВСЕХ исходных записей.
+        /// Откорректированные записи не изменяются в исходном буфере.
+        /// </remarks>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_updategroup_sinhronize
+            (
+                bool lockFlag,
+                bool ifUpdate,
+                [NotNull] string databases,
                 ref IntPtr buffer,
                 int bufferSize
             );
@@ -374,7 +483,6 @@ namespace OfficialWrapper
                 [NotNull] byte[] buffer,
                 int bufferSize
             );
-
 
         /// <summary>
         /// Расформатирование записи в клиентском представлении.
@@ -455,6 +563,149 @@ namespace OfficialWrapper
                 [NotNull] byte[] format,
                 [NotNull] byte[] buffer,
                 int bufferSize
+            );
+
+        /// <summary>
+        /// Определить порядковый номер поля в записи.
+        /// </summary>
+        /// <param name="record">Буфер с исходной записью
+        /// в клиентском представлении.</param>
+        /// <param name="tag">Метка поля.</param>
+        /// <param name="occurrence">Номер повторения (начиная с 1).
+        /// </param>
+        /// <returns>Код возврата – порядковый номер поля (начиная с 1)
+        /// или отрицательное число, если такового поля нет в записи.
+        /// </returns>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern int IC_fieldn
+            (
+                IntPtr record,
+                int tag,
+                int occurrence
+            );
+
+        /// <summary>
+        /// Прочитать значение заданного поля/подполя.
+        /// </summary>
+        /// <param name="record">Буфер с исходной записью
+        /// в клиентском представлении.</param>
+        /// <param name="fieldNumber">Порядковый номер поля
+        /// (полученный с помощью функции IC_fieldn).</param>
+        /// <param name="code">Односимвольный разделитель подполя
+        /// (если задается $00, то выдается значение поля целиком).</param>
+        /// <param name="buffer">Буфер для возвращаемого значения.</param>
+        /// <param name="bufferSize">Размер буфера.</param>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_field
+            (
+                IntPtr record,
+                int fieldNumber,
+                char code,
+                IntPtr buffer,
+                int bufferSize
+            );
+
+        /// <summary>
+        /// Добавления поля в запись.
+        /// </summary>
+        /// <param name="record">Буфер с исходной записью
+        /// в клиентском представлении; в этот же буфер будет
+        /// помещена обновленная запись.</param>
+        /// <param name="tag">Метка добавляемого поля.</param>
+        /// <param name="fieldNumber">Порядковый номер добавляемого
+        /// поля; если задать 0 – поле будет добавлено последним
+        /// по порядку.</param>
+        /// <param name="value">Буфер со значением добавляемого поля.
+        /// </param>
+        /// <param name="bufferSize">Размер буфера
+        /// <paramref name="record"/> для обновленной записи.</param>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_fldadd
+            (
+                IntPtr record,
+                int tag,
+                int fieldNumber,
+                [NotNull] byte[] value,
+                int bufferSize
+            );
+
+        /// <summary>
+        /// Замена поля в записи.
+        /// </summary>
+        /// <param name="record">Буфер с исходной записью
+        /// в клиентском представлении; в этот же буфер будет
+        /// помещена обновленная запись.</param>
+        /// <param name="fieldNumber">Порядковый номер заменяемого
+        /// поля (полученный с помощью функции IC_fieldn).</param>
+        /// <param name="value">Буфер с заменяющим значением поля;
+        /// если указать пустое значение – соответствующее поле
+        /// удаляется из записи.</param>
+        /// <param name="bufferSize">Размер буфера
+        /// <paramref name="record"/> для обновленной записи.</param>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_fldrep
+            (
+                IntPtr record,
+                int fieldNumber,
+                [CanBeNull] byte[] value,
+                int bufferSize
+            );
+
+
+        /// <summary>
+        /// Определение количества полей в записи.
+        /// </summary>
+        /// <param name="record">Буфер с исходной записью
+        /// в клиентском представлении.</param>
+        /// <returns>Код возврата – количество полей в исходной записи.
+        /// </returns>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern int IC_nfields
+            (
+                IntPtr record
+            );
+
+        /// <summary>
+        /// Определение количества повторений поля с заданной меткой.
+        /// </summary>
+        /// <param name="record">Буфер с исходной записью
+        /// в клиентском представлении.</param>
+        /// <param name="tag">Метка поля.</param>
+        /// <returns>Код возврата – количество повторений заданного поля.
+        /// </returns>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern int IC_nocc
+            (
+                IntPtr record,
+                int tag
+            );
+
+        /// <summary>
+        /// Определение метки поля с заданным порядковым номером.
+        /// </summary>
+        /// <param name="record">Буфер с исходной записью
+        /// в клиентском представлении.</param>
+        /// <param name="fieldNumber">Порядковый номер поля.</param>
+        /// <returns>Код возврата – метка заданного поля или ERR_USER,
+        /// если такового нет в записи.</returns>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern int IC_fldtag
+            (
+                IntPtr record,
+                int fieldNumber
+            );
+
+        /// <summary>
+        /// Опустошение записи.
+        /// </summary>
+        /// <param name="record">Буфер с исходной записью в клиентском
+        /// представлении; в этот же буфер будет помещена
+        /// опустошенная запись.</param>
+        /// <returns>Код возврата – ZERO.</returns>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_fldempty
+            (
+                IntPtr record
             );
 
         #endregion
