@@ -362,6 +362,12 @@
     </Compile>
     <Compile Include="Source\Reports\BandLabel.cs" />
     <Compile Include="Source\Reports\CellLabel.cs" />
+    <Compile Include="Source\Statistics\PingPlotter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Source\Statistics\PingPlotter.Designer.cs">
+      <DependentUpon>PingPlotter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Source\WorksheetLine.cs" />
     <Compile Include="Source\WssForm.cs">
       <SubType>Form</SubType>

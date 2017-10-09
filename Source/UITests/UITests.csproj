@@ -234,6 +234,7 @@
     <Compile Include="Sources\Tests\PftEditorControlTest.cs" />
     <Compile Include="Sources\Tests\PickListTest.cs" />
     <Compile Include="Sources\Tests\PictureViewFormTest.cs" />
+    <Compile Include="Sources\Tests\PingPlotterTest.cs" />
     <Compile Include="Sources\Tests\PlainTextEditorTest.cs" />
     <Compile Include="Sources\Tests\PopupFormTest.cs" />
     <Compile Include="Sources\Tests\PreviewPanelTest.cs" />
