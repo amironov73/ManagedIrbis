@@ -10,28 +10,18 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Logging;
 using AM.Text;
 
-using CodeJam;
-
 using JetBrains.Annotations;
 
-using ManagedIrbis.ImportExport;
 using ManagedIrbis.Infrastructure;
-using ManagedIrbis.Pft.Infrastructure.Ast;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
