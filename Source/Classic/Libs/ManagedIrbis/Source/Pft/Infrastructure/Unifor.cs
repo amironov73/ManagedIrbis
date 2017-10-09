@@ -144,7 +144,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+3+", UniforPlus3.ReplacePlus);
             Registry.Add("+4", UniforPlus4.GetField);
             Registry.Add("+5", UniforPlus5.GetEntry);
-            Registry.Add("+6", GetRecordStatus);
+            Registry.Add("+6", UniforPlus6.GetRecordStatus);
             Registry.Add("+7", UniforPlus7.ClearGlobals);
             Registry.Add("+7A", UniforPlus7.UnionGlobals);
             Registry.Add("+7G", UniforPlus7.DistinctGlobal);
@@ -160,17 +160,17 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+92", UniforPlus9.GetDirectoryName);
             Registry.Add("+93", UniforPlus9.GetExtension);
             Registry.Add("+94", UniforPlus9.GetDrive);
-            Registry.Add("+95", UniforPlus9.Length);
+            Registry.Add("+95", UniforPlus9.StringLength);
             Registry.Add("+96", UniforPlus9.Substring);
             Registry.Add("+97", UniforPlus9.ToUpper);
             Registry.Add("+98", UniforPlus9.ReplaceCharacter);
             Registry.Add("+9A", UniforPlus9.GetFileSize);
             Registry.Add("+9C", UniforPlus9.GetFileContent);
             Registry.Add("+9F", UniforPlus9.GetCharacter);
-            Registry.Add("+9L", UniforPlus9.GetFileExist);
             Registry.Add("+9G", UniforPlus9.SplitWords);
             Registry.Add("+9I", UniforPlus9.ReplaceString);
-            Registry.Add("+9S", FindSubstring);
+            Registry.Add("+9L", UniforPlus9.FileExist);
+            Registry.Add("+9S", UniforPlus9.FindSubstring);
             Registry.Add("+9V", UniforPlus9.GetGeneration);
             Registry.Add("+D", GetDatabaseName);
             Registry.Add("+E", GetFieldIndex);
@@ -304,66 +304,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         // ================================================================
 
         /// <summary>
-        /// Возвращает позицию первого символа найденного вхождения подстроки
-        /// в исходную строку. Считается, что символы в строке нумеруются с 1.
-        /// Если подстрока не найдена, то возвращает 0.
-        /// </summary>
-        /// <remarks>
-        /// Формат:
-        /// +9S!подстрока!исходная_строка
-        /// </remarks>
-        public static void FindSubstring
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            if (string.IsNullOrEmpty(expression))
-            {
-                goto NOTFOUND;
-            }
-
-            TextNavigator navigator = new TextNavigator(expression);
-            char delimiter = navigator.ReadChar();
-            if (delimiter == '\0')
-            {
-                goto NOTFOUND;
-            }
-            string substring = navigator.ReadUntil(delimiter);
-            if (string.IsNullOrEmpty(substring)
-                || navigator.ReadChar() != delimiter)
-            {
-                goto NOTFOUND;
-            }
-            string text = navigator.GetRemainingText();
-            if (string.IsNullOrEmpty(text))
-            {
-                goto NOTFOUND;
-            }
-            int position = text.IndexOf
-                (
-                    substring,
-                    StringComparison.CurrentCultureIgnoreCase
-                );
-            if (position < 0)
-            {
-                goto NOTFOUND;
-            }
-            string output = (position + 1).ToInvariantString();
-            context.Write(node, output);
-            context.OutputFlag = true;
-
-            return;
-
-            NOTFOUND:
-            context.Write(node, "0");
-            context.OutputFlag = true;
-        }
-
-        // ================================================================
-
-        /// <summary>
         /// ALL format for records
         /// </summary>
         public static void FormatAll
@@ -479,30 +419,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                     context.OutputFlag = true;
                 }
             }
-        }
-
-        // ================================================================
-
-        /// <summary>
-        /// Get record status: whether the record is deleted?
-        /// </summary>
-        public static void GetRecordStatus
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            string result = "1";
-
-            if (!ReferenceEquals(context.Record, null)
-                && context.Record.Deleted)
-            {
-                result = "0";
-            }
-
-            context.Write(node, result);
-            context.OutputFlag = true;
         }
 
         // ================================================================
