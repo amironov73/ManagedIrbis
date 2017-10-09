@@ -158,6 +158,7 @@ namespace ManagedIrbis.Statistics
                     result.RoundTripTime
                         = (int) stopwatch.ElapsedMilliseconds;
                 }
+                result.Success = true;
             }
             catch
             {

@@ -102,17 +102,25 @@ namespace IrbisUI.Source.Statistics
             {
                 maxTime = 1;
             }
+            maxTime += maxTime / 7;
             Rectangle workArea = ClientRectangle;
             int height = workArea.Height;
+            int width = workArea.Width;
             int top = workArea.Top;
             int bottom = workArea.Bottom;
-            double scale = (double)height / maxTime;
 
+            int delta = 50;
+            while (delta * 10 < maxTime)
+            {
+                delta *= 2;
+            }
+            //maxTime = delta * 10;
+            double scale = (double)height / maxTime;
             Graphics graphics = e.Graphics;
 
             using (Pen linePen = new Pen(Color.LightBlue))
             {
-                int time = 50;
+                int time = delta;
                 while (time < maxTime)
                 {
                     int y = (int)(bottom - time * scale);
@@ -125,7 +133,7 @@ namespace IrbisUI.Source.Statistics
                             y
                         );
 
-                    time += 50;
+                    time += delta;
                 }
             }
 
@@ -133,7 +141,7 @@ namespace IrbisUI.Source.Statistics
             using (Pen errorPen = new Pen(Color.Red))
             using (Pen endPen = new Pen(Color.LightGreen))
             {
-                int i = 0;
+                int i = Math.Max(0, data.Length - width);
                 int x1 = workArea.Left;
                 int x2 = x1 + 1;
                 int y1 = (int)(bottom - data[i].RoundTripTime * scale);
@@ -165,6 +173,37 @@ namespace IrbisUI.Source.Statistics
                     (
                         endPen,
                         x1, top, x1, bottom
+                    );
+            }
+
+            Color backColor = Color.FromArgb(200, 255, 255, 255);
+            using (Brush foreBrush = new SolidBrush(Color.Black))
+            using (Brush backBrush = new SolidBrush(backColor))
+            using (Font font = new Font(FontFamily.GenericSansSerif, 8.0f))
+            {
+                string text = string.Format
+                    (
+                        "Min: {1} ms{0}Max: {2} ms{0}Avg: {3} ms",
+                        Environment.NewLine,
+                        Statistics.MinTime,
+                        Statistics.MaxTime,
+                        Statistics.AverageTime
+                    );
+                PointF point = new PointF(10, 10);
+                SizeF size = graphics.MeasureString(text, font);
+                RectangleF r = new RectangleF(point, size);
+                r.Inflate(10, 10);
+                graphics.FillRectangle
+                    (
+                        backBrush,
+                        r
+                    );
+                graphics.DrawString
+                    (
+                        text,
+                        font,
+                        foreBrush,
+                        point
                     );
             }
         }
