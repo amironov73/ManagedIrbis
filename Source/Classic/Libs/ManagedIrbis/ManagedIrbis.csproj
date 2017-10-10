@@ -258,6 +258,7 @@
     <Compile Include="Source\Ibf\Infrastructure\IbfContext.cs" />
     <Compile Include="Source\Ibf\Infrastructure\IbfExitException.cs" />
     <Compile Include="Source\Ibf\Infrastructure\IbfNode.cs" />
+    <Compile Include="Source\Infrastructure\CommandKind.cs" />
     <Compile Include="Source\Infrastructure\ResponseBuilder.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\CompilerProxy.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexInfo.cs" />
@@ -594,6 +595,7 @@
     <Compile Include="Source\Pft\Infrastructure\PftDebugEventArgs.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftFieldOutputMode.cs" />
     <Compile Include="Source\Pft\Infrastructure\PftNodeCollection.cs" />
+    <Compile Include="Source\Pft\Infrastructure\PftNodeKind.cs" />
     <Compile Include="Source\Pft\Infrastructure\Serialization\PftSerializationException.cs" />
     <Compile Include="Source\Pft\Infrastructure\Serialization\PftSerializationUtility.cs" />
     <Compile Include="Source\Pft\Infrastructure\Serialization\PftSerializer.cs" />

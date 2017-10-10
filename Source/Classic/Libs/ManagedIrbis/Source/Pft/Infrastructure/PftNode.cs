@@ -138,6 +138,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public virtual bool RequiresConnection { get { return true; } }
 
+        /// <summary>
+        /// Kind of the node.
+        /// </summary>
+        public virtual PftNodeKind Kind { get { return PftNodeKind.None; } }
+
         #endregion
 
         #region Construction

@@ -69,6 +69,11 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public virtual bool RequireConnection { get { return true; } }
 
+        /// <summary>
+        /// Kind of the command.
+        /// </summary>
+        public virtual CommandKind Kind { get { return CommandKind.None; } }
+
         #endregion
 
         #region Construction
