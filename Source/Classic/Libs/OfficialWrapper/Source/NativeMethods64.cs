@@ -708,6 +708,358 @@ namespace OfficialWrapper
                 IntPtr record
             );
 
+        /// <summary>
+        /// Изменение MFN записи.
+        /// </summary>
+        /// <param name="record">Буфер с исходной записью в клиентском
+        /// представлении; в этот же буфер будет помещена измененная
+        /// запись.</param>
+        /// <param name="newMfn">Новое значение MFN.</param>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_changemfn
+            (
+                IntPtr record,
+                int newMfn
+            );
+
+        /// <summary>
+        /// Установка в статусе записи признака логической удаленности.
+        /// </summary>
+        /// <param name="record">Буфер с исходной записью в клиентском
+        /// представлении; в этот же буфер будет помещена измененная
+        /// запись.</param>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_recdel
+            (
+                IntPtr record
+            );
+
+        /// <summary>
+        /// Снятие в статусе записи признака логической удаленности.
+        /// </summary>
+        /// <param name="record">Буфер с исходной записью в клиентском
+        /// представлении; в этот же буфер будет помещена измененная
+        /// запись.</param>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_recundel
+            (
+                IntPtr record
+            );
+
+        /// <summary>
+        /// Снятие в статусе записи признака блокировки.
+        /// </summary>
+        /// <param name="record">Буфер с исходной записью в клиентском
+        /// представлении; в этот же буфер будет помещена измененная
+        /// запись.</param>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_recunlock
+            (
+                IntPtr record
+            );
+
+        /// <summary>
+        /// Чтение MFN записи.
+        /// </summary>
+        /// <param name="record">Буфер с исходной записью
+        /// в клиентском представлении.</param>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern int IC_getmfn
+            (
+                IntPtr record
+            );
+
+        /// <summary>
+        /// Создание пустой записи.
+        /// </summary>
+        /// <param name="record">Буфер, в котором будет создаваться
+        /// пустая запись в клиентском представлении.</param>
+        /// <param name="bufferSize">Размер записи.</param>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_recdummy
+            (
+                IntPtr record,
+                int bufferSize
+            );
+
+        /// <summary>
+        /// Прочитать в статусе записи признак актуализации.
+        /// </summary>
+        /// <param name="record">Буфер с исходной записью
+        /// в клиентском представлении.</param>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern bool IC_isActualized
+            (
+                IntPtr record
+            );
+
+        /// <summary>
+        /// Прочитать в статусе записи признак блокировки.
+        /// </summary>
+        /// <param name="record">Буфер с исходной записью
+        /// в клиентском представлении.</param>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern bool IC_isLocked
+            (
+                IntPtr record
+            );
+
+        /// <summary>
+        /// Прочитать в статусе записи признак логического удаления.
+        /// </summary>
+        /// <param name="record">Буфер с исходной записью
+        /// в клиентском представлении.</param>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern bool IC_isDeleted
+            (
+                IntPtr record
+            );
+
+        /// <summary>
+        /// Получение списка терминов словаря, начиная с заданного.
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="term">Исходный термин.</param>
+        /// <param name="number">Количество запрашиваемых терминов;
+        /// если задается 0 – будут выдаваться все термины до конца
+        /// словаря, но не более, чем MAX_POSTINGS_IN_PACKET.</param>
+        /// <param name="buffer">Буфер для списка возвращаемых
+        /// терминов.</param>
+        /// <param name="bufferSize">Размер буфера.</param>
+        /// <returns><para>Код возврата – может принимать следующие значения:
+        /// </para>
+        /// <list type="bullet">
+        /// <item><term>ZERO</term><description>исходный термин
+        /// найден в словаре;</description></item>
+        /// <item><term>TERM_NOT_EXISTS</term><description>исходный
+        /// термин не найден в словаре, при этом возвращается number
+        /// следующих (ближайших) терминов;</description></item>
+        /// <item><term>TERM_LAST_IN_LIST</term><description>исходный
+        /// термин больше последнего термина в словаре; при этом
+        /// возвращается последний термин словаря;</description></item>
+        /// <item><term>TERM_FIRST_IN_LIST</term><description>исходный
+        /// термин меньше первого термина в словаре; при этом
+        /// возвращается number первых терминов словаря;</description></item>
+        /// <item><term>ERR_BUFSIZE</term><description>выходной буфер
+        /// мал для запрашиваемых терминов; при этом ничего в выходном
+        /// буфере не возвращается.</description></item>
+        /// </list>
+        /// </returns>
+        /// <remarks>Количество возвращаемых терминов может быть меньше
+        /// number, если достигнут конец словаря.</remarks>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_nexttrm
+            (
+                [NotNull] string database,
+                [NotNull] byte[] term,
+                int number,
+                IntPtr buffer,
+                int bufferSize
+            );
+
+        /// <summary>
+        /// Получение списка терминов словаря, начиная с заданного,
+        /// и расформатирование записи, соответствующие первой ссылке
+        /// каждого термина.
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="term">Исходный термин.</param>
+        /// <param name="number">Количество запрашиваемых терминов;
+        /// если задается 0 – будут выдаваться все термины до конца
+        /// словаря, но не более, чем MAX_POSTINGS_IN_PACKET.</param>
+        /// <param name="format">Формат, который может задаваться
+        /// пятью способами:
+        /// <list type="bullet">
+        /// <item>строка непосредственного формата на языке
+        /// форматирования ИРБИС;</item>
+        /// <item>имя файла формата, предваряемого символом
+        /// @ (например @brief);</item>
+        /// <item>символ @ - в этом случае производится
+        /// ОПТИМИЗИРОВАННОЕ форматирование (т. е. имя формата
+        /// определяется видом записи);</item>
+        /// <item>символ * - в этом случае производится форматирование
+        /// строго в соответствии со ссылкой (например для ссылки
+        /// в виде 1.200.2.3 берется 2-е повторение 200-го поля);</item>
+        /// <item>пустая строка.В этом случае возвращается только
+        /// список терминов.</item>
+        /// </list>
+        /// Во всех случаях перед форматированием выполняется
+        /// следующая операция - в любом формате специальное
+        /// сочетание символов вида*** (3 звездочки) заменяется
+        /// на значение метки поля, взятое из 1-й ссылки для данного
+        /// термина (например, для ссылки 1.200.1.1 формат
+        /// вида v*** будет заменен на v200).
+        /// </param>
+        /// <param name="buffer">Буфер для списка возвращаемых
+        /// терминов.</param>
+        /// <param name="bufferSize">Размер буфера.</param>
+        /// <returns><para>Код возврата – может принимать следующие значения:
+        /// </para>
+        /// <list type="table">
+        /// <item><term>ZERO</term><description>исходный термин
+        /// найден в словаре;</description></item>
+        /// <item><term>TERM_NOT_EXISTS</term><description>исходный
+        /// термин не найден в словаре, при этом возвращается number
+        /// следующих (ближайших) терминов;</description></item>
+        /// <item><term>TERM_LAST_IN_LIST</term><description>исходный
+        /// термин больше последнего термина в словаре; при этом
+        /// возвращается последний термин словаря;</description></item>
+        /// <item><term>TERM_FIRST_IN_LIST</term><description>исходный
+        /// термин меньше первого термина в словаре; при этом
+        /// возвращается number первых терминов словаря;</description></item>
+        /// <item><term>ERR_BUFSIZE</term><description>выходной буфер
+        /// мал для запрашиваемых терминов; при этом ничего в выходном
+        /// буфере не возвращается.</description></item>
+        /// </list>
+        /// </returns>
+        /// <remarks>
+        /// Буфер представляет собой набор строк, каждая из которых
+        /// имеет следующую структуру (в случае не пустого format):
+        /// nnn#ссылк>$30термин$30результат расформатирования
+        /// где:
+        /// nnn – количество ссылок для соответствующего термина;
+        /// ссылка - первая ссылка термина в виде mfn#tag#occ#pos#;
+        /// результат расформатирования - результат расформатирования,
+        /// в котором реальные разделители строк $0D0A заменены
+        /// на псевдоразделители $3130.
+        /// Если в качестве format задано пустое значение,
+        /// строки в буфере имеют структуру:
+        /// nnn#термин
+        /// </remarks>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_nexttrmgroup
+            (
+                [NotNull] string database,
+                [NotNull] byte[] term,
+                int number,
+                [NotNull] byte[] format,
+                IntPtr buffer,
+                int bufferSize
+            );
+
+        /// <summary>
+        /// Получение списка терминов словаря, начиная с заданного,
+        /// в обратном порядке.
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="term">Исходный термин.</param>
+        /// <param name="number">Количество запрашиваемых терминов;
+        /// если задается 0 – будут выдаваться все термины до конца
+        /// словаря, но не более, чем MAX_POSTINGS_IN_PACKET.</param>
+        /// <param name="buffer">Буфер для списка возвращаемых
+        /// терминов.</param>
+        /// <param name="bufferSize">Размер буфера.</param>
+        /// <returns><para>Код возврата – может принимать следующие значения:
+        /// </para>
+        /// <list type="bullet">
+        /// <item><term>ZERO</term><description>исходный термин
+        /// найден в словаре;</description></item>
+        /// <item><term>TERM_NOT_EXISTS</term><description>исходный
+        /// термин не найден в словаре, при этом возвращается number
+        /// следующих (ближайших) терминов;</description></item>
+        /// <item><term>TERM_LAST_IN_LIST</term><description>исходный
+        /// термин больше последнего термина в словаре; при этом
+        /// возвращается последний термин словаря;</description></item>
+        /// <item><term>TERM_FIRST_IN_LIST</term><description>исходный
+        /// термин меньше первого термина в словаре; при этом
+        /// возвращается number первых терминов словаря;</description></item>
+        /// <item><term>ERR_BUFSIZE</term><description>выходной буфер
+        /// мал для запрашиваемых терминов; при этом ничего в выходном
+        /// буфере не возвращается.</description></item>
+        /// </list>
+        /// </returns>
+        /// <remarks>Количество возвращаемых терминов может быть меньше
+        /// number, если достигнут конец словаря.</remarks>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_prevtrm
+            (
+                [NotNull] string database,
+                [NotNull] byte[] term,
+                int number,
+                IntPtr buffer,
+                int bufferSize
+            );
+
+        /// <summary>
+        /// Получение списка терминов словаря, начиная с заданного,
+        /// в обратном порядке и расформатирование записи,
+        /// соответствующие первой ссылке каждого термина.
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="term">Исходный термин.</param>
+        /// <param name="number">Количество запрашиваемых терминов;
+        /// если задается 0 – будут выдаваться все термины до конца
+        /// словаря, но не более, чем MAX_POSTINGS_IN_PACKET.</param>
+        /// <param name="format">Формат, который может задаваться
+        /// пятью способами:
+        /// <list type="bullet">
+        /// <item>строка непосредственного формата на языке
+        /// форматирования ИРБИС;</item>
+        /// <item>имя файла формата, предваряемого символом
+        /// @ (например @brief);</item>
+        /// <item>символ @ - в этом случае производится
+        /// ОПТИМИЗИРОВАННОЕ форматирование (т. е. имя формата
+        /// определяется видом записи);</item>
+        /// <item>символ * - в этом случае производится форматирование
+        /// строго в соответствии со ссылкой (например для ссылки
+        /// в виде 1.200.2.3 берется 2-е повторение 200-го поля);</item>
+        /// <item>пустая строка.В этом случае возвращается только
+        /// список терминов.</item>
+        /// </list>
+        /// Во всех случаях перед форматированием выполняется
+        /// следующая операция - в любом формате специальное
+        /// сочетание символов вида*** (3 звездочки) заменяется
+        /// на значение метки поля, взятое из 1-й ссылки для данного
+        /// термина (например, для ссылки 1.200.1.1 формат
+        /// вида v*** будет заменен на v200).
+        /// </param>
+        /// <param name="buffer">Буфер для списка возвращаемых
+        /// терминов.</param>
+        /// <param name="bufferSize">Размер буфера.</param>
+        /// <returns><para>Код возврата – может принимать следующие значения:
+        /// </para>
+        /// <list type="table">
+        /// <item><term>ZERO</term><description>исходный термин
+        /// найден в словаре;</description></item>
+        /// <item><term>TERM_NOT_EXISTS</term><description>исходный
+        /// термин не найден в словаре, при этом возвращается number
+        /// следующих (ближайших) терминов;</description></item>
+        /// <item><term>TERM_LAST_IN_LIST</term><description>исходный
+        /// термин больше последнего термина в словаре; при этом
+        /// возвращается последний термин словаря;</description></item>
+        /// <item><term>TERM_FIRST_IN_LIST</term><description>исходный
+        /// термин меньше первого термина в словаре; при этом
+        /// возвращается number первых терминов словаря;</description></item>
+        /// <item><term>ERR_BUFSIZE</term><description>выходной буфер
+        /// мал для запрашиваемых терминов; при этом ничего в выходном
+        /// буфере не возвращается.</description></item>
+        /// </list>
+        /// </returns>
+        /// <remarks>
+        /// Буфер представляет собой набор строк, каждая из которых
+        /// имеет следующую структуру (в случае не пустого format):
+        /// nnn#ссылк>$30термин$30результат расформатирования
+        /// где:
+        /// nnn – количество ссылок для соответствующего термина;
+        /// ссылка - первая ссылка термина в виде mfn#tag#occ#pos#;
+        /// результат расформатирования - результат расформатирования,
+        /// в котором реальные разделители строк $0D0A заменены
+        /// на псевдоразделители $3130.
+        /// Если в качестве format задано пустое значение,
+        /// строки в буфере имеют структуру:
+        /// nnn#термин
+        /// </remarks>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_prevtrmgroup
+            (
+                [NotNull] string database,
+                [NotNull] byte[] term,
+                int number,
+                [NotNull] byte[] format,
+                IntPtr buffer,
+                int bufferSize
+            );
+
         #endregion
 
         #region Utility routines

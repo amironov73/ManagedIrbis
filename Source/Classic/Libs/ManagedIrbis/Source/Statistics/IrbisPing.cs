@@ -10,28 +10,16 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Timers;
-using System.Threading.Tasks;
+using System.Threading;
 
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Logging;
-using AM.Runtime;
-using AM.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -89,12 +77,7 @@ namespace ManagedIrbis.Statistics
 
             Connection = connection;
             Statistics = new PingStatistics();
-            _timer = new Timer(1000)
-            {
-                AutoReset = true,
-                Enabled = true
-            };
-            _timer.Elapsed += _timer_Elapsed;
+            _timer = new Timer(_timer_Elapsed, null, 1000, 1000);
         }
 
         #endregion
@@ -107,8 +90,7 @@ namespace ManagedIrbis.Statistics
 
         private void _timer_Elapsed
             (
-                object sender,
-                ElapsedEventArgs e
+                object state
             )
         {
             if (!Active
