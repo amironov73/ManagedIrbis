@@ -483,7 +483,7 @@ namespace IrbisInterop
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IrbisProvider.Dispose" />
         public override void Dispose()
         {
             if (_ownIrbis64)

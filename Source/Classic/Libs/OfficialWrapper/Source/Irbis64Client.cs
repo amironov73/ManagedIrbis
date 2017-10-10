@@ -19,6 +19,8 @@ using System.Text.RegularExpressions;
 using AM;
 using AM.Logging;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis;
@@ -73,7 +75,7 @@ namespace OfficialWrapper
         /// <summary>
         /// 
         /// </summary>
-        public const string DefaultPort = "6666";
+        public const int DefaultPort = 6666;
 
         /// <summary>
         /// 
@@ -142,7 +144,7 @@ namespace OfficialWrapper
         /// </summary>
         /// <value>Порт сервера (по умолчанию 6666).</value>
         [DefaultValue(DefaultPort)]
-        public string Port { get; set; }
+        public int Port { get; set; }
 
         /// <summary>
         /// Имя пользователя.
@@ -214,6 +216,32 @@ namespace OfficialWrapper
 
         #endregion
 
+        #region Private members
+
+        private static string _Select
+            (
+                string first,
+                string second
+            )
+        {
+            return string.IsNullOrEmpty(first)
+                ? second
+                : first;
+        }
+
+        private static int _Select
+            (
+                int first,
+                int second
+            )
+        {
+            return first != 0
+                ? first
+                : second;
+        }
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -236,7 +264,7 @@ namespace OfficialWrapper
                 IrbisReturnCode returnCode = NativeMethods64.IC_reg
                     (
                         Host,
-                        Port,
+                        Port.ToInvariantString(),
                         (char)IrbisWorkstation.Administrator,
                         Username,
                         Password,
@@ -960,70 +988,41 @@ namespace OfficialWrapper
             return (int)returnCode;
         }
 
-        #endregion
+        /// <summary>
+        /// Apply the settings.
+        /// </summary>
+        public void ApplySettings
+            (
+                [NotNull] ConnectionSettings settings
+            )
+        {
+            Code.NotNull(settings, "settings");
 
-        #region Utility
+            Host = _Select(settings.Host, Host);
+            Port = _Select(settings.Port, Port);
+            Username = _Select(settings.Username, Username);
+            Password = _Select(settings.Password, Password);
+            Database = _Select(settings.Database, Database);
+            Workstation = (IrbisWorkstation)_Select
+                (
+                    (int)settings.Workstation,
+                    (int)Workstation
+                );
+        }
 
+        /// <summary>
+        /// Parse the connection string.
+        /// </summary>
         public void ParseConnectionString
             (
                 [NotNull] string connectionString
             )
         {
-            if (string.IsNullOrEmpty(connectionString))
-            {
-                throw new ArgumentNullException("connectionString");
-            }
-            connectionString = Regex.Replace
-                (
-                    connectionString,
-                    @"\s+",
-                    string.Empty
-                );
-            if (string.IsNullOrEmpty(connectionString)
-                 || !connectionString.Contains("="))
-            {
-                throw new ArgumentException("connectionString");
-            }
+            Code.NotNull(connectionString, "connectionString");
 
-            Regex regex = new Regex
-                (
-                "(?<name>[^=;]+?)=(?<value>[^;]+)",
-                RegexOptions.IgnoreCase
-                | RegexOptions.IgnorePatternWhitespace
-                );
-            MatchCollection matches = regex.Matches(connectionString);
-            foreach (Match match in matches)
-            {
-                string name =
-                    match.Groups["name"].Value.ToLowerInvariant();
-                string value = match.Groups["value"].Value;
-                switch (name)
-                {
-                    case "host":
-                    case "server":
-                        Host = value;
-                        break;
-                    case "port":
-                        Port = value;
-                        break;
-                    case "user":
-                    case "username":
-                    case "name":
-                        Username = value;
-                        break;
-                    case "pwd":
-                    case "password":
-                        Password = value;
-                        break;
-                    case "db":
-                    case "catalog":
-                    case "database":
-                        Database = value;
-                        break;
-                    default:
-                        throw new ArgumentException("connectionString");
-                }
-            }
+            ConnectionSettings settings = new ConnectionSettings();
+            settings.ParseConnectionString(connectionString);
+            ApplySettings(settings);
         }
 
         /// <summary>
