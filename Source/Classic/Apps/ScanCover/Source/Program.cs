@@ -20,7 +20,7 @@ using AM.Windows.Forms;
 
 #endregion
 
-namespace PingMonitor
+namespace ScanCover
 {
     static class Program
     {

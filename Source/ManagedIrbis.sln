@@ -229,6 +229,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficialWrapper", "Classic\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingMonitor", "Classic\Apps\PingMonitor\PingMonitor.csproj", "{C94E9160-655F-4E4F-BFCF-772473D2516F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScanCover", "Classic\Apps\ScanCover\ScanCover.csproj", "{6BC9BB2F-2B1E-4E24-8855-956ADCED2FB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1117,6 +1119,14 @@ Global
 		{C94E9160-655F-4E4F-BFCF-772473D2516F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C94E9160-655F-4E4F-BFCF-772473D2516F}.Release|x86.ActiveCfg = Release|Any CPU
 		{C94E9160-655F-4E4F-BFCF-772473D2516F}.Release|x86.Build.0 = Release|Any CPU
+		{6BC9BB2F-2B1E-4E24-8855-956ADCED2FB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BC9BB2F-2B1E-4E24-8855-956ADCED2FB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BC9BB2F-2B1E-4E24-8855-956ADCED2FB3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6BC9BB2F-2B1E-4E24-8855-956ADCED2FB3}.Debug|x86.Build.0 = Debug|Any CPU
+		{6BC9BB2F-2B1E-4E24-8855-956ADCED2FB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BC9BB2F-2B1E-4E24-8855-956ADCED2FB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BC9BB2F-2B1E-4E24-8855-956ADCED2FB3}.Release|x86.ActiveCfg = Release|Any CPU
+		{6BC9BB2F-2B1E-4E24-8855-956ADCED2FB3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1230,6 +1240,7 @@ Global
 		{774EF315-B658-4B02-A433-B3C20D8AB139} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{3A17CCCE-FDBE-4D88-86C5-279523D7E931} = {7233A430-352D-4BF2-B349-B3767E8E3EDE}
 		{C94E9160-655F-4E4F-BFCF-772473D2516F} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{6BC9BB2F-2B1E-4E24-8855-956ADCED2FB3} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9210D671-3170-4F79-9CE3-2FE2B1208056}
