@@ -896,38 +896,40 @@ namespace OfficialWrapper
                 string format
             )
         {
-            WriteLog
-                (
-                    "Search ENTER: expression={0}, format={1}",
-                    expression,
-                    format
-                );
+            throw new NotImplementedException();
 
-            IrbisReturnCode returnCode;
+            //WriteLog
+            //    (
+            //        "Search ENTER: expression={0}, format={1}",
+            //        expression,
+            //        format
+            //    );
 
-            CheckConnected();
-            byte[] buffer;
-            do
-            {
-                buffer = new byte[BufferSize];
-                returnCode = NativeMethods64
-                    .IC_search
-                    (
-                        Database,
-                        ToUtf(expression),
-                        0,
-                        1,
-                        ToUtf(format),
-                        buffer,
-                        buffer.Length
-                    );
-            } while (TryReconnect(returnCode)
-                || TryIncreaseBuffer(returnCode));
+            //IrbisReturnCode returnCode;
 
-            string result = FromUtfZ(buffer);
+            //CheckConnected();
+            //byte[] buffer;
+            //do
+            //{
+            //    buffer = new byte[BufferSize];
+            //    returnCode = NativeMethods64
+            //        .IC_search
+            //        (
+            //            Database,
+            //            ToUtf(expression),
+            //            0,
+            //            1,
+            //            ToUtf(format),
+            //            buffer,
+            //            buffer.Length
+            //        );
+            //} while (TryReconnect(returnCode)
+            //    || TryIncreaseBuffer(returnCode));
 
-            WriteLog("Search LEAVE");
-            return result;
+            //string result = FromUtfZ(buffer);
+
+            //WriteLog("Search LEAVE");
+            //return result;
         }
 
         /// <summary>

@@ -569,6 +569,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\CommandFactory.cs">
       <Link>Source\Infrastructure\CommandFactory.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\CommandKind.cs">
+      <Link>Source\Infrastructure\CommandKind.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\AbstractCommand.cs">
       <Link>Source\Infrastructure\Commands\AbstractCommand.cs</Link>
     </Compile>
@@ -1426,6 +1429,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftNodeCollection.cs">
       <Link>Source\Pft\Infrastructure\PftNodeCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftNodeKind.cs">
+      <Link>Source\Pft\Infrastructure\PftNodeKind.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftOutput.cs">
       <Link>Source\Pft\Infrastructure\PftOutput.cs</Link>

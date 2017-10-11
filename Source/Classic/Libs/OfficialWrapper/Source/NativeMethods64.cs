@@ -553,15 +553,88 @@ namespace OfficialWrapper
         /// <param name="bufferSize">Размер буфера.</param>
         /// <returns>Стандартный код завершения: неотрицательное число, 
         /// равное количеству найденных записей, или код ошибки.</returns>
+        /// <remarks><para>
+        /// buffer по возврату будет содержать набор строк, каждая
+        /// из которых имеет структуру:</para>
+        /// <para>mfn#результат расформатирования</para>
+        /// <para>где:</para>
+        /// <para>mfn – MFN соответствующей записи;</para>
+        /// <para>результат расформатирования соответствующей записи,
+        /// в котором реальные разделители строк $0D0A заменены 
+        /// на псевдоразделители $3130.
+        /// </para>
+        /// </remarks>
         [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
-        public static extern IrbisReturnCode IC_search
+        public static extern int IC_search
             (
                 [NotNull] string database,
                 [NotNull] byte[] expression,
                 int howMany,
                 int first,
                 [NotNull] byte[] format,
-                [NotNull] byte[] buffer,
+                IntPtr buffer,
+                int bufferSize
+            );
+
+        /// <summary>
+        /// Последовательный поиск по результату прямого поиска и/или
+        /// по заданному диапазону записей.
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="expression">Поисковое выражение.</param>
+        /// <param name="howMany">Количество возвращаемых записей 
+        /// (из числа найденных); если задается 0 – возвращаются 
+        /// все найденные документы, но не более 
+        /// MAX_POSTINGS_IN_PACKET.</param>
+        /// <param name="first">Номер первой возвращаемой записи 
+        /// из общего числа найденных; если задается 0 – возвращается 
+        /// только количество найденных записей.</param>
+        /// <param name="format">формат для расформатирования
+        /// найденных записей, может быть задан следующими способами:
+        /// – строка непосредственного формата на языке форматирвания ИРБИС;
+        /// – имя файла формата, предваряемого символом @ (например @brief);
+        /// – символ @ - в этом случае производится ОПТИМИЗИРОВАННОЕ
+        /// форматирование (т.е. имя формата определяется видом записи);
+        /// – пустая строка. В этом случае расформатирование записей
+        /// не производится
+        /// </param>
+        /// <param name="scanExpression">Поисковое выражение для
+        /// последовательного поиска (представляет собой явный формат,
+        /// который возвращает одно из двух значений:
+        /// 0 – документ не соответствует критерию поиска,
+        /// 1 – соответствует). Если задается выражение для прямого
+        /// поиска (<paramref name="expression"/>) – последовательный
+        /// поиск ведется по его результату (с учетом minMfn и
+        /// maxMfn).</param>
+        /// <param name="buffer">Буфер для возвращаемых данных.</param>
+        /// <param name="bufferSize">Размер буфера.</param>
+        /// <param name="minMfn">Ограничение снизу по MFN, если 0,
+        /// то с начала базы данных.</param>
+        /// <param name="maxMfn">Ограничение сверху по MFN, если 0,
+        /// то до конца базы данных.</param>
+        /// <returns>Код возврата – неотрицательное число, равное
+        /// количеству найденных записей, или код ошибки.</returns>
+        /// <remarks><para>
+        /// По возврату <paramref name="buffer"/> будет будет содержать
+        /// набор строк, каждая из которых имеет структуру:</para>
+        /// <para>mfn#результат расформатирования</para>
+        /// <para>где mfn – MFN соответствующей записи;</para>
+        /// <para>результат расформатирования соответствующей записи,
+        /// в котором реальные разделители строк $0D0A заменены
+        /// на псевдоразделители $3130.</para>
+        /// </remarks>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern int IC_searchscan
+            (
+                [NotNull] string database,
+                [NotNull] byte[] expression,
+                int howMany,
+                int first,
+                [NotNull] byte[] format,
+                int minMfn,
+                int maxMfn,
+                [NotNull] byte[] scanExpression,
+                IntPtr buffer,
                 int bufferSize
             );
 
@@ -1055,6 +1128,255 @@ namespace OfficialWrapper
                 [NotNull] string database,
                 [NotNull] byte[] term,
                 int number,
+                [NotNull] byte[] format,
+                IntPtr buffer,
+                int bufferSize
+            );
+
+        /// <summary>
+        /// Получение списка ссылок для заданного термина.
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="term">Исходный термин.</param>
+        /// <param name="number">Количество запрашиваемых ссылок;
+        /// если задается 0 – будут выдаваться все  ссылки термина,
+        /// но не более, чем MAX_POSTINGS_IN_PACKET.</param>
+        /// <param name="first">Порядковый номер первой из запрашиваемых
+        /// ссылок; если задается 0 – то функция возвращает только
+        /// общее количество ссылок заданного термина.</param>
+        /// <param name="buffer">Буфер для возвращаемых данных.</param>
+        /// <param name="bufferSize">Размер буфера.</param>
+        /// <returns>Код возврата – ZERO, если термин найден;
+        /// общее число ссылок, если Afirst=0; или код ошибки.</returns>
+        /// <remarks><para>При коде возврата ZERO буфер содержит набор строк,
+        /// каждая из которых является ссылкой вида:</para>
+        /// <para>mfn#tag#occ#pos#</para>
+        /// <para>Для выделения отдельных составляющих ссылки следует
+        /// пользоваться вспомогательной функцией IC_getposting.
+        /// </para>
+        /// </remarks>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern int IC_posting
+            (
+                [NotNull] string database,
+                [NotNull] byte[] term,
+                int number,
+                int first,
+                IntPtr buffer,
+                int bufferSize
+            );
+
+        /// <summary>
+        /// Получение списка первых ссылок для списка заданных терминов.
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="terms">Буфер со списком исходных терминов в виде набора строк.</param>
+        /// <param name="buffer">Буфер для возвращаемых данных.</param>
+        /// <param name="bufferSize">Размер буфера.</param>
+        /// <returns>Код возврата определяется тем, найден ли первый
+        /// термин из заданного списка: ZERO, если термин найден;
+        /// код ошибки в противном случае.
+        /// </returns>
+        /// <remarks>
+        /// <para>Буфер будет содержать набор строк (по количеству
+        /// исходных терминов), каждая из которых имеет структуру:
+        /// </para>
+        /// <para>
+        /// nnn#ссылка
+        /// </para>
+        /// <para>
+        /// где nnn – общее количество ссылок для соответствующего термина,
+        /// ссылка - первая ссылка термина.
+        /// </para>
+        /// <para>
+        /// Если соответствующий термин не найден в словаре,
+        /// nnn=0, а ссылка - пустая строка.
+        /// </para>
+        /// </remarks>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_postinggroup
+            (
+                [NotNull] string database,
+                [NotNull] byte[] terms,
+                [NotNull] byte[] buffer,
+                int bufferSize
+            );
+
+        /// <summary>
+        /// Получение списка ссылок для заданного термина
+        /// и расформатирование записей им соответствующих.
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="term">Исходный термин.</param>
+        /// <param name="number">Количество запрашиваемых ссылок;
+        /// если задается 0 – будут выдаваться все  ссылки термина,
+        /// но не более, чем MAX_POSTINGS_IN_PACKET.</param>
+        /// <param name="first">Порядковый номер первой из запрашиваемых
+        /// ссылок; если задается 0 – то функция возвращает только
+        /// общее количество ссылок заданного термина.</param>
+        /// <param name="format">Формат, который может задаваться
+        /// пятью способами:
+        /// <list type="bullet">
+        /// <item>строка непосредственного формата на языке
+        /// форматирования ИРБИС;</item>
+        /// <item>имя файла формата, предваряемого символом
+        /// @ (например @brief);</item>
+        /// <item>символ @ - в этом случае производится
+        /// ОПТИМИЗИРОВАННОЕ форматирование (т. е. имя формата
+        /// определяется видом записи);</item>
+        /// <item>символ * - в этом случае производится форматирование
+        /// строго в соответствии со ссылкой (например для ссылки
+        /// в виде 1.200.2.3 берется 2-е повторение 200-го поля);</item>
+        /// <item>пустая строка.В этом случае возвращается только
+        /// список терминов.</item>
+        /// </list>
+        /// Во всех случаях перед форматированием выполняется
+        /// следующая операция - в любом формате специальное
+        /// сочетание символов вида*** (3 звездочки) заменяется
+        /// на значение метки поля, взятое из 1-й ссылки для данного
+        /// термина (например, для ссылки 1.200.1.1 формат
+        /// вида v*** будет заменен на v200).
+        /// </param>
+        /// <param name="buffer1">Буфер для возвращаемых результатов
+        /// расформатирования.</param>
+        /// <param name="bufferSize1">Размер <paramref name="buffer1"/>.
+        /// </param>
+        /// <param name="buffer2">Буфер для возвращаемого списка ссылок.
+        /// </param>
+        /// <param name="bufferSize2">Размер <paramref name="buffer2" />.
+        /// </param>
+        /// <returns>Код возврата определяется тем, найден ли
+        /// исходный термин: ZERO, если найден;
+        /// код ошибки в противном случае.</returns>
+        /// <remarks>
+        /// <para> buffer1 будет содержать набор строк, каждая из которых
+        /// имеет следующую структуру:</para>
+        /// <para>mfn#результат расформатирования</para>
+        /// <para>где:</para>
+        /// <para>mfn – MFN соответствующей записи;</para>
+        /// <para>результат расформатирования соответствующей записи,
+        /// в котором реальные разделители строк $0D0A заменены 
+        /// на псевдоразделители $3130;</para>
+        /// <para>buffer2 будет содержать набор строк (соответствующих
+        /// строкам в buffer1), каждая из которых содержит ссылку в виде:
+        /// </para>
+        /// <para>mfn#tag#occ#pos#</para>
+        /// </remarks>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_postingformat
+            (
+                [NotNull] string database,
+                [NotNull] byte[] term,
+                int number,
+                int first,
+                [NotNull] byte[] format,
+                IntPtr buffer1,
+                int bufferSize1,
+                IntPtr buffer2,
+                int bufferSize2
+            );
+
+        /// <summary>
+        /// Расформатирование записи, заданной по номеру (MFN).
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="mfn">MFN исходной записи.</param>
+        /// <param name="format">Формат для расформатирования исходной
+        /// записи, может быть задан следующими способами:
+        /// – строка непосредственного формата на языке форматирвания ИРБИС;
+        /// – имя файла формата, предваряемого символом @ (например @brief);
+        /// – символ @ - в этом случае производится ОПТИМИЗИРОВАННОЕ
+        /// форматирование (т. е. имя формата определяется видом записи);
+        /// </param>
+        /// <param name="buffer">Буфер для возвращаемых данных.</param>
+        /// <param name="bufferSize">Размер буфера.</param>
+        /// <returns>Код возврата – код завершения форматирования
+        /// или код ошибки.</returns>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_sformat
+            (
+                [NotNull] string database,
+                int mfn,
+                [NotNull] byte[] format,
+                IntPtr buffer,
+                int bufferSize
+            );
+
+        /// <summary>
+        /// Расформатирование записи в клиентском представлении.
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="format">Формат для расформатирования исходной
+        /// записи, может быть задан следующими способами:
+        /// – строка непосредственного формата на языке форматирвания ИРБИС;
+        /// – имя файла формата, предваряемого символом @ (например @brief);
+        /// – символ @ - в этом случае производится ОПТИМИЗИРОВАННОЕ
+        /// форматирование (т. е. имя формата определяется видом записи);
+        /// </param>
+        /// <param name="record">Буфер, содержащий исходную запись
+        /// в клиентском представлении (см. описание функции IC_read).
+        /// </param>
+        /// <param name="buffer">Буфер для возвращаемых данных.</param>
+        /// <param name="bufferSize">Размер буфера.</param>
+        /// <returns>Код возврата – код завершения форматирования
+        /// или код ошибки.</returns>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_record_sformat
+            (
+                [NotNull] string database,
+                [NotNull] byte[] format,
+                [NotNull] byte[] record,
+                IntPtr buffer,
+                int bufferSize
+            );
+
+        /// <summary>
+        /// Расформатирование группы записей.
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="mfnList">Буфер, содержащий сведения
+        /// об исходных записях; может быть двух видов:
+        /// 1) набор из трех строк, следующего вида:
+        /// 0
+        /// minMfn
+        /// maxMfn
+        ///
+        /// где minMfn  и maxMfn определяют диапазон MFN документов,
+        /// подлежащих расформатированию;
+        /// 2) набор строк следующего вида:
+        /// N
+        /// mfn1
+        /// mfn2
+        /// ...
+        /// mfnN
+        /// где N – количество документов, подлежащих расформатированию.
+        /// </param>
+        /// <param name="format">Формат для расформатирования исходной
+        /// записи, может быть задан следующими способами:
+        /// – строка непосредственного формата на языке форматирвания ИРБИС;
+        /// – имя файла формата, предваряемого символом @ (например @brief);
+        /// – символ @ - в этом случае производится ОПТИМИЗИРОВАННОЕ
+        /// форматирование (т. е. имя формата определяется видом записи);
+        /// </param>
+        /// <param name="buffer">Буфер для возвращаемых данных.</param>
+        /// <param name="bufferSize">Размер буфера.</param>
+        /// <returns>Код возврата – код завершения форматирования
+        /// или код ошибки.</returns>
+        /// <remarks>
+        /// По возврату <paramref name="buffer"/> будет содержать
+        /// набор строк, каждая из которых имеет структуру:
+        /// mfn#результат расформатирования
+        /// где:
+        /// mfn – MFN соответствующей записи;
+        /// - результат расформатирования соответствующей записи,
+        /// в котором реальные разделители строк $0D0A заменены
+        /// на псевдоразделители $3130.
+        /// </remarks>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_sformatgroup
+            (
+                [NotNull] string database,
+                [NotNull] string mfnList,
                 [NotNull] byte[] format,
                 IntPtr buffer,
                 int bufferSize
