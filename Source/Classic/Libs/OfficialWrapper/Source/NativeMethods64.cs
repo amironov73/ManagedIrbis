@@ -1382,6 +1382,132 @@ namespace OfficialWrapper
                 int bufferSize
             );
 
+        /// <summary>
+        /// Формирование выходной табличной формы.
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="table">Имя табличной формы
+        /// с предшествующим символом @ (например: @tabflw).</param>
+        /// <param name="head">Заголовки над таблицей (до 3 строк).
+        /// Реальные разделители строк $0D0A заменены
+        /// на псевдоразделители $3130.</param>
+        /// <param name="model">Значение модельного поля,
+        /// которое передается (только на период расформатирования)
+        /// в каждую результирующую запись.</param>
+        /// <param name="search">Поисковое выражение для прямого
+        /// поиска на языке ИРБИС.</param>
+        /// <param name="minMfn">Минимальный MFN или 0.</param>
+        /// <param name="maxMfn">Максимальный MFN или 0.</param>
+        /// <param name="sequential">Выражение для последовательного
+        /// поиска.</param>
+        /// <param name="mfnList">Список MFN записей,
+        /// организованный одним из трех следующих способов:
+        /// 1) диапазон номеров – в виде трех строк следующей структуры:
+        /// 0
+        /// minmfn
+        /// maxmfn
+        /// 2) список номеров – в виде набора строк:
+        /// N
+        /// mfn1
+        /// mfn2
+        /// ...
+        /// mfnN
+        /// 3) отрицательный список номеров(«кроме указанных»)
+        /// – в виде набора строк:
+        /// -N
+        /// mfn1
+        /// mfn2
+        /// ...
+        /// mfnN
+        /// </param>
+        /// <param name="buffer">Буфер для возвращаемых данных.</param>
+        /// <param name="bufferSize">Размер буфера.</param>
+        /// <returns>Код возврата – ZERO или код ошибки.</returns>
+        /// <remarks>
+        /// Список результирующих документов формируется как результат
+        /// пересечения трех списков:
+        /// - списка записей, найденных в результате прямого поиска
+        /// (search);
+        /// - списка записей, полученных в результате последовательного
+        /// поиска (minMfn, maxMfn, sequential);
+        /// - списка записей, указанных с помощью mfnList.
+        /// </remarks>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_print
+            (
+                [NotNull] string database,
+                [NotNull] string table,
+                [NotNull] byte[] head,
+                [NotNull] byte[] model,
+                [NotNull] byte[] search,
+                int minMfn,
+                int maxMfn,
+                [NotNull] byte[] sequential,
+                [NotNull] string mfnList,
+                IntPtr buffer,
+                int bufferSize
+            );
+
+        /// <summary>
+        /// Формирование выходной формы в виде статистических распределений.
+        /// </summary>
+        /// <param name="database">Имя базы данных.</param>
+        /// <param name="stat">Список заданий на статистическую обработку,
+        /// в виде набора строк, в котором реальные разделители
+        /// строк $0D0A заменены на псевдоразделители $3130.
+        /// Каждое задание представляет собой строку вида:
+        /// FMT,N1,N2,N3
+        /// где:
+        /// FMT – элемент данных, задаваемый в виде поле^подполе
+        /// (например 200^a) или как непосредственный формат
+        /// на языке форматирования ИРБИС;
+        /// N1 – анализируемая длина элемента данных;
+        /// N2 – максимальное количество значений элемента данных;
+        /// N3 – вид сортировки, который может принимать три значения:
+        /// 0 – без сортировки;
+        /// 1 – сортировка по убыванию;
+        /// 2 – сортировка по возрастанию.
+        /// </param>
+        /// <param name="minMfn">Минимальный MFN или 0.</param>
+        /// <param name="maxMfn">Максимальный MFN или 0.</param>
+        /// <param name="sequential">Выражение для последовательного
+        /// поиска.</param>
+        /// <param name="mfnList">Список MFN записей,
+        /// организованный одним из трех следующих способов:
+        /// 1) диапазон номеров – в виде трех строк следующей структуры:
+        /// 0
+        /// minmfn
+        /// maxmfn
+        /// 2) список номеров – в виде набора строк:
+        /// N
+        /// mfn1
+        /// mfn2
+        /// ...
+        /// mfnN
+        /// 3) отрицательный список номеров(«кроме указанных»)
+        /// – в виде набора строк:
+        /// -N
+        /// mfn1
+        /// mfn2
+        /// ...
+        /// mfnN
+        /// </param>
+        /// <param name="buffer">Буфер для возвращаемых данных.</param>
+        /// <param name="bufferSize">Размер буфера.</param>
+        /// <returns>Код возврата – ZERO или код ошибки.</returns>
+        [DllImport(DllName, CallingConvention = CallingConvention.StdCall)]
+        public static extern IrbisReturnCode IC_stat
+            (
+                [NotNull] string database,
+                [NotNull] byte[] stat,
+                int minMfn,
+                int maxMfn,
+                [NotNull] byte[] sequential,
+                [NotNull] string mfnList,
+                IntPtr buffer,
+                int bufferSize
+            );
+
         #endregion
 
         #region Utility routines

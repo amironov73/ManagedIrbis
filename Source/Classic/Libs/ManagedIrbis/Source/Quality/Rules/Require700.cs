@@ -14,10 +14,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Fields;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -36,17 +38,42 @@ namespace ManagedIrbis.Quality.Rules
     {
         #region Private members
 
+        private void _CheckField
+            (
+                RuleContext context,
+                RecordField field
+            )
+        {
+            AuthorInfo author = AuthorInfo.ParseField700(field);
+            if (!ReferenceEquals(author, null))
+            {
+                if (!string.IsNullOrEmpty(author.Initials)
+                    && !string.IsNullOrEmpty(author.FullName))
+                {
+                    if (author.Initials == author.FullName)
+                    {
+                        AddDefect
+                            (
+                                field,
+                                10,
+                                "Совпадают инициалы и расширение"
+                            );
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region QualityRule members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="QualityRule.FieldSpec" />
         public override string FieldSpec
         {
             get { return "70[01]"; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="QualityRule.CheckRecord" />
         public override RuleReport CheckRecord
             (
                 RuleContext context
@@ -54,9 +81,17 @@ namespace ManagedIrbis.Quality.Rules
         {
             BeginCheck(context);
 
+            MarcRecord record = Record.ThrowIfNull("Record");
+
+            foreach (RecordField field
+                in record.Fields.GetFieldBySpec(FieldSpec))
+            {
+                _CheckField(context, field);
+            }
+
             if (IsPazk())
             {
-                RecordField[] fields = Record.Fields
+                RecordField[] fields = record.Fields
                     .GetFieldBySpec("7[01][012]");
                 if (fields.Length == 0)
                 {
