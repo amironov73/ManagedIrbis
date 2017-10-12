@@ -172,7 +172,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+9L", UniforPlus9.FileExist);
             Registry.Add("+9S", UniforPlus9.FindSubstring);
             Registry.Add("+9V", UniforPlus9.GetGeneration);
-            Registry.Add("+D", GetDatabaseName);
+            Registry.Add("+D", UniforPlusD.GetDatabaseName);
             Registry.Add("+E", GetFieldIndex);
             Registry.Add("+F", CleanRtf);
             Registry.Add("+I", UniforPlusI.BuildLink);
@@ -318,26 +318,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 string text = record.ToPlainText();
                 context.Write(node, text);
-                context.OutputFlag = true;
-            }
-        }
-
-        // ================================================================
-
-        /// <summary>
-        /// Get current database name.
-        /// </summary>
-        public static void GetDatabaseName
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            string output = context.Provider.Database;
-            if (!string.IsNullOrEmpty(output))
-            {
-                context.Write(node, output);
                 context.OutputFlag = true;
             }
         }
