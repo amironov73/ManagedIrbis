@@ -10,17 +10,13 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using AM.Windows.Forms;
 
 using DevExpress.LookAndFeel;
 using DevExpress.Skins;
-using DevExpress.XtraEditors;
 
 using CM = System.Configuration.ConfigurationManager;
 

@@ -20,20 +20,25 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using AM;
 using AM.Text;
 using AM.Windows.Forms;
 
+using DevExpress.XtraEditors;
+
+using JetBrains.Annotations;
+
 using ManagedIrbis;
+using ManagedIrbis.Fields;
 using ManagedIrbis.Menus;
 using ManagedIrbis.Statistics;
 
-using DevExpress.XtraEditors;
-using IrbisUI;
-using ManagedIrbis.Fields;
 using CM = System.Configuration.ConfigurationManager;
 
 #endregion
+
+// ReSharper disable CoVariantArrayConversion
 
 namespace Inventory2017
 {
@@ -42,6 +47,7 @@ namespace Inventory2017
     {
         #region Properties
 
+        [CanBeNull]
         public string CurrentFond
         {
             get
@@ -51,11 +57,25 @@ namespace Inventory2017
                     return null;
                 }
 
-                MenuEntry entry
-                    = _fondBox.SelectedItem as MenuEntry;
-                return entry == null
-                    ? null
-                    : entry.Code;
+                MenuEntry entry = _fondBox.SelectedItem as MenuEntry;
+
+                return entry?.Code;
+            }
+        }
+
+        [CanBeNull]
+        public string CurrentCollection
+        {
+            get
+            {
+                if (_collectionBox.DroppedDown)
+                {
+                    return null;
+                }
+
+                MenuEntry entry = _collectionBox.SelectedItem as MenuEntry;
+
+                return entry?.Code;
             }
         }
 
@@ -116,6 +136,11 @@ namespace Inventory2017
             MenuFile menu = _client.ReadMenu(mhr);
             MenuEntry[] entries = menu.SortEntries(MenuSort.ByCode);
             _fondBox.Items.AddRange(entries);
+
+            string coll = CM.AppSettings["coll"];
+            menu = _client.ReadMenu(coll);
+            entries = menu.SortEntries(MenuSort.ByCode);
+            _collectionBox.Items.AddRange(entries);
         }
 
         private void _SetHtml
@@ -288,7 +313,7 @@ namespace Inventory2017
                     NumberText fn = fromNumber,
                         tn = toNumber,
                         n = number;
-                    if ((fn > n) || (tn < n))
+                    if (fn > n || tn < n)
                     {
                         diagnosis.AppendFormat
                             (
@@ -370,73 +395,73 @@ namespace Inventory2017
                 EventArgs e
             )
         {
-            //try
-            //{
-            //    if (_emulation == null)
-            //    {
-            //        string emulationFile = CM.AppSettings["emulation"];
-            //        if (!string.IsNullOrEmpty(emulationFile))
-            //        {
-            //            _emulation = File.ReadAllLines(emulationFile)
-            //                .ToList();
-            //            _logBox.Output.WriteLine
-            //                (
-            //                    "Включена эмуляция RFID из файла {0}",
-            //                    emulationFile
-            //                );
-            //        }
-            //        else
-            //        {
-            //            if (_rfid == null)
-            //            {
-            //                string readerName = CM.AppSettings["rfid-reader"];
+            try
+            {
+                //    if (_emulation == null)
+                //    {
+                //        string emulationFile = CM.AppSettings["emulation"];
+                //        if (!string.IsNullOrEmpty(emulationFile))
+                //        {
+                //            _emulation = File.ReadAllLines(emulationFile)
+                //                .ToList();
+                //            _logBox.Output.WriteLine
+                //                (
+                //                    "Включена эмуляция RFID из файла {0}",
+                //                    emulationFile
+                //                );
+                //        }
+                //        else
+                //        {
+                //            if (_rfid == null)
+                //            {
+                //                string readerName = CM.AppSettings["rfid-reader"];
 
-            //                _rfid = new RfidReader(readerName);
-            //                _logBox.Output.WriteLine
-            //                    (
-            //                        "Открыт RFID-считыватель: {0}",
-            //                        readerName
-            //                    );
-            //            }
-            //        }
-            //    }
+                //                _rfid = new RfidReader(readerName);
+                //                _logBox.Output.WriteLine
+                //                    (
+                //                        "Открыт RFID-считыватель: {0}",
+                //                        readerName
+                //                    );
+                //            }
+                //        }
+                //    }
 
-            //    if (_client == null)
-            //    {
-            //        _InitClient();
-            //    }
-            //    else
-            //    {
-            //        try
-            //        {
-            //            _client.NoOp();
+                if (_client == null)
+                {
+                    _InitClient();
+                }
+                else
+                {
+                    try
+                    {
+                        _client.NoOp();
 
-            //            _ReadRfid();
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            _logBox.Output.WriteErrorLine
-            //                (
-            //                    "Ошибка: {0}",
-            //                    ex.Message
-            //                );
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    _logBox.Output.WriteErrorLine
-            //        (
-            //            "Функционирование остановлено из-за ошибки: {0}",
-            //            ex.ToString()
-            //        );
-            //    _SetHtml
-            //        (
-            //            "Функционирование остановлено из-за ошибки: {0}",
-            //            ex.ToString()
-            //        );
-            //    _idleTimer.Enabled = false;
-            //}
+                        _ReadRfid();
+                    }
+                    catch (Exception ex)
+                    {
+                        _logBox.Output.WriteErrorLine
+                            (
+                                "Ошибка: {0}",
+                                ex.Message
+                            );
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logBox.Output.WriteErrorLine
+                    (
+                        "Функционирование остановлено из-за ошибки: {0}",
+                        ex.ToString()
+                    );
+                _SetHtml
+                    (
+                        "Функционирование остановлено из-за ошибки: {0}",
+                        ex.ToString()
+                    );
+                _idleTimer.Enabled = false;
+            }
         }
 
         private void MainForm_FormClosed
@@ -464,18 +489,17 @@ namespace Inventory2017
                 EventArgs e
             )
         {
-            if ((_currentRecord == null)
-                || (_currentExemplar == null))
+            if (_currentRecord == null
+                || _currentExemplar == null)
             {
                 XtraMessageBox.Show
                     (
-                        "Невозможно подтвердить метку"
+                        "Невозможно подтвердить книгу"
                     );
                 return;
             }
 
-            RecordField field = _currentExemplar.UserData
-                as RecordField;
+            RecordField field = _currentExemplar.Field;
             if (field == null)
             {
                 return;
@@ -493,8 +517,8 @@ namespace Inventory2017
             stopwatch.Stop();
             _logBox.Output.WriteLine
                 (
-                    "Подтверждена метка {0}: {1} ({2})",
-                    _currentExemplar.Barcode,
+                    "Подтвержден номер {0}: {1} ({2})",
+                    _currentExemplar.Number,
                     _currentRecord.UserData,
                     stopwatch.Elapsed
                 );
@@ -545,8 +569,8 @@ namespace Inventory2017
                 EventArgs e
             )
         {
-            if ((_currentRecord == null)
-                || (_currentExemplar == null))
+            if (_currentRecord == null
+                || _currentExemplar == null)
             {
                 XtraMessageBox.Show
                     (
@@ -555,8 +579,7 @@ namespace Inventory2017
                 return;
             }
 
-            RecordField field = _currentExemplar.UserData
-                as RecordField;
+            RecordField field = _currentExemplar.Field;
             if (field == null)
             {
                 return;
@@ -574,8 +597,8 @@ namespace Inventory2017
             stopwatch.Stop();
             _logBox.Output.WriteLine
                 (
-                    "Исправлено место/статус для метки {0}: {1} ({2})",
-                    _currentExemplar.Barcode,
+                    "Исправлено место/статус для номера {0}: {1} ({2})",
+                    _currentExemplar.Number,
                     _currentRecord.UserData,
                     stopwatch.Elapsed
                 );
@@ -592,8 +615,8 @@ namespace Inventory2017
                 EventArgs e
             )
         {
-            if ((_currentRecord == null)
-                || (_currentExemplar == null))
+            if (_currentRecord == null
+                || _currentExemplar == null)
             {
                 XtraMessageBox.Show
                     (
@@ -675,8 +698,8 @@ namespace Inventory2017
                 EventArgs e
             )
         {
-            if ((_currentRecord == null)
-                || (_currentExemplar == null))
+            if (_currentRecord == null
+                || _currentExemplar == null)
             {
                 XtraMessageBox.Show
                     (
@@ -686,8 +709,7 @@ namespace Inventory2017
             }
 
             string processing = CM.AppSettings["processing"];
-            RecordField field = _currentExemplar.UserData
-                as RecordField;
+            RecordField field = _currentExemplar.Field;
             if (field == null)
             {
                 return;
@@ -705,8 +727,8 @@ namespace Inventory2017
             stopwatch.Stop();
             _logBox.Output.WriteLine
                 (
-                    "Отложена метка {0}: {1} ({2})",
-                    _currentExemplar.Barcode,
+                    "Отложен номер {0}: {1} ({2})",
+                    _currentExemplar.Number,
                     _currentRecord.UserData,
                     stopwatch.Elapsed
                 );
@@ -716,6 +738,227 @@ namespace Inventory2017
             _currentRecord = null;
             _currentExemplar = null;
 
+        }
+
+        private void _HandleNumber
+            (
+                [CanBeNull] string number
+            )
+        {
+            _currentRecord = null;
+            _currentExemplar = null;
+            _SetHtml(string.Empty);
+
+            if (string.IsNullOrEmpty(number))
+            {
+                return;
+            }
+
+            _logBox.Output.WriteLine
+                (
+                    "Введен номер: {0}",
+                    number
+                );
+
+            string prefix = CM.AppSettings["prefix"];
+            int[] found = _client.Search
+                (
+                    "\"{0}{1}\"",
+                    prefix,
+                    number
+                );
+            if (found.Length == 0)
+            {
+                _SetHtml
+                    (
+                        "Не найден номер {0}",
+                        number
+                    );
+                return;
+            }
+            if (found.Length != 1)
+            {
+                _SetHtml
+                    (
+                        "Много записей для номера {0}",
+                        number
+                    );
+                return;
+            }
+
+            MarcRecord record = _client.ReadRecord(found[0]);
+            RecordField[] fields = record.Fields
+                .GetField(910)
+                .GetField('b', number);
+
+            if (fields.Length == 0)
+            {
+                _SetHtml
+                    (
+                        "Не найдено поле с номером {0}",
+                        number
+                    );
+                return;
+            }
+            if (fields.Length != 1)
+            {
+                _SetHtml
+                    (
+                        "Много полей с номером {0}",
+                        number
+                    );
+                return;
+            }
+
+            ExemplarInfo exemplar = ExemplarInfo.Parse(fields[0]);
+
+            StringBuilder diagnosis = new StringBuilder();
+            diagnosis.AppendFormat
+                (
+                    "<b>{0}</b><br/>",
+                    number
+                );
+            if (!string.IsNullOrEmpty(exemplar.RealPlace))
+            {
+                diagnosis.AppendFormat
+                    (
+                        "<font color='red'>Экземпляр уже был проверен "
+                        + "в фонде</font> <b>{0}</b> ({1})<br/>",
+                        exemplar.RealPlace,
+                        exemplar.CheckedDate
+                    );
+            }
+            if (exemplar.Status != "0")
+            {
+                diagnosis.AppendFormat
+                    (
+                        "<font color='red'>Неверный статус "
+                        + "экземпляра: </font><b>{0}</b><br/>",
+                        exemplar.Status
+                    );
+            }
+            if (!exemplar.Place.SameString(CurrentFond))
+            {
+                diagnosis.AppendFormat
+                    (
+                        "<font color='red'>Неверное место хранения "
+                        + "экземпляра: </font><b>{0}</b><br/>",
+                        exemplar.Place
+                    );
+            }
+            string currentShelf = CurrentShelf;
+            if (!string.IsNullOrEmpty(currentShelf))
+            {
+                string[] items = currentShelf
+                    .Split(',', ';')
+                    .Select(item => item.Trim())
+                    .NonEmptyLines()
+                    .Select(item => item.ToUpperInvariant())
+                    .ToArray();
+
+                string shelf = record.FM(906);
+                if (string.IsNullOrEmpty(shelf))
+                {
+                    diagnosis.AppendFormat
+                        (
+                            "<font color='red'>Для книги не указан "
+                            + "расстановочный шифр</font><br/>"
+                        );
+                }
+                else if (items.Length != 0)
+                {
+                    shelf = shelf.ToUpperInvariant();
+                    bool good = false;
+                    foreach (string item in items)
+                    {
+                        if (shelf.StartsWith(item))
+                        {
+                            good = true;
+                            break;
+                        }
+                    }
+                    if (!good)
+                    {
+                        diagnosis.AppendFormat
+                            (
+                                "<font color='red'>Неверный шифр: "
+                                + "</font><b>{0}</b><br/>",
+                                shelf
+                            );
+                    }
+                }
+            }
+
+            string currentCollection = CurrentCollection;
+            if (!string.IsNullOrEmpty(currentCollection))
+            {
+                string collection = exemplar.Collection;
+                if (currentCollection != collection)
+                {
+                    if (string.IsNullOrEmpty(collection))
+                    {
+                        diagnosis.AppendFormat
+                            (
+                                "<font color='red'>Для книги не указана "
+                                + "коллекция"
+                            );
+                    }
+                    else
+                    {
+                        diagnosis.AppendFormat
+                            (
+                                "<font color='red'>Неверная коллекция: "
+                                + "</font><b>{0}</b><br/>",
+                                collection
+                            );
+                    }
+                }
+            }
+
+            diagnosis.AppendLine("<br/>");
+
+            string cardFormat = CM.AppSettings["card-format"];
+            string briefDescription = _client.FormatRecord
+                (
+                    cardFormat,
+                    record.Mfn
+                ).Trim();
+            diagnosis.Append(briefDescription);
+            record.UserData = briefDescription;
+
+            _SetHtml
+                (
+                    "{0}",
+                    diagnosis.ToString()
+                );
+
+            _currentRecord = record;
+            _currentExemplar = exemplar;
+        }
+
+        private void _numberBox_KeyDown
+            (
+                object sender,
+                KeyEventArgs e
+            )
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                e.Handled = true;
+                string number = _numberBox.Text.Trim();
+                _numberBox.Clear();
+                _HandleNumber(number);
+                _numberBox.Focus();
+            }
+        }
+
+        private void _clearCollectionButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            _collectionBox.SelectedItem = null;
         }
     }
 }

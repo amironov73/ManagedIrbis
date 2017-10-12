@@ -235,6 +235,7 @@
     <Compile Include="Source\ViewForm.Designer.cs">
       <DependentUpon>ViewForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -275,6 +276,10 @@
     <ProjectReference Include="..\..\Libs\AM.Drawing\AM.Drawing.csproj">
       <Project>{f64c8161-d6e3-4d78-88db-c1787f4fe981}</Project>
       <Name>AM.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libs\AM.Rfid\AM.Rfid.csproj">
+      <Project>{51481c63-5d59-4ae1-927a-c94276b63c72}</Project>
+      <Name>AM.Rfid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Libs\AM.UI\AM.UI.csproj">
       <Project>{e9c1c881-8af0-4625-9494-956a1c331649}</Project>

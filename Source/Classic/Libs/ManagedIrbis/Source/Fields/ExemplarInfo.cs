@@ -386,6 +386,12 @@ namespace ManagedIrbis.Fields
         public MarcRecord Record { get; set; }
 
         /// <summary>
+        /// Associated <see cref="RecordField"/>.
+        /// </summary>
+        [CanBeNull]
+        public RecordField Field { get; set; }
+
+        /// <summary>
         /// Произвольные пользовательские данные.
         /// </summary>
         [CanBeNull]
@@ -444,7 +450,8 @@ namespace ManagedIrbis.Fields
                     OtherSubFields = field.SubFields
                         .Where(sub => KnownCodes
                             .IndexOf(char.ToLower(sub.Code)) < 0)
-                        .ToArray()
+                        .ToArray(),
+                    Field = field
                 };
 
             return result;

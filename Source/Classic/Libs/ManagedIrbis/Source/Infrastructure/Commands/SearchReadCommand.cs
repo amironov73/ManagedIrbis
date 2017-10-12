@@ -23,6 +23,8 @@ using MoonSharp.Interpreter;
 
 #endregion
 
+// ReSharper disable ConvertClosureToMethodGroup
+
 namespace ManagedIrbis.Infrastructure.Commands
 {
     /// <summary>
@@ -157,11 +159,9 @@ namespace ManagedIrbis.Infrastructure.Commands
 #endif
 
                         .Select
-                        (
-                            // ReSharper disable ConvertClosureToMethodGroup
-                            item => _ConvertRecord(item)
-                            // ReSharper restore ConvertClosureToMethodGroup
-                        )
+                            (
+                                item => _ConvertRecord(item)
+                            )
                         .ToArray();
                 }
             }
