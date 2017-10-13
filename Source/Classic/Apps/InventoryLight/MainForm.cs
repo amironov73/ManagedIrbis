@@ -1,38 +1,23 @@
-﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-
-/* MainForm.cs -- 
- * Ars Magna project, http://arsmagna.ru
- * -------------------------------------------------------
- * Status: poor
+﻿/* MainForm.cs
  */
 
 #region Using directives
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using AM;
-using AM.Text;
-using AM.Windows.Forms;
 
 using DevExpress.XtraEditors;
 
-using JetBrains.Annotations;
+using IrbisUI;
 
-using ManagedIrbis;
-using ManagedIrbis.Fields;
-using ManagedIrbis.Menus;
-using ManagedIrbis.Statistics;
+using ManagedClient;
+using ManagedClient.Fields;
 
 using CM = System.Configuration.ConfigurationManager;
 
@@ -40,14 +25,13 @@ using CM = System.Configuration.ConfigurationManager;
 
 // ReSharper disable CoVariantArrayConversion
 
-namespace Inventory2017
+namespace InventoryLight
 {
     public partial class MainForm
         : Form
     {
         #region Properties
 
-        [CanBeNull]
         public string CurrentFond
         {
             get
@@ -57,13 +41,12 @@ namespace Inventory2017
                     return null;
                 }
 
-                MenuEntry entry = _fondBox.SelectedItem as MenuEntry;
+                IrbisMenu.Entry entry = _fondBox.SelectedItem as IrbisMenu.Entry;
 
                 return entry?.Code;
             }
         }
 
-        [CanBeNull]
         public string CurrentCollection
         {
             get
@@ -73,7 +56,7 @@ namespace Inventory2017
                     return null;
                 }
 
-                MenuEntry entry = _collectionBox.SelectedItem as MenuEntry;
+                IrbisMenu.Entry entry = _collectionBox.SelectedItem as IrbisMenu.Entry;
 
                 return entry?.Code;
             }
@@ -114,17 +97,17 @@ namespace Inventory2017
 
         #region Private members
 
-        private IrbisConnection _client;
+        private ManagedClient64 _client;
         //private RfidReader _rfid;
         //private List<string> _emulation;
         //private int _currentEmulation;
 
-        private MarcRecord _currentRecord;
+        private IrbisRecord _currentRecord;
         private ExemplarInfo _currentExemplar;
 
         private void _InitClient()
         {
-            _client = IrbisConnectionUtility.GetClientFromConfig();
+            _client = _client = IrbisUtilities.GetClient();
             _logBox.Output.WriteLine
                 (
                     "Подключились к серверу {0}, база {1}",
@@ -133,13 +116,13 @@ namespace Inventory2017
                 );
 
             string mhr = CM.AppSettings["mhr"];
-            MenuFile menu = _client.ReadMenu(mhr);
-            MenuEntry[] entries = menu.SortEntries(MenuSort.ByCode);
+            IrbisMenu menu = IrbisMenu.Read(_client, mhr);
+            IrbisMenu.Entry[] entries = menu.SortEntries(IrbisMenu.Sort.ByCode);
             _fondBox.Items.AddRange(entries);
 
             string coll = CM.AppSettings["coll"];
-            menu = _client.ReadMenu(coll);
-            entries = menu.SortEntries(MenuSort.ByCode);
+            menu = IrbisMenu.Read(_client, coll);
+            entries = menu.SortEntries(IrbisMenu.Sort.ByCode);
             _collectionBox.Items.AddRange(entries);
         }
 
@@ -173,7 +156,7 @@ namespace Inventory2017
                 );
 
             string prefix = CM.AppSettings["prefix"];
-            MarcRecord[] found = _client.SearchRead
+            IrbisRecord[] found = _client.SearchRead
                 (
                     "\"{0}{1}\"",
                     prefix,
@@ -198,9 +181,9 @@ namespace Inventory2017
                 return;
             }
 
-            MarcRecord record = found[0];
+            IrbisRecord record = found[0];
             RecordField[] fields = record.Fields
-                .GetField(910)
+                .GetField("910")
                 .GetField('h', rfid);
 
             if (fields.Length == 0)
@@ -270,7 +253,7 @@ namespace Inventory2017
                     .Select(item => item.ToUpperInvariant())
                     .ToArray();
 
-                string shelf = record.FM(906);
+                string shelf = record.FM("906");
                 if (string.IsNullOrEmpty(shelf))
                 {
                     diagnosis.AppendFormat
@@ -499,7 +482,7 @@ namespace Inventory2017
                 return;
             }
 
-            RecordField field = _currentExemplar.Field;
+            RecordField field = _currentExemplar.UserData as RecordField;
             if (field == null)
             {
                 return;
@@ -584,7 +567,7 @@ namespace Inventory2017
                 return;
             }
 
-            RecordField field = _currentExemplar.Field;
+            RecordField field = _currentExemplar.UserData as RecordField;
             if (field == null)
             {
                 return;
@@ -654,7 +637,7 @@ namespace Inventory2017
                 return;
             }
 
-            string shelf = _currentRecord.FM(906);
+            string shelf = _currentRecord.FM("906");
             if (!string.IsNullOrEmpty(shelf))
             {
                 XtraMessageBox.Show
@@ -668,7 +651,7 @@ namespace Inventory2017
 
             _currentRecord.SetField
                 (
-                    906,
+                    "906",
                     currentShelf
                 );
 
@@ -714,7 +697,7 @@ namespace Inventory2017
             }
 
             string processing = CM.AppSettings["processing"];
-            RecordField field = _currentExemplar.Field;
+            RecordField field = _currentExemplar.UserData as RecordField;
             if (field == null)
             {
                 return;
@@ -747,7 +730,7 @@ namespace Inventory2017
 
         private void _HandleNumber
             (
-                [CanBeNull] string number
+                string number
             )
         {
             _currentRecord = null;
@@ -791,9 +774,9 @@ namespace Inventory2017
                 return;
             }
 
-            MarcRecord record = _client.ReadRecord(found[0]);
+            IrbisRecord record = _client.ReadRecord(found[0]);
             RecordField[] fields = record.Fields
-                .GetField(910)
+                .GetField("910")
                 .GetField('b', number);
 
             if (fields.Length == 0)
@@ -816,6 +799,7 @@ namespace Inventory2017
             }
 
             ExemplarInfo exemplar = ExemplarInfo.Parse(fields[0]);
+            exemplar.UserData = fields[0];
 
             StringBuilder diagnosis = new StringBuilder();
             diagnosis.AppendFormat
@@ -861,7 +845,7 @@ namespace Inventory2017
                     .Select(item => item.ToUpperInvariant())
                     .ToArray();
 
-                string shelf = record.FM(906);
+                string shelf = record.FM("906");
                 if (string.IsNullOrEmpty(shelf))
                 {
                     diagnosis.AppendFormat

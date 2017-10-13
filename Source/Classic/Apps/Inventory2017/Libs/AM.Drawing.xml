@@ -1,0 +1,1207 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AM.Drawing</name>
+    </assembly>
+    <members>
+        <member name="T:AM.Drawing.ColorUtility">
+            <summary>
+            <see cref="T:System.Drawing.Color"/> manipulation helper methods.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.ColorUtility.Tolerance">
+            <summary>
+            For comparing with zero.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.ColorUtility._Normalize(System.Single)">
+            <summary>
+            Нормализация компонента цвета.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.ColorUtility.Blend(System.Drawing.Color,System.Drawing.Color,System.Single)">
+            <summary>
+            Смешение двух цветов в заданной пропорции.
+            </summary>
+            <param name="color1">Первый цвет.</param>
+            <param name="color2">Второй цвет.</param>
+            <param name="amount">Доля второго цвета (число от 0 до 1,
+            0 - остается только первый цвет, 1 - остается только второй
+            цвет).</param>
+            <returns>Смешанный цвет.</returns>
+        </member>
+        <member name="M:AM.Drawing.ColorUtility.Darken(System.Drawing.Color,System.Single)">
+            <summary>
+            Затемнение цвета (на самом деле лишь подмешивание черного цвета).
+            </summary>
+            <param name="color">Затемняемый цвет.</param>
+            <param name="amount">Степень затемнения (доля черного цвета,
+            число от 0 до 1).</param>
+            <returns>Затемненный цвет.</returns>
+        </member>
+        <member name="M:AM.Drawing.ColorUtility.FromHls(System.Single,System.Single,System.Single)">
+            <summary>
+            Создает цвет из компонент "Hue/Luminance/Saturation".
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.ColorUtility.Lighten(System.Drawing.Color,System.Single)">
+            <summary>
+            Осветление цвета (на самом деле лишь подмешнивание белого цвета).
+            </summary>
+            <param name="color">Осветляемый цвет.</param>
+            <param name="amount">Степень осветления (доля белого цвета,
+            число от 0 до 1).</param>
+            <returns>Осветленный цвет.</returns>
+        </member>
+        <member name="M:AM.Drawing.ColorUtility.ToBgr(System.Drawing.Color)">
+            <summary>
+            Convert color to Blue-Green-Red representation.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.ColorUtility.ToColor(System.String)">
+            <summary>
+            Returns a color based on XAML color string.
+            </summary>
+            <param name="colorString">The color string.
+            Any format used in XAML should work.</param>
+            <returns>Parsed color</returns>
+            <remarks>
+            Borrowed from UWPCommunityToolkit:
+            https://github.com/Microsoft/UWPCommunityToolkit/blob/dev/Microsoft.Toolkit.Uwp/Helpers/ColorHelper.cs
+            </remarks>
+        </member>
+        <member name="T:AM.Drawing.FontUtility">
+            <summary>
+            <see cref="T:System.Drawing.Font"/> manipulation helper methods.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.FontUtility.FontToString(System.Drawing.Font)">
+            <summary>
+            Converts <see cref="T:System.Drawing.Font"/> to a <see cref="T:System.String"/>
+            (e. g. for XML serialization).
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.FontUtility.StringToFont(System.String)">
+            <summary>
+            Restores <see cref="T:System.Drawing.Font"/> from a <see cref="T:System.String"/>
+            (e. g. during XML deserialization).
+            </summary>
+        </member>
+        <member name="T:AM.Drawing.GraphicsStateSaver">
+            <summary>
+            Holds state of <see cref="T:System.Drawing.Graphics"/>
+            class.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.GraphicsStateSaver.#ctor(System.Drawing.Graphics)">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:GraphicsStateSaver"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.GraphicsStateSaver.Finalize">
+            <summary>
+            Releases unmanaged resources and performs 
+            other cleanup operations before the
+            <see cref="T:AM.Drawing.GraphicsStateSaver"/> 
+            is reclaimed by garbage collection.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.GraphicsStateSaver._graphics">
+            <summary>
+            Object of <see cref="T:System.Drawing.Graphics"/> type
+            which state have been saved.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.GraphicsStateSaver._state">
+            <summary>
+            Saved state itself.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.GraphicsStateSaver.Dispose(System.Boolean)">
+            <summary>
+            Disposes the object.
+            </summary>
+            <param name="disposing">if set to <c>true</c> 
+            [disposing].</param>
+        </member>
+        <member name="M:AM.Drawing.GraphicsStateSaver.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, 
+            releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:AM.Drawing.HslColor">
+            <summary>
+            Color in HSL colorspace.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.HslColor.MinComponentValue">
+            <summary>
+            Minimum value of <see cref="T:AM.Drawing.HslColor"/> component.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.HslColor.MaxComponentValue">
+            <summary>
+            Maximum value of <see cref="T:AM.Drawing.HslColor"/> component.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.HslColor.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HslColor"/> class.
+            </summary>
+            <param name="h">The h.</param>
+            <param name="s">The s.</param>
+            <param name="l">The l.</param>
+        </member>
+        <member name="M:AM.Drawing.HslColor.Equals(System.Object)">
+            <summary>
+            Indicates whether this instance and a specified object are equal.
+            </summary>
+            <param name="obj">Another object to compare to.</param>
+            <returns>
+            <c>true</c> if obj and this instance are the same type 
+            and represent the same value; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AM.Drawing.HslColor.GetHashCode">
+            <summary>
+            Returns the hash code for this instance.
+            </summary>
+            <returns>
+            A 32-bit signed integer that is the hash code for this instance.
+            </returns>
+        </member>
+        <member name="M:AM.Drawing.HslColor.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents 
+            the current <see cref="T:System.Object" />.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents 
+            the current <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="P:AM.Drawing.HslColor.H">
+            <summary>
+            Gets or sets H component value of the <see cref="T:AM.Drawing.HslColor"/>.
+            </summary>
+            <value>H component value.</value>
+        </member>
+        <member name="P:AM.Drawing.HslColor.L">
+            <summary>
+            Gets or sets L component value of the <see cref="T:AM.Drawing.HslColor"/>.
+            </summary>
+            <value>L component value.</value>
+        </member>
+        <member name="P:AM.Drawing.HslColor.S">
+            <summary>
+            Gets or sets S component value of the <see cref="T:AM.Drawing.HslColor"/>.
+            </summary>
+            <value>S component value.</value>
+        </member>
+        <member name="T:AM.Drawing.HsvColor">
+            <summary>
+            Color in HSV colorspace.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.HsvColor.MinComponentValue">
+            <summary>
+            Minimum value of <see cref="T:AM.Drawing.HsvColor"/> component.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.HsvColor.MaxComponentValue">
+            <summary>
+            Maximum value of <see cref="T:AM.Drawing.HsvColor"/> component.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.HsvColor.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HsvColor"/> class.
+            </summary>
+            <param name="h">The h.</param>
+            <param name="s">The s.</param>
+            <param name="v">The l.</param>
+        </member>
+        <member name="M:AM.Drawing.HsvColor.Equals(System.Object)">
+            <summary>
+            Indicates whether this instance and a specified object are equal.
+            </summary>
+            <param name="obj">Another object to compare to.</param>
+            <returns>
+            <c>true</c> if obj and this instance are the same type 
+            and represent the same value; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AM.Drawing.HsvColor.GetHashCode">
+            <summary>
+            Returns the hash code for this instance.
+            </summary>
+            <returns>
+            A 32-bit signed integer that is the hash code for this instance.
+            </returns>
+        </member>
+        <member name="M:AM.Drawing.HsvColor.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents 
+            the current <see cref="T:System.Object" />.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents 
+            the current <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="P:AM.Drawing.HsvColor.H">
+            <summary>
+            Gets or sets H component value of the <see cref="T:AM.Drawing.HsvColor"/>.
+            </summary>
+            <value>H component value.</value>
+        </member>
+        <member name="P:AM.Drawing.HsvColor.S">
+            <summary>
+            Gets or sets S component value of the <see cref="T:AM.Drawing.HsvColor"/>.
+            </summary>
+            <value>S component value.</value>
+        </member>
+        <member name="P:AM.Drawing.HsvColor.V">
+            <summary>
+            Gets or sets V component value of the <see cref="T:AM.Drawing.HsvColor"/>.
+            </summary>
+            <value>V component value.</value>
+        </member>
+        <member name="T:AM.Drawing.ImageInfo">
+            <summary>
+            General information about image.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.ImageInfo.Unspecified">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.ImageInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.ImageInfo.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.ImageInfo.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.ImageInfo.#ctor(System.Int32,System.Int32,System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ImageInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.ImageInfo._Clear">
+            <summary>
+            Initializes the instance.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.ImageInfo.FromFile(System.String)">
+            <summary>
+            Gets the image info.
+            </summary>
+            <param name="fileName">Name of the file.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AM.Drawing.ImageInfo.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"></see>
+            that represents the current
+            <see cref="T:System.Object"></see>.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"></see>
+            that represents the current
+            <see cref="T:System.Object"></see>.
+            </returns>
+        </member>
+        <member name="P:AM.Drawing.ImageInfo.Colors">
+            <summary>
+            Gets the colors.
+            </summary>
+        </member>
+        <member name="P:AM.Drawing.ImageInfo.FileName">
+            <summary>
+            Gets the name of the file.
+            </summary>
+        </member>
+        <member name="P:AM.Drawing.ImageInfo.Height">
+            <summary>
+            Gets the height.
+            </summary>
+        </member>
+        <member name="P:AM.Drawing.ImageInfo.HorizontalResolution">
+            <summary>
+            Gets the horizontal resolution.
+            </summary>
+        </member>
+        <member name="P:AM.Drawing.ImageInfo.Length">
+            <summary>
+            Gets the length.
+            </summary>
+        </member>
+        <member name="P:AM.Drawing.ImageInfo.Version">
+            <summary>
+            Gets the version.
+            </summary>
+        </member>
+        <member name="P:AM.Drawing.ImageInfo.VerticalResolution">
+            <summary>
+            Gets the vertical resolution.
+            </summary>
+        </member>
+        <member name="P:AM.Drawing.ImageInfo.Width">
+            <summary>
+            Gets the width.
+            </summary>
+        </member>
+        <member name="T:AM.Drawing.ImageUtility">
+            <summary>
+            Image manipulation helpers.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.ImageUtility.GetCodecInfo(System.String)">
+            <summary>
+            Get codec info.
+            </summary>
+            <param name="mimeType">For example "image/jpeg".
+            </param>
+            <returns>ImageCodeInfo or null.</returns>
+        </member>
+        <member name="M:AM.Drawing.ImageUtility.SaveToMemory(System.Drawing.Image,System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            Сохраняет картинку в памяти.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.ImageUtility.LoadFromMemory(System.Byte[])">
+            <summary>
+            Загружает картинку из памяти.
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AM.Drawing.ImageUtility.LoadFromFile(System.String)">
+            <summary>
+            Загружаем картинку из файла.
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+            <remarks>Этот нехитрый трюк нужен, чтобы не блокировать
+            файл, как это обычно делает System.Drawing.Image.FromFile().
+            </remarks>
+        </member>
+        <member name="M:AM.Drawing.ImageUtility.LoadFromResource(System.Reflection.Assembly,System.String)">
+            <summary>
+            Загружает картинку из ресурсов .NET.
+            </summary>
+            <param name="assembly"></param>
+            <param name="resourceName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AM.Drawing.ImageUtility.LoadFromResource(System.Type,System.String)">
+            <summary>
+            Загружает картинку из ресурсов .NET.
+            </summary>
+            <param name="type"></param>
+            <param name="resourceName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AM.Drawing.ImageUtility.ProportionalResize(System.Drawing.Image,System.Int32,System.Int32)">
+            <summary>
+            Пропорционально масштабирует изображение так, чтобы оно
+            вписывалось в указанные размеры.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.ImageUtility.SaveJpeg(System.Drawing.Image,System.String,System.Int64)">
+            <summary>
+            Save bitmap in JPEG file with given quality.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.ImageUtility.ReGamma(System.Drawing.Image,System.Single)">
+            <summary>
+            Получение копии рисунка с исправленной гаммой.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.ImageUtility.ReGamma(System.Drawing.Image,System.Drawing.Rectangle,System.Single)">
+            <summary>
+            Получение копии рисунка с исправленной гаммой.
+            </summary>
+        </member>
+        <member name="T:AM.Drawing.PaintUtility">
+            <summary>
+            General painting routines.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.BlendImages(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Single)">
+            <summary>
+            Смешение рисунков.
+            </summary>
+            <param name="bitmap1"></param>
+            <param name="bitmap2"></param>
+            <param name="amount">Степень проявления второго рисунка:
+            от 0.0f до 1.0f.</param>
+            <returns></returns>
+            <remarks>Результирующий рисунок имеет размер первого.
+            </remarks>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.CreateRoundedRectanglePath(System.Drawing.Rectangle,System.Drawing.Size)">
+            <summary>
+            Creates the rounded rectangle path.
+            </summary>
+            <param name="r">The r.</param>
+            <param name="s">The s.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.DrawBox3D(System.Drawing.Graphics,System.Drawing.Rectangle,System.Drawing.Size,System.Drawing.Brush,System.Drawing.Brush,System.Drawing.Pen)">
+            <summary>
+            Рисует трехмерную "коробку".
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.DrawCone(System.Drawing.Graphics,System.Drawing.Rectangle,System.Int32,System.Drawing.Brush,System.Drawing.Pen)">
+            <summary>
+            Рисует конус.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.DrawClosedCurve(System.Drawing.Graphics,System.Drawing.Brush,System.Drawing.Pen,System.Int32[])">
+            <summary>
+            Закрашивает и обводит замкнутую кривую линию.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.DrawCylinder(System.Drawing.Graphics,System.Drawing.Rectangle,System.Int32,System.Drawing.Brush,System.Drawing.Brush,System.Drawing.Pen)">
+            <summary>
+            Рисует цилиндр.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.DrawCylinder3D(System.Drawing.Graphics,System.Drawing.Rectangle,System.Int32,System.Drawing.Color,System.Drawing.Pen)">
+            <summary>
+            Рисование цилиндрика.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.DrawImageWithGamma(System.Drawing.Graphics,System.Drawing.Image,System.Drawing.Rectangle,System.Single)">
+            <summary>
+            Рисование с учетом гаммы.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.DrawLines(System.Drawing.Graphics,System.Drawing.Pen,System.Int32[])">
+            <summary>
+            Рисует линию.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.DrawPolygon(System.Drawing.Graphics,System.Drawing.Brush,System.Drawing.Pen,System.Int32[])">
+            <summary>
+            Закрашивает и обводит многоугольник.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.DrawRoundRectangle(System.Drawing.Graphics,System.Drawing.Pen,System.Drawing.Rectangle,System.Drawing.Size)">
+            <summary>
+            Рисует прямоугольник со скругленными углами.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.DrawSemitransparentImage(System.Drawing.Graphics,System.Drawing.Image,System.Drawing.Rectangle,System.Single)">
+            <summary>
+            Полупрозрачное рисование.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.FillRoundRectangle(System.Drawing.Graphics,System.Drawing.Brush,System.Drawing.Rectangle,System.Drawing.Size)">
+            <summary>
+            Закрашивает прямоугольник со скругленными углами.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.FitString(System.Drawing.Graphics,System.String,System.Drawing.Rectangle,System.Drawing.Font,System.Drawing.Brush,System.Drawing.Pen)">
+            <summary>
+            Вписывает текст в прямоугольник, заполняя его полностью.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.HollowString(System.Drawing.Graphics,System.String,System.Drawing.Rectangle,System.Drawing.Font,System.Drawing.Brush,System.Drawing.Pen,System.Int32,System.Drawing.StringFormat)">
+            <summary>
+            Выводит строку с толстой обводкой.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.NormalizeAngle(System.Single)">
+            <summary>
+            Нормализация угла, выраженного в градусах (приведение
+            к интервалу от 0 до 360 градусов).
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.PaintString(System.Drawing.Graphics,System.String,System.Drawing.Rectangle,System.Drawing.Font,System.Drawing.Brush,System.Drawing.Pen,System.Drawing.StringFormat)">
+            <summary>
+            Рисует текст с ободкой.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.Points(System.Int32[])">
+            <summary>
+            Создает массив точек.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.Points(System.Single[])">
+            <summary>
+            Создает массив точек.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.UniformCoordinateSystem(System.Drawing.Graphics,System.Drawing.Size)">
+            <summary>
+            Преобразует систему координат в очень простую: точка (0,0)
+            расположена точно в центре, от нее до любой границы ровно 1000
+            попугаев.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.DrawSphere(System.Drawing.Graphics,System.Drawing.Rectangle,System.Drawing.Color,System.Drawing.Pen)">
+            <summary>
+            Рисование шарика.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaintUtility.DrawPieSlice(System.Drawing.Graphics,System.Drawing.Rectangle,System.Single,System.Single,System.Int32,System.Drawing.Color,System.Drawing.Pen)">
+            <summary>
+            Рисование куска торта.
+            </summary>
+        </member>
+        <member name="T:AM.Drawing.Palette">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Palette.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AM.Drawing.Palette"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Palette.Finalize">
+            <summary>
+            Releases unmanaged resources and performs other cleanup operations before the
+            <see cref="T:AM.Drawing.Palette"/> is reclaimed by garbage collection.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Palette.Add(System.String,System.Drawing.Color)">
+            <summary>
+            Adds the specified name.
+            </summary>
+            <param name="name">The name.</param>
+            <param name="color">The color.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AM.Drawing.Palette.ClearItems">
+            <summary>
+            Removes all elements from the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Palette.InitializeFromAttributes">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Palette.GetTubeFromReflection">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AM.Drawing.Palette.InsertItem(System.Int32,AM.Drawing.Tube)">
+            <summary>
+            Inserts an element into the <see cref="T:System.Collections.ObjectModel.Collection`1"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which <paramref name="item"/> should be inserted.</param>
+            <param name="item">The object to insert. The value can be null for reference types.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            	<paramref name="index"/> is less than zero.
+            -or-
+            <paramref name="index"/> is greater than <see cref="P:System.Collections.ObjectModel.Collection`1.Count"/>.
+            </exception>
+        </member>
+        <member name="M:AM.Drawing.Palette.RemoveItem(System.Int32)">
+            <summary>
+            Removes the element at the specified index of the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </summary>
+            <param name="index">The zero-based index of the element to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            	<paramref name="index"/> is less than zero.
+            -or-
+            <paramref name="index"/> is equal to or greater than <see cref="P:System.Collections.ObjectModel.Collection`1.Count"/>.
+            </exception>
+        </member>
+        <member name="M:AM.Drawing.Palette.SetItem(System.Int32,AM.Drawing.Tube)">
+            <summary>
+            Replaces the element at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the element to replace.</param>
+            <param name="item">The new value for the element at the specified index. The value can be null for reference types.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            	<paramref name="index"/> is less than zero.
+            -or-
+            <paramref name="index"/> is greater than <see cref="P:System.Collections.ObjectModel.Collection`1.Count"/>.
+            </exception>
+        </member>
+        <member name="M:AM.Drawing.Palette.Save(System.String)">
+            <summary>
+            Saves the specified file name.
+            </summary>
+            <param name="fileName">Name of the file.</param>
+        </member>
+        <member name="M:AM.Drawing.Palette.Read(System.String)">
+            <summary>
+            Reads the specified file name.
+            </summary>
+            <param name="fileName">Name of the file.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AM.Drawing.Palette.Remove(System.String)">
+            <summary>
+            Removes the specified name.
+            </summary>
+            <param name="name">The name.</param>
+        </member>
+        <member name="M:AM.Drawing.Palette.Dispose">
+            <summary>
+            Performs application-defined tasks associated 
+            with freeing, releasing, or resetting unmanaged 
+            resources.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Palette.System#Xml#Serialization#IXmlSerializable#GetSchema">
+            <summary>
+            This method is reserved and should not be used. When implementing the IXmlSerializable interface, you should return null (Nothing in Visual Basic) from this method, and instead, if specifying a custom schema is required, apply the <see cref="T:System.Xml.Serialization.XmlSchemaProviderAttribute"/> to the class.
+            </summary>
+            <returns>
+            An <see cref="T:System.Xml.Schema.XmlSchema"/> that describes the XML representation of the object that is produced by the <see cref="M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)"/> method and consumed by the <see cref="M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)"/> method.
+            </returns>
+        </member>
+        <member name="M:AM.Drawing.Palette.System#Xml#Serialization#IXmlSerializable#ReadXml(System.Xml.XmlReader)">
+            <summary>
+            Generates an object from its XML representation.
+            </summary>
+            <param name="reader">The <see cref="T:System.Xml.XmlReader"/> stream from which the object is deserialized.</param>
+        </member>
+        <member name="M:AM.Drawing.Palette.System#Xml#Serialization#IXmlSerializable#WriteXml(System.Xml.XmlWriter)">
+            <summary>
+            Converts an object into its XML representation.
+            </summary>
+            <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized.</param>
+        </member>
+        <member name="M:AM.Drawing.Palette.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/>
+            that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String"/>
+            that represents this instance.</returns>
+        </member>
+        <member name="P:AM.Drawing.Palette.Item(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="T:AM.Drawing.PaletteColorAttribute">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.PaletteColorAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Drawing.PaletteColorAttribute"/> class.
+            </summary>
+        </member>
+        <member name="P:AM.Drawing.PaletteColorAttribute.Color">
+            <summary>
+            Gets the color.
+            </summary>
+            <value>The color.</value>
+        </member>
+        <member name="T:AM.Drawing.Printing.ImagePosition">
+            <summary>
+            Position of the image to print.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.Printing.ImagePosition.PageCenter">
+            <summary>
+            Page center.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.Printing.ImagePosition.TopLeftCorner">
+            <summary>
+            Top left corner.
+            </summary>
+        </member>
+        <member name="T:AM.Drawing.Printing.PicturePrinter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Printing.PicturePrinter.Preview">
+            <summary>
+            Previews the specified <see cref="P:Image"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Printing.PicturePrinter.Print">
+            <summary>
+            Prints the specified <see cref="P:Image"/>.
+            </summary>
+        </member>
+        <member name="P:AM.Drawing.Printing.PicturePrinter.Document">
+            <summary>
+            Gets or sets the document.
+            </summary>
+            <value>The document.</value>
+        </member>
+        <member name="P:AM.Drawing.Printing.PicturePrinter.Image">
+            <summary>
+            Gets or sets the picture.
+            </summary>
+            <value>The picture.</value>
+        </member>
+        <member name="P:AM.Drawing.Printing.PicturePrinter.ImageScale">
+            <summary>
+            Gets or sets the image scale.
+            </summary>
+            <value>The image scale.</value>
+        </member>
+        <member name="P:AM.Drawing.Printing.PicturePrinter.ImagePosition">
+            <summary>
+            Gets or sets the image position.
+            </summary>
+            <value>The image position.</value>
+        </member>
+        <member name="P:AM.Drawing.Printing.PicturePrinter.Title">
+            <summary>
+            Gets or sets the title.
+            </summary>
+            <value>The title.</value>
+        </member>
+        <member name="T:AM.Drawing.Printing.PlainTextPrinter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AM.Drawing.Printing.TextPrinter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Printing.TextPrinter.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:AM.Drawing.Printing.TextPrinter"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Printing.TextPrinter.OnBeginPrint(System.Object,System.Drawing.Printing.PrintEventArgs)">
+            <summary>
+            Called when [begin print].
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The 
+            <see cref="T:System.Drawing.Printing.PrintEventArgs"/> 
+            instance containing the event data.</param>
+        </member>
+        <member name="M:AM.Drawing.Printing.TextPrinter.OnEndPrint(System.Object,System.Drawing.Printing.PrintEventArgs)">
+            <summary>
+            Called when [end print].
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The 
+            <see cref="T:System.Drawing.Printing.PrintEventArgs"/> 
+            instance containing the event data.</param>
+        </member>
+        <member name="M:AM.Drawing.Printing.TextPrinter.OnPrintPage(System.Object,System.Drawing.Printing.PrintPageEventArgs)">
+            <summary>
+            Called when [print page].
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="ea">The 
+            <see cref="T:System.Drawing.Printing.PrintPageEventArgs"/> 
+            instance containing the event data.</param>
+        </member>
+        <member name="M:AM.Drawing.Printing.TextPrinter.OnQueryPageSettings(System.Object,System.Drawing.Printing.QueryPageSettingsEventArgs)">
+            <summary>
+            Called when [query page settings].
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The 
+            <see cref="T:System.Drawing.Printing.QueryPageSettingsEventArgs"/> 
+            instance containing the event data.</param>
+        </member>
+        <member name="M:AM.Drawing.Printing.TextPrinter.Print(System.String)">
+            <summary>
+            Prints the specified text.
+            </summary>
+            <param name="text">The text.</param>
+            <returns></returns>
+        </member>
+        <member name="E:AM.Drawing.Printing.TextPrinter.BeginPrint">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:AM.Drawing.Printing.TextPrinter.EndPrint">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:AM.Drawing.Printing.TextPrinter.PrintPage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:AM.Drawing.Printing.TextPrinter.QueryPageSettings">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AM.Drawing.Printing.TextPrinter.Borders">
+            <summary>
+            Gets or sets the borders.
+            </summary>
+            <value>The borders.</value>
+        </member>
+        <member name="P:AM.Drawing.Printing.TextPrinter.DocumentName">
+            <summary>
+            Gets or sets the name of the document.
+            </summary>
+            <value>The name of the document.</value>
+        </member>
+        <member name="P:AM.Drawing.Printing.TextPrinter.PageNumber">
+            <summary>
+            Gets the page number.
+            </summary>
+            <value>The page number.</value>
+        </member>
+        <member name="P:AM.Drawing.Printing.TextPrinter.PageSettings">
+            <summary>
+            Gets or sets the page settings.
+            </summary>
+            <value>The page settings.</value>
+        </member>
+        <member name="P:AM.Drawing.Printing.TextPrinter.PrintController">
+            <summary>
+            Gets or sets the print controller.
+            </summary>
+            <value>The print controller.</value>
+        </member>
+        <member name="P:AM.Drawing.Printing.TextPrinter.PrinterSettings">
+            <summary>
+            Gets or sets the printer settings.
+            </summary>
+            <value>The printer settings.</value>
+        </member>
+        <member name="P:AM.Drawing.Printing.TextPrinter.TextColor">
+            <summary>
+            Gets or sets the color of the text.
+            </summary>
+            <value>The color of the text.</value>
+        </member>
+        <member name="P:AM.Drawing.Printing.TextPrinter.TextFont">
+            <summary>
+            Gets or sets the font.
+            </summary>
+            <value>The font.</value>
+        </member>
+        <member name="M:AM.Drawing.Printing.PlainTextPrinter.OnPrintPage(System.Object,System.Drawing.Printing.PrintPageEventArgs)">
+            <summary>
+            Called when [print page].
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:System.Drawing.Printing.PrintPageEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:AM.Drawing.Printing.PlainTextPrinter.Print(System.String)">
+            <summary>
+            Prints the specified text.
+            </summary>
+        </member>
+        <member name="T:AM.Drawing.Printing.PrinterDefinition">
+            <summary>
+            Printer definition for saving/restoring.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Printing.PrinterDefinition.GetFargoPrinter">
+            <summary>
+            Get Fargo Card printer.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Printing.PrinterDefinition.LoadJson(System.String)">
+            <summary>
+            Load <see cref="T:AM.Drawing.Printing.PrinterDefinition"/>
+            from the JSON-file.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Printing.PrinterDefinition.LoadXml(System.String)">
+            <summary>
+            Load <see cref="T:AM.Drawing.Printing.PrinterDefinition"/>
+            from the XML file.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Printing.PrinterDefinition.SaveJson(System.String)">
+            <summary>
+            Save the <see cref="T:AM.Drawing.Printing.PrinterDefinition"/>
+            to the JSON file.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Printing.PrinterDefinition.SaveXml(System.String)">
+            <summary>
+            Save the <see cref="T:AM.Drawing.Printing.PrinterDefinition"/>
+            to the XML file.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Printing.PrinterDefinition.RestoreFromStream(System.IO.BinaryReader)">
+            <summary>
+            Restore the object state from the specified stream.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Printing.PrinterDefinition.SaveToStream(System.IO.BinaryWriter)">
+            <summary>
+            Save the object state to the specified stream.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Printing.PrinterDefinition.Verify(System.Boolean)">
+            <summary>
+            Verify the object state.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Printing.PrinterDefinition.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/>
+            that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String"/>
+            that represents this instance.</returns>
+        </member>
+        <member name="P:AM.Drawing.Printing.PrinterDefinition.Name">
+            <summary>
+            Как Windows называет принтер.
+            </summary>
+        </member>
+        <member name="P:AM.Drawing.Printing.PrinterDefinition.PageWidth">
+            <summary>
+            Ширина страницы в сотых долях дюйма.
+            </summary>
+        </member>
+        <member name="P:AM.Drawing.Printing.PrinterDefinition.PageHeight">
+            <summary>
+            Высота страницы в сотых долях дюйма.
+            </summary>
+        </member>
+        <member name="P:AM.Drawing.Printing.PrinterDefinition.Landscape">
+            <summary>
+            Landscape or portrait?
+            </summary>
+        </member>
+        <member name="T:AM.Drawing.TextFormat">
+            <summary>
+            Заранее подготовленные значения StringFormat.
+            </summary>
+            <remarks>Полученные значения не должны удаляться
+            с помощью Dispose.</remarks>
+        </member>
+        <member name="F:AM.Drawing.TextFormat.NearNear">
+            <summary>
+            Alignment = Near, LineAlignment = Near.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.TextFormat.NearCenter">
+            <summary>
+            Alignment = Near, LineAlignment = Center.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.TextFormat.NearFar">
+            <summary>
+            Alignment = Near, LineAlignment = Far.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.TextFormat.CenterNear">
+            <summary>
+            Alignment = Center, LineAlignment = Near.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.TextFormat.CenterCenter">
+            <summary>
+            Alignment = Center, LineAlignment = Center.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.TextFormat.CenterFar">
+            <summary>
+            Alignment = Center, LineAlignment = Far.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.TextFormat.FarNear">
+            <summary>
+            Alignment = Far, LineAlignment = Near.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.TextFormat.FarCenter">
+            <summary>
+            Alignment = Far, LineAlignment = Center.
+            </summary>
+        </member>
+        <member name="F:AM.Drawing.TextFormat.FarFar">
+            <summary>
+            Alignment = Far, LineAlignment = Far.
+            </summary>
+        </member>
+        <member name="T:AM.Drawing.Tube">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Tube.#ctor">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Drawing.Tube"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Tube.#ctor(System.Drawing.Color)">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Drawing.Tube"/> class.
+            </summary>
+            <param name="color">The color.</param>
+        </member>
+        <member name="M:AM.Drawing.Tube.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Drawing.Tube"/> class.
+            </summary>
+            <param name="name">The name.</param>
+        </member>
+        <member name="M:AM.Drawing.Tube.#ctor(System.Drawing.Color,System.String)">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Drawing.Tube"/> class.
+            </summary>
+            <param name="color">The color.</param>
+            <param name="name">The name.</param>
+        </member>
+        <member name="M:AM.Drawing.Tube.#ctor(System.String,System.Drawing.Color)">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Drawing.Tube"/> class.
+            </summary>
+            <param name="name">The name.</param>
+            <param name="color">The color.</param>
+        </member>
+        <member name="M:AM.Drawing.Tube.Finalize">
+            <summary>
+            Releases unmanaged resources and performs 
+            other cleanup operations before the
+            <see cref="T:AM.Drawing.Tube"/> is reclaimed by garbage collection.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Tube.op_Implicit(AM.Drawing.Tube)~System.Drawing.Brush">
+            <summary>
+            Performs an implicit conversion from 
+            <see cref="T:AM.Drawing.Tube"/> to <see cref="T:System.Drawing.Brush"/>.
+            </summary>
+            <param name="tube">The tube.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="M:AM.Drawing.Tube.op_Implicit(AM.Drawing.Tube)~System.Drawing.Pen">
+            <summary>
+            Performs an implicit conversion from 
+            <see cref="T:AM.Drawing.Tube"/> to <see cref="T:System.Drawing.Pen"/>.
+            </summary>
+            <param name="tube">The tube.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="M:AM.Drawing.Tube.op_Implicit(AM.Drawing.Tube)~System.Drawing.Color">
+            <summary>
+            Performs an implicit conversion from 
+            <see cref="T:AM.Drawing.Tube"/> to <see cref="T:System.Drawing.Color"/>.
+            </summary>
+            <param name="tube">The tube.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="M:AM.Drawing.Tube.System#Xml#Serialization#IXmlSerializable#ReadXml(System.Xml.XmlReader)">
+            <summary>
+            Generates an object from its XML representation.
+            </summary>
+            <param name="reader">The 
+            <see cref="T:System.Xml.XmlReader"/> stream from 
+            which the object is deserialized.</param>
+        </member>
+        <member name="M:AM.Drawing.Tube.System#Xml#Serialization#IXmlSerializable#WriteXml(System.Xml.XmlWriter)">
+            <summary>
+            Converts an object into its XML representation.
+            </summary>
+            <param name="writer">The 
+            <see cref="T:System.Xml.XmlWriter"/> stream 
+            to which the object is serialized.</param>
+        </member>
+        <member name="M:AM.Drawing.Tube.Dispose">
+            <summary>
+            Performs application-defined tasks associated 
+            with freeing, releasing, or resetting unmanaged 
+            resources.
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Tube.Equals(AM.Drawing.Tube)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Drawing.Tube.Equals(System.Object)">
+            <summary>
+            Determines whether the specified 
+            <see cref="T:System.Object"/> is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object"/> 
+            to compare with this instance.</param>
+            <returns>
+            	<c>true</c> if the specified 
+            <see cref="T:System.Object"/> is equal to this instance; 
+            otherwise, <c>false</c>.
+            </returns>
+            <exception cref="T:System.NullReferenceException">
+            The <paramref name="obj"/> parameter is null.
+            </exception>
+        </member>
+        <member name="M:AM.Drawing.Tube.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use 
+            in hashing algorithms and data structures like 
+            a hash table. 
+            </returns>
+        </member>
+        <member name="M:AM.Drawing.Tube.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that 
+            represents this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents 
+            this instance.
+            </returns>
+        </member>
+        <member name="P:AM.Drawing.Tube.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+            <value>The name.</value>
+        </member>
+        <member name="P:AM.Drawing.Tube.Color">
+            <summary>
+            Gets or sets the color.
+            </summary>
+            <value>The color.</value>
+        </member>
+        <member name="P:AM.Drawing.Tube.Brush">
+            <summary>
+            Gets the brush.
+            </summary>
+            <value>The brush.</value>
+        </member>
+        <member name="P:AM.Drawing.Tube.Pen">
+            <summary>
+            Gets the pen.
+            </summary>
+            <value>The pen.</value>
+        </member>
+    </members>
+</doc>

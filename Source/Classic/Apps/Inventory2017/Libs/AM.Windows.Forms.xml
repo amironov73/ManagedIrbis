@@ -1,0 +1,4245 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AM.Windows.Forms</name>
+    </assembly>
+    <members>
+        <member name="T:AM.Windows.Forms.ApplicationUtility">
+            <summary>
+            Helper methods for <see cref="T:System.Windows.Forms.Application"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ApplicationUtility.IdleDelay(System.Int32)">
+            <summary>
+            (Almost) non-blocking Delay.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.AttachmentBox">
+            <summary>
+            Shows list of attachments.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.AttachmentBox.#ctor(System.Collections.Generic.IEnumerable{AM.BinaryAttachment})">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.AttachmentBox.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.AttachmentBox.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.AttachmentBox.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.BindingListSource`1">
+            <summary>
+            Combination of <see cref="T:System.Windows.Forms.BindingSource"/>
+            and <see cref="T:System.ComponentModel.BindingList`1"/>.
+            </summary>
+            <remarks>Values added through <see cref="M:AM.Windows.Forms.BindingListSource`1.Add(`0)"/>
+            or <see cref="M:AM.Windows.Forms.BindingListSource`1.Insert(System.Int32,`0)"/> methods can't be <c>null</c>.
+            </remarks>
+        </member>
+        <member name="M:AM.Windows.Forms.BindingListSource`1.#ctor">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Windows.Forms.BindingListSource`1"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BindingListSource`1.ResetBindings">
+            <summary>
+            Raises a 
+            <see cref="E:System.ComponentModel.BindingList`1.ListChanged"/>
+            event of type 
+            <see cref="F:System.ComponentModel.ListChangedType.Reset"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BindingListSource`1.CancelNew(System.Int32)">
+            <summary>
+            Discards a pending new item.
+            </summary>
+            <param name="itemIndex">The index of the of the new item 
+            to be added</param>
+        </member>
+        <member name="M:AM.Windows.Forms.BindingListSource`1.EndNew(System.Int32)">
+            <summary>
+            Commits a pending new item to the collection.
+            </summary>
+            <param name="itemIndex">The index of the new item 
+            to be added.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.BindingListSource`1.Add(`0)">
+            <summary>
+            Adds an object to the end of the 
+            <see cref="T:System.Collections.ObjectModel.Collection`1"/>. 
+            </summary>
+            <param name="item">The object to be added to the end of the 
+            <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            The value can't be null for reference types.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.BindingListSource`1.CopyTo(`0[],System.Int32)">
+            <summary>
+            Copies the entire 
+            <see cref="T:System.Collections.ObjectModel.Collection`1"/> 
+            to a compatible one-dimensional <see cref="T:System.Array"/>,
+            starting at the specified index of the target array.
+            </summary>
+            <param name="array">The one-dimensional 
+            <see cref="T:System.Array"/> that is the destination of the 
+            elements copied from 
+            <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            The <see cref="T:System.Array"/> must have zero-based indexing.
+            </param>
+            <param name="index">The zero-based index in array at which 
+            copying begins.</param>
+            <exception cref="T:System.ArgumentException">index is equal 
+            to or greater than the length of array.-or-The number of elements 
+            in the source 
+            <see cref="T:System.Collections.ObjectModel.Collection`1"/>
+            is greater than the available space from index to the end of the 
+            destination array.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            index is less than zero.</exception>
+            <exception cref="T:System.ArgumentNullException">
+            array is null.</exception>
+        </member>
+        <member name="M:AM.Windows.Forms.BindingListSource`1.Contains(`0)">
+             <summary>
+             Determines whether an element is in the 
+             <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+             </summary>
+             <returns>
+             true if item is found in the 
+             <see cref="T:System.Collections.ObjectModel.Collection`1"/>; 
+             otherwise, false.
+            </returns>
+            
+            <param name="item">The object to locate in the <see cref="T:System.Collections.ObjectModel.Collection`1"/>>. The value can be null for reference types.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.BindingListSource`1.IndexOf(`0)">
+            <summary>
+            Searches for the specified object and returns the zero-based 
+            index of the first occurrence within the entire 
+            <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </summary>
+            <returns>
+            The zero-based index of the first occurrence of item within the entire 
+            <see cref="T:System.Collections.ObjectModel.Collection`1"/>, 
+            if found; otherwise, -1.
+            </returns>
+            <param name="item">The object to locate in the 
+            <see cref="T:System.Collections.Generic.List`1"/>. 
+            The value can be null for reference types.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.BindingListSource`1.Insert(System.Int32,`0)">
+            <summary>
+            Inserts an element into the 
+            <see cref="T:System.Collections.ObjectModel.Collection`1"/>
+            at the specified index.
+            </summary>
+            <param name="item">The object to insert. The value can 
+            be null for reference types.</param>
+            <param name="index">The zero-based index at which item 
+            should be inserted.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            index is less than zero.-or-index is greater than 
+            <see cref="P:System.Collections.ObjectModel.Collection`1.Count"/>.
+            </exception>
+        </member>
+        <member name="M:AM.Windows.Forms.BindingListSource`1.Remove(`0)">
+            <summary>
+            Removes the first occurrence of a specific object from the 
+            <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </summary>
+            <returns>
+            true if item is successfully removed; otherwise, false.  
+            This method also returns false if item was not found 
+            in the original 
+            <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </returns>
+            <param name="item">The object to remove from the 
+            <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            The value can be null for reference types.</param>
+        </member>
+        <member name="P:AM.Windows.Forms.BindingListSource`1.InnerList">
+            <summary>
+            Gets the inner list.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.BorderInfo">
+            <summary>
+            Информация о границе контрола или его части.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BorderInfo.Draw(System.Drawing.Graphics,System.Drawing.Rectangle)">
+            <summary>
+            Отрисовка границы контрола.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.BorderInfo.DrawBorder">
+            <summary>
+             Рисовать границу или нет.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.BorderInfo.Draw3D">
+            <summary>
+             Граница трехмерная или нет.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.BorderInfo.Style2D">
+            <summary>
+             Стиль двухмерной границы.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.BorderInfo.BorderColor">
+            <summary>
+             Цвет двухмерной границы.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.BorderInfo.Style3D">
+            <summary>
+             Стиль трехмерной границы.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.BorderInfo.Editor">
+            <summary>
+            Editor for <see cref="T:AM.Windows.Forms.BorderInfo"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BorderInfo.Editor.GetEditStyle(System.ComponentModel.ITypeDescriptorContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.BorderInfo.Editor.EditValue(System.ComponentModel.ITypeDescriptorContext,System.IServiceProvider,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.BorderInfo.Editor.PaintValue(System.Drawing.Design.PaintValueEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.BorderInfo.Editor.GetPaintValueSupported(System.ComponentModel.ITypeDescriptorContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:AM.Windows.Forms.BottomlessRichTextBox">
+            <summary>
+            RichTextBox that adjusts its height according to height
+            entered text.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BottomlessRichTextBox.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BottomlessRichTextBox.OnContentsResized(System.Windows.Forms.ContentsResizedEventArgs)">
+            <summary>
+            Raises the
+            <see cref="E:System.Windows.Forms.RichTextBox.ContentsResized" />
+            event.
+            </summary>
+            <param name="e">A
+            <see cref="T:System.Windows.Forms.ContentsResizedEventArgs" />
+            that contains the event data.</param>
+        </member>
+        <member name="P:AM.Windows.Forms.BottomlessRichTextBox.Multiline">
+            <summary>
+            Gets or sets value indicating whether this 
+            is multiline RichTextBox.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.BrowserForm">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BrowserForm.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:AM.Windows.Forms.BrowserForm"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BrowserForm.GetDocument">
+            <summary>
+            Gets the document.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:AM.Windows.Forms.BrowserForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BrowserForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.BrowserForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.BrowserForm.DocumentText">
+            <summary>
+            Gets or sets the document text.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.BusyController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyController.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyController.#ctor(AM.Threading.BusyState)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyController.SetupState(AM.Threading.BusyState)">
+            <summary>
+            Initialize <see cref="P:AM.Windows.Forms.BusyController.State"/> with specified value.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyController.OnExceptionOccur(System.Exception)">
+            <summary>
+            Raises <see cref="E:AM.Windows.Forms.BusyController.ExceptionOccur"/> event.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyController.OnStateChanged">
+            <summary>
+            Raises <see cref="E:AM.Windows.Forms.BusyController.StateChanged"/> event.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyController.UpdateControlState(System.Boolean)">
+            <summary>
+            Update control state.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyController.DisableControls">
+            <summary>
+            Disable associated controls.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyController.EnableControls">
+            <summary>
+            Enable associated controls.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyController.Run(System.Action)">
+            <summary>
+            Run the specified action.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyController.RunAsync(System.Action)">
+            <summary>
+            Run the specified action.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyController.WriteLine(System.String,System.Object[])">
+            <summary>
+            Write message to <see cref="P:AM.Windows.Forms.BusyController.Output"/> if present.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyController.Dispose(System.Boolean)">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="E:AM.Windows.Forms.BusyController.ExceptionOccur">
+            <summary>
+            Raised when exception occur.
+            </summary>
+        </member>
+        <member name="E:AM.Windows.Forms.BusyController.StateChanged">
+            <summary>
+            Raised when state changed.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.BusyController.Controls">
+            <summary>
+            Control collection.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.BusyController.Output">
+            <summary>
+            For error messages.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.BusyController.State">
+            <summary>
+            State.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.BusyStateEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyStateEventArgs.#ctor(AM.Threading.BusyState)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.BusyStateEventArgs.State">
+            <summary>
+            State.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.BusyStripe">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyStripe.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyStripe.Run(AM.Threading.BusyState,System.Action)">
+            <summary>
+            Run some code.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyStripe.RunAsync(AM.Threading.BusyState,System.Action)">
+            <summary>
+            Run some code in asychronous manner.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyStripe.SubscribeTo(AM.Threading.BusyState)">
+            <summary>
+            Subscribe.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyStripe.UnsubscribeFrom(AM.Threading.BusyState)">
+            <summary>
+            Unsubscribe.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyStripe.Dispose(System.Boolean)">
+            <inheritdoc cref="M:System.Windows.Forms.Control.Dispose(System.Boolean)"/>
+        </member>
+        <member name="M:AM.Windows.Forms.BusyStripe.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            <inheritdoc cref="M:System.Windows.Forms.Control.OnPaint(System.Windows.Forms.PaintEventArgs)"/>
+        </member>
+        <member name="P:AM.Windows.Forms.BusyStripe.Moving">
+            <summary>
+            Gets or sets a value indicating whether this
+            <see cref="T:AM.Windows.Forms.BusyStripe"/> is moving.
+            </summary>
+            <value><c>true</c> if moving; otherwise,
+            <c>false</c>.</value>
+        </member>
+        <member name="T:AM.Windows.Forms.CheckBoxGroup">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:AM.Windows.Forms.CheckBoxGroup.CurrentChanged">
+            <summary>
+            Current CheckButton changed.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.CheckBoxGroup.LeftIndent">
+            <summary>
+            Left indent value.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.CheckBoxGroup.LineIndent">
+            <summary>
+            Line indent value.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.CheckBoxGroup.Evenly">
+            <summary>
+            Property Evenly (bool)
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.CheckBoxGroup.Count">
+            <summary>
+            Button count.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.CheckBoxGroup.Current">
+            <summary>
+            Current CheckBox selection.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.CheckBoxGroup.Lines">
+            <summary>
+            Lines of text.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.CheckBoxGroup.Checked">
+            <summary>
+            Checked buttons
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.CheckBoxGroup.Appearance">
+            <summary>
+            Appearance.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.CheckBoxGroup.CurrentChangedHandler">
+            <summary>
+            Called when current RadioButton changed.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.CheckedGroupBox">
+            <summary>
+            <see cref="T:System.Windows.Forms.GroupBox"/> with <see cref="T:System.Windows.Forms.CheckBox"/>
+            in caption.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.CheckedGroupBox.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AM.Windows.Forms.CheckedGroupBox"/> class.
+            </summary>
+        </member>
+        <member name="E:AM.Windows.Forms.CheckedGroupBox.CheckedChanged">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.CheckedGroupBox.Checked">
+            <summary>
+            Gets a value indicating whether this <see cref="T:AM.Windows.Forms.CheckedGroupBox"/> 
+            is checked.
+            </summary>
+            <value><c>true</c> if checked; 
+            otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.CheckedGroupBox.Text">
+            <summary>
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:AM.Windows.Forms.Clocks">
+            <summary>
+            Simple analog clock control.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.Clocks.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AM.Windows.Forms.Clocks"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.Clocks.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by the
+            <see cref="T:System.Windows.Forms.Control"/>
+            and its child controls and optionally releases
+            the managed resources.
+            </summary>
+            <param name="disposing">true to release both
+            managed and unmanaged resources; false to release
+            only unmanaged resources.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.Clocks.SetBoundsCore(System.Int32,System.Int32,System.Int32,System.Int32,System.Windows.Forms.BoundsSpecified)">
+            <summary>
+            Performs the work of setting the specified
+            bounds of this control.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.Clocks.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Raises the
+            <see cref="E:System.Windows.Forms.Control.Paint"/>
+            event.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Clocks.DefaultSize">
+            <summary>
+            Gets the default size of the control.
+            </summary>
+            <value></value>
+            <returns>The default
+            <see cref="T:System.Drawing.Size"/>
+            of the control.</returns>
+        </member>
+        <member name="T:AM.Windows.Forms.CollapsibleGroupBox">
+            <summary>
+            <see cref="T:System.Windows.Forms.GroupBox"/> that can be collapsed.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.CollapsibleGroupBox.#ctor">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Windows.Forms.CollapsibleGroupBox"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.CollapsibleGroupBox.OnPaintBackground(System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Paints the background of the control.
+            </summary>
+        </member>
+        <member name="E:AM.Windows.Forms.CollapsibleGroupBox.Collapse">
+            <summary>
+            Raised when collapse action performed.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.CollapsibleGroupBox.Collapsed">
+            <summary>
+            Gets or sets a value indicating whether this 
+            <see cref="T:AM.Windows.Forms.CollapsibleGroupBox"/> is collapsed.
+            </summary>
+            <value><c>true</c> if collapsed; 
+            otherwise, <c>false</c>.</value>
+        </member>
+        <member name="T:AM.Windows.Forms.ColorComboBox">
+            <summary>
+            Комбинированный список, позволяющий выбрать
+            цвет из списка.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ColorComboBox.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:ColorComboBox"/> class.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ColorComboBox.SelectedColor">
+            <summary>
+             Выбранный цвет.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.ConsoleControl">
+            <summary>
+            Pseudo-console.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.ConsoleControl.DefaultCursorHeight">
+            <summary>
+            Default cursor height (lines).
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.ConsoleControl.DefaultWindowHeight">
+            <summary>
+            Default window height.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.ConsoleControl.DefaultWindowWidth">
+            <summary>
+            Default window width.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.ConsoleControl.DefaultFontName">
+            <summary>
+            Default font name.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.ConsoleControl.DefaultFontSize">
+            <summary>
+            Default font size.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.ConsoleControl.MaximalWindowHeight">
+            <summary>
+            Maximal window height.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.ConsoleControl.MaximalWindowWidth">
+            <summary>
+            Maximal window width.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.ConsoleControl.MinimalWindowHeight">
+            <summary>
+            Minimal window height.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.ConsoleControl.MinimalWindowWidth">
+            <summary>
+            Minimal window width.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.AddHistoryEntry(System.String)">
+            <summary>
+            Add history entry.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.Backspace">
+            <summary>
+            Backspace.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.Clear">
+            <summary>
+            Clear the console.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.ClearFrom(System.Int32,System.Int32)">
+            <summary>
+            Clear from given position to end of the console.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.ClearHistory">
+            <summary>
+            Clear history list.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.DeleteCharacter">
+            <summary>
+            Delete current character (DEL key).
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.DropInput">
+            <summary>
+            Drop current input.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.InputChar(System.Char)">
+            <summary>
+            Input one char.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.MoveCursor(System.Int32,System.Int32)">
+            <summary>
+            Move the cursor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.ReadLine">
+            <summary>
+            Read line from the console.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.ScrollUp">
+            <summary>
+            Scroll up by one line.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.ShowHistoryEntry(System.Boolean)">
+            <summary>
+            Show current history entry.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.SetInput(System.String)">
+            <summary>
+            Set input text.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.Write(System.Char,System.Drawing.Color,System.Drawing.Color,System.Boolean)">
+            <summary>
+            WriteCharacter.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.Write(System.Int32,System.Int32,System.Char,System.Drawing.Color,System.Drawing.Color,System.Boolean)">
+            <summary>
+            Write character.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.Write(System.Int32,System.Int32,System.Char)">
+            <summary>
+            Write character.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.Write(System.Drawing.Color,System.Drawing.Color,System.Boolean,System.String)">
+            <summary>
+            Write text.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.Write(System.Boolean,System.String)">
+            <summary>
+            Write text.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.Write(System.Drawing.Color,System.String)">
+            <summary>
+            Write text.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.Write(System.String)">
+            <summary>
+            Write text.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.Write(System.Int32,System.Int32,System.String)">
+            <summary>
+            Write text.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.WriteLine">
+            <summary>
+            Move cursor to beginning of next line.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.WriteLine(System.String)">
+            <summary>
+            Write text and move cursor to beginning of next line.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.WriteLine(System.Boolean,System.String)">
+            <summary>
+            Write text and move cursor to beginning of next line.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.WriteLine(System.Drawing.Color,System.String)">
+            <summary>
+            Write text and move cursor to beginning of next line.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.WriteTab(System.Drawing.Color)">
+            <summary>
+            Tabulation.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.Dispose(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.OnClientSizeChanged(System.EventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.OnKeyPress(System.Windows.Forms.KeyPressEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.OnPreviewKeyDown(System.Windows.Forms.PreviewKeyDownEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControl.OnPaintBackground(System.Windows.Forms.PaintEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="E:AM.Windows.Forms.ConsoleControl.Input">
+            <summary>
+            Raised on input (Enter key).
+            </summary>
+        </member>
+        <member name="E:AM.Windows.Forms.ConsoleControl.TabPressed">
+            <summary>
+            Raised when TAB key pressed.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ConsoleControl.AllowInput">
+            <summary>
+            Allow input?
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ConsoleControl.EchoInput">
+            <summary>
+            Echo input?
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ConsoleControl.ItalicFont">
+            <summary>
+            Bold version of the <see cref="P:Font"/>.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ConsoleControl.CursorHeight">
+            <summary>
+            Cursor height.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ConsoleControl.CursorLeft">
+            <summary>
+            Column position of the cursor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ConsoleControl.CursorTop">
+            <summary>
+            Row position of the cursor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ConsoleControl.CursorVisible">
+            <summary>
+            Whether the cursor is visible.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ConsoleControl.WindowHeight">
+            <summary>
+            Window height.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ConsoleControl.WindowWidth">
+            <summary>
+            Window width.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ConsoleControl.DefaultSize">
+            <inheritdoc />
+        </member>
+        <member name="P:AM.Windows.Forms.ConsoleControl.Font">
+            <inheritdoc />
+        </member>
+        <member name="T:AM.Windows.Forms.ConsoleForm">
+            <summary>
+            Form with <see cref="T:AM.Windows.Forms.ConsoleControl"/> inside.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.ModalForm">
+            <summary>
+            Simple blank for modal form.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ModalForm.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleForm.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ConsoleForm.Console">
+            <summary>
+            Console control.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.ConsoleInputEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ConsoleInputEventArgs.Text">
+            <summary>
+            Text.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.ConsoleControlOutput">
+            <summary>
+            Output to ConsoleControl.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControlOutput.#ctor(AM.Windows.Forms.ConsoleControl)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControlOutput.Clear">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControlOutput.Configure(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControlOutput.Write(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.ConsoleControlOutput.WriteError(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="P:AM.Windows.Forms.ConsoleControlOutput.ConsoleControl">
+            <summary>
+            Console control.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ConsoleControlOutput.HaveError">
+            <inheritdoc />
+        </member>
+        <member name="T:AM.Windows.Forms.ControlUtility">
+            <summary>
+            Useful extension for <see cref="T:System.Windows.Forms.Control"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ControlUtility.FindFocusedControl(System.Windows.Forms.Control)">
+            <summary>
+            Find focused control.
+            </summary>
+            <remarks>Borrowed from StackOverflow:
+            http://stackoverflow.com/questions/435433/what-is-the-preferred-way-to-find-focused-control-in-winforms-app
+            </remarks>
+        </member>
+        <member name="M:AM.Windows.Forms.ControlUtility.InvokeIfRequired(System.Windows.Forms.Control,System.Windows.Forms.MethodInvoker)">
+            <summary>
+            Invoke specified <paramref name="action"/>
+            strictly in UI thread for specified
+            <paramref name="control"/>.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.DataGridViewCalendarCell">
+            <summary>
+            <see cref="T:System.Windows.Forms.DateTimePicker"/> hosted in
+            <see cref="T:System.Windows.Forms.DataGridViewCell"/>.
+            </summary>
+            <remarks>Stolen from MSDN article
+            "How to: Host Controls in Windows Forms DataGridView Cells"
+            </remarks>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewCalendarCell.#ctor">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Windows.Forms.DataGridViewCalendarCell"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewCalendarCell.InitializeEditingControl(System.Int32,System.Object,System.Windows.Forms.DataGridViewCellStyle)">
+            <summary>
+            Initializes the control used to edit the cell.
+            </summary>
+            <param name="rowIndex">The zero-based row index of the 
+            cell's location.</param>
+            <param name="initialFormattedValue">An 
+            <see cref="T:System.Object"/> that represents the value 
+            displayed by the cell when editing is started.</param>
+            <param name="dataGridViewCellStyle">A 
+            <see cref="T:System.Windows.Forms.DataGridViewCellStyle"/> 
+            that represents the style of the cell.</param>
+            <exception cref="T:System.InvalidOperationException">
+            There is no associated 
+            <see cref="T:System.Windows.Forms.DataGridView"/> 
+            or if one is present, it does not have an associated editing control.
+            </exception>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewCalendarCell.Clone">
+            <summary>
+            Creates an exact copy of this cell.
+            </summary>
+            <returns>
+            An <see cref="T:System.Object"/> that represents the cloned 
+            <see cref="T:System.Windows.Forms.DataGridViewTextBoxCell"></see>.
+            </returns>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewCalendarCell.Format">
+            <summary>
+            Gets or sets the format of the date.
+            </summary>
+            <value>Format of the date.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewCalendarCell.EditType">
+            <summary>
+            Gets the type of the cell's hosted editing control.
+            </summary>
+            <value></value>
+            <returns>A <see cref="T:System.Type"/> 
+            representing the <see cref="T:AM.Windows.Forms.DataGridViewCalendarEditingControl"/> 
+            type.</returns>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewCalendarCell.ValueType">
+            <summary>
+            Gets or sets the data type of the values in the cell.
+            </summary>
+            <value></value>
+            <returns>A <see cref="T:System.Type"/> 
+            representing the data type of the value in the cell.</returns>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewCalendarCell.DefaultNewRowValue">
+            <summary>
+            Gets the default value for a cell in the row for new records.
+            </summary>
+            <value></value>
+            <returns>An <see cref="T:System.Object"/> representing 
+            the default value.</returns>
+        </member>
+        <member name="T:AM.Windows.Forms.DataGridViewCalendarColumn">
+            <summary>
+            Column of <see cref="T:AM.Windows.Forms.DataGridViewCalendarCell"/>'s.
+            </summary>
+            <remarks>Stolen from MSDN article
+            "How to: Host Controls in Windows Forms DataGridView Cells"
+            </remarks>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewCalendarColumn.#ctor">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Windows.Forms.DataGridViewCalendarColumn"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewCalendarColumn.Clone">
+            <summary>
+            Creates an exact copy of this column.
+            </summary>
+            <returns>
+            An <see cref="T:System.Object"/> that represents the cloned 
+            <see cref="T:System.Windows.Forms.DataGridViewTextBoxColumn"></see>.
+            </returns>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewCalendarColumn.Format">
+            <summary>
+            Gets or sets the format of date.
+            </summary>
+            <value>Format of date.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewCalendarColumn.CellTemplate">
+            <summary>
+            Gets or sets the template used to create new cells.
+            </summary>
+            <value></value>
+            <returns>A 
+            <see cref="T:System.Windows.Forms.DataGridViewCell"/>
+            that all other cells in the column are modeled after. 
+            The default is null.</returns>
+        </member>
+        <member name="T:AM.Windows.Forms.DataGridViewCalendarEditingControl">
+            <summary>
+            In-place editor for <see cref="T:AM.Windows.Forms.DataGridViewCalendarCell"/>.
+            </summary>
+            <remarks>Stolen from MSDN article
+            "How to: Host Controls in Windows Forms DataGridView Cells"
+            </remarks>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewCalendarEditingControl.#ctor">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Windows.Forms.DataGridViewCalendarEditingControl"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewCalendarEditingControl.GetEditingControlFormattedValue(System.Windows.Forms.DataGridViewDataErrorContexts)">
+            <summary>
+            Retrieves the formatted value of the cell.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewCalendarEditingControl.ApplyCellStyleToEditingControl(System.Windows.Forms.DataGridViewCellStyle)">
+            <summary>
+            Changes the control's user interface (UI) to be consistent with 
+            the specified cell style.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewCalendarEditingControl.EditingControlWantsInputKey(System.Windows.Forms.Keys,System.Boolean)">
+            <summary>
+            The control wants input key?
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewCalendarEditingControl.PrepareEditingControlForEdit(System.Boolean)">
+            <summary>
+            Prepares the currently selected cell for editing.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewCalendarEditingControl.OnValueChanged(System.EventArgs)">
+            <summary>
+            Raises the 
+            <see cref="E:System.Windows.Forms.DateTimePicker.ValueChanged"/> 
+            event.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewCalendarEditingControl.EditingControlFormattedValue">
+            <summary>
+            Gets or sets the formatted value of the cell being 
+            modified by the editor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewCalendarEditingControl.EditingControlRowIndex">
+            <summary>
+            Gets or sets the index of the hosting cell's parent row.
+            </summary>
+            <value></value>
+            <returns>The index of the row that contains the cell, 
+            or –1 if there is no parent row.</returns>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewCalendarEditingControl.RepositionEditingControlOnValueChange">
+            <summary>
+            Gets or sets a value indicating whether the cell contents need 
+            to be repositioned whenever the value changes.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewCalendarEditingControl.EditingControlDataGridView">
+            <summary>
+            Gets or sets the <see cref="T:System.Windows.Forms.DataGridView"/> that contains the cell.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewCalendarEditingControl.EditingControlValueChanged">
+            <summary>
+            Gets or sets a value indicating whether the value of the editing 
+            control differs from the value of the hosting cell.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewCalendarEditingControl.EditingPanelCursor">
+            <summary>
+            Gets the cursor used when the mouse pointer
+            is over the <see cref="P:System.Windows.Forms.DataGridView.EditingPanel" /> but not over the editing control.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.DataGridViewColorCell">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewColorCell.ShowEditor">
+            <summary>
+            Shows the editor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewColorCell.Paint(System.Drawing.Graphics,System.Drawing.Rectangle,System.Drawing.Rectangle,System.Int32,System.Windows.Forms.DataGridViewElementStates,System.Object,System.Object,System.String,System.Windows.Forms.DataGridViewCellStyle,System.Windows.Forms.DataGridViewAdvancedBorderStyle,System.Windows.Forms.DataGridViewPaintParts)">
+            <summary>
+            Paints the current <see cref="T:System.Windows.Forms.DataGridViewCell"/>.
+            </summary>
+            <param name="graphics">The <see cref="T:System.Drawing.Graphics"/> used to paint the <see cref="T:System.Windows.Forms.DataGridViewCell"/>.</param>
+            <param name="clipBounds">A <see cref="T:System.Drawing.Rectangle"/> that represents the area of the <see cref="T:System.Windows.Forms.DataGridView"/> that needs to be repainted.</param>
+            <param name="cellBounds">A <see cref="T:System.Drawing.Rectangle"/> that contains the bounds of the <see cref="T:System.Windows.Forms.DataGridViewCell"/> that is being painted.</param>
+            <param name="rowIndex">The row index of the cell that is being painted.</param>
+            <param name="cellState">A bitwise combination of <see cref="T:System.Windows.Forms.DataGridViewElementStates"/> values that specifies the state of the cell.</param>
+            <param name="value">The data of the <see cref="T:System.Windows.Forms.DataGridViewCell"/> that is being painted.</param>
+            <param name="formattedValue">The formatted data of the <see cref="T:System.Windows.Forms.DataGridViewCell"/> that is being painted.</param>
+            <param name="errorText">An error message that is associated with the cell.</param>
+            <param name="cellStyle">A <see cref="T:System.Windows.Forms.DataGridViewCellStyle"/> that contains formatting and style information about the cell.</param>
+            <param name="advancedBorderStyle">A <see cref="T:System.Windows.Forms.DataGridViewAdvancedBorderStyle"/> that contains border styles for the cell that is being painted.</param>
+            <param name="paintParts">A bitwise combination of the <see cref="T:System.Windows.Forms.DataGridViewPaintParts"/> values that specifies which parts of the cell need to be painted.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewColorCell.GetEditingCellFormattedValue(System.Windows.Forms.DataGridViewDataErrorContexts)">
+            <summary>
+            Retrieves the formatted value of the cell.
+            </summary>
+            
+            <returns>
+            An <see cref="T:System.Object"/> that represents the formatted version of the cell contents.
+            </returns>
+            
+            <param name="context">A bitwise combination of <see cref="T:System.Windows.Forms.DataGridViewDataErrorContexts"/> values that specifies the context in which the data is needed.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewColorCell.PrepareEditingCellForEdit(System.Boolean)">
+            <summary>
+            Prepares the currently selected cell for editing
+            </summary>
+            
+            <param name="selectAll">true to select the cell contents; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewColorCell.OnClick(System.Windows.Forms.DataGridViewCellEventArgs)">
+            <summary>
+            Called when the cell is clicked.
+            </summary>
+            <param name="e">A <see cref="T:System.Windows.Forms.DataGridViewCellEventArgs"></see> that contains the event data.</param>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewColorCell.DefaultNewRowValue">
+            <summary>
+            Gets the default value for a cell in the row for new records.
+            </summary>
+            <value></value>
+            <returns>An <see cref="T:System.Object"></see> representing the default value.</returns>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewColorCell.ValueType">
+            <summary>
+            Gets or sets the data type of the values in the cell.
+            </summary>
+            <value></value>
+            <returns>A <see cref="T:System.Type"></see> representing the data type of the value in the cell.</returns>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewColorCell.EditingCellFormattedValue">
+            <summary>
+            Gets or sets the formatted value of the cell.
+            </summary>
+            
+            <returns>
+            An <see cref="T:System.Object"/> that contains the cell's value.
+            </returns>
+            
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewColorCell.EditingCellValueChanged">
+            <summary>
+            Gets or sets a value indicating whether the value of the cell has changed.
+            </summary>
+            
+            <returns>
+            true if the value of the cell has changed; otherwise, false.
+            </returns>
+            
+        </member>
+        <member name="T:AM.Windows.Forms.DataGridViewColorColumn">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewColorColumn.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.DataGridViewNumericCell">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewNumericCell.InitializeEditingControl(System.Int32,System.Object,System.Windows.Forms.DataGridViewCellStyle)">
+            <summary>
+            Initializes the control used to edit the cell.
+            </summary>
+            
+            <param name="initialFormattedValue">An <see cref="T:System.Object"></see> that represents the value displayed by the cell when editing is started.</param>
+            <param name="rowIndex">The zero-based row index of the cell's location.</param>
+            <param name="dataGridViewCellStyle">A <see cref="T:System.Windows.Forms.DataGridViewCellStyle"></see> that represents the style of the cell.</param>
+            <exception cref="T:System.InvalidOperationException">There is no associated <see cref="T:System.Windows.Forms.DataGridView"></see> or if one is present, it does not have an associated editing control. </exception><filterpriority>1</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence" /><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true" /></PermissionSet>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewNumericCell.GetFormattedValue(System.Object,System.Int32,System.Windows.Forms.DataGridViewCellStyle@,System.ComponentModel.TypeConverter,System.ComponentModel.TypeConverter,System.Windows.Forms.DataGridViewDataErrorContexts)">
+            <summary>
+            Gets the value of the cell as formatted for display. 
+            </summary>
+            
+            <returns>
+            The formatted value of the cell or null if the cell does not belong to a <see cref="T:System.Windows.Forms.DataGridView"></see> control.
+            </returns>
+            
+            <param name="cellStyle">The <see cref="T:System.Windows.Forms.DataGridViewCellStyle"></see> in effect for the cell.</param>
+            <param name="context">A bitwise combination of <see cref="T:System.Windows.Forms.DataGridViewDataErrorContexts"></see> values describing the context in which the formatted value is needed.</param>
+            <param name="valueTypeConverter">A <see cref="T:System.ComponentModel.TypeConverter"></see> associated with the value type that provides custom conversion to the formatted value type, or null if no such custom conversion is needed.</param>
+            <param name="rowIndex">The index of the cell's parent row. </param>
+            <param name="value">The value to be formatted. </param>
+            <param name="formattedValueTypeConverter">A <see cref="T:System.ComponentModel.TypeConverter"></see> associated with the formatted value type that provides custom conversion from the value type, or null if no such custom conversion is needed.</param>
+            <exception cref="T:System.Exception">Formatting failed and either there is no handler for the <see cref="E:System.Windows.Forms.DataGridView.DataError"></see> event of the <see cref="T:System.Windows.Forms.DataGridView"></see> control or the handler set the <see cref="P:System.Windows.Forms.DataGridViewDataErrorEventArgs.ThrowException"></see> property to true. The exception object can typically be cast to type <see cref="T:System.FormatException"></see>.</exception>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewNumericCell.ParseFormattedValue(System.Object,System.Windows.Forms.DataGridViewCellStyle,System.ComponentModel.TypeConverter,System.ComponentModel.TypeConverter)">
+            <summary>
+            Converts a value formatted for display to an actual cell value.
+            </summary>
+            
+            <returns>
+            The cell value.
+            </returns>
+            
+            <param name="formattedValue">The display value of the cell.</param>
+            <param name="formattedValueTypeConverter">A <see cref="T:System.ComponentModel.TypeConverter"></see> for the display value type, or null to use the default converter.</param>
+            <param name="valueTypeConverter">A <see cref="T:System.ComponentModel.TypeConverter"></see> for the cell value type, or null to use the default converter.</param>
+            <param name="cellStyle">The <see cref="T:System.Windows.Forms.DataGridViewCellStyle"></see> in effect for the cell.</param>
+            <exception cref="T:System.FormatException">The <see cref="P:System.Windows.Forms.DataGridViewCell.FormattedValueType"></see> property value is null.-or-The <see cref="P:System.Windows.Forms.DataGridViewCell.ValueType"></see> property value is null.-or-formattedValue cannot be converted.</exception>
+            <exception cref="T:System.ArgumentNullException">cellStyle is null.</exception>
+            <exception cref="T:System.ArgumentException">formattedValue is null.-or-The type of formattedValue does not match the type indicated by the <see cref="P:System.Windows.Forms.DataGridViewCell.FormattedValueType"></see> property. </exception>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewNumericCell.Clone">
+            <summary>
+            Creates an exact copy of this cell.
+            </summary>
+            <returns>
+            An <see cref="T:System.Object"></see> that represents the cloned <see cref="T:System.Windows.Forms.DataGridViewTextBoxCell"></see>.
+            </returns>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericCell.DecimalPoints">
+            <summary>
+            Gets or sets number of the decimal points.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericCell.DefaultValue">
+            <summary>
+            Gets or sets the default value.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericCell.Maximum">
+            <summary>
+            Gets or sets the maximum.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericCell.Minimum">
+            <summary>
+            Gets or sets the minimum.
+            </summary>
+            <value>The minimum.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericCell.EditType">
+            <summary>
+            Gets the type of the cell's hosted editing control. 
+            </summary>
+            
+            <returns>
+            A <see cref="T:System.Type"></see> representing the <see cref="T:System.Windows.Forms.DataGridViewTextBoxEditingControl"></see> type.
+            </returns>
+            <filterpriority>1</filterpriority>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericCell.ValueType">
+            <summary>
+            Gets or sets the data type of the values in the cell. 
+            </summary>
+            
+            <returns>
+            A <see cref="T:System.Type"></see> representing the data type of the value in the cell.
+            </returns>
+            <filterpriority>1</filterpriority>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericCell.DefaultNewRowValue">
+            <summary>
+            Gets the default value for a cell in the row for new records.
+            </summary>
+            
+            <returns>
+            An <see cref="T:System.Object"></see> representing the default value.
+            </returns>
+            <filterpriority>1</filterpriority>
+        </member>
+        <member name="T:AM.Windows.Forms.DataGridViewNumericColumn">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewNumericColumn.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewNumericColumn.Clone">
+            <summary>
+            </summary>
+            <returns></returns>
+            <PermissionSet><IPermission class="System.Security.Permissions.EnvironmentPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/><IPermission class="System.Diagnostics.PerformanceCounterPermission, System, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Unrestricted="true"/></PermissionSet>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericColumn.DecimalPoints">
+            <summary>
+            Gets or sets the decimal points.
+            </summary>
+            <value>The decimal points.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericColumn.DefaultValue">
+            <summary>
+            Gets or sets the default value.
+            </summary>
+            <value>The default value.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericColumn.Maximum">
+            <summary>
+            Gets or sets the maximum.
+            </summary>
+            <value>The maximum.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericColumn.Minimum">
+            <summary>
+            Gets or sets the minimum.
+            </summary>
+            <value>The minimum.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericColumn.CellTemplate">
+            <summary>
+            Gets or sets the template used to create new cells.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.DataGridViewNumericEditingControl">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewNumericEditingControl.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewNumericEditingControl.OnValueChanged(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Windows.Forms.NumericUpDown.ValueChanged"></see> event.
+            </summary>
+            
+            <param name="e">An <see cref="T:System.EventArgs"></see> that contains the event data. </param>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewNumericEditingControl.ApplyCellStyleToEditingControl(System.Windows.Forms.DataGridViewCellStyle)">
+            <summary>
+            Changes the control's user interface (UI) to be consistent with the specified cell style.
+            </summary>
+            
+            <param name="dataGridViewCellStyle">The <see cref="T:System.Windows.Forms.DataGridViewCellStyle"></see> to use as the model for the UI.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewNumericEditingControl.EditingControlWantsInputKey(System.Windows.Forms.Keys,System.Boolean)">
+            <summary>
+            Determines whether the specified key is a regular input key that the editing control should process or a special key that the <see cref="T:System.Windows.Forms.DataGridView"></see> should process.
+            </summary>
+            
+            <returns>
+            true if the specified key is a regular input key that should be handled by the editing control; otherwise, false.
+            </returns>
+            
+            <param name="keyData">A <see cref="T:System.Windows.Forms.Keys"></see> that represents the key that was pressed.</param>
+            <param name="dataGridViewWantsInputKey">true when the <see cref="T:System.Windows.Forms.DataGridView"></see> wants to process the <see cref="T:System.Windows.Forms.Keys"></see> in keyData; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewNumericEditingControl.GetEditingControlFormattedValue(System.Windows.Forms.DataGridViewDataErrorContexts)">
+            <summary>
+            Retrieves the formatted value of the cell.
+            </summary>
+            
+            <returns>
+            An <see cref="T:System.Object"></see> that represents the formatted version of the cell contents.
+            </returns>
+            
+            <param name="context">A bitwise combination of <see cref="T:System.Windows.Forms.DataGridViewDataErrorContexts"></see> values that specifies the context in which the data is needed.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewNumericEditingControl.PrepareEditingControlForEdit(System.Boolean)">
+            <summary>
+            Prepares the currently selected cell for editing.
+            </summary>
+            
+            <param name="selectAll">true to select all of the cell's content; otherwise, false.</param>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericEditingControl.EditingControlDataGridView">
+            <summary>
+             Gets or sets the <see cref="T:System.Windows.Forms.DataGridView"></see> that contains the cell.
+            </summary>
+            
+            <returns>
+             The <see cref="T:System.Windows.Forms.DataGridView"></see> that contains the <see cref="T:System.Windows.Forms.DataGridViewCell"></see> that is being edited; null if there is no associated <see cref="T:System.Windows.Forms.DataGridView"></see>.
+            </returns>
+            
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericEditingControl.EditingControlFormattedValue">
+            <summary>
+            Gets or sets the formatted value of the cell being modified by the editor.
+            </summary>
+            
+            <returns>
+            An <see cref="T:System.Object"></see> that represents the formatted value of the cell.
+            </returns>
+            
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericEditingControl.EditingControlRowIndex">
+            <summary>
+            Gets or sets the index of the hosting cell's parent row.
+            </summary>
+            
+            <returns>
+            The index of the row that contains the cell, or –1 if there is no parent row.
+            </returns>
+            
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericEditingControl.EditingControlValueChanged">
+            <summary>
+            Gets or sets a value indicating whether the value of the editing control differs from the value of the hosting cell.
+            </summary>
+            
+            <returns>
+            true if the value of the control differs from the cell value; otherwise, false.
+            </returns>
+            
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericEditingControl.EditingPanelCursor">
+            <summary>
+            Gets the cursor used when the mouse pointer is over the <see cref="P:System.Windows.Forms.DataGridView.EditingPanel"></see> but not over the editing control.
+            </summary>
+            
+            <returns>
+            A <see cref="T:System.Windows.Forms.Cursor"></see> that represents the mouse pointer used for the editing panel. 
+            </returns>
+            
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewNumericEditingControl.RepositionEditingControlOnValueChange">
+            <summary>
+            Gets or sets a value indicating whether the cell contents need to be repositioned whenever the value changes.
+            </summary>
+            
+            <returns>
+            true if the contents need to be repositioned; otherwise, false.
+            </returns>
+            
+        </member>
+        <member name="T:AM.Windows.Forms.DataGridViewProgressCell">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewProgressCell.Paint(System.Drawing.Graphics,System.Drawing.Rectangle,System.Drawing.Rectangle,System.Int32,System.Windows.Forms.DataGridViewElementStates,System.Object,System.Object,System.String,System.Windows.Forms.DataGridViewCellStyle,System.Windows.Forms.DataGridViewAdvancedBorderStyle,System.Windows.Forms.DataGridViewPaintParts)">
+            <summary>
+            Paints the current <see cref="T:System.Windows.Forms.DataGridViewCell"></see>.
+            </summary>
+            <param name="graphics">The <see cref="T:System.Drawing.Graphics"></see> used to paint the <see cref="T:System.Windows.Forms.DataGridViewCell"></see>.</param>
+            <param name="clipBounds">A <see cref="T:System.Drawing.Rectangle"></see> that represents the area of the <see cref="T:System.Windows.Forms.DataGridView"></see> that needs to be repainted.</param>
+            <param name="cellBounds">A <see cref="T:System.Drawing.Rectangle"></see> that contains the bounds of the <see cref="T:System.Windows.Forms.DataGridViewCell"></see> that is being painted.</param>
+            <param name="rowIndex">The row index of the cell that is being painted.</param>
+            <param name="cellState">A bitwise combination of <see cref="T:System.Windows.Forms.DataGridViewElementStates"></see> values that specifies the state of the cell.</param>
+            <param name="value">The data of the <see cref="T:System.Windows.Forms.DataGridViewCell"></see> that is being painted.</param>
+            <param name="formattedValue">The formatted data of the <see cref="T:System.Windows.Forms.DataGridViewCell"></see> that is being painted.</param>
+            <param name="errorText">An error message that is associated with the cell.</param>
+            <param name="cellStyle">A <see cref="T:System.Windows.Forms.DataGridViewCellStyle"></see> that contains formatting and style information about the cell.</param>
+            <param name="advancedBorderStyle">A <see cref="T:System.Windows.Forms.DataGridViewAdvancedBorderStyle"></see> that contains border styles for the cell that is being painted.</param>
+            <param name="paintParts">A bitwise combination of the <see cref="T:System.Windows.Forms.DataGridViewPaintParts"></see> values that specifies which parts of the cell need to be painted.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewProgressCell.Clone">
+            <summary>
+            Creates an exact copy of this cell.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewProgressCell.Maximum">
+            <summary>
+            Gets or sets the maximum.
+            </summary>
+            <value>The maximum.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewProgressCell.Minimum">
+            <summary>
+            Gets or sets the minimum.
+            </summary>
+            <value>The minimum.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewProgressCell.ValueType">
+            <summary>
+            Gets or sets the data type of the values in the cell.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewProgressCell.DefaultNewRowValue">
+            <summary>
+            Gets the default value for a cell in the row for new records.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.DataGridViewProgressColumn">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewProgressColumn.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewProgressColumn.Maximum">
+            <summary>
+            Gets or sets the maximum.
+            </summary>
+            <value>The maximum.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewProgressColumn.Minimum">
+            <summary>
+            Gets or sets the minimum.
+            </summary>
+            <value>The minimum.</value>
+        </member>
+        <member name="T:AM.Windows.Forms.DataGridViewRatingCell">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewRatingCell.Paint(System.Drawing.Graphics,System.Drawing.Rectangle,System.Drawing.Rectangle,System.Int32,System.Windows.Forms.DataGridViewElementStates,System.Object,System.Object,System.String,System.Windows.Forms.DataGridViewCellStyle,System.Windows.Forms.DataGridViewAdvancedBorderStyle,System.Windows.Forms.DataGridViewPaintParts)">
+            <summary>
+            Paints the current <see cref="T:System.Windows.Forms.DataGridViewCell"></see>.
+            </summary>
+            
+            <param name="formattedValue">The formatted data of the <see cref="T:System.Windows.Forms.DataGridViewCell"></see> that is being painted.</param>
+            <param name="paintParts">A bitwise combination of the <see cref="T:System.Windows.Forms.DataGridViewPaintParts"></see> values that specifies which parts of the cell need to be painted.</param>
+            <param name="advancedBorderStyle">A <see cref="T:System.Windows.Forms.DataGridViewAdvancedBorderStyle"></see> that contains border styles for the cell that is being painted.</param>
+            <param name="graphics">The <see cref="T:System.Drawing.Graphics"></see> used to paint the <see cref="T:System.Windows.Forms.DataGridViewCell"></see>.</param>
+            <param name="errorText">An error message that is associated with the cell.</param>
+            <param name="rowIndex">The row index of the cell that is being painted.</param>
+            <param name="clipBounds">A <see cref="T:System.Drawing.Rectangle"></see> that represents the area of the <see cref="T:System.Windows.Forms.DataGridView"></see> that needs to be repainted.</param>
+            <param name="cellState">A bitwise combination of <see cref="T:System.Windows.Forms.DataGridViewElementStates"></see> values that specifies the state of the cell.</param>
+            <param name="value">The data of the <see cref="T:System.Windows.Forms.DataGridViewCell"></see> that is being painted.</param>
+            <param name="cellStyle">A <see cref="T:System.Windows.Forms.DataGridViewCellStyle"></see> that contains formatting and style information about the cell.</param>
+            <param name="cellBounds">A <see cref="T:System.Drawing.Rectangle"></see> that contains the bounds of the <see cref="T:System.Windows.Forms.DataGridViewCell"></see> that is being painted.</param>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewRatingCell.Maximum">
+            <summary>
+            Gets or sets the maximum.
+            </summary>
+            <value>The maximum.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewRatingCell.FormattedValueType">
+            <summary>
+            Gets the type of the formatted value associated with the cell. 
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewRatingCell.ValueType">
+            <summary>
+            Gets or sets the data type of the values in the cell. 
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewRatingCell.DefaultNewRowValue">
+            <summary>
+            Gets the default value for a cell in the row for new records.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.DataGridViewRatingColumn">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewRatingColumn.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.DataGridViewRatingColumn.Maximum">
+            <summary>
+            Gets or sets the maximum.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.DataGridViewUtility">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewUtility.ApplyColumns(System.Windows.Forms.DataGridView,System.Collections.Generic.IEnumerable{AM.Data.DataColumnInfo})">
+            <summary>
+            Apply specified columns to the <see cref="T:System.Windows.Forms.DataGridView"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewUtility.ToGridColumn(AM.Data.DataColumnInfo)">
+            <summary>
+            Converts the column description into
+            <see cref="T:System.Windows.Forms.DataGridViewColumn"/>
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DataGridViewUtility.GetColumns(System.String)">
+            <summary>
+            Gets the columns.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.GridColumnAttribute">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.GridColumnAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Windows.Forms.GridColumnAttribute"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.GridColumnAttribute.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.GridColumnAttribute.ColumnType">
+            <summary>
+            Gets or sets the type of the column.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.GridColumnAttribute.Frozen">
+            <summary>
+            Gets or sets a value indicating whether this 
+            <see cref="T:AM.Windows.Forms.GridColumnAttribute"/> is frozen.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.GridColumnAttribute.HeaderText">
+            <summary>
+            Gets or sets the header text.
+            </summary>
+            <value>The header text.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.GridColumnAttribute.Index">
+            <summary>
+            Gets or sets the index.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.GridColumnAttribute.ReadOnly">
+            <summary>
+            Gets or sets a value indicating whether [read only].
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.GridColumnAttribute.Resizeable">
+            <summary>
+            Gets or sets a value indicating whether this 
+            <see cref="T:AM.Windows.Forms.GridColumnAttribute"/> is resizeable.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.HabitualDataGridView">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.HabitualDataGridView.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.PagingDataGridViewEventArgs">
+            <summary>
+            EventArgs for <see cref="T:AM.Windows.Forms.PagingDataGridView"/>.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PagingDataGridViewEventArgs.CurrentRow">
+            <summary>
+            Current row.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PagingDataGridViewEventArgs.InitialCall">
+            <summary>
+            Initial call?
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PagingDataGridViewEventArgs.ScrollDown">
+            <summary>
+            Scroll direction.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PagingDataGridViewEventArgs.Success">
+            <summary>
+            Success.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.PagingDataGridView">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PagingDataGridView.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PagingDataGridView.FillGrid(System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Fill the grid.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PagingDataGridView.PerformPaging(System.Boolean,System.Boolean)">
+            <summary>
+            Perform paging.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PagingDataGridView.OnKeyDown(System.Windows.Forms.KeyEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.PagingDataGridView.OnMouseWheel(System.Windows.Forms.MouseEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="E:AM.Windows.Forms.PagingDataGridView.Paging">
+            <summary>
+            Raised on paging.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.DragMoveProvider">
+            <summary>
+            Provides an extra property for controls 
+            to enable or disable the DragMove behavior.
+            </summary>
+            <remarks>
+            Borrowed from http://www.thomaslevesque.com/2009/05/06/windows-forms-automatically-drag-and-drop-controls-dragmove/
+            </remarks>
+        </member>
+        <member name="M:AM.Windows.Forms.DragMoveProvider.#ctor">
+            <summary>
+            Initializes a new instance of the DragMoveProvider
+             class without a specified container.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DragMoveProvider.#ctor(System.ComponentModel.IContainer)">
+            <summary>
+            Initializes a new instance of the DragMoveProvider
+            class with a specified container.
+            <param name="container">An IContainer that 
+            represents the container of the DragMoveProvider.
+            </param>
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DragMoveProvider.CanExtend(System.Object)">
+            <summary>
+            Renvoie true si le DragMoveProvider peut fournir une propriété d'extension à l'objet cible spécifié.
+            </summary>
+            <param name="extendee">L'objet cible auquel ajouter une propriété d'extension.</param>
+            <returns>true si le DragMoveProvider peut fournir une ou plusieurs propriété d'extensions ; sinon, false.</returns>
+        </member>
+        <member name="M:AM.Windows.Forms.DragMoveProvider.GetEnableDragMove(System.Windows.Forms.Control)">
+            <summary>
+            Retrieves a value indicating whether 
+            the DragMove behavior is enabled 
+            on the specified control.
+            </summary>
+            <param name="control">The Control for which 
+            to retrieve DragMove status</param>
+            <returns>true if the DragMove behavior 
+            is enabled for this control ; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:AM.Windows.Forms.DragMoveProvider.SetEnableDragMove(System.Windows.Forms.Control,System.Boolean)">
+            <summary>
+            Enable or disables the DragMove behavior
+            for the specified control.
+            </summary>
+            <param name="control">The control for which
+            to enable or disable the DragMove behavior.
+            </param>
+            <param name="value">A value indicating 
+            if the DragMove behavior must be enabled 
+            or disabled for this control.</param>
+        </member>
+        <member name="F:AM.Windows.Forms.DragMoveProvider.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DragMoveProvider.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.DragMoveProvider.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.DragMoveUtility">
+            <summary>
+            Automatically drag and drop controls.
+            </summary>
+            <remarks>
+            Borrowed from http://www.thomaslevesque.com/2009/05/06/windows-forms-automatically-drag-and-drop-controls-dragmove/
+            </remarks>
+        </member>
+        <member name="M:AM.Windows.Forms.DragMoveUtility.DragMove(System.Windows.Forms.Control)">
+            <summary>
+            Temporarily enables the DragMove behavior
+            for the specified control, until the mouse
+            button is released.
+            </summary>
+            <param name="control">The control to drag</param>
+        </member>
+        <member name="M:AM.Windows.Forms.DragMoveUtility.EnableDragMove(System.Windows.Forms.Control,System.Boolean)">
+            <summary>
+            Enables or disables the DragMove behavior
+            for the specified control.
+            </summary>
+            <param name="control">The control for which the 
+            DragMove behavior must be enabled or disabled
+            </param>
+            <param name="value">A value indicating whether
+            to enable or disable the DragMove behavior
+            </param>
+        </member>
+        <member name="M:AM.Windows.Forms.DragMoveUtility.IsDragMoveEnabled(System.Windows.Forms.Control)">
+            <summary>
+            Checks whether the DragMove behavior is enabled
+            for the specified control.
+            </summary>
+            <param name="control">The control to check.</param>
+            <returns>true if DragMove is enabled for this control;
+             otherwise, false</returns>
+        </member>
+        <member name="T:AM.Windows.Forms.DriveComboBox">
+            <summary>
+            <see cref="T:System.Windows.Forms.ComboBox"/> that contains list of installed
+            drives.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DriveComboBox.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.DriveComboBox.OnDrawItem(System.Windows.Forms.DrawItemEventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Windows.Forms.ComboBox.DrawItem"/>
+            event.
+            </summary>
+            <param name="e">A 
+            <see cref="T:System.Windows.Forms.DrawItemEventArgs"/>
+            that contains the event data. </param>
+        </member>
+        <member name="M:AM.Windows.Forms.DriveComboBox.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by the 
+            <see cref="T:System.Windows.Forms.ComboBox"/> and optionally releases 
+            the managed resources. 
+            </summary>
+            <param name="disposing">true to release both managed 
+            and unmanaged resources; false to release only unmanaged 
+            resources.</param>
+        </member>
+        <member name="P:AM.Windows.Forms.DriveComboBox.CurrentDrive">
+            <summary>
+            Gets or sets the current drive.
+            </summary>
+            <value>The current drive.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.DriveComboBox.CurrentDriveInfo">
+            <summary>
+            Gets information about the current drive.
+            </summary>
+            <value>The current drive info.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.DriveComboBox.Items">
+            <summary>
+            Gets an object representing the collection of the items contained 
+            in this <see cref="T:System.Windows.Forms.ComboBox"/>.
+            </summary>
+            <returns>A <see cref="T:System.Windows.Forms.ComboBox.ObjectCollection"/>
+            representing the items in the <see cref="T:System.Windows.Forms.ComboBox"/>.
+            </returns>
+        </member>
+        <member name="T:AM.Windows.Forms.EnumComboBox">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.EnumComboBox.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.EnumComboBox.EnumType">
+            <summary>
+            Gets or sets the type of the enum.
+            </summary>
+            <value>The type of the enum.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.EnumComboBox.Value">
+            <summary>
+            Gets or sets the value.
+            </summary>
+            <value>The value.</value>
+        </member>
+        <member name="T:AM.Windows.Forms.EnumListBox">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.EnumListBox.EnumType">
+            <summary>
+            Gets or sets the type of the enum.
+            </summary>
+            <value>The type of the enum.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.EnumListBox.Value">
+            <summary>
+            Gets the value.
+            </summary>
+            <value>The value.</value>
+        </member>
+        <member name="T:AM.Windows.Forms.EnumTypeConverter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.EnumTypeConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <summary>
+            Returns whether this converter can convert
+            an object of the given type to the type
+            of this converter, using the specified context.
+            </summary>
+            <param name="context">An
+            <see cref="T:System.ComponentModel.ITypeDescriptorContext"/>
+            that provides a format context.</param>
+            <param name="sourceType">A <see cref="T:System.Type"/>
+            that represents the type you want to convert from.</param>
+            <returns>
+            true if this converter can perform the conversion;
+            otherwise, false.
+            </returns>
+        </member>
+        <member name="M:AM.Windows.Forms.EnumTypeConverter.CanConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <summary>
+            Returns whether this converter can convert
+            the object to the specified type, using
+            the specified context.
+            </summary>
+            <param name="context">An
+            <see cref="T:System.ComponentModel.ITypeDescriptorContext"/>
+            that provides a format context.</param>
+            <param name="destinationType">A <see cref="T:System.Type"/>
+            that represents the type you want to convert to.</param>
+            <returns>
+            true if this converter can perform the conversion;
+            otherwise, false.
+            </returns>
+        </member>
+        <member name="M:AM.Windows.Forms.EnumTypeConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)">
+            <summary>
+            Converts the given object to the type of this converter, using the specified context and culture information.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+            <param name="culture">The <see cref="T:System.Globalization.CultureInfo"></see> to use as the current culture.</param>
+            <param name="value">The <see cref="T:System.Object"></see> to convert.</param>
+            <returns>
+            An <see cref="T:System.Object"></see> that represents the converted value.
+            </returns>
+            <exception cref="T:System.NotSupportedException">The conversion cannot be performed. </exception>
+        </member>
+        <member name="M:AM.Windows.Forms.EnumTypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
+            <summary>
+            Converts the given value object to the specified type, using the specified context and culture information.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"></see> that provides a format context.</param>
+            <param name="culture">A <see cref="T:System.Globalization.CultureInfo"></see>. If null is passed, the current culture is assumed.</param>
+            <param name="value">The <see cref="T:System.Object"></see> to convert.</param>
+            <param name="destinationType">The <see cref="T:System.Type"></see> to convert the value parameter to.</param>
+            <returns>
+            An <see cref="T:System.Object"></see> that represents the converted value.
+            </returns>
+            <exception cref="T:System.NotSupportedException">The conversion cannot be performed. </exception>
+            <exception cref="T:System.ArgumentNullException">The destinationType parameter is null. </exception>
+        </member>
+        <member name="T:AM.Windows.Forms.EventedTextBox">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.EventedTextBox.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.EventedTextBox.Dispose(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.EventedTextBox.OnKeyDown(System.Windows.Forms.KeyEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.EventedTextBox.OnTextChanged(System.EventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="E:AM.Windows.Forms.EventedTextBox.DelayedTextChanged">
+            <summary>
+            Delayed version of TextChanged event.
+            </summary>
+        </member>
+        <member name="E:AM.Windows.Forms.EventedTextBox.EnterPressed">
+            <summary>
+            Fired when Enter key pressed.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.EventedTextBox.Delay">
+            <summary>
+            Delay, milliseconds.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.ExceptionBox">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ExceptionBox.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ExceptionBox.Show(System.Windows.Forms.IWin32Window,System.Exception)">
+            <summary>
+            Shows the specified exception.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ExceptionBox.Show(System.Exception)">
+            <summary>
+            Shows the specified exception.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.ExceptionBox.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ExceptionBox.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.ExceptionBox.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ExceptionBox.Exception">
+            <summary>
+            Exception.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.FontComboBox">
+            <summary>
+            Комбинированный список, позволяющий выбрать
+            шрифт из списка.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.FontComboBox.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:FontComboBox"/> class.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.FontComboBox.SelectedFontName">
+            <summary>
+             Имя выбранного шрифта.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.FontComboBox.Items">
+            <summary>
+            Gets an object representing the collection of the items contained in this <see cref="T:System.Windows.Forms.ComboBox"></see>.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.FormUtility">
+            <summary>
+            Extension methods for <see cref="T:System.Windows.Forms.Form"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.FormUtility.AdjustPlacement(System.Windows.Forms.Form,System.Windows.Forms.Screen)">
+            <summary>
+            Adjusts the placement of the form.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.FormUtility.CalculatePlacement(System.Drawing.Size,AM.Windows.Forms.WindowPlacement,System.Drawing.Size)">
+            <summary>
+            Calculates placement for the window according to
+            the specified <see cref="T:AM.Windows.Forms.WindowPlacement"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.FormUtility.ShowVersionInfoInTitle(System.Windows.Forms.Form)">
+            <summary>
+            Show version information in form title.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.FormUtility.PrintSystemInformation(AM.Text.Output.AbstractOutput)">
+            <summary>
+            Print system information in abstract output.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.HatchComboBox">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.HatchComboBox.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:HatchComboBox"/> class.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.HatchComboBox.Style">
+            <summary>
+            Gets or sets the style.
+            </summary>
+            <value>The style.</value>
+        </member>
+        <member name="T:AM.Windows.Forms.InputBox">
+            <summary>
+            Simple string value input dialog.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.InputBox.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.InputBox.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.InputBox.Query(System.String,System.String,System.String@)">
+            <summary>
+            Запрашивает у пользователя строковое значение 
+            (предлагая значение по умолчанию).
+            </summary>
+            <param name="caption">Заголовок окна.</param>
+            <param name="prompt">Поясняющий текст.</param>
+            <param name="theValue">Куда помещать результат.</param>
+            <returns>Результат отработки диалогового окна.</returns>
+        </member>
+        <member name="M:AM.Windows.Forms.InputBox.Query(System.String,System.String,System.String,System.String@)">
+            <summary>
+            Запрашивает у пользователя строковое значение
+            (предлагая значение по умолчанию).
+            </summary>
+            <param name="caption">Заголовок окна.</param>
+            <param name="prompt">Поясняющий текст.</param>
+            <param name="theValue">Куда помещать результат.</param>
+            <param name="topText">Текст в верхней части окна.</param>
+            <returns>Результат отработки диалогового окна.</returns>
+        </member>
+        <member name="T:AM.Windows.Forms.InputLanguageIndicator">
+            <summary>
+            Input language indicator.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.InputLanguageIndicator.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.InputLanguageIndicator.Dispose(System.Boolean)">
+            <inheritdoc cref="M:System.Windows.Forms.Control.Dispose(System.Boolean)"/>
+        </member>
+        <member name="M:AM.Windows.Forms.InputLanguageIndicator.OnKeyDown(System.Windows.Forms.KeyEventArgs)">
+            <inheritdoc cref="M:System.Windows.Forms.Control.OnKeyDown(System.Windows.Forms.KeyEventArgs)"/>
+        </member>
+        <member name="M:AM.Windows.Forms.InputLanguageIndicator.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            <inheritdoc cref="M:System.Windows.Forms.Control.OnPaint(System.Windows.Forms.PaintEventArgs)"/>
+        </member>
+        <member name="M:AM.Windows.Forms.InputLanguageIndicator.OnParentChanged(System.EventArgs)">
+            <inheritdoc cref="M:System.Windows.Forms.Control.OnParentChanged(System.EventArgs)"/>
+        </member>
+        <member name="P:AM.Windows.Forms.InputLanguageIndicator.DefaultSize">
+            <inheritdoc cref="P:System.Windows.Forms.Control.DefaultSize"/>
+        </member>
+        <member name="T:AM.Windows.Forms.InputLanguageSaver">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.InputLanguageSaver.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.InputLanguageSaver.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="P:AM.Windows.Forms.InputLanguageSaver.PreviousLanguage">
+            <summary>
+            Previous language.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.InputLanguageUtility">
+            <summary>
+            Utility for <see cref="T:System.Windows.Forms.InputLanguage"/> manipulations.
+            </summary>
+            <remarks>Borrowed from:
+            https://blogs.msdn.microsoft.com/snippets/2008/12/31/how-to-change-input-language-programmatically/
+            </remarks>
+        </member>
+        <member name="M:AM.Windows.Forms.InputLanguageUtility.ChangeInputLanguage">
+            <summary>
+            Change current Input Language to a next installed language.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.InputLanguageUtility.ChangeInputLanguage(System.String)">
+            <summary>
+            Changing current Input Language to a new one passed in the param.
+            </summary>
+            <param name="isoLanguageCode">ISO Culture name string code 
+            e.g. "en" for English</param>
+        </member>
+        <member name="M:AM.Windows.Forms.InputLanguageUtility.ChangeInputLanguage(System.Int32)">
+            <summary>
+            Changing current Input Language to a new one passed in the param
+            </summary>
+            <param name="languageId">Integer Culture code 
+            e.g. 1033 for English</param>
+        </member>
+        <member name="M:AM.Windows.Forms.InputLanguageUtility.ChangeInputLanguage(System.Windows.Forms.InputLanguage)">
+            <summary>
+            Changing current Input Language to a new one passed in the param
+            </summary>
+            <param name="inputLanguage">New input language.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.InputLanguageUtility.SwitchToEnglish">
+            <summary>
+            Switch to English language.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.InputLanguageUtility.SwitchToRussian">
+            <summary>
+            Switch to Russian language.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.InputLanguageUtility.AmericanEnglishLanguage">
+            <summary>
+            American English language.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.InputLanguageUtility.NextLanguage">
+            <summary>
+            Next installed input language.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.InputLanguageUtility.RussianLanguage">
+            <summary>
+            Russian language.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.JogControl">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.JogControl.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.JogControl.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Windows.Forms.Control.Paint" /> event.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.JogControl.OnMouseDown(System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Windows.Forms.Control.MouseDown" /> event.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.JogControl.OnMouseUp(System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Windows.Forms.Control.MouseUp" /> event.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.JogControl.OnMouseMove(System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Windows.Forms.Control.MouseMove" /> event.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.JogControl.OnMouseWheel(System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Windows.Forms.Control.MouseWheel" /> event.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.JogControl.SetBoundsCore(System.Int32,System.Int32,System.Int32,System.Int32,System.Windows.Forms.BoundsSpecified)">
+            <summary>
+            Performs the work of setting the specified bounds
+            of this control.
+            </summary>
+        </member>
+        <member name="E:AM.Windows.Forms.JogControl.AngleChanged">
+            <summary>
+            Raised when <see cref="P:AM.Windows.Forms.JogControl.Angle"/> changed.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.JogControl.Angle">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.JogControl.CoolColor">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.KeyboardUtility">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.LabeledComboBox">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.LabeledComboBox.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AM.Windows.Forms.LabeledComboBox"/> class.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.LabeledComboBox.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.LabeledComboBox.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.LabeledComboBox.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.LabeledComboBox.ComboBox">
+            <summary>
+            Gets the combo box.
+            </summary>
+            <value>The combo box.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.LabeledComboBox.Label">
+            <summary>
+            Gets the label.
+            </summary>
+            <value>The label.</value>
+        </member>
+        <member name="T:AM.Windows.Forms.LabeledTextBox">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.LabeledTextBox.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AM.Windows.Forms.LabeledTextBox"/> class.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.LabeledTextBox.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.LabeledTextBox.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.LabeledTextBox.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.LabeledTextBox.Label">
+            <summary>
+            Gets the label.
+            </summary>
+            <value>The label.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.LabeledTextBox.TextBox">
+            <summary>
+            Gets the text box.
+            </summary>
+            <value>The text box.</value>
+        </member>
+        <member name="T:AM.Windows.Forms.LabelEx">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.LabelEx.TransferFocusToBuddyControl">
+            <summary>
+            Transfers the focus to buddy control.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.LabelEx.OnClick(System.EventArgs)">
+            <summary>
+            Raises the
+            <see cref="E:System.Windows.Forms.Control.Click"/>
+            event.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.LabelEx.BuddyControl">
+            <summary>
+            Gets or sets the buddy control.
+            </summary>
+            <value>The buddy control.</value>
+        </member>
+        <member name="T:AM.Windows.Forms.ListBoxEx">
+            <summary>
+            <see cref="T:System.Windows.Forms.ListBox"/> with drag-drop support
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxEx.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxEx.OnDragDrop(System.Windows.Forms.DragEventArgs)">
+            <summary>
+            Raises the 
+            <see cref="E:System.Windows.Forms.Control.DragDrop"/>
+            event.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxEx.OnDragEnter(System.Windows.Forms.DragEventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Windows.Forms.Control.DragEnter"/>
+            event.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxEx.OnMouseDown(System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Windows.Forms.Control.MouseDown"/>
+            event.
+            </summary>
+            <param name="e">A <see cref="T:System.Windows.Forms.MouseEventArgs"/>
+            that contains the event data.</param>
+        </member>
+        <member name="T:AM.Windows.Forms.ListBoxOutput">
+            <summary>
+            Вывод в ListBox.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxOutput.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxOutput.#ctor(System.Windows.Forms.ListBox)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxOutput.AppendText(System.String)">
+            <summary>
+            Добавление текста в конец текстбокса.
+            </summary>
+            <param name="text"></param>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxOutput.Clear">
+            <summary>
+            Очищает вывод, например, окно.
+            Надо переопределить в потомке.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxOutput.Configure(System.String)">
+            <summary>
+            Конфигурирование объекта.
+            Надо переопределить в потомке.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxOutput.Write(System.String)">
+            <summary>
+            Метод, который нужно переопределить
+            в потомке.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxOutput.WriteError(System.String)">
+            <summary>
+            Выводит ошибку. Например, красным цветом.
+            Надо переопределить в потомке.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ListBoxOutput.ListBox">
+            <summary>
+            Текстбокс
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ListBoxOutput.HaveError">
+            <summary>
+            Флаг: был ли вывод с помощью WriteError.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.ListBoxTextWriter">
+            <summary>
+            <see cref="T:System.IO.TextWriter"/> that writes to
+            <see cref="T:System.Windows.Forms.ListBox"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxTextWriter.#ctor(System.Windows.Forms.ListBox)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxTextWriter.Flush">
+            <summary>
+            Clears all buffers for the current writer and causes any buffered data to be written to the underlying device.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxTextWriter.WriteLine">
+            <summary>
+            Writes a line terminator to the text stream.
+            </summary>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"></see> is closed. </exception>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxTextWriter.WriteLine(System.String)">
+            <summary>
+            Writes a string followed by a line terminator to the text stream.
+            </summary>
+            <param name="value">The string to write. If value is null, only the line termination characters are written.</param>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"></see> is closed. </exception>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxTextWriter.WriteLine(System.String,System.Object[])">
+            <summary>
+            Writes out a formatted string and a new line, using the same semantics as <see cref="M:System.String.Format(System.String,System.Object)"></see>.
+            </summary>
+            <param name="format">The formatting string.</param>
+            <param name="arg">The object array to write into format string.</param>
+            <exception cref="T:System.FormatException">The format specification in format is invalid.-or- The number indicating an argument to be formatted is less than zero, or larger than or equal to arg.Length. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"></see> is closed. </exception>
+            <exception cref="T:System.ArgumentNullException">A string or object is passed in as null. </exception>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxTextWriter.Write(System.String)">
+            <summary>
+            Writes a string to the text stream.
+            </summary>
+            <param name="value">The string to write.</param>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"></see> is closed. </exception>
+        </member>
+        <member name="M:AM.Windows.Forms.ListBoxTextWriter.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by the <see cref="T:System.IO.TextWriter"></see> and optionally releases the managed resources.
+            </summary>
+            <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        </member>
+        <member name="P:AM.Windows.Forms.ListBoxTextWriter.MaxLineCount">
+            <summary>
+             Максимальное количество строк в списке.
+             По мере появления "лишних" строк, самые верхние
+             строки удаляются из списка.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ListBoxTextWriter.ScrollToBottom">
+            <summary>
+             Скроллировать ли список к нижнему элементу 
+             по мере заполнения списка.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ListBoxTextWriter.Encoding">
+            <summary>
+            When overridden in a derived class, returns the <see cref="T:System.Text.Encoding"></see> in which the output is written.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.LogBox">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.LogBox.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.LogBox.SetOutput(AM.Text.Output.AbstractOutput)">
+            <summary>
+            Set output
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.LogBox.Output">
+            <summary>
+            Output.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.Meter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.Meter.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.Meter.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.Meter.OnMouseDown(System.Windows.Forms.MouseEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.Meter.OnMouseUp(System.Windows.Forms.MouseEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.Meter.OnMouseMove(System.Windows.Forms.MouseEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="E:AM.Windows.Forms.Meter.ValueChanged">
+            <summary>
+            Raised when <see cref="P:AM.Windows.Forms.Meter.Value"/> changed.
+            </summary>
+        </member>
+        <member name="E:AM.Windows.Forms.Meter.MinValueChanged">
+            <summary>
+            Raised when <see cref="P:AM.Windows.Forms.Meter.MinimalValue"/> changed.
+            </summary>
+        </member>
+        <member name="E:AM.Windows.Forms.Meter.MaxValueChanged">
+            <summary>
+            Raised when <see cref="P:AM.Windows.Forms.Meter.MaximalValue"/> changed.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Meter.Value">
+            <summary>
+             Current value.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Meter.MinimalValue">
+            <summary>
+             Minimal value.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Meter.MaximalValue">
+            <summary>
+             Maximal value.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Meter.EnableTracking">
+            <summary>
+             Enable tracking?
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.PenInfo">
+            <summary>
+            Информация о пере.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PenInfo.ToPen">
+            <summary>
+            Convert <see cref="T:AM.Windows.Forms.PenInfo"/> to <see cref="T:System.Drawing.Pen"/>.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PenInfo.Alignment">
+            <summary>
+             Alingnment.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PenInfo.Color">
+            <summary>
+             Color.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PenInfo.DashCap">
+            <summary>
+             Dash.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PenInfo.DashStyle">
+            <summary>
+             Dash.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PenInfo.EndCap">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PenInfo.LineJoin">
+            <summary>
+             Line join.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PenInfo.StartCap">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PenInfo.Width">
+            <summary>
+             Pen width.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.PenInfo.Editor">
+            <summary>
+            Editor for <see cref="T:AM.Windows.Forms.PenInfo"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PenInfo.Editor.GetEditStyle(System.ComponentModel.ITypeDescriptorContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.PenInfo.Editor.EditValue(System.ComponentModel.ITypeDescriptorContext,System.IServiceProvider,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.PenInfo.Editor.GetPaintValueSupported(System.ComponentModel.ITypeDescriptorContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:AM.Windows.Forms.PickList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PickList.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.PickList.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PickList.OnResize(System.EventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.PickList.Dispose(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.PickList.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PickList.AvailableList">
+            <summary>
+            Gets the available list.
+            </summary>
+            <value>The available list.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.PickList.AvailableItems">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PickList.SelectedList">
+            <summary>
+            Gets the selected list.
+            </summary>
+            <value>The selected list.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.PickList.SelectedItems">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.PictureViewForm">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PictureViewForm.#ctor(System.Drawing.Image)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:AM.Windows.Forms.PictureViewForm"/> class.
+            </summary>
+            <param name="image">The image.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.PictureViewForm.Show(System.Windows.Forms.IWin32Window,System.Drawing.Image)">
+            <summary>
+            Shows the specified parent.
+            </summary>
+            <param name="parent">The parent.</param>
+            <param name="image">The image.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AM.Windows.Forms.PictureViewForm.ShowDialog(System.Windows.Forms.IWin32Window,System.Drawing.Image)">
+            <summary>
+            Shows the dialog.
+            </summary>
+            <param name="parent">The parent.</param>
+            <param name="image">The image.</param>
+        </member>
+        <member name="F:AM.Windows.Forms.PictureViewForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PictureViewForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.PictureViewForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PictureViewForm.Image">
+            <summary>
+            Gets or sets the image.
+            </summary>
+            <value>The image.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.PictureViewForm.Mode">
+            <summary>
+            Gets or sets the mode.
+            </summary>
+            <value>The mode.</value>
+        </member>
+        <member name="T:AM.Windows.Forms.PictureViewMode">
+            <summary>
+            Image view mode for <see cref="T:AM.Windows.Forms.PictureViewForm"/>.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.PictureViewMode.Auto">
+            <summary>
+            Automatic mode.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.PictureViewMode.Fit">
+            <summary>
+            Fit form to picture size.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.PictureViewMode.Scroll">
+            <summary>
+            Scroll picture.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.PlainTextEditor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextEditor.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextEditor.AddButton(System.Windows.Forms.ToolStripButton)">
+            <summary>
+            Add the button to the toolbox.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextEditor.Clear">
+            <summary>
+            Clear the text area.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextEditor.Copy">
+            <summary>
+            Copy selected text to the clipboard.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextEditor.Cut">
+            <summary>
+            Cut selected text to the clipboard.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextEditor.LoadFromFile">
+            <summary>
+            Load text from file.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextEditor.LoadFromFile(System.String)">
+            <summary>
+            Load text from the file.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextEditor.Paste">
+            <summary>
+            Paste text from the clipboard.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextEditor.Print">
+            <summary>
+            Print the text.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextEditor.SaveToFile">
+            <summary>
+            Save the text to file.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextEditor.SaveToFile(System.String)">
+            <summary>
+            Save the text to the file.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.PlainTextEditor.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextEditor.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextEditor.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PlainTextEditor.Text">
+            <inheritdoc />
+        </member>
+        <member name="P:AM.Windows.Forms.PlainTextEditor.TextBox">
+            <summary>
+            Text box.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.PlainTextForm">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextForm.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextForm.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextForm.AddButton(System.Windows.Forms.ToolStripButton)">
+            <summary>
+            Add button to the toolbox.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextForm.ShowDialog(System.Windows.Forms.IWin32Window,System.String)">
+            <summary>
+            Show the windows with the text.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.PlainTextForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.PlainTextForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PlainTextForm.Editor">
+            <summary>
+            Text editor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PlainTextForm.Text">
+            <inheritdoc cref="P:System.Windows.Forms.Control.Text"/>
+        </member>
+        <member name="T:AM.Windows.Forms.ProgressCircle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ProgressCircle.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AM.Windows.Forms.ProgressCircle"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ProgressCircle.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Windows.Forms.Control.Paint"></see> event.
+            </summary>
+            <param name="e">A <see cref="T:System.Windows.Forms.PaintEventArgs"></see> that contains the event data.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.ProgressCircle.SetBoundsCore(System.Int32,System.Int32,System.Int32,System.Int32,System.Windows.Forms.BoundsSpecified)">
+            <summary>
+            Performs the work of setting the specified bounds of this control.
+            </summary>
+            <param name="x">The new <see cref="P:System.Windows.Forms.Control.Left"></see> property value of the control.</param>
+            <param name="y">The new <see cref="P:System.Windows.Forms.Control.Top"></see> property value of the control.</param>
+            <param name="width">The new <see cref="P:System.Windows.Forms.Control.Width"></see> property value of the control.</param>
+            <param name="height">The new <see cref="P:System.Windows.Forms.Control.Height"></see> property value of the control.</param>
+            <param name="specified">A bitwise combination of the <see cref="T:System.Windows.Forms.BoundsSpecified"></see> values.</param>
+        </member>
+        <member name="P:AM.Windows.Forms.ProgressCircle.FillColor">
+            <summary>
+            Gets or sets the color of the fill.
+            </summary>
+            <value>The color of the fill.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.ProgressCircle.DoneColor">
+            <summary>
+            Gets or sets the color of the done.
+            </summary>
+            <value>The color of the done.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.ProgressCircle.Percent">
+            <summary>
+            Gets or sets the percent.
+            </summary>
+            <value>The percent.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.ProgressCircle.Square">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:AM.Windows.Forms.ProgressCircle"/> is square.
+            </summary>
+            <value><c>true</c> if square; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.ProgressCircle.DrawValue">
+            <summary>
+            Gets or sets a value indicating whether [draw value].
+            </summary>
+            <value><c>true</c> if [draw value]; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="T:AM.Windows.Forms.ProgressForm">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ProgressForm.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:AM.Windows.Forms.ProgressForm"/> class.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.ProgressForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ProgressForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.ProgressForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.ProgressPanel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ProgressPanel.#ctor">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Windows.Forms.ProgressPanel"/> class.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.ProgressPanel.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ProgressPanel.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.ProgressPanel.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.PropertyBox">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.PropertyBox._components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PropertyBox.ShowDialog(System.Windows.Forms.IWin32Window,System.Object)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PropertyBox.ShowDialog(System.Windows.Forms.IWin32Window,System.Object[])">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PropertyBox.Show(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AM.Windows.Forms.PropertyBox.Show(System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AM.Windows.Forms.PropertyBox.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PropertyBox.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PropertyBox.SelectedObject">
+            <summary>
+            Property SelectedObject (object)
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PropertyBox.SelectedObjects">
+            <summary>
+            Gets or sets the selected objects.
+            </summary>
+            <value>The selected objects.</value>
+        </member>
+        <member name="T:AM.Windows.Forms.PseudoAsync">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.PseudoAsync.DefaultSmoothness">
+            <summary>
+            Smoothness, milliseconds.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PseudoAsync.SleepALittle">
+            <summary>
+            Sleep for a short time.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PseudoAsync.Run(System.Action)">
+            <summary>
+            Run some code in pseudo-async manner.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PseudoAsync.Run``1(System.Action{``0},``0)">
+            <summary>
+            Run some code in pseudo-async manner.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PseudoAsync.Run``2(System.Action{``0,``1},``0,``1)">
+            <summary>
+            Run some code in pseudo-async manner.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PseudoAsync.Run``3(System.Action{``0,``1,``2},``0,``1,``2)">
+            <summary>
+            Run some code in pseudo-async manner.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PseudoAsync.Run``1(System.Func{``0})">
+            <summary>
+            Run some code in pseudo-async manner.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PseudoAsync.Run``2(System.Func{``0,``1},``0)">
+            <summary>
+            Run some code in pseudo-async manner.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PseudoAsync.Run``3(System.Func{``0,``1,``2},``0,``1)">
+            <summary>
+            Run some code in pseudo-async manner.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PseudoAsync.WaitFor(System.Boolean@)">
+            <summary>
+            Wait for flag.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PseudoAsync.WaitFor(System.Func{System.Boolean})">
+            <summary>
+            Wait for flag.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PseudoAsync.WaitFor``1(System.Func{``0,System.Boolean},``0)">
+            <summary>
+            Wait for flag.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PseudoAsync.WaitFor(System.IAsyncResult)">
+            <summary>
+            Wait for task.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PseudoAsync.WaitFor(System.Boolean,System.Threading.WaitHandle[])">
+            <summary>
+            Wait for some tasks.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.PseudoAsync.WaitFor(System.Boolean,System.Threading.Tasks.Task[])">
+            <summary>
+            Wait for some tasks.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.PseudoAsync.Smoothness">
+            <summary>
+            Smoothness, milliseconds.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.RadioGroup">
+            <summary>
+            Group of radio-buttons.
+            </summary>
+        </member>
+        <member name="E:AM.Windows.Forms.RadioGroup.CurrentChanged">
+            <summary>
+            Current RadioButton changed.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.RadioGroup.LeftIndent">
+            <summary>
+            Left indent.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.RadioGroup.LineIndent">
+            <summary>
+            Line indent.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.RadioGroup.Count">
+            <summary>
+            Button count.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.RadioGroup.Evenly">
+            <summary>
+            Property Evenly (bool)
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.RadioGroup.Current">
+            <summary>
+            Current button index.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.RadioGroup.Lines">
+            <summary>
+            Lines of text.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.RadioGroup.CurrentChangedHandler">
+            <summary>
+            Called when current RadioButton changed.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.RainbowControl">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RainbowControl.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:AM.Windows.Forms.RainbowControl"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RainbowControl.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.RainbowControl.OnMouseDown(System.Windows.Forms.MouseEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.RainbowControl.OnMouseUp(System.Windows.Forms.MouseEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.RainbowControl.OnMouseEnter(System.EventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.RainbowControl.OnMouseLeave(System.EventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.RainbowControl.OnMouseMove(System.Windows.Forms.MouseEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.RainbowControl.OnMouseDoubleClick(System.Windows.Forms.MouseEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="P:AM.Windows.Forms.RainbowControl.Items">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.RainbowItem">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RainbowItem.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RainbowItem.#ctor(System.Drawing.Color,System.Single)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.RainbowItem.Color">
+            <summary>
+             Color.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.RainbowItem.Position">
+            <summary>
+             Position.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.RainbowItemList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RainbowItemList.Add(System.Drawing.Color,System.Single)">
+            <summary>
+            Adds the color at specified position.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.RetryForm">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RetryForm.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RetryForm.GetResolver">
+            <summary>
+            Get resolver.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.RetryForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RetryForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.RetryForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.RetryForm.Message">
+            <summary>
+            Message text.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.RichTextEditor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RichTextEditor.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RichTextEditor.Clear">
+            <summary>
+            Clear the text area.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RichTextEditor.Copy">
+            <summary>
+            Copy selected text to the clipboard.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RichTextEditor.Cut">
+            <summary>
+            Cut the selected text to the clipboard.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RichTextEditor.LoadFromFile">
+            <summary>
+            Load text from file.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RichTextEditor.LoadFromFile(System.String)">
+            <summary>
+            Load text from the file.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RichTextEditor.Paste">
+            <summary>
+            Paste text from the clipboard.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RichTextEditor.SaveToFile">
+            <summary>
+            Save text to file.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RichTextEditor.SaveToFile(System.String)">
+            <summary>
+            Save text to the file.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.RichTextEditor.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.RichTextEditor.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.RichTextEditor.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.RichTextEditor.RichTextBox">
+            <summary>
+            Text box.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.RichTextEditor.Rtf">
+            <summary>
+            Formatted text.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.RichTextEditor.Text">
+            <inheritdoc />
+        </member>
+        <member name="T:AM.Windows.Forms.ScreenUtility">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ScreenUtility.MoveToPrimaryScreen(System.Windows.Forms.Form)">
+            <summary>
+            Moves given form window to the primary screen.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ScreenUtility.MoveToScreen(System.Windows.Forms.Screen,System.Windows.Forms.Form)">
+            <summary>
+            Moves form window to given screen.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ScreenUtility.MoveToSecondaryScreen(System.Windows.Forms.Form)">
+            <summary>
+            Moves given form window to secondary screen (if present).
+            </summary>
+            <param name="form">The form.</param>
+            <returns><c>true</c> on success, <c>false</c>
+            on failure (e.g. no secondary screen present).</returns>
+        </member>
+        <member name="P:AM.Windows.Forms.ScreenUtility.HaveSecondaryScreen">
+            <summary>
+            Determines whether secondary screen present.
+            </summary>
+            <value><c>true</c> if secondary screen present;
+            otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.ScreenUtility.SecondaryScreen">
+            <summary>
+            Gets the secondary screen.
+            </summary>
+            <value>The secondary screen or <c>null</c> if none.
+            </value>
+        </member>
+        <member name="T:AM.Windows.Forms.ScrollControl">
+            <summary>
+            Simplest scroll control.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ScrollControl.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ScrollControl.OnMouseDown(System.Windows.Forms.MouseEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:AM.Windows.Forms.ScrollControl.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="E:AM.Windows.Forms.ScrollControl.Scroll">
+            <summary>
+            Raised on scroll.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ScrollControl.DefaultMaximumSize">
+            <inheritdoc />
+        </member>
+        <member name="P:AM.Windows.Forms.ScrollControl.DefaultMinimumSize">
+            <inheritdoc />
+        </member>
+        <member name="P:AM.Windows.Forms.ScrollControl.DefaultSize">
+            <inheritdoc />
+        </member>
+        <member name="T:AM.Windows.Forms.TextBoxOutput">
+            <summary>
+            Вывод в текстовое поле.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxOutput.#ctor">
+            <summary>
+            Конструктор.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxOutput.#ctor(System.Windows.Forms.TextBox)">
+            <summary>
+            Конструктор.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxOutput.AppendText(System.String)">
+            <summary>
+            Добавление текста в конец текстбокса.
+            </summary>
+            <param name="text"></param>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxOutput.Clear">
+            <summary>
+            Очищает вывод, например, окно.
+            Надо переопределить в потомке.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxOutput.Configure(System.String)">
+            <summary>
+            Конфигурирование объекта.
+            Надо переопределить в потомке.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxOutput.Write(System.String)">
+            <summary>
+            Метод, который нужно переопределить
+            в потомке.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxOutput.WriteError(System.String)">
+            <summary>
+            Выводит ошибку. Например, красным цветом.
+            Надо переопределить в потомке.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.TextBoxOutput.TextBox">
+            <summary>
+            Текстбокс
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.TextBoxOutput.HaveError">
+            <summary>
+            Флаг: был ли вывод с помощью WriteError.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.TextBoxTraceListener">
+            <summary>
+            <see cref="T:System.Diagnostics.TraceListener"/> that uses <see cref="P:AM.Windows.Forms.TextBoxTraceListener.TextBox"/>
+            to write trace messages.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxTraceListener.#ctor(System.Windows.Forms.TextBox)">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Windows.Forms.TextBoxTraceListener"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxTraceListener._textBox_Disposed(System.Object,System.EventArgs)">
+            <summary>
+            Handles the Disposed event of the _textBox control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.EventArgs"/> 
+            instance containing the event data.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxTraceListener.Write(System.String)">
+            <summary>
+            When overridden in a derived class, writes the specified 
+            message to the listener you create in the derived class.
+            </summary>
+            <param name="message">A message to write. 
+            </param>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxTraceListener.WriteLine(System.String)">
+            <summary>
+            When overridden in a derived class, writes a message to 
+            the listener you create in the derived class, followed by 
+            a line terminator.
+            </summary>
+            <param name="message">A message to write.
+            </param>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxTraceListener.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by the 
+            <see cref="T:System.Diagnostics.TraceListener"/> and optionally releases 
+            the managed resources.
+            </summary>
+            <param name="disposing">true to release both 
+            managed and unmanaged resources; false to release 
+            only unmanaged resources.</param>
+        </member>
+        <member name="P:AM.Windows.Forms.TextBoxTraceListener.TextBox">
+            <summary>
+            Gets the text box used to write trace messages.
+            </summary>
+            <value>The text box used.</value>
+        </member>
+        <member name="T:AM.Windows.Forms.TextBoxWithButton">
+            <summary>
+            <see cref="P:AM.Windows.Forms.TextBoxWithButton.TextBox"/> with <see cref="P:AM.Windows.Forms.TextBoxWithButton.Button"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxWithButton.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.TextBoxWithButton.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxWithButton.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxWithButton.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="E:AM.Windows.Forms.TextBoxWithButton.ButtonClick">
+            <summary>
+            Raised on button click.
+            </summary>
+        </member>
+        <member name="E:AM.Windows.Forms.TextBoxWithButton.TextChanged">
+            <summary>
+            Raised when text changed.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.TextBoxWithButton.Button">
+            <summary>
+            Button.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.TextBoxWithButton.SelectionStart">
+            <summary>
+            Selection start.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.TextBoxWithButton.TextBox">
+            <summary>
+            Text box.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.TextBoxWithButton.TextLength">
+            <summary>
+            Text length.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.TextBoxWithButton.Text">
+            <inheritdoc/>
+        </member>
+        <member name="T:AM.Windows.Forms.TextBoxWriter">
+            <summary>
+            <see cref="T:System.IO.TextWriter"/> that writes to
+            <see cref="T:System.Windows.Forms.TextBox"/>.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.TextBoxWriter.Scroll">
+            <summary>
+            Fired when scrolling occurs.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxWriter.#ctor(System.Windows.Forms.TextBoxBase)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:AM.Windows.Forms.TextBoxWriter"/> class.
+            </summary>
+            <param name="textBox">The text box.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxWriter.Finalize">
+            <summary>
+            Releases unmanaged resources and performs other cleanup 
+            operations before the
+            <see cref="T:AM.Windows.Forms.TextBoxWriter"/> is reclaimed 
+            by garbage collection.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxWriter.OnScroll">
+            <summary>
+            Called when scrolling occurs.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxWriter.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by the <see cref="T:System.IO.TextWriter"></see> and optionally releases the managed resources.
+            </summary>
+            <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxWriter.Write(System.Char)">
+            <summary>
+            Writes a character to the text stream.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxWriter.Write(System.String)">
+            <summary>
+            Writes a string to the text stream.
+            </summary>
+            <param name="value">The string to write.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxWriter.WriteLine">
+            <summary>
+            Writes a line terminator to the text stream.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.TextBoxWriter.WriteLine(System.String)">
+            <summary>
+            Writes a string followed by a line terminator to the text stream.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.TextBoxWriter.AutoScroll">
+            <summary>
+            Gets or sets a value indicating whether auto scroll
+            is enabled.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.TextBoxWriter.TextBox">
+            <summary>
+            Gets the text box.
+            </summary>
+            <value>The text box.</value>
+        </member>
+        <member name="P:AM.Windows.Forms.TextBoxWriter.Encoding">
+            <summary>
+            When overridden in a derived class, returns the <see cref="T:System.Text.Encoding"></see> in which the output is written.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.Thermometer">
+            <summary>
+            Простой "градусник".
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.Thermometer.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.Thermometer.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="E:AM.Windows.Forms.Thermometer.CurrentTemperatureChanged">
+            <summary>
+            Raised when current temperature changed.
+            </summary>
+        </member>
+        <member name="E:AM.Windows.Forms.Thermometer.MinimalTemperatureChanged">
+            <summary>
+            Raised when minimal temperature changed.
+            </summary>
+        </member>
+        <member name="E:AM.Windows.Forms.Thermometer.MaximalTemperatureChanged">
+            <summary>
+            Raised when maximal temperature changed.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Thermometer.CurrentTemperature">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Thermometer.MinimalTemperature">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Thermometer.MaximalTemperature">
+            <summary>
+             
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.ToolStripCheckBox">
+            <summary>
+            <see cref="T:System.Windows.Forms.CheckBox"/> that
+            appears in <see cref="T:System.Windows.Forms.ToolStrip"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ToolStripCheckBox.#ctor">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Windows.Forms.ToolStripCheckBox"/> class.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ToolStripCheckBox.CheckBox">
+            <summary>
+            Gets inner <see cref="P:AM.Windows.Forms.ToolStripCheckBox.CheckBox"/> control.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ToolStripCheckBox.Text">
+            <summary>
+            Gets or sets the text to be displayed on the hosted control.
+            </summary>
+            <value></value>
+            <returns>A <see cref="T:System.String"/> 
+            representing the text.</returns>
+        </member>
+        <member name="T:AM.Windows.Forms.ToolStripColorComboBox">
+            <summary>
+            <see cref="T:System.Windows.Forms.ComboBox"/> that
+            appears in <see cref="T:System.Windows.Forms.ToolStrip"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ToolStripColorComboBox.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:AM.Windows.Forms.ToolStripColorComboBox"/> class.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ToolStripColorComboBox.ColorComboBox">
+            <summary>
+            Gets the ColorComboBox.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.ToolStripCustomizationForm">
+            <summary>
+            Customization form for ToolStrip.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ToolStripCustomizationForm.#ctor(System.Windows.Forms.ToolStrip)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.ToolStripCustomizationForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ToolStripCustomizationForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:AM.Windows.Forms.ToolStripCustomizationForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ToolStripCustomizationForm.ToolStrip">
+            <summary>
+            ToolStrip.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.ToolStripCustomizer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ToolStripCustomizer.Customize(System.Windows.Forms.ToolStrip)">
+            <summary>
+            Customizes the specified tool strip.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.ToolStripDateTimePicker">
+            <summary>
+            <see cref="T:System.Windows.Forms.DateTimePicker"/> that
+            appears in <see cref="T:System.Windows.Forms.ToolStrip"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ToolStripDateTimePicker.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:AM.Windows.Forms.ToolStripDateTimePicker"/> class.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ToolStripDateTimePicker.DateTimePicker">
+            <summary>
+            Gets the DateTimePicker.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.ToolStripMaskedTextBox">
+            <summary>
+            <see cref="T:System.Windows.Forms.MaskedTextBox"/> that
+            appears in <see cref="T:System.Windows.Forms.ToolStrip"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ToolStripMaskedTextBox.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ToolStripMaskedTextBox.MaskedTextBox">
+            <summary>
+            Gets the MaskedTextBox.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.ToolStripNumericUpDown">
+            <summary>
+            <see cref="T:System.Windows.Forms.NumericUpDown"/> that
+            appears in <see cref="T:System.Windows.Forms.ToolStrip"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ToolStripNumericUpDown.#ctor">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:AM.Windows.Forms.ToolStripNumericUpDown"/> class.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ToolStripNumericUpDown.NumericUpDown">
+            <summary>
+            Gets the NumericUpDown.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.ToolStripOrdinaryButton">
+            <summary>
+            <see cref="T:System.Windows.Forms.Button"/> that
+            appears in <see cref="T:System.Windows.Forms.ToolStrip"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ToolStripOrdinaryButton.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ToolStripOrdinaryButton.Button">
+            <summary>
+            Gets the Button.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.ToolStripPictureBox">
+            <summary>
+            <see cref="T:System.Windows.Forms.PictureBox"/> that
+            appears in <see cref="T:System.Windows.Forms.ToolStrip"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ToolStripPictureBox.#ctor">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Windows.Forms.ToolStripPictureBox"/> class.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ToolStripPictureBox.PictureBox">
+            <summary>
+            Gets the PictureBox.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ToolStripPictureBox.Size">
+             <summary>
+             Gets or sets the size of the 
+             <see cref="T:System.Windows.Forms.ToolStripItem"/>.
+             </summary>
+             <returns>
+             An ordered pair of type 
+             <see cref="T:System.Drawing.Size"/> representing 
+             the width and height of a rectangle.
+            </returns>
+        </member>
+        <member name="T:AM.Windows.Forms.ToolStripRadioButton">
+            <summary>
+            <see cref="T:System.Windows.Forms.RadioButton"/> that
+            appears in <see cref="T:System.Windows.Forms.ToolStrip"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ToolStripRadioButton.#ctor">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Windows.Forms.ToolStripRadioButton"/> class.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ToolStripRadioButton.RadioButton">
+            <summary>
+            Gets the RadioButton.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.ToolStripTrackBar">
+            <summary>
+            <see cref="T:System.Windows.Forms.TrackBar"/> that
+            appears in <see cref="T:System.Windows.Forms.ToolStrip"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Windows.Forms.ToolStripTrackBar.#ctor">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:AM.Windows.Forms.ToolStripTrackBar"/> class.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.ToolStripTrackBar.TrackBar">
+            <summary>
+            Gets the TrackBar.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.WindowPlacement">
+            <summary>
+            <see cref="T:System.Windows.Forms.Form"/> window placement enumeration.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.WindowPlacement.ScreenCenter">
+            <summary>
+            Center of the screen.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.WindowPlacement.TopLeftCorner">
+            <summary>
+            Top left corner.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.WindowPlacement.TopRightCorner">
+            <summary>
+            Top right corner.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.WindowPlacement.TopSide">
+            <summary>
+            Center of the top side.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.WindowPlacement.LeftSide">
+            <summary>
+            Center of the left side.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.WindowPlacement.RightSide">
+            <summary>
+            Center of the right side.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.WindowPlacement.BottomSide">
+            <summary>
+            Center of the bottom side.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.WindowPlacement.BottomLeftCorner">
+            <summary>
+            Bottom left corner.
+            </summary>
+        </member>
+        <member name="F:AM.Windows.Forms.WindowPlacement.BottomRightCorner">
+            <summary>
+            Bottom right corner.
+            </summary>
+        </member>
+        <member name="T:AM.Windows.Forms.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources._35floppy">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.arrowDown">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.arrowUp">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.cddrive">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.downArrow">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.drive">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.drivenet">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.Gear0">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.Gear1">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.Gear2">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.leftArrow">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.rightArrow">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.Star0">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.Star1">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.Star2">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:AM.Windows.Forms.Properties.Resources.upArrow">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+    </members>
+</doc>
