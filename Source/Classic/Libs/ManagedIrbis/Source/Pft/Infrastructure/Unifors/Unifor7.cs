@@ -9,9 +9,6 @@
 
 #region Using directives
 
-using System.Diagnostics;
-using System.IO;
-
 using AM.Text;
 
 using JetBrains.Annotations;
@@ -55,10 +52,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
     static class Unifor7
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         public static void FormatDocuments

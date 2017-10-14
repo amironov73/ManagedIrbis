@@ -9,13 +9,9 @@
 
 #region Using directives
 
-using System;
-
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
@@ -34,9 +30,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     /// <summary>
     /// 
     /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
-    public static class Unifor9
+    static class Unifor9
     {
         #region Public methods
 
@@ -52,9 +46,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             Code.NotNull(context, "context");
 
-            if (!String.IsNullOrEmpty(expression))
+            if (!string.IsNullOrEmpty(expression))
             {
-                string clear = expression.Replace("\"", String.Empty);
+                string clear = expression.Replace("\"", string.Empty);
                 context.Write(node, clear);
                 context.OutputFlag = true;
             }

@@ -17,8 +17,6 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
@@ -45,9 +43,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     /// <summary>
     /// 
     /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
-    public static class UniforA
+    static class UniforA
     {
         #region Public methods
 

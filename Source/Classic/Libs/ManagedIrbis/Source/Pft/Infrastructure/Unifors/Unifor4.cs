@@ -9,55 +9,51 @@
 
 #region Using directives
 
-using System.Diagnostics;
-using System.IO;
-
 using AM.Text;
 
-using ManagedIrbis.Infrastructure;
+using JetBrains.Annotations;
 
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
+    //
+    // &UNIFOR('4N,Format')  - ФОРМАТИРОВАНИЕ ПРЕДЫДУЩЕЙ КОПИИ ТЕКУЩЕЙ ЗАПИСИ:
+    //
+    // где:
+    //
+    // N - номер копии (в обратном порядке, т.е. если N=1 - это один шаг назад,
+    // N=2 - два шага назад и т.д.). Может принимать значение * - это указывает
+    // на последнюю копию.
+    // Если N - пустое значение, то в случае повторяющейся группы в качестве
+    // значения N берется НОМЕР ТЕКУЩЕГО ПОВТОРЕНИЯ, в противном случае
+    // берется первая копия;
+    // Format - формат; может задаваться непосредственно или в виде @имя_формата.
+    //
+    // Если не задается ни N ни Format, т.е. &unifor('4'), то возвращается
+    // количество предыдущих копий.
+    // Если запись не имеет предыдущих копий, то &unifor('4') возвращает 0,
+    // а все остальные конструкции &unifor('4...') возвращают пустоту.
+    //
+    // Примеры:
+    //
+    // &unifor('41,@brief')
+    // (...&unifor('4,v200^a')...)
+    // &unifor('4*,(v910/)')
+    //
+
     static class Unifor4
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
-
-        // &UNIFOR('4N,Format')  - ФОРМАТИРОВАНИЕ ПРЕДЫДУЩЕЙ КОПИИ ТЕКУЩЕЙ ЗАПИСИ:
-        //
-        // где:
-        //
-        // N - номер копии (в обратном порядке, т.е. если N=1 - это один шаг назад,
-        // N=2 - два шага назад и т.д.). Может принимать значение * - это указывает
-        // на последнюю копию.
-        // Если N - пустое значение, то в случае повторяющейся группы в качестве
-        // значения N берется НОМЕР ТЕКУЩЕГО ПОВТОРЕНИЯ, в противном случае
-        // берется первая копия;
-        // Format - формат; может задаваться непосредственно или в виде @имя_формата.
-        //
-        // Если не задается ни N ни Format, т.е. &unifor('4'), то возвращается
-        // количество предыдущих копий.
-        // Если запись не имеет предыдущих копий, то &unifor('4') возвращает 0,
-        // а все остальные конструкции &unifor('4...') возвращают пустоту.
-        //
-        // Примеры:
-        // &unifor('41,@brief')
-        // (...&unifor('4,v200^a')...)
-        // &unifor('4*,(v910/)')
 
         /// <summary>
         /// Format previous version of current record.
         /// </summary>
         public static void FormatPreviousVersion
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             MarcRecord record = context.Record;

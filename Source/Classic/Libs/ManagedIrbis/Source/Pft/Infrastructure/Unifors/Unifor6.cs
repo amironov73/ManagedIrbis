@@ -81,10 +81,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
     static class Unifor6
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         public static void ExecuteNestedFormat

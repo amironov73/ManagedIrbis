@@ -25,7 +25,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Контроль ISSN/ISBN – &uf('C…
+    // Контроль ISSN/ISBN – &uf('C
     // Вид функции: C.
     // Назначение: Контроль ISSN/ISBN.Возвращаемое значение:
     // 0 - при положительном результате, 1 - при отрицательном.
@@ -40,7 +40,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public static class UniforC
+    static class UniforC
     {
         #region Public methods
 

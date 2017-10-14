@@ -9,17 +9,12 @@
 
 #region Using directives
 
-using System.Diagnostics;
-using System.IO;
 using System.Text;
 
 using AM;
 using AM.Text;
 
 using JetBrains.Annotations;
-
-using ManagedIrbis.ImportExport;
-using ManagedIrbis.Infrastructure;
 
 #endregion
 
@@ -49,10 +44,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
     static class Unifor0
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         public static void FormatAll

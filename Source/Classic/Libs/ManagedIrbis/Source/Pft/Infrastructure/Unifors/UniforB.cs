@@ -9,7 +9,6 @@
 
 #region Using directives
 
-using System;
 using System.Text;
 
 using AM;
@@ -21,6 +20,18 @@ using JetBrains.Annotations;
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
+    //
+    // Выдать библиографическую свертку документа – &uf('B
+    // Вид функции: B.
+    // Назначение: Выдать библиографическую свертку документа.
+    // Формат (передаваемая строка):
+    // B
+    //
+    // Примеры:
+    //
+    // &unifor('B')
+    //
+
     static class UniforB
     {
         #region Private members
@@ -69,12 +80,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Convolution of the text.
         /// </summary>
         public static void Convolution
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
+            // Берётся первая буква последнего слова, затем первая
+            // буква предпоследнего слова, и так до первого слова.
+            // Затем вторая буква последнего слова (если есть),
+            // вторая буква предпоследнего слова, и так снова до
+            // первого слова. Продолжается это до тех пор, пока
+            // не закончатся буквы в словах, либо не будет достигнут
+            // предел в 64 символа.
+
             const int MaxLength = 64;
 
             if (string.IsNullOrEmpty(expression))
