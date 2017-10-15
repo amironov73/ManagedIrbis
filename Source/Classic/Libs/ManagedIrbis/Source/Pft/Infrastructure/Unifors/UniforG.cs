@@ -9,8 +9,6 @@
 
 #region Using directives
 
-using System;
-
 using AM.Logging;
 using AM.Text;
 
@@ -18,38 +16,46 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
-    public static class UniforG
+    //
+    // Вернуть часть строки до или начиная с заданного символа – &uf('G
+    // Вид функции: G.
+    //Назначение: Вернуть часть строки до или начиная с заданного символа.
+    // Формат (передаваемая строка):
+    // GNA<строка>
+    // где:
+    // N может принимать значения:
+    // 0 (или A) – до заданного символа не включая его;
+    // 1 (или B) – начиная с заданного символа;
+    // 2 (или C) – после заданного символа;
+    // 3 (или D) – после последнего вхождения заданного символа;
+    // 4 (или E) – до последнего вхождения заданного символа (включая его);
+    // 5 – до последнего вхождения заданного символа (не включая его).
+    // А – заданный символ.Символ обозначает самого себя,
+    // кроме # (обозначает любую цифру) и $ (обозначает любую букву).
+    // Примечание: функция G5 присутствует в версиях ИРБИС с 2015.1.
+    //
+    // Примеры:
+    //
+    // &unifor("G0#"v700)
+    // &unifor("G1-"v700^a)
+    // &unifor("G2-"v700^a)
+    //
+    // Пример получения ссылки на файл из подполя 952^U
+    // полнотекстовой БД для файлов, добавленных с разбиением и без
+    // &uf('G0:',&uf('G4:',&uf('G2:',&uf('G2:', v952^U))))
+    //
+
+    static class UniforG
     {
         #region Public methods
 
         /// <summary>
         /// Вернуть часть строки до или начиная с заданного символа.
         /// </summary>
-        /// <remarks>
-        /// Формат (передаваемая строка):
-        /// GNAстрока
-        /// где:
-        /// N может принимать значения:
-        /// 0 (или A) – до заданного символа не включая его;
-        /// 1 (или B) – начиная с заданного символа;
-        /// 2 (или C) – после заданного символа;
-        /// 3 (или D) – после последнего вхождения заданного символа;
-        /// 4 (или E) – до последнего вхождения заданного символа(включая его);
-        /// 5 – до последнего вхождения заданного символа(НЕ ВКЛЮЧАЯ его).
-        /// А – заданный символ.Символ обозначает самого себя, кроме 
-        /// # (обозначает любую цифру) и $ (обозначает любую букву).
-        /// </remarks>
         public static void GetPart
             (
                 [NotNull] PftContext context,
@@ -65,7 +71,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 char code = navigator.ReadChar();
                 char symbol = navigator.ReadChar();
                 string text = navigator.GetRemainingText();
-                if (!String.IsNullOrEmpty(text))
+                if (!string.IsNullOrEmpty(text))
                 {
                     int firstOffset, lastOffset;
                     string output = null;
@@ -148,7 +154,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                             break;
                     }
 
-                    if (!String.IsNullOrEmpty(output))
+                    if (!string.IsNullOrEmpty(output))
                     {
                         context.Write(node, output);
                         context.OutputFlag = true;

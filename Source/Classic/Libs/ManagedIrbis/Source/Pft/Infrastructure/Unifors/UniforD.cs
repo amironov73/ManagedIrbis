@@ -9,51 +9,44 @@
 
 #region Using directives
 
-using System.CodeDom.Compiler;
+using System;
 
 using AM;
 using AM.Text;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Pft.Infrastructure.Ast;
-using ManagedIrbis.PlatformSpecific;
-
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
+    //
+    // Форматирование документа из другой БД – &uf('D')
+    //
+    // Назначение: Форматирование документа из другой БД 
+    // (REF на другую БД – отношение «от одного к одному»).
+    //
+    // Формат (передаваемая строка):
+    //
+    // D<dbn>,<@mfn|/termin/>,<@имя_формата|формат|*>
+    //
+    // Передаются три параметра, разделенные запятой:
+    // Первый – имя БД;
+    // Второй – или непосредственно MFN с предшествующим
+    // символом @ или термин, ссылающийся на документ
+    // (термин – заключается в ограничительные символы);
+    // Третий – или имя формата с предшествующим символом
+    // @ или непосредственно формат.
+    // Если задается *, данные выводятся по прямой ссылке
+    // (метка поля, номер повторения).
+    //
+    // Примеры:
+    // &unifor('DBOOK,/K=AAA/,v200')
+    //
+
     static class UniforD
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
-
-        //
-        // Форматирование документа из другой БД – &uf('D')
-        //
-        // Назначение: Форматирование документа из другой БД 
-        // (REF на другую БД – отношение «от одного к одному»).
-        //
-        // Формат (передаваемая строка):
-        //
-        // D<dbn>,<@mfn|/termin/>,<@имя_формата|формат|*>
-        //
-        // Передаются три параметра, разделенные запятой:
-        // Первый – имя БД;
-        // Второй – или непосредственно MFN с предшествующим
-        // символом @ или термин, ссылающийся на документ
-        // (термин – заключается в ограничительные символы);
-        // Третий – или имя формата с предшествующим символом
-        // @ или непосредственно формат.
-        // Если задается *, данные выводятся по прямой ссылке
-        // (метка поля, номер повторения).
-        //
-        // Примеры:
-        // &unifor('DBOOK,/K=AAA/,v200')
-        //
 
         public static void FormatDocumentDB
             (
@@ -134,19 +127,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             if (format == "*")
             {
                 // TODO implement
+
+                throw new NotImplementedException();
             }
             else
             {
                 PftProgram program = PftUtility.CompileProgram(format);
 
-                using (PftContextGuard guard 
+                using (PftContextGuard guard
                     = new PftContextGuard(context))
                 {
                     PftContext copy = guard.ChildContext;
                     copy.Output = context.Output;
                     foreach (int mfn in found)
                     {
-                        MarcRecord record 
+                        MarcRecord record
                             = copy.Provider.ReadRecord(mfn);
                         if (!ReferenceEquals(record, null))
                         {

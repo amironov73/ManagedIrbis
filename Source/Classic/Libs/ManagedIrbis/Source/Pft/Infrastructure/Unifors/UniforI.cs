@@ -9,8 +9,6 @@
 
 #region Using directives
 
-using System;
-
 using AM;
 using AM.IO;
 
@@ -18,28 +16,23 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Вернуть параметр из INI-файла – &uf('I…
+    // Вернуть параметр из INI-файла – &uf('I
     // Вид функции: I.
     // Назначение: Вернуть параметр из INI-файла.
     // Формат (передаваемая строка):
     // I<SECTION>,<PAR_NAME>,<DE-FAULT_VALUE>
-    // Примеры:
+    //
+    // Пример:
+    //
     // &unifor('IPRIVATE,NAME,NONAME')
     //
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
-    public static class UniforI
+    static class UniforI
     {
         #region Public methods
 
@@ -55,7 +48,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             Code.NotNull(context, "context");
 
-            if (!String.IsNullOrEmpty(expression))
+            if (!string.IsNullOrEmpty(expression))
             {
                 string[] parts = StringUtility.SplitString
                     (
@@ -72,8 +65,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         ? parts[2]
                         : null;
 
-                    if (!String.IsNullOrEmpty(section)
-                        && !String.IsNullOrEmpty(parameter))
+                    if (!string.IsNullOrEmpty(section)
+                        && !string.IsNullOrEmpty(parameter))
                     {
                         string result;
                         using (IniFile iniFile
@@ -86,7 +79,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                                     defaultValue
                                 );
                         }
-                        if (!String.IsNullOrEmpty(result))
+                        if (!string.IsNullOrEmpty(result))
                         {
                             context.Write(node, result);
                             context.OutputFlag = true;

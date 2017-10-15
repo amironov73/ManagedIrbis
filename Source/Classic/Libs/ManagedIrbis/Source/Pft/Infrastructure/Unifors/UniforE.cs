@@ -18,14 +18,12 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Вернуть заданное количество слов с начала строки – &uf('E…
+    // Вернуть заданное количество слов с начала строки – &uf('E
     // Вид функции: E.
     // Назначение: Вернуть заданное количество слов с начала строки.
     // Формат (передаваемая строка):
@@ -36,12 +34,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // &unifor("E3"v200^a)
     //
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
-    public static class UniforE
+    static class UniforE
     {
         #region Private members
 
@@ -72,43 +65,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 return string.Empty;
             }
+
             Match match = matches[wordCount];
             int end = match.Index + match.Length;
             string result = text.Substring(0, end);
-
-            return result;
-        }
-
-        internal static string GetLastWords
-            (
-                [CanBeNull] string text,
-                int wordCount
-            )
-        {
-            if (string.IsNullOrEmpty(text)
-                || wordCount <= 0)
-            {
-                return string.Empty;
-            }
-
-            wordCount--;
-
-            MatchCollection matches = Regex.Matches
-                (
-                    text,
-                    @"\w+"
-                );
-            if (wordCount >= matches.Count)
-            {
-                return string.Empty;
-            }
-            Match match = matches[wordCount];
-            int end = match.Index + match.Length;
-            string result = text.Substring
-                (
-                    end,
-                    text.Length - end
-                );
 
             return result;
         }

@@ -9,31 +9,37 @@
 
 #region Using directives
 
-using System;
-
 using AM;
 using AM.Text;
 
-using ManagedIrbis.Pft.Infrastructure.Ast;
-using ManagedIrbis.PlatformSpecific;
+using JetBrains.Annotations;
 
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
+    //
+    // Вернуть кол-во ссылок для заданного термина – &uf('J
+    // Вид функции: J.
+    // Назначение: Вернуть кол-во ссылок для заданного термина.
+    // Формат (передаваемая строка):
+    // J<dbn>,<термин>
+    // <dbn> – имя БД; по умолчанию используется текущая.
+    //
+    // Пример:
+    //
+    // &unifor('JBOOK,',"A="v200^a)
+    //
+
     static class UniforJ
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         public static void GetTermRecordCountDB
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (string.IsNullOrEmpty(expression))

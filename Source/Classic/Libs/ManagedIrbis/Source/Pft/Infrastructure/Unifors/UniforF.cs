@@ -9,7 +9,7 @@
 
 #region Using directives
 
-using System;
+using System.Text.RegularExpressions;
 
 using AM;
 using AM.Text;
@@ -44,6 +44,46 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     [MoonSharpUserData]
     public static class UniforF
     {
+        #region Private members
+
+        static string GetLastWords
+            (
+                [CanBeNull] string text,
+                int wordCount
+            )
+        {
+            if (string.IsNullOrEmpty(text)
+                || wordCount <= 0)
+            {
+                return string.Empty;
+            }
+
+            wordCount--;
+
+            MatchCollection matches = Regex.Matches
+                (
+                    text,
+                    @"\w+"
+                );
+            if (wordCount >= matches.Count)
+            {
+                return string.Empty;
+            }
+
+            Match match = matches[wordCount];
+            int end = match.Index + match.Length;
+            string result = text.Substring
+                (
+                    end,
+                    text.Length - end
+                );
+
+            return result;
+        }
+
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -58,18 +98,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             Code.NotNull(context, "context");
 
-            if (!String.IsNullOrEmpty(expression))
+            if (!string.IsNullOrEmpty(expression))
             {
                 TextNavigator navigator = new TextNavigator(expression);
                 string countText = navigator.ReadInteger();
-                if (!String.IsNullOrEmpty(countText))
+                if (!string.IsNullOrEmpty(countText))
                 {
                     int wordCount;
                     if (NumericUtility.TryParseInt32(countText, out wordCount))
                     {
                         string text = navigator.GetRemainingText();
-                        string output = UniforE.GetLastWords(text, wordCount);
-                        if (!String.IsNullOrEmpty(output))
+                        string output = GetLastWords(text, wordCount);
+                        if (!string.IsNullOrEmpty(output))
                         {
                             context.Write(node, output);
                             context.OutputFlag = true;
