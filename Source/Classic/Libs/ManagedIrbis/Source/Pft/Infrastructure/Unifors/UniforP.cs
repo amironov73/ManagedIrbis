@@ -16,14 +16,12 @@ using AM.Logging;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Выдать заданное оригинальное повторение поля – &uf('P…
+    // Выдать заданное оригинальное повторение поля – &uf('P
     // Вид функции: P.
     // Назначение: Выдать заданное оригинальное повторение поля.
     // PV<tag>^<delim>*<offset>.<length>#<occur>
@@ -35,17 +33,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // <occur> – номер повторения.
     //
     // Примеры:
+    //
     // &unifor('Pv200#2')
     // &unifor('Pv910^a#5')
     // &unifor('Pv10^b*2.10#2')
     //
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
-    public static class UniforP
+    static class UniforP
     {
         #region Public methods
 
@@ -124,7 +118,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                             exception
                         );
                 }
-
             }
         }
 

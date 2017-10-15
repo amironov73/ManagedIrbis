@@ -9,29 +9,35 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Text;
 
-using CodeJam;
-
 using JetBrains.Annotations;
-
-using ManagedIrbis.ImportExport;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
+    //
+    // Отсортировать повторения заданного поля – &uf('M
+    // Вид функции: M.
+    // Назначение: Отсортировать повторения заданного поля
+    // (имеется в виду строковая сортировка) – функция ничего
+    // не возвращает. Можно применять только в глобальной корректировке.
+    // Формат (передаваемая строка):
+    // MX<tag>^<delims>
+    // где:
+    // X – вид сортировки: I – по возрастанию; D – по убыванию.
+    // <tag> – метка поля.
+    // <delims> – разделители подполей, определяющих ключ сортировки.
+    //
+    // Пример:
+    //
+    // &unifor('MI910^BD')
+    //
+
     static class UniforM
     {
         #region Private members
@@ -43,7 +49,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             public string Text { get; set; }
         }
 
-        internal static void SortField
+        static void SortField
             (
                 [NotNull] MarcRecord record,
                 int tag,
@@ -51,8 +57,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 bool descending
             )
         {
-            Code.NotNull(record, "record");
-
             RecordField[] found = record.Fields.GetField(tag);
             FieldToSort[] fields = new FieldToSort[found.Length];
 
@@ -80,9 +84,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             record.Fields.AddRange
                 (
                     fields.Select
-                    (
-                        field => field.Field
-                    )
+                        (
+                            field => field.Field
+                        )
                     .ToArray()
                 );
         }
@@ -107,11 +111,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     return;
                 }
+
                 string tagText = navigator.ReadUntil('^');
                 if (string.IsNullOrEmpty(tagText))
                 {
                     return;
                 }
+
                 int tag = NumericUtility.ParseInt32(tagText);
                 char code = '\0';
                 if (!navigator.IsEOF)

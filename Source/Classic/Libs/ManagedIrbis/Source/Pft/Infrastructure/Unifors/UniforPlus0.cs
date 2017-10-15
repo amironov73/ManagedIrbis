@@ -9,14 +9,11 @@
 
 #region Using directives
 
-using System.Diagnostics;
-using System.IO;
 using System.Text;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis.ImportExport;
-using ManagedIrbis.Infrastructure;
 
 #endregion
 
@@ -24,7 +21,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
     // Выдать содержимое документа полностью
-    // во внутреннем представлении – &uf('+0…
+    // во внутреннем представлении – &uf('+0
     // Вид функции: +0.
     // Назначение: Выдать содержимое документа полностью (формат ALL).
     // Формат(передаваемая строка):
@@ -46,10 +43,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
     static class UniforPlus0
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         public static void FormatAll

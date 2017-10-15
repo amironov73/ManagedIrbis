@@ -23,12 +23,14 @@ using ManagedIrbis.Fields;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Вывод сведений обо всех экземплярах по всем местам хранения – &uf('O…
+    // Вывод сведений обо всех экземплярах по всем местам хранения – &uf('O
     // Вид функции: O.
     // Назначение: Вывод сведений обо всех экземплярах по всем местам хранения.
     // Формат(передаваемая строка):
     // нет
+    //
     // Пример:
+    //
     // &unifor('O')
     //
 
@@ -63,7 +65,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     case ExemplarStatus.BiblioNet:
                         string amountText = exemplar.Amount;
                         int amount;
-                        if (NumericUtility.TryParseInt32(amountText, out amount))
+                        if (NumericUtility.TryParseInt32
+                            (
+                                amountText,
+                                out amount
+                            ))
                         {
                             counter.Augment(place, amount);
                         }
@@ -101,9 +107,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         public static void AllExemplars
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!ReferenceEquals(context.Record, null))

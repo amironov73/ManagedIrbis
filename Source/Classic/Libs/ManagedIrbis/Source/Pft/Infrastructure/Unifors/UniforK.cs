@@ -18,8 +18,6 @@ using JetBrains.Annotations;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
@@ -36,7 +34,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // и <исх_значение> может быть двух видов:
     // \ - раскодировка с учетом регистра,
     // ! - раскодировка без учета регистра.
+    //
     // Примеры:
+    //
     // &unifor("Kjz.mnu\"v101)
     // &uf('kFIO_SF.MNU!'&uf('av907^b#1'))
     //
@@ -44,12 +44,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // недокументированный разделитель |, он означает то же самое
     //
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
-    public static class UniforK
+    static class UniforK
     {
         #region Public methods
 
@@ -73,6 +68,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     return;
                 }
+
                 char separator = navigator.ReadChar();
                 if (separator != '\\'
                     && separator != '!'
@@ -80,11 +76,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     return;
                 }
+
                 string key = navigator.GetRemainingText();
                 if (string.IsNullOrEmpty(key))
                 {
                     return;
                 }
+
                 FileSpecification specification = new FileSpecification
                     (
                         IrbisPath.MasterFile,

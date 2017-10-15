@@ -10,13 +10,9 @@
 #region Using directives
 
 using System;
-using System.Diagnostics;
-using System.IO;
 
 using AM;
 using AM.Logging;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -33,17 +29,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // Назначение: Вернуть окончание термина.
     // Формат (передаваемая строка):
     // L<начало_термина>
+    //
     // Пример:
+    //
     // &unifor('L', 'JAZ=', 'рус')
+    //
     // выдаст 'СКИЙ'
     //
 
     static class UniforL
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         public static void ContinueTerm
@@ -88,15 +83,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 return;
             }
+
             string firstTerm = terms[0].Text;
             if (string.IsNullOrEmpty(firstTerm))
             {
                 return;
             }
+
             if (!firstTerm.StartsWith(expression))
             {
                 return;
             }
+
             string result = firstTerm.Substring(expression.Length);
             if (!string.IsNullOrEmpty(result))
             {
