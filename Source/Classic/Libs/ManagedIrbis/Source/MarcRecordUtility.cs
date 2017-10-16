@@ -194,7 +194,7 @@ namespace ManagedIrbis
         public static MarcRecord[] ParseAllFormat
             (
                 [NotNull] string database,
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string[] lines
             )
         {
