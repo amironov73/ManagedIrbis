@@ -11,23 +11,33 @@
 
 using System.Diagnostics;
 
+using JetBrains.Annotations;
+
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
+    //
+    // Выполнить внешнее приложение – &uf('+2
+    // Вид функции: +2.
+    // Назначение: Выполняет внешнее приложение.
+    // Всё, что после +2 – параметры командной строки.
+    // Формат (передаваемая строка):
+    //
+    // Пример:
+    //
+    // &unifor('+2cmd')
+    //
+
     static class UniforPlus2
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         public static void System
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
 #if CLASSIC
@@ -36,7 +46,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 string[] parts = expression.Split(new[] {' ', '\t'}, 2);
                 string fileName = parts[0];
-                string arguments = (parts.Length == 2)
+                string arguments = parts.Length == 2
                     ? parts[1]
                     : string.Empty;
 

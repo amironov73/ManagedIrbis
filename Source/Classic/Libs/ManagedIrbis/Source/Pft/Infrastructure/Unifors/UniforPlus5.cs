@@ -9,11 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-
 using AM;
 using AM.Logging;
 using AM.Text;
@@ -29,7 +24,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
     // Выдача элемента списка/справочника в соответствии
-    // с индексом (номером повторения) повторяющейся группы – &uf('+5…
+    // с индексом (номером повторения) повторяющейся группы – &uf('+5
     // Вид функции: +5.
     // Назначение: Выдача элемента списка/справочника в соответствии
     // с индексом (номером повторения) повторяющейся группы.
@@ -40,15 +35,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // F – выдать пояснение(имеет смысл, если задается справочник,
     // т.е.файл с расширением MNU).
     // Примеры:
-    //(…&unifor('+5Tfield.mnu'),' – ',&unifor('+5Ffield.mnu'))
+    // (&unifor('+5Tfield.mnu'),' – ',&unifor('+5Ffield.mnu'))
     //
 
     static class UniforPlus5
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         public static void GetEntry

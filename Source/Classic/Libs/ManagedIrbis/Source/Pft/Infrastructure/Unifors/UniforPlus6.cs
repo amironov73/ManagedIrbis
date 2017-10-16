@@ -18,7 +18,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Выдать статус записи – &uf('+6…
+    // Выдать статус записи – &uf('+6
     // Вид функции: +6.
     // Назначение: Выдать статус записи.
     // Если запись логически удаленная, возвращается 0,
@@ -26,16 +26,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // Присутствует в версиях ИРБИС с 2005.2.
     // Формат (передаваемая строка):
     // +6
-    // Примеры:
+    //
+    // Пример:
+    //
     // if &unifor('+6')='0' then 'запись логически удаленная' fi
     //
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
-    public static class UniforPlus6
+    static class UniforPlus6
     {
         #region Public methods
 

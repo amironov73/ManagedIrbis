@@ -25,7 +25,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     //
     // Выдача метки, порядкового номера и значения поля
     // в соответствии с индексом (номером повторения)
-    // повторяющейся группы – &uf('+4…
+    // повторяющейся группы – &uf('+4
     // Вид функции: +4.
     // Назначение: Выдача метки, порядкового номера и значения поля
     // в соответствии с индексом (номером повторения)
@@ -41,16 +41,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // Y принимает значения: 0 – поля выдаются в порядке
     // расположения в записи; 1 – поля выдаются в порядке
     // возрастания меток (по умолчанию 0).
-    // Примеры:
-    // (…&unifor('+4T1'),'_' &unifor('+4N1'),': ', &unifor('+4F1'),)
+    //
+    // Пример:
+    //
+    // (&unifor('+4T1'),'_' &unifor('+4N1'),': ', &unifor('+4F1'),)
     //
 
     static class UniforPlus4
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         public static void GetField
