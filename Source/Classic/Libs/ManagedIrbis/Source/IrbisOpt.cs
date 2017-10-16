@@ -11,27 +11,24 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Logging;
 using AM.Runtime;
-using AM.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
+using ManagedIrbis.Client;
+using ManagedIrbis.Infrastructure;
 
-using Newtonsoft.Json;
+using MoonSharp.Interpreter;
 
 #endregion
 
@@ -307,17 +304,8 @@ namespace ManagedIrbis
                 return true;
             }
 
-#if !WINMOBILE && !PocketPC
-
-            return char.ToUpperInvariant(left)
-                   == char.ToUpperInvariant(right);
-
-#else
-
-            return char.ToUpper(left) == char.ToUpper(right);
-
-#endif
-
+            return CharUtility.ToUpperInvariant(left)
+                   == CharUtility.ToUpperInvariant(right);
         }
 
         /// <summary>
@@ -352,12 +340,12 @@ namespace ManagedIrbis
 
                 if (leftNext && !rightNext)
                 {
-                    leftChar = (char)leftEnumerator.Current;
+                    leftChar = (char)leftEnumerator.Current.ThrowIfNull();
                     if (leftChar == Wildcard)
                     {
                         while (leftEnumerator.MoveNext())
                         {
-                            leftChar = (char)leftEnumerator.Current;
+                            leftChar = (char)leftEnumerator.Current.ThrowIfNull();
                             if (leftChar != Wildcard)
                             {
                                 return false;
@@ -376,8 +364,8 @@ namespace ManagedIrbis
                     return true;
                 }
 
-                leftChar = (char)leftEnumerator.Current;
-                char rightChar = (char)rightEnumerator.Current;
+                leftChar = (char)leftEnumerator.Current.ThrowIfNull();
+                char rightChar = (char)rightEnumerator.Current.ThrowIfNull();
                 if (!CompareChar(leftChar, rightChar))
                 {
                     return false;
@@ -400,6 +388,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Загружаем из OPT-файла.
         /// </summary>
+        [NotNull]
         public static IrbisOpt LoadFromOptFile
             (
                 [NotNull] string filePath
@@ -412,6 +401,31 @@ namespace ManagedIrbis
                         filePath,
                         IrbisEncoding.Ansi
                     ))
+            {
+                return ParseText(reader);
+            }
+        }
+
+        /// <summary>
+        /// Load from the server.
+        /// </summary>
+        [CanBeNull]
+        public static IrbisOpt LoadFromServer
+            (
+                [NotNull] IrbisProvider provider,
+                [NotNull] FileSpecification specification
+            )
+        {
+            Code.NotNull(provider, "provider");
+            Code.NotNull(specification, "specification");
+
+            string content = provider.ReadFile(specification);
+            if (string.IsNullOrEmpty(content))
+            {
+                return null;
+            }
+
+            using (StringReader reader = new StringReader(content))
             {
                 return ParseText(reader);
             }

@@ -27,6 +27,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
 using ManagedIrbis.Infrastructure;
 
 using MoonSharp.Interpreter;
@@ -135,14 +136,14 @@ namespace ManagedIrbis.Worksheet
         [CanBeNull]
         public static WsFile ReadFromServer
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IrbisProvider provider,
                 [NotNull] FileSpecification specification
             )
         {
-            Code.NotNull(connection, "connection");
+            Code.NotNull(provider, "provider");
             Code.NotNull(specification, "specification");
 
-            string content = connection.ReadTextFile(specification);
+            string content = provider.ReadFile(specification);
             if (string.IsNullOrEmpty(content))
             {
                 return null;
@@ -170,7 +171,7 @@ namespace ManagedIrbis.Worksheet
                         );
                     WsFile nestedFile = ReadFromServer
                         (
-                            connection,
+                            provider,
                             nestedSpecification
                         );
                     if (ReferenceEquals(nestedFile, null))

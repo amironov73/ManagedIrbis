@@ -11,9 +11,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 using AM;
+using AM.IO;
 using AM.Threading;
 
 using CodeJam;
@@ -274,6 +276,36 @@ namespace ManagedIrbis.Client
         public override IrbisStopWords GetStopWords()
         {
             return IrbisStopWords.FromServer(Connection);
+        }
+
+        /// <inheritdoc cref="IrbisProvider.ReadFile" />
+        public override string ReadFile
+            (
+                FileSpecification fileSpecification
+            )
+        {
+            return Connection.ReadTextFile(fileSpecification);
+        }
+
+        /// <inheritdoc cref="IrbisProvider.ReadIniFile" />
+        public override IniFile ReadIniFile
+            (
+                FileSpecification fileSpecification
+            )
+        {
+            string content = ReadFile(fileSpecification);
+            if (string.IsNullOrEmpty(content))
+            {
+                return null;
+            }
+
+            IniFile result = new IniFile();
+            using (StringReader reader = new StringReader(content))
+            {
+                result.Read(reader);
+            }
+
+            return result;
         }
 
         /// <inheritdoc cref="IrbisProvider.ReadRecord" />

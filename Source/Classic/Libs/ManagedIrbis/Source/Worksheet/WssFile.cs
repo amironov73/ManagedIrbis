@@ -9,13 +9,9 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
@@ -27,6 +23,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
 using ManagedIrbis.Infrastructure;
 
 using MoonSharp.Interpreter;
@@ -116,23 +113,26 @@ namespace ManagedIrbis.Worksheet
         [CanBeNull]
         public static WssFile ReadFromServer
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IrbisProvider provider,
                 [NotNull] FileSpecification specification
             )
         {
-            Code.NotNull(connection, "connection");
+            Code.NotNull(provider, "provider");
             Code.NotNull(specification, "specification");
 
-            string content = connection.ReadTextFile(specification);
+            string content = provider.ReadFile(specification);
             if (string.IsNullOrEmpty(content))
             {
                 return null;
             }
+
             using (StringReader reader = new StringReader(content))
             {
                 return ParseStream(reader);
             }
         }
+
+
 
 #if !WIN81 && !PORTABLE
 
