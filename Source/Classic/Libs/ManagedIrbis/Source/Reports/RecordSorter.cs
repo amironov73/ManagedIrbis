@@ -147,7 +147,7 @@ namespace ManagedIrbis.Reports
 
             if (!ReferenceEquals(connected, null))
             {
-                IrbisConnection connection = connected.Connection;
+                IIrbisConnection connection = connected.Connection;
                 foreach (MarcRecord record in sourceRecords)
                 {
                     string formatted = connection.FormatRecord

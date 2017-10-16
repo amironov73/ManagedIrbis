@@ -44,8 +44,7 @@ namespace ManagedIrbis
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class IrbisConnection
-        : IDisposable,
-        IHandmadeSerializable
+        : IIrbisConnection
     {
         #region Constants
 
@@ -386,15 +385,10 @@ namespace ManagedIrbis
 
         #region Public methods
 
-        /// <summary>
-        /// Actualize given record (if not yet).
-        /// </summary>
-        /// <remarks>If MFN=0, then all non actualized
-        /// records in the database will be actualized.
-        /// </remarks>
+        /// <inheritdoc cref="IIrbisConnection.ActualizeRecord" />
         public void ActualizeRecord
             (
-                [NotNull] string database,
+                string database,
                 int mfn
             )
         {
@@ -411,10 +405,7 @@ namespace ManagedIrbis
 
         // =========================================================
 
-        /// <summary>
-        /// Clone the connection.
-        /// </summary>
-        [NotNull]
+        /// <inheritdoc cref="IIrbisConnection.Clone()" />
         public IrbisConnection Clone()
         {
             IrbisConnection result = Clone(Connected);
@@ -422,10 +413,7 @@ namespace ManagedIrbis
             return result;
         }
 
-        /// <summary>
-        /// Clone the connection.
-        /// </summary>
-        [NotNull]
+        /// <inheritdoc cref="IIrbisConnection.Clone(bool)" />
         public IrbisConnection Clone
             (
                 bool connect
@@ -505,9 +493,9 @@ namespace ManagedIrbis
         [NotNull]
         public MarcRecord CorrectVirtualRecord
             (
-                [NotNull] string database,
-                [NotNull] MarcRecord record,
-                [NotNull] GblStatement[] statements
+                string database,
+                MarcRecord record,
+                GblStatement[] statements
             )
         {
             Code.NotNullNorEmpty(database, "database");
@@ -532,9 +520,9 @@ namespace ManagedIrbis
         [NotNull]
         public MarcRecord CorrectVirtualRecord
             (
-                [NotNull] string database,
-                [NotNull] MarcRecord record,
-                [NotNull] string filename
+                string database,
+                MarcRecord record,
+                string filename
             )
         {
             Code.NotNullNorEmpty(database, "database");
@@ -561,10 +549,10 @@ namespace ManagedIrbis
         /// <remarks>For Administrator only.</remarks>
         public void CreateDatabase
             (
-                [NotNull] string databaseName,
-                [NotNull] string description,
+                string databaseName,
+                string description,
                 bool readerAccess,
-                [CanBeNull] string template
+                string template
             )
         {
             Code.NotNullNorEmpty(databaseName, "databaseName");
@@ -588,7 +576,7 @@ namespace ManagedIrbis
         /// <remarks>For Administrator only.</remarks>
         public void CreateDictionary
             (
-                [NotNull] string database
+                string database
             )
         {
             Code.NotNullNorEmpty(database, "database");
@@ -609,7 +597,7 @@ namespace ManagedIrbis
         /// <remarks>For Administrator only.</remarks>
         public void DeleteDatabase
             (
-                [NotNull] string database
+                string database
             )
         {
             Code.NotNullNorEmpty(database, "database");
@@ -631,7 +619,7 @@ namespace ManagedIrbis
         [NotNull]
         public ServerResponse ExecuteCommand
             (
-                [NotNull] AbstractCommand command
+                AbstractCommand command
             )
         {
             Code.NotNull(command, "command");
@@ -661,7 +649,7 @@ namespace ManagedIrbis
         [NotNull]
         public ServerResponse ExecuteCommand
             (
-                [NotNull] string commandCode,
+                string commandCode,
                 params object[] arguments
             )
         {
@@ -689,7 +677,7 @@ namespace ManagedIrbis
         [CanBeNull]
         public string FormatRecord
             (
-                [NotNull] string format,
+                string format,
                 int mfn
             )
         {
@@ -715,8 +703,8 @@ namespace ManagedIrbis
         [CanBeNull]
         public string FormatRecord
             (
-                [NotNull] string format,
-                [NotNull] MarcRecord record
+                string format,
+                MarcRecord record
             )
         {
             Code.NotNull(format, "format");
@@ -741,9 +729,9 @@ namespace ManagedIrbis
         [NotNull]
         public string[] FormatRecords
             (
-                [NotNull] string database,
-                [NotNull] string format,
-                [NotNull] IEnumerable<int> mfnList
+                string database,
+                string format,
+                IEnumerable<int> mfnList
             )
         {
             Code.NotNull(mfnList, "mfnList");
@@ -780,7 +768,7 @@ namespace ManagedIrbis
         [NotNull]
         public DatabaseInfo GetDatabaseInfo
             (
-                [NotNull] string databaseName
+                string databaseName
             )
         {
             Code.NotNullNorEmpty(databaseName, "databaseName");
@@ -802,7 +790,7 @@ namespace ManagedIrbis
         [NotNull]
         public string GetDatabaseStat
             (
-                [NotNull] StatDefinition definition
+                StatDefinition definition
             )
         {
             Code.NotNull(definition, "definition");
@@ -833,7 +821,7 @@ namespace ManagedIrbis
         /// </summary>
         public int GetMaxMfn
             (
-                [CanBeNull] string database
+                string database
             )
         {
             if (ReferenceEquals(database, null))
@@ -897,7 +885,7 @@ namespace ManagedIrbis
         [NotNull]
         public GblResult GlobalCorrection
             (
-                [NotNull] GblSettings settings
+                GblSettings settings
             )
         {
             Code.NotNull(settings, "settings");
@@ -925,7 +913,7 @@ namespace ManagedIrbis
         [ItemNotNull]
         public string[] ListFiles
             (
-                [NotNull] FileSpecification specification
+                FileSpecification specification
             )
         {
             Code.NotNull(specification, "specification");
@@ -950,7 +938,7 @@ namespace ManagedIrbis
         [ItemNotNull]
         public string[] ListFiles
             (
-                [NotNull] FileSpecification[] specifications
+                FileSpecification[] specifications
             )
         {
             Code.NotNull(specifications, "specifications");
@@ -1023,7 +1011,7 @@ namespace ManagedIrbis
         /// </summary>
         public void ParseConnectionString
             (
-                [NotNull] string connectionString
+                string connectionString
             )
         {
             Code.NotNull(connectionString, "connectionString");
@@ -1060,7 +1048,7 @@ namespace ManagedIrbis
         [NotNull]
         public string PrintTable
             (
-                [NotNull] TableDefinition tableDefinition
+                TableDefinition tableDefinition
             )
         {
             Code.NotNull(tableDefinition, "tableDefinition");
@@ -1083,7 +1071,7 @@ namespace ManagedIrbis
         [CanBeNull]
         public string PushDatabase
             (
-                [NotNull] string newDatabase
+                string newDatabase
             )
         {
             Code.NotNullNorEmpty(newDatabase, "newDatabase");
@@ -1103,7 +1091,7 @@ namespace ManagedIrbis
         [CanBeNull]
         public byte[] ReadBinaryFile
             (
-                [NotNull] FileSpecification file
+                FileSpecification file
             )
         {
             Code.NotNull(file, "file");
@@ -1125,7 +1113,7 @@ namespace ManagedIrbis
         [NotNull]
         public TermPosting[] ReadPostings
             (
-                [NotNull] PostingParameters parameters
+                PostingParameters parameters
             )
         {
             Code.NotNull(parameters, "parameters");
@@ -1150,10 +1138,10 @@ namespace ManagedIrbis
         [NotNull]
         public MarcRecord ReadRecord
             (
-                [NotNull] string database,
+                string database,
                 int mfn,
                 bool lockFlag,
-                [CanBeNull] string format
+                string format
             )
         {
             Code.NotNullNorEmpty(database, "database");
@@ -1180,10 +1168,10 @@ namespace ManagedIrbis
         [CanBeNull]
         public MarcRecord ReadRecord
             (
-                [NotNull] string database,
+                string database,
                 int mfn,
                 int versionNumber,
-                [CanBeNull] string format
+                string format
             )
         {
             Code.NotNullNorEmpty(database, "database");
@@ -1211,7 +1199,7 @@ namespace ManagedIrbis
         [NotNull]
         public TermInfo[] ReadTerms
             (
-                [NotNull] TermParameters parameters
+                TermParameters parameters
             )
         {
             Code.NotNull(parameters, "parameters");
@@ -1233,7 +1221,7 @@ namespace ManagedIrbis
         [CanBeNull]
         public string ReadTextFile
             (
-                [NotNull] FileSpecification fileSpecification
+                FileSpecification fileSpecification
             )
         {
             Code.NotNull(fileSpecification, "fileSpecification");
@@ -1254,7 +1242,7 @@ namespace ManagedIrbis
         [NotNull]
         public string[] ReadTextFiles
             (
-                [NotNull] FileSpecification[] files
+                FileSpecification[] files
             )
         {
             Code.NotNull(files, "files");
@@ -1313,7 +1301,7 @@ namespace ManagedIrbis
         /// <remarks>For Administrator only.</remarks>
         public void ReloadDictionary
             (
-                [NotNull] string databaseName
+                string databaseName
             )
         {
             Code.NotNullNorEmpty(databaseName, "databaseName");
@@ -1333,7 +1321,7 @@ namespace ManagedIrbis
         /// <remarks>For Administrator only.</remarks>
         public void ReloadMasterFile
             (
-                [NotNull] string databaseName
+                string databaseName
             )
         {
             Code.NotNullNorEmpty(databaseName, "databaseName");
@@ -1397,7 +1385,7 @@ namespace ManagedIrbis
         [NotNull]
         public int[] Search
             (
-                [NotNull] string expression
+                string expression
             )
         {
             Code.NotNull(expression, "expression");
@@ -1423,7 +1411,7 @@ namespace ManagedIrbis
         [NotNull]
         public int[] SequentialSearch
             (
-                [NotNull] SearchParameters parameters
+                SearchParameters parameters
             )
         {
             Code.NotNull(parameters, "parameters");
@@ -1451,7 +1439,7 @@ namespace ManagedIrbis
         [NotNull]
         public CommandFactory SetCommandFactory
             (
-                [NotNull] CommandFactory newFactory
+                CommandFactory newFactory
             )
         {
             Code.NotNull(newFactory, "newFactory");
@@ -1471,7 +1459,7 @@ namespace ManagedIrbis
         [NotNull]
         public CommandFactory SetCommandFactory
             (
-                [NotNull] string typeName
+                string typeName
             )
         {
             Code.NotNull(typeName, "typeName");
@@ -1503,7 +1491,7 @@ namespace ManagedIrbis
         [NotNull]
         public AbstractEngine SetEngine
             (
-                [NotNull] AbstractEngine engine
+                AbstractEngine engine
             )
         {
             Code.NotNull(engine, "engine");
@@ -1522,7 +1510,7 @@ namespace ManagedIrbis
         [NotNull]
         public AbstractEngine SetEngine
             (
-                [NotNull] string typeName
+                string typeName
             )
         {
             Code.NotNull(typeName, "typeName");
@@ -1555,7 +1543,7 @@ namespace ManagedIrbis
         /// </summary>
         public void SetNetworkLogging
             (
-                [NotNull] string loggingPath
+                string loggingPath
             )
         {
             Code.NotNullNorEmpty(loggingPath, "loggingPath");
@@ -1589,7 +1577,7 @@ namespace ManagedIrbis
         public void SetRetry
             (
                 int retryCount,
-                [CanBeNull] Func<Exception, bool> resolver
+                Func<Exception, bool> resolver
             )
         {
             RetryClientSocket oldSocket
@@ -1630,7 +1618,7 @@ namespace ManagedIrbis
         /// </summary>
         public void SetSocket
             (
-                [NotNull] AbstractClientSocket socket
+                AbstractClientSocket socket
             )
         {
             Code.NotNull(socket, "socket");
@@ -1672,7 +1660,7 @@ namespace ManagedIrbis
         /// <remarks>For Administrator only.</remarks>
         public void TruncateDatabase
             (
-                [NotNull] string databaseName
+                string databaseName
             )
         {
             Code.NotNullNorEmpty(databaseName, "databaseName");
@@ -1692,7 +1680,7 @@ namespace ManagedIrbis
         /// <remarks>For Administrator only.</remarks>
         public void UnlockDatabase
             (
-                [NotNull] string databaseName
+                string databaseName
             )
         {
             Code.NotNullNorEmpty(databaseName, "databaseName");
@@ -1711,7 +1699,7 @@ namespace ManagedIrbis
         /// </summary>
         public void UnlockRecords
             (
-                [NotNull] string database,
+                string database,
                 params int[] mfnList
             )
         {
@@ -1739,7 +1727,7 @@ namespace ManagedIrbis
         /// </summary>
         public void UpdateIniFile
             (
-                [CanBeNull] string[] lines
+                string[] lines
             )
         {
             if (lines.IsNullOrEmpty())
@@ -1756,12 +1744,10 @@ namespace ManagedIrbis
 
         // ========================================================
 
-        /// <summary>
-        /// Update user list on the server.
-        /// </summary>
+        /// <inheritdoc cref="IIrbisConnection.UpdateUserList" />
         public void UpdateUserList
             (
-                [NotNull] UserInfo[] userList
+                UserInfo[] userList
             )
         {
             Code.NotNull(userList, "userList");
@@ -1777,33 +1763,10 @@ namespace ManagedIrbis
 
         #region WriteRecord
 
-        /// <summary>
-        /// Create or update existing record in the database.
-        /// </summary>
-        [NotNull]
+        /// <inheritdoc cref="IIrbisConnection.WriteRecord(ManagedIrbis.MarcRecord,bool,bool,bool)" />
         public MarcRecord WriteRecord
             (
-                [NotNull] MarcRecord record,
-                bool lockFlag,
-                bool actualize
-            )
-        {
-            return WriteRecord
-                (
-                    record,
-                    lockFlag,
-                    actualize,
-                    false
-                );
-        }
-
-        /// <summary>
-        /// Create or update existing record in the database.
-        /// </summary>
-        [NotNull]
-        public MarcRecord WriteRecord
-            (
-                [NotNull] MarcRecord record,
+                MarcRecord record,
                 bool lockFlag,
                 bool actualize,
                 bool dontParseResponse
@@ -1833,13 +1796,10 @@ namespace ManagedIrbis
 
         // ========================================================
 
-        /// <summary>
-        /// Create or update many records.
-        /// </summary>
-        [NotNull]
+        /// <inheritdoc cref="IIrbisConnection.WriteRecords" />
         public MarcRecord[] WriteRecords
             (
-                [NotNull] MarcRecord[] records,
+                MarcRecord[] records,
                 bool lockFlag,
                 bool actualize
             )
@@ -1871,17 +1831,14 @@ namespace ManagedIrbis
             return records;
         }
 
-
         #endregion
 
         // ========================================================
 
-        /// <summary>
-        /// Write text file to the server.
-        /// </summary>
+        /// <inheritdoc cref="IIrbisConnection.WriteTextFile" />
         public void WriteTextFile
             (
-                [NotNull] FileSpecification file
+                FileSpecification file
             )
         {
             Code.NotNull(file, "file");
@@ -1893,16 +1850,13 @@ namespace ManagedIrbis
             ExecuteCommand(command);
         }
 
-        /// <summary>
-        /// Write text files to the server.
-        /// </summary>
+        /// <inheritdoc cref="IIrbisConnection.WriteTextFiles" />
         public void WriteTextFiles
             (
                 params FileSpecification[] files
             )
         {
-            WriteFileCommand command
-                = CommandFactory.GetWriteFileCommand();
+            WriteFileCommand command = CommandFactory.GetWriteFileCommand();
             foreach (FileSpecification file in files)
             {
                 command.Files.Add(file);
@@ -1915,7 +1869,7 @@ namespace ManagedIrbis
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
             Log.Trace("IrbisConnection::Dispose");
@@ -1943,9 +1897,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -1962,13 +1914,10 @@ namespace ManagedIrbis
                 .ThrowIfNull("Password");
             Database = reader.ReadNullableString()
                 .ThrowIfNull("Database");
-            Workstation
-                = (IrbisWorkstation)reader.ReadPackedInt32();
+            Workstation = (IrbisWorkstation)reader.ReadPackedInt32();
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer

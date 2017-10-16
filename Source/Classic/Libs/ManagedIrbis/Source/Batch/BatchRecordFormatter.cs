@@ -67,7 +67,7 @@ namespace ManagedIrbis.Batch
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get; private set; }
+        public IIrbisConnection Connection { get; private set; }
 
         /// <summary>
         /// Database name.
@@ -100,7 +100,7 @@ namespace ManagedIrbis.Batch
         /// </summary>
         public BatchRecordFormatter
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string database,
                 [NotNull] string format,
                 int batchSize,
@@ -331,7 +331,7 @@ namespace ManagedIrbis.Batch
         [NotNull]
         public static IEnumerable<string> WholeDatabase
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string database,
                 [NotNull] string format,
                 int batchSize

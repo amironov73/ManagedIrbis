@@ -65,7 +65,7 @@ namespace ManagedIrbis.Batch
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get; private set; }
+        public IIrbisConnection Connection { get; private set; }
 
         /// <summary>
         /// Database name.
@@ -97,7 +97,7 @@ namespace ManagedIrbis.Batch
         /// </summary>
         public BatchRecordReader
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string database,
                 int batchSize,
                 [NotNull] IEnumerable<int> range
@@ -131,7 +131,7 @@ namespace ManagedIrbis.Batch
         /// </summary>
         public BatchRecordReader
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string database,
                 int batchSize,
                 bool omitDeletedRecords,
@@ -378,7 +378,7 @@ namespace ManagedIrbis.Batch
         [NotNull]
         public static IEnumerable<MarcRecord> Search
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string database,
                 [NotNull] string searchExpression,
                 int batchSize

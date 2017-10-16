@@ -80,7 +80,7 @@ namespace BookList2017
         public BindingList<ExemplarInfo> ExemplarList { get; private set; }
 
         [NotNull]
-        public IrbisConnection Connection
+        public IIrbisConnection Connection
         {
             get { return GetConnection(); }
         }
@@ -179,11 +179,11 @@ namespace BookList2017
         private MoonExcelData[] _header, _footer;
 
         [NotNull]
-        private IrbisConnection GetConnection()
+        private IIrbisConnection GetConnection()
         {
             UniversalForm mainForm = MainForm.ThrowIfNull("MainForm");
             mainForm.GetIrbisProvider();
-            IrbisConnection result = mainForm.Connection
+            IIrbisConnection result = mainForm.Connection
                 .ThrowIfNull("connection");
 
             return result;

@@ -46,7 +46,7 @@ namespace ManagedIrbis.Fields
         /// Client connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection
+        public IIrbisConnection Connection
         {
             get { return _connection; }
         }
@@ -114,7 +114,7 @@ namespace ManagedIrbis.Fields
         /// </summary>
         public ExemplarManager
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [CanBeNull] AbstractOutput output
             )
         {
@@ -130,7 +130,7 @@ namespace ManagedIrbis.Fields
 
         #region Private members
 
-        private readonly IrbisConnection _connection;
+        private readonly IIrbisConnection _connection;
 
         private readonly List<ExemplarInfo> _list;
 

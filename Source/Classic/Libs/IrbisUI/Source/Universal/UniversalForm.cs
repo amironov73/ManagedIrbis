@@ -120,7 +120,7 @@ namespace IrbisUI.Universal
         /// Active connection.
         /// </summary>
         [CanBeNull]
-        public IrbisConnection Connection
+        public IIrbisConnection Connection
         {
             get
             {
@@ -298,7 +298,7 @@ namespace IrbisUI.Universal
                 EventArgs args
             )
         {
-            IrbisConnection connection = Connection;
+            IIrbisConnection connection = Connection;
             if (!ReferenceEquals(connection, null))
             {
                 Controller.Run

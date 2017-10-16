@@ -106,7 +106,7 @@ namespace ManagedIrbis
         [NotNull]
         public static IrbisStopWords FromServer
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");
@@ -129,7 +129,7 @@ namespace ManagedIrbis
         [NotNull]
         public static IrbisStopWords FromServer
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string database,
                 [NotNull] string fileName
             )

@@ -38,7 +38,7 @@ namespace ManagedIrbis.Scripting
         /// Клиент для доступа к серверу
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get; private set; }
+        public IIrbisConnection Connection { get; private set; }
 
         /// <summary>
         /// Скриптовый движок.
@@ -75,7 +75,7 @@ namespace ManagedIrbis.Scripting
         // ReSharper disable NotNullMemberIsNotInitialized
         public IrbisScript
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");

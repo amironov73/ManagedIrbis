@@ -512,6 +512,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\IlfFile.cs">
       <Link>Source\IlfFile.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\IIrbisConnection.cs">
+      <Link>Source\IIrbisConnection.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\IrbisJson.cs">
       <Link>Source\ImportExport\IrbisJson.cs</Link>
     </Compile>

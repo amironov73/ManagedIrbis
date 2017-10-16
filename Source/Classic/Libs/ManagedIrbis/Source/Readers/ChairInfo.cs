@@ -159,7 +159,7 @@ namespace ManagedIrbis.Readers
         [ItemNotNull]
         public static ChairInfo[] Read
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string fileName,
                 bool addAllItem
             )

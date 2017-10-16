@@ -103,7 +103,7 @@ namespace AM.UI
         [CanBeNull]
         public string Execute
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] IDictionary<string,object> dataDictionary
             )
         {

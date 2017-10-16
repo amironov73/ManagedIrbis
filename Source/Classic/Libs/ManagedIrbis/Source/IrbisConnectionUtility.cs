@@ -80,7 +80,7 @@ namespace ManagedIrbis
         /// </summary>
         public static void ActualizeDatabase
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string database
             )
         {
@@ -105,7 +105,7 @@ namespace ManagedIrbis
         /// </remarks>
         public static void DeleteAnyFile
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string fileName
             )
         {
@@ -128,7 +128,7 @@ namespace ManagedIrbis
         /// </summary>
         public static void DeleteRecord
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 int mfn
             )
         {
@@ -147,7 +147,7 @@ namespace ManagedIrbis
         /// </summary>
         public static void DeleteRecord
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 int mfn,
                 bool dontParseResponse
             )
@@ -173,7 +173,7 @@ namespace ManagedIrbis
         /// </summary>
         public static void DeleteRecords
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string database,
                 [NotNull] IEnumerable<int> mfnList
             )
@@ -212,7 +212,7 @@ namespace ManagedIrbis
         [NotNull]
         public static ServerResponse ExecuteArbitraryCommand
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string commandCode,
                 params object[] arguments
             )
@@ -243,7 +243,7 @@ namespace ManagedIrbis
         [NotNull]
         public static MarcRecord[] ExtendedSearch
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] SearchParameters parameters
             )
         {
@@ -310,7 +310,7 @@ namespace ManagedIrbis
         /// </summary>
         public static string FormatRecord
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string database,
                 [NotNull] string format,
                 int mfn
@@ -344,7 +344,7 @@ namespace ManagedIrbis
         /// </summary>
         public static string FormatUtf8
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string format,
                 int mfn
             )
@@ -373,7 +373,7 @@ namespace ManagedIrbis
         /// </summary>
         public static string FormatUtf8
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string format,
                 [NotNull] MarcRecord record
             )
@@ -404,7 +404,7 @@ namespace ManagedIrbis
         [NotNull]
         public static string[] FormatUtf8
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string database,
                 [NotNull] string format,
                 [NotNull] IEnumerable<int> mfnList
@@ -484,7 +484,7 @@ namespace ManagedIrbis
         [NotNull]
         public static DatabaseInfo[] ListDatabases
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string listFile
             )
         {
@@ -509,7 +509,7 @@ namespace ManagedIrbis
         [NotNull]
         public static DatabaseInfo[] ListDatabases
             (
-                [NotNull] this IrbisConnection connection
+                [NotNull] this IIrbisConnection connection
             )
         {
             return ListDatabases
@@ -545,7 +545,7 @@ namespace ManagedIrbis
         /// </summary>
         public static void LockRecord
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string database,
                 int mfn
             )
@@ -570,7 +570,7 @@ namespace ManagedIrbis
         /// </summary>
         public static void LockRecords
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string database,
                 [NotNull] int[] mfnList
             )
@@ -603,7 +603,7 @@ namespace ManagedIrbis
         [CanBeNull]
         public static byte[] ReadAnyBinaryFile
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string serverPath
             )
         {
@@ -641,7 +641,7 @@ namespace ManagedIrbis
         [CanBeNull]
         public static string ReadAnyTextFile
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string serverPath,
                 [NotNull] Encoding encoding
             )
@@ -682,7 +682,7 @@ namespace ManagedIrbis
         [CanBeNull]
         public static string ReadAnyTextFile
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string serverPath
             )
         {
@@ -718,7 +718,7 @@ namespace ManagedIrbis
         [NotNull]
         public static IniFile ReadIniFile
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string fileName
             )
         {
@@ -769,7 +769,7 @@ namespace ManagedIrbis
         [NotNull]
         public static MenuFile ReadMenu
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] FileSpecification fileSpecification
             )
         {
@@ -793,7 +793,7 @@ namespace ManagedIrbis
         [NotNull]
         public static MenuFile ReadMenu
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string fileName
             )
         {
@@ -823,7 +823,7 @@ namespace ManagedIrbis
         [CanBeNull]
         public static RawRecord ReadRawRecord
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string database,
                 int mfn
             )
@@ -849,7 +849,7 @@ namespace ManagedIrbis
         [CanBeNull]
         public static RawRecord ReadRawRecord
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string database,
                 int mfn,
                 bool lockFlag,
@@ -879,7 +879,7 @@ namespace ManagedIrbis
         [CanBeNull]
         public static RawRecord ReadRawRecord
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string database,
                 int mfn,
                 int version,
@@ -909,7 +909,7 @@ namespace ManagedIrbis
         [NotNull]
         public static RawRecord[] ReadRawRecords
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string database,
                 [NotNull] int[] mfnList
             )
@@ -1004,7 +1004,7 @@ namespace ManagedIrbis
         [NotNull]
         public static MarcRecord[] ReadRecords
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [CanBeNull] string database,
                 [NotNull] IEnumerable<int> mfnList
             )
@@ -1030,7 +1030,7 @@ namespace ManagedIrbis
         [NotNull]
         public static SearchScenario[] ReadSearchScenario
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string fileName
             )
         {
@@ -1061,7 +1061,7 @@ namespace ManagedIrbis
         /// </summary>
         public static void RemoveLogging
             (
-                [NotNull] this IrbisConnection connection
+                [NotNull] this IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");
@@ -1088,7 +1088,7 @@ namespace ManagedIrbis
         [ItemNotNull]
         public static MarcRecord[] RecordHistory
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string database,
                 int mfn,
                 [CanBeNull] string format
@@ -1137,7 +1137,7 @@ namespace ManagedIrbis
         [NotNull]
         public static MarcRecord ReadRecord
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 int mfn
             )
         {
@@ -1162,7 +1162,7 @@ namespace ManagedIrbis
         [CanBeNull]
         public static string ReadTextFile
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 IrbisPath path,
                 [NotNull] string fileName
             )
@@ -1191,7 +1191,7 @@ namespace ManagedIrbis
         /// </summary>
         public static bool RequireClientVersion
             (
-                [CanBeNull] this IrbisConnection connection,
+                [CanBeNull] this IIrbisConnection connection,
                 [NotNull] string minimalVersion,
                 bool throwException
             )
@@ -1228,7 +1228,7 @@ namespace ManagedIrbis
         /// </summary>
         public static bool RequireServerVersion
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string minimalVersion,
                 bool throwException
             )
@@ -1270,7 +1270,7 @@ namespace ManagedIrbis
         [StringFormatMethod("format")]
         public static int[] Search
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string format,
                 params object[] args
             )
@@ -1295,7 +1295,7 @@ namespace ManagedIrbis
         /// </summary>
         public static int SearchCount
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string searchExpression
             )
         {
@@ -1325,7 +1325,7 @@ namespace ManagedIrbis
         [ItemNotNull]
         public static FoundItem[] SearchFormat
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string searchExpression,
                 [NotNull] string formatSpecification
             )
@@ -1357,7 +1357,7 @@ namespace ManagedIrbis
         [ItemNotNull]
         public static FoundItem[] SearchFormatUtf8
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string searchExpression,
                 [NotNull] string formatSpecification
             )
@@ -1390,7 +1390,7 @@ namespace ManagedIrbis
         [NotNull]
         public static string[] SearchRaw
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] SearchParameters parameters
             )
         {
@@ -1418,7 +1418,7 @@ namespace ManagedIrbis
         [StringFormatMethod("format")]
         public static MarcRecord[] SearchRead
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string format,
                 params object[] args
             )
@@ -1454,7 +1454,7 @@ namespace ManagedIrbis
         [StringFormatMethod("format")]
         public static MarcRecord SearchReadOneRecord
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string format,
                 params object[] args
             )
@@ -1490,7 +1490,7 @@ namespace ManagedIrbis
         [NotNull]
         public static string[] SequentialSearchRaw
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string database,
                 [NotNull] string expression,
                 int firstRecord,
@@ -1534,7 +1534,7 @@ namespace ManagedIrbis
         /// </summary>
         public static void UndeleteRecord
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 int mfn
             )
         {
@@ -1555,7 +1555,7 @@ namespace ManagedIrbis
         /// </summary>
         public static void UndeleteRecords
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string database,
                 [NotNull] IEnumerable<int> mfnList
             )
@@ -1593,7 +1593,7 @@ namespace ManagedIrbis
         /// </summary>
         public static bool UnlockRecordAlternative
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string databaseName,
                 int mfn
             )
@@ -1620,7 +1620,7 @@ namespace ManagedIrbis
         [NotNull]
         public static string WriteRawRecord
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string database,
                 [NotNull] string record,
                 bool lockFlag,
@@ -1659,7 +1659,7 @@ namespace ManagedIrbis
         [NotNull]
         public static string[] WriteRawRecords
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string database,
                 [NotNull] string[] records,
                 bool lockFlag,
@@ -1720,7 +1720,7 @@ namespace ManagedIrbis
         [NotNull]
         public static MarcRecord WriteRecord
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] MarcRecord record
             )
         {
@@ -1741,7 +1741,31 @@ namespace ManagedIrbis
         [NotNull]
         public static MarcRecord WriteRecord
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
+                [NotNull] MarcRecord record,
+                bool lockFlag,
+                bool actualize
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(record, "record");
+
+            return connection.WriteRecord
+                (
+                    record,
+                    lockFlag,
+                    actualize,
+                    false
+                );
+        }
+
+        /// <summary>
+        /// Create or update existing record in the database.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord WriteRecord
+            (
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] MarcRecord record,
                 bool dontParseResponse
             )

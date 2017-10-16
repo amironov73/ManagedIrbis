@@ -37,7 +37,7 @@ namespace ManagedIrbis.Client
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get; private set; }
+        public IIrbisConnection Connection { get; private set; }
 
         /// <summary>
         /// Format source.
@@ -57,7 +57,7 @@ namespace ManagedIrbis.Client
         /// </summary>
         public ConnectedFormatter
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");

@@ -596,6 +596,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Upc12.cs">
       <Link>Source\Identifiers\Upc12.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IIrbisConnection.cs">
+      <Link>Source\IIrbisConnection.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IlfFile.cs">
       <Link>Source\IlfFile.cs</Link>
     </Compile>

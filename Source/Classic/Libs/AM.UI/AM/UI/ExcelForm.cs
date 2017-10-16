@@ -121,7 +121,7 @@ namespace AM.UI
         /// </summary>
         public void ShowBooks
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string template,
                 [NotNull][ItemNotNull] ExcelColumn[] columns,
                 [NotNull] IDictionary<string, object> dictionary,

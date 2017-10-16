@@ -59,7 +59,7 @@ namespace ManagedIrbis.Batch
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get; private set; }
+        public IIrbisConnection Connection { get; private set; }
 
         #endregion
 
@@ -78,7 +78,7 @@ namespace ManagedIrbis.Batch
         /// </summary>
         public BatchAccessor
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");
