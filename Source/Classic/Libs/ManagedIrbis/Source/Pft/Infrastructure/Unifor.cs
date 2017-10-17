@@ -174,7 +174,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+9V", UniforPlus9.GetGeneration);
             Registry.Add("+D", UniforPlusD.GetDatabaseName);
             Registry.Add("+E", UniforPlusE.GetFieldIndex);
-            Registry.Add("+F", CleanRtf);
+            Registry.Add("+F", UniforPlusF.CleanRtf);
             Registry.Add("+I", UniforPlusI.BuildLink);
             Registry.Add("+N", GetFieldCount);
             Registry.Add("+R", TrimAtLastDot);
@@ -232,21 +232,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             )
         {
             context.GetRootContext().PostProcessing |= PftCleanup.DoubleText;
-        }
-
-        // ================================================================
-
-        /// <summary>
-        /// Post processing: cleanup RTF markup.
-        /// </summary>
-        public static void CleanRtf
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            context.GetRootContext().PostProcessing |= PftCleanup.Rtf;
         }
 
         // ================================================================
