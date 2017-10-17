@@ -27,12 +27,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // &unifor('+D')
     //
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
-    public sealed class UniforPlusD
+    static class UniforPlusD
     {
         #region Public methods
 

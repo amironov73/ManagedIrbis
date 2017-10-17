@@ -173,7 +173,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+9S", UniforPlus9.FindSubstring);
             Registry.Add("+9V", UniforPlus9.GetGeneration);
             Registry.Add("+D", UniforPlusD.GetDatabaseName);
-            Registry.Add("+E", GetFieldIndex);
+            Registry.Add("+E", UniforPlusE.GetFieldIndex);
             Registry.Add("+F", CleanRtf);
             Registry.Add("+I", UniforPlusI.BuildLink);
             Registry.Add("+N", GetFieldCount);
@@ -345,56 +345,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                         .GetField(tag)
                         .Length;
                     string output = count.ToInvariantString();
-                    context.Write(node, output);
-                    context.OutputFlag = true;
-                }
-            }
-        }
-
-        // ================================================================
-
-        /// <summary>
-        /// Get field index.
-        /// </summary>
-        public static void GetFieldIndex
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            MarcRecord record = context.Record;
-            if (!ReferenceEquals(record, null)
-                && !string.IsNullOrEmpty(expression))
-            {
-                string[] parts = expression.Split('#');
-                int tag = parts[0].SafeToInt32();
-                string occText = parts.Length > 1
-                    ? parts[1]
-                    : "1";
-                int occ;
-                if (occText == "*")
-                {
-                    occ = context.Index;
-                }
-                else if (occText == string.Empty)
-                {
-                    occ = 0;
-                }
-                else
-                {
-                    if (!NumericUtility.TryParseInt32(occText, out occ))
-                    {
-                        return;
-                    }
-                    occ--;
-                }
-                RecordField field = record.Fields
-                    .GetField(tag, occ);
-                if (!ReferenceEquals(field, null))
-                {
-                    int index = record.Fields.IndexOf(field) + 1;
-                    string output = index.ToInvariantString();
                     context.Write(node, output);
                     context.OutputFlag = true;
                 }

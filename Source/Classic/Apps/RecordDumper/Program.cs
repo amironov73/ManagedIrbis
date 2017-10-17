@@ -143,6 +143,9 @@ namespace RecordDumper
                         Console.WriteLine("MFN={0}: {1}", mfn, title);
                         writer.WriteLine("<h3>{0}</h3>", title);
 
+                        string description = provider.FormatRecord(record, "@");
+                        writer.WriteLine(description);
+
                         RecordField[] fields = record.Fields
                             .Where(field => !field.Tag.OneOf(excludeTags))
                             .ToArray();
@@ -152,7 +155,6 @@ namespace RecordDumper
                                 "<table border=\"1\" "
                                 + "cellpadding=\"3\" "
                                 + "cellspacing=\"0\" "
-                                //+ "width=\"100%\""
                                 +">"
                             );
                         writer.WriteLine
@@ -207,7 +209,7 @@ namespace RecordDumper
                                     {
                                         title = string.Format
                                             (
-                                                "<i>(повторение {0})</i>",
+                                                "(повторение {0})",
                                                 i + 1
                                             );
                                     }
