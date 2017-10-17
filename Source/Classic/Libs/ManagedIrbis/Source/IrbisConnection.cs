@@ -443,9 +443,7 @@ namespace ManagedIrbis
 
         // ========================================================
 
-        /// <summary>
-        /// Establish connection (if not yet).
-        /// </summary>
+        /// <inheritdoc cref="IIrbisConnection.Connect" />
         public IniFile Connect()
         {
             // TODO use Executive
@@ -487,10 +485,7 @@ namespace ManagedIrbis
 
         // ========================================================
 
-        /// <summary>
-        /// GBL for virtual record.
-        /// </summary>
-        [NotNull]
+        /// <inheritdoc cref="IIrbisConnection.CorrectVirtualRecord(string,MarcRecord,GblStatement[])"/>
         public MarcRecord CorrectVirtualRecord
             (
                 string database,
@@ -502,8 +497,7 @@ namespace ManagedIrbis
             Code.NotNull(record, "record");
             Code.NotNull(statements, "statements");
 
-            GblVirtualCommand command
-                = CommandFactory.GetGblVirtualCommand();
+            GblVirtualCommand command = CommandFactory.GetGblVirtualCommand();
             command.Database = database;
             command.Record = record;
             command.Statements = statements;
@@ -514,10 +508,7 @@ namespace ManagedIrbis
                 .ThrowIfNull("command.Result");
         }
 
-        /// <summary>
-        /// GBL for virtual record.
-        /// </summary>
-        [NotNull]
+        /// <inheritdoc cref="IIrbisConnection.CorrectVirtualRecord(string,MarcRecord,string)"/>
         public MarcRecord CorrectVirtualRecord
             (
                 string database,
@@ -529,8 +520,7 @@ namespace ManagedIrbis
             Code.NotNull(record, "record");
             Code.NotNullNorEmpty(filename, "filename");
 
-            GblVirtualCommand command
-                = CommandFactory.GetGblVirtualCommand();
+            GblVirtualCommand command = CommandFactory.GetGblVirtualCommand();
             command.Database = database;
             command.Record = record;
             command.FileName = filename;
@@ -543,10 +533,7 @@ namespace ManagedIrbis
 
         // ========================================================
 
-        /// <summary>
-        /// Create the database.
-        /// </summary>
-        /// <remarks>For Administrator only.</remarks>
+        /// <inheritdoc cref="IIrbisConnection.CreateDatabase" />
         public void CreateDatabase
             (
                 string databaseName,
@@ -570,10 +557,7 @@ namespace ManagedIrbis
 
         // =========================================================
 
-        /// <summary>
-        /// Create dictionary index for specified database.
-        /// </summary>
-        /// <remarks>For Administrator only.</remarks>
+        /// <inheritdoc cref="IIrbisConnection.CreateDictionary" />
         public void CreateDictionary
             (
                 string database
@@ -591,10 +575,7 @@ namespace ManagedIrbis
 
         // ========================================================
 
-        /// <summary>
-        /// Delete the database.
-        /// </summary>
-        /// <remarks>For Administrator only.</remarks>
+        /// <inheritdoc cref="IIrbisConnection.DeleteDatabase" />
         public void DeleteDatabase
             (
                 string database
@@ -613,10 +594,7 @@ namespace ManagedIrbis
 
         #region ExecuteCommand
 
-        /// <summary>
-        /// Execute any command.
-        /// </summary>
-        [NotNull]
+        /// <inheritdoc cref="IIrbisConnection.ExecuteCommand(AbstractCommand)" />
         public ServerResponse ExecuteCommand
             (
                 AbstractCommand command
@@ -634,8 +612,7 @@ namespace ManagedIrbis
                     this,
                     command
                 );
-            ServerResponse result
-                = Executive.ExecuteCommand(context);
+            ServerResponse result = Executive.ExecuteCommand(context);
 
             RawClientRequest = null;
             RawServerResponse = null;
@@ -643,10 +620,7 @@ namespace ManagedIrbis
             return result;
         }
 
-        /// <summary>
-        /// Execute command.
-        /// </summary>
-        [NotNull]
+        /// <inheritdoc cref="IIrbisConnection.ExecuteCommand(string,object[])" />
         public ServerResponse ExecuteCommand
             (
                 string commandCode,
@@ -671,10 +645,7 @@ namespace ManagedIrbis
 
         #region FormatRecord
 
-        /// <summary>
-        /// Format specified record using ANSI encoding.
-        /// </summary>
-        [CanBeNull]
+        /// <inheritdoc cref="IIrbisConnection.FormatRecord(string,int)" />
         public string FormatRecord
             (
                 string format,
@@ -697,10 +668,7 @@ namespace ManagedIrbis
             return result;
         }
 
-        /// <summary>
-        /// Format specified record using ANSI encoding.
-        /// </summary>
-        [CanBeNull]
+        /// <inheritdoc cref="IIrbisConnection.FormatRecord(string,MarcRecord)" />
         public string FormatRecord
             (
                 string format,
@@ -723,10 +691,7 @@ namespace ManagedIrbis
             return result;
         }
 
-        /// <summary>
-        /// Format specified records using ANSI encoding.
-        /// </summary>
-        [NotNull]
+        /// <inheritdoc cref="IIrbisConnection.FormatRecords" />
         public string[] FormatRecords
             (
                 string database,
@@ -760,12 +725,7 @@ namespace ManagedIrbis
 
         // =========================================================
 
-        /// <summary>
-        /// Получение информации о базе данных.
-        /// </summary>
-        /// <returns>Cписок логически удаленных, физически удаленных, 
-        /// неактуализированных и заблокированных записей.</returns>
-        [NotNull]
+        /// <inheritdoc cref="IIrbisConnection.GetDatabaseInfo" />
         public DatabaseInfo GetDatabaseInfo
             (
                 string databaseName
@@ -784,10 +744,9 @@ namespace ManagedIrbis
             return result;
         }
 
-        /// <summary>
-        /// Get stat for the database.
-        /// </summary>
-        [NotNull]
+        // =========================================================
+
+        /// <inheritdoc cref="IIrbisConnection.GetDatabaseStat" />
         public string GetDatabaseStat
             (
                 StatDefinition definition
@@ -808,17 +767,13 @@ namespace ManagedIrbis
 
         // =========================================================
 
-        /// <summary>
-        /// Get next mfn for current database.
-        /// </summary>
+        /// <inheritdoc cref="IIrbisConnection.GetMaxMfn()" />
         public int GetMaxMfn()
         {
             return GetMaxMfn(Database);
         }
 
-        /// <summary>
-        /// Get next mfn for given database.
-        /// </summary>
+        /// <inheritdoc cref="IIrbisConnection.GetMaxMfn(string)" />
         public int GetMaxMfn
             (
                 string database
@@ -841,10 +796,7 @@ namespace ManagedIrbis
 
         // =========================================================
 
-        /// <summary>
-        /// Get server stat.
-        /// </summary>
-        [NotNull]
+        /// <inheritdoc cref="IIrbisConnection.GetServerStat" />
         public ServerStat GetServerStat()
         {
             ServerStatCommand command
@@ -859,10 +811,7 @@ namespace ManagedIrbis
 
         // =========================================================
 
-        /// <summary>
-        /// Get server version.
-        /// </summary>
-        [NotNull]
+        /// <inheritdoc cref="IIrbisConnection.GetServerVersion" />
         public IrbisVersion GetServerVersion()
         {
             ServerVersionCommand command
@@ -879,10 +828,7 @@ namespace ManagedIrbis
 
         // =========================================================
 
-        /// <summary>
-        /// Global correction.
-        /// </summary>
-        [NotNull]
+        /// <inheritdoc cref="IIrbisConnection.GlobalCorrection" />
         public GblResult GlobalCorrection
             (
                 GblSettings settings
@@ -906,11 +852,7 @@ namespace ManagedIrbis
 
         // =========================================================
 
-        /// <summary>
-        /// List server files by the specification.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
+        /// <inheritdoc cref="IIrbisConnection.ListFiles(FileSpecification)" />
         public string[] ListFiles
             (
                 FileSpecification specification
@@ -931,11 +873,7 @@ namespace ManagedIrbis
             return result;
         }
 
-        /// <summary>
-        /// List server files by the specification.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
+        /// <inheritdoc cref="IIrbisConnection.ListFiles(FileSpecification[])" />
         public string[] ListFiles
             (
                 FileSpecification[] specifications
@@ -960,10 +898,7 @@ namespace ManagedIrbis
 
         // =========================================================
 
-        /// <summary>
-        /// List server processes.
-        /// </summary>
-        [NotNull]
+        /// <inheritdoc cref="IIrbisConnection.ListProcesses" />
         public IrbisProcessInfo[] ListProcesses()
         {
             ListProcessesCommand command
@@ -978,10 +913,7 @@ namespace ManagedIrbis
 
         // =========================================================
 
-        /// <summary>
-        /// List users.
-        /// </summary>
-        [NotNull]
+        /// <inheritdoc cref="IIrbisConnection.ListUsers" />
         public UserInfo[] ListUsers()
         {
             ListUsersCommand command
@@ -996,9 +928,7 @@ namespace ManagedIrbis
 
         // =========================================================
 
-        /// <summary>
-        /// No operation.
-        /// </summary>
+        /// <inheritdoc cref="IIrbisConnection.NoOp" />
         public void NoOp()
         {
             NopCommand command = CommandFactory.GetNopCommand();
@@ -1006,9 +936,7 @@ namespace ManagedIrbis
             ExecuteCommand(command);
         }
 
-        /// <summary>
-        /// Парсинг строки подключения.
-        /// </summary>
+        /// <inheritdoc cref="IIrbisConnection.ParseConnectionString" />
         public void ParseConnectionString
             (
                 string connectionString
@@ -1023,11 +951,7 @@ namespace ManagedIrbis
 
         // ========================================================
 
-        /// <summary>
-        /// Возврат к предыдущей базе данных.
-        /// </summary>
-        /// <returns>Текущая база данных.</returns>
-        [CanBeNull]
+        /// <inheritdoc cref="IIrbisConnection.PopDatabase" />
         public string PopDatabase()
         {
             string result = Database;
@@ -1042,10 +966,7 @@ namespace ManagedIrbis
 
         // ========================================================
 
-        /// <summary>
-        /// Print table.
-        /// </summary>
-        [NotNull]
+        /// <inheritdoc cref="IIrbisConnection.PrintTable" />
         public string PrintTable
             (
                 TableDefinition tableDefinition
@@ -1064,11 +985,7 @@ namespace ManagedIrbis
 
         // ========================================================
 
-        /// <summary>
-        /// Временное переключение на другую базу данных.
-        /// </summary>
-        /// <returns>Предыдущая база данных.</returns>
-        [CanBeNull]
+        /// <inheritdoc cref="IIrbisConnection.PushDatabase" />
         public string PushDatabase
             (
                 string newDatabase

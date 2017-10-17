@@ -178,11 +178,13 @@ namespace ManagedIrbis
         /// <summary>
         /// Establish connection (if not yet).
         /// </summary>
+        [NotNull]
         IniFile Connect();
 
         /// <summary>
         /// GBL for virtual record.
         /// </summary>
+        [NotNull]
         MarcRecord CorrectVirtualRecord
             (
                 [NotNull] string database,
@@ -193,6 +195,7 @@ namespace ManagedIrbis
         /// <summary>
         /// GBL for virtual record.
         /// </summary>
+        [NotNull]
         MarcRecord CorrectVirtualRecord
             (
                 [NotNull] string database,
@@ -233,6 +236,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Execute any command.
         /// </summary>
+        [NotNull]
         ServerResponse ExecuteCommand
             (
                 [NotNull] AbstractCommand command
@@ -241,6 +245,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Execute command.
         /// </summary>
+        [NotNull]
         ServerResponse ExecuteCommand
             (
                 [NotNull] string commandCode,
@@ -250,6 +255,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Format specified record using ANSI encoding.
         /// </summary>
+        [CanBeNull]
         string FormatRecord
             (
                 [NotNull] string format,
@@ -259,6 +265,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Format specified record using ANSI encoding.
         /// </summary>
+        [CanBeNull]
         string FormatRecord
             (
                 [NotNull] string format,
@@ -268,6 +275,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Format specified records using ANSI encoding.
         /// </summary>
+        [NotNull]
         string[] FormatRecords
             (
                 [NotNull] string database,
@@ -280,6 +288,7 @@ namespace ManagedIrbis
         /// </summary>
         /// <returns>Cписок логически удаленных, физически удаленных, 
         /// неактуализированных и заблокированных записей.</returns>
+        [NotNull]
         DatabaseInfo GetDatabaseInfo
             (
                 [NotNull] string databaseName
@@ -288,6 +297,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Get stat for the database.
         /// </summary>
+        [NotNull]
         string GetDatabaseStat
             (
                 [NotNull] StatDefinition definition
@@ -309,16 +319,19 @@ namespace ManagedIrbis
         /// <summary>
         /// Get server stat.
         /// </summary>
+        [NotNull]
         ServerStat GetServerStat();
 
         /// <summary>
         /// Get server version.
         /// </summary>
+        [NotNull]
         IrbisVersion GetServerVersion();
 
         /// <summary>
         /// Global correction.
         /// </summary>
+        [NotNull]
         GblResult GlobalCorrection
             (
                 [NotNull] GblSettings settings
@@ -327,6 +340,8 @@ namespace ManagedIrbis
         /// <summary>
         /// List server files by the specification.
         /// </summary>
+        [NotNull]
+        [ItemNotNull]
         string[] ListFiles
             (
                 [NotNull] FileSpecification specification
@@ -335,6 +350,8 @@ namespace ManagedIrbis
         /// <summary>
         /// List server files by the specification.
         /// </summary>
+        [NotNull]
+        [ItemNotNull]
         string[] ListFiles
             (
                 [NotNull] FileSpecification[] specifications
@@ -343,11 +360,15 @@ namespace ManagedIrbis
         /// <summary>
         /// List server processes.
         /// </summary>
+        [NotNull]
+        [ItemNotNull]
         IrbisProcessInfo[] ListProcesses();
 
         /// <summary>
         /// List users.
         /// </summary>
+        [NotNull]
+        [ItemNotNull]
         UserInfo[] ListUsers();
 
         /// <summary>
@@ -367,11 +388,13 @@ namespace ManagedIrbis
         /// Возврат к предыдущей базе данных.
         /// </summary>
         /// <returns>Текущая база данных.</returns>
+        [CanBeNull]
         string PopDatabase();
 
         /// <summary>
         /// Print table.
         /// </summary>
+        [NotNull]
         string PrintTable
             (
                 [NotNull] TableDefinition tableDefinition
@@ -381,6 +404,7 @@ namespace ManagedIrbis
         /// Временное переключение на другую базу данных.
         /// </summary>
         /// <returns>Предыдущая база данных.</returns>
+        [CanBeNull]
         string PushDatabase
             (
                 [NotNull] string newDatabase
