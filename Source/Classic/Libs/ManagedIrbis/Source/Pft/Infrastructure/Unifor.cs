@@ -176,7 +176,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+E", UniforPlusE.GetFieldIndex);
             Registry.Add("+F", UniforPlusF.CleanRtf);
             Registry.Add("+I", UniforPlusI.BuildLink);
-            Registry.Add("+N", GetFieldCount);
+            Registry.Add("+N", UniforPlusN.GetFieldCount);
             Registry.Add("+R", TrimAtLastDot);
             Registry.Add("+S", DecodeTitle);
             Registry.Add("+@", UniforPlusAt.FormatJson);
@@ -309,32 +309,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         // ================================================================
 
-        /// <summary>
-        /// Get field count.
-        /// </summary>
-        public static void GetFieldCount
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            MarcRecord record = context.Record;
-            if (!ReferenceEquals(record, null)
-                && !string.IsNullOrEmpty(expression))
-            {
-                int tag = expression.SafeToInt32();
-                if (tag > 0)
-                {
-                    int count = record.Fields
-                        .GetField(tag)
-                        .Length;
-                    string output = count.ToInvariantString();
-                    context.Write(node, output);
-                    context.OutputFlag = true;
-                }
-            }
-        }
 
         // ================================================================
 

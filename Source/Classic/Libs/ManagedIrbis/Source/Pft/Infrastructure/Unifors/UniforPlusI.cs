@@ -9,19 +9,9 @@
 
 #region Using directives
 
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-
-using AM;
-using AM.Logging;
 using AM.Text;
 
 using JetBrains.Annotations;
-
-using ManagedIrbis.Infrastructure;
-using ManagedIrbis.Menus;
 
 #endregion
 
@@ -68,10 +58,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
     static class UniforPlusI
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         public static void BuildLink
