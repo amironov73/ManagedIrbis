@@ -80,7 +80,7 @@ namespace IrbisTestRunner
             }
             finally
             {
-                if (engine != null)
+                if (!ReferenceEquals(engine, null))
                 {
                     engine.StopServer();
                 }

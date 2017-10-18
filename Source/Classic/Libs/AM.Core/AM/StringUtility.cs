@@ -2115,6 +2115,8 @@ namespace AM
                 int maxParts
             )
         {
+            // TODO Implement properly
+
             Code.NotNull(text, "text");
             Code.NotNull(separators, "separators");
 
@@ -2126,6 +2128,12 @@ namespace AM
 
             while (result.Count < maxParts)
             {
+                if (result.Count == maxParts - 1)
+                {
+                    result.Add(text);
+                    break;
+                }
+
                 foreach (char separator in separators)
                 {
                     int position = text.IndexOf(separator);

@@ -17,6 +17,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Testing;
 using ManagedIrbis.Worksheet;
@@ -50,6 +51,7 @@ namespace IrbisTestRunner.Tests
         {
             IrbisConnection connection = Connection
                 .ThrowIfNull("Connection");
+            IrbisProvider provider = new ConnectedClient(connection);
 
             FileSpecification specification = new FileSpecification
                 (
@@ -59,7 +61,7 @@ namespace IrbisTestRunner.Tests
                 );
             WsFile wss = WsFile.ReadFromServer
                 (
-                    connection,
+                    provider,
                     specification
                 );
             if (!ReferenceEquals(wss, null))
@@ -80,6 +82,7 @@ namespace IrbisTestRunner.Tests
         {
             IrbisConnection connection = Connection
                 .ThrowIfNull("Connection");
+            IrbisProvider provider = new ConnectedClient(connection);
 
             FileSpecification specification = new FileSpecification
                 (
@@ -89,7 +92,7 @@ namespace IrbisTestRunner.Tests
                 );
             WsFile wss = WsFile.ReadFromServer
                 (
-                    connection,
+                    provider,
                     specification
                 );
             if (!ReferenceEquals(wss, null))

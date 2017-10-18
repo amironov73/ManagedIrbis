@@ -46,10 +46,10 @@ namespace IrbisTestRunner.Tests
             Write
                 (
                     string.Join
-                    (
-                        ", ",
-                        found.Select(mfn => mfn.ToInvariantString())
-                    )
+                        (
+                            ", ",
+                            found.Select(mfn => mfn.ToInvariantString())
+                        )
                     .Substring(0,50)
                 );
         }
@@ -72,9 +72,9 @@ namespace IrbisTestRunner.Tests
                             (
                                 ", ",
                                 found.Select
-                                (
-                                    mfn => mfn.ToInvariantString()
-                                )
+                                    (
+                                        mfn => mfn.ToInvariantString()
+                                    )
                             )
                             .Substring(0, 50)
                     );
@@ -156,7 +156,7 @@ namespace IrbisTestRunner.Tests
             IrbisConnection connection = Connection
                 .ThrowIfNull("Connection");
 
-            MarcRecord[] records = connection.SearchRead("T=A$");
+            MarcRecord[] records = connection.SearchRead("T=ABA$");
             int[] mfns = records.Select(r => r.Mfn).ToArray();
 
             bool ok = true;
@@ -170,10 +170,11 @@ namespace IrbisTestRunner.Tests
                     );
                 string diagnostic = string.Format
                     (
-                        "MFN={0}, Version={1}, Version={2}{3}",
-                        records[i].Mfn,
-                        records[i].Version,
+                        "MFN={0}, Version={1}, Version={2} Fields={3}{4}",
+                        record.Mfn,
                         record.Version,
+                        record.Version,
+                        record.Fields.Count,
                         Environment.NewLine
                     );
                 Write(diagnostic);

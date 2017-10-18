@@ -110,6 +110,20 @@ namespace ManagedIrbis.Fst
             File.Verify(true);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public FstProcessor
+            (
+                [NotNull] IrbisProvider provider
+            )
+        {
+            Code.NotNull(provider, "provider");
+
+            Provider = provider;
+            File.Verify(true);
+        }
+
         #endregion
 
         #region Private members

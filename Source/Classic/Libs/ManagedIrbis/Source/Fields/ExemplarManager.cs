@@ -105,7 +105,7 @@ namespace ManagedIrbis.Fields
             (
                 [NotNull] IrbisConnection connection
             )
-            : this (connection, null)
+            : this(connection, null)
         {
         }
 
@@ -360,10 +360,13 @@ namespace ManagedIrbis.Fields
                                 "\"I={0}\"",
                                 consolidatedIndex
                             );
-                        MarcRecord consolidatedRecord
-                            = Connection.SearchReadOneRecord(expression);
-                        if (!ReferenceEquals(consolidatedRecord, null))
+                        //MarcRecord consolidatedRecord
+                        //    = Connection.SearchReadOneRecord(expression);
+                        int[] found = Connection.Search(expression);
+                        if (found.Length == 1)
                         {
+                            MarcRecord consolidatedRecord
+                                = Connection.ReadRecord(found[0]);
                             exemplar.ShelfIndex = consolidatedRecord.FM(906)
                                 ?? consolidatedRecord.FM(621)
                                 ?? consolidatedRecord.FM(686);
@@ -645,7 +648,7 @@ namespace ManagedIrbis.Fields
 
             using (IniFile ini = File.Exists(fileName)
                 ? new IniFile(fileName, encoding, true)
-                : new IniFile {Encoding = encoding})
+                : new IniFile { Encoding = encoding })
             {
                 IniFile.Section section
                     = ini.GetOrCreateSection("Main");

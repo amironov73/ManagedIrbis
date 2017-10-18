@@ -18,6 +18,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
 using ManagedIrbis.Fst;
 using ManagedIrbis.ImportExport;
 using ManagedIrbis.Infrastructure;
@@ -51,8 +52,9 @@ namespace IrbisTestRunner.Tests
         public void FstProcessor_Rusmarc()
         {
             IrbisConnection connection = Connection.ThrowIfNull();
+            IrbisProvider provider = new ConnectedClient(connection);
 
-            FstProcessor processor = new FstProcessor(connection);
+            FstProcessor processor = new FstProcessor(provider);
             FileSpecification specification = new FileSpecification
                 (
                     IrbisPath.MasterFile,

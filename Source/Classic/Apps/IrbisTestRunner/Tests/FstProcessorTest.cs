@@ -17,6 +17,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
 using ManagedIrbis.Fst;
 using ManagedIrbis.Testing;
 
@@ -78,11 +79,11 @@ namespace IrbisTestRunner.Tests
                 (
                     new[]
                     {
-                        new FstLine { Tag = "200", Format = "v200" },
-                        new FstLine { Tag = "210", Format = "v210" },
-                        new FstLine { Tag = "215", Format = "v215" },
-                        new FstLine { Tag = "300", Format = "(v300,/)" }, 
-                        new FstLine { Tag = "900", Format = "v900" } 
+                        new FstLine { Tag = 200, Format = "v200" },
+                        new FstLine { Tag = 210, Format = "v210" },
+                        new FstLine { Tag = 215, Format = "v215" },
+                        new FstLine { Tag = 300, Format = "(v300,/)" }, 
+                        new FstLine { Tag = 900, Format = "v900" } 
                     }
                 );
 
@@ -97,10 +98,11 @@ namespace IrbisTestRunner.Tests
         public void FstProcessor_TransformRecord()
         {
             IrbisConnection connection = Connection.ThrowIfNull();
+            IrbisProvider provider = new ConnectedClient(connection);
 
             MarcRecord record = _GetRecord();
             FstFile fstFile = _GetFstFile();
-            FstProcessor processor = new FstProcessor(connection);
+            FstProcessor processor = new FstProcessor(provider);
             MarcRecord transformed = processor.TransformRecord
                 (
                     record,
