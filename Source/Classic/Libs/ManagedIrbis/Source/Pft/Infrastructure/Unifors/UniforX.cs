@@ -49,12 +49,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // &unifor("X"v200)
     //
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
-    public static class UniforX
+    static class UniforX
     {
         #region Public methods
 

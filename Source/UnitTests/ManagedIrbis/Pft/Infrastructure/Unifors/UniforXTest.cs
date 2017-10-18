@@ -1,7 +1,6 @@
 ﻿using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure;
-using ManagedIrbis.Pft.Infrastructure.Unifors;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -17,7 +16,9 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             )
         {
             PftContext context = new PftContext(null);
-            UniforX.RemoveAngleBrackets(context, null, text);
+            Unifor unifor = new Unifor();
+            string expression = "X" + text;
+            unifor.Execute(context, null, expression);
             string actual = context.Text;
             Assert.AreEqual(expected, actual);
         }
