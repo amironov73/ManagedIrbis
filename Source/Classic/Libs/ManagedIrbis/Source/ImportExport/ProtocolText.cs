@@ -302,6 +302,7 @@ namespace ManagedIrbis.ImportExport
             finally
             {
                 record.Fields.EndUpdate();
+                record.Modified = false;
             }
 
             return record;
@@ -361,6 +362,7 @@ namespace ManagedIrbis.ImportExport
             finally
             {
                 record.Fields.EndUpdate();
+                record.Modified = false;
             }
 
             return record;
@@ -407,6 +409,7 @@ namespace ManagedIrbis.ImportExport
             finally
             {
                 record.Fields.EndUpdate();
+                record.Modified = false;
             }
 
             return record;
@@ -457,6 +460,7 @@ namespace ManagedIrbis.ImportExport
             finally
             {
                 record.Fields.EndUpdate();
+                record.Modified = false;
             }
 
             return record;
@@ -508,6 +512,7 @@ namespace ManagedIrbis.ImportExport
             finally
             {
                 record.Fields.EndUpdate();
+                record.Modified = false;
             }
 
             return record;
@@ -550,6 +555,7 @@ namespace ManagedIrbis.ImportExport
             finally
             {
                 record.Fields.EndUpdate();
+                record.Modified = false;
             }
 
             return record;

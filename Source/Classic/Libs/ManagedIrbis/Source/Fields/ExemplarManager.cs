@@ -558,11 +558,23 @@ namespace ManagedIrbis.Fields
                 [NotNull] string number
             )
         {
-            MarcRecord[] records = Connection.SearchRead
+            //MarcRecord[] records = Connection.SearchRead
+            //    (
+            //        "\"{0}{1}\"",
+            //        Prefix,
+            //        number
+            //    );
+
+            int[] found = Connection.Search
                 (
                     "\"{0}{1}\"",
                     Prefix,
                     number
+                );
+            MarcRecord[] records = Connection.ReadRecords
+                (
+                    Connection.Database.ThrowIfNull("Connection.Database"),
+                    found
                 );
 
             ExemplarInfo result = records

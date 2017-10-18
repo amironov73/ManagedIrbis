@@ -38,7 +38,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         }
 
         [TestMethod]
-        public void UnuforZ_GenerateExemplars_1()
+        public void UniforZ_GenerateExemplars_1()
         {
             _Z("^AR^Qwert", "^a0^qwert");
             _Z("^AR^B0/111", string.Empty);

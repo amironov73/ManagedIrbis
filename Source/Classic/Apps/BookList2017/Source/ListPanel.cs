@@ -276,6 +276,35 @@ namespace BookList2017
                     );
             }
 
+            MarcRecord record = exemplar.Record.ThrowIfNull("exemplar.Record");
+            RecordField field = exemplar.Field.ThrowIfNull("exemplar.Field");
+
+            if (_statusBox.Checked
+                && exemplar.Status != "0")
+            {
+                exemplar.Status = "0";
+                field.SetSubField('A', "0");
+                WriteLine("Статус экземпляра {0} изменён на 0", number);
+            }
+
+            if (_exhibitionBox.Checked)
+            {
+                field.SetSubField('9', "Выставка новых поступлений");
+                WriteLine("Экземпляр {0} передан на выставку", number);
+            }
+
+            if (record.Modified)
+            {
+                Run
+                    (
+                        () =>
+                        {
+                            MainForm.Provider.WriteRecord(record);
+                            WriteLine("Изменения сохранены на сервере");
+                        }
+                    );
+            }
+
             ExemplarList.Add(exemplar);
             _bindingSource.Position = ExemplarList.Count - 1;
 
@@ -506,10 +535,10 @@ namespace BookList2017
                 foreach (ExcelColumn column in currentVariant.Columns)
                 {
                     object o = ReflectionUtility.GetPropertyValue
-                    (
-                        exemplar,
-                        column.Expression
-                    );
+                        (
+                            exemplar,
+                            column.Expression
+                        );
                     list.Add(o);
                 }
 

@@ -168,6 +168,7 @@ namespace ManagedIrbis.Batch
 
                     if (!result.Deleted)
                     {
+                        result.Modified = false;
                         _records.Add(result);
                     }
                 }
