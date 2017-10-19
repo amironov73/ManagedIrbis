@@ -68,6 +68,7 @@ namespace AM
 
         private static readonly Random _random = new Random();
         private static readonly char[] _quotes = { '\'', '"', '[', ']' };
+        private static readonly char[] _whitespace = { ' ', '\t', '\r', '\n' };
 
         #endregion
 
@@ -155,12 +156,6 @@ namespace AM
                 string right
             )
         {
-            //return (string.Compare
-            //            (left,
-            //              right,
-            //              true,
-            //              _InvariantCulture) == 0);
-
             return CultureInfo.InvariantCulture.CompareInfo.Compare
                    (
                        left,
@@ -178,10 +173,8 @@ namespace AM
                 char right
             )
         {
-            //return (char.ToUpper(left, _InvariantCulture)
-            //         == char.ToUpper(right, _InvariantCulture));
-            return (char.ToUpper(left)
-                    == char.ToUpper(right));
+            return char.ToUpper(left)
+                   == char.ToUpper(right);
         }
 
         /// <summary>
@@ -274,8 +267,6 @@ namespace AM
                 return false;
             }
 
-#if PORTABLE
-
             foreach (char c in value)
             {
                 if (!char.IsDigit(c))
@@ -285,12 +276,6 @@ namespace AM
             }
 
             return true;
-
-#else
-
-            return value.All(char.IsDigit);
-
-#endif
         }
 
         /// <summary>
@@ -343,6 +328,17 @@ namespace AM
         }
 
         /// <summary>
+        /// Строка содержит пробельные символы?
+        /// </summary>
+        public static bool ContainsWhitespace
+            (
+                this string text
+            )
+        {
+            return text.ContainsAnySymbol(_whitespace);
+        }
+
+        /// <summary>
         /// Count of given substrings in the text.
         /// </summary>
         public static int CountSubstrings
@@ -354,7 +350,7 @@ namespace AM
             int result = 0;
 
             if (!string.IsNullOrEmpty(text)
-            && !string.IsNullOrEmpty(substring))
+                && !string.IsNullOrEmpty(substring))
             {
                 int length = substring.Length;
                 int offset = 0;
@@ -380,6 +376,33 @@ namespace AM
         }
 
         /// <summary>
+        /// Converts empty string to <c>null</c>.
+        /// </summary>
+        [CanBeNull]
+        public static string EmptyToNull
+            (
+                [CanBeNull] this string value
+            )
+        {
+            return string.IsNullOrEmpty(value)
+                ? null
+                : value;
+        }
+
+        /// <summary>
+        /// Gets the first char of the text.
+        /// </summary>
+        public static char FirstChar
+            (
+                [CanBeNull] this string text
+            )
+        {
+            return string.IsNullOrEmpty(text)
+                ? '\0'
+                : text[0];
+        }
+
+        /// <summary>
         /// Get case-insensitive string comparer.
         /// </summary>
         public static IEqualityComparer<string> GetCaseInsensitiveComparer()
@@ -393,6 +416,61 @@ namespace AM
             return StringComparer.InvariantCultureIgnoreCase;
 
 #endif
+        }
+
+        /// <summary>
+        /// Строит массив групп совпадающих символов по регулярному выражению.
+        /// </summary>
+        /// <param name="input">Разбираемая строка.</param>
+        /// <param name="pattern">Регулярное выражение.</param>
+        /// <returns>Массив групп.</returns>
+        [NotNull]
+        public static string[] GetGroups
+            (
+                [NotNull] string input,
+                [NotNull] string pattern
+            )
+        {
+            Code.NotNull(input, "input");
+            Code.NotNull(pattern, "pattern");
+
+            Match match = Regex.Match(input, pattern);
+            if (!match.Success)
+            {
+                return new string[0];
+            }
+
+            string[] result = new string[match.Groups.Count - 1];
+            for (int i = 1; i < match.Groups.Count; i++)
+            {
+                result[i - 1] = match.Groups[i].Value;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Builds an array is regex matches.
+        /// </summary>
+        /// <param name="input">String to parse.</param>
+        /// <param name="pattern">Regex.</param>
+        /// <returns>Array of matches.</returns>
+        [NotNull]
+        public static string[] GetMatches
+            (
+                [NotNull] string input,
+                [NotNull] string pattern
+            )
+        {
+            MatchCollection matches = Regex.Matches(input, pattern);
+            string[] result = new string[matches.Count];
+
+            for (int i = 0; i < matches.Count; i++)
+            {
+                result[i] = matches[i].Value;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -427,18 +505,122 @@ namespace AM
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Строит массив слов в строке.
+        /// </summary>
+        /// <param name="value">Разбираемая строка.</param>
+        /// <returns>Массив слов.</returns>
+        [NotNull]
+        public static string[] GetWords
+            (
+                [NotNull] string value
+            )
+        {
+            return GetMatches(value, @"\w+");
+        }
+
         private static int HexToInt
             (
                 char h
             )
         {
-            return h >= '0' && h <= '9' 
-                ? h - '0' 
+            return h >= '0' && h <= '9'
+                ? h - '0'
                 : h >= 'a' && h <= 'f'
-                    ? h - 'a' + 10 
+                    ? h - 'a' + 10
                     : h >= 'A' && h <= 'F'
-                        ? h - 'A' + 10 
+                        ? h - 'A' + 10
                         : -1;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [CanBeNull]
+        public static string IfEmpty
+            (
+                [CanBeNull] this string first,
+                params string[] others
+            )
+        {
+            if (!string.IsNullOrEmpty(first))
+            {
+                return first;
+            }
+
+            return others
+                .FirstOrDefault(s => !string.IsNullOrEmpty(s));
+        }
+
+        /// <summary>
+        /// Reports the index of the first occurrence in this instance
+        /// of any string in a specified array.
+        /// </summary>
+        public static int IndexOfAny
+            (
+                [NotNull] this string text,
+                out int which,
+                params string[] anyOf
+            )
+        {
+            int result = -1;
+            which = -1;
+
+            for (int i = 0; i < anyOf.Length; i++)
+            {
+                string value = anyOf[i];
+                int index = text.IndexOf(value, StringComparison.Ordinal);
+                if (index >= 0)
+                {
+                    if (result >= 0)
+                    {
+                        if (index < result)
+                        {
+                            result = index;
+                            which = i;
+                        }
+                    }
+                    else
+                    {
+                        result = index;
+                        which = i;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Reports the index of the first occurrence in this instance
+        /// of any string in a specified array.
+        /// </summary>
+        public static int IndexOfAny
+            (
+                [NotNull] this string text,
+                int startIndex,
+                params string[] anyOf
+            )
+        {
+            int result = -1;
+
+            foreach (string value in anyOf)
+            {
+                int index = text.IndexOf
+                    (
+                        value,
+                        startIndex,
+                        StringComparison.Ordinal
+                    );
+                if (index >= 0)
+                {
+                    result = result >= 0
+                        ? Math.Min(result, index)
+                        : index;
+                }
+            }
+
+            return result;
         }
 
         private static char IntToHex
@@ -452,23 +634,6 @@ namespace AM
             }
 
             return (char)(n - 10 + 'A');
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public static string IfEmpty
-            (
-                this string first,
-                params string[] others
-            )
-        {
-            if (!string.IsNullOrEmpty(first))
-            {
-                return first;
-            }
-            return others
-                .FirstOrDefault(s => !string.IsNullOrEmpty(s));
         }
 
         /// <summary>
@@ -488,8 +653,6 @@ namespace AM
         /// <summary>
         /// Проверяет, можно ли трактовать строку как десятичное число.
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static bool IsDecimal
             (
                 [NotNull] string value
@@ -704,6 +867,180 @@ namespace AM
         }
 
         /// <summary>
+        /// Determines whether the given string
+        /// represents valid identifier or not.
+        /// </summary>
+        public static bool IsValidIdentifier
+            (
+                [CanBeNull] this string name
+            )
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return false;
+            }
+
+            if (!(char.IsLetter(name, 0) || name[0] == '_'))
+            {
+                return false;
+            }
+
+            for (int i = 1; i < name.Length; i++)
+            {
+                if (!(char.IsLetterOrDigit(name, i) || name[i] == '_'))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Is URL-safe char?
+        /// </summary>
+        /// <remarks>Set of safe chars, from RFC 1738.4 minus '+'</remarks>
+        public static bool IsUrlSafeChar
+            (
+                char ch
+            )
+        {
+            if (ch >= 'a' && ch <= 'z'
+                || ch >= 'A' && ch <= 'Z'
+                || ch >= '0' && ch <= '9'
+                )
+            {
+                return true;
+            }
+
+            switch (ch)
+            {
+                case '-':
+                case '_':
+                case '.':
+                case '!':
+                case '*':
+                case '(':
+                case ')':
+                    {
+                        return true;
+                    }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Join string representations of the given objects.
+        /// </summary>
+        [NotNull]
+        public static string Join
+            (
+                [CanBeNull] string separator,
+                [NotNull] IEnumerable objects
+            )
+        {
+            Code.NotNull(objects, "objects");
+
+            if (ReferenceEquals(separator, null))
+            {
+                separator = string.Empty;
+            }
+
+            StringBuilder result = new StringBuilder();
+            IEnumerator enumerator = objects.GetEnumerator();
+            if (enumerator.MoveNext())
+            {
+                bool flag = false;
+                object o = enumerator.Current;
+                if (!ReferenceEquals(o, null))
+                {
+                    result.Append(o);
+                    flag = true;
+                }
+
+                while (enumerator.MoveNext())
+                {
+                    o = enumerator.Current;
+                    if (!ReferenceEquals(o, null))
+                    {
+                        if (flag)
+                        {
+                            result.Append(separator);
+                        }
+                        result.Append(o);
+                        flag = true;
+                    }
+                }
+            }
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Gets the last char of the text.
+        /// </summary>
+        public static char LastChar
+            (
+                [CanBeNull] this string text
+            )
+        {
+            return string.IsNullOrEmpty(text)
+                ? '\0'
+                : text[text.Length - 1];
+        }
+
+        /// <summary>
+        /// Mangle given text with the escape character.
+        /// </summary>
+        [CanBeNull]
+        public static string Mangle
+            (
+                [CanBeNull] string text,
+                char escape,
+                [NotNull] char[] badCharacters
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            StringBuilder result = new StringBuilder(text.Length);
+
+            foreach (char c in text)
+            {
+                if (c.OneOf(badCharacters)
+                    || c == escape)
+                {
+                    result.Append(escape);
+                }
+                result.Append(c);
+            }
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Склейка строк в сплошной текст, разделенный переводами строки.
+        /// </summary>
+        /// <param name="lines">Строки для склейки.</param>
+        /// <returns>Склеенный текст.</returns>
+        public static string MergeLines
+            (
+                [NotNull] this IEnumerable<string> lines
+            )
+        {
+            string result = string.Join
+                (
+                    Environment.NewLine,
+                    lines.ToArray()
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Replicates given string.
         /// </summary>
         /// <param name="text">String to replicate.</param>
@@ -719,7 +1056,7 @@ namespace AM
                 int times
             )
         {
-            if (text == null)
+            if (ReferenceEquals(text, null))
             {
                 return null;
             }
@@ -762,73 +1099,6 @@ namespace AM
             return result.ToString();
         }
 
-
-        /// <summary>
-        /// Builds an array is regex matches.
-        /// </summary>
-        /// <param name="input">String to parse.</param>
-        /// <param name="pattern">Regex.</param>
-        /// <returns>Array of matches.</returns>
-        public static string[] GetMatches
-            (
-                string input,
-                string pattern
-            )
-        {
-            MatchCollection matches = Regex.Matches(input, pattern);
-            string[] result = new string[matches.Count];
-
-            for (int i = 0; i < matches.Count; i++)
-            {
-                result[i] = matches[i].Value;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Строит массив слов в строке.
-        /// </summary>
-        /// <param name="value">Разбираемая строка.</param>
-        /// <returns>Массив слов.</returns>
-        public static string[] GetWords
-            (
-                string value
-            )
-        {
-            return GetMatches(value, @"\w+");
-        }
-
-        /// <summary>
-        /// Строит массив групп совпадающих символов по регулярному выражению.
-        /// </summary>
-        /// <param name="input">Разбираемая строка.</param>
-        /// <param name="pattern">Регулярное выражение.</param>
-        /// <returns>Массив групп.</returns>
-        [NotNull]
-        public static string[] GetGroups
-            (
-                [NotNull] string input,
-                [NotNull] string pattern
-            )
-        {
-            Code.NotNull(input, "input");
-            Code.NotNull(pattern, "pattern");
-
-            Match match = Regex.Match(input, pattern);
-            if (!match.Success)
-            {
-                return new string[0];
-            }
-
-            string[] result = new string[match.Groups.Count - 1];
-            for (int i = 1; i < match.Groups.Count; i++)
-            {
-                result[i - 1] = match.Groups[i].Value;
-            }
-
-            return result;
-        }
 
         /// <summary>
         /// Сравнивает строки с точностью до регистра.
@@ -902,10 +1172,10 @@ namespace AM
             for (int i = 0; i < input.Length; i++)
             {
                 char chr = input[i];
-                char next = (i < (input.Length - 1))
+                char next = i < input.Length - 1
                                 ? input[i + 1]
                                 : '\0';
-                char prev = (i > 0)
+                char prev = i > 0
                                 ? input[i - 1]
                                 : '\0';
                 if (chr == ' ')
@@ -924,8 +1194,8 @@ namespace AM
                     if (quot)
                     {
                         output.Append(chr);
-                        if ((next != ' ')
-                             && (after.IndexOf(next) == -1))
+                        if (next != ' '
+                             && after.IndexOf(next) == -1)
                         {
                             output.Append(' ');
                         }
@@ -946,8 +1216,8 @@ namespace AM
                     if (apos)
                     {
                         output.Append(chr);
-                        if ((next != ' ')
-                             && (after.IndexOf(next) == -1))
+                        if (next != ' '
+                             && after.IndexOf(next) == -1)
                         {
                             output.Append(' ');
                         }
@@ -978,9 +1248,9 @@ namespace AM
                 }
                 else if (before.IndexOf(chr) >= 0)
                 {
-                    if ((prev != ' ') && (i > 0)
-                         && (before.IndexOf(next) == -1)
-                         && (after.IndexOf(next) == -1))
+                    if (prev != ' ' && i > 0
+                         && before.IndexOf(next) == -1
+                         && after.IndexOf(next) == -1)
                     {
                         output.Append(' ');
                     }
@@ -997,9 +1267,9 @@ namespace AM
                     {
                         continue;
                     }
-                    if ((next != ' ')
-                         && (before.IndexOf(next) == -1)
-                         && (after.IndexOf(next) == -1))
+                    if (next != ' '
+                         && before.IndexOf(next) == -1
+                         && after.IndexOf(next) == -1)
                     {
                         output.Append(' ');
                     }
@@ -1018,6 +1288,7 @@ namespace AM
         /// <summary>
         /// Разбивает строку по указанному разделителю.
         /// </summary>
+        [NotNull]
         public static string[] SplitFirst
             (
                 [NotNull] this string line,
@@ -1025,7 +1296,7 @@ namespace AM
             )
         {
             int index = line.IndexOf(delimiter);
-            string[] result = (index < 0)
+            string[] result = index < 0
                 ? new[] { line }
                 : new[]
                 {
@@ -1055,12 +1326,6 @@ namespace AM
             {
                 return "(empty)";
             }
-#if FW40
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                return "(whitespace)";
-            }
-#endif
 
             return text;
         }
@@ -1071,9 +1336,10 @@ namespace AM
         /// </summary>
         /// <param name="value">Исходная строка.</param>
         /// <returns>Результирующая строка.</returns>
+        [NotNull]
         public static string Unescape
             (
-                string value
+                [CanBeNull] string value
             )
         {
             if (string.IsNullOrEmpty(value))
@@ -1090,7 +1356,7 @@ namespace AM
             {
                 int index = value.IndexOf('%', current);
 
-                if ((value.Length - index) < 3)
+                if (value.Length - index < 3)
                 {
                     index = -1;
                 }
@@ -1108,7 +1374,7 @@ namespace AM
 
                     int byteCount = 0;
                     char ch;
-                    
+
                     do
                     {
                         // Not supported in .NET Core
@@ -1162,45 +1428,6 @@ namespace AM
 
 
         /// <summary>
-        /// Converts empty string to <c>null</c>.
-        /// </summary>
-        public static string EmptyToNull
-            (
-                this string value
-            )
-        {
-            return string.IsNullOrEmpty(value)
-                       ? null
-                       : value;
-        }
-
-        /// <summary>
-        /// Gets the first char of the text.
-        /// </summary>
-        public static char FirstChar
-            (
-                this string text
-            )
-        {
-            return string.IsNullOrEmpty(text)
-                ? '\0'
-                : text[0];
-        }
-
-        /// <summary>
-        /// Gets the last char of the text.
-        /// </summary>
-        public static char LastChar
-            (
-                this string text
-            )
-        {
-            return string.IsNullOrEmpty(text)
-                       ? '\0'
-                       : text[text.Length - 1];
-        }
-
-        /// <summary>
         /// Trims matching open and close quotes from the string.
         /// </summary>
         /// <remarks>
@@ -1233,8 +1460,8 @@ namespace AM
             int length = text.Length;
             if (length > 1)
             {
-                if ((text[0] == quoteChar)
-                    && (text[length - 1] == quoteChar))
+                if (text[0] == quoteChar
+                    && text[length - 1] == quoteChar)
                 {
                     text = text.Substring(1, length - 2);
                 }
@@ -1262,8 +1489,8 @@ namespace AM
             int length = text.Length;
             if (length > 1)
             {
-                if ((text[0] == quoteChar1)
-                    && (text[length - 1] == quoteChar2))
+                if (text[0] == quoteChar1
+                    && text[length - 1] == quoteChar2)
                 {
                     text = text.Substring(1, length - 2);
                 }
@@ -1374,7 +1601,7 @@ namespace AM
 #if PocketPC
             return (char.ToUpper(one) == char.ToUpper(two));
 #else
-            return (char.ToUpperInvariant(one) == char.ToUpperInvariant(two));
+            return char.ToUpperInvariant(one) == char.ToUpperInvariant(two);
 #endif
         }
 
@@ -1533,9 +1760,9 @@ namespace AM
             }
 
             int length = text.Length;
-            if ((offset < 0)
-                || (offset >= length)
-                || (width <= 0))
+            if (offset < 0
+                || offset >= length
+                || width <= 0)
             {
                 return string.Empty;
             }
@@ -1559,82 +1786,15 @@ namespace AM
         /// <remarks>Пустые строки не удаляются.</remarks>
         /// <param name="text">Текст для разбиения.</param>
         /// <returns>Массив строк.</returns>
+        [NotNull]
         public static string[] SplitLines
             (
-                this string text
+                [NotNull] this string text
             )
         {
             text = text.Replace("\r\n", "\n");
 
-            return text.Split
-                (
-                    '\n'
-                );
-        }
-
-        /// <summary>
-        /// Склейка строк в сплошной текст, разделенный переводами строки.
-        /// </summary>
-        /// <param name="lines">Строки для склейки.</param>
-        /// <returns>Склеенный текст.</returns>
-        public static string MergeLines
-            (
-                this IEnumerable<string> lines
-            )
-        {
-            string result = string.Join
-                (
-                    Environment.NewLine,
-                    lines.ToArray()
-                );
-
-            return result;
-        }
-
-        /// <summary>
-        /// Строка содержит пробельные символы?
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        public static bool ContainsWhitespace
-            (
-                this string text
-            )
-        {
-            return text.ContainsAnySymbol
-                (
-                    ' ', '\t', '\r', '\n'
-                );
-        }
-
-        /// <summary>
-        /// Determines whether the given string
-        /// represents valid identifier or not.
-        /// </summary>
-        public static bool IsValidIdentifier
-            (
-                [CanBeNull] this string name
-            )
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                return false;
-            }
-
-            if (!(char.IsLetter(name, 0) || name[0] == '_'))
-            {
-                return false;
-            }
-
-            for (int i = 1; i < name.Length; i++)
-            {
-                if (!(char.IsLetterOrDigit(name, i) || name[i] == '_'))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return text.Split('\n');
         }
 
         /// <summary>
@@ -1682,53 +1842,6 @@ namespace AM
         }
 
         /// <summary>
-        /// Join string representations of the given objects.
-        /// </summary>
-        [NotNull]
-        public static string Join
-            (
-                [CanBeNull] string separator,
-                [NotNull] IEnumerable objects
-            )
-        {
-            Code.NotNull(objects, "objects");
-
-            if (ReferenceEquals(separator, null))
-            {
-                separator = string.Empty;
-            }
-
-            StringBuilder result = new StringBuilder();
-            IEnumerator enumerator = objects.GetEnumerator();
-            if (enumerator.MoveNext())
-            {
-                bool flag = false;
-                object o = enumerator.Current;
-                if (!ReferenceEquals(o, null))
-                {
-                    result.Append(o);
-                    flag = true;
-                }
-
-                while (enumerator.MoveNext())
-                {
-                    o = enumerator.Current;
-                    if (!ReferenceEquals(o, null))
-                    {
-                        if (flag)
-                        {
-                            result.Append(separator);
-                        }
-                        result.Append(o);
-                        flag = true;
-                    }
-                }
-            }
-
-            return result.ToString();
-        }
-
-        /// <summary>
         /// Wrap the string with given prefix and suffix
         /// </summary>
         [CanBeNull]
@@ -1757,71 +1870,6 @@ namespace AM
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Mangle given text with the escape character.
-        /// </summary>
-        [CanBeNull]
-        public static string Mangle
-            (
-                [CanBeNull] string text,
-                char escape,
-                [NotNull] char[] badCharacters
-            )
-        {
-            if (string.IsNullOrEmpty(text))
-            {
-                return text;
-            }
-
-            StringBuilder result = new StringBuilder();
-
-            foreach (char c in text)
-            {
-                if (c.OneOf(badCharacters)
-                    || (c == escape))
-                {
-                    result.Append(escape);
-                }
-                result.Append(c);
-            }
-
-            return result.ToString();
-        }
-
-        /// <summary>
-        /// Is URL-safe char?
-        /// </summary>
-        /// <remarks>Set of safe chars, from RFC 1738.4 minus '+'</remarks>
-        public static bool IsUrlSafeChar
-            (
-                char ch
-            )
-        {
-            if ((ch >= 'a' && ch <= 'z')
-                || (ch >= 'A' && ch <= 'Z')
-                || (ch >= '0' && ch <= '9')
-                )
-            {
-                return true;
-            }
-
-            switch (ch)
-            {
-                case '-':
-                case '_':
-                case '.':
-                case '!':
-                case '*':
-                case '(':
-                case ')':
-                    {
-                        return true;
-                    }
-            }
-
-            return false;
         }
 
         // ===============================================================
@@ -2039,7 +2087,7 @@ namespace AM
 
             while (true)
             {
-                int position = text.IndexOf(separator);
+                int position = text.IndexOf(separator, StringComparison.Ordinal);
                 if (position < 0)
                 {
                     result.Add(text);
@@ -2049,7 +2097,7 @@ namespace AM
                 result.Add(prefix);
                 text = text.Substring
                     (
-                        position + separatorLength, 
+                        position + separatorLength,
                         text.Length - position - separatorLength
                     );
             }
@@ -2076,28 +2124,27 @@ namespace AM
 
             while (true)
             {
-                foreach (string separator in separators)
+                int which;
+                int position = text.IndexOfAny(out which, separators);
+                if (position >= 0)
                 {
-                    int position = text.IndexOf(separator);
-                    if (position >= 0)
-                    {
-                        int separatorLength = separator.Length;
+                    string separator = separators[which];
+                    int separatorLength = separator.Length;
 
-                        string prefix = text.Substring(0, position);
-                        result.Add(prefix);
-                        text = text.Substring
-                            (
-                                position + separatorLength,
-                                text.Length - position - separatorLength
-                            );
-                        goto DONE;
-                    }
+                    string prefix = text.Substring(0, position);
+                    result.Add(prefix);
+                    text = text.Substring
+                        (
+                            position + separatorLength,
+                            text.Length - position - separatorLength
+                        );
+                    goto DONE;
                 }
 
                 result.Add(text);
                 break;
 
-            DONE:;
+                DONE:;
             }
 
             return result.ToArray();
@@ -2115,10 +2162,13 @@ namespace AM
                 int maxParts
             )
         {
-            // TODO Implement properly
-
             Code.NotNull(text, "text");
             Code.NotNull(separators, "separators");
+
+            if (text.Length == 0)
+            {
+                return EmptyArray;
+            }
 
             List<string> result = new List<string>();
             if (maxParts < 2)
@@ -2126,34 +2176,27 @@ namespace AM
                 result.Add(text);
             }
 
+            int start = 0;
             while (result.Count < maxParts)
             {
                 if (result.Count == maxParts - 1)
                 {
-                    result.Add(text);
+                    result.Add(text.Substring(start));
                     break;
                 }
 
-                foreach (char separator in separators)
+                int position = text.IndexOfAny(separators, start);
+                if (position >= 0)
                 {
-                    int position = text.IndexOf(separator);
-                    if (position >= 0)
-                    {
-                        string prefix = text.Substring(0, position);
-                        result.Add(prefix);
-                        text = text.Substring
-                            (
-                                position + 1,
-                                text.Length - position - 1
-                            );
-                        goto DONE;
-                    }
+                    string prefix = text.Substring(start, position - start);
+                    result.Add(prefix);
+                    start = position + 1;
                 }
-
-                result.Add(text);
-                break;
-
-            DONE: ;
+                else
+                {
+                    result.Add(text.Substring(start));
+                    break;
+                }
             }
 
             return result.ToArray();
@@ -2230,3 +2273,4 @@ namespace AM
         #endregion
     }
 }
+

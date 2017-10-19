@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM;
+
+// ReSharper disable ConvertToLocalFunction
 
 namespace UnitTests.AM
 {
@@ -709,7 +712,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void StringUtility_SplitString()
+        public void StringUtility_SplitString_1()
         {
             Func<char, bool> func = c => c == '!';
             string[] result = "!!aaa!bbb!!c".SplitString(func).ToArray();
@@ -733,6 +736,33 @@ namespace UnitTests.AM
 
             result = "!!!".SplitString(func).ToArray();
             Assert.AreEqual(0, result.Length);
+        }
+
+        [TestMethod]
+        public void StringUtility_SplitString_2()
+        {
+            char[] separators = {'#', '!'};
+
+            string[] actual = StringUtility.SplitString(string.Empty, separators, 2);
+            Assert.AreEqual(0, actual.Length);
+
+            actual = StringUtility.SplitString("abc", separators, 2);
+            Assert.AreEqual(1, actual.Length);
+            Assert.AreEqual("abc", actual[0]);
+
+            actual = StringUtility.SplitString("a!b#c", separators, 2);
+            Assert.AreEqual(2, actual.Length);
+            Assert.AreEqual("a", actual[0]);
+            Assert.AreEqual("b#c", actual[1]);
+
+            actual = StringUtility.SplitString("a!#c", separators, 2);
+            Assert.AreEqual(2, actual.Length);
+            Assert.AreEqual("a", actual[0]);
+            Assert.AreEqual("#c", actual[1]);
+
+            actual = StringUtility.SplitString("a!b#c", separators, 1);
+            Assert.AreEqual(1, actual.Length);
+            Assert.AreEqual("a!b#c", actual[0]);
         }
 
         [TestMethod]
