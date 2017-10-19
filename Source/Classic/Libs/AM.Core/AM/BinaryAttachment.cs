@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Diagnostics.CodeAnalysis;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -49,6 +50,7 @@ namespace AM
         /// <summary>
         /// Default constructor.
         /// </summary>
+        [ExcludeFromCodeCoverage]
         protected BinaryAttachment()
         {
         }
@@ -70,10 +72,6 @@ namespace AM
             Name = name;
             Content = content;
         }
-
-        #endregion
-
-        #region Private members
 
         #endregion
 

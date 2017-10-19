@@ -363,14 +363,6 @@ namespace AM
             DisposeFields();
         }
 
-        /// <summary>
-        /// Alias for <c>Dispose</c>.
-        /// </summary>
-        public virtual void Close()
-        {
-            Dispose();
-        }
-
         #endregion
 
         #region IDisposable members
