@@ -15,8 +15,6 @@ using AM;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
@@ -28,17 +26,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // Формат (передаваемая строка):
     // RNN
     // где NN – кол-во знаков в случайном числе (по умолчанию – 6).
+    //
     // Примеры:
+    //
     // &unifor('R')
     // &unifor('R4')
     //
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
-    public static class UniforR
+    static class UniforR
     {
         #region Public methods
 

@@ -35,12 +35,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // * буква Ё приводит к аварийному завершению скрипта.
     //
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
-    public static class UniforT
+    static class UniforT
     {
         #region Private members
 
