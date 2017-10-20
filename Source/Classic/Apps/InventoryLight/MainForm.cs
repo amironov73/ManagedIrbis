@@ -472,21 +472,20 @@ namespace InventoryLight
                 EventArgs e
             )
         {
-            if (_currentRecord == null
-                || _currentExemplar == null)
+            if (ReferenceEquals(_currentRecord, null)
+                || ReferenceEquals(_currentExemplar, null))
             {
-                XtraMessageBox.Show
-                    (
-                        "Невозможно подтвердить книгу"
-                    );
+                XtraMessageBox.Show("Невозможно подтвердить книгу");
+
                 return;
             }
 
             RecordField field = _currentExemplar.UserData as RecordField;
-            if (field == null)
+            if (ReferenceEquals(field, null))
             {
                 return;
             }
+
             field.SetSubField('!', CurrentFond);
             field.SetSubField('s', CurrentDate);
             Stopwatch stopwatch = new Stopwatch();
@@ -497,6 +496,27 @@ namespace InventoryLight
                     false,
                     true
                 );
+
+            IrbisRecord record = _client.ReadRecord(_currentRecord.Mfn);
+            RecordField field2 = record.Fields.GetField("910")
+                .GetField('b', field.GetFirstSubFieldText('b'))
+                .FirstOrDefault();
+            if (ReferenceEquals(field2, null)
+                || !field.GetFirstSubFieldText('!')
+                    .SameString(field2.GetFirstSubFieldText('!'))
+                || !field.GetFirstSubFieldText('s')
+                    .SameString(field2.GetFirstSubFieldText('s')))
+            {
+                _logBox.WriteLine("Что-то пошло не так!");
+                _SetHtml
+                    (
+                        "<h1><font color='red'>ЧТО-ТО ПОШЛО НЕ ТАК!"
+                        + "</font></h1>"
+                    );
+
+                return;
+            }
+
             stopwatch.Stop();
             _logBox.Output.WriteLine
                 (
@@ -762,8 +782,10 @@ namespace InventoryLight
                         "Не найден номер {0}",
                         number
                     );
+
                 return;
             }
+
             if (found.Length != 1)
             {
                 _SetHtml
@@ -771,6 +793,7 @@ namespace InventoryLight
                         "Много записей для номера {0}",
                         number
                     );
+
                 return;
             }
 
@@ -783,18 +806,21 @@ namespace InventoryLight
             {
                 _SetHtml
                     (
-                        "Не найдено поле с номером {0}",
+                        "Не найдено поле с номером <b>{0}</b>",
                         number
                     );
+
                 return;
             }
+
             if (fields.Length != 1)
             {
                 _SetHtml
                     (
-                        "Много полей с номером {0}",
+                        "Много полей с номером <b>{0}</b>",
                         number
                     );
+
                 return;
             }
 
