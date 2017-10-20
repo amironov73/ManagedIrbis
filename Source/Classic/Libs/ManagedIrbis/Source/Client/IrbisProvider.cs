@@ -279,6 +279,14 @@ namespace ManagedIrbis.Client
         }
 
         /// <summary>
+        /// No operation.
+        /// </summary>
+        public virtual void NoOp()
+        {
+            // Nothing to do.
+        }
+
+        /// <summary>
         /// Read file.
         /// </summary>
         [CanBeNull]

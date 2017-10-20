@@ -278,6 +278,12 @@ namespace ManagedIrbis.Client
             return IrbisStopWords.FromServer(Connection);
         }
 
+        /// <inheritdoc cref="IrbisProvider.NoOp" />
+        public override void NoOp()
+        {
+            Connection.NoOp();
+        }
+
         /// <inheritdoc cref="IrbisProvider.ReadFile" />
         public override string ReadFile
             (
