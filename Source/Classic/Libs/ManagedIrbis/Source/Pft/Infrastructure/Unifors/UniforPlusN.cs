@@ -43,20 +43,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 [CanBeNull] string expression
             )
         {
+            int tag = expression.SafeToInt32();
+            int count = 0;
             MarcRecord record = context.Record;
+
             if (!ReferenceEquals(record, null)
-                && !string.IsNullOrEmpty(expression))
+                && tag > 0)
             {
-                int tag = expression.SafeToInt32();
-                if (tag > 0)
-                {
-                    int count = record.Fields
-                        .GetFieldCount(tag);
-                    string output = count.ToInvariantString();
-                    context.Write(node, output);
-                    context.OutputFlag = true;
-                }
+                count = record.Fields.GetFieldCount(tag);
             }
+
+            string output = count.ToInvariantString();
+            context.Write(node, output);
+            context.OutputFlag = true;
         }
 
         #endregion
