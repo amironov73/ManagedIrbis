@@ -18,8 +18,6 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
@@ -33,16 +31,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // Формат (передаваемая строка):
     // FN<строка>
     // где N – количество слов (одна цифра).
-    // Примеры:
+    //
+    // Пример:
+    //
     // &unifor("F3"v200^a)
     //
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
-    public static class UniforF
+    static class UniforF
     {
         #region Private members
 
@@ -59,6 +54,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
 
             wordCount--;
+
+            // TODO Use IrbisAlphabetTable?
 
             MatchCollection matches = Regex.Matches
                 (

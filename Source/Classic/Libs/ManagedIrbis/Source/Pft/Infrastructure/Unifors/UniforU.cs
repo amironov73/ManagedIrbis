@@ -11,35 +11,37 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Logging;
 using AM.Text;
 using AM.Text.Ranges;
 
-using CodeJam;
-
 using JetBrains.Annotations;
-
-using ManagedIrbis.ImportExport;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
+    //
+    // Кумуляция номеров журналов – &uf('U
+    // Вид функции: U.
+    // Назначение: Кумуляция номеров журналов.
+    // Формат (передаваемая строка):
+    // U<strbase>,<stradd>
+    // где:
+    // <strbase> – исходная кумулированная строка.
+    // <stradd> – кумулируемые номера.
+    //
+    // Пример:
+    //
+    // &unifor("U"v909^h",12")
+    //
+
     static class UniforU
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -48,23 +50,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         public static void Check
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!string.IsNullOrEmpty(expression))
             {
-#if PocketPC || WINMOBILE || SILVERLIGHT
-
-                string[] parts = expression.Split(new[] { ',' });
-
-#else
-
-                string[] parts = expression.Split(new[] { ',' }, 2);
-
-#endif
-
+                string[] parts = StringUtility.SplitString
+                    (
+                        expression,
+                        new[] {','},
+                        2
+                    );
                 if (parts.Length == 2)
                 {
                     string issue = parts[0];
@@ -83,8 +81,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         public static bool Check
             (
-                string issue,
-                string cumulated
+                [NotNull] string issue,
+                [NotNull] string cumulated
             )
         {
             NumberRangeCollection collection
@@ -98,9 +96,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// <summary>
         /// Cumulate the magazine issues.
         /// </summary>
+        [NotNull]
         public static string Cumulate
             (
-                string issues
+                [NotNull] string issues
             )
         {
             try
@@ -132,9 +131,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         public static void Cumulate
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!string.IsNullOrEmpty(expression))
@@ -151,9 +150,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// <summary>
         /// Decumulate the magazine issues.
         /// </summary>
+        [NotNull]
         public static string Decumulate
             (
-                string issues
+                [NotNull] string issues
             )
         {
             NumberRangeCollection collection
@@ -169,6 +169,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 first = false;
                 result.Append(number);
             }
+
             return result.ToString();
         }
 
@@ -177,9 +178,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         public static void Decumulate
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!string.IsNullOrEmpty(expression))

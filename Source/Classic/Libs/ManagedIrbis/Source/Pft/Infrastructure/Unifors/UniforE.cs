@@ -30,7 +30,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // EN<строка>
     // где N – количество слов (одна цифра).
     //
-    // Примеры:
+    // Пример:
+    //
     // &unifor("E3"v200^a)
     //
 
@@ -63,7 +64,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 );
             if (wordCount >= matches.Count)
             {
-                return string.Empty;
+                return text;
             }
 
             Match match = matches[wordCount];
