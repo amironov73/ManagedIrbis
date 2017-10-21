@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
 {
     [TestClass]
-    public class UniforYTest
+    public class UniforOTest
     {
         private MarcRecord _GetRecord()
         {
@@ -16,24 +16,24 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             record.Fields.Add(RecordField.Parse(910, "^A0^B557^C19990924^DЧЗ^H107236G^=2^U2004/7"));
             record.Fields.Add(RecordField.Parse(910, "^A0^B558^C19990924^DЧЗ^H107246G^=2^U2004/7"));
             record.Fields.Add(RecordField.Parse(910, "^A0^B559^C19990924^H107256G^=2^U2004/7"));
-            record.Fields.Add(RecordField.Parse(910, "^AU^B556^C19990924^DХР^E2400^H107226G^112^U1996/28^Y60^22"));
+            record.Fields.Add(RecordField.Parse(910, "^AU^B556^C19990924^DХР^E2400^H107226G^112^U1996/28^Y60"));
             record.Fields.Add(RecordField.Parse(910, "^AU^BЗИ-1^C20071226^DЖГ^S20140604^125^!КДИ^01^TЗИ"));
 
             return record;
         }
 
         [TestMethod]
-        public void UniforY_FreeExemplars_1()
+        public void UniforO_AllExemplars_1()
         {
             PftContext context = new PftContext(null)
             {
                 Record = _GetRecord()
             };
             Unifor unifor = new Unifor();
-            string expression = "Y";
+            string expression = "O";
             unifor.Execute(context, null, expression);
             string actual = context.Text;
-            Assert.AreEqual("БИНТ(2), ЧЗ(2), ХР(10), ЖГ(25)", actual);
+            Assert.AreEqual("БИНТ(2), ЧЗ(2), ХР(12), ЖГ(25)", actual);
 
         }
     }
