@@ -24,7 +24,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         }
 
         [TestMethod]
-        public void UniforF_GetFirstWords_1()
+        public void UniforE_GetFirstWords_1()
         {
             _E("E3Съешь ещё этих мягких французских булок", "Съешь ещё этих");
             _E("E0Съешь ещё этих мягких французских булок", "");

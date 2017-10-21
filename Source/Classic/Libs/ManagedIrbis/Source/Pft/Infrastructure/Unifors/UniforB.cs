@@ -27,7 +27,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // Формат (передаваемая строка):
     // B
     //
-    // Примеры:
+    // Пример:
     //
     // &unifor('B')
     //
