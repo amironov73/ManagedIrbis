@@ -23,7 +23,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     //
     // Вернуть часть строки до или начиная с заданного символа – &uf('G
     // Вид функции: G.
-    //Назначение: Вернуть часть строки до или начиная с заданного символа.
+    // Назначение: Вернуть часть строки до или начиная с заданного символа.
     // Формат (передаваемая строка):
     // GNA<строка>
     // где:
@@ -123,6 +123,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         case '3':
                         case 'D':
                         case 'd':
+
+                            // для тройки ИРБИС почему-то буквально
+                            // трактует решетку и доллар
+                            if (symbol == '#' || symbol == '$')
+                            {
+                                lastOffset = text.LastIndexOf(symbol);
+                            }
+
                             output = lastOffset < 0
                                 ? text
                                 : text.Substring(lastOffset + 1);
@@ -131,17 +139,43 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         case '4':
                         case 'E':
                         case 'e':
-                            output = lastOffset < 0
-                                ? text
-                                : text.Substring(0, lastOffset + 1);
+
+                            // для четверки ИРБИС почему-то буквально
+                            // трактует решетку и доллар
+                            if (symbol == '#' || symbol == '$')
+                            {
+                                lastOffset = text.LastIndexOf(symbol);
+                                output = lastOffset < 0
+                                    ? string.Empty
+                                    : text.Substring(0, lastOffset + 1);
+                            }
+                            else
+                            {
+                                output = lastOffset < 0
+                                    ? text
+                                    : text.Substring(0, lastOffset + 1);
+                            }
                             break;
 
                         case '5':
                         case 'F':
                         case 'f':
-                            output = lastOffset < 0
-                                ? text
-                                : text.Substring(0, lastOffset);
+
+                            // для пятерки ИРБИС почему-то буквально
+                            // трактует решетку и доллар
+                            if (symbol == '#' || symbol == '$')
+                            {
+                                lastOffset = text.LastIndexOf(symbol);
+                                output = lastOffset < 0
+                                    ? string.Empty
+                                    : text.Substring(0, lastOffset + 1);
+                            }
+                            else
+                            {
+                                output = lastOffset < 0
+                                    ? text
+                                    : text.Substring(0, lastOffset);
+                            }
                             break;
 
                         default:

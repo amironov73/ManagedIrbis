@@ -29,7 +29,6 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             // Пустой ISBN считается правильным
             _C("C", "1");
 
-
             _C("C5-02-003157-7", "0");
             _C("C5-02-003206-9", "0");
             _C("C5-02-003206-1", "1");
