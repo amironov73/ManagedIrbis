@@ -18,8 +18,6 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Identifiers;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
@@ -31,15 +29,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // 0 - при положительном результате, 1 - при отрицательном.
     // Формат (передаваемая строка):
     // С<ISSN/ISBN>
-    // Примеры:
+    //
+    // Пример:
+    //
     // &unifor("C"v10^a)
     //
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
     static class UniforC
     {
         #region Public methods
@@ -58,6 +53,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             Code.NotNull(context, "context");
 
+            // Пустой ISBN считается правильным
             string output = "1";
 
             if (!string.IsNullOrEmpty(expresion))
