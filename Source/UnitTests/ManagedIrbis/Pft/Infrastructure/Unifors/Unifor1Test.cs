@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
 {
     [TestClass]
-    public class UniforATest
+    public class Unifor1Test
     {
         [NotNull]
         private MarcRecord _GetRecord()
@@ -25,7 +25,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             return record;
         }
 
-        private void _A
+        private void _1
             (
                 [NotNull] string input,
                 [NotNull] string expected
@@ -42,22 +42,11 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             Assert.AreEqual(expected, actual);
         }
 
-
         [TestMethod]
-        public void UniforA_GetFieldRepeat_1()
+        public void Unifor1_GetElement_1()
         {
-            _A("A", "");
-            _A("Aq", "");
-            _A("Av0", "");
-            _A("Av910", "");
-            _A("Av910#1", "^a0^b32^c20070104^dБИНТ^e7.50^h107206G^=2^u2004/7^s20070104^!ХР");
-            _A("Av910#50", "");
-            _A("Av910^a#1", "0");
-
-            // пока не реализовано
-
-            // _A("Av910#-1", "");
-            // _A("Av910^c*4.2#1", "01");
+            _1("1", "");
+            _1("1*R; ?v910^h#1", "107206G");
         }
     }
 }

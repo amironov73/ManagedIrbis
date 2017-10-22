@@ -18,6 +18,8 @@ using JetBrains.Annotations;
 
 #endregion
 
+// ReSharper disable RedundantAssignment
+
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
@@ -41,7 +43,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // Остальные параметры аналогичны параметрам для функции
     // 'Выдать заданное повторение поля' – &uf('A')
     //
-    // Примеры:
+    // Пример:
+    //
     // (/&unifor('1*R; ?v910^h#1'))
     //
 
