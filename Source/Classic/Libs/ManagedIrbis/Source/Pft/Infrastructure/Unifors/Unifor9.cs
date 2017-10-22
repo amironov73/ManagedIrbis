@@ -18,18 +18,17 @@ using JetBrains.Annotations;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Удалить двойные кавычки из заданной строки – &uf('9…
+    // Удалить двойные кавычки из заданной строки – &uf('9
     // Вид функции: 9.
     // Назначение: Удалить двойные кавычки из заданной строки.
     // Формат (передаваемая строка):
     // 9<исх.строка>
-    // Примеры:
+    //
+    // Пример:
+    //
     // &unifor("9"v200^a)
     //
 
-    /// <summary>
-    /// 
-    /// </summary>
     static class Unifor9
     {
         #region Public methods

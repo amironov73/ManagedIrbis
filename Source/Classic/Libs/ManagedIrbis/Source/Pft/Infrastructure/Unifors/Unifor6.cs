@@ -26,7 +26,7 @@ using ManagedIrbis.Infrastructure;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Выполнить формат – &uf('6…
+    // Выполнить формат – &uf('6
     // Вид функции: 6.
     // Назначение: Выполнить формат.
     // Формат(передаваемая строка):

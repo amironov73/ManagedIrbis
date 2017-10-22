@@ -15,31 +15,26 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Вернуть последний номер MFN в базе + 1 – &uf('2…
+    // Вернуть последний номер MFN в базе + 1 – &uf('2
     // Вид функции: 2.
     // Назначение: Возвращает последний номер MFN
     // в текущей базе данных, увеличенный на единицу (MAX_MFN) + 1).
     // В общем случае параметр имеет вид 2N,
     // где N - выводимое количество символов, обрезанное
     // до необходимой длинны справа.
-    // Формат(передаваемая строка):
-    // Пример:
-    // &unifor('2'),  &unifor('27')
+    //
+    // Примеры:
+    //
+    // &unifor('2')
+    // &unifor('27')
     //
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
-    public static class Unifor2
+    static class Unifor2
     {
         #region Public methods
 
