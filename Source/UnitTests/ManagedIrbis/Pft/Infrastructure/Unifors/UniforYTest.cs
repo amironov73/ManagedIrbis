@@ -33,7 +33,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             string expression = "Y";
             unifor.Execute(context, null, expression);
             string actual = context.Text;
-            Assert.AreEqual("БИНТ(2), ЧЗ(2), ХР(10), ЖГ(25)", actual);
+            Assert.AreEqual("(1), БИНТ(2), ЖГ(25), ХР(10), ЧЗ(2)", actual);
 
         }
     }

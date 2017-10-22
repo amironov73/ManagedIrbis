@@ -22,7 +22,7 @@ using JetBrains.Annotations;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Выдать заданное повторение поля – &uf('A…
+    // Выдать заданное повторение поля – &uf('A
     // Вид функции: A.
     // Назначение: Выдать заданное повторение поля.
     // Формат (передаваемая строка):
@@ -35,14 +35,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // <occur> – номер повторения.
     //
     // Примеры:
+    //
     // &unifor('Av200#2')
     // &unifor('Av910^a#5')
     // &unifor('Av10^b*2.10#2')
     //
 
-    /// <summary>
-    /// 
-    /// </summary>
     static class UniforA
     {
         #region Public methods
@@ -64,13 +62,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
+            // TODO добавить поддержку отрицательного индекса
+            // &uf('Av910#-1') означает первое повторение с конца
+
+            // TODO добавить поддержку смещения
+            // &uf('Av910^c*4.2#1')
+
             try
             {
                 MarcRecord record = context.Record;
                 if (!ReferenceEquals(record, null))
                 {
                     FieldSpecification specification = new FieldSpecification();
-                    if (specification.ParseUnifor(expression))
+                    if (specification.ParseUnifor(expression)
+                        && specification.FieldRepeat.Kind != IndexKind.None)
                     {
                         FieldReference reference = new FieldReference();
                         reference.Apply(specification);

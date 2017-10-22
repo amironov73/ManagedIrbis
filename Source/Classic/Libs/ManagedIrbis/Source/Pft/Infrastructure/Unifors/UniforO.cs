@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Linq;
 using System.Text;
 
 using AM;
@@ -53,11 +54,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             foreach (ExemplarInfo exemplar in exemplars)
             {
-                string place = exemplar.Place;
-                if (string.IsNullOrEmpty(place))
-                {
-                    continue;
-                }
+                string place = exemplar.Place ?? string.Empty;
 
                 switch (exemplar.Status)
                 {
@@ -84,8 +81,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             StringBuilder result = new StringBuilder();
 
             bool first = true;
-            foreach (var pair in counter)
+            foreach (string key in counter.Keys.OrderBy(_ => _))
             {
+                int value = counter[key];
                 if (!first)
                 {
                     result.Append(", ");
@@ -94,8 +92,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 result.AppendFormat
                     (
                         "{0}({1})",
-                        pair.Key,
-                        pair.Value
+                        key,
+                        value
                     );
             }
 

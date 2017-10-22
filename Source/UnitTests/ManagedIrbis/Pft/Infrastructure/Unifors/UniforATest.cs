@@ -1,4 +1,6 @@
-﻿using ManagedIrbis;
+﻿using JetBrains.Annotations;
+
+using ManagedIrbis;
 using ManagedIrbis.Pft.Infrastructure;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -6,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
 {
     [TestClass]
-    public class UniforOTest
+    public class UniforATest
     {
         private MarcRecord _GetRecord()
         {
@@ -22,19 +24,39 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             return record;
         }
 
-        [TestMethod]
-        public void UniforO_AllExemplars_1()
+        private void _A
+            (
+                [NotNull] string input,
+                [NotNull] string expected
+            )
         {
             PftContext context = new PftContext(null)
             {
                 Record = _GetRecord()
             };
             Unifor unifor = new Unifor();
-            string expression = "O";
+            string expression = input;
             unifor.Execute(context, null, expression);
             string actual = context.Text;
-            Assert.AreEqual("(1), БИНТ(2), ЖГ(25), ХР(12), ЧЗ(2)", actual);
+            Assert.AreEqual(expected, actual);
+        }
 
+
+        [TestMethod]
+        public void UniforA_GetFieldRepeat_1()
+        {
+            _A("A", "");
+            _A("Aq", "");
+            _A("Av0", "");
+            _A("Av910", "");
+            _A("Av910#1", "^a0^b32^c20070104^dБИНТ^e7.50^h107206G^=2^u2004/7^s20070104^!ХР");
+            _A("Av910#50", "");
+            _A("Av910^a#1", "0");
+
+            // пока не реализовано
+
+            // _A("Av910#-1", "");
+            // _A("Av910^c*4.2#1", "01");
         }
     }
 }
