@@ -62,12 +62,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            // TODO добавить поддержку отрицательного индекса
-            // &uf('Av910#-1') означает первое повторение с конца
-
-            // TODO добавить поддержку смещения
-            // &uf('Av910^c*4.2#1')
-
             try
             {
                 MarcRecord record = context.Record;

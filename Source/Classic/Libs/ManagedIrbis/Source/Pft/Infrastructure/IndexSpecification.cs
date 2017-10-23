@@ -144,7 +144,9 @@ namespace ManagedIrbis.Pft.Infrastructure
                     break;
 
                 case IndexKind.Literal:
-                    result = Literal - 1;
+                    result = Literal <= 0
+                        ? array.Length + Literal
+                        : Literal - 1;
                     break;
 
                 // *

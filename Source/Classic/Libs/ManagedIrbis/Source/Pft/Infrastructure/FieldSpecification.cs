@@ -881,10 +881,98 @@ namespace ManagedIrbis.Pft.Infrastructure
                 c = navigator.PeekChar();
             } // c == '^'
 
+            if (c == '*')
+            {
+                navigator.ReadCharNoCrLf();
+                navigator.SkipWhitespace();
+                builder.Length = 0;
+
+                while (true)
+                {
+                    c = navigator.PeekCharNoCrLf();
+                    if (!c.IsArabicDigit())
+                    {
+                        break;
+                    }
+                    navigator.ReadCharNoCrLf();
+                    builder.Append(c);
+                }
+
+                if (builder.Length == 0)
+                {
+                    Log.Error
+                        (
+                            "FieldSpecification: "
+                            + "empty offset"
+                        );
+
+                    throw new PftSyntaxException(navigator);
+                }
+
+                Offset = int.Parse
+                (
+                    builder.ToString(),
+                    CultureInfo.InvariantCulture
+                );
+
+                c = navigator.PeekChar();
+            } // c == '*'
+
+            if (c == '.')
+            {
+                navigator.ReadCharNoCrLf();
+                navigator.SkipWhitespace();
+                builder.Length = 0;
+
+                while (true)
+                {
+                    c = navigator.PeekCharNoCrLf();
+                    if (!c.IsArabicDigit())
+                    {
+                        break;
+                    }
+                    navigator.ReadCharNoCrLf();
+                    builder.Append(c);
+                }
+
+                if (builder.Length == 0)
+                {
+                    Log.Error
+                        (
+                            "FieldSpecification::Parse: "
+                            + "empty length"
+                        );
+
+                    throw new PftSyntaxException(navigator);
+                }
+
+                Length = int.Parse
+                (
+                    builder.ToString(),
+                    CultureInfo.InvariantCulture
+                );
+
+                if (navigator.PeekChar() == '*')
+                {
+                    Log.Error
+                        (
+                            "FieldSpecification::Parse: "
+                            + "offset after length"
+                        );
+
+                    throw new PftSyntaxException(navigator);
+                }
+            } // c == '.'
+
             if (c == '#')
             {
                 navigator.ReadChar();
 
+                bool minus = navigator.PeekChar() == '-';
+                if (minus)
+                {
+                    navigator.ReadChar();
+                }
                 string indexText = navigator.ReadInteger();
                 if (string.IsNullOrEmpty(indexText))
                 {
@@ -898,6 +986,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
 
                 int indexValue = int.Parse(indexText);
+                if (minus)
+                {
+                    indexValue = -indexValue;
+                }
                 FieldRepeat = new IndexSpecification
                 {
                     Kind = IndexKind.Literal,

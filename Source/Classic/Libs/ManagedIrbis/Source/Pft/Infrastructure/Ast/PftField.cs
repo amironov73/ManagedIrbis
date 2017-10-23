@@ -326,7 +326,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(context, "context");
 
             MarcRecord record = context.Record;
-            if (record == null
+            if (ReferenceEquals(record, null)
                 || string.IsNullOrEmpty(Tag)
                 && string.IsNullOrEmpty(TagSpecification)
                )
@@ -346,7 +346,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 );
 
             RecordField field = fields.GetOccurrence(index);
-            if (field == null)
+            if (ReferenceEquals(field, null))
             {
                 return null;
             }
