@@ -64,67 +64,66 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
 
             MarcRecord record = context.Record;
-            if (ReferenceEquals(record, null))
+            if (!ReferenceEquals(record, null))
             {
-                return;
-            }
 
-            TextNavigator navigator = new TextNavigator(expression);
-            char command = navigator.ReadChar();
-            char order = navigator.ReadChar();
-            if (command == TextNavigator.EOF
-                || order == TextNavigator.EOF)
-            {
-                return;
-            }
+                TextNavigator navigator = new TextNavigator(expression);
+                char command = navigator.ReadChar();
+                char order = navigator.ReadChar();
+                if (command == TextNavigator.EOF
+                    || order == TextNavigator.EOF)
+                {
+                    return;
+                }
 
-            command = CharUtility.ToUpperInvariant(command);
-            order = CharUtility.ToUpperInvariant(order);
+                command = CharUtility.ToUpperInvariant(command);
+                order = CharUtility.ToUpperInvariant(order);
 
-            RecordField[] workingFields = record.Fields.ToArray();
-            if (order != '0')
-            {
-                Array.Sort(workingFields, FieldComparer.ByTag());
-            }
+                RecordField[] workingFields = record.Fields.ToArray();
+                if (order != '0')
+                {
+                    Array.Sort(workingFields, FieldComparer.ByTag());
+                }
 
-            int index = context.Index;
-            RecordField currentField = workingFields.GetOccurrence(index);
-            if (ReferenceEquals(currentField, null))
-            {
-                return;
-            }
+                int index = context.Index;
+                RecordField currentField = workingFields.GetOccurrence(index);
+                if (ReferenceEquals(currentField, null))
+                {
+                    return;
+                }
 
-            string output = null;
+                string output = null;
 
-            switch (command)
-            {
-                case 'T':
-                    output = currentField.Tag.ToInvariantString();
-                    break;
+                switch (command)
+                {
+                    case 'T':
+                        output = currentField.Tag.ToInvariantString();
+                        break;
 
-                case 'F':
-                    output = currentField.ToText();
-                    break;
+                    case 'F':
+                        output = currentField.ToText();
+                        break;
 
-                case 'N':
-                    int fieldIndex = record.Fields.IndexOf(currentField) + 1;
-                    output = fieldIndex.ToInvariantString();
-                    break;
+                    case 'N':
+                        int fieldIndex = record.Fields.IndexOf(currentField) + 1;
+                        output = fieldIndex.ToInvariantString();
+                        break;
 
-                default:
-                    Log.Warn
-                        (
-                            "UniforPlus4::GetField: "
-                            + "unknown command="
-                            + command.ToVisibleString()
-                        );
-                    break;
-            }
+                    default:
+                        Log.Warn
+                            (
+                                "UniforPlus4::GetField: "
+                                + "unknown command="
+                                + command.ToVisibleString()
+                            );
+                        break;
+                }
 
-            if (!string.IsNullOrEmpty(output))
-            {
-                context.Write(node, output);
-                context.OutputFlag = true;
+                if (!string.IsNullOrEmpty(output))
+                {
+                    context.Write(node, output);
+                    context.OutputFlag = true;
+                }
             }
         }
 

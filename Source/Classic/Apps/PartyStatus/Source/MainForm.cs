@@ -48,6 +48,15 @@ namespace PartyStatus
 
         private MenuFile _menu;
 
+        // Количество обработанных названий книг.
+        private int _titleCount;
+
+        // Количество обработанных экземпляров.
+        private int _exemplarCount;
+
+        // Количество реально измененных экземпляров.
+        private int _changeCount;
+
         public IrbisConnection GetConnection()
         {
             IrbisConnection result
@@ -167,6 +176,8 @@ namespace PartyStatus
                 return;
             }
 
+            _titleCount++;
+
             RecordField[] fields = record.Fields
                 .GetField(910)
                 .GetField('u', number);
@@ -183,11 +194,13 @@ namespace PartyStatus
 
             foreach (RecordField field in fields)
             {
+                _exemplarCount++;
                 string oldStatus = field.GetFirstSubFieldValue('a');
                 string inventory = field.GetFirstSubFieldValue('b');
                 bool flag = false;
                 if (!oldStatus.SameString(newStatus))
                 {
+                    _changeCount++;
                     field.SetSubField('a', newStatus);
                     flag = true;
                 }
@@ -212,6 +225,10 @@ namespace PartyStatus
                 [NotNull] string status
             )
         {
+            _titleCount = 0;
+            _exemplarCount = 0;
+            _changeCount = 0;
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
@@ -238,6 +255,9 @@ namespace PartyStatus
             stopwatch.Stop();
             TimeSpan elapsed = stopwatch.Elapsed;
             WriteLine("Затрачено: {0}", elapsed.ToMinuteString());
+            WriteLine("обработано названий: {0}", _titleCount);
+            WriteLine("экземпляров: {0}", _exemplarCount);
+            WriteLine("изменён статус: {0}", _changeCount);
             WriteLine(string.Empty);
         }
 
