@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
 {
     [TestClass]
-    public class UniforATest
+    public class UniforPlusETest
     {
         [NotNull]
         private MarcRecord _GetRecord()
@@ -25,14 +25,16 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             return record;
         }
 
-        private void _A
+        private void _E
             (
+                int index,
                 [NotNull] string input,
                 [NotNull] string expected
             )
         {
             PftContext context = new PftContext(null)
             {
+                Index = index,
                 Record = _GetRecord()
             };
             Unifor unifor = new Unifor();
@@ -43,17 +45,18 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         }
 
         [TestMethod]
-        public void UniforA_GetFieldRepeat_1()
+        public void UniforPlusE_GetFieldIndex_1()
         {
-            _A("A", "");
-            _A("Aq", "");
-            _A("Av0", "");
-            _A("Av910", "");
-            _A("Av910#1", "^a0^b32^c20070104^dБИНТ^e7.50^h107206G^=2^u2004/7^s20070104^!ХР");
-            _A("Av910#50", "");
-            _A("Av910^a#1", "0");
-            _A("Av910^b#-1", "ЗИ-1");
-            _A("Av910^c*4.2#1", "01");
+            _E(0, "+E910#1", "1");
+            _E(0, "+E910#2", "2");
+            _E(0, "+E910#3", "3");
+            _E(0, "+E910#33", "");
+            _E(0, "+E910#",  "1");
+            _E(0, "+E910#q",  "");
+            _E(0, "+E910#*", "1");
+            _E(1, "+E910#*", "2");
+            _E(2, "+E910#*", "3");
+            _E(33, "+E910#*", "");
         }
     }
 }

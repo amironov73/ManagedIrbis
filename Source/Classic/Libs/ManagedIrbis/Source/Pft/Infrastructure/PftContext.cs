@@ -111,7 +111,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// Номер повторения в текущей группе.
         /// </summary>
-        public int Index { get; internal set; }
+        public int Index { get; set; }
 
         /// <summary>
         /// Флаг, устанавливается при наличии вывода при заданном повторении.

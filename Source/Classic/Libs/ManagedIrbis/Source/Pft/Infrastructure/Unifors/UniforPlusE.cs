@@ -72,8 +72,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     }
                     occ--;
                 }
-                RecordField field = record.Fields
-                    .GetField(tag, occ);
+                RecordField field = record.Fields.GetField(tag, occ);
                 if (!ReferenceEquals(field, null))
                 {
                     int index = record.Fields.IndexOf(field) + 1;
