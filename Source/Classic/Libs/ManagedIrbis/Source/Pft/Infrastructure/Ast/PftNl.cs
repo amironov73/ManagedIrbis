@@ -58,14 +58,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Construction
 
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -135,7 +127,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString" />
+        /// <inheritdoc cref="PftNode.ToString" />
         public override string ToString()
         {
             return "nl";
