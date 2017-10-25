@@ -12,11 +12,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
 {
     [TestClass]
-    public class PftVerbatimTest
+    public class PftSemicolonTest
     {
         private void _Execute
             (
-                [NotNull] PftVerbatim node,
+                [NotNull] PftSemicolon node,
                 [NotNull] string expected
             )
         {
@@ -27,19 +27,19 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftVerbatim_Construction_1()
+        public void PftSemicolon_Construction_1()
         {
-            PftVerbatim node = new PftVerbatim();
+            PftSemicolon node = new PftSemicolon();
             Assert.IsTrue(node.ConstantExpression);
             Assert.IsTrue(node.ExtendedSyntax);
             Assert.IsFalse(node.RequiresConnection);
         }
 
         [TestMethod]
-        public void PftVerbatim_Construction_2()
+        public void PftSemicolon_Construction_2()
         {
-            PftToken token = new PftToken(PftTokenKind.TripleLess, 1, 1, "test");
-            PftVerbatim node = new PftVerbatim(token);
+            PftToken token = new PftToken(PftTokenKind.Semicolon, 1, 1, ";");
+            PftSemicolon node = new PftSemicolon(token);
             Assert.IsTrue(node.ConstantExpression);
             Assert.IsTrue(node.ExtendedSyntax);
             Assert.IsFalse(node.RequiresConnection);
@@ -49,48 +49,43 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftVerbatim_Compile_1()
+        public void PftSemicolon_Compile_1()
         {
             PftCompiler compiler = new PftCompiler();
             PftProgram program = new PftProgram();
-            PftVerbatim node = new PftVerbatim
-            {
-                Text = "Hello"
-            };
+            PftSemicolon node = new PftSemicolon();
             program.Children.Add(node);
             compiler.CompileProgram(program);
         }
 
         [TestMethod]
-        public void PftVerbatim_Execute_1()
+        public void PftSemicolon_Execute_1()
         {
-            PftVerbatim node = new PftVerbatim
-            {
-                Text = "Hello"
-            };
-            _Execute(node, "Hello");
+            PftSemicolon node = new PftSemicolon();
+            _Execute(node, "");
         }
 
         [TestMethod]
-        public void PftVerbatim_PrettyPrint_1()
+        public void PftSemicolon_Optimize_1()
+        {
+            PftSemicolon node = new PftSemicolon();
+            Assert.IsNull(node.Optimize());
+        }
+
+        [TestMethod]
+        public void PftSemicolon_PrettyPrint_1()
         {
             PftPrettyPrinter printer = new PftPrettyPrinter();
-            PftVerbatim node = new PftVerbatim
-            {
-                Text = "Hello"
-            };
+            PftSemicolon node = new PftSemicolon();
             node.PrettyPrint(printer);
-            Assert.AreEqual("<<<Hello>>>", printer.ToString());
+            Assert.AreEqual("; ", printer.ToString());
         }
 
         [TestMethod]
-        public void PftVerbatim_ToString_1()
+        public void PftSemicolon_ToString_1()
         {
-            PftVerbatim node = new PftVerbatim
-            {
-                Text = "Hello"
-            };
-            Assert.AreEqual("<<<Hello>>>", node.ToString());
+            PftSemicolon node = new PftSemicolon();
+            Assert.AreEqual(";", node.ToString());
         }
     }
 }
