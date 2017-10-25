@@ -47,7 +47,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// Default width.
         /// </summary>
-        public int DefaultWidth = 10;
+        public const int DefaultWidth = 10;
 
         #endregion
 
@@ -137,14 +137,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region PftNode members
 
         /// <inheritdoc cref="PftNode.Deserialize" />
@@ -158,7 +150,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Width = reader.ReadPackedInt32();
         }
 
-        /// <inheritdoc cref="PftNode.Execute" />
+        /// <inheritdoc cref="PftNumeric.Execute" />
         public override void Execute
             (
                 PftContext context
