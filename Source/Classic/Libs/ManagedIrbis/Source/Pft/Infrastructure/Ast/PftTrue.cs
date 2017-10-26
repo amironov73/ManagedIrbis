@@ -61,9 +61,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 // Nothing to do here
 
                 Log.Warn
-                (
-                    "PftFalse::Value::set"
-                );
+                    (
+                        "PftFalse::Value::set"
+                    );
             }
         }
 
@@ -88,14 +88,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             : base(token)
         {
         }
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
