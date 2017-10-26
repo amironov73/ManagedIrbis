@@ -73,7 +73,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void Bold(PftContext context, PftNode node, PftNode[] arguments)
         {
-            string expression = context.GetStringArgument(arguments, 0);
+            string expression = context.GetStringValue(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
                 context.Write(node, "<b>" + expression + "</b>");
@@ -88,11 +88,10 @@ namespace ManagedIrbis.Pft.Infrastructure
             // TODO: add some caching
             //
 
-            string expression = context.GetStringArgument(arguments, 0);
+            string expression = context.GetStringValue(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
-                FileSpecification specification
-                    = new FileSpecification
+                FileSpecification specification = new FileSpecification
                     (
                         IrbisPath.MasterFile,
                         context.Provider.Database,
@@ -118,6 +117,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 return;
             }
+
             PftNumeric numeric = call.Arguments[0] as PftNumeric;
             if (!ReferenceEquals(numeric, null))
             {
@@ -299,9 +299,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void Insert(PftContext context, PftNode node, PftNode[] arguments)
         {
-            string text = context.GetStringArgument(arguments, 0);
+            string text = context.GetStringValue(arguments, 0);
             double? index = context.GetNumericArgument(arguments, 1);
-            string value = context.GetStringArgument(arguments, 2);
+            string value = context.GetStringValue(arguments, 2);
 
             if (!ReferenceEquals(text, null)
                 && index.HasValue
@@ -345,7 +345,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void Italic(PftContext context, PftNode node, PftNode[] arguments)
         {
-            string expression = context.GetStringArgument(arguments, 0);
+            string expression = context.GetStringValue(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
                 context.Write(node, "<i>" + expression + "</i>");
@@ -356,7 +356,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void Len(PftContext context, PftNode node, PftNode[] arguments)
         {
-            string expression = context.GetStringArgument(arguments, 0);
+            string expression = context.GetStringValue(arguments, 0);
             int size = string.IsNullOrEmpty(expression)
                 ? 0
                 : expression.Length;
@@ -500,9 +500,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void PadLeft(PftContext context, PftNode node, PftNode[] arguments)
         {
-            string text = context.GetStringArgument(arguments, 0);
+            string text = context.GetStringValue(arguments, 0);
             double? width = context.GetNumericArgument(arguments, 1);
-            string padding = context.GetStringArgument(arguments, 2);
+            string padding = context.GetStringValue(arguments, 2);
 
             if (ReferenceEquals(text, null)
                 || !width.HasValue)
@@ -528,9 +528,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void PadRight(PftContext context, PftNode node, PftNode[] arguments)
         {
-            string text = context.GetStringArgument(arguments, 0);
+            string text = context.GetStringValue(arguments, 0);
             double? width = context.GetNumericArgument(arguments, 1);
-            string padding = context.GetStringArgument(arguments, 2);
+            string padding = context.GetStringValue(arguments, 2);
 
             if (ReferenceEquals(text, null)
                 || !width.HasValue)
@@ -556,7 +556,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void Remove(PftContext context, PftNode node, PftNode[] arguments)
         {
-            string text = context.GetStringArgument(arguments, 0);
+            string text = context.GetStringValue(arguments, 0);
             double? index = context.GetNumericArgument(arguments, 1);
             double? count = context.GetNumericArgument(arguments, 2);
 
@@ -584,9 +584,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void Replace(PftContext context, PftNode node, PftNode[] arguments)
         {
-            string text = context.GetStringArgument(arguments, 0);
-            string oldValue = context.GetStringArgument(arguments, 1);
-            string newValue = context.GetStringArgument(arguments, 2);
+            string text = context.GetStringValue(arguments, 0);
+            string oldValue = context.GetStringValue(arguments, 1);
+            string newValue = context.GetStringValue(arguments, 2);
 
             if (ReferenceEquals(text, null)
                 || ReferenceEquals(oldValue, null)

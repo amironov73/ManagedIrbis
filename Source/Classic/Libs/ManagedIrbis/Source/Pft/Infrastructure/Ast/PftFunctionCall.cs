@@ -140,13 +140,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Public methods
-
-        #endregion
-
         #region ICloneable members
 
-        /// <inheritdoc cref="ICloneable.Clone" />
+        /// <inheritdoc cref="PftNode.Clone" />
         public override object Clone()
         {
             PftFunctionCall result = (PftFunctionCall) base.Clone();
@@ -341,7 +337,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString" />
+        /// <inheritdoc cref="PftNode.ToString" />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();

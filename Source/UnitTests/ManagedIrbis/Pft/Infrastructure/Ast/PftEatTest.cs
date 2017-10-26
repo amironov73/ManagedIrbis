@@ -14,6 +14,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
     [TestClass]
     public class PftEatTest
     {
+        [NotNull]
         private PftProgram _GetProgram()
         {
             PftProgram result = new PftProgram();

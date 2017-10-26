@@ -575,6 +575,35 @@ namespace ManagedIrbis.Pft.Infrastructure
         //=================================================
 
         /// <summary>
+        /// Get string argument value.
+        /// </summary>
+        [CanBeNull]
+        public string GetStringValue
+            (
+                [NotNull] PftNode[] arguments,
+                int index
+            )
+        {
+            Code.NotNull(arguments, "arguments");
+
+            string result = GetStringArgument(arguments, index);
+            if (!string.IsNullOrEmpty(result))
+            {
+                return result;
+            }
+
+            double? number = GetNumericArgument(arguments, index);
+            if (number.HasValue)
+            {
+                result = number.Value.ToInvariantString();
+            }
+
+            return result;
+        }
+
+        //=================================================
+
+        /// <summary>
         /// Сигнал, что использовалась конструкция v.
         /// </summary>
         public void MarkVMonitor()
