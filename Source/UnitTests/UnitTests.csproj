@@ -302,6 +302,7 @@
     <Compile Include="ManagedIrbis\Menus\MenuEntryTest.cs" />
     <Compile Include="ManagedIrbis\Menus\MenuSpecificationTest.cs" />
     <Compile Include="ManagedIrbis\Menus\MenuUtilityTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftCommaTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftMfnTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftNlTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftSemicolonTest.cs" />

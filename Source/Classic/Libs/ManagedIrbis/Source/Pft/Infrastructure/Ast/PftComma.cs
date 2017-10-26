@@ -72,14 +72,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region PftNode members
 
         /// <inheritdoc cref="PftNode.Compile" />
@@ -112,6 +104,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <inheritdoc cref="PftNode.Optimize" />
         public override PftNode Optimize()
         {
+            // TODO Всегда ли можно убирать запятую?
             // Take the node away from the AST
 
             return null;
