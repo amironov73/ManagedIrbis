@@ -68,14 +68,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region PftNode members
 
         /// <inheritdoc cref="PftNode.Execute" />
@@ -100,7 +92,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             printer.Write("[[[");
             base.PrettyPrint(printer);
-            printer.Write("]]]");
+            printer.Write("]]] ");
         }
 
         #endregion
