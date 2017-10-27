@@ -132,10 +132,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Public methods
-
-        #endregion
-
         #region PftNode members
 
         /// <inheritdoc cref="PftNode.CompareNode" />
@@ -252,17 +248,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             printer
                 .SingleSpace()
                 .Write
-                (
-                    "x{0}", // Всегда в нижнем регистре
-                    Shift.ToInvariantString()
-                );
+                    (
+                        "x{0}", // Всегда в нижнем регистре
+                        Shift.ToInvariantString()
+                    );
         }
 
         #endregion
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString" />
+        /// <inheritdoc cref="PftNode.ToString" />
         public override string ToString()
         {
             return "x" + Shift.ToInvariantString();
