@@ -96,9 +96,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             try
             {
                 NewPosition = int.Parse
-                (
-                    token.Text.ThrowIfNull("token.Text")
-                );
+                    (
+                        token.Text.ThrowIfNull("token.Text")
+                    );
             }
             catch (Exception exception)
             {
@@ -142,10 +142,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     );
             }
         }
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -255,10 +251,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             printer
                 .SingleSpace()
                 .Write
-                (
-                    "c{0}",
-                    NewPosition.ToInvariantString()
-                )
+                    (
+                        "c{0}",
+                        NewPosition.ToInvariantString()
+                    )
                 .SingleSpace();
         }
 
@@ -277,7 +273,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString" />
+        /// <inheritdoc cref="PftNodes.ToString" />
         public override string ToString()
         {
             return "c" + NewPosition.ToInvariantString();

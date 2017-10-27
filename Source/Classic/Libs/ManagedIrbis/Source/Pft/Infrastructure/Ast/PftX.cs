@@ -251,7 +251,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     (
                         "x{0}", // Всегда в нижнем регистре
                         Shift.ToInvariantString()
-                    );
+                    )
+                .SingleSpace();
         }
 
         #endregion
