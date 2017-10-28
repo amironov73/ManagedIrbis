@@ -652,6 +652,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\CodeJam\CodeExceptions.cs">
       <Link>CodeJam\CodeExceptions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\AssemblyFileVersionAttribute.cs">
+      <Link>Compability\AssemblyFileVersionAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\BLToolkit4.cs">
       <Link>Compability\BLToolkit4.cs</Link>
     </Compile>
@@ -684,6 +687,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\StringBuilderCompability.cs">
       <Link>Compability\StringBuilderCompability.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\StringSplitOptions.cs">
+      <Link>Compability\StringSplitOptions.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\System.cs">
       <Link>Compability\System.cs</Link>

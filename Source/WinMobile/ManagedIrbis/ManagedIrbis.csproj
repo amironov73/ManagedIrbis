@@ -362,17 +362,29 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FieldReference.cs">
       <Link>Source\FieldReference.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ArrivalsInfo.cs">
+      <Link>Source\Fields\ArrivalsInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\AuthorInfo.cs">
       <Link>Source\Fields\AuthorInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\BinaryResource.cs">
       <Link>Source\Fields\BinaryResource.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\CatalogingRules.cs">
+      <Link>Source\Fields\CatalogingRules.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\CharacterSetCode.cs">
+      <Link>Source\Fields\CharacterSetCode.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\CodesInfo.cs">
       <Link>Source\Fields\CodesInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\CollectiveInfo.cs">
       <Link>Source\Fields\CollectiveInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\CommonInfo.cs">
+      <Link>Source\Fields\CommonInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ExemplarInfo.cs">
       <Link>Source\Fields\ExemplarInfo.cs</Link>
@@ -401,17 +413,53 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\IsbnInfo.cs">
       <Link>Source\Fields\IsbnInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\LanguageCode.cs">
+      <Link>Source\Fields\LanguageCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\LanguageInfo.cs">
+      <Link>Source\Fields\LanguageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ManagementInfo.cs">
+      <Link>Source\Fields\ManagementInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\NumberOfTitlesInfo.cs">
+      <Link>Source\Fields\NumberOfTitlesInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\PartInfo.cs">
+      <Link>Source\Fields\PartInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\PersonaliaInfo.cs">
       <Link>Source\Fields\PersonaliaInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\QuantitativeCharacteristics.cs">
       <Link>Source\Fields\QuantitativeCharacteristics.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ReplacementInfo.cs">
+      <Link>Source\Fields\ReplacementInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ResourceView.cs">
+      <Link>Source\Fields\ResourceView.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\RevisionInfo.cs">
       <Link>Source\Fields\RevisionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\SenderInfo.cs">
+      <Link>Source\Fields\SenderInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\SignatureInfo.cs">
+      <Link>Source\Fields\SignatureInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\SourceInfo.cs">
+      <Link>Source\Fields\SourceInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\TitleCharacterSet.cs">
+      <Link>Source\Fields\TitleCharacterSet.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\TitleInfo.cs">
       <Link>Source\Fields\TitleInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\UserInfo.cs">
+      <Link>Source\Fields\UserInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FieldTag.cs">
       <Link>Source\FieldTag.cs</Link>
@@ -442,6 +490,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fst\FstProcessor.cs">
       <Link>Source\Fst\FstProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fst\FstTerm.cs">
+      <Link>Source\Fst\FstTerm.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblBuilder.cs">
       <Link>Source\Gbl\GblBuilder.cs</Link>
@@ -578,6 +629,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\WorldCatApi.cs">
       <Link>Source\Identifiers\WorldCatApi.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\IIrbisConnection.cs">
+      <Link>Source\IIrbisConnection.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\IlfFile.cs">
       <Link>Source\IlfFile.cs</Link>
     </Compile>
@@ -616,6 +670,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\CommandFactory.cs">
       <Link>Source\Infrastructure\CommandFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\CommandKind.cs">
+      <Link>Source\Infrastructure\CommandKind.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\AbstractCommand.cs">
       <Link>Source\Infrastructure\Commands\AbstractCommand.cs</Link>
@@ -1355,6 +1412,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftNodeCollection.cs">
       <Link>Source\Pft\Infrastructure\PftNodeCollection.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftNodeKind.cs">
+      <Link>Source\Pft\Infrastructure\PftNodeKind.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftOutput.cs">
       <Link>Source\Pft\Infrastructure\PftOutput.cs</Link>
     </Compile>
@@ -1451,6 +1511,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor1.cs">
       <Link>Source\Pft\Infrastructure\Unifors\Unifor1.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor2.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\Unifor2.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor3.cs">
       <Link>Source\Pft\Infrastructure\Unifors\Unifor3.cs</Link>
     </Compile>
@@ -1463,8 +1526,17 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor7.cs">
       <Link>Source\Pft\Infrastructure\Unifors\Unifor7.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor9.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\Unifor9.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforA.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforA.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforB.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforB.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforC.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforC.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforD.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforD.cs</Link>
@@ -1475,8 +1547,20 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforEqual.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforEqual.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforF.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforF.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforG.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforG.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforI.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforI.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforJ.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforJ.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforK.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforK.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforL.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforL.cs</Link>
@@ -1486,6 +1570,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforO.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforP.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforP.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus0.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlus0.cs</Link>
@@ -1505,6 +1592,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus5.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlus5.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus6.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus6.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus7.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlus7.cs</Link>
     </Compile>
@@ -1517,17 +1607,47 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusAt.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusAt.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusD.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusD.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusE.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusE.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusF.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusF.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusI.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusI.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusN.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusN.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusPlus0.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusPlus0.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforQ.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforQ.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforR.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforR.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforS.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforS.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforT.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforT.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforU.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforU.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforX.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforX.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforY.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforY.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforZ.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforZ.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\VirtualChildren.cs">
       <Link>Source\Pft\Infrastructure\VirtualChildren.cs</Link>

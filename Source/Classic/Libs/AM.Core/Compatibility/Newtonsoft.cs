@@ -22,9 +22,31 @@ namespace Newtonsoft.Json
     /// <summary>
     /// 
     /// </summary>
+    [FlagsAttribute]
+    public enum DefaultValueHandling
+    {
+        Include = 0,
+        Ignore = 1,
+        Populate = 2,
+        IgnoreAndPopulate = 3
+    }
+
+    public enum NullValueHandling
+    {
+        Include = 0,
+        Ignore = 1
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public sealed class JsonPropertyAttribute
         : Attribute
     {
+        public DefaultValueHandling DefaultValueHandling { get; set; }
+
+        public NullValueHandling NullValueHandling { get; set; }
+
         /// <summary>
         /// 
         /// </summary>

@@ -1846,7 +1846,7 @@ namespace AM
         {
 #if WINMOBILE
 
-            return text.Split(separator);
+            return SplitString(text, separator);
 
 #else
 

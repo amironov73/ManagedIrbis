@@ -103,7 +103,7 @@
             Encode html entities.
             </summary>
         </member>
-        <member name="M:AM.Text.HtmlText.HtmlToPlainText(System.String)">
+        <member name="M:AM.Text.HtmlText.ToPlainText(System.String)">
             <summary>
             Convert HTML to plain text by stripping tags.
             </summary>
@@ -3208,6 +3208,23 @@
             <value><c>true</c> if cancel; 
             otherwise, <c>false</c>.</value>
         </member>
+        <member name="T:System.StringSplitOptions">
+            <summary>
+            For WinMobile compatibility.
+            </summary>
+        </member>
+        <member name="F:System.StringSplitOptions.None">
+            <summary>
+            The return value includes array elements that contain
+            an empty string.
+            </summary>
+        </member>
+        <member name="F:System.StringSplitOptions.RemoveEmptyEntries">
+            <summary>
+            The return value does not include array elements
+            that contain an empty string.
+            </summary>
+        </member>
         <member name="T:System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute">
             <summary>
             For compatibility only.
@@ -3682,15 +3699,12 @@
             <param name="fromEncoding">From encoding.</param>
             <param name="toEncoding">To encoding.</param>
             <param name="value">String to transcode.</param>
-            <returns>Transcoded string</returns>
+            <returns>Transcoded string.</returns>
         </member>
         <member name="M:AM.StringUtility.CompareNoCase(System.String,System.String)">
             <summary>
             Сравнивает две строки с точностью до регистра символов.
             </summary>
-            <param name="left"></param>
-            <param name="right"></param>
-            <returns></returns>
         </member>
         <member name="M:AM.StringUtility.CompareNoCase(System.Char,System.Char)">
             <summary>
@@ -3730,9 +3744,24 @@
             For portable library.
             </remarks>
         </member>
+        <member name="M:AM.StringUtility.ContainsWhitespace(System.String)">
+            <summary>
+            Строка содержит пробельные символы?
+            </summary>
+        </member>
         <member name="M:AM.StringUtility.CountSubstrings(System.String,System.String)">
             <summary>
             Count of given substrings in the text.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.EmptyToNull(System.String)">
+            <summary>
+            Converts empty string to <c>null</c>.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.FirstChar(System.String)">
+            <summary>
+            Gets the first char of the text.
             </summary>
         </member>
         <member name="M:AM.StringUtility.GetCaseInsensitiveComparer">
@@ -3740,14 +3769,43 @@
             Get case-insensitive string comparer.
             </summary>
         </member>
+        <member name="M:AM.StringUtility.GetGroups(System.String,System.String)">
+            <summary>
+            Строит массив групп совпадающих символов по регулярному выражению.
+            </summary>
+            <param name="input">Разбираемая строка.</param>
+            <param name="pattern">Регулярное выражение.</param>
+            <returns>Массив групп.</returns>
+        </member>
+        <member name="M:AM.StringUtility.GetMatches(System.String,System.String)">
+            <summary>
+            Builds an array is regex matches.
+            </summary>
+            <param name="input">String to parse.</param>
+            <param name="pattern">Regex.</param>
+            <returns>Array of matches.</returns>
+        </member>
         <member name="M:AM.StringUtility.GetPositions(System.String,System.Char)">
             <summary>
             Get positions of the symbol.
             </summary>
         </member>
+        <member name="M:AM.StringUtility.GetWords(System.String)">
+            <summary>
+            Строит массив слов в строке.
+            </summary>
+            <param name="value">Разбираемая строка.</param>
+            <returns>Массив слов.</returns>
+        </member>
         <member name="M:AM.StringUtility.IfEmpty(System.String,System.String[])">
             <summary>
             
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.IndexOfAny(System.String,System.Int32@,System.String[])">
+            <summary>
+            Reports the index of the first occurrence in this instance
+            of any string in a specified array.
             </summary>
         </member>
         <member name="M:AM.StringUtility.IsBlank(System.String)">
@@ -3761,8 +3819,6 @@
             <summary>
             Проверяет, можно ли трактовать строку как десятичное число.
             </summary>
-            <param name="value"></param>
-            <returns></returns>
         </member>
         <member name="M:AM.StringUtility.IsInteger(System.String)">
             <summary>
@@ -3808,93 +3864,21 @@
             <paramref name="value"/> is <c>null</c>.
             </exception>
         </member>
-        <member name="M:AM.StringUtility.Replicate(System.String,System.Int32)">
+        <member name="M:AM.StringUtility.IsValidIdentifier(System.String)">
             <summary>
-            Replicates given string.
-            </summary>
-            <param name="text">String to replicate.</param>
-            <param name="times">How many times.</param>
-            <returns>Replicated string.</returns>
-            <remarks><c>Replicate ( null, AnyNumber )</c>
-            yields <c>null</c>.
-            </remarks>
-        </member>
-        <member name="M:AM.StringUtility.Random(System.Int32)">
-            <summary>
-            Creates random string with given length.
-            </summary>
-            <param name="length">Desired length of string</param>
-        </member>
-        <member name="M:AM.StringUtility.GetMatches(System.String,System.String)">
-            <summary>
-            Builds an array is regex matches.
-            </summary>
-            <param name="input">String to parse.</param>
-            <param name="pattern">Regex.</param>
-            <returns>Array of matches.</returns>
-        </member>
-        <member name="M:AM.StringUtility.GetWords(System.String)">
-            <summary>
-            Строит массив слов в строке.
-            </summary>
-            <param name="value">Разбираемая строка.</param>
-            <returns>Массив слов.</returns>
-        </member>
-        <member name="M:AM.StringUtility.GetGroups(System.String,System.String)">
-            <summary>
-            Строит массив групп совпадающих символов по регулярному выражению.
-            </summary>
-            <param name="input">Разбираемая строка.</param>
-            <param name="pattern">Регулярное выражение.</param>
-            <returns>Массив групп.</returns>
-        </member>
-        <member name="M:AM.StringUtility.SameString(System.String,System.String)">
-            <summary>
-            Сравнивает строки с точностью до регистра.
-            </summary>
-            <param name="one">Первая строка.</param>
-            <param name="two">Вторая строка.</param>
-            <returns>Строки совпадают с точностью до регистра.</returns>
-        </member>
-        <member name="M:AM.StringUtility.SameStringSensitive(System.String,System.String)">
-            <summary>
-            Сравнивает строки.
+            Determines whether the given string
+            represents valid identifier or not.
             </summary>
         </member>
-        <member name="M:AM.StringUtility.Sparse(System.String)">
+        <member name="M:AM.StringUtility.IsUrlSafeChar(System.Char)">
             <summary>
-            Sparse the string.
+            Is URL-safe char?
             </summary>
-            <param name="input">Input string.</param>
-            <returns>Sparse string.</returns>
+            <remarks>Set of safe chars, from RFC 1738.4 minus '+'</remarks>
         </member>
-        <member name="M:AM.StringUtility.SplitFirst(System.String,System.Char)">
+        <member name="M:AM.StringUtility.Join(System.String,System.Collections.IEnumerable)">
             <summary>
-            Разбивает строку по указанному разделителю.
-            </summary>
-        </member>
-        <member name="M:AM.StringUtility.ToVisibleString(System.String)">
-            <summary>
-            Превращает строку в видимую.
-            Пример: "(null)".
-            </summary>
-        </member>
-        <member name="M:AM.StringUtility.Unescape(System.String)">
-            <summary>
-            Преобразует строку, содержащую escape-последовательности, 
-            к нормальному виду.
-            </summary>
-            <param name="value">Исходная строка.</param>
-            <returns>Результирующая строка.</returns>
-        </member>
-        <member name="M:AM.StringUtility.EmptyToNull(System.String)">
-            <summary>
-            Converts empty string to <c>null</c>.
-            </summary>
-        </member>
-        <member name="M:AM.StringUtility.FirstChar(System.String)">
-            <summary>
-            Gets the first char of the text.
+            Join string representations of the given objects.
             </summary>
         </member>
         <member name="M:AM.StringUtility.LastChar(System.String)">
@@ -3902,29 +3886,17 @@
             Gets the last char of the text.
             </summary>
         </member>
-        <member name="M:AM.StringUtility.Unquote(System.String)">
+        <member name="M:AM.StringUtility.Mangle(System.String,System.Char,System.Char[])">
             <summary>
-            Trims matching open and close quotes from the string.
+            Mangle given text with the escape character.
             </summary>
-            <remarks>
-            <code>Unquote("(text)");</code>
-            </remarks>
         </member>
-        <member name="M:AM.StringUtility.Unquote(System.String,System.Char)">
+        <member name="M:AM.StringUtility.MergeLines(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
-            Trims matching open and close quotes from the string.
+            Склейка строк в сплошной текст, разделенный переводами строки.
             </summary>
-            <remarks>
-            <code>Unquote("(text)", '"');</code>
-            </remarks>
-        </member>
-        <member name="M:AM.StringUtility.Unquote(System.String,System.Char,System.Char)">
-            <summary>
-            Trims matching open and close quotes from the string.
-            </summary>
-            <remarks>
-            <code>Unquote("(text)", '(', ')');</code>
-            </remarks>
+            <param name="lines">Строки для склейки.</param>
+            <returns>Склеенный текст.</returns>
         </member>
         <member name="M:AM.StringUtility.OneOf(System.String,System.Collections.Generic.IEnumerable{System.String})">
             <summary>
@@ -3962,13 +3934,32 @@
             <param name="many">Массив проверяемых символов.</param>
             <returns>Найден ли искомый символ.</returns>
         </member>
-        <member name="M:AM.StringUtility.SameChar(System.Char,System.Char)">
+        <member name="M:AM.StringUtility.Random(System.Int32)">
             <summary>
-            Сравнивает символы с точностью до регистра.
+            Creates random string with given length.
             </summary>
-            <param name="one">Первый символ.</param>
-            <param name="two">Второй символ.</param>
-            <returns>Символы совпадают с точностью до регистра.</returns>
+            <param name="length">Desired length of string</param>
+        </member>
+        <member name="M:AM.StringUtility.ReplaceControlCharacters(System.String)">
+            <summary>
+            Replace control characters in the text.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.ReplaceControlCharacters(System.String,System.Char)">
+            <summary>
+            Replace control characters in the text.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.Replicate(System.String,System.Int32)">
+            <summary>
+            Replicates given string.
+            </summary>
+            <param name="text">String to replicate.</param>
+            <param name="times">How many times.</param>
+            <returns>Replicated string.</returns>
+            <remarks><c>Replicate ( null, AnyNumber )</c>
+            yields <c>null</c>.
+            </remarks>
         </member>
         <member name="M:AM.StringUtility.SafeCompare(System.String,System.String)">
             <summary>
@@ -4000,6 +3991,39 @@
             
             </summary>
         </member>
+        <member name="M:AM.StringUtility.SameChar(System.Char,System.Char)">
+            <summary>
+            Сравнивает символы с точностью до регистра.
+            </summary>
+            <param name="one">Первый символ.</param>
+            <param name="two">Второй символ.</param>
+            <returns>Символы совпадают с точностью до регистра.</returns>
+        </member>
+        <member name="M:AM.StringUtility.SameString(System.String,System.String)">
+            <summary>
+            Сравнивает строки с точностью до регистра.
+            </summary>
+            <param name="one">Первая строка.</param>
+            <param name="two">Вторая строка.</param>
+            <returns>Строки совпадают с точностью до регистра.</returns>
+        </member>
+        <member name="M:AM.StringUtility.SameStringSensitive(System.String,System.String)">
+            <summary>
+            Сравнивает строки.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.Sparse(System.String)">
+            <summary>
+            Sparse the string.
+            </summary>
+            <param name="input">Input string.</param>
+            <returns>Sparse string.</returns>
+        </member>
+        <member name="M:AM.StringUtility.SplitFirst(System.String,System.Char)">
+            <summary>
+            Разбивает строку по указанному разделителю.
+            </summary>
+        </member>
         <member name="M:AM.StringUtility.SplitLines(System.String)">
             <summary>
             Разбивка текста на отдельные строки.
@@ -4007,82 +4031,6 @@
             <remarks>Пустые строки не удаляются.</remarks>
             <param name="text">Текст для разбиения.</param>
             <returns>Массив строк.</returns>
-        </member>
-        <member name="M:AM.StringUtility.MergeLines(System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            Склейка строк в сплошной текст, разделенный переводами строки.
-            </summary>
-            <param name="lines">Строки для склейки.</param>
-            <returns>Склеенный текст.</returns>
-        </member>
-        <member name="M:AM.StringUtility.ContainsWhitespace(System.String)">
-            <summary>
-            Строка содержит пробельные символы?
-            </summary>
-            <param name="text"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AM.StringUtility.IsValidIdentifier(System.String)">
-            <summary>
-            Determines whether the given string
-            represents valid identifier or not.
-            </summary>
-        </member>
-        <member name="M:AM.StringUtility.SplitString(System.String,System.Func{System.Char,System.Boolean})">
-            <summary>
-            Split the string using the given function.
-            </summary>
-        </member>
-        <member name="M:AM.StringUtility.Join(System.String,System.Collections.IEnumerable)">
-            <summary>
-            Join string representations of the given objects.
-            </summary>
-        </member>
-        <member name="M:AM.StringUtility.Wrap(System.String,System.String,System.String)">
-            <summary>
-            Wrap the string with given prefix and suffix
-            </summary>
-        </member>
-        <member name="M:AM.StringUtility.Mangle(System.String,System.Char,System.Char[])">
-            <summary>
-            Mangle given text with the escape character.
-            </summary>
-        </member>
-        <member name="M:AM.StringUtility.IsUrlSafeChar(System.Char)">
-            <summary>
-            Is URL-safe char?
-            </summary>
-            <remarks>Set of safe chars, from RFC 1738.4 minus '+'</remarks>
-        </member>
-        <member name="M:AM.StringUtility.UrlDecode(System.String,System.Text.Encoding)">
-            <summary>
-            Decode string.
-            </summary>
-        </member>
-        <member name="M:AM.StringUtility.UrlEncode(System.String,System.Text.Encoding)">
-            <summary>
-            Encode string.
-            </summary>
-        </member>
-        <member name="M:AM.StringUtility.ReplaceControlCharacters(System.String,System.Char)">
-            <summary>
-            Replace control characters in the text.
-            </summary>
-        </member>
-        <member name="M:AM.StringUtility.ReplaceControlCharacters(System.String)">
-            <summary>
-            Replace control characters in the text.
-            </summary>
-        </member>
-        <member name="M:AM.StringUtility.TrimLines(System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            Trim lines.
-            </summary>
-        </member>
-        <member name="M:AM.StringUtility.TrimLines(System.Collections.Generic.IEnumerable{System.String},System.Char[])">
-            <summary>
-            Trim lines.
-            </summary>
         </member>
         <member name="M:AM.StringUtility.SplitString(System.String,System.String)">
             <summary>
@@ -4104,17 +4052,99 @@
             </summary>
             <remarks>For compatibility with WinMobile.</remarks>
         </member>
-        <member name="M:AM.StringUtility.ToUpperInvariant(System.String)">
+        <member name="M:AM.StringUtility.SplitString(System.String,System.Func{System.Char,System.Boolean})">
             <summary>
-            Convert string to upper case.
+            Split the string using the given function.
             </summary>
-            <remarks>For WinMobile compatibility.</remarks>
+        </member>
+        <member name="M:AM.StringUtility.SplitString(System.String,System.Char[],System.StringSplitOptions)">
+            <summary>
+            Splits a string into substrings based on the characters
+            in an array. You can specify whether the substrings
+            include empty array elements.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.SplitString(System.String,System.String[],System.StringSplitOptions)">
+            <summary>
+            Splits a string into substrings based on the strings
+            in an array. You can specify whether the substrings
+            include empty array elements.
+            </summary>
         </member>
         <member name="M:AM.StringUtility.ToLowerInvariant(System.String)">
             <summary>
             Convert string to lower case.
             </summary>
             <remarks>For WinMobile compatibility.</remarks>
+        </member>
+        <member name="M:AM.StringUtility.ToUpperInvariant(System.String)">
+            <summary>
+            Convert string to upper case.
+            </summary>
+            <remarks>For WinMobile compatibility.</remarks>
+        </member>
+        <member name="M:AM.StringUtility.ToVisibleString(System.String)">
+            <summary>
+            Превращает строку в видимую.
+            Пример: "(null)".
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.TrimLines(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Trim lines.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.TrimLines(System.Collections.Generic.IEnumerable{System.String},System.Char[])">
+            <summary>
+            Trim lines.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.Unescape(System.String)">
+            <summary>
+            Преобразует строку, содержащую escape-последовательности, 
+            к нормальному виду.
+            </summary>
+            <param name="value">Исходная строка.</param>
+            <returns>Результирующая строка.</returns>
+        </member>
+        <member name="M:AM.StringUtility.Unquote(System.String)">
+            <summary>
+            Trims matching open and close quotes from the string.
+            </summary>
+            <remarks>
+            <code>Unquote("(text)");</code>
+            </remarks>
+        </member>
+        <member name="M:AM.StringUtility.Unquote(System.String,System.Char)">
+            <summary>
+            Trims matching open and close quotes from the string.
+            </summary>
+            <remarks>
+            <code>Unquote("(text)", '"');</code>
+            </remarks>
+        </member>
+        <member name="M:AM.StringUtility.Unquote(System.String,System.Char,System.Char)">
+            <summary>
+            Trims matching open and close quotes from the string.
+            </summary>
+            <remarks>
+            <code>Unquote("(text)", '(', ')');</code>
+            </remarks>
+        </member>
+        <member name="M:AM.StringUtility.UrlDecode(System.String,System.Text.Encoding)">
+            <summary>
+            Decode string.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.UrlEncode(System.String,System.Text.Encoding)">
+            <summary>
+            Encode string.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.Wrap(System.String,System.String,System.String)">
+            <summary>
+            Wrap the string with given prefix and suffix
+            </summary>
         </member>
         <member name="M:AM.StringUtility.Clear(System.Text.StringBuilder)">
             <summary>
@@ -4250,9 +4280,39 @@
             </summary>
             <param name="text"></param>
         </member>
+        <member name="M:AM.NumericUtility.OneOf(System.Int32,System.Int32[])">
+            <summary>
+            One of many?
+            </summary>
+        </member>
+        <member name="M:AM.NumericUtility.OneOf(System.Int32,System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            One of many?
+            </summary>
+        </member>
+        <member name="M:AM.NumericUtility.ParseDecimal(System.String)">
+            <summary>
+            Parse decimal in standard manner.
+            </summary>
+        </member>
+        <member name="M:AM.NumericUtility.ParseDouble(System.String)">
+            <summary>
+            Parse double in standard manner.
+            </summary>
+        </member>
+        <member name="M:AM.NumericUtility.ParseInt16(System.String)">
+            <summary>
+            Parse short integer in standard manner.
+            </summary>
+        </member>
         <member name="M:AM.NumericUtility.ParseInt32(System.String)">
             <summary>
             Parse integer in standard manner.
+            </summary>
+        </member>
+        <member name="M:AM.NumericUtility.ParseInt64(System.String)">
+            <summary>
+            Parse long integer in standard manner.
             </summary>
         </member>
         <member name="M:AM.NumericUtility.SafeToDecimal(System.String,System.Decimal)">
@@ -4275,6 +4335,14 @@
             <summary>
             Безопасное преобразование строки в целое.
             </summary>
+        </member>
+        <member name="M:AM.NumericUtility.ToInvariantString(System.Int16)">
+            <summary>
+            Преобразование числа в строку по правилам инвариантной 
+            (не зависящей от региона) культуры.
+            </summary>
+            <param name="value">Число для преобразования.</param>
+            <returns>Строковое представление числа.</returns>
         </member>
         <member name="M:AM.NumericUtility.ToInvariantString(System.Int32)">
             <summary>
@@ -4672,6 +4740,16 @@
         <member name="P:MoonSharp.Interpreter.DynValue.Nil">
             <summary>
             
+            </summary>
+        </member>
+        <member name="T:System.Reflection.AssemblyFileVersionAttribute">
+            <summary>
+            For WinMobile compatibility.
+            </summary>
+        </member>
+        <member name="M:System.Reflection.AssemblyFileVersionAttribute.#ctor(System.String)">
+            <summary>
+            Constructor.
             </summary>
         </member>
         <member name="T:AM.UniversalComparer`1">
@@ -6749,6 +6827,11 @@
             Not null?
             </summary>
         </member>
+        <member name="M:AM.Verifier`1.Positive(System.Int32,System.String)">
+            <summary>
+            Not null?
+            </summary>
+        </member>
         <member name="M:AM.Verifier`1.ReferenceEquals(System.Object,System.Object,System.String)">
             <summary>
             Reference equals?
@@ -7138,6 +7221,11 @@
             <returns>Converted path.</returns>
             <remarks>Path need NOT to be existent.</remarks>
         </member>
+        <member name="M:AM.IO.PathUtility.GetRelativePath(System.String,System.String)">
+            <summary>
+            Get relative path.
+            </summary>
+        </member>
         <member name="M:AM.IO.PathUtility.StripExtension(System.String)">
             <summary>
             Strips extension from given path.
@@ -7332,6 +7420,9 @@
             <summary>
             Constructor.
             </summary>
+        </member>
+        <member name="M:AM.Caching.CacheItem`2.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:AM.Caching.CacheItem`2.Created">
             <summary>
@@ -9501,11 +9592,6 @@
         <member name="M:AM.DisposableObject.Dispose(System.Boolean)">
             <summary>
             Can be overriden.
-            </summary>
-        </member>
-        <member name="M:AM.DisposableObject.Close">
-            <summary>
-            Alias for <c>Dispose</c>.
             </summary>
         </member>
         <member name="M:AM.DisposableObject.Dispose">
@@ -12187,6 +12273,11 @@
             Call the <paramref name="function"/> if not <c>null</c>.
             </summary>
         </member>
+        <member name="T:Newtonsoft.Json.DefaultValueHandling">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:Newtonsoft.Json.JsonPropertyAttribute">
             <summary>
             
@@ -12281,36 +12372,19 @@
             </summary>
         </member>
         <member name="M:AM.Text.Output.NullOutput.Clear">
-            <summary>
-            
-            </summary>
-            <returns></returns>
+            <inheritdoc cref="M:AM.Text.Output.AbstractOutput.Clear"/>
         </member>
         <member name="M:AM.Text.Output.NullOutput.Configure(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="configuration"></param>
-            <returns></returns>
+            <inheritdoc cref="M:AM.Text.Output.AbstractOutput.Configure(System.String)"/>
         </member>
         <member name="M:AM.Text.Output.NullOutput.Write(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="text"></param>
-            <returns></returns>
+            <inheritdoc cref="M:AM.Text.Output.AbstractOutput.Write(System.String)"/>
         </member>
         <member name="M:AM.Text.Output.NullOutput.WriteError(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="text"></param>
-            <returns></returns>
+            <inheritdoc cref="M:AM.Text.Output.AbstractOutput.WriteError(System.String)"/>
         </member>
         <member name="P:AM.Text.Output.NullOutput.HaveError">
-            <summary>
-            
-            </summary>
+            <inheritdoc cref="P:AM.Text.Output.AbstractOutput.HaveError"/>
         </member>
         <member name="T:AM.Text.InvariantFormat">
             <summary>
@@ -12578,9 +12652,14 @@
             Set of date/time manipulation routines.
             </summary>
         </member>
+        <member name="M:AM.DateTimeUtility.Between(System.DateTime,System.DateTime,System.DateTime)">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:AM.DateTimeUtility.MaxDate(System.DateTime,System.DateTime[])">
             <summary>
-            Searches maximal date/time from given ones.
+            Finds maximal date/time from given ones.
             </summary>
             <param name="first">First date/time.</param>
             <param name="other">Other dates/times.</param>
@@ -12588,16 +12667,11 @@
         </member>
         <member name="M:AM.DateTimeUtility.MinDate(System.DateTime,System.DateTime[])">
             <summary>
-            Searches minimal date/time from given ones.
+            Finds minimal date/time from given ones.
             </summary>
             <param name="first">First date/time.</param>
             <param name="other">Other dates/times.</param>
             <returns>Minimum.</returns>
-        </member>
-        <member name="M:AM.DateTimeUtility.Between(System.DateTime,System.DateTime,System.DateTime)">
-            <summary>
-            
-            </summary>
         </member>
         <member name="M:AM.DateTimeUtility.ToUnixTime(System.DateTime)">
             <summary>

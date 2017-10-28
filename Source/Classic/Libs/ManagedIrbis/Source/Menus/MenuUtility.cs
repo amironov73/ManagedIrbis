@@ -26,7 +26,10 @@ using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
+#if !WINMOBILE
 using Formatting = Newtonsoft.Json.Formatting;
+#endif
 
 #endregion
 
