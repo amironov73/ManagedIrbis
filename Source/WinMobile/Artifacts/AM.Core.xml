@@ -13127,5 +13127,15 @@
             Mark instance field as auto-disposable.
             </summary>
         </member>
+        <member name="T:AM.PlatformAbstraction.PlatformAbstractionLevel">
+            <summary>
+            Platform abstraction level.
+            </summary>
+        </member>
+        <member name="M:AM.PlatformAbstraction.PlatformAbstractionLevel.Now">
+            <summary>
+            Get now date and time.
+            </summary>
+        </member>
     </members>
 </doc>

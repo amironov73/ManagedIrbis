@@ -388,6 +388,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Parameters\ParameterUtility.cs">
       <Link>AM\Parameters\ParameterUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\PlatformAbstraction\PlatformAbstractionLevel.cs">
+      <Link>AM\PlatformAbstraction\PlatformAbstractionLevel.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\ProcessorArchitecture.cs">
       <Link>AM\ProcessorArchitecture.cs</Link>
     </Compile>

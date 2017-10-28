@@ -14,7 +14,7 @@ using System.Diagnostics;
 using System.Threading;
 
 using AM;
-
+using AM.PlatformAbstraction;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -50,6 +50,12 @@ namespace ManagedIrbis.Statistics
         public bool Active { get; set; }
 
         /// <summary>
+        /// Platform abstraction level.
+        /// </summary>
+        [NotNull]
+        public PlatformAbstractionLayer PlatformAbstraction { get; set; }
+
+        /// <summary>
         /// Connection.
         /// </summary>
         [NotNull]
@@ -75,6 +81,7 @@ namespace ManagedIrbis.Statistics
         {
             Code.NotNull(connection, "connection");
 
+            PlatformAbstraction = new PlatformAbstractionLayer();
             Connection = connection;
             Statistics = new PingStatistics();
             _timer = new Timer(_timer_Elapsed, null, 1000, 1000);
@@ -124,7 +131,7 @@ namespace ManagedIrbis.Statistics
         {
             PingData result = new PingData
             {
-                Moment = DateTime.Now
+                Moment = PlatformAbstraction.Now()
             };
 
             try

@@ -238,7 +238,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 ? '\0'
                 : expression[0];
             string format = null;
-            DateTime now = DateTime.Now;
+            DateTime now = context.Provider.PlatformAbstraction.Now();
             switch (secondChar)
             {
                 case '\0':

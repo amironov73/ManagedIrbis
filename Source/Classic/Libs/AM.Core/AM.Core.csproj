@@ -245,6 +245,8 @@
     <Compile Include="AM\Optional.cs" />
     <Compile Include="AM\Parameters\Parameter.cs" />
     <Compile Include="AM\Parameters\ParameterUtility.cs" />
+    <Compile Include="AM\PlatformAbstraction\PlatformAbstractionLayer.cs" />
+    <Compile Include="AM\PlatformAbstraction\TestingPlatformAbstraction.cs" />
     <Compile Include="AM\ReadOnlyException.cs" />
     <Compile Include="AM\Reflection\AssemblyUtility.cs" />
     <Compile Include="AM\Reflection\EnumMemberInfo.cs" />

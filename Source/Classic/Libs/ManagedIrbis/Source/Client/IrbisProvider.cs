@@ -22,6 +22,7 @@ using AM.Collections;
 using AM.IO;
 using AM.IOC;
 using AM.Logging;
+using AM.PlatformAbstraction;
 using AM.Runtime;
 using AM.Threading;
 
@@ -72,6 +73,12 @@ namespace ManagedIrbis.Client
         public virtual string Database { get; set; }
 
         /// <summary>
+        /// Platform abstraction.
+        /// </summary>
+        [NotNull]
+        public PlatformAbstractionLayer PlatformAbstraction { get; set; }
+
+        /// <summary>
         /// Additional services.
         /// </summary>
         [NotNull]
@@ -89,6 +96,7 @@ namespace ManagedIrbis.Client
             Log.Trace("IrbisProvider::Constructor");
 
             Services = new ServiceRepository();
+            PlatformAbstraction = new PlatformAbstractionLayer();
         }
 
         #endregion
@@ -443,7 +451,8 @@ namespace ManagedIrbis.Client
         public virtual void Dispose()
         {
             Log.Trace("IrbisProvider::Dispose");
-            // Nothing to do here.
+
+            PlatformAbstraction.Dispose();
         }
 
         #endregion

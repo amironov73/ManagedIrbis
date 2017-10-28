@@ -236,7 +236,7 @@ namespace ManagedIrbis.Client
             CatalogState result = new CatalogState
             {
                 Database = database,
-                Date = DateTime.Today,
+                Date = PlatformAbstraction.Today(),
                 MaxMfn = Connection.GetMaxMfn(database)
             };
 

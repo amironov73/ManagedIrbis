@@ -458,7 +458,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void Now(PftContext context, PftNode node, PftNode[] arguments)
         {
-            DateTime now = DateTime.Today;
+            DateTime now = context.Provider.PlatformAbstraction.Now();
 
             string expression = context.GetStringArgument(arguments, 0);
             string output = string.IsNullOrEmpty(expression)
@@ -792,7 +792,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void Today(PftContext context, PftNode node, PftNode[] arguments)
         {
-            DateTime today = DateTime.Today;
+            DateTime today = context.Provider.PlatformAbstraction.Today();
 
 #if CLASSIC
 
