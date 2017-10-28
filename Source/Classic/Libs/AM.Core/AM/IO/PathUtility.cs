@@ -187,13 +187,15 @@ namespace AM.IO
                 altSeparator
             };
 
-            string[] absoluteParts = absolutePath.Split
+            string[] absoluteParts = StringUtility.SplitString
                 (
+                    absolutePath,
                     separators,
                     StringSplitOptions.RemoveEmptyEntries
                 );
-            string[] baseParts = baseDirectory.Split
+            string[] baseParts = StringUtility.SplitString
                 (
+                    baseDirectory,
                     separators,
                     StringSplitOptions.RemoveEmptyEntries
                 );

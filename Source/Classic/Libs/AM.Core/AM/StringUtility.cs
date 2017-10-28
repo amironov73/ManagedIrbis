@@ -1808,6 +1808,54 @@ namespace AM
         }
 
         /// <summary>
+        /// Splits a string into substrings based on the characters
+        /// in an array. You can specify whether the substrings
+        /// include empty array elements.
+        /// </summary>
+        [NotNull]
+        public static string[] SplitString
+            (
+                [NotNull] string text,
+                [NotNull] char[] separator,
+                StringSplitOptions options
+            )
+        {
+#if WINMOBILE
+
+            return text.Split(separator);
+
+#else
+
+            return text.Split(separator, options);
+
+#endif
+        }
+
+        /// <summary>
+        /// Splits a string into substrings based on the strings
+        /// in an array. You can specify whether the substrings
+        /// include empty array elements.
+        /// </summary>
+        [NotNull]
+        public static string[] SplitString
+            (
+                [NotNull] string text,
+                [NotNull] string[] separator,
+                StringSplitOptions options
+            )
+        {
+#if WINMOBILE
+
+            return text.Split(separator);
+
+#else
+
+            return text.Split(separator, options);
+
+#endif
+        }
+
+        /// <summary>
         /// Convert string to lower case.
         /// </summary>
         /// <remarks>For WinMobile compatibility.</remarks>
@@ -2237,7 +2285,7 @@ namespace AM
 
 #endif
 
-        #endregion
+#endregion
     }
 }
 
