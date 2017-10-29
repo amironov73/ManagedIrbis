@@ -504,6 +504,21 @@ namespace ManagedIrbis.Client
             return result;
         }
 
+        /// <inheritdoc cref="IrbisProvider.GetUserIniFile" />
+        public override IniFile GetUserIniFile()
+        {
+            //string path = Path.Combine(RootPath, "irbisc.ini");
+            FileSpecification specification = new FileSpecification
+                (
+                    IrbisPath.System,
+                    "irbisc.ini"
+                );
+            IniFile result = ReadIniFile(specification)
+                ?? new IniFile();
+
+            return result;
+        }
+
         /// <inheritdoc cref="IrbisProvider.ListDatabases" />
         public override DatabaseInfo[] ListDatabases()
         {
@@ -789,7 +804,7 @@ namespace ManagedIrbis.Client
 
 #endregion
 
-#region IDisposable members
+        #region IDisposable members
 
         /// <inheritdoc cref="IrbisProvider.Dispose" />
         public override void Dispose()
@@ -813,11 +828,11 @@ namespace ManagedIrbis.Client
             GC.SuppressFinalize(this);
         }
 
-#endregion
+        #endregion
 
-#region Object members
+        #region Object members
 
-#endregion
+        #endregion
     }
 }
 
