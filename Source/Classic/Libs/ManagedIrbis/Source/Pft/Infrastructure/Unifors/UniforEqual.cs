@@ -20,7 +20,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     //
     // Форматный выход: Сравнить заданное значение с маской
     // (сравнение по маске)
-    // &uf(‘=!<маска>!<значение>’)
+    // &uf('=!<маска>!<значение>')
     // ! – уникальный символ двухстороннего ограничения
     // (может быть любым символом).
     // Маска может содержать принятые символы маскирования * и ?.
@@ -28,8 +28,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // отделенных друг от друга символом вертикальной черты (|).
     // Форматный выход возвращает: 1 – в случае положительного
     // результата сравнения; 0 – в случае отрицательного.
-    //
-
     //
     // Examples
     //
@@ -50,10 +48,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
     static class UniforEqual
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         public static void CompareWithMask

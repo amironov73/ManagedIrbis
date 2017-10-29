@@ -321,6 +321,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforATest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforBTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforCTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforEqualTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforETest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforFTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforGTest.cs" />

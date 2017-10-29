@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis.Pft.Infrastructure;
 
@@ -18,6 +17,23 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             PftMask mask = new PftMask(maskText);
             bool actual = mask.Match(value);
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void PftMask_Construction_1()
+        {
+            PftMask mask = new PftMask();
+            Assert.AreEqual(0, mask.Alternatives.Count);
+        }
+
+        [TestMethod]
+        public void PftMask_Construction_2()
+        {
+            PftMask mask = new PftMask("Hello");
+            Assert.AreEqual(1, mask.Alternatives.Count);
+
+            mask = new PftMask("Hello|World");
+            Assert.AreEqual(2, mask.Alternatives.Count);
         }
 
         [TestMethod]

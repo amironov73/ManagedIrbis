@@ -76,7 +76,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             public bool Active { get; set; }
 
             [NotNull]
-            public string Value { get; private set; }
+            internal string Value { get; private set; }
 
             [NotNull]
             public TextNavigator Navigator { get; private set; }
@@ -141,10 +141,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             string[] parts = StringUtility.SplitString(specification, "|");
             Alternatives.AddRange(parts);
         }
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
@@ -216,10 +212,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             ALL_DONE: return true;
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }
