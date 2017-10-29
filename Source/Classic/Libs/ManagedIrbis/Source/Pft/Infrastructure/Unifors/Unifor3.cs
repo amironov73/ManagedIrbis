@@ -93,10 +93,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             "july", "august", "september", "october", "november", "december"
         };
 
+        [CanBeNull]
         private static string _GetMonthName
             (
-                string expression,
-                string[] table
+                [NotNull] string expression,
+                [NotNull][ItemNotNull] string[] table
             )
         {
             int index;
@@ -105,10 +106,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 return null;
             }
+
             if (!NumericUtility.TryParseInt32(expression.Substring(1), out index))
             {
                 return null;
             }
+
             index--;
             if (index < 0 || index >= table.Length)
             {
@@ -118,9 +121,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             return table[index];
         }
 
+        [CanBeNull]
         private static string _AddDate
             (
-                string expression,
+                [NotNull] string expression,
                 bool changeSign
             )
         {
@@ -181,9 +185,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             return date.ToString("yyyyMMdd");
         }
 
+        [CanBeNull]
         private static string _ToJulianDate
             (
-                string expression
+                [NotNull] string expression
             )
         {
 #if CLASSIC
@@ -229,15 +234,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 [CanBeNull] string expression
             )
         {
-            if (ReferenceEquals(expression, null))
-            {
-                return;
-            }
+            expression = expression ?? string.Empty;
 
-            char secondChar = expression.Length == 0
-                ? '\0'
-                : expression[0];
-            string format = null;
+            char secondChar = expression.FirstChar();
+            string format;
             DateTime now = context.Provider.PlatformAbstraction.Now();
             switch (secondChar)
             {
