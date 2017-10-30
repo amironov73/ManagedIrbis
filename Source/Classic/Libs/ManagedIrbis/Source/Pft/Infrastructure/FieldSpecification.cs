@@ -968,34 +968,46 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 navigator.ReadChar();
 
-                bool minus = navigator.PeekChar() == '-';
-                if (minus)
+                if (navigator.PeekChar() == '*')
                 {
                     navigator.ReadChar();
+                    FieldRepeat = new IndexSpecification
+                    {
+                        Kind = IndexKind.LastRepeat,
+                        Expression = "*"
+                    };
                 }
-                string indexText = navigator.ReadInteger();
-                if (string.IsNullOrEmpty(indexText))
+                else
                 {
-                    Log.Error
+                    bool minus = navigator.PeekChar() == '-';
+                    if (minus)
+                    {
+                        navigator.ReadChar();
+                    }
+                    string indexText = navigator.ReadInteger();
+                    if (string.IsNullOrEmpty(indexText))
+                    {
+                        Log.Error
                         (
                             "FieldSpecification::ParseUnifor: "
                             + "empty index"
                         );
 
-                    throw new PftSyntaxException(navigator);
-                }
+                        throw new PftSyntaxException(navigator);
+                    }
 
-                int indexValue = int.Parse(indexText);
-                if (minus)
-                {
-                    indexValue = -indexValue;
+                    int indexValue = int.Parse(indexText);
+                    if (minus)
+                    {
+                        indexValue = -indexValue;
+                    }
+                    FieldRepeat = new IndexSpecification
+                    {
+                        Kind = IndexKind.Literal,
+                        Expression = indexText,
+                        Literal = indexValue
+                    };
                 }
-                FieldRepeat = new IndexSpecification
-                {
-                    Kind = IndexKind.Literal,
-                    Expression = indexText,
-                    Literal = indexValue
-                };
             }
 
             int length = navigator.Position - start;

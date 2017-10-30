@@ -504,8 +504,7 @@ namespace ManagedIrbis.Direct
             key = IrbisText.ToUpper(key);
 
             NodeRecord firstNode = ReadNode(1);
-            NodeRecord rootNode
-                = ReadNode(firstNode.Leader.Number);
+            NodeRecord rootNode = ReadNode(firstNode.Leader.Number);
             NodeRecord currentNode = rootNode;
 
             NodeItem goodItem = null;

@@ -329,13 +329,16 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforFTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforGTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforITest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforJTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforKTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforLTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforOTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlus4Test.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlus6Test.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlusDTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlusETest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlusNTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforQTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforTTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforUTest.cs" />
