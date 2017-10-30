@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AM.PlatformAbstraction;
-
+using AM.Text;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Client;
@@ -43,7 +43,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
                 Unifor unifor = new Unifor();
                 string expression = input;
                 unifor.Execute(context, null, expression);
-                string actual = context.Text;
+                string actual = context.Text.DosToUnix();
                 Assert.AreEqual(expected, actual);
             }
         }

@@ -105,6 +105,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 return;
             }
+
             List<string> parameters = new List<string>();
             if (navigator.ReadChar() == '#')
             {
@@ -121,8 +122,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 fileName += ".pft";
             }
-            FileSpecification specification
-                = new FileSpecification
+            FileSpecification specification = new FileSpecification
                 (
                     IrbisPath.MasterFile,
                     context.Provider.Database,
@@ -141,8 +141,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 if (parameters.Count == 1)
                 {
-                    string fromText = "v1";
-                    string toText = parameters.First();
+                    string fromText = "v%1";
+                    string toText = "v" + parameters.First();
                     source = source.Replace(fromText, toText);
                 }
                 else
@@ -151,8 +151,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     int index = 1;
                     foreach (string parameter in parameters)
                     {
-                        string fromText = "v" + index.ToInvariantString();
-                        string toText = parameter;
+                        string fromText = "v%" + index.ToInvariantString();
+                        string toText = "v" + parameter;
                         builder.Replace(fromText, toText);
                         index++;
                     }

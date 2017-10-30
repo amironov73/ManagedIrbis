@@ -1,0 +1,3 @@
+'Field ', 'v%1 ', if p(v%1) then 'present' else 'absent' fi 
+#
+'Field ', 'v%2 ', if p(v%2) then 'present' else 'absent' fi 
