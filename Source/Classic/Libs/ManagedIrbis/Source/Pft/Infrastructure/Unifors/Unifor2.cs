@@ -53,7 +53,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             int width = 10;
             if (!string.IsNullOrEmpty(expression))
             {
-                width = expression.SafeToInt32(0, 0, int.MaxValue);
+                width = expression.SafeToInt32(0);
             }
             if (width == 0 && !expression.ConsistOf('0'))
             {
@@ -65,7 +65,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             int length = result.Length;
             if (width < length)
             {
-                if (width == 0)
+                if (width <= 0)
                 {
                     result = string.Empty;
                 }
