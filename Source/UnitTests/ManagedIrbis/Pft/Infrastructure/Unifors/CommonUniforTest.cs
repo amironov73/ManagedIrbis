@@ -22,7 +22,10 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         protected IrbisProvider GetProvider()
         {
             string rootPath = Path.GetFullPath(@"..\..\..\..\TestData\Irbis64");
-            LocalProvider result = new LocalProvider(rootPath);
+            LocalProvider result = new LocalProvider(rootPath)
+            {
+                Database = "IBIS"
+            };
 
             return result;
         }
