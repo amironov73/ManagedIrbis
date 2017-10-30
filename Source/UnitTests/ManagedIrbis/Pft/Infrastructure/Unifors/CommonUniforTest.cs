@@ -124,6 +124,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             result.Fields.Add(new RecordField(941, "^A0^B32^H107206G^DБИНТ^U2004/7^C19930907"));
             result.Fields.Add(new RecordField(941, "^A0^B33^H107216G^DБИНТ^U2004/7^C19930907"));
             result.Fields.Add(new RecordField(941, "^AU^BЗИ-1^DЖГ^S20140604^125^TЗИ^!КДИ^C20071226^01"));
+            result.Mfn = 1;
 
             return result;
         }
