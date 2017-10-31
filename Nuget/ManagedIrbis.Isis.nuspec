@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>ManagedIrbis.Isis</id>
-    <version>1.8.1.2050</version>
+    <version>1.8.2.2150</version>
     <title>Managed wrapper for ISIS32.DLL</title>
     <authors>Mironov Alexey</authors>
     <owners></owners>
@@ -25,11 +25,11 @@
       <dependency id="JetBrains.Annotations" version="10.2.1" />
       <dependency id="MoonSharp" version="2.0.0.0" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
-      <dependency id="ArsMagna.Core" version="1.8.1" />
-      <dependency id="ArsMagna.Drawing" version="1.8.1" />
-      <dependency id="ArsMagna.Windows.Forms" version="1.8.1" />
-      <dependency id="ArsMagna.IrbisUI" version="1.8.1" />
-      <dependency id="ManagedIrbis" version="1.8.1" />
+      <dependency id="ArsMagna.Core" version="1.8.2" />
+      <dependency id="ArsMagna.Drawing" version="1.8.2" />
+      <dependency id="ArsMagna.Windows.Forms" version="1.8.2" />
+      <dependency id="ArsMagna.IrbisUI" version="1.8.2" />
+      <dependency id="ManagedIrbis" version="1.8.2" />
     </dependencies>
     <references></references>
     <tags></tags>
