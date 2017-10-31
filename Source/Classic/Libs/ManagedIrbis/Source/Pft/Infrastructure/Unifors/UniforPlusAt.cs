@@ -14,6 +14,8 @@ using System.Text;
 
 using AM;
 
+using JetBrains.Annotations;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -123,9 +125,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         public static void FormatJson
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
 #if !PocketPC && !WINMOBILE
@@ -179,7 +181,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             builder.AppendLine("0");
             builder.AppendFormat("{0}#0", record.Mfn);
             builder.AppendLine();
-            builder.AppendFormat("0#{0}", (int)record.Status);
+            builder.AppendFormat("0#{0}", record.Version);
             builder.AppendLine();
 
             string output = builder + obj.ToString(Formatting.Indented);

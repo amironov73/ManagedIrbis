@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
+
 using AM;
+
+using ManagedIrbis.Pft.Infrastructure.Ast;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
@@ -73,8 +72,9 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             Execute("+9L2,IBIS,_test_hello.pft", "1");
             Execute("+9L2,IBIS,notexist.pft", "0");
 
-            Execute("+9L0,,http://google.com", "1");
-            Execute("+9L0,,http://google.c", "0");
+            // Не работают без Интернета
+            //Execute("+9L0,,http://google.com", "1");
+            //Execute("+9L0,,http://google.c", "0");
 
             // Обработка ошибок
             Execute("+9L", "");
@@ -113,8 +113,12 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         [TestMethod]
         public void UniforPlus9_GetIndex_1()
         {
-            Execute(null, 0, "+90", "0");
-            Execute(null, 1, "+90", "1");
+            Execute(null, null, 0, "+90", "0");
+            Execute(null, null, 1, "+90", "1");
+
+            PftGroup group = new PftGroup();
+            Execute(group, null, 0, "+90", "1");
+            Execute(group, null, 1, "+90", "2");
         }
 
         [TestMethod]
@@ -129,6 +133,89 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             Execute("+95", "0");
             Execute("+95Hello", "5");
             Execute("+95Привет", "6");
+        }
+
+        [TestMethod]
+        public void UniforPlus9_ReplaceCharacter_1()
+        {
+            Execute("+98ABHere is A letter, here is another A letter", "Here is B letter, here is another B letter");
+            Execute("+98АЯА последняя буква в алфавите", "Я последняя буква в алфавите");
+            Execute("+9BAB ", "");
+
+            // Обработка ошибок
+            Execute("+9B", "");
+            Execute("+9BA", "");
+            Execute("+9BAB", "");
+        }
+
+        [TestMethod]
+        public void UniforPlus9_ReplaceString_1()
+        {
+            Execute("+9I!A!/B/Here is A letter, here is another A letter", "Here is B letter, here is another B letter");
+            Execute("+9I!А!/Я/А последняя буква в алфавите", "Я последняя буква в алфавите");
+            Execute("+9B!A!/B/ ", "");
+
+            // Обработка ошибок
+            Execute("+9I", "");
+            Execute("+9I!", "");
+            Execute("+9I!A", "");
+            Execute("+9I!A!", "");
+            Execute("+9I!A!/", "");
+            Execute("+9I!A!/B", "");
+            Execute("+9I!A!/B/", "");
+        }
+
+        [TestMethod]
+        public void UniforPlus9_SplitWords_1()
+        {
+            Execute(@"+9GC:\Windows\System32\esent.dll", "C\nWINDOWS\nSYSTEM\nESENT\nDLL");
+
+            // Обработка ошибок
+            Execute("+9G", "");
+        }
+
+        [TestMethod]
+        public void UniforPlus9_Substring_1()
+        {
+
+            Execute("+960*5.2#Here is A letter, here is another A letter", "is");
+            Execute("+960*5#Here is A letter, here is another A letter", "is A letter, here is another A letter");
+            Execute("+960.2#Here is A letter, here is another A letter", "He");
+
+            Execute("+961*2.6#Here is A letter, here is another A letter", "A lett");
+            Execute("+961.6#Here is A letter, here is another A letter", "letter");
+            Execute("+961*2#Here is A letter, here is another A letter", "Here is A letter, here is another A lett");
+
+            // Обработка ошибок
+            Execute("+96", "");
+            Execute("+96Here is A letter, here is another A letter", "ere is A letter, here is another A letter");
+            Execute("+96Q*2.6#Here is A letter, here is another A letter", "A lett");
+            Execute("+960#Here is A letter, here is another A letter", "Here is A letter, here is another A letter");
+        }
+
+        [TestMethod]
+        public void UniforPlus9_ToUpper_1()
+        {
+            Execute(@"+97C:\Windows\System32\esent.dll", @"C:\WINDOWS\SYSTEM32\ESENT.DLL");
+            Execute("+97У попа была собака", "У ПОПА БЫЛА СОБАКА");
+
+            // Обработка ошибок
+            Execute("+97", "");
+        }
+
+        [TestMethod]
+        public void UniforPlus9_FindSubstring_1()
+        {
+            Execute("+9S!9!98A7", "1");
+            Execute("+9S!a!98A7", "3");
+            Execute("+9S!b!98A7", "0");
+
+            // Обработка ошибок
+            Execute("+9S", "0");
+            Execute("+9S!", "0");
+            Execute("+9S!b", "0");
+            Execute("+9S!b!", "0");
+            Execute("+9S!!98A7", "0");
         }
     }
 }

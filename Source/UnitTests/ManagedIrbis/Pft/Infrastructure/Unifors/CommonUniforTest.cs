@@ -13,6 +13,7 @@ using JetBrains.Annotations;
 using ManagedIrbis;
 using ManagedIrbis.Client;
 using ManagedIrbis.Pft.Infrastructure;
+using ManagedIrbis.Pft.Infrastructure.Ast;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -158,10 +159,23 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
                 [NotNull] string expected
             )
         {
+            Execute(null, record, index, input, expected);
+        }
+
+        protected void Execute
+            (
+                [CanBeNull] PftGroup group,
+                [CanBeNull] MarcRecord record,
+                int index,
+                [NotNull] string input,
+                [NotNull] string expected
+            )
+        {
             using (IrbisProvider provider = GetProvider())
             {
                 PftContext context = new PftContext(null)
                 {
+                    CurrentGroup = group,
                     Record = record
                 };
                 context.SetProvider(provider);

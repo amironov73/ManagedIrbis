@@ -106,7 +106,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Текущая группа (если есть).
         /// </summary>
         [CanBeNull]
-        public PftGroup CurrentGroup { get; internal set; }
+        public PftGroup CurrentGroup { get; set; }
 
         /// <summary>
         /// Номер повторения в текущей группе.

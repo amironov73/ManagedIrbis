@@ -728,7 +728,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // Назначение: Вернуть часть строки.
         // Присутствует в версиях ИРБИС с 2006.1.
         // Формат (передаваемая строка):
-        // +96A* SSS.NNN#<строка>
+        // +96A*SSS.NNN#<строка>
         // где:
         // A – направление: 0 – с начала строки; 1 – с конца;
         // SSS – смещение;
@@ -769,6 +769,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     int offset = 0;
                     int length = text.Length;
                     string temp;
+                    bool haveLength = false;
                     if (navigator.PeekChar() == '*')
                     {
                         navigator.ReadChar();
@@ -780,11 +781,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         navigator.ReadChar();
                         temp = navigator.ReadInteger();
                         NumericUtility.TryParseInt32(temp, out length);
+                        haveLength = true;
                     }
 
                     if (direction != '0')
                     {
-                        offset = text.Length - offset - length;
+                        if (!haveLength)
+                        {
+                            length -= offset;
+                            offset = 0;
+                        }
+                        else
+                        {
+                            offset = text.Length - offset - length;
+                        }
                     }
 
                     text = PftUtility.SafeSubString(text, offset, length);
@@ -869,10 +879,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             TextNavigator navigator = new TextNavigator(expression);
             char delimiter = navigator.ReadChar();
-            if (delimiter == '\0')
-            {
-                goto NOTFOUND;
-            }
             string substring = navigator.ReadUntil(delimiter);
             if (string.IsNullOrEmpty(substring)
                 || navigator.ReadChar() != delimiter)
