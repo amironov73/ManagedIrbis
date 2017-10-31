@@ -94,11 +94,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 navigator.ReadChar();
             }
             string fileName = navigator.GetRemainingText();
-            if (String.IsNullOrEmpty(pathText)
-                || String.IsNullOrEmpty(fileName))
+            if (string.IsNullOrEmpty(pathText)
+                || string.IsNullOrEmpty(fileName))
             {
                 return null;
             }
+
             IrbisPath path = (IrbisPath) NumericUtility.ParseInt32
                 (
                     pathText
@@ -109,6 +110,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     dbName,
                     fileName
                 );
+
             return result;
         }
 
@@ -410,7 +412,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         //
         // Вернуть размер файла в байтах. – &uf('+9A
         // Вид функции: +9A.
-        // Назначение: Вернуть размер файла в байтах..
+        // Назначение: Вернуть размер файла в байтах.
         // Формат (передаваемая строка):
         // +9A
         //

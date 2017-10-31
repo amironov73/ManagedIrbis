@@ -1,9 +1,4 @@
-﻿using JetBrains.Annotations;
-
-using ManagedIrbis;
-using ManagedIrbis.Pft.Infrastructure;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
 {
