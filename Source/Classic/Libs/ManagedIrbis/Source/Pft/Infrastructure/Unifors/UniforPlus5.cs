@@ -54,12 +54,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            MarcRecord record = context.Record;
-            if (ReferenceEquals(record, null))
-            {
-                return;
-            }
-
             TextNavigator navigator = new TextNavigator(expression);
             char command = navigator.ReadChar();
             string menuName = navigator.GetRemainingText();

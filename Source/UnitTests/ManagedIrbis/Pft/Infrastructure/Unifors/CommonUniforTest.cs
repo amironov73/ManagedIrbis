@@ -147,13 +147,25 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
                 [NotNull] string expected
             )
         {
+            Execute(GetRecord(), 0, input, expected);
+        }
+
+        protected void Execute
+            (
+                [CanBeNull] MarcRecord record,
+                int index,
+                [NotNull] string input,
+                [NotNull] string expected
+            )
+        {
             using (IrbisProvider provider = GetProvider())
             {
                 PftContext context = new PftContext(null)
                 {
-                    Record = GetRecord()
+                    Record = record
                 };
                 context.SetProvider(provider);
+                context.Index = index;
                 Unifor unifor = new Unifor();
                 string expression = input;
                 unifor.Execute(context, null, expression);
