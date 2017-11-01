@@ -25,7 +25,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // Присутствует в версиях ИРБИС с 2004.1.
     // Формат (передаваемая строка):
     // +F
+    //
     // Пример:
+    //
     // &unifor('+F')
     //
 
@@ -45,7 +47,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             context.GetRootContext().PostProcessing |= PftCleanup.Rtf;
         }
-
 
         #endregion
     }

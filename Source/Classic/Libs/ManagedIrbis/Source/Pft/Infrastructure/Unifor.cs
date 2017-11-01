@@ -178,7 +178,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+F", UniforPlusF.CleanRtf);
             Registry.Add("+I", UniforPlusI.BuildLink);
             Registry.Add("+N", UniforPlusN.GetFieldCount);
-            Registry.Add("+R", TrimAtLastDot);
+            Registry.Add("+R", UniforPlusR.TrimAtLastDot);
             Registry.Add("+S", DecodeTitle);
             Registry.Add("+@", UniforPlusAt.FormatJson);
             Registry.Add("++0", UniforPlusPlus0.FormatAll);
@@ -305,36 +305,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                 string text = record.ToPlainText();
                 context.Write(node, text);
                 context.OutputFlag = true;
-            }
-        }
-
-        // ================================================================
-
-
-        // ================================================================
-
-        /// <summary>
-        /// Trim text at last dot.
-        /// </summary>
-        public static void TrimAtLastDot
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            if (!string.IsNullOrEmpty(expression))
-            {
-                int position = expression.LastIndexOf('.');
-                if (position >= 0)
-                {
-                    string output = expression.Substring(0, position);
-                    if (!string.IsNullOrEmpty(output))
-                    {
-                        context.Write(node, output);
-                        context.OutputFlag = true;
-                    }
-                }
             }
         }
 
