@@ -20,5 +20,13 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             Execute("+S<1=Первое> апреля", "1=Первое> апреля");
             Execute("+S0<1=Первое> <апреля=мая>", "Первое мая");
         }
+
+        [TestMethod]
+        public void UniforPlusS_DecodeTitle_2()
+        {
+            Execute("+S0<Первое> апреля", " апреля");
+            Execute("+S1<Первое> апреля", "Первое апреля");
+            Execute("+S2<Первое> апреля", "Первое апреля");
+        }
     }
 }

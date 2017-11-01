@@ -122,11 +122,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         evaluator = _FirstEvaluator;
                     }
                     string output = Regex.Replace
-                    (
-                        input,
-                        "[<](?<first>.+?)[=](?<second>.+?)[>]",
-                        evaluator
-                    );
+                        (
+                            input,
+                            "[<](?<first>.+?)(?:[=](?<second>.+?))?[>]",
+                            evaluator
+                        );
                     context.Write(node, output);
                     context.OutputFlag = true;
                 }
