@@ -40,7 +40,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // Если задается *, данные выводятся по прямой ссылке
     // (метка поля, номер повторения).
     //
-    // Примеры:
+    // Пример:
+    //
     // &unifor('DBOOK,/K=AAA/,v200')
     //
 
@@ -73,13 +74,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            int[] found = new int[0];
+            int[] found;
             if (navigator.PeekChar() == '@')
             {
                 navigator.ReadChar();
                 int mfn;
                 string mfnText = navigator.ReadInteger();
-                if (NumericUtility.TryParseInt32(mfnText, out mfn))
+                if (!NumericUtility.TryParseInt32(mfnText, out mfn))
                 {
                     return;
                 }
@@ -100,6 +101,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     context.Provider.Database = database;
 
+                    // TODO Использовать термы, а не поиск
                     found = context.Provider.Search(query);
                 }
                 finally
@@ -134,20 +136,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 PftProgram program = PftUtility.CompileProgram(format);
 
-                using (PftContextGuard guard
-                    = new PftContextGuard(context))
+                using (PftContextGuard guard = new PftContextGuard(context))
                 {
                     PftContext copy = guard.ChildContext;
-                    copy.Output = context.Output;
-                    foreach (int mfn in found)
+                    string saveDatabase = copy.Provider.Database;
+                    try
                     {
-                        MarcRecord record
-                            = copy.Provider.ReadRecord(mfn);
-                        if (!ReferenceEquals(record, null))
+                        copy.Provider.Database = database;
+                        copy.Output = context.Output;
+                        foreach (int mfn in found)
                         {
-                            copy.Record = record;
-                            program.Execute(copy);
+                            MarcRecord record = copy.Provider.ReadRecord(mfn);
+                            if (!ReferenceEquals(record, null))
+                            {
+                                copy.Record = record;
+                                program.Execute(copy);
+                            }
                         }
+                    }
+                    finally
+                    {
+                        copy.Provider.Database = saveDatabase;
                     }
                 }
             }
