@@ -323,6 +323,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\Unifor6Test.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\Unifor9Test.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforATest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforBangTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforBTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforCTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforEqualTest.cs" />

@@ -10,25 +10,15 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 
 using AM;
 using AM.Collections;
-using AM.IO;
 using AM.Logging;
-using AM.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Identifiers;
-using ManagedIrbis.ImportExport;
-using ManagedIrbis.Infrastructure;
-using ManagedIrbis.Menus;
 using ManagedIrbis.Pft.Infrastructure.Unifors;
 
 using MoonSharp.Interpreter;
@@ -182,7 +172,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+S", UniforPlusS.DecodeTitle);
             Registry.Add("+@", UniforPlusAt.FormatJson);
             Registry.Add("++0", UniforPlusPlus0.FormatAll);
-            Registry.Add("!", CleanDoubleText);
+            Registry.Add("!", UniforBang. CleanDoubleText);
             Registry.Add("=", UniforEqual.CompareWithMask);
         }
 
@@ -218,42 +208,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
 
             return result;
-        }
-
-        // ================================================================
-
-        /// <summary>
-        /// Post processing: cleanup double text.
-        /// </summary>
-        public static void CleanDoubleText
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
-        {
-            context.GetRootContext().PostProcessing |= PftCleanup.DoubleText;
-        }
-
-        // ================================================================
-
-        /// <summary>
-        /// ALL format for records
-        /// </summary>
-        public static void FormatAll
-            (
-                PftContext context,
-                PftNode node,
-                string expression
-            )
-        {
-            MarcRecord record = context.Record;
-            if (!ReferenceEquals(record, null))
-            {
-                string text = record.ToPlainText();
-                context.Write(node, text);
-                context.OutputFlag = true;
-            }
         }
 
         // ================================================================
