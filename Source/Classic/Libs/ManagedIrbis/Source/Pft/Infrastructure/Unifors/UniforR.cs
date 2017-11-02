@@ -9,8 +9,6 @@
 
 #region Using directives
 
-using System;
-
 using AM;
 
 using JetBrains.Annotations;
@@ -20,7 +18,7 @@ using JetBrains.Annotations;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Генерация случайного числа – &uf('R…
+    // Генерация случайного числа – &uf('R
     // Вид функции: R.
     // Назначение: Генерация случайного числа.
     // Формат (передаваемая строка):
@@ -63,7 +61,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 maxValue = maxValue * 10;
             }
 
-            int result = new Random().Next(maxValue);
+            int result = context.Provider
+                .PlatformAbstraction
+                .GetRandomGenerator()
+                .Next(maxValue);
             string format = new string('0', length);
             string output = result.ToString(format);
             context.Write(node, output);

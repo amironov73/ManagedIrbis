@@ -30,6 +30,14 @@ namespace AM.PlatformAbstraction
         #region Public methods
 
         /// <summary>
+        /// Get random number generator.
+        /// </summary>
+        public virtual Random GetRandomGenerator()
+        {
+            return new Random();
+        }
+
+        /// <summary>
         /// Get current date and time.
         /// </summary>
         public virtual DateTime Now()

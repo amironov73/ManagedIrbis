@@ -42,6 +42,12 @@ namespace AM.PlatformAbstraction
 
         #region PlatformAbstractionLevel members
 
+        /// <inheritdoc cref="PlatformAbstractionLayer.GetRandomGenerator" />
+        public override Random GetRandomGenerator()
+        {
+            return new Random(123);
+        }
+
         /// <inheritdoc cref="PlatformAbstractionLayer.Now" />
         public override DateTime Now()
         {
