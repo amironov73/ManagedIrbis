@@ -48,7 +48,7 @@
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Libs\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\Libs\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
       <Aliases>global,json</Aliases>
     </Reference>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="hello">Библиотека Говорилова-Южного!</string>
+  <string name="app_name">Simple</string>
+  <string name="prompt1">Поиск по:</string>
+</resources>
