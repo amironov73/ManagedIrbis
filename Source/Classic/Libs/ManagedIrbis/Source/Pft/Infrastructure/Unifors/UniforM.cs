@@ -97,9 +97,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
         public static void Sort
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!string.IsNullOrEmpty(expression)

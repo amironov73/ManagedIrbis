@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 using AM.PlatformAbstraction;
 using AM.Text;
@@ -136,7 +131,8 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             string rootPath = Path.GetFullPath(@"..\..\..\..\TestData\Irbis64");
             LocalProvider result = new LocalProvider(rootPath)
             {
-                Database = "IBIS"
+                Database = "IBIS",
+                PlatformAbstraction = new TestingPlatformAbstraction()
             };
 
             return result;
