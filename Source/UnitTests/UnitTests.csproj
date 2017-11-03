@@ -340,6 +340,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforMTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforOTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlus0Test.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlus1Test.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlus3Test.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlus4Test.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlus5Test.cs" />
