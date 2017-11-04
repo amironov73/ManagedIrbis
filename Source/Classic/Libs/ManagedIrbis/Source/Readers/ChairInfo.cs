@@ -9,9 +9,9 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
@@ -59,7 +59,7 @@ namespace ManagedIrbis.Readers
         /// </summary>
         [CanBeNull]
         [XmlAttribute("code")]
-        [JsonProperty("code")]
+        [JsonProperty("code", NullValueHandling = NullValueHandling.Ignore)]
         public string Code { get; set; }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace ManagedIrbis.Readers
         /// </summary>
         [CanBeNull]
         [XmlAttribute("title")]
-        [JsonProperty("title")]
+        [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
         public string Title { get; set; }
 
         #endregion
@@ -79,6 +79,20 @@ namespace ManagedIrbis.Readers
         /// </summary>
         public ChairInfo()
         {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="code">Chair code.</param>
+        public ChairInfo
+            (
+                [NotNull] string code
+            )
+        {
+            CodeJam.Code.NotNull(code, "code");
+
+            Code = code;
         }
 
         /// <summary>
@@ -117,10 +131,7 @@ namespace ManagedIrbis.Readers
             CodeJam.Code.NotNullNorEmpty(text, "text");
 
             List<ChairInfo> result = new List<ChairInfo>();
-
-            text = text.Replace("\r", string.Empty);
-            string[] lines = text.Split('\n');
-
+            string[] lines = text.SplitLines();
             for (int i = 0; i < lines.Length; i += 2)
             {
                 if (lines[i].StartsWith("*"))
@@ -138,13 +149,13 @@ namespace ManagedIrbis.Readers
             if (addAllItem)
             {
                 result.Add
-                (
-                    new ChairInfo
-                        {
-                            Code = "*",
-                            Title = "Все подразделения"
-                        }
-                );
+                    (
+                        new ChairInfo
+                            {
+                                Code = "*",
+                                Title = "Все подразделения"
+                            }
+                    );
             }
 
             return result
@@ -199,7 +210,7 @@ namespace ManagedIrbis.Readers
         [ItemNotNull]
         public static ChairInfo[] Read
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
         {
             return Read
@@ -208,6 +219,15 @@ namespace ManagedIrbis.Readers
                     ChairMenu,
                     true
                 );
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Title"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeTitle()
+        {
+            return !string.IsNullOrEmpty(Title);
         }
 
         #endregion
@@ -249,8 +269,8 @@ namespace ManagedIrbis.Readers
             return string.Format
                 (
                     "{0} - {1}",
-                    Code,
-                    Title
+                    Code.ToVisibleString(),
+                    Title.ToVisibleString()
                 );
         }
 

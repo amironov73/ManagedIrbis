@@ -1,10 +1,12 @@
 ﻿using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
 
 using ManagedIrbis;
 using ManagedIrbis.Fields;
+
 using Newtonsoft.Json;
 
 namespace UnitTests.ManagedIrbis.Fields
