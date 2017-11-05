@@ -346,7 +346,7 @@ namespace UnitTests.ManagedIrbis.Readers
             Assert.AreEqual("{'database':'IBIS','index':'84(2=Рус)5/Ц 27-422726','inventory':'1539325','barcode':'E00401004C75DB57','sigla':'Ф302','dateGiven':'20170930','department':'*','dateExpected':'20171014','dateReturned':'20171028','description':'Цветаева М. И. Стихотворения','responsible':'samo','timeIn':'172914'}", JsonUtility.SerializeShort(visit));
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void VisitInfo_ToString_1()
         {
             VisitInfo visit = _GetVisit();
