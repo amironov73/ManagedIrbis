@@ -10,7 +10,9 @@
 #region Using directives
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
@@ -59,6 +61,7 @@ namespace ManagedIrbis.Readers
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public int Id { get; set; }
 
         /// <summary>
@@ -67,7 +70,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('g')]
         [XmlAttribute("database")]
-        [JsonProperty("database")]
+        [JsonProperty("database", NullValueHandling = NullValueHandling.Ignore)]
         public string Database { get; set; }
 
         /// <summary>
@@ -76,7 +79,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('a')]
         [XmlAttribute("index")]
-        [JsonProperty("index")]
+        [JsonProperty("index", NullValueHandling = NullValueHandling.Ignore)]
         public string Index { get; set; }
 
         /// <summary>
@@ -85,7 +88,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('b')]
         [XmlAttribute("inventory")]
-        [JsonProperty("inventory")]
+        [JsonProperty("inventory", NullValueHandling = NullValueHandling.Ignore)]
         public string Inventory { get; set; }
 
         /// <summary>
@@ -94,7 +97,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('h')]
         [XmlAttribute("barcode")]
-        [JsonProperty("barcode")]
+        [JsonProperty("barcode", NullValueHandling = NullValueHandling.Ignore)]
         public string Barcode { get; set; }
 
         /// <summary>
@@ -103,7 +106,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('k')]
         [XmlAttribute("sigla")]
-        [JsonProperty("sigla")]
+        [JsonProperty("sigla", NullValueHandling = NullValueHandling.Ignore)]
         public string Sigla { get; set; }
 
         /// <summary>
@@ -112,7 +115,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('d')]
         [XmlAttribute("dateGiven")]
-        [JsonProperty("dateGiven")]
+        [JsonProperty("dateGiven", NullValueHandling = NullValueHandling.Ignore)]
         public string DateGivenString { get; set; }
 
         /// <summary>
@@ -121,7 +124,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('v')]
         [XmlAttribute("department")]
-        [JsonProperty("department")]
+        [JsonProperty("department", NullValueHandling = NullValueHandling.Ignore)]
         public string Department { get; set; }
 
         /// <summary>
@@ -130,7 +133,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('e')]
         [XmlAttribute("dateExpected")]
-        [JsonProperty("dateExpected")]
+        [JsonProperty("dateExpected", NullValueHandling = NullValueHandling.Ignore)]
         public string DateExpectedString { get; set; }
 
         /// <summary>
@@ -139,7 +142,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('f')]
         [XmlAttribute("dateReturned")]
-        [JsonProperty("dateReturned")]
+        [JsonProperty("dateReturned", NullValueHandling = NullValueHandling.Ignore)]
         public string DateReturnedString { get; set; }
 
         /// <summary>
@@ -148,7 +151,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('l')]
         [XmlAttribute("dateProlong")]
-        [JsonProperty("dateProlong")]
+        [JsonProperty("dateProlong", NullValueHandling = NullValueHandling.Ignore)]
         public string DateProlongString { get; set; }
 
         /// <summary>
@@ -157,7 +160,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('u')]
         [XmlAttribute("lost")]
-        [JsonProperty("lost")]
+        [JsonProperty("lost", NullValueHandling = NullValueHandling.Ignore)]
         public string Lost { get; set; }
 
         /// <summary>
@@ -166,7 +169,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('c')]
         [XmlAttribute("description")]
-        [JsonProperty("description")]
+        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
 
         /// <summary>
@@ -175,7 +178,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('i')]
         [XmlAttribute("responsible")]
-        [JsonProperty("responsible")]
+        [JsonProperty("responsible", NullValueHandling = NullValueHandling.Ignore)]
         public string Responsible { get; set; }
 
         /// <summary>
@@ -184,7 +187,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('1')]
         [XmlAttribute("timeIn")]
-        [JsonProperty("timeIn")]
+        [JsonProperty("timeIn", NullValueHandling = NullValueHandling.Ignore)]
         public string TimeIn { get; set; }
 
         /// <summary>
@@ -193,7 +196,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('2')]
         [XmlAttribute("timeOut")]
-        [JsonProperty("timeOut")]
+        [JsonProperty("timeOut", NullValueHandling = NullValueHandling.Ignore)]
         public string TimeOut { get; set; }
 
         /// <summary>
@@ -205,7 +208,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('4')]
         [XmlAttribute("prolong")]
-        [JsonProperty("prolong")]
+        [JsonProperty("prolong", NullValueHandling = NullValueHandling.Ignore)]
         public string Prolong { get; set; }
 
         /// <summary>
@@ -300,7 +303,7 @@ namespace ManagedIrbis.Readers
         /// </summary>
         [CanBeNull]
         [XmlAttribute("year")]
-        [JsonProperty("year")]
+        [JsonProperty("year", NullValueHandling = NullValueHandling.Ignore)]
         public string Year { get; set; }
 
         /// <summary>
@@ -308,7 +311,7 @@ namespace ManagedIrbis.Readers
         /// </summary>
         [CanBeNull]
         [XmlAttribute("price")]
-        [JsonProperty("price")]
+        [JsonProperty("price", NullValueHandling = NullValueHandling.Ignore)]
         public string Price { get; set; }
 
         /// <summary>
@@ -317,6 +320,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public RecordField Field { get; set; }
 
         /// <summary>
@@ -325,20 +329,59 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public ReaderInfo Reader { get; set; }
+
+        /// <summary>
+        /// Unknown subfields.
+        /// </summary>
+        [CanBeNull]
+        [ItemNotNull]
+        [XmlElement("unknown")]
+        [JsonProperty("unknown", NullValueHandling = NullValueHandling.Ignore)]
+        [Browsable(false)]
+        public SubField[] UnknownSubFields { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
 
         #endregion
 
         #region Private members
 
         // ReSharper disable once InconsistentNaming
-        private static string FM
+        private string FM
             (
-                RecordField field,
                 char code
             )
         {
-            return field.GetFirstSubFieldValue(code);
+            // ReSharper disable once PossibleNullReferenceException
+            return Field.GetFirstSubFieldValue(code);
+        }
+
+        private void _Parse()
+        {
+            Database = FM('g');
+            Index = FM('a');
+            Inventory = FM('b');
+            Barcode = FM('h');
+            Sigla = FM('k');
+            DateGivenString = FM('d');
+            Department = FM('v');
+            DateExpectedString = FM('e');
+            DateReturnedString = FM('f');
+            DateProlongString = FM('l');
+            Lost = FM('u');
+            Description = FM('c');
+            Responsible = FM('i');
+            TimeIn = FM('1');
+            TimeOut = FM('2');
         }
 
         #endregion
@@ -377,11 +420,8 @@ namespace ManagedIrbis.Readers
                                 break;
                             }
                         }
-                        else
-                        {
-                            result = exemplar.Price;
-                            break;
-                        }
+                        result = exemplar.Price;
+                        break;
                     }
                 }
             }
@@ -426,23 +466,10 @@ namespace ManagedIrbis.Readers
 
             VisitInfo result = new VisitInfo
             {
-                Database = FM(field, 'g'),
-                Index = FM(field, 'a'),
-                Inventory = FM(field, 'b'),
-                Barcode = FM(field, 'h'),
-                Sigla = FM(field, 'k'),
-                DateGivenString = FM(field, 'd'),
-                Department = FM(field, 'v'),
-                DateExpectedString = FM(field, 'e'),
-                DateReturnedString = FM(field, 'f'),
-                DateProlongString = FM(field, 'l'),
-                Lost = FM(field, 'u'),
-                Description = FM(field, 'c'),
-                Responsible = FM(field, 'i'),
-                TimeIn = FM(field, '1'),
-                TimeOut = FM(field, '2'),
-                Field = field
+                Field = field,
+                UnknownSubFields = field.SubFields.GetUnknownSubFields(KnownCodes)
             };
+            result._Parse();
 
             return result;
         }
@@ -454,22 +481,22 @@ namespace ManagedIrbis.Readers
         [NotNull]
         public RecordField ToField()
         {
-            RecordField result = new RecordField("40");
-            result.AddNonEmptySubField('g', Database);
-            result.AddNonEmptySubField('a', Index);
-            result.AddNonEmptySubField('b', Inventory);
-            result.AddNonEmptySubField('h', Barcode);
-            result.AddNonEmptySubField('k', Sigla);
-            result.AddNonEmptySubField('d', DateGivenString);
-            result.AddNonEmptySubField('v', Department);
-            result.AddNonEmptySubField('e', DateExpectedString);
-            result.AddNonEmptySubField('f', DateReturnedString);
-            result.AddNonEmptySubField('l', DateProlongString);
-            result.AddNonEmptySubField('u', Lost);
-            result.AddNonEmptySubField('c', Description);
-            result.AddNonEmptySubField('i', Responsible);
-            result.AddNonEmptySubField('1', TimeIn);
-            result.AddNonEmptySubField('2', TimeOut);
+            RecordField result = new RecordField("40")
+                .AddNonEmptySubField('g', Database)
+                .AddNonEmptySubField('a', Index)
+                .AddNonEmptySubField('b', Inventory)
+                .AddNonEmptySubField('h', Barcode)
+                .AddNonEmptySubField('k', Sigla)
+                .AddNonEmptySubField('d', DateGivenString)
+                .AddNonEmptySubField('v', Department)
+                .AddNonEmptySubField('e', DateExpectedString)
+                .AddNonEmptySubField('f', DateReturnedString)
+                .AddNonEmptySubField('l', DateProlongString)
+                .AddNonEmptySubField('u', Lost)
+                .AddNonEmptySubField('c', Description)
+                .AddNonEmptySubField('i', Responsible)
+                .AddNonEmptySubField('1', TimeIn)
+                .AddNonEmptySubField('2', TimeOut);
 
             return result;
         }
@@ -521,7 +548,6 @@ namespace ManagedIrbis.Readers
             }
         }
 
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Сохранение в файл.
@@ -532,10 +558,17 @@ namespace ManagedIrbis.Readers
                 [NotNull][ItemNotNull] VisitInfo[] visits
             )
         {
-            visits.SaveToZipFile(fileName);
-        }
+#if SILVERLIGHT || WIN81 || PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
+            visits.SaveToFile(fileName);
 
 #endif
+        }
+
 
         /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
@@ -564,7 +597,6 @@ namespace ManagedIrbis.Readers
             Price = reader.ReadNullableString();
         }
 
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Считывание из файла.
@@ -576,13 +608,20 @@ namespace ManagedIrbis.Readers
                 [NotNull] string fileName
             )
         {
+#if SILVERLIGHT || WIN81 || PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
             VisitInfo[] result = SerializationUtility
-                .RestoreArrayFromZipFile<VisitInfo>(fileName);
+                .RestoreArrayFromFile<VisitInfo>(fileName);
 
             return result;
-        }
 
 #endif
+        }
+
 
         #endregion
 

@@ -165,14 +165,6 @@ namespace ManagedIrbis.Readers
 
         #endregion
 
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -216,11 +208,11 @@ namespace ManagedIrbis.Readers
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
-        (
-            BinaryReader reader
-        )
+            (
+                BinaryReader reader
+            )
         {
             Code.NotNull(reader, "reader");
 
@@ -240,7 +232,7 @@ namespace ManagedIrbis.Readers
             Debt = reader.ReadArray<VisitInfo>();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -263,10 +255,6 @@ namespace ManagedIrbis.Readers
 
             Debt.SaveToStream(writer);
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

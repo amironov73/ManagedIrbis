@@ -125,14 +125,6 @@ namespace ManagedIrbis.Readers
 
         #endregion
 
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -200,9 +192,9 @@ namespace ManagedIrbis.Readers
 
             IriProfile[] result = SerializationUtility
                 .RestoreArrayFromFile<IriProfile>
-                (
-                    fileName
-                )
+                    (
+                        fileName
+                    )
                 .ThrowIfNull("RestoreArrayFromFile");
 
             return result;
