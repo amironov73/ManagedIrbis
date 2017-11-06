@@ -530,6 +530,7 @@ namespace ManagedIrbis.Readers
             writer.WriteNullable(Prolong);
             writer.WriteNullable(Year);
             writer.WriteNullable(Price);
+            writer.WriteNullableArray(UnknownSubFields);
         }
 
         /// <summary>
@@ -595,6 +596,7 @@ namespace ManagedIrbis.Readers
             Prolong = reader.ReadNullableString();
             Year = reader.ReadNullableString();
             Price = reader.ReadNullableString();
+            UnknownSubFields = reader.ReadNullableArray<SubField>();
         }
 
 

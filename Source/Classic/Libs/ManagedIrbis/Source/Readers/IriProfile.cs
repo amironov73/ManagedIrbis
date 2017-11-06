@@ -10,6 +10,7 @@
 #region Using directives
 
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
@@ -47,73 +48,97 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Тег поля ИРИ.
         /// </summary>
-        public const int IriTag = 140;
+        public const int Tag = 140;
+
+        /// <summary>
+        /// Известные коды.
+        /// </summary>
+        public const string KnownCodes = "abcdefi";
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Подполе A
+        /// Статус профиля (активен или нет). Подполе A.
         /// </summary>
         [SubField('a')]
         [XmlAttribute("active")]
-        [JsonProperty("active")]
+        [JsonProperty("active", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool Active { get; set; }
 
         /// <summary>
-        /// Подполе B
+        /// Код (порядковый номер). Подполе B.
         /// </summary>
         [CanBeNull]
         [SubField('b')]
         [XmlAttribute("id")]
-        [JsonProperty("id")]
+        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         // ReSharper disable once InconsistentNaming
         public string ID { get; set; }
 
         /// <summary>
-        /// Подполе C
+        /// Описание профиля на естественном языке. Подполе C.
         /// </summary>
         [CanBeNull]
         [SubField('c')]
         [XmlAttribute("title")]
-        [JsonProperty("title")]
+        [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
         public string Title { get; set; }
 
         /// <summary>
-        /// Подполе D
+        /// Запрос на языке ИРБИС. Подполе D.
         /// </summary>
         [CanBeNull]
         [SubField('d')]
         [XmlAttribute("query")]
-        [JsonProperty("query")]
+        [JsonProperty("query", NullValueHandling = NullValueHandling.Ignore)]
         public string Query { get; set; }
 
         /// <summary>
-        /// Подполе E
+        /// Периодичность в днях, целое число. Подполе E.
         /// </summary>
         [SubField('e')]
         [XmlAttribute("periodicity")]
-        [JsonProperty("periodicity")]
+        [JsonProperty("periodicity", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Periodicity { get; set; }
 
         /// <summary>
-        /// Подполе F
+        /// Дата последнего обслуживания. Подполе F.
         /// </summary>
         [CanBeNull]
         [SubField('f')]
         [XmlAttribute("lastServed")]
-        [JsonProperty("lastServed")]
+        [JsonProperty("lastServed", NullValueHandling = NullValueHandling.Ignore)]
         public string LastServed { get; set; }
 
         /// <summary>
-        /// Подполе I
+        /// Список баз данных. Подполе I.
         /// </summary>
         [CanBeNull]
         [SubField('i')]
         [XmlAttribute("database")]
-        [JsonProperty("database")]
+        [JsonProperty("database", NullValueHandling = NullValueHandling.Ignore)]
         public string Database { get; set; }
+
+        /// <summary>
+        /// Поле, в котором хранится профиль.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public RecordField Field { get; set; }
+
+        /// <summary>
+        /// Unknown subfields.
+        /// </summary>
+        [CanBeNull]
+        [ItemNotNull]
+        [XmlElement("unknown")]
+        [JsonProperty("unknown", NullValueHandling = NullValueHandling.Ignore)]
+        [Browsable(false)]
+        public SubField[] UnknownSubFields { get; set; }
 
         /// <summary>
         /// Ссылка на читателя.
@@ -121,7 +146,17 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
         public ReaderInfo Reader { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
 
         #endregion
 
@@ -136,8 +171,6 @@ namespace ManagedIrbis.Readers
                 [NotNull] RecordField field
             )
         {
-            // TODO Support for unknown subfields
-
             Code.NotNull(field, "field");
 
             IriProfile result = new IriProfile
@@ -148,7 +181,9 @@ namespace ManagedIrbis.Readers
                 Query = field.GetFirstSubFieldValue('d'),
                 Periodicity = int.Parse(field.GetFirstSubFieldValue('e')),
                 LastServed = field.GetFirstSubFieldValue('f'),
-                Database = field.GetFirstSubFieldValue('i')
+                Database = field.GetFirstSubFieldValue('i'),
+                UnknownSubFields = field.SubFields.GetUnknownSubFields(KnownCodes),
+                Field = field
             };
 
             return result;
@@ -167,7 +202,7 @@ namespace ManagedIrbis.Readers
 
             List<IriProfile> result = new List<IriProfile>();
             foreach (RecordField field in record.Fields
-                .GetField(IriTag))
+                .GetField(Tag))
             {
                 IriProfile profile = ParseField(field);
                 result.Add(profile);
@@ -176,7 +211,6 @@ namespace ManagedIrbis.Readers
             return result.ToArray();
         }
 
-#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Считывание из файла.
@@ -190,6 +224,11 @@ namespace ManagedIrbis.Readers
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if WIN81 || PORTABLE
+
+            throw new NotImplementedException();
+#else
+
             IriProfile[] result = SerializationUtility
                 .RestoreArrayFromFile<IriProfile>
                     (
@@ -198,6 +237,8 @@ namespace ManagedIrbis.Readers
                 .ThrowIfNull("RestoreArrayFromFile");
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -212,10 +253,18 @@ namespace ManagedIrbis.Readers
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(profiles, "profiles");
 
+#if WIN81 || PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
+
             profiles.SaveToFile(fileName);
-        }
 
 #endif
+        }
+
 
         #endregion
 
@@ -236,6 +285,7 @@ namespace ManagedIrbis.Readers
             Periodicity = reader.ReadPackedInt32();
             LastServed = reader.ReadNullableString();
             Database = reader.ReadNullableString();
+            UnknownSubFields = reader.ReadNullableArray<SubField>();
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -253,6 +303,7 @@ namespace ManagedIrbis.Readers
             writer.WritePackedInt32(Periodicity);
             writer.WriteNullable(LastServed);
             writer.WriteNullable(Database);
+            writer.WriteNullableArray(UnknownSubFields);
         }
 
         #endregion
