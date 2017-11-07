@@ -9,7 +9,7 @@
 
 #region Using directives
 
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
@@ -39,7 +39,8 @@ namespace ManagedIrbis.Readers
     [MoonSharpUserData]
     [XmlRoot("address")]
     public sealed class ReaderAddress
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Constants
 
@@ -47,6 +48,11 @@ namespace ManagedIrbis.Readers
         /// Тег поля.
         /// </summary>
         public const int Tag = 13;
+
+        /// <summary>
+        /// Known subfield codes.
+        /// </summary>
+        public const string KnownCodes = "abcdefgh";
 
         #endregion
 
@@ -58,7 +64,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('a')]
         [XmlAttribute("postcode")]
-        [JsonProperty("postcode")]
+        [JsonProperty("postcode", NullValueHandling = NullValueHandling.Ignore)]
         public string Postcode { get; set; }
 
         /// <summary>
@@ -67,7 +73,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('b')]
         [XmlAttribute("country")]
-        [JsonProperty("country")]
+        [JsonProperty("country", NullValueHandling = NullValueHandling.Ignore)]
         public string Country { get; set; }
 
         /// <summary>
@@ -76,7 +82,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('c')]
         [XmlAttribute("city")]
-        [JsonProperty("city")]
+        [JsonProperty("city", NullValueHandling = NullValueHandling.Ignore)]
         public string City { get; set; }
 
         /// <summary>
@@ -85,7 +91,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('d')]
         [XmlAttribute("street")]
-        [JsonProperty("street")]
+        [JsonProperty("street", NullValueHandling = NullValueHandling.Ignore)]
         public string Street { get; set; }
 
         /// <summary>
@@ -94,7 +100,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('e')]
         [XmlAttribute("building")]
-        [JsonProperty("building")]
+        [JsonProperty("building", NullValueHandling = NullValueHandling.Ignore)]
         public string Building { get; set; }
 
         /// <summary>
@@ -103,7 +109,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('g')]
         [XmlAttribute("entrance")]
-        [JsonProperty("entrance")]
+        [JsonProperty("entrance", NullValueHandling = NullValueHandling.Ignore)]
         public string Entrance { get; set; }
 
         /// <summary>
@@ -112,7 +118,7 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('h')]
         [XmlAttribute("apartment")]
-        [JsonProperty("apartment")]
+        [JsonProperty("apartment", NullValueHandling = NullValueHandling.Ignore)]
         public string Apartment { get; set; }
 
         /// <summary>
@@ -121,28 +127,63 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [SubField('f')]
         [XmlAttribute("additionalData")]
-        [JsonProperty("additionalData")]
+        [JsonProperty("additionalData", NullValueHandling = NullValueHandling.Ignore)]
         public string AdditionalData { get; set; }
 
         /// <summary>
-        /// Произвольные пользовательские данные.
+        /// Поле, в котором хранится адрес.
         /// </summary>
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
+        [Browsable(false)]
+        public RecordField Field { get; set; }
+
+        /// <summary>
+        /// Unknown subfields.
+        /// </summary>
+        [CanBeNull]
+        [ItemNotNull]
+        [XmlElement("unknown")]
+        [JsonProperty("unknown", NullValueHandling = NullValueHandling.Ignore)]
+        [Browsable(false)]
+        public SubField[] UnknownSubFields { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
         public object UserData { get; set; }
 
         #endregion
 
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
         #region Public methods
+
+        /// <summary>
+        /// Applty to the field.
+        /// </summary>
+        [NotNull]
+        public RecordField ApplyToField
+            (
+                [NotNull] RecordField field
+            )
+        {
+            Code.NotNull(field, "field");
+            field
+                .ApplySubField('a', Postcode)
+                .ApplySubField('b', Country)
+                .ApplySubField('c', City)
+                .ApplySubField('d', Street)
+                .ApplySubField('e', Building)
+                .ApplySubField('g', Entrance)
+                .ApplySubField('h', Apartment)
+                .ApplySubField('f', AdditionalData);
+
+            return field;
+        }
 
         /// <summary>
         /// Разбор поля 13.
@@ -153,8 +194,6 @@ namespace ManagedIrbis.Readers
                 [CanBeNull] RecordField field
             )
         {
-            // TODO Support for unknown subfields
-
             if (ReferenceEquals(field, null))
             {
                 return null;
@@ -169,7 +208,9 @@ namespace ManagedIrbis.Readers
                 Building = field.GetFirstSubFieldValue('E'),
                 Entrance = field.GetFirstSubFieldValue('G'),
                 Apartment = field.GetFirstSubFieldValue('H'),
-                AdditionalData = field.GetFirstSubFieldValue('F')
+                AdditionalData = field.GetFirstSubFieldValue('F'),
+                UnknownSubFields = field.SubFields.GetUnknownSubFields(KnownCodes),
+                Field = field
             };
         }
 
@@ -210,13 +251,35 @@ namespace ManagedIrbis.Readers
                 );
         }
 
+        /// <summary>
+        /// Преобразование обратно в поле.
+        /// </summary>
+        [NotNull]
+        public RecordField ToField()
+        {
+            RecordField result = new RecordField(Tag)
+                .AddNonEmptySubField('a', Postcode)
+                .AddNonEmptySubField('b', Country)
+                .AddNonEmptySubField('c', City)
+                .AddNonEmptySubField('d', Street)
+                .AddNonEmptySubField('e', Building)
+                .AddNonEmptySubField('g', Entrance)
+                .AddNonEmptySubField('h', Apartment)
+                .AddNonEmptySubField('f', AdditionalData)
+                .AddSubFields(UnknownSubFields);
+
+            return result;
+        }
+
+        #endregion
+
         #region IHandmadeSerializable
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
-        (
-            BinaryReader reader
-        )
+            (
+                BinaryReader reader
+            )
         {
             Code.NotNull(reader, "reader");
 
@@ -230,7 +293,7 @@ namespace ManagedIrbis.Readers
             AdditionalData = reader.ReadNullableString();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -250,14 +313,41 @@ namespace ManagedIrbis.Readers
 
         #endregion
 
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify(bool throwOnError)
+        {
+            Verifier<ReaderAddress> verifier
+                = new Verifier<ReaderAddress>(this, throwOnError);
+
+            bool haveAnyNonNull = new[]
+                {
+                    Postcode,
+                    Country,
+                    City,
+                    Street,
+                    Building,
+                    Entrance,
+                    Apartment,
+                    AdditionalData
+                }
+                .NonNullItems()
+                .Count() != 0;
+
+            verifier.Assert(haveAnyNonNull, "address is empty");
+
+            return verifier.Result;
+        }
+
         #endregion
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            string[] list = new List<string>
+            string[] list = new[]
                 {
                     Postcode,
                     Country,
