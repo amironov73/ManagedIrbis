@@ -223,10 +223,10 @@ namespace CardFixer
                         result.Status = InventoryStatus.NotFound;
                         result.Text = "не найден";
                         break;
+
                     case 1:
                         string format = CM.AppSettings["format"];
-                        string description = client
-                            .FormatRecord
+                        string description = client.FormatRecord
                             (
                                 format,
                                 found[0]
@@ -242,9 +242,9 @@ namespace CardFixer
                                 description
                             );
                         break;
+
                     default:
-                        result.Status =
-                            InventoryStatus.Problem;
+                        result.Status = InventoryStatus.Problem;
                         result.Text =
                             "проблема: много найдено";
                         break;
@@ -445,3 +445,4 @@ namespace CardFixer
         #endregion
     }
 }
+    
