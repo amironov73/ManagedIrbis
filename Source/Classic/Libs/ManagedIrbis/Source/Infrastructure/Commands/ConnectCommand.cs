@@ -107,8 +107,9 @@ namespace ManagedIrbis.Infrastructure.Commands
         {
             Log.Trace("ConnectCommand::Constructor");
 
-            Connection.GenerateClientID();
-            Connection.ResetCommandNumber();
+            // TODO fix it!
+            ((IrbisConnection)Connection).GenerateClientID();
+            ((IrbisConnection)Connection).ResetCommandNumber();
         }
 
         #endregion
@@ -192,7 +193,7 @@ namespace ManagedIrbis.Infrastructure.Commands
                 // CLIENT_ALREADY_EXISTS
                 if (result.ReturnCode == -3337)
                 {
-                    query.ClientID = Connection
+                    query.ClientID = ((IrbisConnection)Connection)
                         .GenerateClientID();
                 }
                 else

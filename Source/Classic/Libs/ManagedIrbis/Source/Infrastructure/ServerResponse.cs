@@ -59,7 +59,7 @@ namespace ManagedIrbis.Infrastructure
         /// Connection used.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get; private set; }
+        public IIrbisConnection Connection { get; private set; }
 
         /// <summary>
         /// Идентификатор клиента.
@@ -123,7 +123,7 @@ namespace ManagedIrbis.Infrastructure
         /// </summary>
         public ServerResponse
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] byte[] rawAnswer,
                 [NotNull] byte[] rawRequest,
                 bool relax

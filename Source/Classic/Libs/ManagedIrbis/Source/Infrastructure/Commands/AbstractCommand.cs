@@ -46,7 +46,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get; private set; }
+        public IIrbisConnection Connection { get; private set; }
 
         /// <summary>
         /// Good return codes.
@@ -83,7 +83,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         protected AbstractCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");
@@ -136,11 +136,13 @@ namespace ManagedIrbis.Infrastructure.Commands
         {
             Log.Trace("AbstractCommand::CreateQuery");
 
+            // TODO fix it!
+
             ClientQuery result = new ClientQuery (Connection)
             {
                 Workstation = Connection.Workstation,
                 ClientID = Connection.ClientID,
-                CommandNumber = Connection.IncrementCommandNumber(),
+                CommandNumber = ((IrbisConnection)Connection).IncrementCommandNumber(),
                 UserLogin = Connection.Username,
                 UserPassword = Connection.Password
             };

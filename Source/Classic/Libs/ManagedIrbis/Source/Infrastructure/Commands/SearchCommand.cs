@@ -144,7 +144,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public SearchCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

@@ -10,12 +10,15 @@
 #region Using directives
 
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis.Infrastructure;
 
 using MoonSharp.Interpreter;
+
+using Newtonsoft.Json;
 
 #endregion
 
@@ -26,6 +29,7 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [XmlRoot("stat")]
     public sealed class ServerStat
     {
         #region Properties
@@ -33,30 +37,25 @@ namespace ManagedIrbis
         /// <summary>
         /// List of running client.
         /// </summary>
+        [CanBeNull]
+        [XmlElement("client")]
+        [JsonProperty("clients")]
         public ClientInfo[] RunningClients { get; set; }
 
         /// <summary>
-        /// Unknown field.
+        /// Current client count.
         /// </summary>
-        public int Unknown1 { get; set; }
+        public int ClientCount { get; set; }
 
         /// <summary>
         /// Unknown field.
         /// </summary>
-        public int Unknown2 { get; set; }
+        public int Unknown { get; set; }
 
         /// <summary>
         /// Total commands executed since server start.
         /// </summary>
         public int TotalCommandCount { get; set; }
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
@@ -74,8 +73,8 @@ namespace ManagedIrbis
             ServerStat result = new ServerStat
             {
                 TotalCommandCount = response.RequireInt32(),
-                Unknown1 = response.RequireInt32(),
-                Unknown2 = response.RequireInt32()
+                ClientCount = response.RequireInt32(),
+                Unknown = response.RequireInt32()
             };
 
             List<ClientInfo> clients = new List<ClientInfo>();
@@ -111,10 +110,6 @@ namespace ManagedIrbis
         }
 
 
-        #endregion
-
-        #region Object members
-        
         #endregion
     }
 }

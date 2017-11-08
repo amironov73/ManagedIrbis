@@ -76,7 +76,7 @@ namespace ManagedIrbis.Infrastructure.Commands
                     + result.ReturnCode
                 );
 
-            Connection._connected = false;
+            ((IrbisConnection)Connection)._connected = false;
 
             return result;
         }
