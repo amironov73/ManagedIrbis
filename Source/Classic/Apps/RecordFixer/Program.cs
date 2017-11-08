@@ -20,7 +20,7 @@ namespace RecordFixer
     class Program
     {
         // Строка подключения
-        private const string ConnectionString = "host=irabis.irklib.ru;port=6666;user=Никто;password=Нигде;arm=A;";
+        private const string ConnectionString = "host=127.0.0.1;port=6666;user=1;password=1;arm=A;";
 
         // База, в которой происходит восстановление
         private const string MainDatabase = "IBIS";
@@ -45,7 +45,7 @@ namespace RecordFixer
         private static readonly DateTime ThresholdDate = new DateTime(2017, 11, 2);
 
         // Выполнять восстановление записей?
-        private static readonly bool DoRestore = true;
+        private static readonly bool DoRestore = false;
 
         // Используемое подключение
         private static IrbisConnection connection;
@@ -217,11 +217,7 @@ namespace RecordFixer
                     Console.WriteLine("Отобрано записей: {0}", found.Length);
 
 
-                    foreach
-                        (
-                            int mfn in found
-                            // .Take(100)
-                        )
+                    foreach (int mfn in found)
                     {
                         if (Cancel)
                         {

@@ -275,8 +275,8 @@ namespace ManagedIrbis
 
             Log.Trace("LanguageFile::RestoreFromStream");
 
+            Name = reader.ReadNullableString();
             Clear();
-
             while (true)
             {
                 string key = reader.ReadNullableString();
@@ -299,12 +299,13 @@ namespace ManagedIrbis
 
             Log.Trace("LanguageFile::SaveToStream");
 
+            writer.WriteNullable(Name);
             foreach (KeyValuePair<string, string> pair in _dictionary) //-V3087
             {
-                writer.Write(pair.Key);
+                writer.WriteNullable(pair.Key);
                 writer.WriteNullable(pair.Value);
             }
-            writer.WriteNullable(null);
+            writer.WriteNullable((string)null);
         }
 
         #endregion
