@@ -17,6 +17,8 @@ using MoonSharp.Interpreter;
 
 #endregion
 
+// ReSharper disable ConvertToAutoProperty
+
 namespace ManagedIrbis
 {
     /// <summary>
@@ -116,12 +118,10 @@ namespace ManagedIrbis
         /// Items.
         /// </summary>
         [NotNull]
-        // ReSharper disable ConvertToAutoProperty
         public List<Item> Items
         {
             get { return _items; }
         }
-        // ReSharper restore ConvertToAutoProperty
 
         /// <summary>
         /// Search query specification.
@@ -149,35 +149,19 @@ namespace ManagedIrbis
         /// List of MFN.
         /// </summary>
         [NotNull]
-        // ReSharper disable ConvertToAutoProperty
         public List<int> MfnList
         {
             get { return _mfnList; }
         }
-        // ReSharper restore ConvertToAutoProperty
-
-        #endregion
-
-        #region Construction
 
         #endregion
 
         #region Private members
 
-        private readonly List<Item> _items
-            = new List<Item>();
+        private readonly List<Item> _items = new List<Item>();
 
-        private readonly List<int> _mfnList
-            = new List<int>();
+        private readonly List<int> _mfnList = new List<int>();
 
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
-        #region Object members
-        
         #endregion
     }
 }
