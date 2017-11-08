@@ -10,7 +10,9 @@
 #region Using directives
 
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -37,6 +39,7 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [XmlRoot("version")]
     [DebuggerDisplay("Version={Version}")]
     public sealed class IrbisVersion
         : IHandmadeSerializable
@@ -48,7 +51,7 @@ namespace ManagedIrbis
         /// </summary>
         [CanBeNull]
         [XmlAttribute("organization")]
-        [JsonProperty("organization")]
+        [JsonProperty("organization", NullValueHandling = NullValueHandling.Ignore)]
         public string Organization { get; set; }
 
         /// <summary>
@@ -57,21 +60,21 @@ namespace ManagedIrbis
         /// <remarks>Например, 64.2008.1</remarks>
         [CanBeNull]
         [XmlAttribute("version")]
-        [JsonProperty("version")]
+        [JsonProperty("version", NullValueHandling = NullValueHandling.Ignore)]
         public string Version { get; set; }
 
         /// <summary>
         /// Максимальное количество подключений.
         /// </summary>
         [XmlAttribute("max-clients")]
-        [JsonProperty("max-clients")]
+        [JsonProperty("max-clients", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int MaxClients { get; set; }
 
         /// <summary>
         /// Текущее количество подключений.
         /// </summary>
         [XmlAttribute("connected-clients")]
-        [JsonProperty("connected-clients")]
+        [JsonProperty("connected-clients", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ConnectedClients { get; set; }
 
         #endregion
@@ -91,6 +94,7 @@ namespace ManagedIrbis
 
             List<string> lines = response.RemainingAnsiStrings();
             IrbisVersion result = ParseServerResponse(lines);
+
             return result;
         }
 
@@ -105,32 +109,49 @@ namespace ManagedIrbis
         {
             Code.NotNull(lines, "lines");
 
-            IrbisVersion result = (lines.Count == 4)
+            IrbisVersion result = lines.Count == 4
                 ? new IrbisVersion
-               {
-                   Organization = lines.GetItem(0),
-                   Version = lines.GetItem(1),
-                   ConnectedClients = lines.GetItem(2).SafeToInt32(),
-                   MaxClients = lines.GetItem(3).SafeToInt32()
-               }
+                   {
+                       Organization = lines.GetItem(0),
+                       Version = lines.GetItem(1),
+                       ConnectedClients = lines.GetItem(2).SafeToInt32(),
+                       MaxClients = lines.GetItem(3).SafeToInt32()
+                   }
                : new IrbisVersion
-               {
-                   Version = lines.GetItem(0),
-                   ConnectedClients = lines.GetItem(1).SafeToInt32(),
-                   MaxClients = lines.GetItem(2).SafeToInt32()
-               };
+                   {
+                       Version = lines.GetItem(0),
+                       ConnectedClients = lines.GetItem(1).SafeToInt32(),
+                       MaxClients = lines.GetItem(2).SafeToInt32()
+                   };
 
             return result;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="ConnectedClients"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeConnectedClients()
+        {
+            return ConnectedClients != 0;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="MaxClients"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeMaxClients()
+        {
+            return MaxClients != 0;
         }
 
         #endregion
 
         #region IHandmadeSerializable members
 
-
-        /// <summary>
-        /// Просим объект восстановить свое состояние из потока.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -142,9 +163,7 @@ namespace ManagedIrbis
             ConnectedClients = reader.ReadPackedInt32();
         }
 
-        /// <summary>
-        /// Просим объект сохранить себя в потоке.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -161,22 +180,17 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format
                 (
                     "Version: {0}, MaxClients: {1}, "
                     + "ConnectedClients: {2}, Organization: {3}",
-                    Version,
+                    Version.ToVisibleString(),
                     MaxClients,
                     ConnectedClients,
-                    Organization
+                    Organization.ToVisibleString()
                 );
         }
 

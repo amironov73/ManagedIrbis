@@ -107,8 +107,7 @@ namespace UnitTests.ManagedIrbis
                 "*****"
             };
 
-            DatabaseInfo[] databases 
-                = DatabaseInfo.ParseMenu(menu);
+            DatabaseInfo[] databases = DatabaseInfo.ParseMenu(menu);
             Assert.AreEqual(2, databases.Length);
             Assert.AreEqual("IBIS", databases[0].Name);
             Assert.AreEqual("Catalog", databases[0].Description);
