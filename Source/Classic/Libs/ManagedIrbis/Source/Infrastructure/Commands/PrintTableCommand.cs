@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -32,11 +34,13 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// <summary>
         /// Table definition.
         /// </summary>
+        [CanBeNull]
         public TableDefinition Definition { get; set; }
 
         /// <summary>
         /// Result of the command execution.
         /// </summary>
+        [CanBeNull]
         public string Result { get; set; }
 
         #endregion
@@ -48,7 +52,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public PrintTableCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {
@@ -77,6 +81,19 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public override ClientQuery CreateQuery()
         {
+            TableDefinition definition = Definition;
+
+            if (ReferenceEquals(definition, null))
+            {
+                Log.Error
+                    (
+                        "PrintTableCommand::CreateQuery: "
+                        + "Definition is null"
+                    );
+
+                throw new IrbisException("Definition == null");
+            }
+
             ClientQuery result = base.CreateQuery();
             result.CommandCode = CommandCode.Print;
 
@@ -92,14 +109,14 @@ namespace ManagedIrbis.Infrastructure.Commands
             // ""          mfn list
 
             result
-                .Add(Definition.DatabaseName)
-                .Add(Definition.Table)
+                .AddAnsi(definition.DatabaseName)
+                .AddAnsi(definition.Table)
                 .Add(string.Empty) // instead of headers
-                .Add(Definition.Mod)
-                .AddUtf8(Definition.SearchQuery)
-                .Add(Definition.MinMfn)
-                .Add(Definition.MaxMfn)
-                .AddUtf8(Definition.SequentialQuery)
+                .Add(definition.Mode)
+                .AddUtf8(definition.SearchQuery)
+                .Add(definition.MinMfn)
+                .Add(definition.MaxMfn)
+                .AddUtf8(definition.SequentialQuery)
                 .Add(string.Empty) // instead of MFN list
                 ;
 
