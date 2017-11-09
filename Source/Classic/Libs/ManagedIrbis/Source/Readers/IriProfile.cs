@@ -226,7 +226,7 @@ namespace ManagedIrbis.Readers
 
 #if WIN81 || PORTABLE
 
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
 #else
 
             IriProfile[] result = SerializationUtility
@@ -255,7 +255,7 @@ namespace ManagedIrbis.Readers
 
 #if WIN81 || PORTABLE
 
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
 
 #else
 

@@ -497,8 +497,7 @@ namespace ManagedIrbis
                     listFile
                 );
             string[] lines = menuFile.SplitLines();
-            DatabaseInfo[] result
-                = DatabaseInfo.ParseMenu(lines);
+            DatabaseInfo[] result = DatabaseInfo.ParseMenu(lines);
 
             return result;
         }

@@ -39,18 +39,6 @@ namespace ManagedIrbis
     [MoonSharpUserData]
     public static class AsyncExtensions
     {
-        #region Properties
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -59,7 +47,7 @@ namespace ManagedIrbis
         [NotNull]
         public static Task<IniFile> ConnectAsync
             (
-                [NotNull] this IrbisConnection connection
+                [NotNull] this IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");
@@ -79,7 +67,7 @@ namespace ManagedIrbis
         [NotNull]
         public static Task DisconnectAsync
             (
-                [NotNull] this IrbisConnection connection
+                [NotNull] this IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");
@@ -99,7 +87,7 @@ namespace ManagedIrbis
         [NotNull]
         public static Task<string> FormatRecordAsync
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string format,
                 int mfn
             )
@@ -123,7 +111,7 @@ namespace ManagedIrbis
         [NotNull]
         public static Task<string> FormatRecordAsync
             (
-                [NotNull] this IrbisConnection connection, 
+                [NotNull] this IIrbisConnection connection, 
                 [NotNull] string format, 
                 [NotNull] MarcRecord record
             )
@@ -147,7 +135,7 @@ namespace ManagedIrbis
         [NotNull]
         public static Task<int> GetMaxMfnAsync
             (
-                [NotNull] this IrbisConnection connection
+                [NotNull] this IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");
@@ -167,7 +155,7 @@ namespace ManagedIrbis
         [NotNull]
         public static Task<DatabaseInfo[]> ListDatabasesAsync
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string menuName
             )
         {
@@ -189,7 +177,7 @@ namespace ManagedIrbis
         [NotNull]
         public static Task NoOpAsync
             (
-                [NotNull] this IrbisConnection connection
+                [NotNull] this IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");
@@ -209,7 +197,7 @@ namespace ManagedIrbis
         [NotNull]
         public static Task<IniFile> ReadIniFileAsync
             (
-                [NotNull] this IrbisConnection connection, 
+                [NotNull] this IIrbisConnection connection, 
                 [NotNull] string fileName
             )
         {
@@ -231,7 +219,7 @@ namespace ManagedIrbis
         [NotNull]
         public static Task<MenuFile> ReadMenuAsync
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string menuName
             )
         {
@@ -253,7 +241,7 @@ namespace ManagedIrbis
         [NotNull]
         public static Task<TermInfo[]> ReadTermsAsync
             (
-                [NotNull] this IrbisConnection connection, 
+                [NotNull] this IIrbisConnection connection, 
                 [NotNull] string start, 
                 int count
             )
@@ -284,7 +272,7 @@ namespace ManagedIrbis
         [NotNull]
         public static Task<SearchScenario[]> ReadSearchScenarioAsync
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] string fileName
             )
         {
@@ -306,7 +294,7 @@ namespace ManagedIrbis
         [NotNull]
         public static Task<MarcRecord> ReadRecordAsync
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 int mfn
             )
         {
@@ -328,7 +316,7 @@ namespace ManagedIrbis
         [NotNull]
         public static Task<string> ReadTextFileAsync
             (
-                [NotNull] this IrbisConnection connection,
+                [NotNull] this IIrbisConnection connection,
                 [NotNull] FileSpecification specification
             )
         {
@@ -350,7 +338,7 @@ namespace ManagedIrbis
         [NotNull]
         public static Task<int[]> SearchAsync
             (
-                [NotNull] this IrbisConnection connection, 
+                [NotNull] this IIrbisConnection connection, 
                 [NotNull] string expression
             )
         {
@@ -372,7 +360,7 @@ namespace ManagedIrbis
         [NotNull]
         public static Task<MarcRecord> WriteRecordAsync
             (
-                [NotNull] this IrbisConnection connection, 
+                [NotNull] this IIrbisConnection connection, 
                 [NotNull] MarcRecord record
             )
         {

@@ -43,7 +43,7 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class IrbisConnection
+    public class IrbisConnection
         : IIrbisConnection
     {
         #region Constants
@@ -386,7 +386,7 @@ namespace ManagedIrbis
         #region Public methods
 
         /// <inheritdoc cref="IIrbisConnection.ActualizeRecord" />
-        public void ActualizeRecord
+        public virtual void ActualizeRecord
             (
                 string database,
                 int mfn
@@ -406,7 +406,7 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <inheritdoc cref="IIrbisConnection.Clone()" />
-        public IrbisConnection Clone()
+        public virtual IrbisConnection Clone()
         {
             IrbisConnection result = Clone(Connected);
 
@@ -414,7 +414,7 @@ namespace ManagedIrbis
         }
 
         /// <inheritdoc cref="IIrbisConnection.Clone(bool)" />
-        public IrbisConnection Clone
+        public virtual IrbisConnection Clone
             (
                 bool connect
             )
@@ -444,7 +444,7 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <inheritdoc cref="IIrbisConnection.Connect" />
-        public IniFile Connect()
+        public virtual IniFile Connect()
         {
             // TODO use Executive
 
@@ -486,7 +486,7 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <inheritdoc cref="IIrbisConnection.CorrectVirtualRecord(string,MarcRecord,GblStatement[])"/>
-        public MarcRecord CorrectVirtualRecord
+        public virtual MarcRecord CorrectVirtualRecord
             (
                 string database,
                 MarcRecord record,
@@ -509,7 +509,7 @@ namespace ManagedIrbis
         }
 
         /// <inheritdoc cref="IIrbisConnection.CorrectVirtualRecord(string,MarcRecord,string)"/>
-        public MarcRecord CorrectVirtualRecord
+        public virtual MarcRecord CorrectVirtualRecord
             (
                 string database,
                 MarcRecord record,
@@ -534,7 +534,7 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <inheritdoc cref="IIrbisConnection.CreateDatabase" />
-        public void CreateDatabase
+        public virtual void CreateDatabase
             (
                 string databaseName,
                 string description,
@@ -558,7 +558,7 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <inheritdoc cref="IIrbisConnection.CreateDictionary" />
-        public void CreateDictionary
+        public virtual void CreateDictionary
             (
                 string database
             )
@@ -576,7 +576,7 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <inheritdoc cref="IIrbisConnection.DeleteDatabase" />
-        public void DeleteDatabase
+        public virtual void DeleteDatabase
             (
                 string database
             )
@@ -595,7 +595,7 @@ namespace ManagedIrbis
         #region ExecuteCommand
 
         /// <inheritdoc cref="IIrbisConnection.ExecuteCommand(AbstractCommand)" />
-        public ServerResponse ExecuteCommand
+        public virtual ServerResponse ExecuteCommand
             (
                 AbstractCommand command
             )
@@ -621,7 +621,7 @@ namespace ManagedIrbis
         }
 
         /// <inheritdoc cref="IIrbisConnection.ExecuteCommand(string,object[])" />
-        public ServerResponse ExecuteCommand
+        public virtual ServerResponse ExecuteCommand
             (
                 string commandCode,
                 params object[] arguments
@@ -646,7 +646,7 @@ namespace ManagedIrbis
         #region FormatRecord
 
         /// <inheritdoc cref="IIrbisConnection.FormatRecord(string,int)" />
-        public string FormatRecord
+        public virtual string FormatRecord
             (
                 string format,
                 int mfn
@@ -692,7 +692,7 @@ namespace ManagedIrbis
         }
 
         /// <inheritdoc cref="IIrbisConnection.FormatRecords" />
-        public string[] FormatRecords
+        public virtual string[] FormatRecords
             (
                 string database,
                 string format,
@@ -726,7 +726,7 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <inheritdoc cref="IIrbisConnection.GetDatabaseInfo" />
-        public DatabaseInfo GetDatabaseInfo
+        public virtual DatabaseInfo GetDatabaseInfo
             (
                 string databaseName
             )
@@ -747,7 +747,7 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <inheritdoc cref="IIrbisConnection.GetDatabaseStat" />
-        public string GetDatabaseStat
+        public virtual string GetDatabaseStat
             (
                 StatDefinition definition
             )
@@ -768,13 +768,13 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <inheritdoc cref="IIrbisConnection.GetMaxMfn()" />
-        public int GetMaxMfn()
+        public virtual int GetMaxMfn()
         {
             return GetMaxMfn(Database);
         }
 
         /// <inheritdoc cref="IIrbisConnection.GetMaxMfn(string)" />
-        public int GetMaxMfn
+        public virtual int GetMaxMfn
             (
                 string database
             )
@@ -797,7 +797,7 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <inheritdoc cref="IIrbisConnection.GetServerStat" />
-        public ServerStat GetServerStat()
+        public virtual ServerStat GetServerStat()
         {
             ServerStatCommand command
                 = CommandFactory.GetServerStatCommand();
@@ -812,7 +812,7 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <inheritdoc cref="IIrbisConnection.GetServerVersion" />
-        public IrbisVersion GetServerVersion()
+        public virtual IrbisVersion GetServerVersion()
         {
             ServerVersionCommand command
                 = CommandFactory.GetServerVersionCommand();
@@ -829,7 +829,7 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <inheritdoc cref="IIrbisConnection.GlobalCorrection" />
-        public GblResult GlobalCorrection
+        public virtual GblResult GlobalCorrection
             (
                 GblSettings settings
             )
@@ -853,7 +853,7 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <inheritdoc cref="IIrbisConnection.ListFiles(FileSpecification)" />
-        public string[] ListFiles
+        public virtual string[] ListFiles
             (
                 FileSpecification specification
             )
@@ -874,7 +874,7 @@ namespace ManagedIrbis
         }
 
         /// <inheritdoc cref="IIrbisConnection.ListFiles(FileSpecification[])" />
-        public string[] ListFiles
+        public virtual string[] ListFiles
             (
                 FileSpecification[] specifications
             )
@@ -899,7 +899,7 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <inheritdoc cref="IIrbisConnection.ListProcesses" />
-        public IrbisProcessInfo[] ListProcesses()
+        public virtual IrbisProcessInfo[] ListProcesses()
         {
             ListProcessesCommand command
                 = CommandFactory.GetListProcessCommand();
@@ -914,7 +914,7 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <inheritdoc cref="IIrbisConnection.ListUsers" />
-        public UserInfo[] ListUsers()
+        public virtual UserInfo[] ListUsers()
         {
             ListUsersCommand command
                 = CommandFactory.GetListUsersCommand();
@@ -929,7 +929,7 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <inheritdoc cref="IIrbisConnection.NoOp" />
-        public void NoOp()
+        public virtual void NoOp()
         {
             NopCommand command = CommandFactory.GetNopCommand();
 
@@ -937,7 +937,7 @@ namespace ManagedIrbis
         }
 
         /// <inheritdoc cref="IIrbisConnection.ParseConnectionString" />
-        public void ParseConnectionString
+        public virtual void ParseConnectionString
             (
                 string connectionString
             )
@@ -952,7 +952,7 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <inheritdoc cref="IIrbisConnection.PopDatabase" />
-        public string PopDatabase()
+        public virtual string PopDatabase()
         {
             string result = Database;
 
@@ -967,7 +967,7 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <inheritdoc cref="IIrbisConnection.PrintTable" />
-        public string PrintTable
+        public virtual string PrintTable
             (
                 TableDefinition tableDefinition
             )
@@ -986,7 +986,7 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <inheritdoc cref="IIrbisConnection.PushDatabase" />
-        public string PushDatabase
+        public virtual string PushDatabase
             (
                 string newDatabase
             )
@@ -1006,7 +1006,7 @@ namespace ManagedIrbis
         /// Read binary file from server file system.
         /// </summary>
         [CanBeNull]
-        public byte[] ReadBinaryFile
+        public virtual byte[] ReadBinaryFile
             (
                 FileSpecification file
             )
@@ -1028,7 +1028,7 @@ namespace ManagedIrbis
         /// Read term postings.
         /// </summary>
         [NotNull]
-        public TermPosting[] ReadPostings
+        public virtual TermPosting[] ReadPostings
             (
                 PostingParameters parameters
             )
@@ -1053,7 +1053,7 @@ namespace ManagedIrbis
         /// Чтение, блокирование и расформатирование записи.
         /// </summary>
         [NotNull]
-        public MarcRecord ReadRecord
+        public virtual MarcRecord ReadRecord
             (
                 string database,
                 int mfn,
@@ -1064,8 +1064,7 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(database, "database");
             Code.Positive(mfn, "mfn");
 
-            ReadRecordCommand command
-                = CommandFactory.GetReadRecordCommand();
+            ReadRecordCommand command = CommandFactory.GetReadRecordCommand();
             command.Mfn = mfn;
             command.Database = database;
             command.Lock = lockFlag;
@@ -1083,7 +1082,7 @@ namespace ManagedIrbis
         /// <remarks><c>null</c>означает, что затребованной
         /// версии записи нет.</remarks>
         [CanBeNull]
-        public MarcRecord ReadRecord
+        public virtual MarcRecord ReadRecord
             (
                 string database,
                 int mfn,
@@ -1094,8 +1093,7 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(database, "database");
             Code.Positive(mfn, "mfn");
 
-            ReadRecordCommand command
-                = CommandFactory.GetReadRecordCommand();
+            ReadRecordCommand command = CommandFactory.GetReadRecordCommand();
             command.Mfn = mfn;
             command.Database = database;
             command.VersionNumber = versionNumber;
@@ -1114,15 +1112,14 @@ namespace ManagedIrbis
         /// Read search terms from index.
         /// </summary>
         [NotNull]
-        public TermInfo[] ReadTerms
+        public virtual TermInfo[] ReadTerms
             (
                 TermParameters parameters
             )
         {
             Code.NotNull(parameters, "parameters");
 
-            ReadTermsCommand command
-                = CommandFactory.GetReadTermsCommand();
+            ReadTermsCommand command = CommandFactory.GetReadTermsCommand();
             command.ApplyParameters(parameters);
 
             ExecuteCommand(command);
@@ -1136,7 +1133,7 @@ namespace ManagedIrbis
         /// Read text file from the server.
         /// </summary>
         [CanBeNull]
-        public string ReadTextFile
+        public virtual string ReadTextFile
             (
                 FileSpecification fileSpecification
             )
@@ -1157,7 +1154,7 @@ namespace ManagedIrbis
         /// Чтение текстовых файлов с сервера.
         /// </summary>
         [NotNull]
-        public string[] ReadTextFiles
+        public virtual string[] ReadTextFiles
             (
                 FileSpecification[] files
             )
@@ -1169,8 +1166,7 @@ namespace ManagedIrbis
                 return StringUtility.EmptyArray;
             }
 
-            ReadFileCommand command
-                = CommandFactory.GetReadFileCommand();
+            ReadFileCommand command = CommandFactory.GetReadFileCommand();
             command.Files.AddRange(files);
 
             ExecuteCommand(command);
@@ -1186,7 +1182,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Reconnect to the server.
         /// </summary>
-        public void Reconnect()
+        public virtual void Reconnect()
         {
             Log.Trace
                 (
@@ -1216,7 +1212,7 @@ namespace ManagedIrbis
         /// Reload dictionary index for specified database.
         /// </summary>
         /// <remarks>For Administrator only.</remarks>
-        public void ReloadDictionary
+        public virtual void ReloadDictionary
             (
                 string databaseName
             )
@@ -1236,7 +1232,7 @@ namespace ManagedIrbis
         /// Reload master file for specified database.
         /// </summary>
         /// <remarks>For Administrator only.</remarks>
-        public void ReloadMasterFile
+        public virtual void ReloadMasterFile
             (
                 string databaseName
             )
@@ -1256,7 +1252,7 @@ namespace ManagedIrbis
         /// Restart server.
         /// </summary>
         /// <remarks>For Administrator only.</remarks>
-        public void RestartServer()
+        public virtual void RestartServer()
         {
             RestartServerCommand command
                 = CommandFactory.GetRestartServerCommand();
@@ -1300,7 +1296,7 @@ namespace ManagedIrbis
         /// Поиск записей.
         /// </summary>
         [NotNull]
-        public int[] Search
+        public virtual int[] Search
             (
                 string expression
             )
@@ -1326,7 +1322,7 @@ namespace ManagedIrbis
         /// Sequential search.
         /// </summary>
         [NotNull]
-        public int[] SequentialSearch
+        public virtual int[] SequentialSearch
             (
                 SearchParameters parameters
             )
@@ -1354,7 +1350,7 @@ namespace ManagedIrbis
         /// <returns>Previous <see cref="CommandFactory"/>.
         /// </returns>
         [NotNull]
-        public CommandFactory SetCommandFactory
+        public virtual CommandFactory SetCommandFactory
             (
                 CommandFactory newFactory
             )
@@ -1374,7 +1370,7 @@ namespace ManagedIrbis
         /// <returns>Previous <see cref="CommandFactory"/>.
         /// </returns>
         [NotNull]
-        public CommandFactory SetCommandFactory
+        public virtual CommandFactory SetCommandFactory
             (
                 string typeName
             )
@@ -1406,7 +1402,7 @@ namespace ManagedIrbis
         /// Set execution engine.
         /// </summary>
         [NotNull]
-        public AbstractEngine SetEngine
+        public virtual AbstractEngine SetEngine
             (
                 AbstractEngine engine
             )
@@ -1425,7 +1421,7 @@ namespace ManagedIrbis
         /// <returns>Previous <see cref="Executive"/>.
         /// </returns>
         [NotNull]
-        public AbstractEngine SetEngine
+        public virtual AbstractEngine SetEngine
             (
                 string typeName
             )
@@ -1458,7 +1454,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Set logging socket, gather debug info to specified path.
         /// </summary>
-        public void SetNetworkLogging
+        public virtual void SetNetworkLogging
             (
                 string loggingPath
             )
@@ -1491,7 +1487,7 @@ namespace ManagedIrbis
         /// <summary>
         /// 
         /// </summary>
-        public void SetRetry
+        public virtual void SetRetry
             (
                 int retryCount,
                 Func<Exception, bool> resolver
@@ -1533,7 +1529,7 @@ namespace ManagedIrbis
         /// Set
         /// <see cref="T:ManagedIrbis.Network.Sockets.AbstractClientSocket"/>.
         /// </summary>
-        public void SetSocket
+        public virtual void SetSocket
             (
                 AbstractClientSocket socket
             )
@@ -1558,7 +1554,7 @@ namespace ManagedIrbis
         /// Temporary "shutdown" the connection for some reason.
         /// </summary>
         [NotNull]
-        public string Suspend()
+        public virtual string Suspend()
         {
             ConnectionSettings settings
                 = ConnectionSettings.FromConnection(this);
@@ -1575,7 +1571,7 @@ namespace ManagedIrbis
         /// Опустошение базы данных.
         /// </summary>
         /// <remarks>For Administrator only.</remarks>
-        public void TruncateDatabase
+        public virtual void TruncateDatabase
             (
                 string databaseName
             )
@@ -1595,7 +1591,7 @@ namespace ManagedIrbis
         /// Unlock the specified database.
         /// </summary>
         /// <remarks>For Administrator only.</remarks>
-        public void UnlockDatabase
+        public virtual void UnlockDatabase
             (
                 string databaseName
             )
@@ -1614,7 +1610,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Unlock specified records.
         /// </summary>
-        public void UnlockRecords
+        public virtual void UnlockRecords
             (
                 string database,
                 params int[] mfnList
@@ -1642,7 +1638,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Update server INI-file for current client.
         /// </summary>
-        public void UpdateIniFile
+        public virtual void UpdateIniFile
             (
                 string[] lines
             )
@@ -1662,7 +1658,7 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <inheritdoc cref="IIrbisConnection.UpdateUserList" />
-        public void UpdateUserList
+        public virtual void UpdateUserList
             (
                 UserInfo[] userList
             )
@@ -1681,7 +1677,7 @@ namespace ManagedIrbis
         #region WriteRecord
 
         /// <inheritdoc cref="IIrbisConnection.WriteRecord(ManagedIrbis.MarcRecord,bool,bool,bool)" />
-        public MarcRecord WriteRecord
+        public virtual MarcRecord WriteRecord
             (
                 MarcRecord record,
                 bool lockFlag,
@@ -1714,7 +1710,7 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <inheritdoc cref="IIrbisConnection.WriteRecords" />
-        public MarcRecord[] WriteRecords
+        public virtual MarcRecord[] WriteRecords
             (
                 MarcRecord[] records,
                 bool lockFlag,
@@ -1753,7 +1749,7 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <inheritdoc cref="IIrbisConnection.WriteTextFile" />
-        public void WriteTextFile
+        public virtual void WriteTextFile
             (
                 FileSpecification file
             )
@@ -1768,7 +1764,7 @@ namespace ManagedIrbis
         }
 
         /// <inheritdoc cref="IIrbisConnection.WriteTextFiles" />
-        public void WriteTextFiles
+        public virtual void WriteTextFiles
             (
                 params FileSpecification[] files
             )
@@ -1787,7 +1783,7 @@ namespace ManagedIrbis
         #region IDisposable members
 
         /// <inheritdoc cref="IDisposable.Dispose" />
-        public void Dispose()
+        public virtual void Dispose()
         {
             Log.Trace("IrbisConnection::Dispose");
 
@@ -1815,7 +1811,7 @@ namespace ManagedIrbis
         #region IHandmadeSerializable members
 
         /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
-        public void RestoreFromStream
+        public virtual void RestoreFromStream
             (
                 BinaryReader reader
             )
@@ -1835,7 +1831,7 @@ namespace ManagedIrbis
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
-        public void SaveToStream
+        public virtual void SaveToStream
             (
                 BinaryWriter writer
             )

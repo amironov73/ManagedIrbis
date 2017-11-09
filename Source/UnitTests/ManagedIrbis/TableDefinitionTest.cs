@@ -1,15 +1,11 @@
-﻿using System.Collections.Generic;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Json;
-using AM.Runtime;
 using AM.Xml;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis;
-using ManagedIrbis.Infrastructure;
 
 namespace UnitTests.ManagedIrbis
 {
