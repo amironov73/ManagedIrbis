@@ -530,6 +530,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Text\EncodingUtility.cs">
       <Link>AM\Text\EncodingUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\SubArray.cs">
+      <Link>AM\SubArray.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Text\HtmlText.cs">
       <Link>AM\Text\HtmlText.cs</Link>
     </Compile>

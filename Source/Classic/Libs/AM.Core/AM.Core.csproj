@@ -266,6 +266,7 @@
     <Compile Include="AM\Runtime\SerializationUtility.cs" />
     <Compile Include="AM\Runtime\Singleton.cs" />
     <Compile Include="AM\IOC\ServiceRepository.cs" />
+    <Compile Include="AM\SubArray.cs" />
     <Compile Include="AM\Text\HtmlText.cs" />
     <Compile Include="AM\Text\Hyphenation\EnglishHyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\Hyphenator.cs" />
