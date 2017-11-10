@@ -95,12 +95,7 @@ namespace AM
                             + gender
                         );
 
-                    throw new ArgumentOutOfRangeException
-                        (
-                            "gender",
-                            gender,
-                            null
-                        );
+                    throw new ArgumentOutOfRangeException("gender");
             }
         }
 
@@ -130,12 +125,7 @@ namespace AM
 
                     if (throwOnError)
                     {
-                        throw new ArgumentOutOfRangeException
-                            (
-                                "gender",
-                                gender,
-                                null
-                            );
+                        throw new ArgumentOutOfRangeException("gender");
                     }
 
                     return false;

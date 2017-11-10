@@ -48,7 +48,7 @@ namespace ManagedIrbis.Caching
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get { return _connection; } }
+        public IIrbisConnection Connection { get { return _connection; } }
 
         /// <summary>
         /// Request count.
@@ -64,7 +64,7 @@ namespace ManagedIrbis.Caching
         /// </summary>
         public RecordCache
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");
@@ -77,7 +77,7 @@ namespace ManagedIrbis.Caching
 
         #region Private members
 
-        private readonly IrbisConnection _connection;
+        private readonly IIrbisConnection _connection;
 
         private MarcRecord _RecordRequester
             (
@@ -88,14 +88,6 @@ namespace ManagedIrbis.Caching
 
             return Connection.ReadRecord(mfn);
         }
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

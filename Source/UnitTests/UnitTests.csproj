@@ -192,6 +192,7 @@
     <Compile Include="AM\UtilityTest.cs" />
     <Compile Include="ManagedIrbis\AsyncExtensionsTest.cs" />
     <Compile Include="ManagedIrbis\Caching\MenuCacheTest.cs" />
+    <Compile Include="ManagedIrbis\Caching\RecordCacheTest.cs" />
     <Compile Include="ManagedIrbis\ClientInfoTest.cs" />
     <Compile Include="ManagedIrbis\DatabaseInfoTest.cs" />
     <Compile Include="ManagedIrbis\Direct\DirectUtilityTest.cs" />

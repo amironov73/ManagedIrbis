@@ -130,6 +130,5 @@ namespace UnitTests.ManagedIrbis.Caching
                     Times.Exactly(2)
                 );
         }
-
     }
 }
