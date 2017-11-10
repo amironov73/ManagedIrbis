@@ -199,6 +199,8 @@
     <Compile Include="AM\ExceptionUtility.cs" />
     <Compile Include="AM\FunctionalUtility.cs" />
     <Compile Include="AM\FuncUtility.cs" />
+    <Compile Include="AM\Gender.cs" />
+    <Compile Include="AM\GenderUtility.cs" />
     <Compile Include="AM\IAttachmentContainer.cs" />
     <Compile Include="AM\InquiryEventArgs.cs" />
     <Compile Include="AM\IO\BinaryReaderUtility.cs" />
