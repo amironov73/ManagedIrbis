@@ -283,6 +283,12 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\FuncUtility.cs">
       <Link>AM\FuncUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Gender.cs">
+      <Link>AM\Gender.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\GenderUtility.cs">
+      <Link>AM\GenderUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\BuiltinCultures.cs">
       <Link>AM\Globalization\BuiltinCultures.cs</Link>
     </Compile>

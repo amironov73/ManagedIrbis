@@ -443,10 +443,10 @@ namespace ManagedIrbis.Menus
         /// <summary>
         /// Read <see cref="MenuFile"/> from server.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
         public static MenuFile ReadFromServer
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] FileSpecification fileSpecification
             )
         {
@@ -454,8 +454,12 @@ namespace ManagedIrbis.Menus
             Code.NotNull(fileSpecification, "fileSpecification");
 
             string response = connection
-                .ReadTextFile(fileSpecification)
-                .ThrowIfNull("ReadTextFile");
+                .ReadTextFile(fileSpecification);
+            if (string.IsNullOrEmpty(response))
+            {
+                return null;
+            }
+
             MenuFile result = ParseServerResponse(response);
 
             return result;

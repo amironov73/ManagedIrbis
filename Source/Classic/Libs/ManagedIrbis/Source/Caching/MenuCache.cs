@@ -11,16 +11,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
 using AM.Caching;
-using AM.IO;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -30,8 +21,6 @@ using ManagedIrbis.Menus;
 using ManagedIrbis.Infrastructure;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -51,7 +40,7 @@ namespace ManagedIrbis.Caching
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get { return _connection; } }
+        public IIrbisConnection Connection { get { return _connection; } }
 
         /// <summary>
         /// Request count.
@@ -67,7 +56,7 @@ namespace ManagedIrbis.Caching
         /// </summary>
         public MenuCache
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");
@@ -80,7 +69,7 @@ namespace ManagedIrbis.Caching
 
         #region Private members
 
-        private readonly IrbisConnection _connection;
+        private readonly IIrbisConnection _connection;
 
         private MenuFile _MenuRequester
             (
@@ -97,15 +86,6 @@ namespace ManagedIrbis.Caching
         }
 
         #endregion
-
-        #region Public methods
-
-        #endregion
-
-        #region Object members
-
-        #endregion
-
     }
 }
 
