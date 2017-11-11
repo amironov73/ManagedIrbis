@@ -274,6 +274,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\EnvironmentUtility.cs">
       <Link>AM\EnvironmentUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Equatable.cs">
+      <Link>AM\Equatable.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\EventUtility.cs">
       <Link>AM\EventUtility.cs</Link>
     </Compile>
@@ -517,7 +520,7 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\EncodingUtility.cs">
       <Link>AM\Text\EncodingUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\SubArray.cs">
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\SubArray.cs">
       <Link>AM\SubArray.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\HtmlText.cs">

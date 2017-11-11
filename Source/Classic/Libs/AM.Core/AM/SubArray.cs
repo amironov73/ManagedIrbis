@@ -248,6 +248,34 @@ namespace AM
 
         #endregion
 
+        #region Equality operators
+
+        /// <summary>
+        /// Provides the equality operator override.
+        /// </summary>
+        public static bool operator ==
+            (
+                SubArray<T> left,
+                SubArray<T> right
+            )
+        {
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// Provides the in-equality operator override.
+        /// </summary>
+        public static bool operator !=
+            (
+                SubArray<T> left,
+                SubArray<T> right
+            )
+        {
+            return !left.Equals(right);
+        }
+
+        #endregion
+
         #region Object members
 
         /// <inheritdoc cref="ValueType.Equals(object)" />
