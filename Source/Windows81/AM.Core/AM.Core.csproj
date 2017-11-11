@@ -442,6 +442,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ProcessorArchitecture.cs">
       <Link>AM\ProcessorArchitecture.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\PredicateBuilder.cs">
+      <Link>AM\PredicateBuilder.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ReadOnlyException.cs">
       <Link>AM\ReadOnlyException.cs</Link>
     </Compile>
