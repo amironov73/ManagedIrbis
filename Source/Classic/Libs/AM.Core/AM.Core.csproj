@@ -188,6 +188,7 @@
     <Compile Include="AM\Data\HiddenColumnAttribute.cs" />
     <Compile Include="AM\Data\SortIndexAttribute.cs" />
     <Compile Include="AM\DelegateUtility.cs" />
+    <Compile Include="AM\Delimiters.cs" />
     <Compile Include="AM\Diagnostics\ConsoleProcessRunner.cs" />
     <Compile Include="AM\Diagnostics\ConsoleTraceListener.cs" />
     <Compile Include="AM\DisposableObject.cs" />

@@ -230,6 +230,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\DelegateUtility.cs">
       <Link>AM\DelegateUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Delimiters.cs">
+      <Link>AM\Delimiters.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\DisposableObject.cs">
       <Link>AM\DisposableObject.cs</Link>
     </Compile>

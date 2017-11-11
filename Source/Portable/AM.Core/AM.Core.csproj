@@ -214,6 +214,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\DelegateUtility.cs">
       <Link>AM\DelegateUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Delimiters.cs">
+      <Link>AM\Delimiters.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Diagnostics\ConsoleProcessRunner.cs">
       <Link>AM\Diagnostics\ConsoleProcessRunner.cs</Link>
     </Compile>

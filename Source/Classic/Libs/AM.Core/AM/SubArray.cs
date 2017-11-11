@@ -34,7 +34,6 @@ namespace AM
     [MoonSharpUserData]
     public struct SubArray<T>
         : IList<T>,
-        IReadOnlyList<T>,
         IEquatable<SubArray<T>>
     {
         #region Properties
@@ -245,16 +244,6 @@ namespace AM
             return ReferenceEquals(Array, other.Array)
                    && Offset == other.Offset
                    && Length == other.Length;
-        }
-
-        #endregion
-
-        #region IReadOnlyList<T> members
-
-        [ExcludeFromCodeCoverage]
-        int IReadOnlyCollection<T>.Count
-        {
-            get { return Length; }
         }
 
         #endregion
