@@ -68,7 +68,7 @@ namespace AM
         {
             // TODO rewrite without .Any()
 
-            if (n == null)
+            if (ReferenceEquals(n, null))
             {
                 return string.Empty;
             }

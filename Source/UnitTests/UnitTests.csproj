@@ -455,7 +455,7 @@
     <Compile Include="ManagedIrbis\Worksheet\WorksheetItemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CharacterClassTest.cs" />
-    <Compile Include="NumericUtilityTest.cs" />
+    <Compile Include="AM\NumericUtilityTest.cs" />
     <Compile Include="AM\IO\StreamPackerTest.cs" />
     <Compile Include="ManagedIrbis\IrbisDateTest.cs" />
     <Compile Include="ManagedIrbis\Systematization\BbkIndexTest.cs" />
