@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if !FW35
+
 #region Using directives
 
 using System;
@@ -170,3 +172,5 @@ namespace AM
         #endregion
     }
 }
+
+#endif

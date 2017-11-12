@@ -117,6 +117,9 @@ namespace AM
             Code.Nonnegative(secondOffset, "secondOffset");
             Code.Nonnegative(length, "length");
 
+            // Совпадают ли два куска массивов?
+            // Куски нулевой длины считаются совпадающими.
+
             for (int i = 0; i < length; i++)
             {
                 T first = firstArray[firstOffset + i];
@@ -435,6 +438,9 @@ namespace AM
                 int partCount
             )
         {
+            Code.NotNull(array, "array");
+            Code.Positive(partCount, "partCount");
+
             List<T[]> result = new List<T[]>(partCount);
             int length = array.Length;
             int chunkSize = length / partCount;

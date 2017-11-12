@@ -24,18 +24,6 @@ namespace AM
     [MoonSharpUserData]
     public static class BooleanUtility
     {
-        #region Properties
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
