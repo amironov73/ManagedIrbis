@@ -139,7 +139,7 @@ namespace AM
             return false;
         }
 
-        /// <inheritdoc cref="object.GetHashCode" />
+        /// <inheritdoc cref="ValueType.GetHashCode" />
         public override int GetHashCode()
         {
             if (!HasValue)
@@ -155,12 +155,12 @@ namespace AM
             return _value.GetHashCode();
         }
 
-        /// <inheritdoc cref="object.ToString" />
+        /// <inheritdoc cref="ValueType.ToString" />
         public override string ToString()
         {
             if (!HasValue)
             {
-                return "(null)";
+                return "(not set)";
             }
 
             if (ReferenceEquals(Value, null))

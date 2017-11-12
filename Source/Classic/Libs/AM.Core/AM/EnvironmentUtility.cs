@@ -11,6 +11,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 using JetBrains.Annotations;
 
@@ -22,6 +23,7 @@ namespace AM
     /// Program environment study routines.
     /// </summary>
     [PublicAPI]
+    [ExcludeFromCodeCoverage]
     public static class EnvironmentUtility
     {
         /// <summary>
@@ -68,10 +70,10 @@ namespace AM
                 int result = Math.Min
                     (
                         Math.Max
-                        (
-                            Environment.ProcessorCount - 1,
-                            1
-                        ),
+                            (
+                                Environment.ProcessorCount - 1,
+                                1
+                            ),
                         8 // TODO choose good number
                     );
 
@@ -84,7 +86,6 @@ namespace AM
         /// <summary>
         /// System uptime.
         /// </summary>
-        /// <value></value>
         public static TimeSpan Uptime
         {
             [DebuggerStepThrough]

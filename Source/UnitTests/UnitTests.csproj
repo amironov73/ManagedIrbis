@@ -179,10 +179,12 @@
     <Compile Include="AM\DisposableUtilityTest.cs" />
     <Compile Include="AM\DuplicateKeyExceptionTest.cs" />
     <Compile Include="AM\EmptyArrayTest.cs" />
+    <Compile Include="AM\EquatableTest.cs" />
     <Compile Include="AM\ExceptionEventArgsTest.cs" />
     <Compile Include="AM\FunctionalUtilityTest.cs" />
     <Compile Include="AM\GenderUtilityTest.cs" />
     <Compile Include="AM\Json\JsonUtilityTest.cs" />
+    <Compile Include="AM\MessageEventArgsTest.cs" />
     <Compile Include="AM\PredicateBuilderTest.cs" />
     <Compile Include="AM\SubArrayTest.cs" />
     <Compile Include="AM\Text\Output\NullOutputTest.cs" />

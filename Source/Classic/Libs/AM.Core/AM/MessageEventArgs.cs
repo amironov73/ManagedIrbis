@@ -10,13 +10,10 @@
 #region Using directives
 
 using System;
-using System.Diagnostics;
 
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
@@ -25,39 +22,33 @@ namespace AM
     /// <summary>
     /// 
     /// </summary>
+    [PublicAPI]
     public class MessageEventArgs
         : EventArgs
     {
         #region Properties
 
-        private string _message;
-
         /// <summary>
         /// Gets the message.
         /// </summary>
         /// <value>The message.</value>
-        public string Message
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return _message;
-            }
-        }
+        [NotNull]
+        public string Message { get; private set; }
 
         #endregion
 
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="MessageEventArgs"/> class.
+        /// Constructor.
         /// </summary>
-        /// <param name="message">The message.</param>
-        public MessageEventArgs(string message)
+        public MessageEventArgs
+            (
+                [NotNull] string message
+            )
         {
-            Code.NotNull(message, "message");
-            _message = message;
+            Code.NotNullNorEmpty(message, "message");
+            Message = message;
         }
 
         #endregion
