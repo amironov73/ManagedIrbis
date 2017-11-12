@@ -133,6 +133,7 @@
     <Compile Include="AM\AOT\Stemming\EnglishStemmerTest.cs" />
     <Compile Include="AM\AOT\Stemming\GermanStemmerTest.cs" />
     <Compile Include="AM\AOT\Stemming\RussianStemmerTest.cs" />
+    <Compile Include="AM\ArsMangaExceptionTest.cs" />
     <Compile Include="AM\BinaryAttachmentTest.cs" />
     <Compile Include="AM\BooleanUtilityTest.cs" />
     <Compile Include="AM\Caching\CacheItemTest.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="AM\DisposableObjectTest.cs" />
     <Compile Include="AM\DisposableUtilityTest.cs" />
     <Compile Include="AM\DuplicateKeyExceptionTest.cs" />
+    <Compile Include="AM\EmptyArrayTest.cs" />
     <Compile Include="AM\ExceptionEventArgsTest.cs" />
     <Compile Include="AM\FunctionalUtilityTest.cs" />
     <Compile Include="AM\GenderUtilityTest.cs" />

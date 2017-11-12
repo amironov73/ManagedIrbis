@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System.Diagnostics.CodeAnalysis;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -22,6 +24,7 @@ namespace AM
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [ExcludeFromCodeCoverage]
     public static class Delimiters
     {
         #region Public members

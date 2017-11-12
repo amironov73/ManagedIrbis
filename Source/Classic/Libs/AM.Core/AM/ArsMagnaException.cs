@@ -112,7 +112,7 @@ namespace AM
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString" />
+        /// <inheritdoc cref="Exception.ToString" />
         public override string ToString()
         {
             if (Attachments.Count == 0)
