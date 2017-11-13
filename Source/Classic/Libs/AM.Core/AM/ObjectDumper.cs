@@ -11,10 +11,14 @@
 
 using System;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 
 using AM.Reflection;
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -37,7 +41,30 @@ namespace AM
     [MoonSharpUserData]
     public sealed class ObjectDumper
     {
+        #region Properties
+
+        /// <summary>
+        /// Output.
+        /// </summary>
+        [NotNull]
+        public static TextWriter Output { get; set; }
+
+        #endregion
+
         #region Construction
+
+        static ObjectDumper()
+        {
+#if !UAP && !SILVERLIGHT && !PORTABLE && !WIN81
+
+            Output = Console.Out;
+
+#else
+
+            Output = TextWriter.Null;
+
+#endif
+        }
 
         /// <summary>
         /// Constructor.
@@ -103,7 +130,16 @@ namespace AM
             }
             else if (o is ValueType || o is string)
             {
-                Write(o.ToString());
+                if (o is IFormattable)
+                {
+                    IFormattable formattable = o as IFormattable;
+                    string s = formattable.ToString(null, CultureInfo.InvariantCulture);
+                    Write(s);
+                }
+                else
+                {
+                    Write(o.ToString());
+                }
             }
             else if (o is IEnumerable)
             {
@@ -140,27 +176,7 @@ namespace AM
                 IEnumerable enumerable = element as IEnumerable;
                 if (!ReferenceEquals(enumerable, null))
                 {
-                    foreach (object item in enumerable)
-                    {
-                        if (item is IEnumerable
-                            && !(item is string))
-                        {
-                            WriteIndent();
-                            Write(prefix);
-                            Write("...");
-                            WriteLine();
-                            if (_level < _depth)
-                            {
-                                _level++;
-                                WriteObject(prefix, item);
-                                _level--;
-                            }
-                        }
-                        else
-                        {
-                            WriteObject(prefix, item);
-                        }
-                    }
+                    WriteEnumerable(prefix, enumerable);
                 }
                 else
                 {
@@ -178,6 +194,7 @@ namespace AM
 
                     Write(prefix);
                     bool propWritten = false;
+                    Write("{");
                     foreach (MemberInfo member in members)
                     {
                         FieldInfo fieldInfo = member as FieldInfo;
@@ -196,8 +213,8 @@ namespace AM
                             Write(member.Name);
                             Write("=");
                             Type type = !ReferenceEquals(fieldInfo, null)
-                                            ? fieldInfo.FieldType
-                                            : propertyInfo.PropertyType;
+                                ? fieldInfo.FieldType
+                                : propertyInfo.PropertyType;
 
 #if !PORTABLE
 
@@ -210,18 +227,21 @@ namespace AM
                             }
                             else
                             {
-                                Write
+                                _level++;
+                                WriteObject
                                     (
-                                    typeof(IEnumerable)
-                                    .IsAssignableFrom(type)
-                                        ? "..."
-                                        : "{ }"
+                                        prefix,
+                                        !ReferenceEquals(fieldInfo, null)
+                                        ? fieldInfo.GetValue(element)
+                                    : propertyInfo.GetValue(element, null)
                                     );
+                                _level--;
                             }
 
 #endif
                         }
                     }
+                    Write("}");
 
                     if (propWritten)
                     {
@@ -261,6 +281,38 @@ namespace AM
             }
         }
 
+        private void WriteEnumerable
+            (
+                string prefix,
+                [NotNull] IEnumerable enumerable
+            )
+        {
+            int index = 0;
+            foreach (object item in enumerable)
+            {
+                Write("[" + index + "] ");
+                if (item is IEnumerable
+                    && !(item is string))
+                {
+                    WriteIndent();
+                    Write(prefix);
+                    Write("...");
+                    WriteLine();
+                    if (_level < _depth)
+                    {
+                        _level++;
+                        WriteObject(prefix, item);
+                        _level--;
+                    }
+                }
+                else
+                {
+                    WriteObject(prefix, item);
+                }
+                index++;
+            }
+        }
+
         #endregion
 
         #region Public methods
@@ -275,9 +327,11 @@ namespace AM
             (
                 object element,
                 int depth,
-                TextWriter writer
+                [NotNull] TextWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             ObjectDumper dumper = new ObjectDumper(writer, depth);
             dumper.WriteObject(null, element);
         }
@@ -287,23 +341,21 @@ namespace AM
         /// </summary>
         /// <param name="element">The element.</param>
         /// <param name="depth">The depth.</param>
+        [ExcludeFromCodeCoverage]
         public static void Write
             (
                 object element,
                 int depth
             )
         {
-#if !UAP && !SILVERLIGHT && !PORTABLE && !WIN81
-
-            Write(element, depth, Console.Out);
-
-#endif
+            Write(element, depth, Output);
         }
 
         /// <summary>
         /// Writes the specified element.
         /// </summary>
         /// <param name="element">The element.</param>
+        [ExcludeFromCodeCoverage]
         public static void Write
             (
                 object element

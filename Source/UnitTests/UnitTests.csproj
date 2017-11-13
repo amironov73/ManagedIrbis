@@ -185,6 +185,7 @@
     <Compile Include="AM\GenderUtilityTest.cs" />
     <Compile Include="AM\Json\JsonUtilityTest.cs" />
     <Compile Include="AM\MessageEventArgsTest.cs" />
+    <Compile Include="AM\ObjectDumperTest.cs" />
     <Compile Include="AM\PredicateBuilderTest.cs" />
     <Compile Include="AM\SubArrayTest.cs" />
     <Compile Include="AM\Text\Output\NullOutputTest.cs" />
