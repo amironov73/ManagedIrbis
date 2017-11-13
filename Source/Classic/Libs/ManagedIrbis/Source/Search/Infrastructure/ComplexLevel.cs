@@ -136,7 +136,7 @@ namespace ManagedIrbis.Search.Infrastructure
                     (
                         "ComplexLevel::ReplaceChild: "
                         + "child not found: "
-                        + fromChild.NullableToVisibleString()
+                        + fromChild.ToVisibleString()
                     );
 
                 throw new KeyNotFoundException();

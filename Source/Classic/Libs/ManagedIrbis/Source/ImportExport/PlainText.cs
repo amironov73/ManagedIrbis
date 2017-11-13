@@ -117,7 +117,7 @@ namespace ManagedIrbis.ImportExport
                     (
                         "PlainText::_ParseLine: "
                         + "format error: "
-                        + line.NullableToVisibleString()
+                        + line.ToVisibleString()
                     );
 
                 throw new IrbisException();

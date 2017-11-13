@@ -111,7 +111,7 @@ namespace ManagedIrbis.Reports
                 (
                     "{0}: {1}",
                     Name.ToVisibleString(),
-                    Value.NullableToVisibleString()
+                    Value.ToVisibleString()
                 );
         }
 

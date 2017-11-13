@@ -76,8 +76,7 @@ namespace UITests
 
                 listBox.SelectedIndexChanged += (sender, args) =>
                 {
-                    textBox.Text = listBox.SelectedItem
-                    .NullableToVisibleString();
+                    textBox.Text = listBox.SelectedItem.ToVisibleString();
                 };
 
                 form.ShowDialog(ownerWindow);

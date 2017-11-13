@@ -160,7 +160,7 @@ namespace ManagedIrbis.Search.Infrastructure
                     ?? (object)Reference
                     ?? Parenthesis
                 )
-                .NullableToVisibleString();
+                .ToVisibleString();
         }
 
         #endregion

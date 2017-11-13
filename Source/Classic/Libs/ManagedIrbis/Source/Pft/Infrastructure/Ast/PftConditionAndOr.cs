@@ -90,7 +90,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     (
                         "PftConditionAndOr::Children: "
                         + "set value="
-                        + value.NullableToVisibleString()
+                        + value.ToVisibleString()
                     );
             }
         }
@@ -294,7 +294,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         (
                             "PftConditionAndOr::Execute: "
                             + "unexpected operation="
-                            + Operation.NullableToVisibleString()
+                            + Operation.ToVisibleString()
                         );
 
                     throw new PftSyntaxException();

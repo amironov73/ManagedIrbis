@@ -172,13 +172,13 @@ namespace ManagedIrbis.Fst
                     (
                         "FstLine::ParseStream: "
                         + "bad line: "
-                        + line.NullableToVisibleString()
+                        + line.ToVisibleString()
                     );
 
                 throw new FormatException
                     (
                         "Bad FST line: "
-                        + line.NullableToVisibleString()
+                        + line.ToVisibleString()
                     );
             }
 

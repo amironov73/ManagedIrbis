@@ -72,7 +72,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     (
                         "PftConditionNot::Children: "
                         + "set value="
-                        + value.NullableToVisibleString()
+                        + value.ToVisibleString()
                     );
             }
         }

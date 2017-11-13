@@ -126,7 +126,7 @@ namespace ManagedIrbis
                     (
                         "FieldTag::Verify: "
                         + "bad tag="
-                        + tag.NullableToVisibleString()
+                        + tag.ToVisibleString()
                     );
 
                 if (throwOnError)
@@ -134,7 +134,7 @@ namespace ManagedIrbis
                     throw new VerificationException
                         (
                             "bad tag=" 
-                            + tag.NullableToVisibleString()
+                            + tag.ToVisibleString()
                         );
                 }
             }

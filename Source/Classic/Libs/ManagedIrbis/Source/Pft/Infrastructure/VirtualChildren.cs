@@ -224,7 +224,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     (
                         "VirtualList::Indexer: "
                         + "set value="
-                        + value.NullableToVisibleString()
+                        + value.ToVisibleString()
                     );
 
                 throw new NotSupportedException();

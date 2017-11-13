@@ -90,7 +90,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     (
                         "PftNumericExpression::Children: "
                         + "set value="
-                        + value.NullableToVisibleString()
+                        + value.ToVisibleString()
                     );
             }
         }

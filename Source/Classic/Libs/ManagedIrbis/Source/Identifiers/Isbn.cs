@@ -334,7 +334,7 @@ namespace ManagedIrbis.Identifiers
                     (
                         "Isbn::Validate: "
                         + "isbn="
-                        + isbn.NullableToVisibleString()
+                        + isbn.ToVisibleString()
                     );
 
                 if (throwException)

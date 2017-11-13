@@ -77,7 +77,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     (
                         "PftFieldAssignment::Children: "
                         + "set value="
-                        + value.NullableToVisibleString()
+                        + value.ToVisibleString()
                     );
             }
         }

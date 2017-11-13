@@ -239,7 +239,7 @@ namespace ManagedIrbis.Infrastructure
             foreach (char code in specification)
             {
                 object o = interpreter.GetObject(code);
-                string s = o.NullableToVisibleString();
+                string s = o.ToVisibleString();
                 result.Add(s);
             }
 

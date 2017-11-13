@@ -81,7 +81,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     (
                         "PftLast::Children: "
                         + "set value="
-                        + value.NullableToVisibleString()
+                        + value.ToVisibleString()
                     );
             }
         }

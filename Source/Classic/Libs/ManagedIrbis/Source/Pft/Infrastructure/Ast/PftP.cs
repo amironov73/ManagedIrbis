@@ -73,7 +73,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     (
                         "PftP::Children: "
                         + "set value="
-                        + value.NullableToVisibleString()
+                        + value.ToVisibleString()
                     );
             }
         }

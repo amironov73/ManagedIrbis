@@ -227,7 +227,7 @@ namespace ManagedIrbis.Infrastructure
                     (
                         "{0}: {1}",
                         type,
-                        argument.NullableToVisibleString()
+                        argument.ToVisibleString()
                     );
                 }
             }

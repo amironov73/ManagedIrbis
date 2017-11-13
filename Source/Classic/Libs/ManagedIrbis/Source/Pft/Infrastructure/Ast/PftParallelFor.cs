@@ -107,7 +107,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     (
                         "PftParallelFor::Children: "
                         + "set value="
-                        + value.NullableToVisibleString()
+                        + value.ToVisibleString()
                     );
             }
         }

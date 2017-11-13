@@ -84,7 +84,7 @@ namespace AM.Istu.OldModel
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString()
         {
-            return Name.NullableToVisibleString();
+            return Name.ToVisibleString();
         }
 
         #endregion

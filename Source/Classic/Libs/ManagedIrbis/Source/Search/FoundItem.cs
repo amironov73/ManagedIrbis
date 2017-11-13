@@ -292,7 +292,7 @@ namespace ManagedIrbis.Search
                 (
                     "[{0}] {1}",
                     Mfn,
-                    Text.NullableToVisibleString()
+                    Text.ToVisibleString()
                 );
         }
 

@@ -171,7 +171,12 @@ namespace AM
             unchecked
             {
                 foreach (var item in source)
-                    hash = hash * 31 + item.GetHashCode();
+                {
+                    if (!ReferenceEquals(item, null))
+                    {
+                        hash = hash * 31 + item.GetHashCode();
+                    }
+                }
             }
 
             return hash;
@@ -309,7 +314,11 @@ namespace AM
                 return false;
             }
 
-#if !WIN81 && !PORTABLE
+#if WIN81 || PORTABLE
+
+            throw new NotImplementedException();
+
+#else
 
             PropertyInfo[] properties = type.GetProperties
                 (
@@ -327,6 +336,7 @@ namespace AM
                 {
                     return false;
                 }
+
                 if (!leftValue.Equals(rightValue))
                 {
                     return false;
@@ -335,7 +345,7 @@ namespace AM
 
 #endif
 
-            return left.Equals(right);
+            return true;
         }
 
         // =========================================================
@@ -429,42 +439,42 @@ namespace AM
             return false;
         }
 
-        /// <summary>
-        /// Determines whether given object
-        /// is default value.
-        /// </summary>
-        [MethodImpl(Aggressive)]
-        public static bool NotDefault<T>
-            (
-                this T obj
-            )
-        {
-            return !EqualityComparer<T>.Default.Equals
-                (
-                    obj,
-                    default(T)
-                );
-        }
+        ///// <summary>
+        ///// Determines whether given object
+        ///// is default value.
+        ///// </summary>
+        //[MethodImpl(Aggressive)]
+        //public static bool NotDefault<T>
+        //    (
+        //        this T obj
+        //    )
+        //{
+        //    return !EqualityComparer<T>.Default.Equals
+        //        (
+        //            obj,
+        //            default(T)
+        //        );
+        //}
 
-        /// <summary>
-        /// Returns given value instead of
-        /// default(T) if happens.
-        /// </summary>
-        [MethodImpl(Aggressive)]
-        public static T NotDefault<T>
-            (
-                this T obj,
-                T value
-            )
-        {
-            return EqualityComparer<T>.Default.Equals
-                (
-                    obj,
-                    default(T)
-                )
-                ? value
-                : obj;
-        }
+        ///// <summary>
+        ///// Returns given value instead of
+        ///// default(T) if happens.
+        ///// </summary>
+        //[MethodImpl(Aggressive)]
+        //public static T NotDefault<T>
+        //    (
+        //        this T obj,
+        //        T value
+        //    )
+        //{
+        //    return EqualityComparer<T>.Default.Equals
+        //        (
+        //            obj,
+        //            default(T)
+        //        )
+        //        ? value
+        //        : obj;
+        //}
 
         /// <summary>
         /// Преобразование любого значения в строку.
@@ -481,24 +491,6 @@ namespace AM
             return ReferenceEquals(value, null)
                 ? null
                 : value.ToString();
-        }
-
-        /// <summary>
-        /// Преобразование любого значения в строку.
-        /// </summary>
-        /// <returns>Для <c>null</c> возвращается "(null)".
-        /// </returns>
-        [NotNull]
-        [MethodImpl(Aggressive)]
-        public static string NullableToVisibleString<T>
-            (
-                [CanBeNull] this T value
-            )
-            where T : class
-        {
-            string text = value.NullableToString();
-
-            return text.ToVisibleString();
         }
 
         /// <summary>
@@ -538,8 +530,8 @@ namespace AM
             (
                 [CanBeNull] this T1 value
             )
-            where T1: class
-            where T2: Exception, new()
+            where T1 : class
+            where T2 : Exception, new()
         {
             if (ReferenceEquals(value, null))
             {
@@ -599,7 +591,7 @@ namespace AM
             {
                 return "(null)";
             }
-            
+
             string result = value.ToString();
 
             return result.ToVisibleString();

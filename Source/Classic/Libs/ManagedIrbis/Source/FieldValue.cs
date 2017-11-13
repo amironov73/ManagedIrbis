@@ -123,7 +123,7 @@ namespace ManagedIrbis
                     (
                         "FieldValue::Verify: "
                         + "bad value="
-                        + value.NullableToVisibleString()
+                        + value.ToVisibleString()
                     );
 
                 if (throwOnError)
@@ -131,7 +131,7 @@ namespace ManagedIrbis
                     throw new VerificationException
                         (
                             "Bad Field.Value: " 
-                            + value.NullableToVisibleString()
+                            + value.ToVisibleString()
                         );
                 }
             }

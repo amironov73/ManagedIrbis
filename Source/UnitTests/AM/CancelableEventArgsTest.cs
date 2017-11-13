@@ -5,24 +5,24 @@ using AM;
 
 namespace UnitTests.AM
 {
-    class MyClass
-    {
-        public bool Flag { get; set; }
-
-        public void Handler1(object sender, CancelableEventArgs args)
-        {
-            Flag = true;
-        }
-
-        public void Handler2(object sender, CancelableEventArgs args)
-        {
-            args.Cancel = true;
-        }
-    }
-
     [TestClass]
     public class CancelableEventArgsTest
     {
+        class MyClass
+        {
+            public bool Flag { get; set; }
+
+            public void Handler1(object sender, CancelableEventArgs args)
+            {
+                Flag = true;
+            }
+
+            public void Handler2(object sender, CancelableEventArgs args)
+            {
+                args.Cancel = true;
+            }
+        }
+
         [TestMethod]
         public void CancelableEventArgs_Construction()
         {

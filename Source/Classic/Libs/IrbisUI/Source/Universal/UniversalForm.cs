@@ -417,7 +417,7 @@ namespace IrbisUI.Universal
             string formatted = StringUtility.Join
                 (
                     ", ",
-                    args.Select(a => a.NullableToVisibleString())
+                    args.Select(a => a.ToVisibleString())
                 );
             WriteLine("Arguments: {0}", formatted);
         }

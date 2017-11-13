@@ -112,7 +112,7 @@ namespace ManagedIrbis.Testing
                 [CanBeNull] object obj
             )
         {
-            string text = obj.NullableToVisibleString();
+            string text = obj.ToVisibleString();
             Write(text);
         }
 

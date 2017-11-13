@@ -87,7 +87,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     (
                         "PftConditionalStatement::Children: "
                         + "set value="
-                        + value.NullableToVisibleString()
+                        + value.ToVisibleString()
                     );
             }
         }
