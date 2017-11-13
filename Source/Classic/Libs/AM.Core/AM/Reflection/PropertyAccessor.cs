@@ -84,7 +84,7 @@ namespace AM.Reflection
         /// <param name="value"></param>
         public delegate void AccessHandler
             (
-                T target, 
+                T target,
                 V value
             );
 
@@ -95,7 +95,7 @@ namespace AM.Reflection
         /// <param name="previousTarget"></param>
         public delegate void TargetHandler
             (
-                PropertyAccessor<T, V> accessor, 
+                PropertyAccessor<T, V> accessor,
                 T previousTarget
             );
 
@@ -118,11 +118,25 @@ namespace AM.Reflection
 
         #region Properties
 
-        private T _target;
+        ///<summary>
+        /// Property info.
+        ///</summary>
+        [NotNull]
+        public PropertyInfo Info { get; private set; }
+
+        /// <summary>
+        /// Name of the property.
+        /// </summary>
+        [NotNull]
+        public string Name
+        {
+            get { return Info.Name; }
+        }
 
         ///<summary>
         /// Target.
         ///</summary>
+        [CanBeNull]
         public virtual T Target
         {
             [DebuggerStepThrough]
@@ -139,20 +153,6 @@ namespace AM.Reflection
             }
         }
 
-        private readonly PropertyInfo _info;
-
-        ///<summary>
-        /// Property info.
-        ///</summary>
-        public PropertyInfo Info
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return _info;
-            }
-        }
-
         /// <summary>
         /// Property value.
         /// </summary>
@@ -160,18 +160,20 @@ namespace AM.Reflection
         {
             get
             {
-                if (_getter == null)
-                {
-                    throw new NotSupportedException();
-                }
+                //if (ReferenceEquals(_getter, null))
+                //{
+                //    throw new NotSupportedException();
+                //}
+
                 return OnGettingValue(_getter());
             }
             set
             {
-                if (_setter == null)
+                if (ReferenceEquals(_setter, null))
                 {
                     throw new NotSupportedException();
                 }
+
                 _setter(OnSettingValue(value));
             }
         }
@@ -187,14 +189,14 @@ namespace AM.Reflection
         /// <param name="propertyName"></param>
         public PropertyAccessor
             (
-                [CanBeNull] T target, 
+                [CanBeNull] T target,
                 [NotNull] string propertyName
             )
         {
             Code.NotNullNorEmpty(propertyName, "propertyName");
 
             _target = target;
-            _info = typeof(T).GetProperty
+            PropertyInfo info = typeof(T).GetProperty
                 (
                     propertyName,
 
@@ -210,16 +212,21 @@ namespace AM.Reflection
 
 #endif
                 );
-            if (_info == null)
+            if (ReferenceEquals(info, null))
             {
                 throw new ArgumentException("propertyName");
             }
+
+            Info = info;
             _CreateDelegates();
+
         }
 
         #endregion
 
         #region Private members
+
+        private T _target;
 
         private delegate V _Getter();
 
@@ -231,9 +238,9 @@ namespace AM.Reflection
 
         private void _CreateDelegates()
         {
-            if (_info.CanRead)
+            if (Info.CanRead)
             {
-                MethodInfo methodInfo = _info.GetGetMethod(true);
+                MethodInfo methodInfo = Info.GetGetMethod(true);
 
 #if NETCORE || UAP || WIN81
 
@@ -254,9 +261,9 @@ namespace AM.Reflection
 
 #endif
             }
-            if (_info.CanWrite)
+            if (Info.CanWrite)
             {
-                MethodInfo methodInfo = _info.GetSetMethod(true);
+                MethodInfo methodInfo = Info.GetSetMethod(true);
 
 #if NETCORE || UAP || WIN81
 
@@ -282,34 +289,44 @@ namespace AM.Reflection
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="value"></param>
-        protected virtual V OnGettingValue(V value)
+        [CanBeNull]
+        protected virtual V OnGettingValue
+            (
+                [CanBeNull] V value
+            )
         {
             if (GettingValue != null)
             {
                 GettingValue(Target, value);
             }
+
             return value;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="value"></param>
-        protected virtual V OnSettingValue(V value)
+        [CanBeNull]
+        protected virtual V OnSettingValue
+            (
+                [CanBeNull] V value
+            )
         {
             if (SettingValue != null)
             {
                 SettingValue(Target, value);
             }
+
             return value;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="previousTarget"></param>
-        protected virtual void OnTargetChanged(T previousTarget)
+        protected virtual void OnTargetChanged
+            (
+                [CanBeNull] T previousTarget
+            )
         {
             _CreateDelegates();
             if (TargetChanged != null)

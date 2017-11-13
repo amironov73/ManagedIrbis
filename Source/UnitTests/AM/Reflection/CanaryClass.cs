@@ -23,6 +23,8 @@ namespace UnitTests.AM.Reflection
 
         public string StringProperty { get; set; }
 
+        public int NoSetterProperty { get { return 123; } }
+
         #endregion
 
         #region Methods

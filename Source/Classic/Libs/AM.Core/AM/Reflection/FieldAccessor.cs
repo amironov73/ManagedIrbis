@@ -42,13 +42,13 @@ namespace AM.Reflection
     public class FieldAccessor<TTarget, TField>
         where TTarget : class
     {
-        #region Property
+        #region Properties
 
         /// <summary>
         /// Gets or sets the name of the field.
         /// </summary>
         /// <value>The name of the field.</value>
-        public string FieldName { get; set; }
+        public string FieldName { get; private set; }
 
         #endregion
 
@@ -94,6 +94,8 @@ namespace AM.Reflection
 
                 throw new ArgumentException("fieldName");
             }
+
+            FieldName = fieldName;
         }
 
         #endregion

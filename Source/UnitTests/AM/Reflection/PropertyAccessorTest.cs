@@ -1,12 +1,11 @@
 ﻿using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Reflection;
 
 namespace UnitTests.AM.Reflection
 {
-#if NOTDEF
-
     [TestClass]
     public class PropertyAccessorTest
     {
@@ -44,8 +43,12 @@ namespace UnitTests.AM.Reflection
         }
 
         [TestMethod]
-        public void TestPropertyAccessorGetAndSet()
+        public void PropertyAccessor_Get_Set_1()
         {
+            Assert.AreEqual("BooleanProperty", booleanAccessor.Name);
+            Assert.AreEqual("Int32Property", int32Accessor.Name);
+            Assert.AreEqual("StringProperty", stringAccessor.Name);
+
             bool actualBoolean = booleanAccessor.Value;
             Assert.AreEqual(canary.BooleanProperty, actualBoolean);
 
@@ -66,7 +69,29 @@ namespace UnitTests.AM.Reflection
         }
 
         [TestMethod]
-        public void TestPropertyAccessorEvents()
+        [ExpectedException(typeof(NotSupportedException))]
+        public void PropertyAccessor_Set_1()
+        {
+            PropertyAccessor<CanaryClass, int> accessor
+                = new PropertyAccessor<CanaryClass, int>(canary, "NoSetterProperty");
+            accessor.Value = 321;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void PropertyAccessor_Construction_1()
+        {
+            PropertyAccessor<CanaryClass, bool> wrongAccessor
+                = new PropertyAccessor<CanaryClass, bool>
+                    (
+                        canary,
+                        "NonexistentProperty"
+                    );
+            Assert.AreEqual("NonexistentProperty", wrongAccessor.Name);
+        }
+
+        [TestMethod]
+        public void PropertyAccessor_Events_1()
         {
             bool booleanGet = false, booleanSet = false;
             booleanAccessor.GettingValue += (target, value) => { booleanGet = true; };
@@ -89,7 +114,25 @@ namespace UnitTests.AM.Reflection
             Assert.IsTrue(stringGet);
             Assert.IsTrue(stringSet);
         }
-    }
 
-#endif
+        [TestMethod]
+        public void PropertyAccessor_SetTarget_1()
+        {
+            CanaryClass newCanary = new CanaryClass
+            {
+                BooleanProperty = false
+            };
+            bool flag = false;
+            booleanAccessor.TargetChanged += (accessor, target) =>
+            {
+                flag = true;
+            };
+            booleanAccessor.SetTarget(newCanary);
+            Assert.IsTrue(flag);
+
+            flag = false;
+            booleanAccessor.SetTarget(canary);
+            Assert.IsTrue(flag);
+        }
+    }
 }

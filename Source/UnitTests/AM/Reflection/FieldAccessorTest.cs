@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Reflection;
@@ -8,39 +9,27 @@ namespace UnitTests.AM.Reflection
     [TestClass]
     public class FieldAccessorTest
     {
-        private CanaryClass canary;
-
-        private FieldAccessor<CanaryClass, bool> booleanAccessor;
-        private FieldAccessor<CanaryClass, int> int32Accessor;
-        private FieldAccessor<CanaryClass, string> stringAccessor;
-
-        [TestInitialize]
-        public void Setup()
+        [TestMethod]
+        public void FieldAccessor_Get_Set_1()
         {
-            canary = new CanaryClass
+            CanaryClass canary = new CanaryClass
             {
                 BooleanField = true,
                 Int32Field = 123,
                 StringField = "Hello"
             };
 
-            booleanAccessor = new FieldAccessor<CanaryClass, bool>
-                    (
-                        "BooleanField"
-                    );
-            int32Accessor = new FieldAccessor<CanaryClass, int>
-                    (
-                        "Int32Field"
-                    );
-            stringAccessor = new FieldAccessor<CanaryClass, string>
-                    (
-                        "StringField"
-                    );
-        }
+            FieldAccessor<CanaryClass, bool> booleanAccessor
+                = new FieldAccessor<CanaryClass, bool>("BooleanField");
+            FieldAccessor<CanaryClass, int> int32Accessor
+                = new FieldAccessor<CanaryClass, int>("Int32Field");
+            FieldAccessor<CanaryClass, string> stringAccessor
+                = new FieldAccessor<CanaryClass, string>("StringField");
 
-        [TestMethod]
-        public void TestFieldAccessorGetAndSet()
-        {
+            Assert.AreEqual("BooleanField", booleanAccessor.FieldName);
+            Assert.AreEqual("Int32Field", int32Accessor.FieldName);
+            Assert.AreEqual("StringField", stringAccessor.FieldName);
+
             bool actualBoolean = booleanAccessor.Get(canary);
             Assert.AreEqual(canary.BooleanField, actualBoolean);
 
@@ -58,6 +47,14 @@ namespace UnitTests.AM.Reflection
 
             stringAccessor.Set (canary, "World");
             Assert.AreEqual("World", canary.StringField);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void FieldAccessor_Get_Set_2()
+        {
+            FieldAccessor<CanaryClass, bool> wrongAccessor
+                = new FieldAccessor<CanaryClass, bool>("NonexistentField"); 
         }
     }
 }
