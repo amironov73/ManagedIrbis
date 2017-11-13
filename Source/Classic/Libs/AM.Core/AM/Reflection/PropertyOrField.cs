@@ -39,6 +39,7 @@ namespace AM.Reflection
         /// Gets the field info.
         /// </summary>
         /// <value>The field info.</value>
+        [CanBeNull]
         public FieldInfo FieldInfo
         {
             [DebuggerStepThrough]
@@ -60,7 +61,8 @@ namespace AM.Reflection
             get
             {
                 return IsProperty
-                       && PropertyInfo.GetIndexParameters().Length != 0;
+                       && PropertyInfo.ThrowIfNull("PropertyInfo")
+                       .GetIndexParameters().Length != 0;
             }
         }
 
@@ -79,11 +81,10 @@ namespace AM.Reflection
             }
         }
 
-        private readonly MemberInfo _memberInfo;
-
         /// <summary>
         /// Gets the member info.
         /// </summary>
+        [NotNull]
         public MemberInfo MemberInfo
         {
             [DebuggerStepThrough]
@@ -96,6 +97,7 @@ namespace AM.Reflection
         /// <summary>
         /// Gets the type of the member.
         /// </summary>
+        [NotNull]
         public Type MemberType
         {
             [DebuggerStepThrough]
@@ -103,10 +105,10 @@ namespace AM.Reflection
             {
                 if (IsProperty)
                 {
-                    return PropertyInfo.PropertyType;
+                    return PropertyInfo.ThrowIfNull("PropertyInfo").PropertyType;
                 }
 
-                return FieldInfo.FieldType;
+                return FieldInfo.ThrowIfNull("FieldInfo").FieldType;
             }
         }
 
@@ -114,6 +116,7 @@ namespace AM.Reflection
         /// Gets the name.
         /// </summary>
         /// <value>The name.</value>
+        [NotNull]
         public string Name
         {
             [DebuggerStepThrough]
@@ -127,6 +130,7 @@ namespace AM.Reflection
         /// Gets the property info.
         /// </summary>
         /// <value>The property info.</value>
+        [CanBeNull]
         public PropertyInfo PropertyInfo
         {
             [DebuggerStepThrough]
@@ -146,7 +150,8 @@ namespace AM.Reflection
             [DebuggerStepThrough]
             get
             {
-                return IsProperty && !PropertyInfo.CanWrite;
+                return IsProperty
+                    && !PropertyInfo.ThrowIfNull("PropertyInfo").CanWrite;
             }
         }
 
@@ -211,6 +216,12 @@ namespace AM.Reflection
 
         #endregion
 
+        #region Private members
+
+        private readonly MemberInfo _memberInfo;
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -218,6 +229,7 @@ namespace AM.Reflection
         /// </summary>
         /// <param name="inherit">if set to <c>true</c> [inherit].</param>
         /// <returns>First found attribute or <c>null</c>.</returns>
+        [CanBeNull]
         public T GetCustomAttribute<T>
             (
                 bool inherit
@@ -236,6 +248,7 @@ namespace AM.Reflection
         /// <summary>
         /// Gets the value.
         /// </summary>
+        [CanBeNull]
         public object GetValue
             (
                 object obj
@@ -243,10 +256,10 @@ namespace AM.Reflection
         {
             if (IsProperty)
             {
-                return PropertyInfo.GetValue(obj, null);
+                return PropertyInfo.ThrowIfNull("PropertyInfo").GetValue(obj, null);
             }
 
-            return FieldInfo.GetValue(obj);
+            return FieldInfo.ThrowIfNull("FieldInfo").GetValue(obj);
         }
 
         /// <summary>
@@ -269,16 +282,16 @@ namespace AM.Reflection
         public void SetValue
             (
                 object obj,
-                object value
+                [CanBeNull] object value
             )
         {
             if (IsProperty)
             {
-                PropertyInfo.SetValue(obj, value, null);
+                PropertyInfo.ThrowIfNull("PropertyInfo").SetValue(obj, value, null);
             }
             else
             {
-                FieldInfo.SetValue(obj, value);
+                FieldInfo.ThrowIfNull("FieldInfo").SetValue(obj, value);
             }
         }
 
@@ -292,7 +305,7 @@ namespace AM.Reflection
                 [NotNull] PropertyOrField other
             )
         {
-            return Name.SafeCompare(other.Name);
+            return Name.SafeCompare(other.Name); // ???
         }
 
         #endregion

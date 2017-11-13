@@ -187,6 +187,7 @@
     <Compile Include="AM\MessageEventArgsTest.cs" />
     <Compile Include="AM\ObjectDumperTest.cs" />
     <Compile Include="AM\PredicateBuilderTest.cs" />
+    <Compile Include="AM\Reflection\PropertyOrFieldTest.cs" />
     <Compile Include="AM\SubArrayTest.cs" />
     <Compile Include="AM\Text\Output\NullOutputTest.cs" />
     <Compile Include="AM\Text\RichTextStripperTest.cs" />

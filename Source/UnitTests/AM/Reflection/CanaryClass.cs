@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace UnitTests.AM.Reflection
 {
@@ -20,11 +16,21 @@ namespace UnitTests.AM.Reflection
 
         #region Properties
 
+        [DisplayName("CanaryProperty")]
         public int Int32Property { get; set; }
 
         public bool BooleanProperty { get; set; }
 
         public string StringProperty { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        public void MethodOne()
+        {
+            // Nothing to do here
+        }
 
         #endregion
     }

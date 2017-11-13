@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System.Diagnostics.CodeAnalysis;
+
 using JetBrains.Annotations;
 
 #endregion
@@ -19,6 +21,7 @@ namespace AM.Reflection
     /// Common public key tokens.
     /// </summary>
     [PublicAPI]
+    [ExcludeFromCodeCoverage]
     public static class PublicKeyTokens
     {
         #region Private members
