@@ -136,6 +136,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(519, 29);
             this.tableLayoutPanel1.TabIndex = 2;
+            this.tableLayoutPanel1.Visible = false;
             // 
             // _goodButton
             // 

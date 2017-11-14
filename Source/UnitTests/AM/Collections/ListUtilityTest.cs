@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Collections;
+
+// ReSharper disable ExpressionIsAlwaysNull
+// ReSharper disable InvokeAsExtensionMethod
 
 namespace UnitTests.AM.Collections
 {
@@ -10,7 +14,7 @@ namespace UnitTests.AM.Collections
     public class ListUtilityTest
     {
         [TestMethod]
-        public void ListUtility_IsNullOrEmpty()
+        public void ListUtility_IsNullOrEmpty_1()
         {
             List<int> list = null;
             Assert.IsTrue(list.IsNullOrEmpty());
@@ -23,7 +27,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void ListUtility_ContainsValue()
+        public void ListUtility_ContainsValue_1()
         {
             List<int> list = new List<int> { 1, 2, 3 };
 
@@ -41,9 +45,9 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void ListUtility_AddDistinct()
+        public void ListUtility_AddDistinct_1()
         {
-            List<int> list = new List<int>{1,2,3};
+            List<int> list = new List<int> { 1, 2, 3 };
 
             Assert.IsTrue(list.AddDistinct(4));
             Assert.IsFalse(list.AddDistinct(4));
@@ -57,19 +61,19 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void ListUtility_AddRangeDistinct()
+        public void ListUtility_AddRangeDistinct_1()
         {
             List<int> list = new List<int> { 1, 2, 3 };
 
             IEqualityComparer<int> comparer
                 = EqualityComparer<int>.Default;
 
-            Assert.IsTrue(list.AddRangeDistinct(new[]{4,5,6}, comparer));
-            Assert.IsFalse(list.AddRangeDistinct(new[]{6,7,8}, comparer));
+            Assert.IsTrue(list.AddRangeDistinct(new[] { 4, 5, 6 }, comparer));
+            Assert.IsFalse(list.AddRangeDistinct(new[] { 6, 7, 8 }, comparer));
         }
 
         [TestMethod]
-        public void ListUtility_IndexOf()
+        public void ListUtility_IndexOf_1()
         {
             List<int> list = new List<int> { 1, 2, 3 };
 
@@ -82,10 +86,98 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void ListUtility_ThrowIfNullOrEmpty()
+        public void ListUtility_ThrowIfNullOrEmpty_1()
         {
             List<int> list = new List<int>();
-            list.ThrowIfNullOrEmpty();
+            ListUtility.ThrowIfNullOrEmpty(list);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ListUtility_ThrowIfNullOrEmpty_2()
+        {
+            List<int> list = new List<int>();
+            ListUtility.ThrowIfNullOrEmpty(list, "list");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ListUtility_ThrowIfNullOrEmpty_3()
+        {
+            int[] array = new int[0];
+            ListUtility.ThrowIfNullOrEmpty(array);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ListUtility_ThrowIfNullOrEmpty_4()
+        {
+            int[] array = new int[0];
+            ListUtility.ThrowIfNullOrEmpty(array, "array");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ListUtility_ThrowIfNullOrEmpty_5()
+        {
+            List<int> list = null;
+            ListUtility.ThrowIfNullOrEmpty(list);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ListUtility_ThrowIfNullOrEmpty_6()
+        {
+            List<int> list = null;
+            ListUtility.ThrowIfNullOrEmpty(list, "list");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ListUtility_ThrowIfNullOrEmpty_7()
+        {
+            int[] array = null;
+            ListUtility.ThrowIfNullOrEmpty(array);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ListUtility_ThrowIfNullOrEmpty_8()
+        {
+            int[] array = null;
+            ListUtility.ThrowIfNullOrEmpty(array, "array");
+        }
+
+        [TestMethod]
+        public void ListUtility_ThrowIfNullOrEmpty_9()
+        {
+            List<int> first = new List<int> { 1, 2, 3 };
+            List<int> second = (List<int>)ListUtility.ThrowIfNullOrEmpty(first);
+            Assert.AreSame(first, second);
+        }
+
+        [TestMethod]
+        public void ListUtility_ThrowIfNullOrEmpty_10()
+        {
+            List<int> first = new List<int> { 1, 2, 3 };
+            List<int> second = (List<int>)ListUtility.ThrowIfNullOrEmpty(first, "first");
+            Assert.AreSame(first, second);
+        }
+
+        [TestMethod]
+        public void ListUtility_ThrowIfNullOrEmpty_11()
+        {
+            int[] first = { 1, 2, 3 };
+            int[] second = ListUtility.ThrowIfNullOrEmpty(first);
+            Assert.AreSame(first, second);
+        }
+
+        [TestMethod]
+        public void ListUtility_ThrowIfNullOrEmpty_12()
+        {
+            int[] first = { 1, 2, 3 };
+            int[] second = ListUtility.ThrowIfNullOrEmpty(first, "first");
+            Assert.AreSame(first, second);
         }
     }
 }

@@ -68,25 +68,25 @@ namespace CardFixer
         /// <summary>
         /// Сохраняет контекст для указанного клиента.
         /// </summary>
-        public IrbisContextSaver 
-            ( 
-                IrbisConnection client 
+        public IrbisContextSaver
+            (
+                IrbisConnection client
             )
         {
-            if ( ReferenceEquals ( client, null ) )
+            if (ReferenceEquals(client, null))
             {
                 throw new ArgumentNullException("client");
             }
             _client = client;
 
-            SaveContext ();
+            SaveContext();
         }
 
         #endregion
 
         #region Private members
 
-        [NonSerialized] 
+        [NonSerialized]
         private readonly IrbisConnection _client;
 
         #endregion
@@ -96,7 +96,7 @@ namespace CardFixer
         /// <summary>
         /// Сохраняет контекст.
         /// </summary>
-        public IrbisConnection SaveContext ()
+        public IrbisConnection SaveContext()
         {
             Host = Client.Host;
             Port = Client.Port;
@@ -111,14 +111,20 @@ namespace CardFixer
         /// <summary>
         /// Восстанавливает контекст.
         /// </summary>
-        public IrbisConnection RestoreContext ()
+        public IrbisConnection RestoreContext()
         {
-            Client.Host = Host;
-            Client.Port = Port;
-            Client.Username = Username;
-            Client.Password = Password;
+            // TODO more intelligent restoring!
+
+            if (!Client.Connected)
+            {
+                Client.Host = Host;
+                Client.Port = Port;
+                Client.Username = Username;
+                Client.Password = Password;
+                Client.Workstation = Workstation;
+            }
+
             Client.Database = Database;
-            Client.Workstation = Workstation;
 
             return Client;
         }
@@ -132,9 +138,9 @@ namespace CardFixer
         /// with freeing, releasing, or resetting 
         /// unmanaged resources.
         /// </summary>
-        public void Dispose ()
+        public void Dispose()
         {
-            RestoreContext ();
+            RestoreContext();
         }
 
         #endregion

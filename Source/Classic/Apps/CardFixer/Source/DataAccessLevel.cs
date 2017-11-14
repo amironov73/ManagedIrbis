@@ -416,6 +416,34 @@ namespace CardFixer
                 );
         }
 
+        public int UpdateRecord
+            (
+                string number,
+                string cardId
+            )
+        {
+            using (new IrbisContextSaver(Client))
+            {
+                Client.Database = CM.AppSettings["cards-database"];
+
+                int[] found = Client.Search
+                    (
+                        "\"IN={0}\"",
+                        number
+                    );
+                MarcRecord record = Client.ReadRecord(found[0]);
+                RecordField oldField = record.Fields.GetField(2020).First();
+                int index = record.Fields.IndexOf(oldField);
+                RecordField newField = new RecordField(2020)
+                    .AddSubField('a', cardId)
+                    .AddSubField('b', IdToPath(cardId))
+                    .AddSubField('c', "4");
+                record.Fields.Insert(index, newField);
+                Client.WriteRecord(record);
+                return record.Mfn;
+            }
+        }
+
         #endregion
 
         #region IDisposable members

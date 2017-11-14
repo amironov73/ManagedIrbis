@@ -32,10 +32,6 @@ namespace AM.Collections
     [MoonSharpUserData]
     public static class ListUtility
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>

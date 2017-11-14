@@ -13,6 +13,8 @@ using System.Windows.Forms;
 
 using AM.Text.Output;
 
+using ManagedIrbis;
+
 namespace CardFixer
 {
     public partial class MainForm : Form
@@ -215,15 +217,50 @@ namespace CardFixer
         {
             if (string.IsNullOrEmpty(inventory))
             {
+                MoveNext();
                 return;
             }
             inventory = inventory.Trim();
             if (string.IsNullOrEmpty(inventory))
             {
+                MoveNext();
                 return;
             }
 
+            InventoryResult result = _dal.CheckInventory2(inventory);
+            if (result.Status != InventoryStatus.Found)
+            {
+                _output.WriteLine("Не найдена карточка для {0}", inventory);
+                MoveNext();
+                return;
+            }
 
+            //_output.WriteLine("Найдена карточка");
+            int mfn = _dal.UpdateRecord(inventory, CurrentCard.Id);
+            _output.WriteLine("Карточка обновлена, MFN={0}", mfn);
+            MoveNext();
+        }
+
+        private void MoveNext()
+        {
+            _numberBox.Clear();
+            int index = _listBox.SelectedIndex;
+            if (index < _listBox.Items.Count - 1)
+            {
+                index++;
+                _listBox.SelectedIndex = index;
+            }
+            else
+            {
+                MessageBox.Show
+                    (
+                        this,
+                        "Ящик закончился!",
+                        "Ура!",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+            }
         }
 
         private void _numberBox_KeyDown(object sender, KeyEventArgs e)
