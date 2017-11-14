@@ -177,6 +177,8 @@ namespace AM
                 [NotNull] string eventName
             )
         {
+#if !PORTABLE
+
             Code.NotNull(obj, "obj");
             Code.NotNullNorEmpty(eventName, "eventName");
 
@@ -196,6 +198,7 @@ namespace AM
                 //    // ReSharper restore DelegateSubtraction
                 //}
             }
+#endif
         }
 
         #endregion

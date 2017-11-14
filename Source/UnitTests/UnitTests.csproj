@@ -144,6 +144,7 @@
     <Compile Include="AM\Collections\CloneableDictionaryTest.cs" />
     <Compile Include="AM\Collections\DictionaryCounterInt32Test.cs" />
     <Compile Include="AM\Collections\KeyedCollectionTest.cs" />
+    <Compile Include="AM\Collections\NonEmptyStringCollectionTest.cs" />
     <Compile Include="AM\Collections\NonNullCollectionTest.cs" />
     <Compile Include="AM\Collections\CharSetTest.cs" />
     <Compile Include="AM\Collections\BitArrayUtilityTest.cs" />

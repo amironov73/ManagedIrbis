@@ -63,10 +63,10 @@ namespace AM.Collections
             if (string.IsNullOrEmpty(item))
             {
                 Log.Error
-                (
-                    "NonEmptyStringCollection::SetItem: "
-                    + "item is empty"
-                );
+                    (
+                        "NonEmptyStringCollection::SetItem: "
+                        + "item is empty"
+                    );
 
                 throw new ArgumentOutOfRangeException("item");
             }
