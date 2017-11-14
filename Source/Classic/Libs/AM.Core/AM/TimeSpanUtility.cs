@@ -83,7 +83,7 @@ namespace AM
         /// </summary>
         public static bool IsZero
             (
-            this TimeSpan timeSpan
+                this TimeSpan timeSpan
             )
         {
             return TimeSpan.Compare(timeSpan, TimeSpan.Zero) == 0;
@@ -94,7 +94,7 @@ namespace AM
         /// </summary>
         public static bool IsZeroOrLess
             (
-            this TimeSpan timeSpan
+                this TimeSpan timeSpan
             )
         {
             return TimeSpan.Compare(timeSpan, TimeSpan.Zero) <= 0;
@@ -103,11 +103,9 @@ namespace AM
         /// <summary>
         /// Is length of the time span less than zero?
         /// </summary>
-        /// <param name="timeSpan"></param>
-        /// <returns></returns>
-        public static bool LessThenZero
+        public static bool LessThanZero
             (
-            this TimeSpan timeSpan
+                this TimeSpan timeSpan
             )
         {
             return TimeSpan.Compare(timeSpan, TimeSpan.Zero) < 0;
@@ -118,6 +116,7 @@ namespace AM
         /// automatically selecting format
         /// according duration of the span.
         /// </summary>
+        [NotNull]
         public static string ToAutoString
             (
                 this TimeSpan span
@@ -127,20 +126,24 @@ namespace AM
             {
                 return span.ToDayString();
             }
+
             if (span >= OneHour)
             {
                 return span.ToHourString();
             }
+
             if (span >= OneMinute)
             {
                 return span.ToMinuteString();
             }
+
             return span.ToSecondString();
         }
 
         /// <summary>
         /// Converts time span using format 'dd:hh:mm:ss'
         /// </summary>
+        [NotNull]
         public static string ToDayString
             (
                 this TimeSpan span
@@ -160,6 +163,7 @@ namespace AM
         /// <summary>
         /// Converts time span using format 'hh:mm:ss'
         /// </summary>
+        [NotNull]
         public static string ToHourString
             (
                 this TimeSpan span
@@ -178,6 +182,7 @@ namespace AM
         /// <summary>
         /// Converts time span using format 'mm:ss'
         /// </summary>
+        [NotNull]
         public static string ToMinuteString
             (
                 this TimeSpan span
@@ -199,6 +204,7 @@ namespace AM
         /// <summary>
         /// Converts time span using format 's.ff'
         /// </summary>
+        [NotNull]
         public static string ToSecondString
             (
                 this TimeSpan span
@@ -214,6 +220,7 @@ namespace AM
         /// <summary>
         /// Converts time span using format 's'
         /// </summary>
+        [NotNull]
         public static string ToWholeSecondsString
             (
                 this TimeSpan span

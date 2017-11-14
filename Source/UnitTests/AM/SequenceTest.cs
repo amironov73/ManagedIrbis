@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM;
+
+// ReSharper disable ConvertToLocalFunction
 
 namespace UnitTests.AM
 {
@@ -10,7 +13,7 @@ namespace UnitTests.AM
     public class SequenceTest
     {
         [TestMethod]
-        public void Sequence_FirstOr()
+        public void Sequence_FirstOr_1()
         {
             int[] array = {1, 2, 3};
             int result = array.FirstOr(100);
@@ -22,7 +25,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void Sequence_FromItems()
+        public void Sequence_FromItems_1()
         {
             int[] array = Sequence.FromItem(1).ToArray();
             Assert.AreEqual(1, array.Length);
@@ -48,7 +51,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void Sequence_NonEmptyLines()
+        public void Sequence_NonEmptyLines_1()
         {
             string[] array = { "Hello", "", "World", null, "!" };
             string[] result = array.NonEmptyLines().ToArray();
@@ -59,7 +62,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void Sequence_NonNullItems()
+        public void Sequence_NonNullItems_1()
         {
             string[] array = {"Hello", "", "World", null, "!"};
             string[] result = array.NonNullItems().ToArray();
@@ -71,7 +74,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void Sequence_Repeat()
+        public void Sequence_Repeat_1()
         {
             int[] array = Sequence.Repeat(5, 3).ToArray();
             Assert.AreEqual(3,array.Length);
@@ -85,7 +88,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void Sequence_Replace1()
+        public void Sequence_Replace_1()
         {
             int[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
             int[] result = array.Replace(3, 33).ToArray();
@@ -103,7 +106,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void Sequence_Replace2()
+        public void Sequence_Replace_2()
         {
             int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             int[] result = array.Replace(33, 333).ToArray();
@@ -121,7 +124,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void Sequence_Replace3()
+        public void Sequence_Replace_3()
         {
             int[] array = new int[0];
             int[] result = array.Replace(33, 333).ToArray();
@@ -129,7 +132,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void Sequence_Segment1()
+        public void Sequence_Segment_1()
         {
             int[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
             int[] segment = array.Segment(3, 3).ToArray();
@@ -140,7 +143,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void Sequence_Segment2()
+        public void Sequence_Segment_2()
         {
             int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             int[] segment = array.Segment(3, 0).ToArray();
@@ -148,7 +151,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void Sequence_Segment3()
+        public void Sequence_Segment_3()
         {
             int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             int[] segment = array.Segment(11, 3).ToArray();
@@ -157,7 +160,7 @@ namespace UnitTests.AM
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Sequence_Segment_Exception1()
+        public void Sequence_Segment_4()
         {
             int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             array.Segment(-1, 3).ToArray();
@@ -165,14 +168,14 @@ namespace UnitTests.AM
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Sequence_Segment_Exception2()
+        public void Sequence_Segment_5()
         {
             int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             array.Segment(3, -1).ToArray();
         }
 
         [TestMethod]
-        public void Sequence_Separate()
+        public void Sequence_Separate_1()
         {
             int[] array = {1, 2, 3};
             int[] separated = array.Separate(0)
@@ -188,7 +191,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void Sequence_Slice()
+        public void Sequence_Slice_1()
         {
             int[] array = { 1, 2, 3 };
             int[][] sliced = array.Slice(2).ToArray();
@@ -201,14 +204,14 @@ namespace UnitTests.AM
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Sequence_Slice_Exception()
+        public void Sequence_Slice_2()
         {
             int[] array = { 1, 2, 3 };
             array.Slice(-2).ToArray();
         }
 
         [TestMethod]
-        public void Sequence_Tee1()
+        public void Sequence_Tee_1()
         {
             int counter = 0;
             int[] array = {1, 2, 3};
@@ -222,7 +225,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void Sequence_Tee2()
+        public void Sequence_Tee_2()
         {
             int[] array = { 1, 2, 3 };
             int[] buffer=new int[array.Length];
@@ -233,6 +236,27 @@ namespace UnitTests.AM
                 Assert.AreEqual(array[i], result[i]);
                 Assert.AreEqual(array[i], buffer[i]);
             }
+        }
+
+        [TestMethod]
+        public void Sequence_MaxOrDefault_1()
+        {
+            int[] array = { 1, 2, 3 };
+            Assert.AreEqual(3, array.MaxOrDefault(0));
+
+            array = new int[0];
+            Assert.AreEqual(0, array.MaxOrDefault(0));
+        }
+
+        [TestMethod]
+        public void Sequence_MaxOrDefault_2()
+        {
+            int[] array = {1, 2, 3};
+            Func<int, int> selector = i => i * i;
+            Assert.AreEqual(9, array.MaxOrDefault(selector, 0));
+
+            array = new int[0];
+            Assert.AreEqual(0, array.MaxOrDefault(selector, 0));
         }
     }
 }
