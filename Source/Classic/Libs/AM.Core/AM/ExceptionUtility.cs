@@ -10,10 +10,6 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM.Logging;
 
@@ -34,18 +30,6 @@ namespace AM
     [MoonSharpUserData]
     public static class ExceptionUtility
     {
-        #region Properties
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>

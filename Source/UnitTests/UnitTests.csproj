@@ -181,6 +181,7 @@
     <Compile Include="AM\EmptyArrayTest.cs" />
     <Compile Include="AM\EquatableTest.cs" />
     <Compile Include="AM\ExceptionEventArgsTest.cs" />
+    <Compile Include="AM\ExceptionUtilityTest.cs" />
     <Compile Include="AM\FunctionalUtilityTest.cs" />
     <Compile Include="AM\GenderUtilityTest.cs" />
     <Compile Include="AM\Json\JsonUtilityTest.cs" />

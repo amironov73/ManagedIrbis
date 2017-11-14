@@ -10,10 +10,6 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using JetBrains.Annotations;
 
@@ -39,6 +35,11 @@ namespace AM
         [NotNull]
         public Exception Exception { get; private set; }
 
+        /// <summary>
+        /// Handled?
+        /// </summary>
+        public bool Handled { get; set; }
+
         #endregion
 
         #region Construction
@@ -53,14 +54,6 @@ namespace AM
         {
             Exception = exception;
         }
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
     }
