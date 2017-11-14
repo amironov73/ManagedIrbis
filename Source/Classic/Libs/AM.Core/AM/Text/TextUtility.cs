@@ -69,7 +69,7 @@ namespace AM.Text
             bool curly = text.Contains("{")
                 && text.Contains("}");
             bool angle = text.Contains("<")
-                && text.Contains("}");
+                && text.Contains(">");
 
             if (curly && !angle)
             {

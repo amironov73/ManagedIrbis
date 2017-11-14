@@ -30,6 +30,12 @@ namespace AM
     [MoonSharpUserData]
     public static class EventUtility
     {
+        #region Delegates
+
+        public delegate void RemoveDelegate(EventHandler handler);
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -167,21 +173,28 @@ namespace AM
         /// </summary>
         public static void UnsubscribeAll
             (
-                [CanBeNull] this EventHandler handler
+                [NotNull] object obj,
+                [NotNull] string eventName
             )
         {
-            // TODO totally crap :(
+            Code.NotNull(obj, "obj");
+            Code.NotNullNorEmpty(eventName, "eventName");
 
-            if (!ReferenceEquals(handler, null))
+            //if (!ReferenceEquals(handler, null))
             {
-                Delegate[] subscribers
-                    = handler.GetInvocationList();
-                foreach (Delegate subscriber in subscribers)
-                {
-                    // ReSharper disable DelegateSubtraction
-                    handler -= (EventHandler) subscriber;
-                    // ReSharper restore DelegateSubtraction
-                }
+                Type type = obj.GetType();
+                EventInfo eventInfo = type.GetEvent(eventName);
+                MethodInfo methodInfo = eventInfo.GetRemoveMethod();
+                //Delegate method = Delegate.CreateDelegate(typeof(RemoveDelegate), methodInfo);
+
+                //Delegate[] subscribers
+                //    = handler.GetInvocationList();
+                //foreach (Delegate subscriber in subscribers)
+                //{
+                //    // ReSharper disable DelegateSubtraction
+                //    handler -= (EventHandler) subscriber;
+                //    // ReSharper restore DelegateSubtraction
+                //}
             }
         }
 

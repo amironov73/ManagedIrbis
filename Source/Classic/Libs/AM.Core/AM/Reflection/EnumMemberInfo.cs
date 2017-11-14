@@ -160,7 +160,7 @@ namespace AM.Reflection
         /// Parses the specified enum type.
         /// </summary>
         /// <param name="enumType">Type of the enum.</param>
-        /// <returns></returns>
+        [NotNull]
         public static EnumMemberInfo[] Parse
             (
                 Type enumType
@@ -262,14 +262,7 @@ namespace AM.Reflection
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="T:System.String"/>
-        /// that represents the current <see cref="T:System.Object"/>.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.String"></see> that represents 
-        /// the current <see cref="T:System.Object"></see>.
-        /// </returns>
+        /// <inheritdoc cref="object.ToString"/>
         public override string ToString()
         {
             return DisplayName;

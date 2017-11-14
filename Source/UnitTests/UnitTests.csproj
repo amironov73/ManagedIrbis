@@ -180,6 +180,7 @@
     <Compile Include="AM\DuplicateKeyExceptionTest.cs" />
     <Compile Include="AM\EmptyArrayTest.cs" />
     <Compile Include="AM\EquatableTest.cs" />
+    <Compile Include="AM\EventUtilityTest.cs" />
     <Compile Include="AM\ExceptionEventArgsTest.cs" />
     <Compile Include="AM\ExceptionUtilityTest.cs" />
     <Compile Include="AM\FunctionalUtilityTest.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="AM\ObjectDumperTest.cs" />
     <Compile Include="AM\PredicateBuilderTest.cs" />
     <Compile Include="AM\Reflection\PropertyOrFieldTest.cs" />
+    <Compile Include="AM\Reflection\TaggedClassAttributeTest.cs" />
     <Compile Include="AM\SubArrayTest.cs" />
     <Compile Include="AM\Text\Output\NullOutputTest.cs" />
     <Compile Include="AM\Text\RichTextStripperTest.cs" />
@@ -198,6 +200,7 @@
     <Compile Include="AM\ActionUtilityTest.cs" />
     <Compile Include="AM\Text\HtmlTextTest.cs" />
     <Compile Include="AM\Text\RichTextTest.cs" />
+    <Compile Include="AM\Text\TextUtilityTest.cs" />
     <Compile Include="AM\UtilityTest.cs" />
     <Compile Include="ManagedIrbis\AsyncExtensionsTest.cs" />
     <Compile Include="ManagedIrbis\Caching\MenuCacheTest.cs" />

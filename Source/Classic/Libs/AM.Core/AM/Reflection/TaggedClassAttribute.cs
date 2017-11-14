@@ -10,7 +10,6 @@
 #region Using directives
 
 using System;
-using System.Diagnostics;
 
 using JetBrains.Annotations;
 
@@ -28,18 +27,12 @@ namespace AM.Reflection
     {
         #region Properties
 
-        private string _tag;
-
         /// <summary>
         /// Tag.
         /// </summary>
         public string Tag
         {
-            [DebuggerStepThrough]
-            get
-            {
-                return _tag;
-            }
+            get; private set;
         }
 
         #endregion
@@ -54,7 +47,7 @@ namespace AM.Reflection
                 [NotNull] string tag
             )
         {
-            _tag = tag;
+            Tag = tag;
         }
 
         #endregion
