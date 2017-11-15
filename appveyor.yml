@@ -31,6 +31,7 @@ after_build:
 - cmd: runPftTests.cmd
 - cmd: compile.cmd
 - cmd: compilecore.cmd
+- cmd: compilecore2.cmd
 - cmd: compiledroid.cmd
 - cmd: compileuap.cmd
 - cmd: compilesl.cmd

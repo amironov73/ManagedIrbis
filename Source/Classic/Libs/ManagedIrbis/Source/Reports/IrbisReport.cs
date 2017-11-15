@@ -227,6 +227,11 @@ namespace ManagedIrbis.Reports
                 TypeNameAssemblyFormat = json::System.Runtime
                     .Serialization.Formatters
                     .FormatterAssemblyStyle.Simple
+#elif NETCOREAPP2_0
+
+                // TODO fix it
+                // TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+
 #else
                 TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
 #endif            
@@ -288,6 +293,11 @@ namespace ManagedIrbis.Reports
                 TypeNameAssemblyFormat = json::System.Runtime
                     .Serialization.Formatters
                     .FormatterAssemblyStyle.Simple
+#elif NETCOREAPP2_0
+
+                // TODO fix it
+                // TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+
 #else
                 TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
 #endif            
@@ -323,6 +333,11 @@ namespace ManagedIrbis.Reports
                 TypeNameAssemblyFormat = json::System.Runtime
                     .Serialization.Formatters
                     .FormatterAssemblyStyle.Simple
+#elif NETCOREAPP2_0
+
+                // TODO fix it
+                // TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+
 #else
                 TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
 #endif            
@@ -364,6 +379,11 @@ namespace ManagedIrbis.Reports
                 TypeNameAssemblyFormat = json::System.Runtime
                     .Serialization.Formatters
                     .FormatterAssemblyStyle.Simple
+#elif NETCOREAPP2_0
+
+                // TODO fix it
+                // TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
+
 #else
                 TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
 #endif            

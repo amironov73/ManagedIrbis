@@ -9,6 +9,8 @@
 
 #if FW35 || PORTABLE || SILVERLIGHT || WIN81 || UAP || NETCORE || WINMOBILE
 
+#if !NETCOREAPP2_0
+
 namespace System.Diagnostics.CodeAnalysis
 {
     /// <summary>
@@ -19,5 +21,7 @@ namespace System.Diagnostics.CodeAnalysis
     {
     }
 }
+
+#endif
 
 #endif

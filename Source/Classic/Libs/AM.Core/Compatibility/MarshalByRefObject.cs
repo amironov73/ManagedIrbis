@@ -9,11 +9,15 @@
 
 #if NETCORE || PORTABLE || WIN81 || UAP || SILVERLIGHT
 
+#if !NETCOREAPP2_0
+
 namespace System
 {
     public class MarshalByRefObject
     {
     }
 }
+
+#endif
 
 #endif
