@@ -10,6 +10,7 @@
 #region Using directives
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using AM;
@@ -73,7 +74,7 @@ namespace ManagedIrbis
             {
                 other = other.ThrowIfNull();
                 return Tag == other.Tag
-                   && string.CompareOrdinal(Text,other.Text) == 0;
+                   && string.CompareOrdinal(Text, other.Text) == 0;
             }
 
             #endregion
@@ -146,6 +147,80 @@ namespace ManagedIrbis
                 );
 
             return result;
+        }
+
+        /// <summary>
+        /// Find difference.
+        /// </summary>
+        [NotNull]
+        public static FieldDifference[] FindDifference2
+            (
+                [NotNull] MarcRecord newRecord,
+                [NotNull] MarcRecord oldRecord,
+                [NotNull] int[] residuaryTags
+            )
+        {
+            Code.NotNull(newRecord, "newRecord");
+            Code.NotNull(oldRecord, "oldRecord");
+
+            List<FieldDifference> result = new List<FieldDifference>();
+
+            int[] tags = newRecord.Fields
+                .Select(field => field.Tag)
+                .Where(tag => !tag.OneOf(residuaryTags))
+                .Distinct()
+                .OrderBy(tag => tag)
+                .ToArray();
+
+            foreach (int tag in tags)
+            {
+                int count = newRecord.Fields.GetFieldCount(tag);
+                for (int occ = 0; occ < count; occ++)
+                {
+                    RecordField firstField = newRecord.Fields.GetField(tag, occ)
+                        .ThrowIfNull("firstField");
+                    RecordField secondField = oldRecord.Fields.GetField(tag, occ);
+                    FieldDifference diff = new FieldDifference
+                    {
+                        Tag = tag,
+                        Repeat = occ + 1,
+                        NewValue = firstField.ToText()
+                    };
+                    result.Add(diff);
+                    if (ReferenceEquals(secondField, null))
+                    {
+                        diff.State = FieldState.Added;
+                    }
+                    else
+                    {
+                        secondField.UserData = true;
+                        diff.OldValue = secondField.ToText();
+                        diff.State = FieldState.Unchanged;
+                        if (string.CompareOrdinal(diff.NewValue, diff.OldValue) != 0)
+                        {
+                            diff.State = FieldState.Edited;
+                        }
+                    }
+                }
+            }
+
+            RecordField[] oldOnly = oldRecord.Fields
+                .Where(field => !field.Tag.OneOf(residuaryTags))
+                .Where(field => ReferenceEquals(field.UserData, null))
+                .ToArray();
+            foreach (RecordField field in oldOnly)
+            {
+                FieldDifference diff = new FieldDifference
+                {
+                    Tag = field.Tag,
+                    Repeat = 0,
+                    State = FieldState.Removed,
+                    OldValue = field.ToText()
+                };
+                result.Add(diff);
+            }
+
+            return result.ToArray();
         }
 
         #endregion

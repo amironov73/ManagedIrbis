@@ -7,16 +7,21 @@
  * Status: poor
  */
 
+#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 using AM;
 using AM.Collections;
+
 using ManagedIrbis;
 using ManagedIrbis.Batch;
 using ManagedIrbis.Fields;
 using ManagedIrbis.Readers;
+
+#endregion
 
 namespace RdrStat
 {

@@ -168,6 +168,8 @@
     <Compile Include="Source\Biblio\TermComparer.cs" />
     <Compile Include="Source\BibTex\BibTex.cs" />
     <Compile Include="Source\Client\ConnectedFormatter.cs" />
+    <Compile Include="Source\FieldDifference.cs" />
+    <Compile Include="Source\FieldState.cs" />
     <Compile Include="Source\Fields\ArrivalsInfo.cs" />
     <Compile Include="Source\Fields\AuthorInfo.cs" />
     <Compile Include="Source\Fields\BinaryResource.cs" />
