@@ -7,19 +7,19 @@ DEL /q *.nupkg > nul 2> nul
 
 IF not exist lib     mkdir lib     > nul 2> nul
 
-CALL :BUILD AM.Core            core sl droid uap win81 pcl
-CALL :BUILD ManagedIrbis       core sl droid uap win81 pcl
-CALL :BUILD AM.Drawing         no   no no    no  no    no
-CALL :BUILD AM.Rfid            no   no no    no  no    no
-CALL :BUILD AM.Windows.Forms   no   no no    no  no    no
-CALL :BUILD AM.Win32           no   no no    no  no    no
-CALL :BUILD IrbisUI            no   no no    no  no    no
-CALL :BUILD AM.Suggestions     no   no no    no  no    no
-CALL :BUILD AM.AOT             core no droid uap no    pcl
-CALL :BUILD AM.Ocr             no   no no    no  no    no
-CALL :BUILD RestfulIrbis       core no droid uap no    pcl
-CALL :BUILD IrbisInterop       no   no no    no  no    no
-CALL :BUILD ManagedIrbis.Isis  no   no no    no  no    no
+CALL :BUILD AM.Core            core sl droid uap win81 pcl core2
+CALL :BUILD ManagedIrbis       core sl droid uap win81 pcl core2
+CALL :BUILD AM.Drawing         no   no no    no  no    no  no
+CALL :BUILD AM.Rfid            no   no no    no  no    no  no
+CALL :BUILD AM.Windows.Forms   no   no no    no  no    no  no
+CALL :BUILD AM.Win32           no   no no    no  no    no  no
+CALL :BUILD IrbisUI            no   no no    no  no    no  no
+CALL :BUILD AM.Suggestions     no   no no    no  no    no  no
+CALL :BUILD AM.AOT             core no droid uap no    pcl no
+CALL :BUILD AM.Ocr             no   no no    no  no    no  no
+CALL :BUILD RestfulIrbis       core no droid uap no    pcl no
+CALL :BUILD IrbisInterop       no   no no    no  no    no  no
+CALL :BUILD ManagedIrbis.Isis  no   no no    no  no    no  no
 
 IF exist content (
 cd content
@@ -61,6 +61,9 @@ IF %6==no    rmdir win81                 > nul 2> nul
 IF %7==pcl   mkdir "portable-net45+win8" > nul 2> nul
 IF %7==no    rmdir "portable-net45+win8" > nul 2> nul
 
+IF %8==core2 mkdir netstandard2.0        > nul 2> nul
+IF %8==no    rmdir netstandard2.0        > nul 2> nul
+
 IF exist content (
 cd content
 del /s /q *.* > nul 2> nul
@@ -99,6 +102,7 @@ IF %4==droid copy %BIN%\%BUILD%Droid\%1.*                              lib\MonoA
 IF %5==uap   copy %BIN%\%BUILD%Universal\%1.*                          lib\uap                   > nul
 IF %6==win81 copy %BIN%\%BUILD%Windows81\%1.*                          lib\win81                 > nul
 IF %7==pcl   copy %BIN%\%BUILD%Portable\%1.*                           "lib\portable-net45+win8" > nul
+IF %8==core2 copy %BIN%\%BUILD%Core2\%1.*                              lib\netstandard2.0        > nul
 
 IF %1==AM.Rfid (
 copy %BIN%\%BUILD%35\FeCom.dll                lib\net35 > nul
