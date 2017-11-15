@@ -302,6 +302,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FieldReference.cs">
       <Link>Source\FieldReference.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FastFields.cs">
+      <Link>Source\FastFields.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FieldDifference.cs">
       <Link>Source\FieldDifference.cs</Link>
     </Compile>

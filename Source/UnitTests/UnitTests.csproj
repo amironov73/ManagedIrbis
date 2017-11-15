@@ -210,6 +210,7 @@
     <Compile Include="ManagedIrbis\ClientInfoTest.cs" />
     <Compile Include="ManagedIrbis\DatabaseInfoTest.cs" />
     <Compile Include="ManagedIrbis\Direct\DirectUtilityTest.cs" />
+    <Compile Include="ManagedIrbis\FastFieldsTest.cs" />
     <Compile Include="ManagedIrbis\FieldReferenceTest.cs" />
     <Compile Include="ManagedIrbis\Fields\BinaryResourceTest.cs" />
     <Compile Include="ManagedIrbis\Fields\CodesInfoTest.cs" />

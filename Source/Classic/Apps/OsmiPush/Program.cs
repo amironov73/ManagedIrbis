@@ -63,19 +63,10 @@ namespace OsmiPush
                 JObject ping = client.Ping();
                 Console.WriteLine(ping);
 
-                Console.WriteLine("CARD LIST:");
                 string[] cards = client.GetCardList();
-                Console.WriteLine
-                    (
-                        StringUtility.Join
-                            (
-                                ", ",
-                                cards
-                            )
-                    );
+                Console.Write("CARDS: {0}", cards.Length);
 
-                List<string> badReaders = new List<string>();
-
+                List<string> recipients = new List<string>();
                 using (connection = new IrbisConnection(connectionString))
                 {
                     IEnumerable<MarcRecord> batch = BatchRecordReader.Search
@@ -83,7 +74,7 @@ namespace OsmiPush
                             connection,
                             "RDR",
                             "RB=$",
-                            500
+                            1000
                         );
 
                     foreach (MarcRecord record in batch)
@@ -108,19 +99,19 @@ namespace OsmiPush
                                     reader.FullName,
                                     outdated.Length
                                 );
-                            badReaders.Add(reader.Ticket);
+                            recipients.Add(reader.Ticket);
                         }
                     }
                 }
 
                 Console.WriteLine();
-                Console.WriteLine("Total recipient(s): {0}", badReaders.Count);
+                Console.WriteLine("Total recipient(s): {0}", recipients.Count);
 
-                if (badReaders.Count != 0)
+                if (recipients.Count != 0)
                 {
                     client.SendPushMessage
                       (
-                          badReaders.ToArray(),
+                          recipients.ToArray(),
                           messageText
                       );
                     Console.WriteLine("Send OK");
