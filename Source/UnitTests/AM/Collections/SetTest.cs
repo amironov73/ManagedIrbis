@@ -12,6 +12,8 @@ using AM.Collections;
 // ReSharper disable ReturnValueOfPureMethodIsNotUsed
 // ReSharper disable EqualExpressionComparison
 
+#pragma warning disable CS1718 // Comparison made to same variable
+
 namespace UnitTests.AM.Collections
 {
     [TestClass]
