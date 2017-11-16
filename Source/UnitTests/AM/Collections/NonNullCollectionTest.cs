@@ -1,7 +1,11 @@
 ﻿using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Collections;
+
+// ReSharper disable CollectionNeverQueried.Local
+// ReSharper disable CollectionNeverUpdated.Local
 
 namespace UnitTests.AM.Collections
 {
@@ -9,29 +13,35 @@ namespace UnitTests.AM.Collections
     public class NonNullCollectionTest
     {
         [TestMethod]
-        public void NonNullCollection_Construction()
+        public void NonNullCollection_Construction_1()
         {
-            NonNullCollection<object> collection
-                = new NonNullCollection<object>();
+            NonNullCollection<object> collection = new NonNullCollection<object>();
             Assert.AreEqual(0, collection.Count);
         }
 
         [TestMethod]
-        public void NonNullCollection_Add()
+        public void NonNullCollection_Add_1()
         {
-            NonNullCollection<object> collection 
-                = new NonNullCollection<object>
+            NonNullCollection<object> collection = new NonNullCollection<object>
                 {
                     new object()
                 };
             Assert.AreEqual(1, collection.Count);
+        }
 
-            collection.Clear();
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NonNullCollection_Add_1a()
+        {
+            NonNullCollection<object> collection = new NonNullCollection<object>
+            {
+                null
+            };
             Assert.AreEqual(0, collection.Count);
         }
 
         [TestMethod]
-        public void NonNullCollection_AddRange()
+        public void NonNullCollection_AddRange_1()
         {
             NonNullCollection<object> collection
                 = new NonNullCollection<object>();
@@ -49,7 +59,7 @@ namespace UnitTests.AM.Collections
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void NonNullCollection_AddRange_Exception()
+        public void NonNullCollection_AddRange_2()
         {
             NonNullCollection<object> collection
                 = new NonNullCollection<object>();
@@ -65,7 +75,7 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        public void NonNullCollection_Clear()
+        public void NonNullCollection_Clear_1()
         {
             NonNullCollection<object> collection
                 = new NonNullCollection<object>
@@ -78,26 +88,36 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void NonNullCollection_Add_Exception()
+        public void NonNullCollection_Indexer_1()
         {
-            NonNullCollection<object> collection
-                = new NonNullCollection<object>
+            NonNullCollection<object> collection = new NonNullCollection<object>
                 {
-                    null
+                    new object()
                 };
+            collection[0] = 1;
+            Assert.AreEqual(1, collection[0]);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void NonNullCollection_Indexer()
+        public void NonNullCollection_Indexer_1a()
         {
-            NonNullCollection<object> collection
-                = new NonNullCollection<object>
+            NonNullCollection<object> collection = new NonNullCollection<object>
                 {
                     new object()
                 };
             collection[0] = null;
+        }
+
+        [TestMethod]
+        public void NonNullCollection_EnsureCapacity_1()
+        {
+            NonNullCollection<object> collection = new NonNullCollection<object>
+            {
+                new object()
+            };
+            collection.EnsureCapacity(100);
+            Assert.IsTrue(collection.Capacity >= 100);
         }
     }
 }

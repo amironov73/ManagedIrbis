@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Collections;
 
-// ReSharper disable CollectionNeverUpdated
+// ReSharper disable CollectionNeverUpdated.Local
 // ReSharper disable InlineOutVariableDeclaration
 
 namespace UnitTests.AM.Collections

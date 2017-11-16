@@ -13,8 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-using AM.Logging;
-
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -34,6 +32,23 @@ namespace AM.Collections
         : Collection<T>
         where T : class
     {
+        #region Properties
+
+        /// <summary>
+        /// Capacity.
+        /// </summary>
+        public int Capacity
+        {
+            get
+            {
+                List<T> innerList = _GetInnerList();
+
+                return innerList.Capacity;
+            }
+        }
+
+        #endregion
+
         #region Private members
 
         [NotNull]

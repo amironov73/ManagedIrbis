@@ -43,6 +43,12 @@ namespace Dupolov
         // Поля, остающиеся в записи
         private static readonly int[] ResiduaryTags = { 907, 999 };
 
+        // Дублей всего (шифры)
+        private static int DoubleCount;
+
+        // Полных дублей (записи)
+        private static int FullDoubleCount;
+
         // Удалять дубли?
         private static bool DeleteDoubles = false;
 
@@ -60,6 +66,10 @@ namespace Dupolov
                     term,
                     StringUtility.Join(", ", records.Select(r => r.Mfn))
                 );
+            if (records.Length > 1)
+            {
+                DoubleCount++;
+            }
 
             for (int i = 1; i < records.Length; i++)
             {
@@ -78,6 +88,7 @@ namespace Dupolov
                 if (modified.Length == 0)
                 {
                     Console.WriteLine("No difference found");
+                    FullDoubleCount++;
                     if (DeleteDoubles)
                     {
                         connection.DeleteRecord(records[i].Mfn);
@@ -168,6 +179,10 @@ namespace Dupolov
                     //Console.WriteLine("Connected");
 
                     DumpTerms();
+
+                    Console.WriteLine();
+                    Console.WriteLine("Doubled indexes: {0}", DoubleCount);
+                    Console.WriteLine("Full double records: {0}", FullDoubleCount);
 
                     //Console.WriteLine("Disconnected");
                 }

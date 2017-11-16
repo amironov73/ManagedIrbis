@@ -20,6 +20,8 @@ nuget:
 
 before_build:
 - cmd: nuget restore Source\ManagedIrbis.sln
+- cmd: choco install opencover.portable
+- cmd: choco install codecov
 
 build:
   project: Source\ManagedIrbis.sln

@@ -13,7 +13,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -21,6 +22,9 @@ using JetBrains.Annotations;
 using MoonSharp.Interpreter;
 
 #endregion
+
+// ReSharper disable ForCanBeConvertedToForeach
+// ReSharper disable SuggestVarOrType_BuiltInTypes
 
 namespace AM.Collections
 {
@@ -40,7 +44,6 @@ namespace AM.Collections
         /// <summary>
         /// Count.
         /// </summary>
-        /// <value></value>
         public int Count
         {
             [DebuggerStepThrough]
@@ -53,7 +56,6 @@ namespace AM.Collections
         /// <summary>
         /// Is empty.
         /// </summary>
-        /// <value></value>
         public bool IsEmpty
         {
             [DebuggerStepThrough]
@@ -66,12 +68,13 @@ namespace AM.Collections
         /// <summary>
         /// Get array of items.
         /// </summary>
+        [NotNull]
         public T[] Items
         {
             [DebuggerStepThrough]
             get
             {
-                return new List<T>(_data.Keys).ToArray();
+                return _data.Keys.ToArray();
             }
         }
 
@@ -105,7 +108,7 @@ namespace AM.Collections
         /// </summary>
         public Set
             (
-                Set<T> original
+                [NotNull] Set<T> original
             )
         {
             Code.NotNull(original, "original");
@@ -145,13 +148,19 @@ namespace AM.Collections
                 T item
             )
         {
+            if (ReferenceEquals(item, null))
+            {
+                throw new ArgumentNullException("item");
+            }
+
             _data[item] = null;
         }
 
         /// <summary>
         /// Add some elements.
         /// </summary>
-        public void Add
+        [NotNull]
+        public Set<T> Add
             (
                 params T[] many
             )
@@ -160,30 +169,40 @@ namespace AM.Collections
             {
                 _data[many[i]] = null;
             }
+
+            return this;
         }
 
         /// <summary>
         /// Add some elements.
         /// </summary>
-        public void AddRange
+        [NotNull]
+        public Set<T> AddRange
             (
-                IEnumerable<T> range
+                [NotNull] IEnumerable<T> range
             )
         {
+            Code.NotNull(range, "range");
+
             foreach (T item in range)
             {
                 Add(item);
             }
+
+            return this;
         }
 
         /// <summary>
         /// Convert all.
         /// </summary>
+        [NotNull]
         public Set<U> ConvertAll<U>
             (
-                Converter<T, U> converter
+                [NotNull] Converter<T, U> converter
             )
         {
+            Code.NotNull(converter, "converter");
+
             Set<U> result = new Set<U>(Count);
 
             foreach (T element in this)
@@ -199,28 +218,35 @@ namespace AM.Collections
         /// </summary>
         public bool TrueForAll
             (
-                Predicate<T> predicate
+                [NotNull] Predicate<T> predicate
             )
         {
+            Code.NotNull(predicate, "predicate");
+
+            bool result = false;
             foreach (T element in this)
             {
                 if (!predicate(element))
                 {
                     return false;
                 }
+                result = true;
             }
 
-            return true;
+            return result;
         }
 
         /// <summary>
         /// Find all.
         /// </summary>
+        [NotNull]
         public Set<T> FindAll
             (
-                Predicate<T> predicate
+                [NotNull] Predicate<T> predicate
             )
         {
+            Code.NotNull(predicate, "predicate");
+
             Set<T> result = new Set<T>();
             foreach (T element in this)
             {
@@ -229,6 +255,7 @@ namespace AM.Collections
                     result.Add(element);
                 }
             }
+
             return result;
         }
 
@@ -237,9 +264,11 @@ namespace AM.Collections
         /// </summary>
         public void ForEach
             (
-                Action<T> action
+                [NotNull] Action<T> action
             )
         {
+            Code.NotNull(action, "action");
+
             foreach (T element in this)
             {
                 action(element);
@@ -257,8 +286,16 @@ namespace AM.Collections
         /// <summary>
         /// Contains.
         /// </summary>
-        public bool Contains(T item)
+        public bool Contains
+            (
+                T item
+            )
         {
+            if (ReferenceEquals(item, null))
+            {
+                throw new ArgumentNullException("item");
+            }
+
             return _data.ContainsKey(item);
         }
 
@@ -282,6 +319,11 @@ namespace AM.Collections
                 T item
             )
         {
+            if (ReferenceEquals(item, null))
+            {
+                throw new ArgumentNullException("item");
+            }
+
             return _data.Remove(item);
         }
 
@@ -299,10 +341,7 @@ namespace AM.Collections
             }
         }
 
-        /// <summary>
-        /// Get enumerator.
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
         public IEnumerator<T> GetEnumerator()
         {
             return _data.Keys.GetEnumerator();
@@ -311,7 +350,6 @@ namespace AM.Collections
         /// <summary>
         /// Is read only.
         /// </summary>
-        /// <value></value>
         public bool IsReadOnly
         {
             [DebuggerStepThrough]
@@ -324,15 +362,16 @@ namespace AM.Collections
         /// <summary>
         /// Union operator.
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
+        [NotNull]
         public static Set<T> operator |
             (
-                Set<T> left,
-                Set<T> right
+                [NotNull] Set<T> left,
+                [NotNull] Set<T> right
             )
         {
+            Code.NotNull(left, "left");
+            Code.NotNull(right, "right");
+
             Set<T> result = new Set<T>(left);
             result.AddRange(right);
 
@@ -342,21 +381,30 @@ namespace AM.Collections
         /// <summary>
         /// Union.
         /// </summary>
-        /// <param name="set"></param>
-        /// <returns></returns>
-        public Set<T> Union(IEnumerable<T> set)
+        [NotNull]
+        public Set<T> Union
+            (
+                [NotNull] IEnumerable<T> set
+            )
         {
+            Code.NotNull(set, "set");
+
             return this | new Set<T>(set);
         }
 
         /// <summary>
         /// Intersection operator.
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static Set<T> operator &(Set<T> left, Set<T> right)
+        [NotNull]
+        public static Set<T> operator &
+            (
+                [NotNull] Set<T> left,
+                [NotNull] Set<T> right
+            )
         {
+            Code.NotNull(left, "left");
+            Code.NotNull(right, "right");
+
             Set<T> result = new Set<T>();
             foreach (T element in left)
             {
@@ -372,21 +420,25 @@ namespace AM.Collections
         /// <summary>
         /// Intersection.
         /// </summary>
+        [NotNull]
         public Set<T> Intersection
             (
-                IEnumerable<T> set
+                [NotNull] IEnumerable<T> items
             )
         {
-            return this & new Set<T>(set);
+            Code.NotNull(items, "items");
+
+            return this & new Set<T>(items);
         }
 
         /// <summary>
         /// Difference operator.
         /// </summary>
+        [NotNull]
         public static Set<T> operator -
             (
-                Set<T> left,
-                Set<T> right
+                [NotNull] Set<T> left,
+                [NotNull] Set<T> right
             )
         {
             Set<T> result = new Set<T>();
@@ -406,23 +458,30 @@ namespace AM.Collections
         /// <summary>
         /// Difference.
         /// </summary>
+        [NotNull]
         public Set<T> Difference
             (
-                IEnumerable<T> setToCompare
+                [NotNull] IEnumerable<T> setToCompare
             )
         {
+            Code.NotNull(setToCompare, "setToCompare");
+
             return this - new Set<T>(setToCompare);
         }
 
         /// <summary>
         /// Symmetric difference.
         /// </summary>
+        [NotNull]
         public static Set<T> operator ^
             (
-                Set<T> left,
-                Set<T> right
+                [NotNull] Set<T> left,
+                [NotNull] Set<T> right
             )
         {
+            Code.NotNull(left, "left");
+            Code.NotNull(right, "right");
+
             Set<T> result = new Set<T>();
 
             foreach (T element in left)
@@ -447,17 +506,21 @@ namespace AM.Collections
         /// <summary>
         /// Symmetric difference.
         /// </summary>
+        [NotNull]
         public Set<T> SymmetricDifference
             (
-            IEnumerable<T> setToCompare
+                [NotNull] IEnumerable<T> setToCompare
             )
         {
+            Code.NotNull(setToCompare, "setToCompare");
+
             return this ^ new Set<T>(setToCompare);
         }
 
         /// <summary>
         /// Empty.
         /// </summary>
+        [NotNull]
         public static Set<T> Empty
         {
             get
@@ -475,6 +538,9 @@ namespace AM.Collections
                 [NotNull] Set<T> right
             )
         {
+            Code.NotNull(left, "left");
+            Code.NotNull(right, "right");
+
             foreach (T element in left)
             {
                 if (!right.Contains(element))
@@ -495,6 +561,9 @@ namespace AM.Collections
                 [NotNull] Set<T> right
             )
         {
+            Code.NotNull(left, "left");
+            Code.NotNull(right, "right");
+
             return left.Count < right.Count
                 && left <= right;
         }
@@ -508,14 +577,8 @@ namespace AM.Collections
                 [NotNull] Set<T> right
             )
         {
-            // Fix PVS-Studio issue
-            // ReSharper disable ConditionIsAlwaysTrueOrFalse
-            if (ReferenceEquals(left, null)
-                || ReferenceEquals(right, null))
-            {
-                return false;
-            }
-            // ReSharper restore ConditionIsAlwaysTrueOrFalse
+            Code.NotNull(left, "left");
+            Code.NotNull(right, "right");
 
             return left.Count == right.Count
                 && left <= right;
@@ -530,6 +593,9 @@ namespace AM.Collections
                 [NotNull] Set<T> right
             )
         {
+            Code.NotNull(left, "left");
+            Code.NotNull(right, "right");
+
             return right < left;
         }
 
@@ -542,6 +608,9 @@ namespace AM.Collections
                 [NotNull] Set<T> right
             )
         {
+            Code.NotNull(left, "left");
+            Code.NotNull(right, "right");
+
             return right <= left;
         }
 
@@ -550,16 +619,27 @@ namespace AM.Collections
         /// </summary>
         public static bool operator !=
             (
-                Set<T> left,
-                Set<T> right
+                [NotNull] Set<T> left,
+                [NotNull] Set<T> right
             )
         {
+            Code.NotNull(left, "left");
+            Code.NotNull(right, "right");
+
             return !(left == right);
         }
 
         /// <inheritdoc cref="object.Equals(object)" />
-        public override bool Equals(object obj)
+        public override bool Equals
+            (
+                object obj
+            )
         {
+            if (ReferenceEquals(obj, null))
+            {
+                return false;
+            }
+
             Set<T> a = this;
             Set<T> b = obj as Set<T>;
 
@@ -573,7 +653,10 @@ namespace AM.Collections
 
             foreach (T element in this)
             {
-                hashcode ^= element.GetHashCode();
+                unchecked
+                {
+                    hashcode = hashcode * 17 + element.GetHashCode();
+                }
             }
 
             return hashcode;
@@ -590,6 +673,7 @@ namespace AM.Collections
         }
 
         /// <inheritdoc cref="ICollection.SyncRoot" />
+        [ExcludeFromCodeCoverage]
         object ICollection.SyncRoot
         {
             get
@@ -599,6 +683,7 @@ namespace AM.Collections
         }
 
         /// <inheritdoc cref="ICollection.IsSynchronized" />
+        [ExcludeFromCodeCoverage]
         bool ICollection.IsSynchronized
         {
             get
