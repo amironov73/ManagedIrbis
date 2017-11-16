@@ -42,6 +42,10 @@ after_build:
 - cmd: cd Nuget
 - cmd: packit.cmd
 
+test_script:
+- cd "C:\projects\managedclient-45\Source\UnitTests\bin\Debug"
+- OpenCover.Console.exe -register:user -target:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\MSTest.exe" -targetargs:"/logger:Appveyor C:\projects\managedclient-45\Source\UnitTests\bin\Debug\UnitTests.dll -noshadow" -output:coverage.xml
+
 artifacts:
   - path: Binaries
     name: ManagedIrbis
