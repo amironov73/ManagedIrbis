@@ -13,7 +13,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using System.Diagnostics.CodeAnalysis;
 using AM.Logging;
 
 using CodeJam;
@@ -33,7 +33,8 @@ namespace AM.Collections
     [MoonSharpUserData]
     [DebuggerDisplay("Count={Count}")]
     public class BidirectionalDictionary<TKey, TValue>
-        : IDictionary<TKey, TValue>
+        : IDictionary<TKey, TValue>,
+        ICloneable
     {
         #region Construction
 
@@ -85,6 +86,7 @@ namespace AM.Collections
         /// Adds the key-value pair to the dictionary.
         /// </summary>
         /// <param name="item">Key-value pair.</param>
+        [ExcludeFromCodeCoverage]
         private void _Add
             (
                 KeyValuePair<TKey, TValue> item
@@ -153,6 +155,7 @@ namespace AM.Collections
         /// <param name="item">The item.</param>
         /// <returns><c>true</c> if the dictionary contains
         /// specified key; <c>false</c> otherwise.</returns>
+        [ExcludeFromCodeCoverage]
         private bool _Contains
             (
                 ref KeyValuePair<TKey, TValue> item
@@ -302,6 +305,7 @@ namespace AM.Collections
         /// <param name="item">The key.</param>
         /// <returns><c>true</c> if key and value was removed;
         /// <c>false</c> otherwise.</returns>
+        [ExcludeFromCodeCoverage]
         private bool _Remove
             (
                 ref KeyValuePair<TKey, TValue> item
@@ -566,7 +570,8 @@ namespace AM.Collections
         #region ICollection<KeyValuePair<TKey,TValue>> members
 
         /// <inheritdoc cref="ICollection{T}.Add" />
-        public void Add
+        [ExcludeFromCodeCoverage]
+        void ICollection<KeyValuePair<TKey, TValue>>.Add
             (
                 KeyValuePair<TKey, TValue> item
             )
@@ -581,7 +586,8 @@ namespace AM.Collections
         }
 
         /// <inheritdoc cref="ICollection{T}.Contains" />
-        public bool Contains
+        [ExcludeFromCodeCoverage]
+        bool ICollection<KeyValuePair<TKey, TValue>>.Contains
             (
                 KeyValuePair<TKey, TValue> item
             )
@@ -590,7 +596,7 @@ namespace AM.Collections
         }
 
         /// <inheritdoc cref="ICollection{T}.CopyTo" />
-        public void CopyTo
+        void ICollection<KeyValuePair<TKey, TValue>>.CopyTo
             (
                 KeyValuePair<TKey, TValue>[] array,
                 int arrayIndex
@@ -619,7 +625,8 @@ namespace AM.Collections
         }
 
         /// <inheritdoc cref="ICollection{T}.Remove" />
-        public bool Remove
+        [ExcludeFromCodeCoverage]
+        bool ICollection<KeyValuePair<TKey, TValue>>.Remove
             (
                 KeyValuePair<TKey, TValue> item
             )
@@ -642,6 +649,7 @@ namespace AM.Collections
         #region IEnumerable membres
 
         /// <inheritdoc cref="IEnumerable.GetEnumerator" />
+        [ExcludeFromCodeCoverage]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _GetEnumerator();

@@ -177,7 +177,7 @@ namespace AM
                 [NotNull] string eventName
             )
         {
-#if !PORTABLE
+#if !PORTABLE && !WIN81
 
             Code.NotNull(obj, "obj");
             Code.NotNullNorEmpty(eventName, "eventName");
