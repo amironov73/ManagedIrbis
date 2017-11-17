@@ -200,7 +200,7 @@ namespace AM.IO
 
 #if WIN81 || PORTABLE
 
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
 
 #else
 
