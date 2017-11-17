@@ -101,6 +101,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\AssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Source\ListFormat.cs" />
     <Compile Include="Source\ListSort.cs" />
     <Compile Include="Source\ListVariant.cs" />

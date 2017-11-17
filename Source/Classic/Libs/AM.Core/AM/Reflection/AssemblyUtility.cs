@@ -125,6 +125,18 @@ namespace AM.Reflection
         {
             Code.NotNull(assembly, "assembly");
 
+#if UAP || WIN81 || PORTABLE
+
+            Log.Error
+                (
+                    "AssmeblyUtility::GetAssemblyPath: "
+                    + "not implemented"
+                );
+
+            throw new NotImplementedException("");
+
+#else
+
             string codeBase = assembly.CodeBase;
             UriBuilder uri = new UriBuilder(codeBase);
             string path = Uri.UnescapeDataString(uri.Path);
@@ -132,6 +144,8 @@ namespace AM.Reflection
                 .ThrowIfNull("Path.GetDirectoryName");
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -161,8 +175,7 @@ namespace AM.Reflection
 
 #else
 
-            object[] attributes
-                = assembly.GetCustomAttributes
+            object[] attributes = assembly.GetCustomAttributes
                 (
                     typeof(DebuggableAttribute),
                     false
