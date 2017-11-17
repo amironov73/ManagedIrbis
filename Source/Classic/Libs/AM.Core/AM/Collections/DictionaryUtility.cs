@@ -129,7 +129,7 @@ namespace AM.Collections
         /// <exception cref="ArgumentNullException">
         /// One or more dictionaries is <c>null</c>.
         /// </exception>
-        public static Dictionary<TKey, TValue> MergeWithoutConflicts<TKey, TValue>
+        public static Dictionary<TKey, TValue> MergeFirstValues<TKey, TValue>
             (
                 params Dictionary<TKey, TValue>[] dictionaries
             )

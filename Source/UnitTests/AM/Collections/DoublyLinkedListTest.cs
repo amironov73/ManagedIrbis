@@ -28,10 +28,12 @@ namespace UnitTests.AM.Collections
                 1, 2, 3
             };
 
+            // ReSharper disable PossibleNullReferenceException
             Assert.AreEqual(1, list.FirstNode.Value);
             Assert.AreEqual(2, list.FirstNode.Next.Value);
             Assert.AreEqual(3, list.LastNode.Value);
             Assert.AreEqual(2, list.LastNode.Previous.Value);
+            // ReSharper restore PossibleNullReferenceException
 
             Assert.AreEqual(3, list.Count);
         }

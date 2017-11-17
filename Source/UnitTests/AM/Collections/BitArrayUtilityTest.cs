@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Collections;
@@ -10,7 +10,7 @@ namespace UnitTests.AM.Collections
     public class BitArrayUtilityTest
     {
         [TestMethod]
-        public void BitArrayUtility_AreEqual()
+        public void BitArrayUtility_AreEqual_1()
         {
             BitArray left = new BitArray(10);
             left[1] = true;
@@ -18,25 +18,14 @@ namespace UnitTests.AM.Collections
             BitArray right = new BitArray(10);
             right[1] = true;
 
-            Assert.IsTrue
-                (
-                    BitArrayUtility.AreEqual
-                    (
-                        left,
-                        right
-                    )
-                );
+            Assert.IsTrue(BitArrayUtility.AreEqual(left, right));
 
             right[2] = true;
+            Assert.IsFalse(BitArrayUtility.AreEqual(left, right));
 
-            Assert.IsFalse
-                (
-                    BitArrayUtility.AreEqual
-                    (
-                        left,
-                        right
-                    )
-                );
+            right = new BitArray(11);
+            right[1] = true;
+            Assert.IsFalse(BitArrayUtility.AreEqual(left, right));
         }
     }
 }

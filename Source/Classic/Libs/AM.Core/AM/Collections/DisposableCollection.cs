@@ -12,14 +12,11 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-
-using CodeJam;
+using System.Diagnostics.CodeAnalysis;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -42,8 +39,10 @@ namespace AM.Collections
         /// <summary>
         /// Finalize.
         /// </summary>
+        [ExcludeFromCodeCoverage]
         ~DisposableCollection()
         {
+            // TODO ???
             Dispose();
         }
 

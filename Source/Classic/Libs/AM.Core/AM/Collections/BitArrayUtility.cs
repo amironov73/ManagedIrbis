@@ -9,23 +9,13 @@
 
 #region Using directives
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-
-using AM.Runtime;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 #endregion
 

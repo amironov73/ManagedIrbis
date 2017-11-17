@@ -140,6 +140,7 @@
     <Compile Include="AM\Caching\MemoryCacheTest.cs" />
     <Compile Include="AM\Caching\FileCacheTest.cs" />
     <Compile Include="AM\CancelableEventArgsTest.cs" />
+    <Compile Include="AM\Collections\CaseInsensitiveDictionaryTest.cs" />
     <Compile Include="AM\Collections\CloneableCollectionTest.cs" />
     <Compile Include="AM\Collections\CloneableDictionaryTest.cs" />
     <Compile Include="AM\Collections\DictionaryCounterInt32Test.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="AM\ExceptionUtilityTest.cs" />
     <Compile Include="AM\FunctionalUtilityTest.cs" />
     <Compile Include="AM\GenderUtilityTest.cs" />
+    <Compile Include="AM\IO\ByteNavigatorTest.cs" />
     <Compile Include="AM\Json\JsonUtilityTest.cs" />
     <Compile Include="AM\MessageEventArgsTest.cs" />
     <Compile Include="AM\ObjectDumperTest.cs" />

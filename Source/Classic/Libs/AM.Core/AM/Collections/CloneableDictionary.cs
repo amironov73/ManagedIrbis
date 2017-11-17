@@ -7,21 +7,19 @@
  * Status: poor
  */
 
-#if !PORTABLE
-
 #region Using directives
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
 
-using AM.Logging;
-using AM.Reflection;
+//using AM.Logging;
+//using AM.Reflection;
 
-using CodeJam;
+//using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -48,59 +46,65 @@ namespace AM.Collections
         {
             CloneableDictionary<TKey, TValue> result
                 = new CloneableDictionary<TKey, TValue>();
-            Type keyType = typeof(TKey);
-            Type valueType = typeof(TValue);
-            bool cloneKeys = false;
-            bool cloneValues = false;
-
-            if (!TypeUtility.IsValueType(keyType))
-            {
-                if (keyType.Bridge().IsAssignableFrom(typeof(ICloneable)))
-                {
-                    Log.Error
-                        (
-                            "CloneableDictionary::Clone: "
-                            + "type "
-                            + keyType.FullName
-                            + " is not cloneable"
-                        );
-
-                    throw new ArgumentException(keyType.Name);
-                }
-                cloneKeys = true;
-            }
-            if (!TypeUtility.IsValueType(valueType))
-            {
-                if (valueType.Bridge().IsAssignableFrom(typeof(ICloneable)))
-                {
-                    Log.Error
-                    (
-                        "CloneableDictionary::Clone: "
-                        + "type "
-                        + valueType.FullName
-                        + " is not cloneable"
-                    );
-
-                    throw new ArgumentException(valueType.Name);
-                }
-                cloneValues = true;
-            }
 
             foreach (KeyValuePair<TKey, TValue> pair in this)
             {
-                TKey keyCopy = pair.Key;
-                TValue valueCopy = pair.Value;
-                if (cloneKeys)
-                {
-                    keyCopy = (TKey)((ICloneable)pair.Key).Clone();
-                }
-                if (cloneValues
-                    && !ReferenceEquals(valueCopy, null))
-                {
-                    valueCopy = (TValue)((ICloneable)pair.Value).Clone();
-                }
-                result.Add(keyCopy, valueCopy);
+                result.Add(pair.Key, pair.Value);
             }
+
+            //Type keyType = typeof(TKey);
+            //Type valueType = typeof(TValue);
+            //bool cloneKeys = false;
+            //bool cloneValues = false;
+
+            //if (!TypeUtility.IsValueType(keyType))
+            //{
+            //    if (keyType.Bridge().IsAssignableFrom(typeof(ICloneable)))
+            //    {
+            //        Log.Error
+            //            (
+            //                "CloneableDictionary::Clone: "
+            //                + "type "
+            //                + keyType.FullName
+            //                + " is not cloneable"
+            //            );
+
+            //        throw new ArgumentException(keyType.Name);
+            //    }
+            //    cloneKeys = true;
+            //}
+            //if (!TypeUtility.IsValueType(valueType))
+            //{
+            //    if (valueType.Bridge().IsAssignableFrom(typeof(ICloneable)))
+            //    {
+            //        Log.Error
+            //        (
+            //            "CloneableDictionary::Clone: "
+            //            + "type "
+            //            + valueType.FullName
+            //            + " is not cloneable"
+            //        );
+
+            //        throw new ArgumentException(valueType.Name);
+            //    }
+            //    cloneValues = true;
+            //}
+
+            //foreach (KeyValuePair<TKey, TValue> pair in this)
+            //{
+            //    TKey keyCopy = pair.Key;
+            //    TValue valueCopy = pair.Value;
+            //    if (cloneKeys)
+            //    {
+            //        keyCopy = (TKey)((ICloneable)pair.Key).Clone();
+            //    }
+            //    if (cloneValues
+            //        && !ReferenceEquals(valueCopy, null))
+            //    {
+            //        valueCopy = (TValue)((ICloneable)pair.Value).Clone();
+            //    }
+            //    result.Add(keyCopy, valueCopy);
+            //}
 
             return result;
         }
@@ -109,4 +113,3 @@ namespace AM.Collections
     }
 }
 
-#endif

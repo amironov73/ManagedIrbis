@@ -40,7 +40,10 @@ namespace AM.Collections
         /// <summary>
         /// Constructor.
         /// </summary>
-        public CaseInsensitiveDictionary(int capacity) 
+        public CaseInsensitiveDictionary
+            (
+                int capacity
+            ) 
             : base(capacity, _GetComparer())
         {
         }
@@ -51,7 +54,8 @@ namespace AM.Collections
         public CaseInsensitiveDictionary
             (
                 [NotNull] IDictionary<string, T> dictionary
-            ) : base(dictionary, _GetComparer())
+            )
+            : base(dictionary, _GetComparer())
         {
         }
 

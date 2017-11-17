@@ -9,12 +9,9 @@
 
 #region Using directives
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -44,13 +41,14 @@ namespace AM.Collections
         {
             get
             {
-                lock (_SyncRoot)
+                lock (_syncRoot)
                 {
                     int result = 0;
                     foreach (int value in Values)
                     {
                         result += value;
                     }
+
                     return result;
                 }
             }
@@ -61,16 +59,14 @@ namespace AM.Collections
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="DictionaryCounterInt32{TKey}"/> class.
+        /// Constructor.
         /// </summary>
         public DictionaryCounterInt32()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="DictionaryCounterInt32{TKey}"/> class.
+        /// Constructor.
         /// </summary>
         /// <param name="comparer">The comparer.</param>
         public DictionaryCounterInt32
@@ -82,11 +78,13 @@ namespace AM.Collections
         }
 
         /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="DictionaryCounterInt32{TKey}"/> class.
+        /// Constructor.
         /// </summary>
         /// <param name="capacity">The capacity.</param>
-        public DictionaryCounterInt32(int capacity)
+        public DictionaryCounterInt32
+            (
+                int capacity
+            )
             : base(capacity)
         {
         }
@@ -108,12 +106,12 @@ namespace AM.Collections
 
         #region Private members
 
-        private object _SyncRoot
+        private object _syncRoot
         {
             [DebuggerStepThrough]
             get
             {
-                return (((ICollection)this).SyncRoot);
+                return ((ICollection)this).SyncRoot;
             }
         }
 
@@ -133,7 +131,7 @@ namespace AM.Collections
                 int increment
             )
         {
-            lock (_SyncRoot)
+            lock (_syncRoot)
             {
                 int value;
                 TryGetValue(key, out value);

@@ -9,12 +9,9 @@
 
 #region Using directives
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -44,7 +41,7 @@ namespace AM.Collections
         {
             get
             {
-                lock (_SyncRoot)
+                lock (_syncRoot)
                 {
                     double result = 0.0;
                     foreach (double value in Values)
@@ -65,6 +62,18 @@ namespace AM.Collections
         /// <see cref="DictionaryCounterDouble{TKey}"/> class.
         /// </summary>
         public DictionaryCounterDouble()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="comparer">The comparer.</param>
+        public DictionaryCounterDouble
+        (
+            [NotNull] IEqualityComparer<TKey> comparer
+        )
+            : base(comparer)
         {
         }
 
@@ -95,12 +104,12 @@ namespace AM.Collections
 
         #region Private members
 
-        private object _SyncRoot
+        private object _syncRoot
         {
             [DebuggerStepThrough]
             get
             {
-                return (((ICollection)this).SyncRoot);
+                return ((ICollection)this).SyncRoot;
             }
         }
 
@@ -120,7 +129,7 @@ namespace AM.Collections
                 double increment
             )
         {
-            lock (_SyncRoot)
+            lock (_syncRoot)
             {
                 double value;
                 TryGetValue(key, out value);

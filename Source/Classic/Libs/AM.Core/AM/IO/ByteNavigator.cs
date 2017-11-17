@@ -147,11 +147,6 @@ namespace AM.IO
             Code.Nonnegative(length, "length");
             Code.NotNull(encoding, "encoding");
 
-            if (offset < 0)
-            {
-                offset = 0;
-            }
-
             if (length > data.Length)
             {
                 length = data.Length;
@@ -185,14 +180,12 @@ namespace AM.IO
                     Length
                 )
             {
+                Encoding = Encoding,
                 Position = Position
             };
 
             return result;
         }
-
-
-#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Навигатор по двоичному файлу.
@@ -205,13 +198,19 @@ namespace AM.IO
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if WIN81 || PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
             byte[] data = FileUtility.ReadAllBytes(fileName);
             ByteNavigator result = new ByteNavigator(data);
 
             return result;
-        }
 
 #endif
+        }
 
         /// <summary>
         /// Выдать остаток данных.
@@ -317,6 +316,44 @@ namespace AM.IO
         {
             char c = PeekChar();
             return char.IsWhiteSpace(c);
+        }
+
+        /// <summary>
+        /// Абсолютное перемещение.
+        /// </summary>
+        public void MoveAbsolute
+            (
+                int position
+            )
+        {
+            if (position > Length)
+            {
+                position = Length;
+            }
+            if (position < 0)
+            {
+                position = 0;
+            }
+            Position = position;
+        }
+
+        /// <summary>
+        /// Относительное перемещение.
+        /// </summary>
+        public void MoveRelative
+            (
+                int delta
+            )
+        {
+            Position += delta;
+            if (Position > Length)
+            {
+                Position = Length;
+            }
+            if (Position < 0)
+            {
+                Position = 0;
+            }
         }
 
         /// <summary>

@@ -13,10 +13,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 
-using AM.IO;
 using AM.Logging;
 using AM.Runtime;
 
@@ -195,6 +195,7 @@ namespace AM.Collections
             /// <summary>
             /// Reads the JSON representation of the object.
             /// </summary>
+            [ExcludeFromCodeCoverage]
             public override object ReadJson
                 (
                     JsonReader reader,
@@ -698,10 +699,9 @@ namespace AM.Collections
         {
             Code.NotNull(other, "other");
 
-            CharSet result = Clone();
-            result._data.Xor(other._data);
+            CharSet result = new CharSet(_data.Xor(other._data));
 
-            return this;
+            return result;
         }
 
         #endregion
@@ -876,6 +876,7 @@ namespace AM.Collections
         #region IEnumerable<char> members
 
         /// <inheritdoc cref="IEnumerable.GetEnumerator" />
+        [ExcludeFromCodeCoverage]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
@@ -921,7 +922,20 @@ namespace AM.Collections
         /// <inheritdoc cref="object.GetHashCode" />
         public override int GetHashCode()
         {
-            return _data.GetHashCode();
+            int result = 0;
+
+            unchecked
+            {
+                for (int i = 0; i < _data.Length; i++)
+                {
+                    if (_data[i])
+                    {
+                        result = result * 17 + i + 1;
+                    }
+                }
+            }
+
+            return result;
         }
 
         /// <inheritdoc cref="object.Equals(object)" />
@@ -935,14 +949,21 @@ namespace AM.Collections
             CharSet charset = obj as CharSet;
             if (ReferenceEquals(charset, null))
             {
+                if (obj is string)
+                {
+                    charset = new CharSet((string)obj);
+
+                    return BitArrayUtility.AreEqual(_data, charset._data);
+                }
                 return false;
             }
+            if (ReferenceEquals(charset, this))
+            {
+                return true;
+            }
 
-            return BitArrayUtility.AreEqual
-                (
-                    _data,
-                    charset._data
-                );
+
+            return BitArrayUtility.AreEqual(_data, charset._data); 
         }
 
         #endregion
