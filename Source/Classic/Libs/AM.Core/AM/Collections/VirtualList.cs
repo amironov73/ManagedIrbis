@@ -12,6 +12,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using AM.Logging;
 
@@ -182,7 +183,8 @@ namespace AM.Collections
 
             _Retrieve(index);
             T result = default(T);
-            if (index >= _cacheIndex
+            if (!ReferenceEquals(_cache, null)
+                && index >= _cacheIndex
                 && index <= _cacheIndex + _cacheLength)
             {
                 result = _cache[index - _cacheIndex];
@@ -221,13 +223,15 @@ namespace AM.Collections
         /// <inheritdoc cref="ICollection{T}.Count" />
         public int Count { get; private set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ICollection{T}.Add" />
+        [ExcludeFromCodeCoverage]
         void ICollection<T>.Add(T item)
         {
             _ThrowReadonly();
         }
 
         /// <inheritdoc cref="ICollection{T}.Clear" />
+        [ExcludeFromCodeCoverage]
         void ICollection<T>.Clear()
         {
             _ThrowReadonly();
@@ -264,6 +268,7 @@ namespace AM.Collections
         }
 
         /// <inheritdoc cref="ICollection{T}.CopyTo" />
+        [ExcludeFromCodeCoverage]
         void ICollection<T>.CopyTo
             (
                 T[] array,
@@ -277,6 +282,7 @@ namespace AM.Collections
         }
 
         /// <inheritdoc cref="IEnumerable.GetEnumerator" />
+        [ExcludeFromCodeCoverage]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
@@ -332,12 +338,14 @@ namespace AM.Collections
         }
 
         /// <inheritdoc cref="IList{T}.Insert" />
+        [ExcludeFromCodeCoverage]
         void IList<T>.Insert(int index, T item)
         {
             _ThrowReadonly();
         }
 
         /// <inheritdoc cref="ICollection{T}.Remove" />
+        [ExcludeFromCodeCoverage]
         bool ICollection<T>.Remove(T item)
         {
             _ThrowReadonly();
@@ -346,6 +354,7 @@ namespace AM.Collections
         }
 
         /// <inheritdoc cref="IList{T}.RemoveAt" />
+        [ExcludeFromCodeCoverage]
         void IList<T>.RemoveAt(int index)
         {
             _ThrowReadonly();
@@ -363,7 +372,7 @@ namespace AM.Collections
             // ReSharper disable once ValueParameterNotUsed
             set
             {
-                _ThrowReadonly();
+                throw new ReadOnlyException();
             }
         }
 

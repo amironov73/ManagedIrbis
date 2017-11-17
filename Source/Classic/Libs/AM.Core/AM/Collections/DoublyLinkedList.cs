@@ -12,7 +12,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 using AM.Logging;
 
@@ -41,60 +41,36 @@ namespace AM.Collections
         /// <summary>
         /// Элемент дважды-связанного списка.
         /// </summary>
-        /// <typeparam name="T2"></typeparam>
-        public class Node<T2>
+        public class Node
         {
             #region Public properties
 
             /// <summary>
-            /// Список-владелец.
-            /// </summary>
-            /// <value></value>
-            [NotNull]
-            [JsonIgnore]
-            public DoublyLinkedList<T2> List { get; internal set; }
-
-            /// <summary>
             /// Предыдущий элемент.
             /// </summary>
-            /// <value></value>
             [CanBeNull]
             [JsonIgnore]
-            public Node<T2> Previous { get; set; }
+            public Node Previous { get; set; }
 
             /// <summary>
             /// Последующий элемент.
             /// </summary>
-            /// <value></value>
             [CanBeNull]
             [JsonIgnore]
-            public Node<T2> Next { get; set; }
+            public Node Next { get; set; }
 
             /// <summary>
             /// Хранимое значение.
             /// </summary>
-            /// <value></value>
             [CanBeNull]
             [JsonProperty("value")]
-            public T2 Value { get; set; }
-
-            #endregion
-
-            #region Construction
-
-            /// <summary>
-            /// Constructor.
-            /// </summary>
-            public Node(T2 value)
-            {
-                Value = value;
-            }
+            public T Value { get; set; }
 
             #endregion
 
             #region Object members
 
-            /// <inheritdoc/>
+            /// <inheritdoc cref="object.ToString" />
             public override string ToString()
             {
                 return Value.ToVisibleString();
@@ -110,16 +86,14 @@ namespace AM.Collections
         /// <summary>
         /// Первый элемент.
         /// </summary>
-        public Node<T> FirstNode { get; protected set; }
+        [CanBeNull]
+        public Node FirstNode { get; protected set; }
 
         /// <summary>
         /// Последний элемент.
         /// </summary>
-        public Node<T> LastNode { get; protected set; }
-
-        #endregion
-
-        #region Construction
+        [CanBeNull]
+        public Node LastNode { get; protected set; }
 
         #endregion
 
@@ -130,39 +104,26 @@ namespace AM.Collections
         /// </summary>
         [CanBeNull]
         [CLSCompliant(false)]
-        protected Node<T> _NodeAt
+        protected Node _NodeAt
             (
                 int index
             )
         {
-            Node<T> result = FirstNode;
+            if (index < 0)
+            {
+                return null;
+            }
+
+            Node result = FirstNode;
 
             for (int i = 0; i < index; i++)
             {
-                if (result == null)
+                if (ReferenceEquals(result, null))
                 {
                     break;
                 }
                 result = result.Next;
             }
-
-            return result;
-        }
-
-        /// <summary>
-        /// _s the create node.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns></returns>
-        [NotNull]
-        [CLSCompliant(false)]
-        protected Node<T> _CreateNode(T value)
-        {
-            Node<T> result
-                = new Node<T>(value)
-                {
-                    List = this
-                };
 
             return result;
         }
@@ -202,12 +163,12 @@ namespace AM.Collections
         {
             Code.Nonnegative(index, "index");
 
-            Node<T> existingNode = _NodeAt(index);
+            Node existingNode = _NodeAt(index);
             if (!ReferenceEquals(existingNode, null))
             {
-                Node<T> newNode = _CreateNode(item);
-                Node<T> nextNode = existingNode.Next;
-                Node<T> previousNode = existingNode.Previous;
+                Node newNode = new Node { Value = item };
+                Node nextNode = existingNode.Next;
+                Node previousNode = existingNode.Previous;
                 newNode.Next = existingNode;
                 newNode.Previous = previousNode;
                 existingNode.Previous = newNode;
@@ -234,11 +195,11 @@ namespace AM.Collections
         {
             Code.Nonnegative(index, "index");
 
-            Node<T> nodeToRemove = _NodeAt(index);
+            Node nodeToRemove = _NodeAt(index);
             if (!ReferenceEquals(nodeToRemove, null))
             {
-                Node<T> nextNode = nodeToRemove.Next;
-                Node<T> previousNode = nodeToRemove.Previous;
+                Node nextNode = nodeToRemove.Next;
+                Node previousNode = nodeToRemove.Previous;
                 if (!ReferenceEquals(previousNode, null))
                 {
                     previousNode.Next = nextNode;
@@ -263,7 +224,7 @@ namespace AM.Collections
         {
             get
             {
-                Node<T> node = _NodeAt(index);
+                Node node = _NodeAt(index);
 
                 if (ReferenceEquals(node, null))
                 {
@@ -282,7 +243,7 @@ namespace AM.Collections
             }
             set
             {
-                Node<T> node = _NodeAt(index);
+                Node node = _NodeAt(index);
 
                 if (ReferenceEquals(node, null))
                 {
@@ -311,7 +272,7 @@ namespace AM.Collections
                 T item
             )
         {
-            Node<T> node = _CreateNode(item);
+            Node node = new Node { Value = item };
             if (!ReferenceEquals(LastNode, null))
             {
                 LastNode.Next = node;
@@ -337,14 +298,11 @@ namespace AM.Collections
                 T item
             )
         {
-            using (IEnumerator<T> enumerator = GetEnumerator())
+            foreach (T current in this)
             {
-                while (enumerator.MoveNext())
+                if (current.Equals(item))
                 {
-                    if (enumerator.Current.Equals(item))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 
@@ -418,10 +376,11 @@ namespace AM.Collections
         #region IEnumerable members
 
         /// <inheritdoc cref="IEnumerable.GetEnumerator" />
+        [ExcludeFromCodeCoverage]
         IEnumerator IEnumerable.GetEnumerator()
         {
-            for (Node<T> node = FirstNode;
-                  node != null;
+            for (Node node = FirstNode;
+                  !ReferenceEquals(node, null);
                   node = node.Next)
             {
                 yield return node.Value;
@@ -435,8 +394,8 @@ namespace AM.Collections
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
         public IEnumerator<T> GetEnumerator()
         {
-            for (Node<T> node = FirstNode;
-                  node != null;
+            for (Node node = FirstNode;
+                  !ReferenceEquals(node, null);
                   node = node.Next)
             {
                 yield return node.Value;

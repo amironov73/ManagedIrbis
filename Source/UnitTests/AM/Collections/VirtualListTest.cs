@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using AM;
@@ -8,10 +9,7 @@ using JetBrains.Annotations;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
+// ReSharper disable CollectionNeverUpdated.Local
 // ReSharper disable ConvertToLocalFunction
 
 namespace UnitTests.AM.Collections
@@ -22,8 +20,7 @@ namespace UnitTests.AM.Collections
         [NotNull]
         private Action<VirtualList<int>.Parameters> _GetRetriever()
         {
-            Action<VirtualList<int>.Parameters> result
-                = parameters =>
+            Action<VirtualList<int>.Parameters> result = parameters =>
                     {
                         int[] array = new int[10];
                         for (int i = 0; i < array.Length; i++)
@@ -44,10 +41,20 @@ namespace UnitTests.AM.Collections
             return result;
         }
 
+        [NotNull]
+        private VirtualList<int> _GetList2()
+        {
+            Action<VirtualList<int>.Parameters> retriever = parameters => { };
+            VirtualList<int> result = new VirtualList<int>(retriever, 10, 10);
+
+            return result;
+        }
+
         [TestMethod]
         public void VirtualList_Construction_1()
         {
             VirtualList<int> list = _GetList();
+            Assert.AreEqual(10, list.CacheSize);
             Assert.IsTrue(list.IsReadOnly);
         }
 
@@ -85,6 +92,14 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
+        public void VirtualList_Contains_2()
+        {
+            VirtualList<int> list = _GetList2();
+            Assert.IsFalse(list.Contains(102));
+            Assert.IsFalse(list.Contains(202));
+        }
+
+        [TestMethod]
         public void VirtualList_GetEnumerator_1()
         {
             VirtualList<int> list = _GetList();
@@ -105,6 +120,14 @@ namespace UnitTests.AM.Collections
         {
             VirtualList<int> list = _GetList();
             Assert.AreEqual(2, list.IndexOf(102));
+            Assert.AreEqual(-1, list.IndexOf(1002));
+        }
+
+        [TestMethod]
+        public void VirtualList_IndexOf_2()
+        {
+            VirtualList<int> list = _GetList2();
+            Assert.AreEqual(-1, list.IndexOf(102));
         }
 
         [TestMethod]
@@ -152,6 +175,34 @@ namespace UnitTests.AM.Collections
         {
             IList<int> list = _GetList();
             list.Insert(1, 111);
+        }
+
+        [TestMethod]
+        public void VirtualList_SetCache_1()
+        {
+            Action<VirtualList<int>.Parameters> retriever = parameters =>
+            {
+                int[] array = new int[20];
+                for (int i = 0; i < array.Length; i++)
+                {
+                    array[i] = 100 + i;
+                }
+                parameters.List.SetCache(array, 0);
+            };
+            VirtualList<int> list = new VirtualList<int>(retriever, 10, 10);
+            Assert.IsTrue(list.Contains(102));
+            Assert.IsFalse(list.Contains(202));
+        }
+
+        [TestMethod]
+        public void VirtualList_Parameters_1()
+        {
+            VirtualList<int> list = _GetList();
+            VirtualList<int>.Parameters parameters
+                = new VirtualList<int>.Parameters(list, 10, true);
+            Assert.AreSame(list, parameters.List);
+            Assert.AreEqual(10, parameters.Index);
+            Assert.IsTrue(parameters.Up);
         }
     }
 }
