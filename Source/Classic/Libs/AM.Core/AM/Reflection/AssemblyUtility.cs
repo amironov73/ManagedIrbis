@@ -11,6 +11,7 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 
 using AM.Logging;
@@ -107,6 +108,30 @@ namespace AM.Reflection
             return CheckForToken(assembly, expectedToken);
 
 #endif
+        }
+
+        /// <summary>
+        /// Get directory path where the assembly resides.
+        /// </summary>
+        /// <remarks>
+        /// Borrowerd from StackOverflow:
+        /// https://stackoverflow.com/questions/52797/how-do-i-get-the-path-of-the-assembly-the-code-is-in
+        /// </remarks>
+        [NotNull]
+        public static string GetAssemblyPath
+            (
+                [NotNull] Assembly assembly
+            )
+        {
+            Code.NotNull(assembly, "assembly");
+
+            string codeBase = assembly.CodeBase;
+            UriBuilder uri = new UriBuilder(codeBase);
+            string path = Uri.UnescapeDataString(uri.Path);
+            string result = Path.GetDirectoryName(path)
+                .ThrowIfNull("Path.GetDirectoryName");
+
+            return result;
         }
 
         /// <summary>

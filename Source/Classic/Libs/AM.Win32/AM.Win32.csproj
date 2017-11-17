@@ -143,6 +143,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\AssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="AM\Services\ConsoleWindowsService.cs" />
     <Compile Include="AM\Services\IWindowsServiceTask.cs" />
     <Compile Include="AM\Win32\ACCEL.cs" />

@@ -15,6 +15,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
 {
     public abstract class CommonUniforTest
+        : Common.CommonUnitTest
     {
         [NotNull]
         protected virtual MarcRecord GetRecord()
@@ -128,7 +129,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         [NotNull]
         protected virtual IrbisProvider GetProvider()
         {
-            string rootPath = Path.GetFullPath(@"..\..\..\..\TestData\Irbis64");
+            string rootPath = Irbis64RootPath;
             LocalProvider result = new LocalProvider(rootPath)
             {
                 Database = "IBIS",

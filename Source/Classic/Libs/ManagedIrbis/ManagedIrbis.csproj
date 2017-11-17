@@ -127,6 +127,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\AssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Source\AsyncExtensions.cs" />
     <Compile Include="Source\Authentication\AbstractAuthenticator.cs" />
     <Compile Include="Source\Authentication\AuthenticationResult.cs" />

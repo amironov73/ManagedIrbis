@@ -176,6 +176,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="..\..\Common\AssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Source\ChairComboBox.cs" />
     <Compile Include="Source\DatabaseComboBox.cs" />
     <Compile Include="Source\DictionaryForm.cs">
