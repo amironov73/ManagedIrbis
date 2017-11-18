@@ -292,7 +292,6 @@
     <Compile Include="AM\FuncUtilityTest.cs" />
     <Compile Include="AM\RetryManagerTest.cs" />
     <Compile Include="AM\ArrayUtilityTest.cs" />
-    <Compile Include="AM\JsonUtilityTest.cs" />
     <Compile Include="AM\DateTimeUtilityTest.cs" />
     <Compile Include="AM\TypeUtilityTest.cs" />
     <Compile Include="AM\UniversalComparerTest.cs" />
@@ -494,8 +493,11 @@
     <Folder Include="ManagedIrbis\Magazines\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="codecov.testsettings">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
-    <Content Include="test.runsettings">
+    <Content Include="codecov.runsettings">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

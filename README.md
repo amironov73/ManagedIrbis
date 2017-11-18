@@ -51,4 +51,5 @@ ManagedIrbis currently supports:
 [![Build status](https://img.shields.io/appveyor/ci/AlexeyMironov/managedclient-45.svg)](https://ci.appveyor.com/project/AlexeyMironov/managedclient-45/)
 [![Build status](https://api.travis-ci.org/amironov73/ManagedIrbis.svg)](https://travis-ci.org/amironov73/ManagedIrbis/)
 [![Coverity](https://img.shields.io/coverity/scan/11008.svg)](https://scan.coverity.com/projects/managedirbis)
+[![Codecov](https://img.shields.io/codecov/c/github/amironov73/ManagedIrbis.svg)](https://codecov.io/gh/amironov73)
 
