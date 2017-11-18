@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+  <ResultsDirectory>.\TestResults</ResultsDirectory>
+  <TargetPlatform>x86</TargetPlatform>
+  <TargetFrameworkVersion>Framework45</TargetFrameworkVersion>
+  <MSTest>
+    <MapInconclusiveToFailed>True</MapInconclusiveToFailed>
+    <CaptureTraceOutput>false</CaptureTraceOutput>
+    <DeleteDeploymentDirectoryAfterTestRunIsComplete>False</DeleteDeploymentDirectoryAfterTestRunIsComplete>
+    <DeploymentEnabled>False</DeploymentEnabled>
+  </MSTest>
+</RunSettings>

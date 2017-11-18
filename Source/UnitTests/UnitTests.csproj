@@ -464,7 +464,6 @@
     <Compile Include="ManagedIrbis\Worksheet\WssFileTest.cs" />
     <Compile Include="ManagedIrbis\Worksheet\WorksheetItemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CharacterClassTest.cs" />
     <Compile Include="AM\NumericUtilityTest.cs" />
     <Compile Include="AM\IO\StreamPackerTest.cs" />
     <Compile Include="ManagedIrbis\IrbisDateTest.cs" />
@@ -496,6 +495,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="test.runsettings">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
