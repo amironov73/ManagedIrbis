@@ -183,6 +183,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 else
                 {
                     result.Kind = IndexKind.Expression;
+                    result.Expression = text;
                 }
             }
 
@@ -202,6 +203,9 @@ namespace ManagedIrbis.Pft.Infrastructure
                 [NotNull] FieldSpecification right
             )
         {
+            Code.NotNull(left, "left");
+            Code.NotNull(right, "right");
+
             bool result = left.Command == right.Command
                 && PftSerializationUtility.CompareStrings
                     (
@@ -457,8 +461,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 
                 c = navigator.ReadCharNoCrLf();
 
-                if (c == '['
-                    & ParseSubFieldSpecification)
+                if (c == '[' & ParseSubFieldSpecification)
                 {
                     string text = navigator.ReadUntil
                         (
@@ -472,6 +475,17 @@ namespace ManagedIrbis.Pft.Infrastructure
                     }
                     else
                     {
+                        if (string.IsNullOrEmpty(text))
+                        {
+                            Log.Error
+                                (
+                                    "FieldSpecification::Parse: "
+                                    + "empty subfield specification"
+                                );
+
+                            throw new PftSyntaxException(navigator);
+                        }
+
                         SubFieldSpecification = text;
 
                         navigator.ReadCharNoCrLf();
@@ -479,7 +493,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
                 else
                 {
-
                     if (!SubFieldCode.IsValidCode(c))
                     {
                         Log.Error
@@ -671,6 +684,9 @@ namespace ManagedIrbis.Pft.Infrastructure
                         builder.ToString(),
                         CultureInfo.InvariantCulture
                     );
+
+                // TODO FirstLine
+
             } // c == '('
 
             DONE:

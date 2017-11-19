@@ -341,6 +341,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftTrueTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftVerbatimTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftXTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\FormatExitTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftMaskTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftNodeTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\CommonUniforTest.cs" />

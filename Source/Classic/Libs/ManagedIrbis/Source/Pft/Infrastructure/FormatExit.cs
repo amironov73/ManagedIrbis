@@ -59,10 +59,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>

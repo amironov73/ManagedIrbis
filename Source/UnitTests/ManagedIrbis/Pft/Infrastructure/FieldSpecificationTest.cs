@@ -1,5 +1,5 @@
-﻿using System;
-using ManagedIrbis.Pft;
+﻿using ManagedIrbis.Pft;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis.Pft.Infrastructure;
@@ -10,7 +10,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
     public class FieldSpecificationTest
     {
         [TestMethod]
-        public void FieldSpecification_Construction()
+        public void FieldSpecification_Construction_1()
         {
             FieldSpecification specification = new FieldSpecification();
 
@@ -27,7 +27,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse1()
+        public void FieldSpecification_Parse_1()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200^a"));
@@ -44,7 +44,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse1a()
+        public void FieldSpecification_Parse_1a()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200 \r\n^a"));
@@ -61,7 +61,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse2()
+        public void FieldSpecification_Parse_2()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200"));
@@ -78,7 +78,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse2a()
+        public void FieldSpecification_Parse_2a()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200\r\n"));
@@ -95,14 +95,14 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse3()
+        public void FieldSpecification_Parse_3()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.Parse("200^a"));
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse3a()
+        public void FieldSpecification_Parse_3a()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.Parse("va^a"));
@@ -110,7 +110,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 
         [TestMethod]
         [ExpectedException(typeof(PftSyntaxException))]
-        public void FieldSpecification_Parse3b_Exception()
+        public void FieldSpecification_Parse_3b()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.Parse("v200@^a"));
@@ -118,7 +118,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 
         [TestMethod]
         [ExpectedException(typeof(PftSyntaxException))]
-        public void FieldSpecification_Parse3c_Exception()
+        public void FieldSpecification_Parse_3c()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.Parse("v200^я"));
@@ -126,7 +126,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 
 
         [TestMethod]
-        public void FieldSpecification_Parse4()
+        public void FieldSpecification_Parse_4()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v461@200"));
@@ -143,7 +143,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse4a()
+        public void FieldSpecification_Parse_4a()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v461 @ 200"));
@@ -160,7 +160,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse5()
+        public void FieldSpecification_Parse_5()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200[2]^a[3]"));
@@ -179,7 +179,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse5a()
+        public void FieldSpecification_Parse_5a()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200 [ 2 ] ^a [ 3 ]"));
@@ -198,7 +198,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse5b()
+        public void FieldSpecification_Parse_5b()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200[2]^a[3] "));
@@ -218,7 +218,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 
         [TestMethod]
         [ExpectedException(typeof(PftSyntaxException))]
-        public void FieldSpecification_Parse5c_Exception()
+        public void FieldSpecification_Parse_5c()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.Parse("v200[2"));
@@ -226,14 +226,14 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 
         [TestMethod]
         [ExpectedException(typeof(PftSyntaxException))]
-        public void FieldSpecification_Parse5d_Exception()
+        public void FieldSpecification_Parse_5d()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.Parse("v200^a[2"));
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse6()
+        public void FieldSpecification_Parse_6()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200^a[2]"));
@@ -252,7 +252,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse6a()
+        public void FieldSpecification_Parse_6a()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("d200^a[2]"));
@@ -271,7 +271,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse6b()
+        public void FieldSpecification_Parse_6b()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("n200^a[2]"));
@@ -290,7 +290,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse6c()
+        public void FieldSpecification_Parse_6c()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("g200^a[2]"));
@@ -309,7 +309,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse7()
+        public void FieldSpecification_Parse_7()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200^a[*]"));
@@ -326,7 +326,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse8()
+        public void FieldSpecification_Parse_8()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200^a[+]"));
@@ -343,7 +343,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse9()
+        public void FieldSpecification_Parse_9()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200^a*5"));
@@ -360,7 +360,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse9a()
+        public void FieldSpecification_Parse_9a()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200^a * 5"));
@@ -378,14 +378,14 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 
         [TestMethod]
         [ExpectedException(typeof(PftSyntaxException))]
-        public void FieldSpecification_Parse9b_Exception()
+        public void FieldSpecification_Parse_9b()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.Parse("v200^a*"));
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse10()
+        public void FieldSpecification_Parse_10()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200^a.5"));
@@ -402,7 +402,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse10a()
+        public void FieldSpecification_Parse_10a()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200^a . 5"));
@@ -420,14 +420,14 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 
         [TestMethod]
         [ExpectedException(typeof(PftSyntaxException))]
-        public void FieldSpecification_Parse10b_Exception()
+        public void FieldSpecification_Parse_10b()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.Parse("v200^a.c"));
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse11()
+        public void FieldSpecification_Parse_11()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200^a*5.5"));
@@ -444,7 +444,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse11a()
+        public void FieldSpecification_Parse_11a()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200^a * 5 . 5"));
@@ -461,7 +461,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse12()
+        public void FieldSpecification_Parse_12()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200^a(10)"));
@@ -478,7 +478,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse12a()
+        public void FieldSpecification_Parse_12a()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200^a ( 10)"));
@@ -496,7 +496,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 
         [TestMethod]
         [ExpectedException(typeof(PftSyntaxException))]
-        public void FieldSpecification_Parse12b_Exception()
+        public void FieldSpecification_Parse_12b()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.Parse("v200^a()"));
@@ -504,14 +504,14 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 
         [TestMethod]
         [ExpectedException(typeof(PftSyntaxException))]
-        public void FieldSpecification_Parse12c_Exception()
+        public void FieldSpecification_Parse_12c()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.Parse("v200^a(x)"));
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse13()
+        public void FieldSpecification_Parse_13()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v200[$x+1]^a"));
@@ -529,7 +529,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse14()
+        public void FieldSpecification_Parse_14()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v461@200[2]^a[3]*4.5(6)"));
@@ -548,7 +548,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_Parse14a()
+        public void FieldSpecification_Parse_14a()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.Parse("v461 @ 200 [ 2 ] ^a [ 3 ] * 4 . 5 ( 6)"));
@@ -568,7 +568,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 
         [TestMethod]
         [ExpectedException(typeof(PftSyntaxException))]
-        public void FieldSpecification_Parse_Exception1()
+        public void FieldSpecification_Parse_15()
         {
             FieldSpecification specification = new FieldSpecification();
             specification.Parse("v200^");
@@ -576,7 +576,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 
         [TestMethod]
         [ExpectedException(typeof(PftSyntaxException))]
-        public void FieldSpecification_Parse_Exception2()
+        public void FieldSpecification_Parse_16()
         {
             FieldSpecification specification = new FieldSpecification();
             specification.Parse("v200^a[]");
@@ -584,7 +584,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 
         [TestMethod]
         [ExpectedException(typeof(PftSyntaxException))]
-        public void FieldSpecification_Parse_Exception5()
+        public void FieldSpecification_Parse_17()
         {
             FieldSpecification specification = new FieldSpecification();
             specification.Parse("v200^a*");
@@ -592,14 +592,14 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 
         [TestMethod]
         [ExpectedException(typeof(PftSyntaxException))]
-        public void FieldSpecification_Parse_Exception6()
+        public void FieldSpecification_Parse_18()
         {
             FieldSpecification specification = new FieldSpecification();
             specification.Parse("v200^a.5*5");
         }
 
         [TestMethod]
-        public void FieldSpecification_ParseShort1()
+        public void FieldSpecification_ParseShort_1()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.ParseShort("v200^a"));
@@ -616,7 +616,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_ParseShort1a()
+        public void FieldSpecification_ParseShort_1a()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.ParseShort("g200^a"));
@@ -633,21 +633,21 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_ParseShort1b_Exception()
+        public void FieldSpecification_ParseShort_1b()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.ParseShort("d200^a"));
         }
 
         [TestMethod]
-        public void FieldSpecification_ParseShort1c_Exception()
+        public void FieldSpecification_ParseShort_1c()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.ParseShort("n200^a"));
         }
 
         [TestMethod]
-        public void FieldSpecification_ParseShort2()
+        public void FieldSpecification_ParseShort_2()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(true, specification.ParseShort("v200"));
@@ -664,14 +664,14 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
-        public void FieldSpecification_ParseShort3()
+        public void FieldSpecification_ParseShort_3()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.ParseShort("200^a"));
         }
 
         [TestMethod]
-        public void FieldSpecification_ParseShort4()
+        public void FieldSpecification_ParseShort_4()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.ParseShort("va^a"));
@@ -679,7 +679,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 
         [TestMethod]
         [ExpectedException(typeof(PftSyntaxException))]
-        public void FieldSpecification_ParseShort5_Exception()
+        public void FieldSpecification_ParseShort_5()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.ParseShort("v200^"));
@@ -687,7 +687,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 
         [TestMethod]
         [ExpectedException(typeof(PftSyntaxException))]
-        public void FieldSpecification_ParseShort5a_Exception()
+        public void FieldSpecification_ParseShort_5a()
         {
             FieldSpecification specification = new FieldSpecification();
             Assert.AreEqual(false, specification.ParseShort("v200^я"));
