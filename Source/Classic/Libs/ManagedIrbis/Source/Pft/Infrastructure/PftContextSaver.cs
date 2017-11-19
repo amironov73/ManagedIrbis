@@ -26,6 +26,9 @@ namespace ManagedIrbis.Pft.Infrastructure
     /// <summary>
     /// Save state of <see cref="PftContext"/>.
     /// </summary>
+    /// <remarks>
+    /// Запоминает текущее повторение в группе, группу, поле и запись.
+    /// </remarks>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class PftContextSaver

@@ -10,9 +10,6 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using JetBrains.Annotations;
 
@@ -78,10 +75,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             Context = context;
             Node = node;
         }
-
-        #endregion
-
-        #region Public methods
 
         #endregion
     }

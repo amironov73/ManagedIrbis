@@ -25,10 +25,6 @@ namespace ManagedIrbis.Pft
     public sealed class PftNotConnectedException
         : PftException
     {
-        #region Properties
-
-        #endregion
-
         #region Construciton
 
         /// <summary>
@@ -61,10 +57,6 @@ namespace ManagedIrbis.Pft
             )
         {
         }
-
-        #endregion
-
-        #region Public methods
 
         #endregion
     }

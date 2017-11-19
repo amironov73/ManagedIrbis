@@ -127,7 +127,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// “екущее обрабатываемое поле записи, если есть.
         /// </summary>
         [CanBeNull]
-        public PftField CurrentField { get; internal set; }
+        public PftField CurrentField { get; set; }
 
         #endregion
 

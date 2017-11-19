@@ -10,8 +10,11 @@
 #region Using directives
 
 using System;
+
 using AM.Text;
+
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure;
 
 #endregion
@@ -24,10 +27,6 @@ namespace ManagedIrbis.Pft
     public sealed class PftSyntaxException
         : PftException
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -130,10 +129,7 @@ namespace ManagedIrbis.Pft
             (
                 [NotNull] TextNavigator navigator
             )
-            : this
-                (
-                    "Syntax error at: " + navigator
-                )
+            : this("Syntax error at: " + navigator)
         {
         }
 
@@ -144,16 +140,9 @@ namespace ManagedIrbis.Pft
             (
                 [NotNull] PftNode node
             )
-            : this
-                (
-                    "Syntax error at: " + node
-                )
+            : this("Syntax error at: " + node)
         {
         }
-
-        #endregion
-
-        #region Public methods
 
         #endregion
     }

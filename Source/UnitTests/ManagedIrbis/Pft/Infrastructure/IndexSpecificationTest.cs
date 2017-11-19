@@ -1,6 +1,5 @@
 ﻿using System.IO;
 
-using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
