@@ -9,17 +9,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CodeJam;
-
 using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
@@ -30,9 +20,9 @@ namespace ManagedIrbis.Pft.Infrastructure
     /// </summary>
     [PublicAPI]
     public delegate void PftFunction
-    (
-        [NotNull] PftContext context,
-        [NotNull] PftNode node,
-        [NotNull] PftNode[] arguments
-    );
+        (
+            [NotNull] PftContext context,
+            [NotNull] PftNode node,
+            [NotNull] PftNode[] arguments
+        );
 }

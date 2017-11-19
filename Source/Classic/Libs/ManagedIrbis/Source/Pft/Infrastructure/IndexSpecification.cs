@@ -78,10 +78,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #endregion
 
-        #region Construction
-
-        #endregion
-
         #region Private members
 
         private PftNumeric CompileProgram()
@@ -213,12 +209,24 @@ namespace ManagedIrbis.Pft.Infrastructure
                 Value = Kind.ToString()
             };
             result.Children.Add(kind);
-            PftNodeInfo expression = new PftNodeInfo
+            if (Kind == IndexKind.Literal)
             {
-                Name = "Expression",
-                Value = Expression
-            };
-            result.Children.Add(expression);
+                PftNodeInfo literal = new PftNodeInfo
+                {
+                    Name = "Literal",
+                    Value = Literal.ToInvariantString()
+                };
+                result.Children.Add(literal);
+            }
+            if (Kind == IndexKind.Expression)
+            {
+                PftNodeInfo expression = new PftNodeInfo
+                {
+                    Name = "Expression",
+                    Value = Expression
+                };
+                result.Children.Add(expression);
+            }
 
             return result;
         }
@@ -290,16 +298,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <inheritdoc cref="ICloneable.Clone" />
         public object Clone()
         {
-            IndexSpecification result
-                = (IndexSpecification)MemberwiseClone();
+            IndexSpecification result = (IndexSpecification)MemberwiseClone();
 
-#if CLASSIC || NETCORE
-
-            if (!ReferenceEquals(Program, null))
-            {
-                result.Program = (PftNumeric)Program.Clone();
-            }
-#endif
+            // Reset the program
+            result.Program = null;
 
             return result;
         }
@@ -308,9 +310,24 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString" />
+        /// <inheritdoc cref="ValueType.ToString" />
         public override string ToString()
         {
+            if (Kind == IndexKind.Literal)
+            {
+                return string.Format
+                    (
+                        "{0}: {1}",
+                        Kind,
+                        Literal
+                    );
+            }
+
+            if (Kind != IndexKind.Expression)
+            {
+                return Kind.ToString();
+            }
+
             return string.Format
                 (
                     "{0}: {1}",
