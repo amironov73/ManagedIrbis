@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
 
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -36,6 +37,7 @@ namespace ManagedIrbis
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [XmlRoot("process")]
     [DebuggerDisplay("[{Number}] {Name} ({Workstation})")]
     public sealed class IrbisProcessInfo
         : IHandmadeSerializable
@@ -47,7 +49,7 @@ namespace ManagedIrbis
         /// </summary>
         [CanBeNull]
         [XmlAttribute("number")]
-        [JsonProperty("number")]
+        [JsonProperty("number", NullValueHandling = NullValueHandling.Ignore)]
         public string Number { get; set; }
 
         /// <summary>
@@ -55,7 +57,7 @@ namespace ManagedIrbis
         /// </summary>
         [CanBeNull]
         [XmlAttribute("ip-address")]
-        [JsonProperty("ip-address")]
+        [JsonProperty("ip-address", NullValueHandling = NullValueHandling.Ignore)]
         public string IPAddress { get; set; }
 
         /// <summary>
@@ -63,7 +65,7 @@ namespace ManagedIrbis
         /// </summary>
         [CanBeNull]
         [XmlAttribute("name")]
-        [JsonProperty("name")]
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
 
         /// <summary>
@@ -71,7 +73,7 @@ namespace ManagedIrbis
         /// </summary>
         [CanBeNull]
         [XmlAttribute("client-id")]
-        [JsonProperty("client-id")]
+        [JsonProperty("client-id", NullValueHandling = NullValueHandling.Ignore)]
         public string ClientID { get; set; }
 
         /// <summary>
@@ -79,7 +81,7 @@ namespace ManagedIrbis
         /// </summary>
         [CanBeNull]
         [XmlAttribute("workstation")]
-        [JsonProperty("workstation")]
+        [JsonProperty("workstation", NullValueHandling = NullValueHandling.Ignore)]
         public string Workstation { get; set; }
 
         /// <summary>
@@ -87,7 +89,7 @@ namespace ManagedIrbis
         /// </summary>
         [CanBeNull]
         [XmlAttribute("started")]
-        [JsonProperty("started")]
+        [JsonProperty("started", NullValueHandling = NullValueHandling.Ignore)]
         public string Started { get; set; }
 
         /// <summary>
@@ -95,7 +97,7 @@ namespace ManagedIrbis
         /// </summary>
         [CanBeNull]
         [XmlAttribute("last-command")]
-        [JsonProperty("last-command")]
+        [JsonProperty("last-command", NullValueHandling = NullValueHandling.Ignore)]
         public string LastCommand { get; set; }
 
         /// <summary>
@@ -103,7 +105,7 @@ namespace ManagedIrbis
         /// </summary>
         [CanBeNull]
         [XmlAttribute("command-number")]
-        [JsonProperty("command-number")]
+        [JsonProperty("command-number", NullValueHandling = NullValueHandling.Ignore)]
         public string CommandNumber { get; set; }
 
         /// <summary>
@@ -111,7 +113,7 @@ namespace ManagedIrbis
         /// </summary>
         [CanBeNull]
         [XmlAttribute("process-id")]
-        [JsonProperty("process-id")]
+        [JsonProperty("process-id", NullValueHandling = NullValueHandling.Ignore)]
         public string ProcessID { get; set; }
 
         /// <summary>
@@ -119,7 +121,7 @@ namespace ManagedIrbis
         /// </summary>
         [CanBeNull]
         [XmlAttribute("state")]
-        [JsonProperty("state")]
+        [JsonProperty("state", NullValueHandling = NullValueHandling.Ignore)]
         public string State { get; set; }
 
         #endregion
@@ -169,12 +171,14 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             Number = reader.ReadNullableString();
             IPAddress = reader.ReadNullableString();
             Name = reader.ReadNullableString();
@@ -187,12 +191,14 @@ namespace ManagedIrbis
             State = reader.ReadNullableString();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer.WriteNullable(Number)
                 .WriteNullable(IPAddress)
                 .WriteNullable(Name)
@@ -209,7 +215,7 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format
@@ -219,16 +225,16 @@ namespace ManagedIrbis
                   + "Started: {5}, LastCommand: {6}, "
                   + "CommandNumber: {7}, ProcessID: {8}, "
                   + "State: {9}",
-                    Number,
-                    IPAddress,
-                    Name,
-                    ClientID,
-                    Workstation,
-                    Started,
-                    LastCommand,
-                    CommandNumber,
-                    ProcessID,
-                    State
+                    Number.ToVisibleString(),
+                    IPAddress.ToVisibleString(),
+                    Name.ToVisibleString(),
+                    ClientID.ToVisibleString(),
+                    Workstation.ToVisibleString(),
+                    Started.ToVisibleString(),
+                    LastCommand.ToVisibleString(),
+                    CommandNumber.ToVisibleString(),
+                    ProcessID.ToVisibleString(),
+                    State.ToVisibleString()
                 );
         }
 

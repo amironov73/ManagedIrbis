@@ -126,19 +126,6 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             return result;
         }
 
-        [NotNull]
-        protected virtual IrbisProvider GetProvider()
-        {
-            string rootPath = Irbis64RootPath;
-            LocalProvider result = new LocalProvider(rootPath)
-            {
-                Database = "IBIS",
-                PlatformAbstraction = new TestingPlatformAbstraction()
-            };
-
-            return result;
-        }
-
         protected void Execute
             (
                 [NotNull] string input,

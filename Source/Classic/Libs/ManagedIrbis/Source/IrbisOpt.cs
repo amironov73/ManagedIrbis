@@ -659,10 +659,6 @@ namespace ManagedIrbis
         }
 
         #endregion
-
-        #region Object members
-
-        #endregion
     }
 }
 

@@ -3,8 +3,11 @@ using System.IO;
 using System.Text;
 
 using AM.Runtime;
+using AM.Text;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
+using ManagedIrbis.Infrastructure;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -48,6 +51,15 @@ namespace UnitTests.ManagedIrbis
             _TestCompare("PA++", "PAZK", true);
             _TestCompare("+++++", string.Empty, true);
             _TestCompare("+++++", "PAZK", true);
+        }
+
+        [TestMethod]
+        public void IrbisOpt_CompareString_2()
+        {
+            _TestCompare("PAZK", "", false);
+            _TestCompare("+AZK", "PAZK", true);
+            _TestCompare("P+ZK", "P", false);
+            _TestCompare("P+++", "P", true);
         }
 
         private void _TestSerialization
@@ -101,10 +113,18 @@ namespace UnitTests.ManagedIrbis
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void IrbisOpt_SetWorksheetLength_Exception_1()
+        public void IrbisOpt_SetWorksheetLength_1()
         {
             IrbisOpt opt = new IrbisOpt();
             opt.SetWorksheetLength(-1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IrbisException))]
+        public void IrbisOpt_SelectWorksheet_1()
+        {
+            IrbisOpt opt = new IrbisOpt();
+            opt.SelectWorksheet("NOWS");
         }
 
         private MarcRecord _GetRecord()
@@ -158,6 +178,69 @@ namespace UnitTests.ManagedIrbis
             const string expected = "PAZK";
             string actual = opt.GetWorksheet(record);
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void IrbisOpt_LoadFromServer_1()
+        {
+            using (IrbisProvider provider = GetProvider())
+            {
+                FileSpecification specification = new FileSpecification
+                    (
+                        IrbisPath.MasterFile,
+                        "IBIS",
+                        "WS31.OPT"
+                    );
+                IrbisOpt opt = IrbisOpt.LoadFromServer
+                    (
+                        provider,
+                        specification
+                    );
+                Assert.IsNotNull(opt);
+                Assert.AreEqual(14, opt.Items.Count);
+            }
+        }
+
+        [TestMethod]
+        public void IrbisOpt_LoadFromServer_2()
+        {
+            using (IrbisProvider provider = GetProvider())
+            {
+                FileSpecification specification = new FileSpecification
+                    (
+                        IrbisPath.MasterFile,
+                        "IBIS",
+                        "NOSUCH.OPT"
+                    );
+                IrbisOpt opt = IrbisOpt.LoadFromServer
+                    (
+                        provider,
+                        specification
+                    );
+                Assert.IsNull(opt);
+            }
+        }
+
+        [TestMethod]
+        public void IrbisOpt_WriteOptFile_1()
+        {
+            string fileName = Path.GetTempFileName();
+            IrbisOpt opt = new IrbisOpt();
+            opt.SetWorksheetLength(5);
+            opt.SetWorksheetTag(920);
+            opt.Items.Add(new IrbisOpt.Item { Key = "OGO", Value = "AGA" });
+            opt.Items.Add(new IrbisOpt.Item { Key = "UGU", Value = "EGE" });
+            opt.WriteOptFile(fileName);
+            string actual = File.ReadAllText(fileName).DosToUnix();
+            Assert.AreEqual("920\n5\nOGO   AGA\nUGU   EGE\n*****\n", actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IrbisException))]
+        public void IrbisOpt_Validate_1()
+        {
+            IrbisOpt opt = new IrbisOpt();
+            opt.Validate(true);
         }
     }
 }

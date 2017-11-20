@@ -2,7 +2,11 @@
 using System.IO;
 using System.Reflection;
 
+using AM.PlatformAbstraction;
+
 using JetBrains.Annotations;
+
+using ManagedIrbis.Client;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -65,6 +69,19 @@ namespace UnitTests.Common
 
                 return result;
             }
+        }
+
+        [NotNull]
+        protected virtual IrbisProvider GetProvider()
+        {
+            string rootPath = Irbis64RootPath;
+            LocalProvider result = new LocalProvider(rootPath)
+            {
+                Database = "IBIS",
+                PlatformAbstraction = new TestingPlatformAbstraction()
+            };
+
+            return result;
         }
     }
 }

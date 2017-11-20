@@ -87,7 +87,7 @@ namespace ManagedIrbis
         public IrbisAlphabetTable()
         {
             _encoding = IrbisEncoding.Ansi;
-            _table = new byte[] 
+            _table = new byte[]
                 {
                     038, 064, 065, 066, 067, 068, 069, 070, 071, 072,
                     073, 074, 075, 076, 077, 078, 079, 080, 081, 082,
@@ -257,23 +257,26 @@ namespace ManagedIrbis
         [NotNull]
         public static IrbisAlphabetTable GetInstance
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");
 
-            if (ReferenceEquals(_instance, null))
+            lock (_lock)
             {
-                lock (_lock)
+                if (ReferenceEquals(_instance, null))
                 {
-                    if (ReferenceEquals(_instance, null))
+                    lock (_lock)
                     {
-                        _instance = new IrbisAlphabetTable(connection);
+                        if (ReferenceEquals(_instance, null))
+                        {
+                            _instance = new IrbisAlphabetTable(connection);
+                        }
                     }
                 }
-            }
 
-            return _instance;
+                return _instance;
+            }
         }
 
         /// <summary>

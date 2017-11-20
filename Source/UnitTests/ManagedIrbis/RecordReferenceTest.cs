@@ -13,8 +13,8 @@ using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Infrastructure.Commands;
 
 using Moq;
-// ReSharper disable ConvertToLocalFunction
 
+// ReSharper disable ConvertToLocalFunction
 
 namespace UnitTests.ManagedIrbis
 {

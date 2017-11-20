@@ -52,7 +52,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region AbstractCommand members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="AbstractCommand.CreateQuery" />
         public override ClientQuery CreateQuery()
         {
             ClientQuery result = base.CreateQuery();
@@ -61,7 +61,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             return result;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="AbstractCommand.Execute" />
         public override ServerResponse Execute
             (
                 ClientQuery query

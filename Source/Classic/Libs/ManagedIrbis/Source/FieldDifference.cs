@@ -62,7 +62,7 @@ namespace ManagedIrbis
         /// </summary>
         [CanBeNull]
         [XmlElement("newValue")]
-        [JsonProperty("newValue")]
+        [JsonProperty("newValue", NullValueHandling = NullValueHandling.Ignore)]
         public string NewValue { get; set; }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace ManagedIrbis
         /// </summary>
         [CanBeNull]
         [XmlElement("oldValue")]
-        [JsonProperty("oldValue")]
+        [JsonProperty("oldValue", NullValueHandling = NullValueHandling.Ignore)]
         public string OldValue { get; set; }
 
         #endregion
@@ -100,6 +100,7 @@ namespace ManagedIrbis
                     break;
 
                 default:
+                    // ReSharper disable once NotResolvedInText
                     throw new ArgumentOutOfRangeException("State");
             }
 
