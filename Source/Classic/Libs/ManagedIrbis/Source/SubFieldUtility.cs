@@ -18,7 +18,7 @@ using System.Xml;
 using System.Xml.Serialization;
 
 using AM;
-
+using AM.Json;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -128,7 +128,7 @@ namespace ManagedIrbis
             (
                 [NotNull] this SubFieldCollection subFields,
                 params char[] codes
-        )
+            )
         {
             Code.NotNull(subFields, "subFields");
 
@@ -368,13 +368,28 @@ namespace ManagedIrbis
             Code.NotNull(fieldPredicate, "fieldPredicate");
             Code.NotNull(subPredicate, "subPredicate");
 
-            return fields
-                .NonNullItems()
-                .Where(fieldPredicate)
-                .NonNullItems()
-                .GetSubField()
-                .Where(subPredicate)
-                .ToArray();
+            List<SubField> result = null;
+            foreach (RecordField field in fields)
+            {
+                if (fieldPredicate(field))
+                {
+                    foreach (SubField subField in field.SubFields)
+                    {
+                        if (subPredicate(subField))
+                        {
+                            if (ReferenceEquals(result, null))
+                            {
+                                result = new List<SubField>();
+                            }
+                            result.Add(subField);
+                        }
+                    }
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? EmptyArray
+                : result.ToArray();
         }
 
         /// <summary>
@@ -394,9 +409,7 @@ namespace ManagedIrbis
             Code.NotNull(codes, "codes");
 
             return fields
-                .NonNullItems()
                 .GetField(tags)
-                .NonNullItems()
                 .GetSubField(codes)
                 .ToArray();
         }
@@ -417,10 +430,9 @@ namespace ManagedIrbis
             Code.NotNull(subFields, "subFields");
             Code.NotNull(codeRegex, "codeRegex");
 
-            return subFields
-                .Where
+            return subFields.Where
                 (
-                    subField => 
+                    subField =>
                         !ReferenceEquals(subField.CodeString, null)
                         && Regex.IsMatch
                             (
@@ -450,14 +462,15 @@ namespace ManagedIrbis
             return subFields
                 .GetSubField(codes)
                 .Where
-                (
-                    subField => !ReferenceEquals(subField.Value, null)
-                              && Regex.IsMatch
+                    (
+                        subField =>
+                            !ReferenceEquals(subField.Value, null)
+                            && Regex.IsMatch
                                 (
                                     subField.Value,
                                     textRegex
                                 )
-                              )
+                    )
                 .ToArray();
         }
 
@@ -471,22 +484,43 @@ namespace ManagedIrbis
                 [NotNull] this IEnumerable<RecordField> fields,
                 [NotNull] int[] tags,
                 [NotNull] char[] codes,
-                [NotNull] string textRegex
+                [NotNull] string valueRegex
             )
         {
-            return fields
-                .GetField(tags)
-                .AllSubFields()
-                .Where
-                    (
-                        subField => !ReferenceEquals(subField.Value, null)
-                              && Regex.IsMatch
-                                (
-                                    subField.Value,
-                                    textRegex
-                                )                              
-                    )
-                .ToArray();
+            Code.NotNull(fields, "fields");
+            Code.NotNull(tags, "tags");
+            Code.NotNull(codes, "codes");
+            Code.NotNull(valueRegex, "valueRegex");
+
+            List<SubField> result = null;
+            foreach (RecordField field in fields)
+            {
+                if (field.Tag.OneOf(tags))
+                {
+                    foreach (SubField subField in field.SubFields)
+                    {
+                        if (subField.Code.OneOf(codes))
+                        {
+                            string value = subField.Value;
+                            if (!string.IsNullOrEmpty(value))
+                            {
+                                if (Regex.IsMatch(value, valueRegex))
+                                {
+                                    if (ReferenceEquals(result, null))
+                                    {
+                                        result = new List<SubField>();
+                                    }
+                                    result.Add(subField);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return ReferenceEquals(result, null)
+                ? EmptyArray
+                : result.ToArray();
         }
 
         // ==========================================================
@@ -567,7 +601,8 @@ namespace ManagedIrbis
         {
             Code.NotNull(subField, "subField");
 
-            string result = JObject.FromObject(subField).ToString();
+            string result = JsonUtility.SerializeShort(subField);
+            //JObject.FromObject(subField).ToString();
 
             return result;
         }
@@ -585,9 +620,13 @@ namespace ManagedIrbis
 
             SubField result = new SubField
                 (
-                    jObject["code"].ToString()[0],
-                    jObject["value"].ToString()
+                    jObject["code"].ToString()[0]
                 );
+            JToken value = jObject["value"];
+            if (value != null)
+            {
+                result.Value = value.ToString();
+            }
 
             return result;
         }
@@ -636,7 +675,7 @@ namespace ManagedIrbis
                     typeof(SubField)
                 );
             serializer.Serialize(writer, subField);
-            
+
             return writer.ToString();
         }
 
@@ -653,8 +692,8 @@ namespace ManagedIrbis
 
             XmlSerializer serializer = new XmlSerializer(typeof(SubField));
             StringReader reader = new StringReader(text);
-            SubField result = (SubField) serializer.Deserialize(reader);
-            
+            SubField result = (SubField)serializer.Deserialize(reader);
+
             return result;
         }
 

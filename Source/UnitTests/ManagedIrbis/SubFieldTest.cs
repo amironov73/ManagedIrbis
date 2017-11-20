@@ -176,12 +176,8 @@ namespace UnitTests.ManagedIrbis
         {
             SubField subField = new SubField('a', "Value");
 
-            string actual = subField.ToJson()
-                .Replace("\r","").Replace("\n","");
-            const string expected = @"{"
-+@"  ""code"": ""a"","
-+@"  ""value"": ""Value"""
-+@"}";
+            string actual = subField.ToJson();
+            const string expected = @"{'code':'a','value':'Value'}";
             Assert.AreEqual(expected, actual);
         }
 

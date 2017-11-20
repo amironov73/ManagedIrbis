@@ -466,6 +466,7 @@
     <Compile Include="ManagedIrbis\IrbisExceptionTest.cs" />
     <Compile Include="ManagedIrbis\RecordComparerTest.cs" />
     <Compile Include="ManagedIrbis\RecordGuardTest.cs" />
+    <Compile Include="ManagedIrbis\SubFieldUtilityTest.cs" />
     <Compile Include="ManagedIrbis\TableDefinitionTest.cs" />
     <Compile Include="ManagedIrbis\Worksheet\WorksheetPageTest.cs" />
     <Compile Include="ManagedIrbis\Worksheet\WsFileTest.cs" />
