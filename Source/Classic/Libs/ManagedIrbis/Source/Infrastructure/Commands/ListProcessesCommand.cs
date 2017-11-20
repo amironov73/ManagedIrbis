@@ -42,7 +42,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public ListProcessesCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

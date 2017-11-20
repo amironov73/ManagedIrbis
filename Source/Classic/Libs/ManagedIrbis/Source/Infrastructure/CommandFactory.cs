@@ -40,7 +40,7 @@ namespace ManagedIrbis.Infrastructure
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection
+        public IIrbisConnection Connection
         {
             get;
             protected internal set;
@@ -55,7 +55,7 @@ namespace ManagedIrbis.Infrastructure
         /// </summary>
         public CommandFactory
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");

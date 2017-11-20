@@ -64,7 +64,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public ReadBinaryFileCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

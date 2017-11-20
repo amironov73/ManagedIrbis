@@ -46,7 +46,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public ReloadMasterFileCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

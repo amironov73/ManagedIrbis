@@ -113,7 +113,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public GblVirtualCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

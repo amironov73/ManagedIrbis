@@ -108,7 +108,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public FormatCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

@@ -47,7 +47,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public TruncateDatabaseCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

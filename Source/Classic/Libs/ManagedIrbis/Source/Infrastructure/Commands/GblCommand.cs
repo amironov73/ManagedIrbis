@@ -172,7 +172,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public GblCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {
@@ -186,7 +186,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public GblCommand
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] GblSettings settings
             )
             : base(connection)

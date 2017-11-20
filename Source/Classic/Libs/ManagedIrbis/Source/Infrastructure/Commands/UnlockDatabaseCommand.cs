@@ -47,7 +47,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public UnlockDatabaseCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

@@ -57,7 +57,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// <param name="connection"></param>
         public ReadFileCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

@@ -119,7 +119,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public ReadPostingsCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

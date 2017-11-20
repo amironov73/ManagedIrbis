@@ -45,7 +45,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public CreateDictionaryCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

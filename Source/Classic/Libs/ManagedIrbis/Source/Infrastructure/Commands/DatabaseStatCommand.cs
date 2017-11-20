@@ -50,7 +50,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public DatabaseStatCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

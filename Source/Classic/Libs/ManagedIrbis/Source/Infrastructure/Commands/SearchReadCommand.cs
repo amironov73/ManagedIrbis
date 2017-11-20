@@ -84,7 +84,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public SearchReadCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

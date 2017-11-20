@@ -55,7 +55,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public UniversalCommand
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string commandCode
             )
             : base(connection)
@@ -70,7 +70,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public UniversalCommand
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string commandCode,
                 params object[] arguments
             )

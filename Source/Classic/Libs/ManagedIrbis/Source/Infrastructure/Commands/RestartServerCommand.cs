@@ -38,7 +38,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public RestartServerCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

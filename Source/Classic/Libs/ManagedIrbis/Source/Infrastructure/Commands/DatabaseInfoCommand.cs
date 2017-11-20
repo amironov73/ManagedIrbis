@@ -51,7 +51,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public DatabaseInfoCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

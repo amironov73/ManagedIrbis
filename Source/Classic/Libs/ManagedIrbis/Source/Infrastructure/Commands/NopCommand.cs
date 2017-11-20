@@ -38,7 +38,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public NopCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

@@ -50,7 +50,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public WriteFileCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

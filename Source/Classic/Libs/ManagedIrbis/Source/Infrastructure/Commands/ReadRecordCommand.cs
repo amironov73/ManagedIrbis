@@ -95,7 +95,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public ReadRecordCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

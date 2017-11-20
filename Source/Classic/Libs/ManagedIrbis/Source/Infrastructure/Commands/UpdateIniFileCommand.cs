@@ -44,7 +44,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public UpdateIniFileCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

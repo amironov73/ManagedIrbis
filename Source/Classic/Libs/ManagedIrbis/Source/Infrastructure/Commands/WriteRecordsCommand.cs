@@ -65,7 +65,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public WriteRecordsCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

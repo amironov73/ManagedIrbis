@@ -72,7 +72,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public ReadRawRecordCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

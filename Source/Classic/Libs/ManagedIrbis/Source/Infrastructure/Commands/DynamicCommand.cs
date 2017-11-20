@@ -71,7 +71,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public DynamicCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

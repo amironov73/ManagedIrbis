@@ -122,7 +122,47 @@ namespace ManagedIrbis
 
         #region Public methods
 
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
+        /// <summary>
+        /// Compare two references.
+        /// </summary>
+        public static bool Compare
+            (
+                [NotNull] RecordReference first,
+                [NotNull] RecordReference second
+            )
+        {
+            Code.NotNull(first, "first");
+            Code.NotNull(second, "second");
+
+            if (first.HostName != second.HostName
+                || first.Database != second.Database)
+            {
+                return false;
+            }
+
+            if (first.Mfn != 0)
+            {
+                if (first.Mfn != second.Mfn)
+                {
+                    return false;
+                }
+            }
+
+            if (!ReferenceEquals(first.Index, null))
+            {
+                if (first.Index != second.Index)
+                {
+                    return false;
+                }
+            }
+
+            if (first.Mfn == 0 && ReferenceEquals(first.Index, null))
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Load references from archive file.
@@ -134,16 +174,15 @@ namespace ManagedIrbis
         {
             Code.NotNull(fileName, "fileName");
 
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
+
             RecordReference[] result = SerializationUtility
-                .RestoreArrayFromZipFile<RecordReference>
-                (
-                    fileName
-                );
+                .RestoreArrayFromFile<RecordReference>(fileName);
 
             return result;
-        }
 
 #endif
+        }
 
         /// <summary>
         /// Load record according to the reference.
@@ -151,7 +190,7 @@ namespace ManagedIrbis
         [CanBeNull]
         public MarcRecord ReadRecord
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");
@@ -188,7 +227,7 @@ namespace ManagedIrbis
         [NotNull]
         public static List<MarcRecord> ReadRecords
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] IEnumerable<RecordReference> references,
                 bool throwOnError
             )
@@ -223,7 +262,6 @@ namespace ManagedIrbis
             return result;
         }
 
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Save references to the archive file.
@@ -237,10 +275,13 @@ namespace ManagedIrbis
             Code.NotNull(references, "references");
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            references.SaveToZipFile(fileName);
-        }
+#if !SILVERLIGHT && !WIN81 && !PORTABLE
+
+            references.SaveToFile(fileName);
 
 #endif
+        }
+
 
         #endregion
 
@@ -286,18 +327,14 @@ namespace ManagedIrbis
             )
         {
             Verifier<RecordReference> verifier
-                = new Verifier<RecordReference>
-                    (
-                        this,
-                        throwOnError
-                    );
+                = new Verifier<RecordReference>(this, throwOnError);
 
             verifier
                 .NotNullNorEmpty(Database, "Database")
                 .Assert
                     (
                         Mfn != 0
-                        || string.IsNullOrEmpty(Index),
+                        || !string.IsNullOrEmpty(Index),
                         "Mfn or Index"
                     );
 
@@ -318,7 +355,7 @@ namespace ManagedIrbis
                         "{0}#{1}#{2}",
                         Database.ToVisibleString(),
                         Mfn,
-                        Index
+                        Index.ToVisibleString()
                     );
             }
 

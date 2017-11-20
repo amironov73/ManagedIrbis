@@ -101,7 +101,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public ConnectCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

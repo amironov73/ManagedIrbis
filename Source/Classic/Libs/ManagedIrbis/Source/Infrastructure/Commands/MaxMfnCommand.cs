@@ -45,7 +45,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public MaxMfnCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

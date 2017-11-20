@@ -62,7 +62,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public UniversalTextCommand
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string commandCode
             )
             : base(connection)
@@ -79,7 +79,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public UniversalTextCommand
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string commandCode,
                 [NotNull] string[] lines,
                 [NotNull] Encoding encoding

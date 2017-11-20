@@ -42,7 +42,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// </summary>
         public ListUsersCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {

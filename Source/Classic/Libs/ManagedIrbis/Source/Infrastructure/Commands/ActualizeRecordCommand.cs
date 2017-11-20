@@ -56,7 +56,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// <param name="connection"></param>
         public ActualizeRecordCommand
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
             : base(connection)
         {
