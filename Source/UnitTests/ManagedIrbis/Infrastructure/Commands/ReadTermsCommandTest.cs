@@ -29,5 +29,15 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
                 = new ReadTermsCommand(connection);
             Assert.AreSame(connection, command.Connection);
         }
+
+        [TestMethod]
+        public void ReadTermsCommand_Verify_1()
+        {
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
+            ReadTermsCommand command
+                = new ReadTermsCommand(connection);
+            Assert.IsFalse(command.Verify(false));
+        }
     }
 }

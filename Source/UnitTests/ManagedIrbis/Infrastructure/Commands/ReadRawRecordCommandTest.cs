@@ -29,5 +29,15 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
                 = new ReadRawRecordCommand(connection);
             Assert.AreSame(connection, command.Connection);
         }
+
+        [TestMethod]
+        public void ReadRawRecordCommand_Verify_1()
+        {
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
+            ReadRawRecordCommand command
+                = new ReadRawRecordCommand(connection);
+            Assert.IsFalse(command.Verify(false));
+        }
     }
 }

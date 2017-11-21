@@ -29,5 +29,15 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
                 = new FormatCommand(connection);
             Assert.AreSame(connection, command.Connection);
         }
+
+        [TestMethod]
+        public void FormatCommand_Verify_1()
+        {
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
+            FormatCommand command
+                = new FormatCommand(connection);
+            Assert.IsFalse(command.Verify(false));
+        }
     }
 }

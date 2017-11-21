@@ -29,5 +29,15 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
                 = new UpdateUserListCommand(connection);
             Assert.AreSame(connection, command.Connection);
         }
+
+        [TestMethod]
+        public void UpdateUserListCommand_Verify_1()
+        {
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
+            UpdateUserListCommand command
+                = new UpdateUserListCommand(connection);
+            Assert.IsFalse(command.Verify(false));
+        }
     }
 }

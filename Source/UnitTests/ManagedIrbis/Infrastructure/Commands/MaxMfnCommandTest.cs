@@ -29,5 +29,15 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
                 = new MaxMfnCommand(connection);
             Assert.AreSame(connection, command.Connection);
         }
+
+        [TestMethod]
+        public void MaxMfnCommand_Verify_1()
+        {
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
+            MaxMfnCommand command
+                = new MaxMfnCommand(connection);
+            Assert.IsFalse(command.Verify(false));
+        }
     }
 }

@@ -29,5 +29,15 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
                 = new DatabaseInfoCommand(connection);
             Assert.AreSame(connection, command.Connection);
         }
+
+        [TestMethod]
+        public void DatabaseInfoCommand_Verify_1()
+        {
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
+            DatabaseInfoCommand command
+                = new DatabaseInfoCommand(connection);
+            Assert.IsFalse(command.Verify(false));
+        }
     }
 }

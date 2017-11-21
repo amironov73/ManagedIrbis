@@ -29,5 +29,15 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
                 = new WriteRecordsCommand(connection);
             Assert.AreSame(connection, command.Connection);
         }
+
+        [TestMethod]
+        public void WriteRecordsCommand_Verify_1()
+        {
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
+            WriteRecordsCommand command
+                = new WriteRecordsCommand(connection);
+            Assert.IsFalse(command.Verify(false));
+        }
     }
 }

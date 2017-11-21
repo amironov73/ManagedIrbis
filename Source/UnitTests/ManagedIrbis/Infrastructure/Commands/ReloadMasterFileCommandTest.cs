@@ -29,5 +29,15 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
                 = new ReloadMasterFileCommand(connection);
             Assert.AreSame(connection, command.Connection);
         }
+
+        [TestMethod]
+        public void ReloadMasterFileCommand_Verify_1()
+        {
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
+            ReloadMasterFileCommand command
+                = new ReloadMasterFileCommand(connection);
+            Assert.IsFalse(command.Verify(false));
+        }
     }
 }

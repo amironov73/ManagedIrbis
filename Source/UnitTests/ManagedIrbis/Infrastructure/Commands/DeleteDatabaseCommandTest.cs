@@ -29,5 +29,15 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
                 = new DeleteDatabaseCommand(connection);
             Assert.AreSame(connection, command.Connection);
         }
+
+        [TestMethod]
+        public void DeleteDatabaseCommand_Verify_1()
+        {
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
+            DeleteDatabaseCommand command
+                = new DeleteDatabaseCommand(connection);
+            Assert.IsFalse(command.Verify(false));
+        }
     }
 }

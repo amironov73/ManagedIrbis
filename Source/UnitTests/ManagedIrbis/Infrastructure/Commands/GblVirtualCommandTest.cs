@@ -29,5 +29,15 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
                 = new GblVirtualCommand(connection);
             Assert.AreSame(connection, command.Connection);
         }
+
+        [TestMethod]
+        public void GblVirtualCommand_Verify_1()
+        {
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
+            GblVirtualCommand command
+                = new GblVirtualCommand(connection);
+            Assert.IsFalse(command.Verify(false));
+        }
     }
 }

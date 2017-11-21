@@ -29,5 +29,15 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
                 = new UnlockDatabaseCommand(connection);
             Assert.AreSame(connection, command.Connection);
         }
+
+        [TestMethod]
+        public void UnlockDatabaseCommand_Verify_1()
+        {
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
+            UnlockDatabaseCommand command
+                = new UnlockDatabaseCommand(connection);
+            Assert.IsFalse(command.Verify(false));
+        }
     }
 }
