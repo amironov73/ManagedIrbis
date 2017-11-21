@@ -17,17 +17,19 @@ using Moq;
 namespace UnitTests.ManagedIrbis.Infrastructure.Commands
 {
     [TestClass]
-    public class DisconnectCommandTest
+    public class UniversalCommandTest
         : CommandTest
     {
         [TestMethod]
-        public void DisconnectCommand_Construciton_1()
+        public void UniversalCommand_Construciton_1()
         {
+            const string commandCode = "code";
             Mock<IIrbisConnection> mock = GetConnectionMock();
             IIrbisConnection connection = mock.Object;
-            DisconnectCommand command
-                = new DisconnectCommand(connection);
+            UniversalCommand command
+                = new UniversalCommand(connection, commandCode);
             Assert.AreSame(connection, command.Connection);
+            Assert.AreEqual(commandCode, command.CommandCode);
         }
     }
 }

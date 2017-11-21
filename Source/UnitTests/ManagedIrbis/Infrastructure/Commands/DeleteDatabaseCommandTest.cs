@@ -18,11 +18,13 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
 {
     [TestClass]
     public class DeleteDatabaseCommandTest
+        : CommandTest
     {
         [TestMethod]
         public void DeleteDatabaseCommand_Construciton_1()
         {
-            IIrbisConnection connection = new IrbisConnection();
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
             DeleteDatabaseCommand command
                 = new DeleteDatabaseCommand(connection);
             Assert.AreSame(connection, command.Connection);

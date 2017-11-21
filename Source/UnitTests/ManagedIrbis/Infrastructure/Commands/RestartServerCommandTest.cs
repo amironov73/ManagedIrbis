@@ -17,16 +17,16 @@ using Moq;
 namespace UnitTests.ManagedIrbis.Infrastructure.Commands
 {
     [TestClass]
-    public class DisconnectCommandTest
+    public class RestartServerCommandTest
         : CommandTest
     {
         [TestMethod]
-        public void DisconnectCommand_Construciton_1()
+        public void RestartServerCommand_Construciton_1()
         {
             Mock<IIrbisConnection> mock = GetConnectionMock();
             IIrbisConnection connection = mock.Object;
-            DisconnectCommand command
-                = new DisconnectCommand(connection);
+            RestartServerCommand command
+                = new RestartServerCommand(connection);
             Assert.AreSame(connection, command.Connection);
         }
     }

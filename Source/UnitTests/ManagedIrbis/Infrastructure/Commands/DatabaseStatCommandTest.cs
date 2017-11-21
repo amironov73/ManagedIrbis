@@ -18,11 +18,13 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
 {
     [TestClass]
     public class DatabaseStatCommandTest
+        : CommandTest
     {
         [TestMethod]
         public void DatabaseStatCommand_Construciton_1()
         {
-            IIrbisConnection connection = new IrbisConnection();
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
             DatabaseStatCommand command
                 = new DatabaseStatCommand(connection);
             Assert.AreSame(connection, command.Connection);

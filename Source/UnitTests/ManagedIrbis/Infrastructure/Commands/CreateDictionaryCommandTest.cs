@@ -18,11 +18,13 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
 {
     [TestClass]
     public class CreateDictionaryCommandTest
+        : CommandTest
     {
         [TestMethod]
         public void CreateDictionaryCommand_Construciton_1()
         {
-            IIrbisConnection connection = new IrbisConnection();
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
             CreateDictionaryCommand command
                 = new CreateDictionaryCommand(connection);
             Assert.AreSame(connection, command.Connection);

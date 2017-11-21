@@ -18,11 +18,13 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
 {
     [TestClass]
     public class FormatCommandTest
+        : CommandTest
     {
         [TestMethod]
         public void FormatCommand_Construciton_1()
         {
-            IIrbisConnection connection = new IrbisConnection();
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
             FormatCommand command
                 = new FormatCommand(connection);
             Assert.AreSame(connection, command.Connection);

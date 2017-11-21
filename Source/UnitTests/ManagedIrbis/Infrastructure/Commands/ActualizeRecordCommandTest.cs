@@ -18,11 +18,13 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
 {
     [TestClass]
     public class ActualizeRecordCommandTest
+        : CommandTest
     {
         [TestMethod]
         public void ActualizeRecordCommand_Construciton_1()
         {
-            IIrbisConnection connection = new IrbisConnection();
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
             ActualizeRecordCommand command
                 = new ActualizeRecordCommand(connection);
             Assert.AreSame(connection, command.Connection);

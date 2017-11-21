@@ -108,8 +108,12 @@ namespace ManagedIrbis.Infrastructure.Commands
             Log.Trace("ConnectCommand::Constructor");
 
             // TODO fix it!
-            ((IrbisConnection)Connection).GenerateClientID();
-            ((IrbisConnection)Connection).ResetCommandNumber();
+            IrbisConnection nativeConnection = connection as IrbisConnection;
+            if (!ReferenceEquals(nativeConnection, null))
+            {
+                nativeConnection.GenerateClientID();
+                nativeConnection.ResetCommandNumber();
+            }
         }
 
         #endregion

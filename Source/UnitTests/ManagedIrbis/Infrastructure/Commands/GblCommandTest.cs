@@ -18,11 +18,13 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
 {
     [TestClass]
     public class GblCommandTest
+        : CommandTest
     {
         [TestMethod]
         public void GblCommand_Construciton_1()
         {
-            IIrbisConnection connection = new IrbisConnection();
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
             GblCommand command
                 = new GblCommand(connection);
             Assert.AreSame(connection, command.Connection);
