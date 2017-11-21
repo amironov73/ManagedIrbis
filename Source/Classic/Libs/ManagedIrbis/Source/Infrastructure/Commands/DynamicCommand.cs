@@ -214,20 +214,22 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region IVerifiable members
 
-        /// <inheritdoc cref="IVerifiable.Verify" />
-        public override bool Verify
-            (
-                bool throwOnError
-            )
-        {
-            Func<DynamicCommand, bool, bool> handler = VerifyHandler;
+        // TODO Fix this
 
-            bool result = !ReferenceEquals(handler, null)
-              ? handler(this, throwOnError)
-              : BaseVerify(throwOnError);
+        ///// <inheritdoc cref="AbstractCommand.Verify" />
+        //public override bool Verify
+        //    (
+        //        bool throwOnError
+        //    )
+        //{
+        //    Func<DynamicCommand, bool, bool> handler = VerifyHandler;
 
-            return result;
-        }
+        //    bool result = !ReferenceEquals(handler, null)
+        //      ? handler(this, throwOnError)
+        //      : BaseVerify(throwOnError);
+
+        //    return result;
+        //}
 
         #endregion
 

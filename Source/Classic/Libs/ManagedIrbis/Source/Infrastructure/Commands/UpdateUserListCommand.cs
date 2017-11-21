@@ -107,45 +107,47 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region IVerifiable members
 
-        /// <inheritdoc cref="AbstractCommand.Verify" />
-        public override bool Verify
-            (
-                bool throwOnError
-            )
-        {
-            Verifier<UpdateUserListCommand> verifier
-                = new Verifier<UpdateUserListCommand>
-                    (
-                        this,
-                        throwOnError
-                    );
+        // TODO Fix this
 
-            verifier
-                .NotNull(UserList, "UserList");
+        ///// <inheritdoc cref="AbstractCommand.Verify" />
+        //public override bool Verify
+        //    (
+        //        bool throwOnError
+        //    )
+        //{
+        //    Verifier<UpdateUserListCommand> verifier
+        //        = new Verifier<UpdateUserListCommand>
+        //            (
+        //                this,
+        //                throwOnError
+        //            );
 
-            UserInfo[] userList = UserList.ThrowIfNull();
+        //    verifier
+        //        .NotNull(UserList, "UserList");
 
-            verifier.Assert
-                (
-                    userList.Length != 0,
-                    "UserList.Length == 0"
-                );
-            foreach (UserInfo userInfo in userList)
-            {
-                verifier.NotNull
-                    (
-                        userInfo,
-                        "userInfo"
-                    )
-                    .VerifySubObject
-                    (
-                        userInfo,
-                        "userInfo"
-                    );
-            }
+        //    UserInfo[] userList = UserList.ThrowIfNull();
 
-            return verifier.Result;
-        }
+        //    verifier.Assert
+        //        (
+        //            userList.Length != 0,
+        //            "UserList.Length == 0"
+        //        );
+        //    foreach (UserInfo userInfo in userList)
+        //    {
+        //        verifier.NotNull
+        //            (
+        //                userInfo,
+        //                "userInfo"
+        //            )
+        //            .VerifySubObject
+        //            (
+        //                userInfo,
+        //                "userInfo"
+        //            );
+        //    }
+
+        //    return verifier.Result;
+        //}
 
         #endregion
     }

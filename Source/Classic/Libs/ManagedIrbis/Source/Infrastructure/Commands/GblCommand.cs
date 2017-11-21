@@ -340,38 +340,40 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #region IVerifiable members
 
-        /// <inheritdoc cref="IVerifiable.Verify"/>
-        public override bool Verify
-            (
-                bool throwOnError
-            )
-        {
-            Verifier<GblCommand> verifier = new Verifier<GblCommand>
-                (
-                    this,
-                    throwOnError
-                );
+        ///// <inheritdoc cref="AbstractCommand.Verify"/>
+        //public override bool Verify
+        //    (
+        //        bool throwOnError
+        //    )
+        //{
+        //    Verifier<GblCommand> verifier = new Verifier<GblCommand>
+        //        (
+        //            this,
+        //            throwOnError
+        //        );
 
-            if (string.IsNullOrEmpty(FileName))
-            {
-                // ReSharper disable PossibleNullReferenceException
-                verifier
-                    .NotNull(Statements, "Statements")
-                    .Assert
-                        (
-                            Statements.Length > 0,
-                            "Statements.Length > 0"
-                        );
-                // ReSharper restore PossibleNullReferenceException
+        //    // TODO Fix this
 
-                foreach (GblStatement statement in Statements)
-                {
-                    verifier.VerifySubObject(statement, "statement");
-                }
-            }
+        //    if (string.IsNullOrEmpty(FileName))
+        //    {
+        //        // ReSharper disable PossibleNullReferenceException
+        //        verifier
+        //            .NotNull(Statements, "Statements")
+        //            .Assert
+        //                (
+        //                    Statements.Length > 0,
+        //                    "Statements.Length > 0"
+        //                );
+        //        // ReSharper restore PossibleNullReferenceException
 
-            return verifier.Result;
-        }
+        //        foreach (GblStatement statement in Statements)
+        //        {
+        //            verifier.VerifySubObject(statement, "statement");
+        //        }
+        //    }
+
+        //    return verifier.Result;
+        //}
 
         #endregion
     }

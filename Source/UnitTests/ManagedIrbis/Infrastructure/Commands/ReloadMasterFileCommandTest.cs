@@ -37,7 +37,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
             IIrbisConnection connection = mock.Object;
             ReloadMasterFileCommand command
                 = new ReloadMasterFileCommand(connection);
-            Assert.IsFalse(command.Verify(false));
+            Assert.IsTrue(command.Verify(false));
         }
     }
 }

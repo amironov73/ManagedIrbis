@@ -37,7 +37,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
             IIrbisConnection connection = mock.Object;
             UpdateUserListCommand command
                 = new UpdateUserListCommand(connection);
-            Assert.IsFalse(command.Verify(false));
+            Assert.IsTrue(command.Verify(false));
         }
     }
 }
