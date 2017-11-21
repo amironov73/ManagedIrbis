@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis.Morphology;
@@ -26,6 +27,9 @@ namespace UnitTests.ManagedIrbis.Morphology
             _TestShortenByStandardFullEnding("социальный", "соц.");
             _TestShortenByStandardFullEnding("военный", "воен.");
             _TestShortenByStandardFullEnding("кавказский", "кавк.");
+            _TestShortenByStandardFullEnding("русский", "рус.");
+            _TestShortenByStandardFullEnding("окно", "окно");
+            _TestShortenByStandardFullEnding("ого", "ого");
         }
 
         private void _TestShortenByGost

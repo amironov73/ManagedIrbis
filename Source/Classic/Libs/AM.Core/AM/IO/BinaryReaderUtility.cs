@@ -478,17 +478,18 @@ namespace AM.IO
         {
             Code.NotNull(reader, "reader");
 
+            string[] result = null;
             if (reader.ReadBoolean())
             {
                 int count = reader.ReadPackedInt32();
-                string[] result = new string[count];
+                result = new string[count];
                 for (int i = 0; i < count; i++)
                 {
                     result[i] = reader.ReadString();
                 }
             }
 
-            return null;
+            return result;
         }
 
         /// <summary>

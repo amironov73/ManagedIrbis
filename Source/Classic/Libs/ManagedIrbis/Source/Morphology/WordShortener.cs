@@ -705,8 +705,7 @@ namespace ManagedIrbis.Morphology
             "орский", "орская", "орское", "орские",
             "ский", "ская", "ское", "ские",
             "ской", "ская", "ское", "ские",
-            "ческий", "ческая", "ческое", "ческие",
-
+            "ческий", "ческая", "ческое", "ческие"
         };
 
         #endregion
@@ -782,11 +781,11 @@ namespace ManagedIrbis.Morphology
                         &&
                         (
                             last == 'а' || last == 'А' || last == 'е' || last == 'Е'
-                        || last == 'ё' || last == 'Ё' || last == 'и' || last == 'И'
-                        || last == 'й' || last == 'Й' || last == 'о' || last == 'О'
-                        || last == 'э' || last == 'Э' || last == 'ы' || last == 'Ы'
-                        || last == 'ю' || last == 'Ю' || last == 'я' || last == 'Я'
-                        || last == 'ь' || last == 'Ь'
+                         || last == 'ё' || last == 'Ё' || last == 'и' || last == 'И'
+                         || last == 'й' || last == 'Й' || last == 'о' || last == 'О'
+                         || last == 'э' || last == 'Э' || last == 'ы' || last == 'Ы'
+                         || last == 'ю' || last == 'Ю' || last == 'я' || last == 'Я'
+                         || last == 'ь' || last == 'Ь'
                         )
                     )
                 {

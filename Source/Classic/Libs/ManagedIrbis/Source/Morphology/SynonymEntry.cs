@@ -9,17 +9,12 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
-
 using AM;
-using AM.Collections;
 using AM.IO;
 using AM.Runtime;
 
@@ -41,6 +36,7 @@ namespace ManagedIrbis.Morphology
     /// 
     /// </summary>
     [PublicAPI]
+    [XmlRoot("word")]
     [MoonSharpUserData]
     public class SynonymEntry
         : IHandmadeSerializable
@@ -50,6 +46,8 @@ namespace ManagedIrbis.Morphology
         /// <summary>
         /// Record MFN.
         /// </summary>
+        [XmlAttribute("mfn")]
+        [JsonProperty("mfn", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Mfn { get; set; }
 
         /// <summary>
@@ -58,7 +56,7 @@ namespace ManagedIrbis.Morphology
         [CanBeNull]
         [Field("10")]
         [XmlAttribute("main")]
-        [JsonProperty("main")]
+        [JsonProperty("main", NullValueHandling = NullValueHandling.Ignore)]
         public string MainWord { get; set; }
 
         /// <summary>
@@ -66,8 +64,8 @@ namespace ManagedIrbis.Morphology
         /// </summary>
         [CanBeNull]
         [Field("11")]
-        [XmlAttribute("synonyms")]
-        [JsonProperty("synonyms")]
+        [XmlElement("synonym")]
+        [JsonProperty("synonyms", NullValueHandling = NullValueHandling.Ignore)]
         public string[] Synonyms { get; set; }
 
         /// <summary>
@@ -76,7 +74,7 @@ namespace ManagedIrbis.Morphology
         [CanBeNull]
         [Field("12")]
         [XmlAttribute("language")]
-        [JsonProperty("language")]
+        [JsonProperty("language", NullValueHandling = NullValueHandling.Ignore)]
         public string Language { get; set; }
 
         /// <summary>
@@ -85,12 +83,8 @@ namespace ManagedIrbis.Morphology
         [CanBeNull]
         [Field("920")]
         [XmlAttribute("worksheet")]
-        [JsonProperty("worksheet")]
+        [JsonProperty("worksheet", NullValueHandling = NullValueHandling.Ignore)]
         public string Worksheet { get; set; }
-
-        #endregion
-
-        #region Construction
 
         #endregion
 
@@ -98,8 +92,8 @@ namespace ManagedIrbis.Morphology
 
         private static void _AddField
             (
-                MarcRecord record,
-                string tag,
+                [NotNull] MarcRecord record,
+                int tag,
                 string text
             )
         {
@@ -112,6 +106,31 @@ namespace ManagedIrbis.Morphology
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Encode the record.
+        /// </summary>
+        [NotNull]
+        public MarcRecord Encode()
+        {
+            MarcRecord result = new MarcRecord
+            {
+                Mfn = Mfn
+            };
+
+            _AddField(result, 10, MainWord);
+            if (!ReferenceEquals(Synonyms, null))
+            {
+                foreach (string synonym in Synonyms)
+                {
+                    _AddField(result, 11, synonym);
+                }
+            }
+            _AddField(result, 12, Language);
+            _AddField(result, 920, Worksheet);
+
+            return result;
+        }
 
         /// <summary>
         /// Parse the record.
@@ -138,35 +157,19 @@ namespace ManagedIrbis.Morphology
         }
 
         /// <summary>
-        /// Encode the record.
+        /// Should serialize the <see cref="Mfn"/> field?
         /// </summary>
-        [NotNull]
-        public MarcRecord Encode()
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeMfn()
         {
-            MarcRecord result = new MarcRecord
-            {
-                Mfn = Mfn
-            };
-
-            _AddField(result, "10", MainWord);
-            if (!ReferenceEquals(Synonyms, null))
-            {
-                foreach (string synonym in Synonyms)
-                {
-                    _AddField(result, "11", synonym);
-                }
-            }
-            _AddField(result, "12", Language);
-            _AddField(result, "902", Worksheet);
-
-            return result;
+            return Mfn != 0;
         }
 
         #endregion
 
         #region IHandmadeSerializable
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -181,7 +184,7 @@ namespace ManagedIrbis.Morphology
             Worksheet = reader.ReadNullableString();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -201,15 +204,20 @@ namespace ManagedIrbis.Morphology
 
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
 
-            result.AppendFormat("{0}: ", MainWord);
-            if (!ReferenceEquals(Synonyms, null))
+            result.AppendFormat("{0}: ", MainWord.ToVisibleString());
+            if (!ReferenceEquals(Synonyms, null)
+                && Synonyms.Length != 0)
             {
                 result.Append(string.Join(", ", Synonyms));
+            }
+            else
+            {
+                result.Append("(none)");
             }
 
             return result.ToString();
