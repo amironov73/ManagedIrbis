@@ -1,6 +1,4 @@
-﻿using System;
-
-using AM.Json;
+﻿using AM.Json;
 using AM.Runtime;
 using AM.Xml;
 
@@ -146,6 +144,17 @@ namespace UnitTests.ManagedIrbis.Morphology
             entry = _GetEntry();
             Assert.AreEqual("<word mfn=\"8\" main=\"абориген\" language=\"rus\" worksheet=\"SYNON\"><synonym>житель</synonym><synonym>туземец</synonym></word>", XmlUtility.SerializeShort(entry));
         }
+
+        [TestMethod]
+        public void SynonymEntry_Verify_1()
+        {
+            SynonymEntry entry = new SynonymEntry();
+            Assert.IsFalse(entry.Verify(false));
+
+            entry = _GetEntry();
+            Assert.IsTrue(entry.Verify(false));
+        }
+
 
         [TestMethod]
         public void SynonymEntry_ToString_1()

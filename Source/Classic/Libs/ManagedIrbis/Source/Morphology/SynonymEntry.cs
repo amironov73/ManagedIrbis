@@ -9,11 +9,11 @@
 
 #region Using directives
 
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
+
 using AM;
 using AM.IO;
 using AM.Runtime;
@@ -39,7 +39,8 @@ namespace ManagedIrbis.Morphology
     [XmlRoot("word")]
     [MoonSharpUserData]
     public class SynonymEntry
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -198,6 +199,36 @@ namespace ManagedIrbis.Morphology
                 .WriteNullableArray(Synonyms)
                 .WriteNullable(Language)
                 .WriteNullable(Worksheet);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<SynonymEntry> verifier
+                = new Verifier<SynonymEntry>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(MainWord, "MainWord")
+                .NotNullNorEmpty(Worksheet, "Worksheet")
+                .NotNullNorEmpty(Language, "Language")
+                .NotNull(Synonyms, "Synonyms");
+
+            if (!ReferenceEquals(Synonyms, null))
+            {
+                foreach (string synonym in Synonyms)
+                {
+                    verifier.NotNullNorEmpty(synonym, "synonym");
+                }
+            }
+
+            return verifier.Result;
         }
 
         #endregion
