@@ -52,10 +52,7 @@ namespace ManagedIrbis.Search
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisProvider Provider
-        {
-            get { return _provider; }
-        }
+        public IrbisProvider Provider { get; private set; }
 
         /// <summary>
         /// Search history.
@@ -80,15 +77,9 @@ namespace ManagedIrbis.Search
         {
             Code.NotNull(provider, "provider");
 
-            _provider = provider;
+            Provider = provider;
             SearchHistory = new NonNullCollection<SearchResult>();
         }
-
-        #endregion
-
-        #region Private members
-
-        private readonly IrbisProvider _provider;
 
         #endregion
 
@@ -141,7 +132,10 @@ namespace ManagedIrbis.Search
             FoundLine[] result = new FoundLine[found.Length];
             for (int i = 0; i < found.Length; i++)
             {
-                result[i].Mfn = found[i];
+                result[i] = new FoundLine
+                {
+                    Mfn = found[i]
+                };
             }
 
             return result;

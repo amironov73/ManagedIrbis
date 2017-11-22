@@ -24,10 +24,6 @@ namespace ManagedIrbis.Search
     public class SearchException
         : IrbisException
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -66,8 +62,5 @@ namespace ManagedIrbis.Search
 
         #endregion
 
-        #region Public methods
-
-        #endregion
     }
 }
