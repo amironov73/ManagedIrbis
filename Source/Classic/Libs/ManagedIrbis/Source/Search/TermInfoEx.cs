@@ -11,6 +11,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
@@ -38,7 +39,7 @@ namespace ManagedIrbis.Search
     /// Extended search term info.
     /// </summary>
     [PublicAPI]
-    [XmlRoot("term-info")]
+    [XmlRoot("termInfo")]
     [MoonSharpUserData]
     [DebuggerDisplay("[{Count}] {Text} {Formatted}")]
     public sealed class TermInfoEx
@@ -49,36 +50,36 @@ namespace ManagedIrbis.Search
         /// <summary>
         /// MFN записи с искомым термом.
         /// </summary>
-        [JsonProperty("mfn")]
         [XmlAttribute("mfn")]
+        [JsonProperty("mfn", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Mfn { get; set; }
 
         /// <summary>
         /// Тег поля с искомым термом.
         /// </summary>
-        [JsonProperty("tag")]
         [XmlAttribute("tag")]
+        [JsonProperty("tag", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Tag { get; set; }
 
         /// <summary>
         /// Повторение поля.
         /// </summary>
-        [JsonProperty("occurrence")]
         [XmlAttribute("occurrence")]
+        [JsonProperty("occurrence", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Occurrence { get; set; }
 
         /// <summary>
         /// Смещение от начала поля.
         /// </summary>
-        [JsonProperty("index")]
         [XmlAttribute("index")]
+        [JsonProperty("index", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Index { get; set; }
 
         /// <summary>
         /// Расформатированная запись
         /// </summary>
-        [JsonProperty("formatted")]
         [XmlAttribute("formatted")]
+        [JsonProperty("formatted", NullValueHandling = NullValueHandling.Ignore)]
         [CanBeNull]
         public string Formatted { get; set; }
 
@@ -168,11 +169,47 @@ namespace ManagedIrbis.Search
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Should serialize the <see cref="Mfn"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeMfn()
+        {
+            return Mfn != 0;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Tag"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeTag()
+        {
+            return Tag != 0;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Occurrence"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeOccurrence()
+        {
+            return Occurrence != 0;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Index"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeIndex()
+        {
+            return Index != 0;
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+        /// <inheritdoc cref="TermInfo.RestoreFromStream" />
         public override void RestoreFromStream
             (
                 BinaryReader reader
@@ -188,7 +225,7 @@ namespace ManagedIrbis.Search
             Formatted = reader.ReadNullableString();
         }
 
-        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+        /// <inheritdoc cref="TermInfo.SaveToStream" />
         public override void SaveToStream
             (
                 BinaryWriter writer
@@ -210,7 +247,7 @@ namespace ManagedIrbis.Search
 
         #region IVerifiable members
 
-        /// <inheritdoc cref="IVerifiable.Verify" />
+        /// <inheritdoc cref="TermInfo.Verify" />
         public override bool Verify
             (
                 bool throwOnError
@@ -230,10 +267,6 @@ namespace ManagedIrbis.Search
 
             return verifier.Result;
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

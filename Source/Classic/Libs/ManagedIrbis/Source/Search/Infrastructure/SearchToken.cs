@@ -15,8 +15,6 @@ using AM;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 using Newtonsoft.Json;
 
 #endregion
@@ -26,8 +24,6 @@ namespace ManagedIrbis.Search.Infrastructure
     /// <summary>
     /// Token.
     /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
     [DebuggerDisplay("{Kind} {Text} {Position}")]
     internal sealed class SearchToken
     {
@@ -36,20 +32,20 @@ namespace ManagedIrbis.Search.Infrastructure
         /// <summary>
         /// Token kind.
         /// </summary>
-        [JsonProperty("kind")]
+        [JsonProperty("kind", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public SearchTokenKind Kind { get; set; }
 
         /// <summary>
         /// Token position.
         /// </summary>
-        [JsonProperty("position")]
+        [JsonProperty("position", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Position { get; set; }
 
         /// <summary>
         /// Token text.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("text")]
+        [JsonProperty("text", NullValueHandling = NullValueHandling.Ignore)]
         public string Text { get; set; }
 
         #endregion
@@ -82,7 +78,7 @@ namespace ManagedIrbis.Search.Infrastructure
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return Text.ToVisibleString();

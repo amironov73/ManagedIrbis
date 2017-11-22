@@ -114,7 +114,7 @@ namespace UnitTests.ManagedIrbis.Search
         public void TermInfo_ToXml_1()
         {
             TermInfo term = new TermInfo();
-            Assert.AreEqual("<term count=\"0\" />", XmlUtility.SerializeShort(term));
+            Assert.AreEqual("<term />", XmlUtility.SerializeShort(term));
 
             term.Count = 10;
             term.Text = "T=HELLO";
@@ -125,7 +125,7 @@ namespace UnitTests.ManagedIrbis.Search
         public void TermInfo_ToJson_1()
         {
             TermInfo term = new TermInfo();
-            Assert.AreEqual("{'count':0}", JsonUtility.SerializeShort(term));
+            Assert.AreEqual("{}", JsonUtility.SerializeShort(term));
 
             term.Count = 10;
             term.Text = "T=HELLO";

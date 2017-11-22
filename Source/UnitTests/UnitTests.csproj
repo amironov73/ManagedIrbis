@@ -474,6 +474,7 @@
     <Compile Include="ManagedIrbis\Reservations\ReservationClaimTest.cs" />
     <Compile Include="ManagedIrbis\Reservations\ReservationInfoTest.cs" />
     <Compile Include="ManagedIrbis\Search\FoundLineTest.cs" />
+    <Compile Include="ManagedIrbis\Search\Infrastructure\TermLinkComparerTest.cs" />
     <Compile Include="ManagedIrbis\Search\KeywordPermutatorTest.cs" />
     <Compile Include="ManagedIrbis\Mapping\SubFieldMapperTest.cs" />
     <Compile Include="ManagedIrbis\Marc\Schema\MarcSchemaTest.cs" />
@@ -499,8 +500,11 @@
     <Compile Include="ManagedIrbis\Search\SearchExceptionTest.cs" />
     <Compile Include="ManagedIrbis\Search\SearchManagerTest.cs" />
     <Compile Include="ManagedIrbis\Search\SearchParametersTest.cs" />
+    <Compile Include="ManagedIrbis\Search\SearchResultTest.cs" />
     <Compile Include="ManagedIrbis\Search\SearchScenarioTest.cs" />
+    <Compile Include="ManagedIrbis\Search\SearchSyntaxExceptionTest.cs" />
     <Compile Include="ManagedIrbis\Search\SearchUtilityTest.cs" />
+    <Compile Include="ManagedIrbis\Search\TermInfoExTest.cs" />
     <Compile Include="ManagedIrbis\Search\TermInfoTest.cs" />
     <Compile Include="ManagedIrbis\Search\TermLinkTest.cs" />
     <Compile Include="ManagedIrbis\Search\TermParametersTest.cs" />

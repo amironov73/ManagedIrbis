@@ -11,6 +11,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
@@ -123,9 +124,19 @@ namespace ManagedIrbis.Search
         /// <summary>
         /// Should serialize the <see cref="Text"/> field?
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public bool ShouldSerializeText()
         {
             return !string.IsNullOrEmpty(Text);
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Count"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeCount()
+        {
+            return Count != 0;
         }
 
         /// <summary>

@@ -1,14 +1,7 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using JetBrains.Annotations;
-
-using ManagedIrbis;
 using ManagedIrbis.Client;
 using ManagedIrbis.Morphology;
-
-using Newtonsoft.Json.Linq;
 
 namespace UnitTests.ManagedIrbis.Morphology
 {

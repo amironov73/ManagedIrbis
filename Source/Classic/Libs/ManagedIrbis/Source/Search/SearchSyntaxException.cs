@@ -24,10 +24,6 @@ namespace ManagedIrbis.Search
     public sealed class SearchSyntaxException
         : SearchException
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -63,10 +59,6 @@ namespace ManagedIrbis.Search
             )
         {
         }
-
-        #endregion
-
-        #region Public methods
 
         #endregion
     }
