@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM;
 using AM.Runtime;
-
+using AM.Xml;
 using ManagedIrbis;
 using Newtonsoft.Json.Linq;
 
@@ -213,24 +213,9 @@ namespace UnitTests.ManagedIrbis
         public void SubField_ToXml_1()
         {
             SubField subField = new SubField('a', "Value");
-            string actual = subField.ToXml()
-                .Replace("\r", "").Replace("\n","");
-            const string expected = @"<?xml version=""1.0"" encoding=""utf-16""?>"
-+@"<subfield xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" code=""a"" value=""Value"" />";
-
+            string actual = XmlUtility.SerializeShort(subField);
+            const string expected = "<subfield code=\"a\" value=\"Value\" />";
             Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void SubField_FromXml_1()
-        {
-            const string text = @"<?xml version=""1.0"" encoding=""utf-16""?>"
-+@"<subfield xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" code=""a"" value=""Value"" />";
-
-            SubField subField = SubFieldUtility.FromXml(text);
-
-            Assert.AreEqual('a', subField.Code);
-            Assert.AreEqual("Value", subField.Value);
         }
 
         [TestMethod]

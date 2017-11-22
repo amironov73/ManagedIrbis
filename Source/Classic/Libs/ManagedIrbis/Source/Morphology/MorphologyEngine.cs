@@ -9,12 +9,15 @@
 
 #region Using directives
 
+using System.Collections.Generic;
+
 using AM;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
 using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
@@ -36,19 +39,13 @@ namespace ManagedIrbis.Morphology
         /// Client connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection
-        {
-            get { return _connection; }
-        }
+        public IrbisProvider Connection { get; private set; }
 
         /// <summary>
         /// Morphology provider.
         /// </summary>
         [NotNull]
-        public MorphologyProvider Provider
-        {
-            get { return _provider; }
-        }
+        public MorphologyProvider Morphology { get; private set; }
 
         #endregion
 
@@ -59,77 +56,30 @@ namespace ManagedIrbis.Morphology
         /// </summary>
         public MorphologyEngine
             (
-                [NotNull] IrbisConnection connection
-            )
-        {
-            Code.NotNull(connection, "connection");
-
-            _connection = connection;
-            _provider = new IrbisMorphologyProvider
-                (
-                    connection
-                );
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public MorphologyEngine
-            (
-                [NotNull] IrbisConnection connection,
-                [NotNull] MorphologyProvider provider
-            )
-        {
-            Code.NotNull(connection, "connection");
-            Code.NotNull(provider, "provider");
-
-            _connection = connection;
-            _provider = provider;
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public MorphologyEngine
-            (
-                [NotNull] IrbisConnection connection,
-                [NotNull] string prefix,
-                [NotNull] string database
-            )
-        {
-            Code.NotNull(connection, "connection");
-            Code.NotNullNorEmpty(prefix, "prefix");
-            Code.NotNullNorEmpty(database, "database");
-
-            _connection = connection;
-            _provider = new IrbisMorphologyProvider
-                (
-                    prefix,
-                    database,
-                    connection
-                );
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public MorphologyEngine
-            (
-                [NotNull] MorphologyProvider provider
+                [NotNull] IrbisProvider provider
             )
         {
             Code.NotNull(provider, "provider");
 
-            _provider = provider;
+            Connection = provider;
+            Morphology = new IrbisMorphologyProvider(provider);
         }
 
-        #endregion
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public MorphologyEngine
+            (
+                [NotNull] IrbisProvider provider,
+                [NotNull] MorphologyProvider morphology
+            )
+        {
+            Code.NotNull(provider, "provider");
+            Code.NotNull(morphology, "morphology");
 
-        #region Private members
-
-        private readonly MorphologyProvider _provider;
-
-        private readonly IrbisConnection _connection;
+            Connection = provider;
+            Morphology = morphology;
+        }
 
         #endregion
 
@@ -146,7 +96,7 @@ namespace ManagedIrbis.Morphology
         {
             Code.NotNullNorEmpty(queryText, "queryText");
 
-            MorphologyProvider provider = Provider.ThrowIfNull("Provider");
+            MorphologyProvider provider = Morphology.ThrowIfNull("Provider");
 
             return provider.RewriteQuery(queryText);
         }
@@ -165,10 +115,9 @@ namespace ManagedIrbis.Morphology
 
             string original = string.Format(format, args);
             string rewritten = RewriteQuery(original);
+            int[] result = Connection.Search(rewritten);
 
-            IrbisConnection connection = Connection.ThrowIfNull("Connection");
-
-            return connection.Search(rewritten);
+            return result;
         }
 
         /// <summary>
@@ -185,10 +134,27 @@ namespace ManagedIrbis.Morphology
 
             string original = string.Format(format, args);
             string rewritten = RewriteQuery(original);
+            int[] found = Connection.Search(rewritten);
+            if (found.Length == 0)
+            {
+                return EmptyArray<MarcRecord>.Value;
+            }
 
-            IrbisConnection connection = Connection.ThrowIfNull("Connection");
+            List<MarcRecord> result = new List<MarcRecord>(found.Length);
+            foreach (int mfn in found)
+            {
+                MarcRecord record = Connection.ReadRecord(mfn);
+                if (!ReferenceEquals(record, null))
+                {
+                    result.Add(record);
+                }
+            }
+            if (result.Count == 0)
+            {
+                return EmptyArray<MarcRecord>.Value;
+            }
 
-            return connection.SearchRead(rewritten);
+            return result.ToArray();
         }
 
         /// <summary>
@@ -205,10 +171,15 @@ namespace ManagedIrbis.Morphology
 
             string original = string.Format(format, args);
             string rewritten = RewriteQuery(original);
+            int[] found = Connection.Search(rewritten);
+            if (found.Length == 0)
+            {
+                return null;
+            }
 
-            IrbisConnection connection = Connection.ThrowIfNull("Connection");
+            MarcRecord result = Connection.ReadRecord(found[0]);
 
-            return connection.SearchReadOneRecord(rewritten);
+            return result;
         }
 
         /// <summary>
@@ -225,10 +196,33 @@ namespace ManagedIrbis.Morphology
             Code.NotNullNorEmpty(format, "format");
 
             string rewritten = RewriteQuery(expression);
+            int[] found = Connection.Search(rewritten);
+            if (found.Length == 0)
+            {
+                return EmptyArray<FoundItem>.Value;
+            }
 
-            IrbisConnection connection = Connection.ThrowIfNull("Connection");
+            List<FoundItem> result = new List<FoundItem>(found.Length);
+            foreach (int mfn in found)
+            {
+                MarcRecord record = Connection.ReadRecord(mfn);
+                if (!ReferenceEquals(record, null))
+                {
+                    string text = Connection.FormatRecord(record, format);
+                    if (!string.IsNullOrEmpty(text))
+                    {
+                        FoundItem item = new FoundItem
+                        {
+                            Mfn = mfn,
+                            Record = record,
+                            Text = text
+                        };
+                        result.Add(item);
+                    }
+                }
+            }
 
-            return connection.SearchFormat(rewritten, format);
+            return result.ToArray();
         }
 
         #endregion

@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Collections.Generic;
 using System.Linq;
 
 using AM;
@@ -17,11 +18,14 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
 using ManagedIrbis.Search.Infrastructure;
 
 using MoonSharp.Interpreter;
 
 #endregion
+
+// ReSharper disable ConvertClosureToMethodGroup
 
 namespace ManagedIrbis.Morphology
 {
@@ -33,33 +37,39 @@ namespace ManagedIrbis.Morphology
     public sealed class IrbisMorphologyProvider
         : MorphologyProvider
     {
+        #region Constants
+
+        /// <summary>
+        /// Default database name.
+        /// </summary>
+        public const string DefaultDatabase = "MORPH";
+
+        /// <summary>
+        /// Default prefix.
+        /// </summary>
+        public const string DefaultPrefix = "K=";
+
+        #endregion
+
         #region Properties
 
         /// <summary>
         /// Client connection.
         /// </summary>
         [CanBeNull]
-        public IrbisConnection Connection { get; set; }
+        public IrbisProvider Provider { get; set; }
 
         /// <summary>
         /// Search prefix.
         /// </summary>
         [CanBeNull]
-        public string Prefix
-        {
-            get { return _prefix; }
-            set { _prefix = value; }
-        }
+        public string Prefix { get; set; }
 
         /// <summary>
         /// Database name.
         /// </summary>
         [CanBeNull]
-        public string Database
-        {
-            get { return _database; }
-            set { _database = value; }
-        }
+        public string Database { get; set; }
 
         #endregion
 
@@ -70,6 +80,8 @@ namespace ManagedIrbis.Morphology
         /// </summary>
         public IrbisMorphologyProvider()
         {
+            Prefix = DefaultPrefix;
+            Database = DefaultDatabase;
         }
 
         /// <summary>
@@ -77,12 +89,15 @@ namespace ManagedIrbis.Morphology
         /// </summary>
         public IrbisMorphologyProvider
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IrbisProvider provider
             )
+            : this
+                (
+                    DefaultPrefix,
+                    DefaultDatabase,
+                    provider
+                )
         {
-            Code.NotNull(connection, "connection");
-
-            Connection = connection;
         }
 
         /// <summary>
@@ -90,49 +105,25 @@ namespace ManagedIrbis.Morphology
         /// </summary>
         public IrbisMorphologyProvider
             (
-                [NotNull] string prefix, 
-                [NotNull] string database
-            )
-        {
-            Code.NotNullNorEmpty(prefix, "prefix");
-            Code.NotNullNorEmpty(database, "database");
-
-            _prefix = prefix;
-            _database = database;
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public IrbisMorphologyProvider
-            (
-                [NotNull] string prefix, 
-                [NotNull] string database, 
-                [NotNull] IrbisConnection connection
+                [NotNull] string prefix,
+                [NotNull] string database,
+                [NotNull] IrbisProvider provider
             )
         {
             Code.NotNullNorEmpty(prefix, "prefix");
             Code.NotNullNorEmpty(database, "database");
-            Code.NotNull(connection, "connection");
+            Code.NotNull(provider, "provider");
 
-            _prefix = prefix;
-            _database = database;
-            Connection = connection;
+            Prefix = prefix;
+            Database = database;
+            Provider = provider;
         }
-
-        #endregion
-
-        #region Private members
-
-        private string _prefix = "K=";
-
-        private string _database = "MORPH";
 
         #endregion
 
         #region MorphologyProvider members
 
-        /// <inheritdoc cref="MorphologyProvider.FindWord"/>
+        /// <inheritdoc cref="MorphologyProvider.FindWord" />
         public override MorphologyEntry[] FindWord
             (
                 string word
@@ -140,31 +131,54 @@ namespace ManagedIrbis.Morphology
         {
             Code.NotNullNorEmpty(word, "word");
 
-            IrbisConnection connection = Connection.ThrowIfNull("Connection");
+            IrbisProvider connection = Provider.ThrowIfNull("Connection");
             string database = Database.ThrowIfNull("Database");
 
+            string saveDatabase = connection.Database;
             try
             {
-                connection.PushDatabase(database);
-                MarcRecord[] records = connection.SearchRead
+                connection.Database = database;
+                string expression = string.Format
                     (
-                        "\"K={0}\"",
+                        "\"{0}{1}\"",
+                        Prefix,
                         word
                     );
+
+                int[] found = connection.Search(expression);
+                if (found.Length == 0)
+                {
+                    return EmptyArray<MorphologyEntry>.Value;
+                }
+
+                List<MarcRecord> records = new List<MarcRecord>(found.Length);
+                foreach (int mfn in found)
+                {
+                    MarcRecord record = connection.ReadRecord(mfn);
+                    if (!ReferenceEquals(record, null))
+                    {
+                        records.Add(record);
+                    }
+                }
+
+                if (records.Count == 0)
+                {
+                    return EmptyArray<MorphologyEntry>.Value;
+                }
+
                 MorphologyEntry[] result = records
-                    // ReSharper disable ConvertClosureToMethodGroup
                     .Select(r => MorphologyEntry.Parse(r))
-                    // ReSharper restore ConvertClosureToMethodGroup
                     .ToArray();
+
                 return result;
             }
             finally
             {
-                connection.PopDatabase();
+                connection.Database = saveDatabase;
             }
         }
 
-        /// <inheritdoc cref="MorphologyProvider.RewriteQuery"/>
+        /// <inheritdoc cref="MorphologyProvider.RewriteQuery" />
         public override string RewriteQuery
             (
                 string queryExpression
@@ -206,9 +220,10 @@ namespace ManagedIrbis.Morphology
                 }
 
                 SearchLevel7 level7 = new SearchLevel7();
+                SearchLevel6 level6 = new SearchLevel6();
+                level7.AddItem(level6);
                 foreach (string s in flatten)
                 {
-                    SearchLevel6 level6 = new SearchLevel6();
                     SearchLevel5 level5 = new SearchLevel5();
                     SearchLevel4 level4 = new SearchLevel4();
                     SearchLevel3 level3 = new SearchLevel3();
@@ -221,20 +236,21 @@ namespace ManagedIrbis.Morphology
                     level4.AddItem(level3);
                     level5.AddItem(level4);
                     level6.AddItem(level5);
-                    level7.AddItem(level6);
 
                     SearchTerm newTerm = new SearchTerm
                     {
-                        Term = s,
+
+                        Term = Prefix + s,
                         Tail = string.Empty,
                         Context = oldTerm.Context
                     };
                     level0.Term = newTerm;
-
-                    ISearchTree parent = oldTerm.Parent
-                        .ThrowIfNull("oldTerm.Parent");
-                    parent.ReplaceChild(oldTerm, newTerm);
                 }
+
+                SearchLevel0 parent = (SearchLevel0) oldTerm.Parent
+                    .ThrowIfNull("oldTerm.Parent");
+                parent.Term = null;
+                parent.Parenthesis = level7;
             }
 
             string result = program.ToString();

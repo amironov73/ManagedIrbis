@@ -60,6 +60,12 @@ namespace AM.Json
             Code.NotNullNorEmpty(nameSpace, "nameSpace");
             Code.NotNullNorEmpty(assembly, "assembly");
 
+#if PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
             IEnumerable<JValue> values = obj
                 .SelectTokens("$..$type")
                 .OfType<JValue>();
@@ -76,6 +82,8 @@ namespace AM.Json
                     value.Value = typeName;
                 }
             }
+
+#endif
         }
 
         /// <summary>
@@ -156,10 +164,18 @@ namespace AM.Json
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
             string text = File.ReadAllText(fileName);
             JArray result = JArray.Parse(text);
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -174,10 +190,18 @@ namespace AM.Json
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
             string text = File.ReadAllText(fileName);
             JObject result = JObject.Parse(text);
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -192,10 +216,18 @@ namespace AM.Json
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
             string text = File.ReadAllText(fileName);
             T result = JsonConvert.DeserializeObject<T>(text);
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -211,15 +243,16 @@ namespace AM.Json
             Code.NotNull(array, "array");
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            string text = array.ToString
-                (
-                    Formatting.Indented
-                );
-            File.WriteAllText
-                (
-                    fileName,
-                    text
-                );
+#if PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
+            string text = array.ToString(Formatting.Indented);
+            File.WriteAllText(fileName, text);
+
+#endif
         }
 
         /// <summary>
@@ -234,15 +267,16 @@ namespace AM.Json
             Code.NotNull(obj, "obj");
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            string text = obj.ToString
-                (
-                    Formatting.Indented
-                );
-            File.WriteAllText
-                (
-                    fileName,
-                    text
-                );
+#if PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
+            string text = obj.ToString(Formatting.Indented);
+            File.WriteAllText(fileName, text);
+
+#endif
         }
 
         /// <summary>
@@ -256,11 +290,7 @@ namespace AM.Json
         {
             JObject json = JObject.FromObject(obj);
 
-            SaveObjectToFile
-                (
-                    json,
-                    fileName
-                );
+            SaveObjectToFile(json, fileName);
         }
 
         /// <summary>
@@ -275,6 +305,12 @@ namespace AM.Json
             Code.NotNull(property, "property");
             Code.NotNull(newName, "newName");
 
+#if PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
             // TODO use path for searching
 
             string fileName = property.Value.ToString();
@@ -282,6 +318,8 @@ namespace AM.Json
             JObject value = JObject.Parse(text);
             JProperty newProperty = new JProperty(newName, value);
             property.Replace(newProperty);
+
+#endif
         }
 
         /// <summary>
@@ -294,6 +332,12 @@ namespace AM.Json
         {
             Code.NotNull(property, "property");
 
+#if PORTABLE
+
+            throw new NotImplementedException();
+
+#else
+
             // TODO use path for searching
 
             JObject obj = (JObject) property.Value;
@@ -303,13 +347,15 @@ namespace AM.Json
             JObject value = JObject.Parse(text);
             JProperty newProperty = new JProperty(newName, value);
             property.Replace(newProperty);
+
+#endif
         }
 
 #endif
 
-        /// <summary>
-        /// Serialize to short string.
-        /// </summary>
+            /// <summary>
+            /// Serialize to short string.
+            /// </summary>
         [NotNull]
         public static string SerializeShort
             (
@@ -333,6 +379,6 @@ namespace AM.Json
             return textWriter.ToString();
         }
 
-        #endregion
+#endregion
     }
 }

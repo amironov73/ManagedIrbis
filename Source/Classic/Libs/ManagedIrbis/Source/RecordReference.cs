@@ -174,7 +174,11 @@ namespace ManagedIrbis
         {
             Code.NotNull(fileName, "fileName");
 
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
+#if SILVERLIGHT || WIN81 || PORTABLE
+
+            throw new System.NotImplementedException();
+
+#else
 
             RecordReference[] result = SerializationUtility
                 .RestoreArrayFromFile<RecordReference>(fileName);
@@ -199,15 +203,13 @@ namespace ManagedIrbis
 
             if (Mfn != 0)
             {
-                // ReSharper disable AssignNullToNotNullAttribute
                 Record = connection.ReadRecord
                     (
-                        Database,
+                        Database.ThrowIfNull("Database"),
                         Mfn,
                         false,
                         null
                     );
-                // ReSharper restore AssignNullToNotNullAttribute
             }
             else
             {
@@ -275,7 +277,11 @@ namespace ManagedIrbis
             Code.NotNull(references, "references");
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
+#if SILVERLIGHT || WIN81 || PORTABLE
+
+            throw new System.NotImplementedException();
+
+#else
 
             references.SaveToFile(fileName);
 
@@ -345,7 +351,7 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString"/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             if (ReferenceEquals(Record, null))

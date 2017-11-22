@@ -31,18 +31,6 @@ namespace ManagedIrbis.Morphology
     [MoonSharpUserData]
     public class MorphologyProvider
     {
-        #region Properties
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>

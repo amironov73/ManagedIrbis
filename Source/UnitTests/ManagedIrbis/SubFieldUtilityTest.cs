@@ -2,15 +2,13 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using AM;
-using AM.Runtime;
-
 using JetBrains.Annotations;
 
 using ManagedIrbis;
 
 using Newtonsoft.Json.Linq;
 
+// ReSharper disable InvokeAsExtensionMethod
 // ReSharper disable ConvertToLocalFunction
 // ReSharper disable PossibleNullReferenceException
 // ReSharper disable ExpressionIsAlwaysNull
@@ -428,15 +426,6 @@ namespace UnitTests.ManagedIrbis
         {
             SubField subField = SubFieldUtility
                 .FromJson("{'code':'a','value':'Value'}");
-            Assert.AreEqual('a', subField.Code);
-            Assert.AreEqual("Value", subField.Value);
-        }
-
-        [TestMethod]
-        public void SubFieldUtility_FromXml_1()
-        {
-            SubField subField = SubFieldUtility
-                .FromXml("<subfield code=\"a\" value=\"Value\"/>");
             Assert.AreEqual('a', subField.Code);
             Assert.AreEqual("Value", subField.Value);
         }

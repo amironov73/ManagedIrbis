@@ -11,14 +11,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Xml;
-using System.Xml.Serialization;
 
 using AM;
 using AM.Json;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -642,57 +640,6 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(text, "text");
 
             SubField result = JsonConvert.DeserializeObject<SubField>(text);
-
-            return result;
-        }
-
-#endif
-
-#if !SILVERLIGHT
-
-        /// <summary>
-        /// Convert the subfield to XML.
-        /// </summary>
-        [NotNull]
-        public static string ToXml
-            (
-                [NotNull] this SubField subField
-            )
-        {
-            Code.NotNull(subField, "subField");
-
-            XmlWriterSettings settings = new XmlWriterSettings
-            {
-                OmitXmlDeclaration = true,
-                NewLineOnAttributes = true,
-                Indent = true,
-                CloseOutput = true
-            };
-            StringWriter writer = new StringWriter();
-            XmlWriter xml = XmlWriter.Create(writer, settings);
-            XmlSerializer serializer = new XmlSerializer
-                (
-                    typeof(SubField)
-                );
-            serializer.Serialize(writer, subField);
-
-            return writer.ToString();
-        }
-
-        /// <summary>
-        /// Restore the subfield from XML.
-        /// </summary>
-        [NotNull]
-        public static SubField FromXml
-            (
-                [NotNull] string text
-            )
-        {
-            Code.NotNullNorEmpty(text, "text");
-
-            XmlSerializer serializer = new XmlSerializer(typeof(SubField));
-            StringReader reader = new StringReader(text);
-            SubField result = (SubField)serializer.Deserialize(reader);
 
             return result;
         }

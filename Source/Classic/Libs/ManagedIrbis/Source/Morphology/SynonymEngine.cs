@@ -9,11 +9,8 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 
@@ -21,11 +18,13 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Infrastructure.Commands;
+using ManagedIrbis.Client;
 
 using MoonSharp.Interpreter;
 
 #endregion
+
+// ReSharper disable ConvertClosureToMethodGroup
 
 namespace ManagedIrbis.Morphology
 {
@@ -36,13 +35,27 @@ namespace ManagedIrbis.Morphology
     [MoonSharpUserData]
     public class SynonymEngine
     {
+        #region Constants
+
+        /// <summary>
+        /// Default database name.
+        /// </summary>
+        public const string DefaultDatabase = "SYNON";
+
+        /// <summary>
+        /// Default prefix.
+        /// </summary>
+        public const string DefaultPrefix = "WORD=";
+
+        #endregion
+
         #region Properties
 
         /// <summary>
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get; private set; }
+        public IrbisProvider Provider { get; private set; }
 
         /// <summary>
         /// Database name.
@@ -63,19 +76,15 @@ namespace ManagedIrbis.Morphology
         /// </summary>
         public SynonymEngine
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IrbisProvider provider
             )
         {
-            Code.NotNull(connection, "connection");
+            Code.NotNull(provider, "provider");
 
-            Connection = connection;
-            Database = "SYNON";
-            Prefix = "K=";
+            Provider = provider;
+            Database = DefaultDatabase;
+            Prefix = DefaultPrefix;
         }
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
@@ -92,83 +101,50 @@ namespace ManagedIrbis.Morphology
         {
             Code.NotNullNorEmpty(word, "word");
 
-            string expression = string.Format
-                (
-                    "\"{0}{1}\"",
-                    Prefix,
-                    word
-                );
-
-            SearchReadCommand command
-                = Connection.CommandFactory.GetSearchReadCommand();
-            command.Database = Database;
-            command.SearchExpression = expression;
-
-            Connection.ExecuteCommand(command);
-
-            MarcRecord[] records = command.Records
-                .ThrowIfNull("command.Records");
-
-            if (records.Length == 0)
+            string previousDatabase = Provider.Database;
+            string[] result;
+            try
             {
-                return StringUtility.EmptyArray;
+                Provider.Database = Database;
+                string expression = string.Format
+                    (
+                        "\"{0}{1}\"",
+                        Prefix,
+                        word
+                    );
+
+                int[] found = Provider.Search(expression);
+                if (found.Length == 0)
+                {
+                    return StringUtility.EmptyArray;
+                }
+
+                List<MarcRecord> records
+                    = new List<MarcRecord>(found.Length);
+                foreach (int mfn in found)
+                {
+                    MarcRecord record = Provider.ReadRecord(mfn);
+                    if (!ReferenceEquals(record, null))
+                    {
+                        records.Add(record);
+                    }
+                }
+
+                SynonymEntry[] entries = records
+                    .Select(record => SynonymEntry.Parse(record))
+                    .ToArray();
+
+                result = entries
+                    .SelectMany(entry => entry.Synonyms)
+                    .Distinct()
+                    .ToArray();
             }
-
-            SynonymEntry[] entries = records.Select
-                (
-                    // ReSharper disable ConvertClosureToMethodGroup
-
-                    record => SynonymEntry.Parse(record)
-                    
-                    // ReSharper restore ConvertClosureToMethodGroup
-                )
-                .ToArray();
-
-            string[] result = entries.SelectMany
-                (
-                    entry => GetSynonyms(entry, word)
-                )
-                .ToArray();
+            finally
+            {
+                Provider.Database = previousDatabase;
+            }
 
             return result;
-        }
-
-        /// <summary>
-        /// Get synonyms for the word.
-        /// </summary>
-        [NotNull]
-        public string[] GetSynonyms
-            (
-                [NotNull] SynonymEntry entry,
-                [NotNull] string word
-            )
-        {
-            Code.NotNull(entry, "entry");
-            Code.NotNull(word, "word");
-
-            List<string> result = new List<string>
-            {
-                entry.MainWord
-            };
-            if (!ReferenceEquals(entry.Synonyms, null))
-            {
-                result.AddRange(entry.Synonyms);
-            }
-
-            int index = result.FindIndex
-                (
-                    // ReSharper disable ConvertClosureToMethodGroup
-                    
-                    s => word.SameString(s)
-                    
-                    // ReSharper restore ConvertClosureToMethodGroup
-                );
-            if (index >= 0)
-            {
-                result.RemoveAt(index);
-            }
-
-            return result.ToArray();
         }
 
         #endregion

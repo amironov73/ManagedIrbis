@@ -776,6 +776,12 @@ namespace ManagedIrbis.Client
                     accessor = _GetAccessor();
                     if (!ReferenceEquals(accessor, null))
                     {
+                        // TODO Использовать нормальный поиск!
+                        if (expression.StartsWith("\""))
+                        {
+                            expression = expression.Unquote();
+                        }
+
                         result = accessor.SearchSimple(expression);
                     }
                 }

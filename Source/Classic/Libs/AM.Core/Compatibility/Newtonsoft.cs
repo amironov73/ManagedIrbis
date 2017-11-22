@@ -76,7 +76,7 @@ namespace Newtonsoft.Json
         /// <summary>
         /// 
         /// </summary>
-        public class DummyClass
+        public class DummyClass123
         {
         }
     }
