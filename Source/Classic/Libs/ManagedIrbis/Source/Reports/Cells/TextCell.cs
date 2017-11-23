@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 
 using CodeJam;
@@ -37,8 +39,8 @@ namespace ManagedIrbis.Reports
         /// Static text.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("text")]
         [XmlAttribute("text")]
+        [JsonProperty("text", NullValueHandling = NullValueHandling.Ignore)]
         public string Text { get; set; }
 
         #endregion
@@ -65,11 +67,18 @@ namespace ManagedIrbis.Reports
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
+
+        /// <summary>
+        /// Should serialize the <see cref="Text"/> field?
+        /// </summary>
+        /// <returns></returns>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeText()
+        {
+            return !string.IsNullOrEmpty(Text);
+        }
 
         #endregion
 
@@ -107,10 +116,6 @@ namespace ManagedIrbis.Reports
             driver.Write(context, text);
             driver.EndCell(context, this);
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

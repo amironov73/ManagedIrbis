@@ -64,10 +64,6 @@ namespace ManagedIrbis.Reports
 
         #endregion
 
-        #region Construction
-
-        #endregion
-
         #region Private members
 
         // ReSharper disable InconsistentNaming

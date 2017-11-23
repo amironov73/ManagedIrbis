@@ -469,7 +469,10 @@
     <Compile Include="ManagedIrbis\Quality\Rules\RuleTest.cs" />
     <Compile Include="ManagedIrbis\RawRecordTest.cs" />
     <Compile Include="ManagedIrbis\RecordComparatorTest.cs" />
+    <Compile Include="ManagedIrbis\Reports\CellCollectionTest.cs" />
     <Compile Include="ManagedIrbis\Reports\IrbisReportTest.cs" />
+    <Compile Include="ManagedIrbis\Reports\ReportCellTest.cs" />
+    <Compile Include="ManagedIrbis\Reports\TextCellTest.cs" />
     <Compile Include="ManagedIrbis\Reservations\HistoryInfoTest.cs" />
     <Compile Include="ManagedIrbis\Reservations\ReservationClaimTest.cs" />
     <Compile Include="ManagedIrbis\Reservations\ReservationInfoTest.cs" />

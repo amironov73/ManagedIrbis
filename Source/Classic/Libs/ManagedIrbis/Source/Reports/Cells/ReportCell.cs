@@ -185,7 +185,7 @@ namespace ManagedIrbis.Reports
 
         #region IVerifiable members
 
-        /// <inheritdoc cref="IVerifiable.Verify"/>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
@@ -206,16 +206,12 @@ namespace ManagedIrbis.Reports
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public virtual void Dispose()
         {
             // Nothing to do here
             Log.Trace("ReportCell::Dispose");
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }
