@@ -139,10 +139,7 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(predicate, "predicate");
 
-            return this.FirstOrDefault
-                (
-                    cell => predicate(cell)
-                );
+            return this.FirstOrDefault(cell => predicate(cell));
         }
 
         /// <summary>
@@ -158,11 +155,7 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(predicate, "predicate");
 
-            return this.Where
-                (
-                    cell => predicate(cell)
-                )
-                .ToArray();
+            return this.Where(cell => predicate(cell)).ToArray();
         }
 
         #endregion

@@ -472,6 +472,9 @@
     <Compile Include="ManagedIrbis\Reports\CellCollectionTest.cs" />
     <Compile Include="ManagedIrbis\Reports\IrbisReportTest.cs" />
     <Compile Include="ManagedIrbis\Reports\ReportCellTest.cs" />
+    <Compile Include="ManagedIrbis\Reports\ReportOutputTest.cs" />
+    <Compile Include="ManagedIrbis\Reports\ReportSettingsTest.cs" />
+    <Compile Include="ManagedIrbis\Reports\ReportTestTest.cs" />
     <Compile Include="ManagedIrbis\Reports\TextCellTest.cs" />
     <Compile Include="ManagedIrbis\Reservations\HistoryInfoTest.cs" />
     <Compile Include="ManagedIrbis\Reservations\ReservationClaimTest.cs" />

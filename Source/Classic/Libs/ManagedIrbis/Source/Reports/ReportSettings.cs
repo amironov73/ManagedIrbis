@@ -9,19 +9,8 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using AM;
 using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-using AM.Text;
 
 using CodeJam;
 
@@ -67,56 +56,56 @@ namespace ManagedIrbis.Reports
         /// Name of the <see cref="ReportDriver"/>.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("driver")]
+        [JsonProperty("driver", NullValueHandling = NullValueHandling.Ignore)]
         public string DriverName { get; set; }
 
         /// <summary>
         /// Settings for driver.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("driverSettings")]
+        [JsonProperty("driverSettings", NullValueHandling = NullValueHandling.Ignore)]
         public string DriverSettings { get; set; }
 
         /// <summary>
         /// Record filter.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("filter")]
+        [JsonProperty("filter", NullValueHandling = NullValueHandling.Ignore)]
         public string Filter { get; set; }
 
         /// <summary>
         /// Output file name.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("outputFile")]
+        [JsonProperty("outputFile", NullValueHandling = NullValueHandling.Ignore)]
         public string OutputFile { get; set; }
 
         /// <summary>
         /// Page settings.
         /// </summary>
         [CanBeNull]
-        [JsonProperty]
+        [JsonProperty("pageSettings", NullValueHandling = NullValueHandling.Ignore)]
         public string PageSettings { get; set; }
 
         /// <summary>
         /// Printer to send report to.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("printer")]
+        [JsonProperty("printer", NullValueHandling = NullValueHandling.Ignore)]
         public string PrinterName { get; set; }
 
         /// <summary>
         /// Name of <see cref="IrbisProvider"/>.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("providerName")]
+        [JsonProperty("providerName", NullValueHandling = NullValueHandling.Ignore)]
         public string ProviderName { get; set; }
 
         /// <summary>
         /// Settings for provider.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("providerSettings")]
+        [JsonProperty("providerSettings", NullValueHandling = NullValueHandling.Ignore)]
         public string ProviderSettings { get; set; }
 
         /// <summary>
@@ -124,7 +113,7 @@ namespace ManagedIrbis.Reports
         /// before report building.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("registerDriver")]
+        [JsonProperty("registerDriver", NullValueHandling = NullValueHandling.Ignore)]
         public string RegisterDriver { get; set; }
 
         /// <summary>
@@ -132,7 +121,7 @@ namespace ManagedIrbis.Reports
         /// before report building.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("registerProvider")]
+        [JsonProperty("registerProvider", NullValueHandling = NullValueHandling.Ignore)]
         public string RegisterProvider { get; set; }
 
         #endregion
@@ -146,10 +135,6 @@ namespace ManagedIrbis.Reports
         {
             Assemblies = new NonNullCollection<string>();
         }
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
@@ -173,10 +158,7 @@ namespace ManagedIrbis.Reports
 #else
 
             ReportSettings result = JsonUtility
-                .ReadObjectFromFile<ReportSettings>
-            (
-                fileName
-            );
+                .ReadObjectFromFile<ReportSettings>(fileName);
 
 #endif
 
@@ -187,7 +169,7 @@ namespace ManagedIrbis.Reports
 
         #region IVerifiable members
 
-        /// <inheritdoc cref="IVerifiable.Verify"/>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
@@ -203,10 +185,6 @@ namespace ManagedIrbis.Reports
 
             return verifier.Result;
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

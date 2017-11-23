@@ -107,16 +107,13 @@ namespace ManagedIrbis.Reports
 
         #region Private members
 
+        [NotNull]
         private string GetFullName
             (
-                string shortName
+                [NotNull] string shortName
             )
         {
-            return Path.Combine
-                (
-                    Folder,
-                    shortName
-                );
+            return Path.Combine(Folder, shortName);
         }
 
         #endregion
@@ -172,19 +169,19 @@ namespace ManagedIrbis.Reports
 
                 string recordFile = GetFullName(RecordFileName);
 
-                if (ReferenceEquals(recordFile, null))
-                {
-                    Log.Error
-                        (
-                            "ReportTest::Run: "
-                            + "GetFullName returns null"
-                        );
+                //if (ReferenceEquals(recordFile, null))
+                //{
+                //    Log.Error
+                //        (
+                //            "ReportTest::Run: "
+                //            + "GetFullName returns null"
+                //        );
 
-                    throw new IrbisException
-                        (
-                            "GetFullName returns null"
-                        );
-                }
+                //    throw new IrbisException
+                //        (
+                //            "GetFullName returns null"
+                //        );
+                //}
 
                 MarcRecord[] records = PlainText.ReadRecords
                     (
@@ -259,10 +256,6 @@ namespace ManagedIrbis.Reports
             return result;
         }
 
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

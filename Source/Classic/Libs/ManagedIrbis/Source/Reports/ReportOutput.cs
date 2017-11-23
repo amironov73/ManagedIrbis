@@ -123,9 +123,5 @@ namespace ManagedIrbis.Reports
         }
 
         #endregion
-
-        #region Object members
-
-        #endregion
     }
 }
