@@ -7,9 +7,9 @@ using AM.Runtime;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Client;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using ManagedIrbis.Reports;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.ManagedIrbis.Reports
 {

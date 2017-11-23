@@ -369,6 +369,9 @@
     <Compile Include="ManagedIrbis\IrbisUpperCaseTableTest.cs" />
     <Compile Include="ManagedIrbis\LanguageFileTest.cs" />
     <Compile Include="ManagedIrbis\LocalizationManagerTest.cs" />
+    <Compile Include="ManagedIrbis\Magazines\MagazineArticleInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Magazines\MagazineInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Magazines\MagazineIssueInfoTest.cs" />
     <Compile Include="ManagedIrbis\Marc\Schema\SubFieldSchemaTest.cs" />
     <Compile Include="ManagedIrbis\Marc\Schema\RelatedFieldTest.cs" />
     <Compile Include="ManagedIrbis\Menus\MenuEntryTest.cs" />
@@ -579,9 +582,7 @@
       <Name>ManagedIrbis</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ManagedIrbis\Magazines\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="codecov.testsettings">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

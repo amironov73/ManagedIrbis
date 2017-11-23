@@ -43,7 +43,8 @@ namespace ManagedIrbis.Magazines
     [MoonSharpUserData]
     [DebuggerDisplay("{Year} {Number} {Supplement}")]
     public sealed class MagazineIssueInfo
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -51,7 +52,7 @@ namespace ManagedIrbis.Magazines
         /// MFN записи.
         /// </summary>
         [XmlAttribute("mfn")]
-        [JsonProperty("mfn")]
+        [JsonProperty("mfn", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Mfn { get; set; }
 
         /// <summary>
@@ -59,7 +60,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("description")]
-        [JsonProperty("description")]
+        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
 
         /// <summary>
@@ -67,7 +68,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("document-code")]
-        [JsonProperty("document-code")]
+        [JsonProperty("document-code", NullValueHandling = NullValueHandling.Ignore)]
         public string DocumentCode { get; set; }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("magazine-code")]
-        [JsonProperty("magazine-code")]
+        [JsonProperty("magazine-code", NullValueHandling = NullValueHandling.Ignore)]
         public string MagazineCode { get; set; }
 
         /// <summary>
@@ -83,7 +84,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("year")]
-        [JsonProperty("year")]
+        [JsonProperty("year", NullValueHandling = NullValueHandling.Ignore)]
         public string Year { get; set; }
 
         /// <summary>
@@ -91,7 +92,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("volume")]
-        [JsonProperty("volume")]
+        [JsonProperty("volume", NullValueHandling = NullValueHandling.Ignore)]
         public string Volume { get; set; }
 
         /// <summary>
@@ -99,7 +100,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("number")]
-        [JsonProperty("number")]
+        [JsonProperty("number", NullValueHandling = NullValueHandling.Ignore)]
         public string Number { get; set; }
 
         /// <summary>
@@ -128,7 +129,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("supplement")]
-        [JsonProperty("supplement")]
+        [JsonProperty("supplement", NullValueHandling = NullValueHandling.Ignore)]
         public string Supplement { get; set; }
 
         /// <summary>
@@ -137,7 +138,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("worksheet")]
-        [JsonProperty("worksheet")]
+        [JsonProperty("worksheet", NullValueHandling = NullValueHandling.Ignore)]
         public string Worksheet { get; set; }
 
         /// <summary>
@@ -146,7 +147,7 @@ namespace ManagedIrbis.Magazines
         [CanBeNull]
         [ItemNotNull]
         [XmlElement("article")]
-        [JsonProperty("articles")]
+        [JsonProperty("articles", NullValueHandling = NullValueHandling.Ignore)]
         public MagazineArticleInfo[] Articles { get; set; }
 
         /// <summary>
@@ -161,6 +162,8 @@ namespace ManagedIrbis.Magazines
         /// <summary>
         /// Loan count.
         /// </summary>
+        [XmlElement("loanCount")]
+        [JsonProperty("loanCount", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int LoanCount { get; set; }
 
         /// <summary>
@@ -169,22 +172,7 @@ namespace ManagedIrbis.Magazines
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        public object UserData
-        {
-            get { return _userData; }
-            set { _userData = value; }
-        }
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        //[NonSerialized]
-        private object _userData;
+        public object UserData { get; set; }
 
         #endregion
 
@@ -229,6 +217,22 @@ namespace ManagedIrbis.Magazines
         }
 
         /// <summary>
+        /// Should serialize the <see cref="LoanCount"/> field?
+        /// </summary>
+        public bool ShouldSerializeLoanCount()
+        {
+            return LoanCount != 0;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Mfn"/> field?
+        /// </summary>
+        public bool ShouldSerializeMfn()
+        {
+            return Mfn != 0;
+        }
+
+        /// <summary>
         /// Сравнение двух выпусков
         /// (с целью сортировки по возрастанию номеров).
         /// </summary>
@@ -269,8 +273,8 @@ namespace ManagedIrbis.Magazines
             Number = reader.ReadNullableString();
             Supplement = reader.ReadNullableString();
             Worksheet = reader.ReadNullableString();
-            Articles = reader.ReadArray<MagazineArticleInfo>();
-            Exemplars = reader.ReadArray<ExemplarInfo>();
+            Articles = reader.ReadNullableArray<MagazineArticleInfo>();
+            Exemplars = reader.ReadNullableArray<ExemplarInfo>();
         }
 
         /// <summary>
@@ -291,20 +295,37 @@ namespace ManagedIrbis.Magazines
                 .WriteNullable(Number)
                 .WriteNullable(Supplement)
                 .WriteNullable(Worksheet);
-            Articles.SaveToStream(writer);
-            Exemplars.SaveToStream(writer);
+            writer.WriteNullableArray(Articles);
+            writer.WriteNullableArray(Exemplars);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<MagazineIssueInfo> verifier
+                = new Verifier<MagazineIssueInfo>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(DocumentCode, "DocumentCode")
+                .NotNullNorEmpty(MagazineCode, "MagazineCode")
+                .NotNullNorEmpty(Number, "Number")
+                .NotNullNorEmpty(Year, "Year");
+
+            return verifier.Result;
         }
 
         #endregion
 
         #region Object info
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             if (!string.IsNullOrEmpty(Supplement))

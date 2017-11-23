@@ -50,9 +50,9 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlElement("author")]
-        [JsonProperty("authors")]
         [Description("Авторы")]
         [DisplayName("Авторы")]
+        [JsonProperty("authors", NullValueHandling = NullValueHandling.Ignore)]
         public AuthorInfo[] Authors { get; set; }
 
         /// <summary>
@@ -60,9 +60,9 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlElement("title")]
-        [JsonProperty("title")]
         [Description("Заглавие")]
         [DisplayName("Заглавие")]
+        [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
         public TitleInfo Title { get; set; }
 
         /// <summary>
@@ -70,18 +70,16 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlElement("source")]
-        [JsonProperty("sources")]
         [Description("Издание, в котором опубликована статья")]
         [DisplayName("Издание, в котором опубликована статья")]
+        [JsonProperty("sources", NullValueHandling = NullValueHandling.Ignore)]
         public SourceInfo[] Sources { get; set; }
 
         #endregion
 
-        #region Construction
-
-        #endregion
-
         #region Private members
+
+        private static int[] _authorTags = {700, 701, 702};
 
         #endregion
 
@@ -99,6 +97,13 @@ namespace ManagedIrbis.Magazines
             Code.NotNull(record, "record");
 
             MagazineArticleInfo result = new MagazineArticleInfo();
+            result.Authors = AuthorInfo.ParseRecord(record, _authorTags);
+            RecordField field200 = record.Fields.GetFirstField(200);
+            if (!ReferenceEquals(field200, null))
+            {
+                result.Title = TitleInfo.ParseField200(field200);
+            }
+            result.Sources = SourceInfo.ParseRecord(record);
 
             return result;
         }
@@ -115,9 +120,8 @@ namespace ManagedIrbis.Magazines
         {
             Code.NotNull(record, "record");
 
-            List<MagazineArticleInfo> result
-                = new List<MagazineArticleInfo>();
-            foreach (RecordField field in record.Fields.GetField(330))
+            List<MagazineArticleInfo> result = new List<MagazineArticleInfo>();
+            foreach (RecordField field in record.Fields.GetField(922))
             {
                 MagazineArticleInfo article = ParseField330(field);
                 result.Add(article);
@@ -138,9 +142,8 @@ namespace ManagedIrbis.Magazines
         {
             Code.NotNull(record, "record");
 
-            List<MagazineArticleInfo> result
-                = new List<MagazineArticleInfo>();
-            foreach (RecordField field in record.Fields.GetField(922))
+            List<MagazineArticleInfo> result = new List<MagazineArticleInfo>();
+            foreach (RecordField field in record.Fields.GetField(330))
             {
                 MagazineArticleInfo article = ParseField330(field);
                 result.Add(article);
@@ -218,10 +221,6 @@ namespace ManagedIrbis.Magazines
 
             return verifier.Result;
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

@@ -9,13 +9,12 @@
 
 #region Using directives
 
-using System;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
+using AM;
 using AM.IO;
-using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -39,7 +38,8 @@ namespace ManagedIrbis.Magazines
     [XmlRoot("cumulation")]
     [MoonSharpUserData]
     public sealed class MagazineCumulation
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Constants
 
@@ -57,7 +57,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("year")]
-        [JsonProperty("year")]
+        [JsonProperty("year", NullValueHandling = NullValueHandling.Ignore)]
         public string Year { get; set; }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("volume")]
-        [JsonProperty("volume")]
+        [JsonProperty("volume", NullValueHandling = NullValueHandling.Ignore)]
         public string Volume { get; set; }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("place")]
-        [JsonProperty("place")]
+        [JsonProperty("place", NullValueHandling = NullValueHandling.Ignore)]
         public string Place { get; set; }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("numbers")]
-        [JsonProperty("numbers")]
+        [JsonProperty("numbers", NullValueHandling = NullValueHandling.Ignore)]
         public string Numbers { get; set; }
 
         /// <summary>
@@ -89,16 +89,8 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("set")]
-        [JsonProperty("set")]
+        [JsonProperty("set", NullValueHandling = NullValueHandling.Ignore)]
         public string Set { get; set; }
-
-        #endregion
-
-        #region Construciton
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
@@ -153,11 +145,7 @@ namespace ManagedIrbis.Magazines
                 MarcRecord record
             )
         {
-            return Parse
-                (
-                    record,
-                    Tag
-                );
+            return Parse(record, Tag);
         }
 
         #endregion
@@ -193,7 +181,33 @@ namespace ManagedIrbis.Magazines
 
         #endregion
 
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<MagazineCumulation> verifier
+                = new Verifier<MagazineCumulation>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Year, "Year")
+                .NotNullNorEmpty(Numbers, "Number");
+
+            return verifier.Result;
+        }
+
+        #endregion
+
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return Year + ":" + Numbers;
+        }
 
         #endregion
     }

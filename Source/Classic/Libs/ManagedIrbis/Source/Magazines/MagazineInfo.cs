@@ -9,10 +9,11 @@
 
 #region Using directives
 
-using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
+
 using AM;
 using AM.IO;
 using AM.Runtime;
@@ -36,7 +37,8 @@ namespace ManagedIrbis.Magazines
     [XmlRoot("magazine")]
     [MoonSharpUserData]
     public sealed class MagazineInfo
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Constants
 
@@ -59,7 +61,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("index")]
-        [JsonProperty("index")]
+        [JsonProperty("index", NullValueHandling = NullValueHandling.Ignore)]
         public string Index { get; set; }
 
         /// <summary>
@@ -67,7 +69,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("description")]
-        [JsonProperty("description")]
+        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
 
         /// <summary>
@@ -75,7 +77,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("title")]
-        [JsonProperty("title")]
+        [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
         public string Title { get; set; }
 
         /// <summary>
@@ -84,7 +86,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("sub-title")]
-        [JsonProperty("sub-title")]
+        [JsonProperty("sub-title", NullValueHandling = NullValueHandling.Ignore)]
         public string SubTitle { get; set; }
 
         /// <summary>
@@ -93,7 +95,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("series-number")]
-        [JsonProperty("series-number")]
+        [JsonProperty("series-number", NullValueHandling = NullValueHandling.Ignore)]
         public string SeriesNumber { get; set; }
 
         /// <summary>
@@ -102,7 +104,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("series-title")]
-        [JsonProperty("series-title")]
+        [JsonProperty("series-title", NullValueHandling = NullValueHandling.Ignore)]
         public string SeriesTitle { get; set; }
 
         /// <summary>
@@ -140,7 +142,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("magazine-type")]
-        [JsonProperty("magazine-type")]
+        [JsonProperty("magazine-type", NullValueHandling = NullValueHandling.Ignore)]
         public string MagazineType { get; set; }
 
         /// <summary>
@@ -152,7 +154,7 @@ namespace ManagedIrbis.Magazines
         /// </remarks>
         [CanBeNull]
         [XmlAttribute("magazine-kind")]
-        [JsonProperty("magazine-kind")]
+        [JsonProperty("magazine-kind", NullValueHandling = NullValueHandling.Ignore)]
         public string MagazineKind { get; set; }
 
         /// <summary>
@@ -160,7 +162,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlAttribute("periodicity")]
-        [JsonProperty("periodicity")]
+        [JsonProperty("periodicity", NullValueHandling = NullValueHandling.Ignore)]
         public string Periodicity { get; set; }
 
         /// <summary>
@@ -168,19 +170,21 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [CanBeNull]
         [XmlElement("cumulation")]
-        [JsonProperty("cumulation")]
+        [JsonProperty("cumulation", NullValueHandling = NullValueHandling.Ignore)]
         public MagazineCumulation[] Cumulation { get; set; }
 
         /// <summary>
         /// MFN записи журнала.
         /// </summary>
         [XmlElement("mfn")]
-        [JsonProperty("mfn")]
+        [JsonProperty("mfn", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Mfn { get; set; }
 
         /// <summary>
         /// Is newspapaper?
         /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
         public bool IsNewspaper
         {
             get { return MagazineKind.SameString(NewspaperKindCode); }
@@ -242,11 +246,20 @@ namespace ManagedIrbis.Magazines
             return result;
         }
 
+        /// <summary>
+        /// Should serialize the <see cref="Mfn"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeMfn()
+        {
+            return Mfn != 0;
+        }
+
         #endregion
 
         #region IHandmadeSerializable
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -268,7 +281,7 @@ namespace ManagedIrbis.Magazines
             // TODO Handle Cumulation array
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -293,9 +306,28 @@ namespace ManagedIrbis.Magazines
 
         #endregion
 
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<MagazineInfo> verifier
+                = new Verifier<MagazineInfo>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Title, "Title");
+
+            return verifier.Result;
+        }
+
+        #endregion
+
         #region Object members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return ExtendedTitle;

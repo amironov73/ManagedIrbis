@@ -389,6 +389,8 @@ namespace ManagedIrbis.Fields
         /// Associated <see cref="RecordField"/>.
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
         public RecordField Field { get; set; }
 
         /// <summary>
