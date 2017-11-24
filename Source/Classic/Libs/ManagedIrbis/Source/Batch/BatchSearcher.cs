@@ -44,6 +44,11 @@ namespace ManagedIrbis.Batch
         /// </summary>
         public const int DefaultBatchSize = 100;
 
+        /// <summary>
+        /// Default operation.
+        /// </summary>
+        public const string DefaultOperation = "+";
+
         #endregion
 
         #region Properties
@@ -57,7 +62,7 @@ namespace ManagedIrbis.Batch
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get; private set; }
+        public IIrbisConnection Connection { get; private set; }
 
         /// <summary>
         /// Database name.
@@ -86,7 +91,7 @@ namespace ManagedIrbis.Batch
         /// </summary>
         public BatchSearcher
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string database,
                 [CanBeNull] string prefix
             )
@@ -98,12 +103,8 @@ namespace ManagedIrbis.Batch
             Connection = connection;
             Database = database;
             Prefix = prefix;
-            Operation = "+";
+            Operation = DefaultOperation;
         }
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
@@ -151,7 +152,7 @@ namespace ManagedIrbis.Batch
                         + batchSize
                     );
 
-                throw new ArsMagnaException("BatchSize");
+                throw new ArgumentOutOfRangeException();
             }
 
             string[][] packages = terms
@@ -195,7 +196,7 @@ namespace ManagedIrbis.Batch
                         + batchSize
                     );
 
-                throw new ArsMagnaException("BatchSize");
+                throw new ArgumentOutOfRangeException();
             }
 
             string[][] packages = terms

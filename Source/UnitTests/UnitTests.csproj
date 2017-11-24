@@ -209,6 +209,8 @@
     <Compile Include="ManagedIrbis\Batch\BatchAccessorTest.cs" />
     <Compile Include="ManagedIrbis\Batch\BatchRecordFormatterTest.cs" />
     <Compile Include="ManagedIrbis\Batch\BatchRecordReaderTest.cs" />
+    <Compile Include="ManagedIrbis\Batch\BatchRecordWriterTest.cs" />
+    <Compile Include="ManagedIrbis\Batch\BatchSearcherTest.cs" />
     <Compile Include="ManagedIrbis\Caching\MenuCacheTest.cs" />
     <Compile Include="ManagedIrbis\Caching\RecordCacheTest.cs" />
     <Compile Include="ManagedIrbis\Caching\TextCacheTest.cs" />

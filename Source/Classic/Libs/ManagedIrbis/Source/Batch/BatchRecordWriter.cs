@@ -11,9 +11,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Logging;
@@ -23,8 +20,6 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -63,7 +58,7 @@ namespace ManagedIrbis.Batch
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get; private set; }
+        public IIrbisConnection Connection { get; private set; }
 
         /// <summary>
         /// Database name.
@@ -85,7 +80,7 @@ namespace ManagedIrbis.Batch
         /// </summary>
         public BatchRecordWriter
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string database,
                 int capacity
             )
