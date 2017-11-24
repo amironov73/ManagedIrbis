@@ -31,18 +31,6 @@ namespace ManagedIrbis.Batch
     [MoonSharpUserData]
     public sealed class BatchFactory
     {
-        #region Properties
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -137,10 +125,6 @@ namespace ManagedIrbis.Batch
 
             return result;
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

@@ -208,7 +208,7 @@ namespace ManagedIrbis.Batch
         [NotNull]
         public static IEnumerable<string> Interval
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string database,
                 [NotNull] string format,
                 int firstMfn,
@@ -251,11 +251,7 @@ namespace ManagedIrbis.Batch
                     database,
                     format,
                     batchSize,
-                    Enumerable.Range
-                    (
-                        firstMfn,
-                        lastMfn - firstMfn + 1
-                    )
+                    Enumerable.Range(firstMfn, lastMfn - firstMfn + 1)
                 );
 
             return result;
@@ -282,9 +278,9 @@ namespace ManagedIrbis.Batch
         /// Search and format records.
         /// </summary>
         [NotNull]
-        public IEnumerable<string> Search
+        public static IEnumerable<string> Search
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string database,
                 [NotNull] string format,
                 [NotNull] string searchExpression,
@@ -374,7 +370,7 @@ namespace ManagedIrbis.Batch
 
         #region IEnumerable members
 
-        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
+        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
         public IEnumerator<string> GetEnumerator()
         {
             Log.Trace

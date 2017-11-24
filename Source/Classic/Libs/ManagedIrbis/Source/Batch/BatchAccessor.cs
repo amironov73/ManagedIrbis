@@ -94,7 +94,7 @@ namespace ManagedIrbis.Batch
         /// Throw <see cref="IrbisNetworkException"/>
         /// if the record is empty.
         /// </summary>
-        public static void ThrowIfEmptyRecord
+        private static void _ThrowIfEmptyRecord
             (
                 [NotNull] MarcRecord record,
                 [NotNull] string line
@@ -160,7 +160,7 @@ namespace ManagedIrbis.Batch
 
                 if (!ReferenceEquals(result, null))
                 {
-                    ThrowIfEmptyRecord
+                    _ThrowIfEmptyRecord
                         (
                             result,
                             line
@@ -258,8 +258,7 @@ namespace ManagedIrbis.Batch
 
 #if FW4
 
-            using (_records
-                = new BlockingCollection<MarcRecord>(array.Length))
+            using (_records = new BlockingCollection<MarcRecord>(array.Length))
             {
                 int[][] slices = array.Slice(1000).ToArray();
 

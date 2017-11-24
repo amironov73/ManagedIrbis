@@ -12,6 +12,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using AM;
@@ -24,6 +25,8 @@ using JetBrains.Annotations;
 using MoonSharp.Interpreter;
 
 #endregion
+
+// ReSharper disable DelegateSubtraction
 
 namespace ManagedIrbis.Batch
 {
@@ -238,7 +241,7 @@ namespace ManagedIrbis.Batch
         [NotNull]
         public static IEnumerable<MarcRecord> Interval
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string database,
                 int firstMfn,
                 int lastMfn,
@@ -278,11 +281,7 @@ namespace ManagedIrbis.Batch
                     connection,
                     database,
                     batchSize,
-                    Enumerable.Range
-                    (
-                        firstMfn,
-                        lastMfn - firstMfn + 1
-                    )
+                    Enumerable.Range(firstMfn, lastMfn - firstMfn + 1)
                 );
 
             return result;
@@ -294,7 +293,7 @@ namespace ManagedIrbis.Batch
         [NotNull]
         public static IEnumerable<MarcRecord> Interval
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string database,
                 int firstMfn,
                 int lastMfn,
@@ -303,7 +302,7 @@ namespace ManagedIrbis.Batch
                 [CanBeNull] Action<BatchRecordReader> action
             )
         {
-            BatchRecordReader result = (BatchRecordReader) Interval
+            BatchRecordReader result = (BatchRecordReader)Interval
                 (
                     connection,
                     database,
@@ -315,7 +314,7 @@ namespace ManagedIrbis.Batch
 
             if (!ReferenceEquals(action, null))
             {
-                EventHandler batchHandler 
+                EventHandler batchHandler
                     = (sender, args) => action(result);
                 result.BatchRead += batchHandler;
 
@@ -422,14 +421,14 @@ namespace ManagedIrbis.Batch
         [NotNull]
         public static IEnumerable<MarcRecord> Search
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string database,
                 [NotNull] string searchExpression,
                 int batchSize,
                 [CanBeNull] Action<BatchRecordReader> action
             )
         {
-            BatchRecordReader result = (BatchRecordReader) Search
+            BatchRecordReader result = (BatchRecordReader)Search
                 (
                     connection,
                     database,
@@ -452,7 +451,7 @@ namespace ManagedIrbis.Batch
         [NotNull]
         public static IEnumerable<MarcRecord> WholeDatabase
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string database,
                 int batchSize
             )
@@ -494,13 +493,13 @@ namespace ManagedIrbis.Batch
         [NotNull]
         public static IEnumerable<MarcRecord> WholeDatabase
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string database,
                 int batchSize,
                 [CanBeNull] Action<BatchRecordReader> action
             )
         {
-            BatchRecordReader result = (BatchRecordReader) WholeDatabase
+            BatchRecordReader result = (BatchRecordReader)WholeDatabase
                 (
                     connection,
                     database,
@@ -522,7 +521,7 @@ namespace ManagedIrbis.Batch
         [NotNull]
         public static IEnumerable<MarcRecord> WholeDatabase
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string database,
                 int batchSize,
                 bool omitDeletedRecords,
@@ -551,13 +550,10 @@ namespace ManagedIrbis.Batch
 
         #region IEnumerable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
         public IEnumerator<MarcRecord> GetEnumerator()
         {
-            Log.Trace
-                (
-                    "BatchRecordReader::GetEnumerator: start"
-                );
+            Log.Trace("BatchRecordReader::GetEnumerator: start");
 
             foreach (int[] package in _packages)
             {
@@ -600,10 +596,7 @@ namespace ManagedIrbis.Batch
                 }
             }
 
-            Log.Trace
-                (
-                    "BatchRecordReader::GetEnumerator: end"
-                );
+            Log.Trace("BatchRecordReader::GetEnumerator: end");
 
             ReadComplete.Raise(this);
 
@@ -613,6 +606,7 @@ namespace ManagedIrbis.Batch
             }
         }
 
+        [ExcludeFromCodeCoverage]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

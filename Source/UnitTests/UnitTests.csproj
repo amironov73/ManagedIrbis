@@ -206,6 +206,9 @@
     <Compile Include="AM\Text\TextUtilityTest.cs" />
     <Compile Include="AM\UtilityTest.cs" />
     <Compile Include="ManagedIrbis\AsyncExtensionsTest.cs" />
+    <Compile Include="ManagedIrbis\Batch\BatchAccessorTest.cs" />
+    <Compile Include="ManagedIrbis\Batch\BatchRecordFormatterTest.cs" />
+    <Compile Include="ManagedIrbis\Batch\BatchRecordReaderTest.cs" />
     <Compile Include="ManagedIrbis\Caching\MenuCacheTest.cs" />
     <Compile Include="ManagedIrbis\Caching\RecordCacheTest.cs" />
     <Compile Include="ManagedIrbis\Caching\TextCacheTest.cs" />
