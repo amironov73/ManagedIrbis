@@ -160,11 +160,7 @@ namespace ManagedIrbis.Batch
 
                 if (!ReferenceEquals(result, null))
                 {
-                    _ThrowIfEmptyRecord
-                        (
-                            result,
-                            line
-                        );
+                    _ThrowIfEmptyRecord(result, line);
 
                     if (!result.Deleted)
                     {
@@ -192,10 +188,10 @@ namespace ManagedIrbis.Batch
                 };
 
                 record = ProtocolText.ParseResponseForAllFormat
-                (
-                    line,
-                    record
-                );
+                    (
+                        line,
+                        record
+                    );
 
                 if (!ReferenceEquals(record, null))
                 {

@@ -267,10 +267,6 @@ namespace ManagedIrbis.Batch
 
         #endregion
 
-        #region Public methods
-
-        #endregion
-
         #region IEnumerable<T> members
 
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
@@ -329,10 +325,6 @@ namespace ManagedIrbis.Batch
                 TaskUtility.DisposeTask(task);
             }
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

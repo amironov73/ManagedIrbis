@@ -49,6 +49,7 @@ namespace ManagedIrbis.ImportExport
         #endregion
 
         #region Private members
+
         private static void _AppendIrbisLine
             (
                 StringBuilder builder,

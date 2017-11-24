@@ -289,10 +289,6 @@ namespace ManagedIrbis.Batch
         }
 
         #endregion
-
-        #region Object members
-
-        #endregion
     }
 }
 
