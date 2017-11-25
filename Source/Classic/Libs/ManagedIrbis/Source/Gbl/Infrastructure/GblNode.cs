@@ -43,6 +43,7 @@ namespace ManagedIrbis.Gbl.Infrastructure
     [PublicAPI]
     [MoonSharpUserData]
     public abstract class GblNode
+        : IVerifiable
     {
         #region Properties
 
@@ -133,6 +134,19 @@ namespace ManagedIrbis.Gbl.Infrastructure
             // Nothing to do here
 
             OnAfterExecution(context);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public virtual bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            return true;
         }
 
         #endregion
