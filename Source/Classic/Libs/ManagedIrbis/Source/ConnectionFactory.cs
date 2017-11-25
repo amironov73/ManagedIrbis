@@ -10,7 +10,7 @@
 #region Using directives
 
 using System;
-
+using System.Diagnostics.CodeAnalysis;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -55,6 +55,7 @@ namespace ManagedIrbis
         /// from given connection string.
         /// </summary>
         [NotNull]
+        [MustUseReturnValue]
         public static IIrbisConnection CreateConnection
             (
                 [NotNull] string connectionString
@@ -71,11 +72,20 @@ namespace ManagedIrbis
             return result;
         }
 
+        /// <summary>
+        /// Restore default state.
+        /// </summary>
+        public static void RestoreDefaults()
+        {
+            ConnectionCreator = _ConnectionCreator;
+        }
+
         #endregion
 
         #region Private members
 
         [NotNull]
+        [ExcludeFromCodeCoverage]
         private static IIrbisConnection _ConnectionCreator
             (
                 [NotNull] string connectionString

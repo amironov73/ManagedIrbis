@@ -42,7 +42,7 @@ namespace ManagedIrbis.Batch
     [MoonSharpUserData]
     public sealed class ParallelRecordFormatter
         : IEnumerable<string>,
-            IDisposable
+        IDisposable
     {
         #region Properties
 

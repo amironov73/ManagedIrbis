@@ -239,6 +239,7 @@ namespace ManagedIrbis.Batch
         /// Read interval of records
         /// </summary>
         [NotNull]
+        [MustUseReturnValue]
         public static IEnumerable<MarcRecord> Interval
             (
                 [NotNull] IIrbisConnection connection,
@@ -291,6 +292,7 @@ namespace ManagedIrbis.Batch
         /// Read interval of records
         /// </summary>
         [NotNull]
+        [MustUseReturnValue]
         public static IEnumerable<MarcRecord> Interval
             (
                 [NotNull] IIrbisConnection connection,
@@ -375,6 +377,7 @@ namespace ManagedIrbis.Batch
         /// Search and read records.
         /// </summary>
         [NotNull]
+        [MustUseReturnValue]
         public static IEnumerable<MarcRecord> Search
             (
                 [NotNull] IIrbisConnection connection,
@@ -419,6 +422,7 @@ namespace ManagedIrbis.Batch
         /// Search and read records.
         /// </summary>
         [NotNull]
+        [MustUseReturnValue]
         public static IEnumerable<MarcRecord> Search
             (
                 [NotNull] IIrbisConnection connection,
@@ -449,6 +453,7 @@ namespace ManagedIrbis.Batch
         /// Read whole database
         /// </summary>
         [NotNull]
+        [MustUseReturnValue]
         public static IEnumerable<MarcRecord> WholeDatabase
             (
                 [NotNull] IIrbisConnection connection,
@@ -491,6 +496,7 @@ namespace ManagedIrbis.Batch
         /// Read whole database
         /// </summary>
         [NotNull]
+        [MustUseReturnValue]
         public static IEnumerable<MarcRecord> WholeDatabase
             (
                 [NotNull] IIrbisConnection connection,
@@ -519,6 +525,7 @@ namespace ManagedIrbis.Batch
         /// Read whole database
         /// </summary>
         [NotNull]
+        [MustUseReturnValue]
         public static IEnumerable<MarcRecord> WholeDatabase
             (
                 [NotNull] IIrbisConnection connection,

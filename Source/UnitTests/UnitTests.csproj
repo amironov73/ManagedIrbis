@@ -213,11 +213,13 @@
     <Compile Include="ManagedIrbis\Batch\BatchRecordWriterTest.cs" />
     <Compile Include="ManagedIrbis\Batch\BatchSearcherTest.cs" />
     <Compile Include="ManagedIrbis\Batch\CommonBatchTest.cs" />
+    <Compile Include="ManagedIrbis\Batch\ParallelRecordFormatterTest.cs" />
     <Compile Include="ManagedIrbis\Batch\ParallelRecordReaderTest.cs" />
     <Compile Include="ManagedIrbis\Caching\MenuCacheTest.cs" />
     <Compile Include="ManagedIrbis\Caching\RecordCacheTest.cs" />
     <Compile Include="ManagedIrbis\Caching\TextCacheTest.cs" />
     <Compile Include="ManagedIrbis\ClientInfoTest.cs" />
+    <Compile Include="ManagedIrbis\ConnectionFactoryTest.cs" />
     <Compile Include="ManagedIrbis\DatabaseInfoTest.cs" />
     <Compile Include="ManagedIrbis\Direct\DirectUtilityTest.cs" />
     <Compile Include="ManagedIrbis\FastFieldsTest.cs" />

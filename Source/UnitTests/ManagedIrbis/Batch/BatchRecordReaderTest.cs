@@ -1,49 +1,24 @@
 ﻿using System;
-
-using JetBrains.Annotations;
+using System.Collections.Generic;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis;
 using ManagedIrbis.Batch;
+using ManagedIrbis.Infrastructure.Commands;
 
 using Moq;
+
+// ReSharper disable ConvertToLocalFunction
+// ReSharper disable MustUseReturnValue
+// ReSharper disable HeapView.ObjectAllocation.Evident
 
 namespace UnitTests.ManagedIrbis.Batch
 {
     [TestClass]
     public class BatchRecordReaderTest
+        : CommonBatchTest
     {
-        [NotNull]
-        private Mock<IIrbisConnection> GetMock()
-        {
-            Mock<IIrbisConnection> result = new Mock<IIrbisConnection>();
-
-            // GetMaxMfn
-            result.Setup(c => c.GetMaxMfn(It.IsAny<string>()))
-                .Returns(4);
-
-            // ReadRecord
-            result.Setup(c => c.ReadRecord(It.IsAny<string>(),
-                    It.IsAny<int>(), It.IsAny<bool>(),
-                    It.IsAny<string>()))
-                .Returns
-                    (
-                        (string db, int mfn, bool flag, string fmt) =>
-                            new MarcRecord
-                            {
-                                Database = db,
-                                Mfn = mfn
-                            }
-                    );
-
-            // Search
-            result.Setup(c => c.Search(It.IsAny<string>()))
-                .Returns(new [] {1, 2, 3});
-
-            return result;
-        }
-
         [TestMethod]
         public void BatchRecordReader_Construction_1()
         {
@@ -76,7 +51,7 @@ namespace UnitTests.ManagedIrbis.Batch
             int[] range = {1, 2, 3};
             Mock<IIrbisConnection> mock = GetMock();
             IIrbisConnection connection = mock.Object;
-            BatchRecordReader batch = new BatchRecordReader
+            new BatchRecordReader
                 (
                     connection,
                     database,
@@ -118,7 +93,7 @@ namespace UnitTests.ManagedIrbis.Batch
             int[] range = {1, 2, 3};
             Mock<IIrbisConnection> mock = GetMock();
             IIrbisConnection connection = mock.Object;
-            BatchRecordReader batch = new BatchRecordReader
+            new BatchRecordReader
                 (
                     connection,
                     database,
@@ -161,8 +136,7 @@ namespace UnitTests.ManagedIrbis.Batch
             int batchSize = 0;
             Mock<IIrbisConnection> mock = GetMock();
             IIrbisConnection connection = mock.Object;
-            BatchRecordReader batch
-                = (BatchRecordReader)BatchRecordReader.Interval
+            BatchRecordReader.Interval
                 (
                     connection,
                     database,
@@ -170,6 +144,42 @@ namespace UnitTests.ManagedIrbis.Batch
                     3,
                     batchSize
                 );
+        }
+
+        [TestMethod]
+        public void BatchRecordReader_Interval_2()
+        {
+            string database = "IBIS";
+            int batchSize = 500;
+            Mock<IIrbisConnection> mock = GetMock();
+            IIrbisConnection connection = mock.Object;
+            bool flag = false;
+            Action<BatchRecordReader> action = brr => flag = true;
+            BatchRecordReader batch
+                = (BatchRecordReader)BatchRecordReader.Interval
+                (
+                    connection,
+                    database,
+                    1,
+                    3,
+                    batchSize,
+                    true,
+                    action
+                );
+            Assert.AreSame(connection, batch.Connection);
+            Assert.AreSame(database, batch.Database);
+            Assert.AreEqual(batchSize, batch.BatchSize);
+            Assert.AreEqual(3, batch.TotalRecords);
+            Assert.AreEqual(0, batch.RecordsRead);
+
+            List<MarcRecord> list = batch.ReadAll();
+            Assert.AreEqual(3, list.Count);
+            Assert.AreEqual(3, batch.RecordsRead);
+            Assert.IsTrue(flag);
+
+            mock.Verify(c => c.GetMaxMfn(It.IsAny<string>()), Times.Once);
+            mock.Verify(c => c.ExecuteCommand(It.IsAny<AbstractCommand>()),
+                Times.Once());
         }
 
         [TestMethod]
@@ -204,8 +214,7 @@ namespace UnitTests.ManagedIrbis.Batch
             int batchSize = 0;
             Mock<IIrbisConnection> mock = GetMock();
             IIrbisConnection connection = mock.Object;
-            BatchRecordReader batch
-                = (BatchRecordReader)BatchRecordReader.Search
+            BatchRecordReader.Search
                 (
                     connection,
                     database,
@@ -213,6 +222,41 @@ namespace UnitTests.ManagedIrbis.Batch
                     batchSize
                 );
         }
+
+        [TestMethod]
+        public void BatchRecordReader_Search_2()
+        {
+            string database = "IBIS";
+            int batchSize = 500;
+            Mock<IIrbisConnection> mock = GetMock();
+            IIrbisConnection connection = mock.Object;
+            bool flag = false;
+            Action<BatchRecordReader> action = brr => flag = true;
+            BatchRecordReader batch
+                = (BatchRecordReader)BatchRecordReader.Search
+                (
+                    connection,
+                    database,
+                    "searchQuery",
+                    batchSize,
+                    action
+                );
+            Assert.AreSame(connection, batch.Connection);
+            Assert.AreSame(database, batch.Database);
+            Assert.AreEqual(batchSize, batch.BatchSize);
+            Assert.AreEqual(3, batch.TotalRecords);
+            Assert.AreEqual(0, batch.RecordsRead);
+
+            List<MarcRecord> list = batch.ReadAll();
+            Assert.AreEqual(3, list.Count);
+            Assert.AreEqual(3, batch.RecordsRead);
+            Assert.IsTrue(flag);
+
+            mock.Verify(c => c.Search(It.IsAny<string>()), Times.Once);
+            mock.Verify(c => c.ExecuteCommand(It.IsAny<AbstractCommand>()),
+                Times.Once());
+        }
+
 
         [TestMethod]
         public void BatchRecordReader_WholeDatabase_1()
@@ -245,13 +289,113 @@ namespace UnitTests.ManagedIrbis.Batch
             int batchSize = 0;
             Mock<IIrbisConnection> mock = GetMock();
             IIrbisConnection connection = mock.Object;
-            BatchRecordReader batch
-                = (BatchRecordReader) BatchRecordReader.WholeDatabase
+            BatchRecordReader.WholeDatabase
                     (
                         connection,
                         database,
                         batchSize
                     );
         }
+
+        [TestMethod]
+        public void BatchRecordReader_WholeDatabase_2()
+        {
+            string database = "IBIS";
+            int batchSize = 500;
+            Mock<IIrbisConnection> mock = GetMock();
+            IIrbisConnection connection = mock.Object;
+            bool flag = false;
+            Action<BatchRecordReader> action = brr => flag = true;
+            BatchRecordReader batch
+                = (BatchRecordReader)BatchRecordReader.WholeDatabase
+                (
+                    connection,
+                    database,
+                    batchSize,
+                    action
+                );
+            Assert.AreSame(connection, batch.Connection);
+            Assert.AreSame(database, batch.Database);
+            Assert.AreEqual(batchSize, batch.BatchSize);
+            Assert.AreEqual(3, batch.TotalRecords);
+            Assert.AreEqual(0, batch.RecordsRead);
+
+            List<MarcRecord> list = batch.ReadAll();
+            Assert.AreEqual(3, list.Count);
+            Assert.AreEqual(3, batch.RecordsRead);
+            Assert.IsTrue(flag);
+
+            mock.Verify(c => c.GetMaxMfn(It.IsAny<string>()), Times.Once);
+            mock.Verify(c => c.ExecuteCommand(It.IsAny<AbstractCommand>()),
+                Times.Once());
+        }
+
+        [TestMethod]
+        public void BatchRecordReader_WholeDatabase_2a()
+        {
+            string database = "IBIS";
+            int batchSize = 500;
+            Mock<IIrbisConnection> mock = GetMock();
+            IIrbisConnection connection = mock.Object;
+            bool flag = false;
+            Action<BatchRecordReader> action = brr => flag = true;
+            BatchRecordReader batch
+                = (BatchRecordReader)BatchRecordReader.WholeDatabase
+                (
+                    connection,
+                    database,
+                    batchSize,
+                    action
+                );
+            Assert.AreSame(connection, batch.Connection);
+            Assert.AreSame(database, batch.Database);
+            Assert.AreEqual(batchSize, batch.BatchSize);
+            Assert.AreEqual(3, batch.TotalRecords);
+            Assert.AreEqual(0, batch.RecordsRead);
+
+            List<MarcRecord> list = batch.ReadAll(true);
+            Assert.AreEqual(3, list.Count);
+            Assert.AreEqual(3, batch.RecordsRead);
+            Assert.IsTrue(flag);
+
+            mock.Verify(c => c.GetMaxMfn(It.IsAny<string>()), Times.Once);
+            mock.Verify(c => c.ExecuteCommand(It.IsAny<AbstractCommand>()),
+                Times.Once());
+        }
+
+        [TestMethod]
+        public void BatchRecordReader_WholeDatabase_3()
+        {
+            string database = "IBIS";
+            int batchSize = 500;
+            Mock<IIrbisConnection> mock = GetMock();
+            IIrbisConnection connection = mock.Object;
+            bool flag = false;
+            Action<BatchRecordReader> action = brr => flag = true;
+            BatchRecordReader batch
+                = (BatchRecordReader)BatchRecordReader.WholeDatabase
+                (
+                    connection,
+                    database,
+                    batchSize,
+                    true,
+                    action
+                );
+            Assert.AreSame(connection, batch.Connection);
+            Assert.AreSame(database, batch.Database);
+            Assert.AreEqual(batchSize, batch.BatchSize);
+            Assert.AreEqual(3, batch.TotalRecords);
+            Assert.AreEqual(0, batch.RecordsRead);
+
+            List<MarcRecord> list = batch.ReadAll();
+            Assert.AreEqual(3, list.Count);
+            Assert.AreEqual(3, batch.RecordsRead);
+            Assert.IsTrue(flag);
+
+            mock.Verify(c => c.GetMaxMfn(It.IsAny<string>()), Times.Once);
+            mock.Verify(c => c.ExecuteCommand(It.IsAny<AbstractCommand>()),
+                Times.Once());
+        }
+
     }
 }
