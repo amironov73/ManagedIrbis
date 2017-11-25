@@ -239,6 +239,8 @@
     <Compile Include="ManagedIrbis\Fields\PersonaliaInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fields\ImprintInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fields\CollectiveInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Flc\FlcProcessorTest.cs" />
+    <Compile Include="ManagedIrbis\Flc\FlcResultTest.cs" />
     <Compile Include="ManagedIrbis\Fst\FstLineTest.cs" />
     <Compile Include="ManagedIrbis\Gbl\GblFileTest.cs" />
     <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />

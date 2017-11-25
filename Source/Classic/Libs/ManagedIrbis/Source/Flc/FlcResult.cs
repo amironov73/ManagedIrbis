@@ -10,11 +10,8 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
@@ -62,7 +59,7 @@ namespace ManagedIrbis.Flc
         /// Status.
         /// </summary>
         [XmlAttribute("status")]
-        [JsonProperty("status")]
+        [JsonProperty("status", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public FlcStatus Status { get; set; }
 
         /// <summary>
@@ -97,7 +94,7 @@ namespace ManagedIrbis.Flc
 
         private void _AddMessage
             (
-                string message
+                [CanBeNull] string message
             )
         {
             if (string.IsNullOrEmpty(message))
@@ -115,9 +112,14 @@ namespace ManagedIrbis.Flc
 
         private bool _ParseLine
             (
-                string line
+                [CanBeNull] string line
             )
         {
+            if (string.IsNullOrEmpty(line))
+            {
+                return false;
+            }
+            line = line.Trim();
             if (string.IsNullOrEmpty(line))
             {
                 return false;
@@ -129,6 +131,7 @@ namespace ManagedIrbis.Flc
             if (code != "0" && code != "1" && code != "2")
             {
                 _AddMessage(line);
+
                 return false;
             }
 
@@ -181,21 +184,24 @@ namespace ManagedIrbis.Flc
                     break;
                 }
             }
-            for (; index < lines.Length; index++)
-            {
-                result.Messages.Add(lines[index]);
-            }
 
             return result;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Messages"/> collection?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeMessages()
+        {
+            return Messages.Count != 0;
         }
 
         #endregion
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore the object state from the specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -203,14 +209,12 @@ namespace ManagedIrbis.Flc
         {
             Code.NotNull(reader, "reader");
 
-            Status = (FlcStatus) reader.ReadPackedInt32();
+            Status = (FlcStatus)reader.ReadPackedInt32();
             Messages.Clear();
             Messages.AddRange(reader.ReadStringArray());
         }
 
-        /// <summary>
-        /// Save the object stat to the specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -227,23 +231,23 @@ namespace ManagedIrbis.Flc
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
+            if (Messages.Count == 0)
+            {
+                return string.Format
+                    (
+                        "Status: {0}, No messages",
+                        Status
+                    );
+            }
+
             return string.Format
                 (
                     "Status: {0}, Messages: {1}",
                     Status,
-                    string.Join
-                    (
-                        Environment.NewLine,
-                        Messages.ToArray()
-                    )
+                    string.Join(Environment.NewLine, Messages.ToArray())
                 );
         }
 

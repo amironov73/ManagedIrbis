@@ -46,8 +46,6 @@ namespace UnitTests.ManagedIrbis
         [ExpectedException(typeof(IrbisException))]
         public void ConnectionFactory_CreateConnection_3()
         {
-            Mock<IIrbisConnection> mock = new Mock<IIrbisConnection>();
-            IIrbisConnection expected = mock.Object;
             Func<string, IIrbisConnection> previousCreator
                 = ConnectionFactory.ConnectionCreator;
             try

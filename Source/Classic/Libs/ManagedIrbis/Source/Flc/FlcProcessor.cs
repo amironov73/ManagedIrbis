@@ -9,19 +9,13 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using CodeJam;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
+using ManagedIrbis.Client;
 
-using Newtonsoft.Json;
+using MoonSharp.Interpreter;
 
 #endregion
 
@@ -30,16 +24,10 @@ namespace ManagedIrbis.Flc
     /// <summary>
     /// FLC processor.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class FlcProcessor
     {
-        #region Properties
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -48,28 +36,24 @@ namespace ManagedIrbis.Flc
         [NotNull]
         public FlcResult CheckRecord
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IrbisProvider provider,
                 [NotNull] MarcRecord record,
                 [NotNull] string format
             )
         {
-            Code.NotNull(connection, "connection");
+            Code.NotNull(provider, "provider");
             Code.NotNull(record, "record");
             Code.NotNullNorEmpty(format, format);
 
-            string text = connection.FormatRecord
+            string text = provider.FormatRecord
                 (
-                    format,
-                    record
+                    record,
+                    format
                 );
             FlcResult result = FlcResult.Parse(text);
 
             return result;
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }
