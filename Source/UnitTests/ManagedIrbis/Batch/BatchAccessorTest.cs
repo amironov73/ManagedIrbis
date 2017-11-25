@@ -117,6 +117,7 @@ namespace UnitTests.ManagedIrbis.Batch
                 rawRequest,
                 true
             );
+
             return response;
         }
 
@@ -129,6 +130,7 @@ namespace UnitTests.ManagedIrbis.Batch
             // CommandFactory
             result.SetupGet(c => c.CommandFactory)
                 .Returns(new CommandFactory(connection));
+
             // ExecuteCommand
             result.Setup(c => c.ExecuteCommand(It.IsAny<AbstractCommand>()))
                 .Returns((FormatCommand command)

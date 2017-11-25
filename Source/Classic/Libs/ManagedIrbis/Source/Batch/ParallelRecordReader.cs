@@ -30,8 +30,6 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
-
 #endregion
 
 namespace ManagedIrbis.Batch
@@ -131,6 +129,10 @@ namespace ManagedIrbis.Batch
 
             ConnectionString = connectionString;
             Parallelism = Math.Min(mfnList.Length / 1000, parallelism);
+            if (Parallelism < 2)
+            {
+                Parallelism = 2;
+            }
 
             _Run(mfnList);
         }
@@ -154,8 +156,8 @@ namespace ManagedIrbis.Batch
         {
             Code.NotNullNorEmpty(connectionString, "connectionString");
 
-            using (IrbisConnection connection
-                = new IrbisConnection(connectionString))
+            using (IIrbisConnection connection
+                = ConnectionFactory.CreateConnection(connectionString))
             {
                 int maxMfn = connection.GetMaxMfn() - 1;
                 if (maxMfn <= 0)
@@ -219,8 +221,9 @@ namespace ManagedIrbis.Batch
                     + threadId
                 );
 
-            using (IrbisConnection connection
-                = new IrbisConnection(ConnectionString.ThrowIfNull()))
+            string connectionString = ConnectionString.ThrowIfNull();
+            using (IIrbisConnection connection
+                = ConnectionFactory.CreateConnection(connectionString))
             {
                 BatchRecordReader batch = new BatchRecordReader
                     (

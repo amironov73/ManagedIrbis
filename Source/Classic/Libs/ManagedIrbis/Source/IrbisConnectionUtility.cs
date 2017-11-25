@@ -66,6 +66,12 @@ namespace ManagedIrbis
 
         #region Properties
 
+        /// <summary>
+        /// Default connection string.
+        /// </summary>
+        [CanBeNull]
+        public static string DefaultConnectionString { get; set; }
+
         #endregion
 
         #region Private members
@@ -444,6 +450,11 @@ namespace ManagedIrbis
         /// </summary>
         public static string GetStandardConnectionString()
         {
+            if (!ReferenceEquals(DefaultConnectionString, null))
+            {
+                return DefaultConnectionString;
+            }
+
             return ConfigurationUtility.FindSetting
                 (
                     ListStandardConnectionStrings()

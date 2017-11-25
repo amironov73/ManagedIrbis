@@ -11,6 +11,7 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,6 +32,20 @@ namespace ManagedIrbis.Batch
     [MoonSharpUserData]
     public sealed class BatchFactory
     {
+        #region Constants
+
+        /// <summary>
+        /// Simple formatter/reader.
+        /// </summary>
+        public const string Simple = "simple";
+
+        /// <summary>
+        /// Parallel formatter/reader.
+        /// </summary>
+        public const string Parallel = "parallel";
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -54,7 +69,7 @@ namespace ManagedIrbis.Batch
 
             switch (kind)
             {
-                case "parallel":
+                case Parallel:
                     result = new ParallelRecordReader
                         (
                             -1,
@@ -103,23 +118,23 @@ namespace ManagedIrbis.Batch
             {
                 case "parallel":
                     result = new ParallelRecordFormatter
-                    (
-                        -1,
-                        connectionString,
-                        range.ToArray(),
-                        format
-                    );
+                        (
+                            -1,
+                            connectionString,
+                            range.ToArray(),
+                            format
+                        );
                     break;
 
                 default:
                     result = new BatchRecordFormatter
-                    (
-                        connectionString,
-                        database,
-                        format,
-                        1000,
-                        range
-                    );
+                        (
+                            connectionString,
+                            database,
+                            format,
+                            1000,
+                            range
+                        );
                     break;
             }
 

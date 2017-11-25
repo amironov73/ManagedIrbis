@@ -408,12 +408,10 @@ namespace ManagedIrbis.Batch
                     }
                     else
                     {
-                        FormatCommand command
-                            = Connection.CommandFactory
+                        FormatCommand command = Connection.CommandFactory
                                 .GetFormatCommand();
                         command.Database = database;
-                        command.FormatSpecification
-                            = IrbisFormat.All;
+                        command.FormatSpecification = IrbisFormat.All;
                         command.MfnList.AddRange(slice);
 
                         Connection.ExecuteCommand(command);

@@ -12,6 +12,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -151,16 +152,16 @@ namespace ManagedIrbis.Batch
             if (batchSize < 1)
             {
                 Log.Error
-                (
-                    "BatchRecordFormatter::Constructor: "
-                    + "batchSize="
-                    + batchSize
-                );
+                    (
+                        "BatchRecordFormatter::Constructor: "
+                        + "batchSize="
+                        + batchSize
+                    );
 
                 throw new ArgumentOutOfRangeException("batchSize");
             }
 
-            Connection = new IrbisConnection(connectionString);
+            Connection = ConnectionFactory.CreateConnection(connectionString);
             _ownConnection = true;
             Database = database;
             BatchSize = batchSize;
@@ -186,7 +187,7 @@ namespace ManagedIrbis.Batch
             EventHandler<ExceptionEventArgs<Exception>> handler
                 = Exception;
 
-            if (handler == null)
+            if (ReferenceEquals(handler, null))
             {
                 return false;
             }
@@ -263,8 +264,7 @@ namespace ManagedIrbis.Batch
         [NotNull]
         public List<string> FormatAll()
         {
-            List<string> result
-                = new List<string>(TotalRecords);
+            List<string> result = new List<string>(TotalRecords);
 
             foreach (string record in this)
             {
@@ -309,7 +309,7 @@ namespace ManagedIrbis.Batch
                 return new string[0];
             }
 
-            BatchRecordFormatter reader = new BatchRecordFormatter
+            BatchRecordFormatter result = new BatchRecordFormatter
                 (
                     connection,
                     database,
@@ -318,7 +318,7 @@ namespace ManagedIrbis.Batch
                     found
                 );
 
-            return reader;
+            return result;
         }
 
         /// <summary>
@@ -410,6 +410,7 @@ namespace ManagedIrbis.Batch
             }
         }
 
+        [ExcludeFromCodeCoverage]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

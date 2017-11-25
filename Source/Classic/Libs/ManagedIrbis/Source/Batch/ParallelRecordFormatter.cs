@@ -15,6 +15,7 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -92,6 +93,10 @@ namespace ManagedIrbis.Batch
             ConnectionString = connectionString;
             Format = format;
             Parallelism = Math.Min(mfnList.Length / 1000, parallelism);
+            if (Parallelism < 2)
+            {
+                Parallelism = 2;
+            }
 
             _Run(mfnList);
         }
@@ -107,25 +112,6 @@ namespace ManagedIrbis.Batch
         private AutoResetEvent _event;
 
         private object _lock;
-
-        private int[] _GetMfnList
-            (
-                [NotNull] string connectionString
-            )
-        {
-            using (IrbisConnection connection
-                = new IrbisConnection(connectionString))
-            {
-                int maxMfn = connection.GetMaxMfn() - 1;
-                if (maxMfn <= 0)
-                {
-                    throw new IrbisException("MaxMFN=0");
-                }
-                int[] result = Enumerable.Range(1, maxMfn).ToArray();
-
-                return result;
-            }
-        }
 
         private void _Run
             (
@@ -178,8 +164,9 @@ namespace ManagedIrbis.Batch
                     + threadId
                 );
 
-            using (IrbisConnection connection
-                = new IrbisConnection(ConnectionString))
+            string connectionString = ConnectionString.ThrowIfNull();
+            using (IIrbisConnection connection
+                = ConnectionFactory.CreateConnection(connectionString))
             {
                 BatchRecordFormatter batch = new BatchRecordFormatter
                     (
@@ -269,6 +256,7 @@ namespace ManagedIrbis.Batch
             }
         }
 
+        [ExcludeFromCodeCoverage]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

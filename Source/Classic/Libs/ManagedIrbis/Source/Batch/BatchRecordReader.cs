@@ -192,7 +192,7 @@ namespace ManagedIrbis.Batch
                 throw new ArgumentOutOfRangeException("batchSize");
             }
 
-            Connection = new IrbisConnection(connectionString);
+            Connection = ConnectionFactory.CreateConnection(connectionString);
             _ownConnection = true;
             Database = database;
             BatchSize = batchSize;
