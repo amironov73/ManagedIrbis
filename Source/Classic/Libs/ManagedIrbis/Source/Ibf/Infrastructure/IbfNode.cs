@@ -11,11 +11,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
@@ -47,8 +49,19 @@ namespace ManagedIrbis.Ibf.Infrastructure
     [PublicAPI]
     [MoonSharpUserData]
     public class IbfNode
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
 
         #endregion
 
@@ -103,7 +116,56 @@ namespace ManagedIrbis.Ibf.Infrastructure
 
         #endregion
 
+        #region IHandmadeSerializable members
+
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+        public virtual void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+        }
+
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+        }
+
+        #endregion
+
+        #region IVerifiable methods
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public virtual bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<IbfNode> verifier = new Verifier<IbfNode>(this, throwOnError);
+
+            return verifier.Result;
+        }
+
+        #endregion
+
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            string result = GetType().Name;
+            if (result.StartsWith("Ibf"))
+            {
+                result = result.Substring(3);
+            }
+
+            return result;
+        }
 
         #endregion
     }

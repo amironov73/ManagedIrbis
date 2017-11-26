@@ -42,7 +42,7 @@ namespace ManagedIrbis.Ibf.Infrastructure.Ast
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class IbfUnLockRecordAll
+    public sealed class IbfUnlockRecordAll
         : IbfNode
     {
         #region Properties
