@@ -243,6 +243,8 @@
     <Compile Include="ManagedIrbis\Flc\FlcResultTest.cs" />
     <Compile Include="ManagedIrbis\Fst\FstLineTest.cs" />
     <Compile Include="ManagedIrbis\Fst\FstProcessorTest.cs" />
+    <Compile Include="ManagedIrbis\Fst\FstTermTest.cs" />
+    <Compile Include="ManagedIrbis\Fst\LocalFstProcessorTest.cs" />
     <Compile Include="ManagedIrbis\Gbl\GblFileTest.cs" />
     <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
     <Compile Include="AM\Globalization\RussianStringComparerTest.cs" />

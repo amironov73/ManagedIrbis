@@ -14,7 +14,7 @@ using ManagedIrbis.Infrastructure;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-// ReSharper disable HeapView.ObjectAllocation.Evident
+// ReSharper disable ObjectCreationAsStatement
 
 namespace UnitTests.ManagedIrbis.Fst
 {
@@ -42,21 +42,22 @@ namespace UnitTests.ManagedIrbis.Fst
         }
 
         [TestMethod]
+        [Description("Состояние объекта сразу после создания")]
         public void FstProcessor_Construction_1()
         {
             using (IrbisProvider provider = GetProvider())
             {
                 FileSpecification specification = new FileSpecification
-                    (
-                        IrbisPath.MasterFile,
-                        "IBIS",
-                        "dumb.fst"
-                    );
+                (
+                    IrbisPath.MasterFile,
+                    "IBIS",
+                    "dumb.fst"
+                );
                 FstProcessor processor = new FstProcessor
-                    (
-                        provider,
-                        specification
-                    );
+                (
+                    provider,
+                    specification
+                );
                 Assert.AreSame(provider, processor.Provider);
             }
         }
@@ -68,16 +69,16 @@ namespace UnitTests.ManagedIrbis.Fst
             using (IrbisProvider provider = GetProvider())
             {
                 FileSpecification specification = new FileSpecification
-                    (
-                        IrbisPath.MasterFile,
-                        "IBIS",
-                        "nosuchfile.fst"
-                    );
+                (
+                    IrbisPath.MasterFile,
+                    "IBIS",
+                    "nosuchfile.fst"
+                );
                 new FstProcessor
-                    (
-                        provider,
-                        specification
-                    );
+                (
+                    provider,
+                    specification
+                );
             }
         }
 
@@ -88,32 +89,122 @@ namespace UnitTests.ManagedIrbis.Fst
             using (IrbisProvider provider = GetProvider())
             {
                 FileSpecification specification = new FileSpecification
-                    (
-                        IrbisPath.MasterFile,
-                        "IBIS",
-                        "empty.fst"
-                    );
+                (
+                    IrbisPath.MasterFile,
+                    "IBIS",
+                    "empty.fst"
+                );
                 new FstProcessor
-                    (
-                        provider,
-                        specification
-                    );
+                (
+                    provider,
+                    specification
+                );
             }
         }
 
         [TestMethod]
+        [Description("Состояние объекта сразу после создания")]
         public void FstProcessor_Construction_2()
         {
             using (IrbisProvider provider = GetProvider())
             {
                 FstFile file = _GetFile();
                 FstProcessor processor = new FstProcessor
-                    (
-                        provider,
-                        file
-                    );
+                (
+                    provider,
+                    file
+                );
                 Assert.AreSame(file, processor.File);
                 Assert.AreSame(provider, processor.Provider);
+            }
+        }
+
+        [TestMethod]
+        [Description("Извлечение терминов")]
+        public void FstProcessor_ExtractTerms_1()
+        {
+            using (IrbisProvider provider = GetProvider())
+            {
+                FstFile file = _GetFile();
+                FstProcessor processor = new FstProcessor(provider, file);
+                MarcRecord record = new MarcRecord();
+                FstTerm[] terms = processor.ExtractTerms(record);
+                Assert.AreEqual(0, terms.Length);
+            }
+        }
+
+        [TestMethod]
+        [Description("Извлечение терминов")]
+        public void FstProcessor_ExtractTerms_2()
+        {
+            using (IrbisProvider provider = GetProvider())
+            {
+                FstFile file = _GetFile();
+                FstProcessor processor = new FstProcessor(provider, file);
+                MarcRecord record = provider.ReadRecord(1);
+                Assert.IsNotNull(record);
+                FstTerm[] terms = processor.ExtractTerms(record);
+                Assert.AreEqual(1, terms.Length);
+            }
+        }
+
+        [TestMethod]
+        [Description("Трансформация записи")]
+        public void FstProcessor_TransformRecord_1()
+        {
+            using (IrbisProvider provider = GetProvider())
+            {
+                FstFile file = _GetFile();
+                FstProcessor processor = new FstProcessor(provider, file);
+                MarcRecord source = new MarcRecord();
+                MarcRecord target = processor.TransformRecord(source, file);
+                Assert.AreEqual(0, target.Fields.Count);
+            }
+        }
+
+        [TestMethod]
+        [Description("Трансформация записи")]
+        public void FstProcessor_TransformRecord_1a()
+        {
+            using (IrbisProvider provider = GetProvider())
+            {
+                FstFile file = _GetFile();
+                FstProcessor processor = new FstProcessor(provider, file);
+                MarcRecord source = provider.ReadRecord(1);
+                Assert.IsNotNull(source);
+                MarcRecord target = processor.TransformRecord(source, file);
+                Assert.AreEqual(1, target.Fields.Count);
+            }
+        }
+
+        [TestMethod]
+        [Description("Трансформация записи")]
+        public void FstProcessor_TransformRecord_2()
+        {
+            using (IrbisProvider provider = GetProvider())
+            {
+                FstFile file = _GetFile();
+                string format = "mpl,'201',/,(v200 /),'\a'";
+                FstProcessor processor = new FstProcessor(provider, file);
+                MarcRecord source = new MarcRecord();
+                MarcRecord target = processor.TransformRecord(source, format);
+                Assert.AreEqual(0, target.Fields.Count);
+            }
+        }
+
+        [TestMethod]
+        [Description("Трансформация записи")]
+        public void FstProcessor_TransformRecord_2a()
+        {
+            using (IrbisProvider provider = GetProvider())
+            {
+                FstFile file = _GetFile();
+                string format = "mpl,'201',/,(v200 /),'\a'";
+                FstProcessor processor = new FstProcessor(provider, file);
+                MarcRecord source = provider.ReadRecord(1);
+                Assert.IsNotNull(source);
+                MarcRecord target = processor.TransformRecord(source, format);
+                Assert.AreEqual(1, target.Fields.Count);
             }
         }
     }

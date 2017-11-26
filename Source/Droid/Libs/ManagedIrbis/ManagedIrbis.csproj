@@ -76,9 +76,6 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchSearcher.cs">
       <Link>Source\Batch\BatchSearcher.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchSearcher.cs">
-      <Link>Source\Batch\BatchSearcher.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Batch\ParallelRecordFormatter.cs">
       <Link>Source\Batch\ParallelRecordFormatter.cs</Link>
     </Compile>

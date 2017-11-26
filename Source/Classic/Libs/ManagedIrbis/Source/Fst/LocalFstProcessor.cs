@@ -10,12 +10,8 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-
-using AM;
 
 using CodeJam;
 
@@ -63,13 +59,7 @@ namespace ManagedIrbis.Fst
             Code.NotNullNorEmpty(rootPath, "rootPath");
             Code.NotNullNorEmpty(database, "database");
 
-            //PftLocalEnvironment environment
-            //    = new PftLocalEnvironment(rootPath)
-            //    {
-            //        Database = database
-            //    };
-            LocalProvider environment
-                = new LocalProvider(rootPath)
+            LocalProvider environment = new LocalProvider(rootPath)
                 {
                     Database = database
                 };
@@ -116,6 +106,7 @@ namespace ManagedIrbis.Fst
             {
                 return null;
             }
+            result.FileName = Path.GetFileName(fileName);
 
             return result;
 
