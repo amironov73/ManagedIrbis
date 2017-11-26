@@ -66,7 +66,7 @@ namespace ManagedIrbis.Fst
         /// <summary>
         /// Field tag.
         /// </summary>
-        [XmlElement("tag")]
+        [XmlAttribute("tag")]
         [JsonProperty("tag", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [Description("Метка поля")]
         [DisplayName("Метка поля")]
@@ -75,7 +75,7 @@ namespace ManagedIrbis.Fst
         /// <summary>
         /// Index method.
         /// </summary>
-        [XmlElement("method")]
+        [XmlAttribute("method")]
         [JsonProperty("method", DefaultValueHandling = DefaultValueHandling.Include)]
         [Description("Метод")]
         [DisplayName("Метод")]

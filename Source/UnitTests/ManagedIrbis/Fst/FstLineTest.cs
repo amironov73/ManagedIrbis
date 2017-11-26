@@ -88,10 +88,10 @@ namespace UnitTests.ManagedIrbis.Fst
         public void FstLine_ToXml_1()
         {
             FstLine line = new FstLine();
-            Assert.AreEqual("<line><method>Method0</method></line>", XmlUtility.SerializeShort(line));
+            Assert.AreEqual("<line method=\"Method0\" />", XmlUtility.SerializeShort(line));
 
             line = _GetLine();
-            Assert.AreEqual("<line><tag>12252</tag><method>Method8</method><format>MHL,'/K=/'(v225^i,|%|d225/)</format></line>", XmlUtility.SerializeShort(line));
+            Assert.AreEqual("<line tag=\"12252\" method=\"Method8\"><format>MHL,\'/K=/\'(v225^i,|%|d225/)</format></line>", XmlUtility.SerializeShort(line));
         }
 
         [TestMethod]

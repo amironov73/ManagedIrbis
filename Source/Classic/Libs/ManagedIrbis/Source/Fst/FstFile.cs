@@ -9,12 +9,11 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
@@ -37,6 +36,7 @@ namespace ManagedIrbis.Fst
     /// FST file handling
     /// </summary>
     [PublicAPI]
+    [XmlRoot("fst")]
     [MoonSharpUserData]
     [DebuggerDisplay("FileName = {FileName}")]
     public sealed class FstFile
@@ -48,6 +48,8 @@ namespace ManagedIrbis.Fst
         /// <summary>
         /// File name (for identification only).
         /// </summary>
+        [XmlAttribute("fileName")]
+        [JsonProperty("fileName", NullValueHandling = NullValueHandling.Ignore)]
         public string FileName { get; set; }
 
         /// <summary>
@@ -55,6 +57,8 @@ namespace ManagedIrbis.Fst
         /// </summary>
         [NotNull]
         [ItemNotNull]
+        [XmlElement("line")]
+        [JsonProperty("lines")]
         public NonNullCollection<FstLine> Lines { get; private set; }
 
         #endregion
@@ -68,10 +72,6 @@ namespace ManagedIrbis.Fst
         {
             Lines = new NonNullCollection<FstLine>();
         }
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
@@ -120,7 +120,6 @@ namespace ManagedIrbis.Fst
             return result;
         }
 
-#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Parse local file.
@@ -132,6 +131,12 @@ namespace ManagedIrbis.Fst
                 [NotNull] Encoding encoding
             )
         {
+#if WIN81 || PORTABLE
+
+            throw new System.NotImplementedException();
+
+#else
+
             using (TextReader reader = TextReaderUtility.OpenRead
                 (
                     fileName,
@@ -140,11 +145,21 @@ namespace ManagedIrbis.Fst
             {
                 FstFile result = ParseStream(reader);
                 result.FileName = Path.GetFileName(fileName);
+
                 return result;
             }
-        }
 
 #endif
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Lines"/> collection?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeLines()
+        {
+            return Lines.Count != 0;
+        }
 
         #endregion
 
@@ -178,14 +193,16 @@ namespace ManagedIrbis.Fst
 
         #region IVerifiable members
 
-        /// <inheritdoc cref="IVerifiable.Verify"  />
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
             )
         {
-            Verifier<FstFile> verifier = new Verifier<FstFile>(this, throwOnError);
+            Verifier<FstFile> verifier
+                = new Verifier<FstFile>(this, throwOnError);
 
+            verifier.Assert(Lines.Count != 0, "Lines.Count != 0");
             foreach (FstLine line in Lines)
             {
                 verifier.VerifySubObject(line);
