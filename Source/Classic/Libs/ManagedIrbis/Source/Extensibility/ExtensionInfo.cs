@@ -9,10 +9,14 @@
 
 #region Using directives
 
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Xml.Serialization;
 
 using AM;
 using AM.IO;
+using AM.Runtime;
 
 using CodeJam;
 
@@ -23,7 +27,6 @@ using MoonSharp.Interpreter;
 using Newtonsoft.Json;
 
 #endregion
-
 
 namespace ManagedIrbis.Extensibility
 {
@@ -80,7 +83,10 @@ namespace ManagedIrbis.Extensibility
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [XmlRoot("extension")]
     public sealed class ExtensionInfo
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -96,8 +102,8 @@ namespace ManagedIrbis.Extensibility
         /// </summary>
         /// <remarks>UMDLLn</remarks>
         [CanBeNull]
-        [JsonProperty("dll")]
         [XmlAttribute("dll")]
+        [JsonProperty("dll", NullValueHandling = NullValueHandling.Ignore)]
         public string DllName { get; set; }
 
         /// <summary>
@@ -105,8 +111,8 @@ namespace ManagedIrbis.Extensibility
         /// </summary>
         /// <remarks>UMFUNCTIONn</remarks>
         [CanBeNull]
-        [JsonProperty("function")]
         [XmlAttribute("function")]
+        [JsonProperty("function", NullValueHandling = NullValueHandling.Ignore)]
         public string FunctionName { get; set; }
 
         /// <summary>
@@ -114,16 +120,16 @@ namespace ManagedIrbis.Extensibility
         /// </summary>
         /// <remarks>UMPFTn</remarks>
         [CanBeNull]
-        [JsonProperty("pft")]
         [XmlAttribute("pft")]
+        [JsonProperty("pft", NullValueHandling = NullValueHandling.Ignore)]
         public string PftName { get; set; }
 
         /// <summary>
         /// Group number.
         /// </summary>
         /// <remarks>UMGROUPn</remarks>
-        [JsonProperty("group")]
         [XmlAttribute("group")]
+        [JsonProperty("group", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int GroupNumber { get; set; }
 
         /// <summary>
@@ -131,8 +137,8 @@ namespace ManagedIrbis.Extensibility
         /// </summary>
         /// <remarks>UMNAMEn</remarks>
         [CanBeNull]
-        [JsonProperty("name")]
         [XmlAttribute("name")]
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
 
         /// <summary>
@@ -140,9 +146,18 @@ namespace ManagedIrbis.Extensibility
         /// </summary>
         /// <remarks>UMICONn</remarks>
         [CanBeNull]
-        [JsonProperty("icon")]
         [XmlAttribute("icon")]
+        [JsonProperty("icon", NullValueHandling = NullValueHandling.Ignore)]
         public string IconName { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
 
         #endregion
 
@@ -158,17 +173,45 @@ namespace ManagedIrbis.Extensibility
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
+
+        /// <summary>
+        /// Create array of <see cref="ExtensionInfo"/>
+        /// from <see cref="IniFile"/> entries.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static ExtensionInfo[] FromIniFile
+            (
+                [NotNull] IniFile iniFile
+            )
+        {
+            Code.NotNull(iniFile, "iniFile");
+
+            int count = 0;
+            List<ExtensionInfo> result = new List<ExtensionInfo>();
+            IniFile.Section section = iniFile.GetSection(ExtensionManager.USERMODE);
+            if (!ReferenceEquals(section, null))
+            {
+                count = section.GetValue(ExtensionManager.UMNUMB, 0);
+                for (int i = 0; i < count; i++)
+                {
+                    ExtensionInfo extension = FromIniFile(section, i);
+                    if (!ReferenceEquals(extension, null))
+                    {
+                        result.Add(extension);
+                    }
+                }
+            }
+
+            return result.ToArray();
+        }
 
         /// <summary>
         /// Create <see cref="ExtensionInfo"/>
         /// from <see cref="IniFile"/> entries.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
         public static ExtensionInfo FromIniFile
             (
                 [NotNull] IniFile.Section section,
@@ -178,19 +221,48 @@ namespace ManagedIrbis.Extensibility
             Code.NotNull(section, "section");
             Code.Nonnegative(index, "index");
 
+            string dllName = section["UMDLL" + index];
+            if (string.IsNullOrEmpty(dllName))
+            {
+                return null;
+            }
+
             ExtensionInfo result = new ExtensionInfo
             {
                 Index = index,
-                DllName = section["UMDLL" + index].ThrowIfNull("UMDLL"),
+                DllName = dllName,
                 FunctionName = section["UMFUNCTION" + index]
                     .ThrowIfNull("UMFUNCTION"),
-                PftName = section["UMPFT" + index].ThrowIfNull("UMPFT"),
-                GroupNumber = section.GetValue("UMGROUP" + index, 0),
-                Name = section["UMNAME" + index].ThrowIfNull("UMNAME"),
-                IconName = section["UMICON" + index].ThrowIfNull("UMICON")
+                PftName = section["UMPFT" + index]
+                    .ThrowIfNull("UMPFT"),
+                GroupNumber = section.GetValue("UMGROUP" + index, 1),
+                Name = section["UMNAME" + index]
+                    .ThrowIfNull("UMNAME"),
+                IconName = section["UMICON" + index]
+                    .ThrowIfNull("UMICON")
             };
 
             return result;
+        }
+
+        /// <summary>
+        /// Update the INI-file.
+        /// </summary>
+        public static void UpdateIniFile
+            (
+                [NotNull] IniFile iniFile,
+                [NotNull] ExtensionInfo[] extensions
+            )
+        {
+            Code.NotNull(iniFile, "iniFile");
+            Code.NotNull(extensions, "extensions");
+
+            IniFile.Section section = iniFile.GetOrCreateSection(ExtensionManager.USERMODE);
+            section.SetValue(ExtensionManager.UMNUMB, extensions.Length);
+            for (int i = 0; i < extensions.Length; i++)
+            {
+                extensions[i].UpdateIniFile(section);
+            }
         }
 
         /// <summary>
@@ -203,18 +275,88 @@ namespace ManagedIrbis.Extensibility
         {
             Code.NotNull(section, "section");
 
-            section["UMDLL" + Index] = DllName.ThrowIfNull("DllName");
+            section["UMDLL" + Index] = DllName
+                .ThrowIfNull("DllName");
             section["UMFUNCTION" + Index] = FunctionName
                 .ThrowIfNull("FunctionName");
-            section["UMPFT" + Index] = PftName.ThrowIfNull("PftName");
-            section["UMGROUP" + Index] = GroupNumber.ToInvariantString();
-            section["UMNAME" + Index] = Name.ThrowIfNull("Name");
-            section["UMICON" + Index] = IconName.ThrowIfNull("IconName");
+            section["UMPFT" + Index] = PftName
+                .ThrowIfNull("PftName");
+            section["UMGROUP" + Index] = GroupNumber
+                .ToInvariantString();
+            section["UMNAME" + Index] = Name
+                .ThrowIfNull("Name");
+            section["UMICON" + Index] = IconName
+                .ThrowIfNull("IconName");
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            Index = reader.ReadPackedInt32();
+            DllName = reader.ReadNullableString();
+            FunctionName = reader.ReadNullableString();
+            PftName = reader.ReadNullableString();
+            GroupNumber = reader.ReadPackedInt32();
+            Name = reader.ReadNullableString();
+            IconName = reader.ReadNullableString();
+        }
+
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer
+                .WritePackedInt32(Index)
+                .WriteNullable(DllName)
+                .WriteNullable(FunctionName)
+                .WriteNullable(PftName)
+                .WritePackedInt32(GroupNumber)
+                .WriteNullable(Name)
+                .WriteNullable(IconName);
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ExtensionInfo> verifier
+                = new Verifier<ExtensionInfo>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(DllName, "DllName")
+                .NotNullNorEmpty(FunctionName, "FunctionName");
+
+            return verifier.Result;
         }
 
         #endregion
 
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return Name.ToVisibleString();
+        }
 
         #endregion
     }

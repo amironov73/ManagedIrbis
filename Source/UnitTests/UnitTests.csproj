@@ -222,6 +222,9 @@
     <Compile Include="ManagedIrbis\ConnectionFactoryTest.cs" />
     <Compile Include="ManagedIrbis\DatabaseInfoTest.cs" />
     <Compile Include="ManagedIrbis\Direct\DirectUtilityTest.cs" />
+    <Compile Include="ManagedIrbis\Extensibility\ExtensionInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Extensibility\ExtensionManagerTest.cs" />
+    <Compile Include="ManagedIrbis\Extensibility\IrbisExtensionTest.cs" />
     <Compile Include="ManagedIrbis\FastFieldsTest.cs" />
     <Compile Include="ManagedIrbis\FieldDifferenceTest.cs" />
     <Compile Include="ManagedIrbis\FieldReferenceTest.cs" />

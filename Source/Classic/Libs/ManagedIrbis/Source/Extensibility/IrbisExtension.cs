@@ -74,14 +74,6 @@ namespace ManagedIrbis.Extensibility
     [MoonSharpUserData]
     public abstract class IrbisExtension
     {
-        #region Properties
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
         #region Private members
 
         /// <summary>
@@ -196,10 +188,6 @@ namespace ManagedIrbis.Extensibility
             (
                 [NotNull] string input
             );
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

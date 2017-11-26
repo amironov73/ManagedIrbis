@@ -79,10 +79,6 @@ namespace ManagedIrbis.Extensibility
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -99,18 +95,6 @@ namespace ManagedIrbis.Extensibility
             IniFile.Section section = iniFile.GetSection(USERMODE)
                 .ThrowIfNull(USERMODE);
             int count = section.GetValue("UMNUMB", 0);
-            if (count < 0)
-            {
-                Log.Error
-                    (
-                        "ExtensionManager::FromIniFile: "
-                        + "UMNUMB="
-                        + count
-                    );
-
-                throw new IrbisException();
-            }
-
             ExtensionManager result = new ExtensionManager();
             for (int index = 0; index < count; index++)
             {
@@ -139,17 +123,15 @@ namespace ManagedIrbis.Extensibility
                 .GetOrCreateSection(USERMODE)
                 .ThrowIfNull(USERMODE);
             section.Clear();
+            section.SetValue(UMNUMB, Extensions.Count);
 
             for (int index = 0; index < Extensions.Count; index++)
             {
                 ExtensionInfo item = Extensions[index];
+                item.Index = index;
                 item.UpdateIniFile(section);
             }
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }
