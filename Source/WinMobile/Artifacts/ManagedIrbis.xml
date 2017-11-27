@@ -1823,14 +1823,22 @@
             Разбор записи.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Magazines.MagazineInfo.ShouldSerializeMfn">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.Magazines.MagazineInfo.Mfn"/> field?
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Magazines.MagazineInfo.RestoreFromStream(System.IO.BinaryReader)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Magazines.MagazineInfo.SaveToStream(System.IO.BinaryWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
+        </member>
+        <member name="M:ManagedIrbis.Magazines.MagazineInfo.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="M:ManagedIrbis.Magazines.MagazineInfo.ToString">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Magazines.MagazineInfo.Index">
             <summary>
@@ -2178,6 +2186,11 @@
             Create or update existing record in the database.
             </summary>
         </member>
+        <member name="P:ManagedIrbis.IrbisConnectionUtility.DefaultConnectionString">
+            <summary>
+            Default connection string.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Infrastructure.Sockets.SmartClientSocket">
             <summary>
             Client socket that minimizes memory reallocation.
@@ -2270,7 +2283,7 @@
             Abstract command of IRBIS protocol.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -2323,7 +2336,7 @@
             Kind of the command.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.SearchRawCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.SearchRawCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -2414,7 +2427,7 @@
             Static constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.ReadRecordCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.ReadRecordCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -2478,7 +2491,7 @@
             Read one record from the server.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.ReadRawRecordCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.ReadRawRecordCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -2530,7 +2543,7 @@
             Read text file(s) from the server
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.ReadFileCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.ReadFileCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -2595,6 +2608,9 @@
             <summary>
             Execute the node.
             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.GblNode.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="P:ManagedIrbis.Gbl.Infrastructure.GblNode.Parent">
             <summary>
@@ -3902,6 +3918,11 @@
             Current database.
             </summary>
         </member>
+        <member name="P:ManagedIrbis.Client.IrbisProvider.PlatformAbstraction">
+            <summary>
+            Platform abstraction.
+            </summary>
+        </member>
         <member name="P:ManagedIrbis.Client.IrbisProvider.Services">
             <summary>
             Additional services.
@@ -3983,6 +4004,11 @@
             Search term info
             </summary>
         </member>
+        <member name="F:ManagedIrbis.Search.TermInfo.EmptyArray">
+            <summary>
+            Empty array.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Search.TermInfo.Clone">
             <summary>
             Clone the <see cref="T:ManagedIrbis.Search.TermInfo"/>.
@@ -3996,6 +4022,11 @@
         <member name="M:ManagedIrbis.Search.TermInfo.ShouldSerializeText">
             <summary>
             Should serialize the <see cref="P:ManagedIrbis.Search.TermInfo.Text"/> field?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Search.TermInfo.ShouldSerializeCount">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.Search.TermInfo.Count"/> field?
             </summary>
         </member>
         <member name="M:ManagedIrbis.Search.TermInfo.TrimPrefix(ManagedIrbis.Search.TermInfo[],System.String)">
@@ -4030,14 +4061,34 @@
             Разбор ответа сервера.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Search.TermInfoEx.ShouldSerializeMfn">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.Search.TermInfoEx.Mfn"/> field?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Search.TermInfoEx.ShouldSerializeTag">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.Search.TermInfoEx.Tag"/> field?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Search.TermInfoEx.ShouldSerializeOccurrence">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.Search.TermInfoEx.Occurrence"/> field?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Search.TermInfoEx.ShouldSerializeIndex">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.Search.TermInfoEx.Index"/> field?
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Search.TermInfoEx.RestoreFromStream(System.IO.BinaryReader)">
-            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
+            <inheritdoc cref="M:ManagedIrbis.Search.TermInfo.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Search.TermInfoEx.SaveToStream(System.IO.BinaryWriter)">
-            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
+            <inheritdoc cref="M:ManagedIrbis.Search.TermInfo.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.Search.TermInfoEx.Verify(System.Boolean)">
-            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+            <inheritdoc cref="M:ManagedIrbis.Search.TermInfo.Verify(System.Boolean)"/>
         </member>
         <member name="P:ManagedIrbis.Search.TermInfoEx.Mfn">
             <summary>
@@ -5005,9 +5056,19 @@
             Entry of the morphology database.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Morphology.MorphologyEntry.Encode">
+            <summary>
+            Encode the record.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Morphology.MorphologyEntry.Parse(ManagedIrbis.MarcRecord)">
             <summary>
             Parse the record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Morphology.MorphologyEntry.ShouldSerializeMfn">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.Morphology.MorphologyEntry.Mfn"/> field?
             </summary>
         </member>
         <member name="M:ManagedIrbis.Morphology.MorphologyEntry.RestoreFromStream(System.IO.BinaryReader)">
@@ -5021,6 +5082,11 @@
         </member>
         <member name="M:ManagedIrbis.Morphology.MorphologyEntry.ToString">
             <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Morphology.MorphologyEntry.Mfn">
+            <summary>
+            Record MFN.
+            </summary>
         </member>
         <member name="P:ManagedIrbis.Morphology.MorphologyEntry.MainTerm">
             <summary>
@@ -6052,7 +6118,7 @@
             during runtime.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.DynamicCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.DynamicCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -6079,7 +6145,7 @@
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.DynamicCommand.BaseVerify(System.Boolean)">
             <summary>
-            Basic implementation of <see cref="M:ManagedIrbis.Infrastructure.Commands.DynamicCommand.Verify(System.Boolean)"/>.
+            Basic implementation of <see cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Verify(System.Boolean)"/>.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.DynamicCommand.CheckResponse(ManagedIrbis.Infrastructure.ServerResponse)">
@@ -6090,9 +6156,6 @@
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.DynamicCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)">
             <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)"/>
-        </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.DynamicCommand.Verify(System.Boolean)">
-            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.Commands.DynamicCommand.GoodReturnCodesHandler">
             <summary>
@@ -6281,11 +6344,6 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Fst.FstProcessor.#ctor(ManagedIrbis.Client.IrbisProvider,ManagedIrbis.Fst.FstFile)">
-            <summary>
-            Constructor.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Fst.FstProcessor.#ctor(ManagedIrbis.Client.IrbisProvider)">
             <summary>
             Constructor.
             </summary>
@@ -6829,7 +6887,12 @@
             Default batch size.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Batch.BatchSearcher.#ctor(ManagedIrbis.IrbisConnection,System.String,System.String)">
+        <member name="F:ManagedIrbis.Batch.BatchSearcher.DefaultOperation">
+            <summary>
+            Default operation.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Batch.BatchSearcher.#ctor(ManagedIrbis.IIrbisConnection,System.String,System.String)">
             <summary>
             Constructor.
             </summary>
@@ -7490,17 +7553,22 @@
             Constructor.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.RecordReference.Compare(ManagedIrbis.RecordReference,ManagedIrbis.RecordReference)">
+            <summary>
+            Compare two references.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.RecordReference.LoadFromZipFile(System.String)">
             <summary>
             Load references from archive file.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.RecordReference.ReadRecord(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.RecordReference.ReadRecord(ManagedIrbis.IIrbisConnection)">
             <summary>
             Load record according to the reference.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.RecordReference.ReadRecords(ManagedIrbis.IrbisConnection,System.Collections.Generic.IEnumerable{ManagedIrbis.RecordReference},System.Boolean)">
+        <member name="M:ManagedIrbis.RecordReference.ReadRecords(ManagedIrbis.IIrbisConnection,System.Collections.Generic.IEnumerable{ManagedIrbis.RecordReference},System.Boolean)">
             <summary>
             Load records according to the references.
             </summary>
@@ -7608,26 +7676,6 @@
         <member name="M:ManagedIrbis.Pft.Infrastructure.Unifor.FindAction(System.String@)">
             <summary>
             Find action for specified expression.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Pft.Infrastructure.Unifor.CleanDoubleText(ManagedIrbis.Pft.Infrastructure.PftContext,ManagedIrbis.Pft.Infrastructure.PftNode,System.String)">
-            <summary>
-            Post processing: cleanup double text.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Pft.Infrastructure.Unifor.DecodeTitle(ManagedIrbis.Pft.Infrastructure.PftContext,ManagedIrbis.Pft.Infrastructure.PftNode,System.String)">
-            <summary>
-            Decode title.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Pft.Infrastructure.Unifor.FormatAll(ManagedIrbis.Pft.Infrastructure.PftContext,ManagedIrbis.Pft.Infrastructure.PftNode,System.String)">
-            <summary>
-            ALL format for records
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Pft.Infrastructure.Unifor.TrimAtLastDot(ManagedIrbis.Pft.Infrastructure.PftContext,ManagedIrbis.Pft.Infrastructure.PftNode,System.String)">
-            <summary>
-            Trim text at last dot.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Unifor.Execute(ManagedIrbis.Pft.Infrastructure.PftContext,ManagedIrbis.Pft.Infrastructure.PftNode,System.String)">
@@ -8255,7 +8303,7 @@
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.IrbisAlphabetTable.GetInstance(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.IrbisAlphabetTable.GetInstance(ManagedIrbis.IIrbisConnection)">
             <summary>
             Get global instance of the
             <see cref="T:ManagedIrbis.IrbisAlphabetTable"/>.
@@ -8352,7 +8400,7 @@
             Reload database master file.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.ReloadMasterFileCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.ReloadMasterFileCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -8373,7 +8421,7 @@
             Read postings for given term.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.ReadPostingsCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.ReadPostingsCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -8447,7 +8495,7 @@
             Preamble for binary data.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.ReadBinaryFileCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.ReadBinaryFileCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -10253,6 +10301,16 @@
             Разбор записи.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Magazines.MagazineIssueInfo.ShouldSerializeLoanCount">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.Magazines.MagazineIssueInfo.LoanCount"/> field?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Magazines.MagazineIssueInfo.ShouldSerializeMfn">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.Magazines.MagazineIssueInfo.Mfn"/> field?
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Magazines.MagazineIssueInfo.CompareNumbers(ManagedIrbis.Magazines.MagazineIssueInfo,ManagedIrbis.Magazines.MagazineIssueInfo)">
             <summary>
             Сравнение двух выпусков
@@ -10269,13 +10327,11 @@
             Просим объект сохранить себя в потоке.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Magazines.MagazineIssueInfo.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
         <member name="M:ManagedIrbis.Magazines.MagazineIssueInfo.ToString">
-            <summary>
-            Returns a <see cref="T:System.String"/>
-            that represents this instance.
-            </summary>
-            <returns>A <see cref="T:System.String"/>
-            that represents this instance.</returns>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Magazines.MagazineIssueInfo.Mfn">
             <summary>
@@ -10378,12 +10434,12 @@
             Command with unfixed functionality.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.UniversalCommand.#ctor(ManagedIrbis.IrbisConnection,System.String)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.UniversalCommand.#ctor(ManagedIrbis.IIrbisConnection,System.String)">
             <summary>
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.UniversalCommand.#ctor(ManagedIrbis.IrbisConnection,System.String,System.Object[])">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.UniversalCommand.#ctor(ManagedIrbis.IIrbisConnection,System.String,System.Object[])">
             <summary>
             Constructor.
             </summary>
@@ -10418,7 +10474,7 @@
             Database stat.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.DatabaseStatCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.DatabaseStatCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -11470,6 +11526,12 @@
             Constructor.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Reports.TextCell.ShouldSerializeText">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.Reports.TextCell.Text"/> field?
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:ManagedIrbis.Reports.TextCell.Compute(ManagedIrbis.Reports.ReportContext)">
             <inheritdoc cref="M:ManagedIrbis.Reports.ReportCell.Compute(ManagedIrbis.Reports.ReportContext)"/>
         </member>
@@ -11507,6 +11569,16 @@
             Тег поля.
             </summary>
         </member>
+        <member name="F:ManagedIrbis.Readers.ReaderAddress.KnownCodes">
+            <summary>
+            Known subfield codes.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Readers.ReaderAddress.ApplyToField(ManagedIrbis.RecordField)">
+            <summary>
+            Applty to the field.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Readers.ReaderAddress.Parse(ManagedIrbis.RecordField)">
             <summary>
             Разбор поля 13.
@@ -11522,14 +11594,22 @@
             Разбор поля 13.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Readers.ReaderAddress.ToField">
+            <summary>
+            Преобразование обратно в поле.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Readers.ReaderAddress.RestoreFromStream(System.IO.BinaryReader)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Readers.ReaderAddress.SaveToStream(System.IO.BinaryWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
+        </member>
+        <member name="M:ManagedIrbis.Readers.ReaderAddress.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="M:ManagedIrbis.Readers.ReaderAddress.ToString">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Readers.ReaderAddress.Postcode">
             <summary>
@@ -11571,9 +11651,19 @@
             Дополнительные данные. Подполе F.
             </summary>
         </member>
+        <member name="P:ManagedIrbis.Readers.ReaderAddress.Field">
+            <summary>
+            Поле, в котором хранится адрес.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.ReaderAddress.UnknownSubFields">
+            <summary>
+            Unknown subfields.
+            </summary>
+        </member>
         <member name="P:ManagedIrbis.Readers.ReaderAddress.UserData">
             <summary>
-            Произвольные пользовательские данные.
+            Arbitrary user data.
             </summary>
         </member>
         <member name="T:ManagedIrbis.RawRecord">
@@ -12048,22 +12138,12 @@
             Morphology engine.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Morphology.MorphologyEngine.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Morphology.MorphologyEngine.#ctor(ManagedIrbis.Client.IrbisProvider)">
             <summary>
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Morphology.MorphologyEngine.#ctor(ManagedIrbis.IrbisConnection,ManagedIrbis.Morphology.MorphologyProvider)">
-            <summary>
-            Constructor.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Morphology.MorphologyEngine.#ctor(ManagedIrbis.IrbisConnection,System.String,System.String)">
-            <summary>
-            Constructor.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Morphology.MorphologyEngine.#ctor(ManagedIrbis.Morphology.MorphologyProvider)">
+        <member name="M:ManagedIrbis.Morphology.MorphologyEngine.#ctor(ManagedIrbis.Client.IrbisProvider,ManagedIrbis.Morphology.MorphologyProvider)">
             <summary>
             Constructor.
             </summary>
@@ -12098,7 +12178,7 @@
             Client connection.
             </summary>
         </member>
-        <member name="P:ManagedIrbis.Morphology.MorphologyEngine.Provider">
+        <member name="P:ManagedIrbis.Morphology.MorphologyEngine.Morphology">
             <summary>
             Morphology provider.
             </summary>
@@ -12184,13 +12264,13 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.IrbisProcessInfo.RestoreFromStream(System.IO.BinaryReader)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.IrbisProcessInfo.SaveToStream(System.IO.BinaryWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.IrbisProcessInfo.ToString">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.IrbisProcessInfo.Number">
             <summary>
@@ -12247,7 +12327,7 @@
             Create of update existing record in the database.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.WriteRecordCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.WriteRecordCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -12291,7 +12371,7 @@
             Update user list on the server.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.UpdateUserListCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.UpdateUserListCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -12301,9 +12381,6 @@
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.UpdateUserListCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)">
             <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)"/>
-        </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.UpdateUserListCommand.Verify(System.Boolean)">
-            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Verify(System.Boolean)"/>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.Commands.UpdateUserListCommand.UserList">
             <summary>
@@ -12315,12 +12392,12 @@
             Universal command with text lines.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.UniversalTextCommand.#ctor(ManagedIrbis.IrbisConnection,System.String)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.UniversalTextCommand.#ctor(ManagedIrbis.IIrbisConnection,System.String)">
             <summary>
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.UniversalTextCommand.#ctor(ManagedIrbis.IrbisConnection,System.String,System.String[],System.Text.Encoding)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.UniversalTextCommand.#ctor(ManagedIrbis.IIrbisConnection,System.String,System.String[],System.Text.Encoding)">
             <summary>
             Constructor.
             </summary>
@@ -12350,7 +12427,7 @@
             
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.MaxMfnCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.MaxMfnCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -13762,7 +13839,7 @@
             Truncate the database on the server.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.UnlockRecordsCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.UnlockRecordsCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -14126,6 +14203,11 @@
         <member name="M:ManagedIrbis.Direct.DirectAccess64.ReadAllRecordVersions(System.Int32)">
             <summary>
             Read all versions of the record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.DirectAccess64.ReadLinks(System.String)">
+            <summary>
+            Read links for the term.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Direct.DirectAccess64.ReadTerms(ManagedIrbis.Search.TermParameters)">
@@ -16599,7 +16681,7 @@
             Search records on IRBIS-server.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.SearchCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.SearchCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -16691,7 +16773,7 @@
             Reload database dictionary.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.ReloadDictionaryCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.ReloadDictionaryCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -16712,16 +16794,16 @@
             
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.ListProcessesCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.ListProcessesCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.ListProcessesCommand.CreateQuery">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.CreateQuery"/>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.ListProcessesCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)"/>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.Commands.ListProcessesCommand.Result">
             <summary>
@@ -16733,7 +16815,7 @@
             Delete database on the server.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.DeleteDatabaseCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.DeleteDatabaseCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -16978,23 +17060,19 @@
             Parse the text.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Flc.FlcResult.RestoreFromStream(System.IO.BinaryReader)">
+        <member name="M:ManagedIrbis.Flc.FlcResult.ShouldSerializeMessages">
             <summary>
-            Restore the object state from the specified stream.
+            Should serialize the <see cref="P:ManagedIrbis.Flc.FlcResult.Messages"/> collection?
             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Flc.FlcResult.RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Flc.FlcResult.SaveToStream(System.IO.BinaryWriter)">
-            <summary>
-            Save the object stat to the specified stream.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.Flc.FlcResult.ToString">
-            <summary>
-            Returns a <see cref="T:System.String"/>
-            that represents this instance.
-            </summary>
-            <returns>A <see cref="T:System.String"/>
-            that represents this instance.</returns>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Flc.FlcResult.CanContinue">
             <summary>
@@ -17163,7 +17241,7 @@
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Batch.BatchRecordFormatter.Interval(ManagedIrbis.IrbisConnection,System.String,System.String,System.Int32,System.Int32,System.Int32)">
+        <member name="M:ManagedIrbis.Batch.BatchRecordFormatter.Interval(ManagedIrbis.IIrbisConnection,System.String,System.String,System.Int32,System.Int32,System.Int32)">
             <summary>
             Read interval of records
             </summary>
@@ -17173,7 +17251,7 @@
             Считывает все записи сразу.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Batch.BatchRecordFormatter.Search(ManagedIrbis.IrbisConnection,System.String,System.String,System.String,System.Int32)">
+        <member name="M:ManagedIrbis.Batch.BatchRecordFormatter.Search(ManagedIrbis.IIrbisConnection,System.String,System.String,System.String,System.Int32)">
             <summary>
             Search and format records.
             </summary>
@@ -17231,6 +17309,26 @@
             Signature for Table command.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.TableDefinition.ShouldSerializeHeaders">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.TableDefinition.Headers"/> field?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.TableDefinition.ShouldSerializeMaxMfn">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.TableDefinition.MaxMfn"/> field?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.TableDefinition.ShouldSerializeMinMfn">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.TableDefinition.MinMfn"/> field?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.TableDefinition.ShouldSerializeMfnList">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.TableDefinition.MfnList"/> field?
+            </summary>
+        </member>
         <member name="P:ManagedIrbis.TableDefinition.DatabaseName">
             <summary>
             Database name.
@@ -17246,7 +17344,7 @@
             Table headers.
             </summary>
         </member>
-        <member name="P:ManagedIrbis.TableDefinition.Mod">
+        <member name="P:ManagedIrbis.TableDefinition.Mode">
             <summary>
             Mode.
             </summary>
@@ -17680,6 +17778,9 @@
             <summary>
             Save state of <see cref="T:ManagedIrbis.Pft.Infrastructure.PftContext"/>.
             </summary>
+            <remarks>
+            Запоминает текущее повторение в группе, группу, поле и запись.
+            </remarks>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.PftContextSaver.#ctor(ManagedIrbis.Pft.Infrastructure.PftContext,System.Boolean)">
             <summary>
@@ -17954,7 +18055,7 @@
             Unlock the database on the server.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.NopCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.NopCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -17971,7 +18072,7 @@
             </summary>
             <remarks>For Administrator only.</remarks>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.CreateDatabaseCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.CreateDatabaseCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -18034,7 +18135,7 @@
             FLC processor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Flc.FlcProcessor.CheckRecord(ManagedIrbis.IrbisConnection,ManagedIrbis.MarcRecord,System.String)">
+        <member name="M:ManagedIrbis.Flc.FlcProcessor.CheckRecord(ManagedIrbis.Client.IrbisProvider,ManagedIrbis.MarcRecord,System.String)">
             <summary>
             Check the record.
             </summary>
@@ -18832,12 +18933,12 @@
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Batch.BatchRecordReader.Interval(ManagedIrbis.IrbisConnection,System.String,System.Int32,System.Int32,System.Int32)">
+        <member name="M:ManagedIrbis.Batch.BatchRecordReader.Interval(ManagedIrbis.IIrbisConnection,System.String,System.Int32,System.Int32,System.Int32)">
             <summary>
             Read interval of records
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Batch.BatchRecordReader.Interval(ManagedIrbis.IrbisConnection,System.String,System.Int32,System.Int32,System.Int32,System.Boolean,System.Action{ManagedIrbis.Batch.BatchRecordReader})">
+        <member name="M:ManagedIrbis.Batch.BatchRecordReader.Interval(ManagedIrbis.IIrbisConnection,System.String,System.Int32,System.Int32,System.Int32,System.Boolean,System.Action{ManagedIrbis.Batch.BatchRecordReader})">
             <summary>
             Read interval of records
             </summary>
@@ -18857,28 +18958,28 @@
             Search and read records.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Batch.BatchRecordReader.Search(ManagedIrbis.IrbisConnection,System.String,System.String,System.Int32,System.Action{ManagedIrbis.Batch.BatchRecordReader})">
+        <member name="M:ManagedIrbis.Batch.BatchRecordReader.Search(ManagedIrbis.IIrbisConnection,System.String,System.String,System.Int32,System.Action{ManagedIrbis.Batch.BatchRecordReader})">
             <summary>
             Search and read records.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Batch.BatchRecordReader.WholeDatabase(ManagedIrbis.IrbisConnection,System.String,System.Int32)">
+        <member name="M:ManagedIrbis.Batch.BatchRecordReader.WholeDatabase(ManagedIrbis.IIrbisConnection,System.String,System.Int32)">
             <summary>
             Read whole database
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Batch.BatchRecordReader.WholeDatabase(ManagedIrbis.IrbisConnection,System.String,System.Int32,System.Action{ManagedIrbis.Batch.BatchRecordReader})">
+        <member name="M:ManagedIrbis.Batch.BatchRecordReader.WholeDatabase(ManagedIrbis.IIrbisConnection,System.String,System.Int32,System.Action{ManagedIrbis.Batch.BatchRecordReader})">
             <summary>
             Read whole database
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Batch.BatchRecordReader.WholeDatabase(ManagedIrbis.IrbisConnection,System.String,System.Int32,System.Boolean,System.Action{ManagedIrbis.Batch.BatchRecordReader})">
+        <member name="M:ManagedIrbis.Batch.BatchRecordReader.WholeDatabase(ManagedIrbis.IIrbisConnection,System.String,System.Int32,System.Boolean,System.Action{ManagedIrbis.Batch.BatchRecordReader})">
             <summary>
             Read whole database
             </summary>
         </member>
         <member name="M:ManagedIrbis.Batch.BatchRecordReader.GetEnumerator">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.Collections.Generic.IEnumerable`1.GetEnumerator"/>
         </member>
         <member name="E:ManagedIrbis.Batch.BatchRecordReader.BatchRead">
             <summary>
@@ -19027,16 +19128,6 @@
             Получение значения подполя.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.SubFieldUtility.ToXml(ManagedIrbis.SubField)">
-            <summary>
-            Convert the subfield to XML.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.SubFieldUtility.FromXml(System.String)">
-            <summary>
-            Restore the subfield from XML.
-            </summary>
-        </member>
         <member name="T:ManagedIrbis.Search.SearchLogicType">
             <summary>
             Какие логические операторы могут использоваться
@@ -19126,6 +19217,11 @@
         <member name="M:ManagedIrbis.RecordComparator.FindDifference(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord)">
             <summary>
             Find difference between two records.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordComparator.FindDifference2(ManagedIrbis.MarcRecord,ManagedIrbis.MarcRecord,System.Int32[])">
+            <summary>
+            Find difference.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Quality.RecordReport">
@@ -19620,7 +19716,7 @@
             Truncate the database on the server.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.TruncateDatabaseCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.TruncateDatabaseCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -20243,6 +20339,11 @@
             Parse local file.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Fst.FstFile.ShouldSerializeLines">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.Fst.FstFile.Lines"/> collection?
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Fst.FstFile.RestoreFromStream(System.IO.BinaryReader)">
             <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
@@ -20490,7 +20591,7 @@
             Batch writer for <see cref="T:ManagedIrbis.MarcRecord"/>.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Batch.BatchRecordWriter.#ctor(ManagedIrbis.IrbisConnection,System.String,System.Int32)">
+        <member name="M:ManagedIrbis.Batch.BatchRecordWriter.#ctor(ManagedIrbis.IIrbisConnection,System.String,System.Int32)">
             <summary>
             Constructor.
             </summary>
@@ -21258,7 +21359,7 @@
             Parse server response.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Menus.MenuFile.ReadFromServer(ManagedIrbis.IrbisConnection,ManagedIrbis.Infrastructure.FileSpecification)">
+        <member name="M:ManagedIrbis.Menus.MenuFile.ReadFromServer(ManagedIrbis.IIrbisConnection,ManagedIrbis.Infrastructure.FileSpecification)">
             <summary>
             Read <see cref="T:ManagedIrbis.Menus.MenuFile"/> from server.
             </summary>
@@ -21298,7 +21399,7 @@
             List server files.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.ListFilesCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.ListFilesCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -21897,12 +21998,12 @@
             List of running client.
             </summary>
         </member>
-        <member name="P:ManagedIrbis.ServerStat.Unknown1">
+        <member name="P:ManagedIrbis.ServerStat.ClientCount">
             <summary>
-            Unknown field.
+            Current client count.
             </summary>
         </member>
-        <member name="P:ManagedIrbis.ServerStat.Unknown2">
+        <member name="P:ManagedIrbis.ServerStat.Unknown">
             <summary>
             Unknown field.
             </summary>
@@ -21928,7 +22029,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Search.Infrastructure.SearchToken.ToString">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Search.Infrastructure.SearchToken.Kind">
             <summary>
@@ -23326,6 +23427,16 @@
             Тег поля.
             </summary>
         </member>
+        <member name="F:ManagedIrbis.Magazines.MagazineCumulation.KnownCodes">
+            <summary>
+            Known subfield codes.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Magazines.MagazineCumulation.ApplyToField(ManagedIrbis.RecordField)">
+            <summary>
+            Apply to the <see cref="T:ManagedIrbis.RecordField"/>.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Magazines.MagazineCumulation.Parse(ManagedIrbis.RecordField)">
             <summary>
             Разбор поля.
@@ -23341,11 +23452,27 @@
             Разбор записи.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Magazines.MagazineCumulation.ShouldSerializeUnknownSubFields">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.Magazines.MagazineCumulation.UnknownSubFields"/> array?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Magazines.MagazineCumulation.ToField">
+            <summary>
+            Convert back to <see cref="T:ManagedIrbis.RecordField"/>.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Magazines.MagazineCumulation.RestoreFromStream(System.IO.BinaryReader)">
             <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Magazines.MagazineCumulation.SaveToStream(System.IO.BinaryWriter)">
             <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
+        </member>
+        <member name="M:ManagedIrbis.Magazines.MagazineCumulation.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="M:ManagedIrbis.Magazines.MagazineCumulation.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Magazines.MagazineCumulation.Year">
             <summary>
@@ -23370,6 +23497,16 @@
         <member name="P:ManagedIrbis.Magazines.MagazineCumulation.Set">
             <summary>
             Номер комплекта. Подполе K.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Magazines.MagazineCumulation.UnknownSubFields">
+            <summary>
+            Unknown subfields.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Magazines.MagazineCumulation.UserData">
+            <summary>
+            Arbitrary user data.
             </summary>
         </member>
         <member name="T:ManagedIrbis.IrbisWorkstation">
@@ -23507,16 +23644,16 @@
             
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.ServerStatCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.ServerStatCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.ServerStatCommand.CreateQuery">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.CreateQuery"/>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.ServerStatCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)"/>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.Commands.ServerStatCommand.Result">
             <summary>
@@ -23528,7 +23665,7 @@
             Search and read records from IRBIS-server.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.SearchReadCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.SearchReadCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -23771,6 +23908,9 @@
         <member name="M:ManagedIrbis.Client.LocalProvider.GetStopWords">
             <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.GetStopWords"/>
         </member>
+        <member name="M:ManagedIrbis.Client.LocalProvider.GetUserIniFile">
+            <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.GetUserIniFile"/>
+        </member>
         <member name="M:ManagedIrbis.Client.LocalProvider.ListDatabases">
             <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.ListDatabases"/>
         </member>
@@ -23791,6 +23931,9 @@
         </member>
         <member name="M:ManagedIrbis.Client.LocalProvider.Search(System.String)">
             <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.Search(System.String)"/>
+        </member>
+        <member name="M:ManagedIrbis.Client.LocalProvider.ExactSearchLinks(System.String)">
+            <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.ExactSearchLinks(System.String)"/>
         </member>
         <member name="M:ManagedIrbis.Client.LocalProvider.Dispose">
             <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.Dispose"/>
@@ -24365,10 +24508,10 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Readers.DebtorInfo.RestoreFromStream(System.IO.BinaryReader)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.Readers.DebtorInfo.SaveToStream(System.IO.BinaryWriter)">
-            <inheritdoc />
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="P:ManagedIrbis.Readers.DebtorInfo.Name">
             <summary>
@@ -25221,7 +25364,7 @@
             Global correction for virtual record.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.GblVirtualCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.GblVirtualCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -25267,7 +25410,7 @@
             Disconnect from the server.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.DisconnectCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.DisconnectCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -25286,7 +25429,7 @@
             Create database index on the server.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.CreateDictionaryCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.CreateDictionaryCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -26632,7 +26775,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.FunctionDescriptor.ToString">
-            <inheritdoc/>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.FunctionDescriptor.Name">
             <summary>
@@ -26975,7 +27118,7 @@
             Create or update many records simultaneously.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.WriteRecordsCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.WriteRecordsCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -27009,7 +27152,7 @@
             Read terms from the search index.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.ReadTermsCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.ReadTermsCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -27073,7 +27216,7 @@
             Build table on the server.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.PrintTableCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.PrintTableCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -27108,7 +27251,7 @@
             
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.ListUsersCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.ListUsersCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -27129,12 +27272,12 @@
             Global correction.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.GblCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.GblCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.GblCommand.#ctor(ManagedIrbis.IrbisConnection,ManagedIrbis.Gbl.GblSettings)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.GblCommand.#ctor(ManagedIrbis.IIrbisConnection,ManagedIrbis.Gbl.GblSettings)">
             <summary>
             Constructor.
             </summary>
@@ -27144,9 +27287,6 @@
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.GblCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)">
             <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)"/>
-        </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.GblCommand.Verify(System.Boolean)">
-            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.Commands.GblCommand.Database">
             <summary>
@@ -28634,6 +28774,16 @@
             Ссылка на читателя, сделавшего посещение.
             </summary>
         </member>
+        <member name="P:ManagedIrbis.Readers.VisitInfo.UnknownSubFields">
+            <summary>
+            Unknown subfields.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.VisitInfo.UserData">
+            <summary>
+            Arbitrary user data.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Readers.ChairInfo">
             <summary>
             Информация о кафедре обслуживания.
@@ -28654,6 +28804,12 @@
             Constructor.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Readers.ChairInfo.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="code">Chair code.</param>
+        </member>
         <member name="M:ManagedIrbis.Readers.ChairInfo.#ctor(System.String,System.String)">
             <summary>
             Constructor.
@@ -28671,12 +28827,17 @@
             Загрузка с сервера.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Readers.ChairInfo.Read(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Readers.ChairInfo.Read(ManagedIrbis.IIrbisConnection)">
             <summary>
             Загрузка с сервера.
             </summary>
             <param name="connection"></param>
             <returns></returns>
+        </member>
+        <member name="M:ManagedIrbis.Readers.ChairInfo.ShouldSerializeTitle">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.Readers.ChairInfo.Title"/> field?
+            </summary>
         </member>
         <member name="M:ManagedIrbis.Readers.ChairInfo.SaveToStream(System.IO.BinaryWriter)">
             <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
@@ -29117,22 +29278,27 @@
             
             </summary>
         </member>
+        <member name="F:ManagedIrbis.Morphology.IrbisMorphologyProvider.DefaultDatabase">
+            <summary>
+            Default database name.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Morphology.IrbisMorphologyProvider.DefaultPrefix">
+            <summary>
+            Default prefix.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Morphology.IrbisMorphologyProvider.#ctor">
             <summary>
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Morphology.IrbisMorphologyProvider.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Morphology.IrbisMorphologyProvider.#ctor(ManagedIrbis.Client.IrbisProvider)">
             <summary>
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Morphology.IrbisMorphologyProvider.#ctor(System.String,System.String)">
-            <summary>
-            Constructor.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Morphology.IrbisMorphologyProvider.#ctor(System.String,System.String,ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Morphology.IrbisMorphologyProvider.#ctor(System.String,System.String,ManagedIrbis.Client.IrbisProvider)">
             <summary>
             Constructor.
             </summary>
@@ -29143,7 +29309,7 @@
         <member name="M:ManagedIrbis.Morphology.IrbisMorphologyProvider.RewriteQuery(System.String)">
             <inheritdoc cref="M:ManagedIrbis.Morphology.MorphologyProvider.RewriteQuery(System.String)"/>
         </member>
-        <member name="P:ManagedIrbis.Morphology.IrbisMorphologyProvider.Connection">
+        <member name="P:ManagedIrbis.Morphology.IrbisMorphologyProvider.Provider">
             <summary>
             Client connection.
             </summary>
@@ -29355,7 +29521,7 @@
             Reload database dictionary.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.RestartServerCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.RestartServerCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -29375,7 +29541,7 @@
             
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.DatabaseInfoCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.DatabaseInfoCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -29409,7 +29575,7 @@
             Response specification.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.ConnectCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.ConnectCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -29456,7 +29622,7 @@
             Actualize given record or whole database on the server.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.ActualizeRecordCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.ActualizeRecordCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -30646,7 +30812,7 @@
             Разделитель.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.ServerResponse.#ctor(ManagedIrbis.IrbisConnection,System.Byte[],System.Byte[],System.Boolean)">
+        <member name="M:ManagedIrbis.Infrastructure.ServerResponse.#ctor(ManagedIrbis.IIrbisConnection,System.Byte[],System.Byte[],System.Boolean)">
             <summary>
             Constructor.
             </summary>
@@ -30858,7 +31024,7 @@
             Command factory.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.CommandFactory.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.CommandFactory.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -31094,7 +31260,7 @@
             Line delimiter in packet header.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.ClientQuery.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.ClientQuery.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -32011,7 +32177,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.PftTextSeparator.HandleChunk(System.Boolean,System.String)">
-            <inheritdoc/>
+            <inheritdoc cref="M:AM.Text.TextSeparator.HandleChunk(System.Boolean,System.String)"/>
         </member>
         <member name="P:ManagedIrbis.Pft.PftTextSeparator.Accumulator">
             <summary>
@@ -32564,7 +32730,7 @@
             <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Serialize(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftC.ToString">
-            <inheritdoc cref="!:PftNodes.ToString"/>
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftC.ConstantExpression">
             <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.ConstantExpression"/>
@@ -32707,23 +32873,24 @@
             Parse server response.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.IrbisVersion.RestoreFromStream(System.IO.BinaryReader)">
+        <member name="M:ManagedIrbis.IrbisVersion.ShouldSerializeConnectedClients">
             <summary>
-            Просим объект восстановить свое состояние из потока.
+            Should serialize the <see cref="P:ManagedIrbis.IrbisVersion.ConnectedClients"/> field?
             </summary>
+        </member>
+        <member name="M:ManagedIrbis.IrbisVersion.ShouldSerializeMaxClients">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.IrbisVersion.MaxClients"/> field?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.IrbisVersion.RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
         <member name="M:ManagedIrbis.IrbisVersion.SaveToStream(System.IO.BinaryWriter)">
-            <summary>
-            Просим объект сохранить себя в потоке.
-            </summary>
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
         <member name="M:ManagedIrbis.IrbisVersion.ToString">
-            <summary>
-            Returns a <see cref="T:System.String"/>
-            that represents this instance.
-            </summary>
-            <returns>A <see cref="T:System.String"/>
-            that represents this instance.</returns>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.IrbisVersion.Organization">
             <summary>
@@ -32781,7 +32948,7 @@
             Write text file(s) to the server.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.WriteFileCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.WriteFileCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -32811,7 +32978,7 @@
             Format records on IRBIS-server.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.FormatCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.FormatCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -33279,7 +33446,7 @@
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Batch.BatchAccessor.ThrowIfEmptyRecord(ManagedIrbis.MarcRecord,System.String)">
+        <member name="M:ManagedIrbis.Batch.BatchAccessor._ThrowIfEmptyRecord(ManagedIrbis.MarcRecord,System.String)">
             <summary>
             Throw <see cref="T:ManagedIrbis.Infrastructure.IrbisNetworkException"/>
             if the record is empty.
@@ -33596,9 +33763,14 @@
             Профиль ИРИ
             </summary>
         </member>
-        <member name="F:ManagedIrbis.Readers.IriProfile.IriTag">
+        <member name="F:ManagedIrbis.Readers.IriProfile.Tag">
             <summary>
             Тег поля ИРИ.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Readers.IriProfile.KnownCodes">
+            <summary>
+            Известные коды.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Readers.IriProfile.ParseField(ManagedIrbis.RecordField)">
@@ -33629,42 +33801,57 @@
         </member>
         <member name="P:ManagedIrbis.Readers.IriProfile.Active">
             <summary>
-            Подполе A
+            Статус профиля (активен или нет). Подполе A.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Readers.IriProfile.ID">
             <summary>
-            Подполе B
+            Код (порядковый номер). Подполе B.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Readers.IriProfile.Title">
             <summary>
-            Подполе C
+            Описание профиля на естественном языке. Подполе C.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Readers.IriProfile.Query">
             <summary>
-            Подполе D
+            Запрос на языке ИРБИС. Подполе D.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Readers.IriProfile.Periodicity">
             <summary>
-            Подполе E
+            Периодичность в днях, целое число. Подполе E.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Readers.IriProfile.LastServed">
             <summary>
-            Подполе F
+            Дата последнего обслуживания. Подполе F.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Readers.IriProfile.Database">
             <summary>
-            Подполе I
+            Список баз данных. Подполе I.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.IriProfile.Field">
+            <summary>
+            Поле, в котором хранится профиль.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.IriProfile.UnknownSubFields">
+            <summary>
+            Unknown subfields.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Readers.IriProfile.Reader">
             <summary>
             Ссылка на читателя.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.IriProfile.UserData">
+            <summary>
+            Arbitrary user data.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Quality.Rules.Require102">
@@ -34475,7 +34662,7 @@
             <inheritdoc cref="M:System.ICloneable.Clone"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.IndexSpecification.ToString">
-            <inheritdoc cref="M:System.Object.ToString"/>
+            <inheritdoc cref="!:ValueType.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Pft.Infrastructure.IndexSpecification.Kind">
             <summary>
@@ -35015,7 +35202,7 @@
             Unlock the database on the server.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.UpdateIniFileCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.UpdateIniFileCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -35036,7 +35223,7 @@
             Unlock the database on the server.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.UnlockDatabaseCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.UnlockDatabaseCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -35060,7 +35247,7 @@
             
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Commands.ServerVersionCommand.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Commands.ServerVersionCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
             Constructor.
             </summary>
@@ -35441,16 +35628,39 @@
             Constructor.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Extensibility.ExtensionInfo.FromIniFile(AM.IO.IniFile)">
+            <summary>
+            Create array of <see cref="T:ManagedIrbis.Extensibility.ExtensionInfo"/>
+            from <see cref="T:AM.IO.IniFile"/> entries.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Extensibility.ExtensionInfo.FromIniFile(AM.IO.IniFile.Section,System.Int32)">
             <summary>
             Create <see cref="T:ManagedIrbis.Extensibility.ExtensionInfo"/>
             from <see cref="T:AM.IO.IniFile"/> entries.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Extensibility.ExtensionInfo.UpdateIniFile(AM.IO.IniFile,ManagedIrbis.Extensibility.ExtensionInfo[])">
+            <summary>
+            Update the INI-file.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Extensibility.ExtensionInfo.UpdateIniFile(AM.IO.IniFile.Section)">
             <summary>
             Update <see cref="T:AM.IO.IniFile"/> entries.
             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Extensibility.ExtensionInfo.RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
+        </member>
+        <member name="M:ManagedIrbis.Extensibility.ExtensionInfo.SaveToStream(System.IO.BinaryWriter)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
+        </member>
+        <member name="M:ManagedIrbis.Extensibility.ExtensionInfo.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="M:ManagedIrbis.Extensibility.ExtensionInfo.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Extensibility.ExtensionInfo.Index">
             <summary>
@@ -35492,6 +35702,11 @@
             Icon name.
             </summary>
             <remarks>UMICONn</remarks>
+        </member>
+        <member name="P:ManagedIrbis.Extensibility.ExtensionInfo.UserData">
+            <summary>
+            Arbitrary user data.
+            </summary>
         </member>
         <member name="T:ManagedIrbis.Direct.XrfFile64">
             <summary>
@@ -35728,6 +35943,102 @@
         <member name="P:ManagedIrbis.Biblio.BiblioDocument.Chapters">
             <summary>
             Chapters.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.FieldDifference">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.FieldDifference.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.FieldDifference.Tag">
+            <summary>
+            Field tag.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.FieldDifference.Repeat">
+            <summary>
+            Field repeat.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.FieldDifference.State">
+            <summary>
+            State.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.FieldDifference.NewValue">
+            <summary>
+            New field value.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.FieldDifference.OldValue">
+            <summary>
+            Old field value.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.FieldState">
+            <summary>
+            Состояние поля записи: не изменилось, добавлено,
+            удалено, редактировано.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.FieldState.Unchanged">
+            <summary>
+            Unchanged.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.FieldState.Edited">
+            <summary>
+            Edited.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.FieldState.Added">
+            <summary>
+            Added.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.FieldState.Removed">
+            <summary>
+            Removed.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Unifors.UniforPlusR.TrimAtLastDot(ManagedIrbis.Pft.Infrastructure.PftContext,ManagedIrbis.Pft.Infrastructure.PftNode,System.String)">
+            <summary>
+            Trim text at last dot.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Unifors.UniforPlusS.DecodeTitle(ManagedIrbis.Pft.Infrastructure.PftContext,ManagedIrbis.Pft.Infrastructure.PftNode,System.String)">
+            <summary>
+            Decode title.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Unifors.UniforBang.CleanDoubleText(ManagedIrbis.Pft.Infrastructure.PftContext,ManagedIrbis.Pft.Infrastructure.PftNode,System.String)">
+            <summary>
+            Post processing: cleanup double text.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.ConnectionFactory">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.ConnectionFactory.CreateConnection(System.String)">
+            <summary>
+            Create <see cref="T:ManagedIrbis.IIrbisConnection"/>
+            from given connection string.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.ConnectionFactory.RestoreDefaults">
+            <summary>
+            Restore default state.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.ConnectionFactory.ConnectionCreator">
+            <summary>
+            Creates <see cref="T:ManagedIrbis.IrbisConnection"/>
+            from the connection string.
             </summary>
         </member>
     </members>

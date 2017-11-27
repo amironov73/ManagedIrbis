@@ -15,7 +15,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 using AM;
-using AM.Json;
 
 using CodeJam;
 
@@ -25,6 +24,12 @@ using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
+#if !WINMOBILE
+
+using AM.Json;
+
+#endif
 
 #endregion
 

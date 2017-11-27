@@ -257,7 +257,7 @@
             <inheritdoc cref="M:AM.IAttachmentContainer.ListAttachments"/>
         </member>
         <member name="M:AM.ArsMagnaException.ToString">
-            <inheritdoc cref="M:System.Object.ToString"/>
+            <inheritdoc cref="M:System.Exception.ToString"/>
         </member>
         <member name="P:AM.ArsMagnaException.Attachments">
             <summary>
@@ -899,30 +899,11 @@
             Determines whether is one of the specified values.
             </summary>
         </member>
-        <member name="M:AM.Utility.NotDefault``1(``0)">
-            <summary>
-            Determines whether given object
-            is default value.
-            </summary>
-        </member>
-        <member name="M:AM.Utility.NotDefault``1(``0,``0)">
-            <summary>
-            Returns given value instead of
-            default(T) if happens.
-            </summary>
-        </member>
         <member name="M:AM.Utility.NullableToString``1(``0)">
             <summary>
             Преобразование любого значения в строку.
             </summary>
             <returns>Для <c>null</c> возвращается <c>null</c>.
-            </returns>
-        </member>
-        <member name="M:AM.Utility.NullableToVisibleString``1(``0)">
-            <summary>
-            Преобразование любого значения в строку.
-            </summary>
-            <returns>Для <c>null</c> возвращается "(null)".
             </returns>
         </member>
         <member name="M:AM.Utility.ThrowIfNull``1(``0)">
@@ -1840,19 +1821,19 @@
         <member name="M:AM.Collections.BidirectionalDictionary`2.TryGetValue(`0,`1@)">
             <inheritdoc cref="M:System.Collections.Generic.IDictionary`2.TryGetValue(`0,`1@)"/>
         </member>
-        <member name="M:AM.Collections.BidirectionalDictionary`2.Add(System.Collections.Generic.KeyValuePair{`0,`1})">
+        <member name="M:AM.Collections.BidirectionalDictionary`2.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{TKey@TValue}}#Add(System.Collections.Generic.KeyValuePair{`0,`1})">
             <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Add(`0)"/>
         </member>
         <member name="M:AM.Collections.BidirectionalDictionary`2.Clear">
             <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Clear"/>
         </member>
-        <member name="M:AM.Collections.BidirectionalDictionary`2.Contains(System.Collections.Generic.KeyValuePair{`0,`1})">
+        <member name="M:AM.Collections.BidirectionalDictionary`2.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{TKey@TValue}}#Contains(System.Collections.Generic.KeyValuePair{`0,`1})">
             <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Contains(`0)"/>
         </member>
-        <member name="M:AM.Collections.BidirectionalDictionary`2.CopyTo(System.Collections.Generic.KeyValuePair{`0,`1}[],System.Int32)">
+        <member name="M:AM.Collections.BidirectionalDictionary`2.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{TKey@TValue}}#CopyTo(System.Collections.Generic.KeyValuePair{`0,`1}[],System.Int32)">
             <inheritdoc cref="M:System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)"/>
         </member>
-        <member name="M:AM.Collections.BidirectionalDictionary`2.Remove(System.Collections.Generic.KeyValuePair{`0,`1})">
+        <member name="M:AM.Collections.BidirectionalDictionary`2.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{TKey@TValue}}#Remove(System.Collections.Generic.KeyValuePair{`0,`1})">
             <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Remove(`0)"/>
         </member>
         <member name="M:AM.Collections.BidirectionalDictionary`2.GetEnumerator">
@@ -2387,7 +2368,7 @@
             Raises the specified handler.
             </summary>
         </member>
-        <member name="M:AM.EventUtility.UnsubscribeAll(System.EventHandler)">
+        <member name="M:AM.EventUtility.UnsubscribeAll(System.Object,System.String)">
             <summary>
             Unsubscribe all handlers from the event.
             </summary>
@@ -3012,6 +2993,11 @@
             </summary>
             <param name="element">The element.</param>
         </member>
+        <member name="P:AM.ObjectDumper.Output">
+            <summary>
+            Output.
+            </summary>
+        </member>
         <member name="T:AM.IO.StreamPacker">
             <summary>
             Упаковщик: пытается записать данные в поток, 
@@ -3122,6 +3108,12 @@
             Initializes a new instance of the 
             <see cref="T:AM.Collections.DictionaryCounterDouble`1"/> class.
             </summary>
+        </member>
+        <member name="M:AM.Collections.DictionaryCounterDouble`1.#ctor(System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="comparer">The comparer.</param>
         </member>
         <member name="M:AM.Collections.DictionaryCounterDouble`1.#ctor(System.Int32)">
             <summary>
@@ -3448,7 +3440,7 @@
             One or more dictionaries is <c>null</c>.
             </exception>
         </member>
-        <member name="M:AM.Collections.DictionaryUtility.MergeWithoutConflicts``2(System.Collections.Generic.Dictionary{``0,``1}[])">
+        <member name="M:AM.Collections.DictionaryUtility.MergeFirstValues``2(System.Collections.Generic.Dictionary{``0,``1}[])">
             <summary>
             Merges the specified dictionaries.
             </summary>
@@ -4245,6 +4237,29 @@
             Gets the pointer to the managed object.
             </summary>
         </member>
+        <member name="T:AM.PlatformAbstraction.PlatformAbstractionLayer">
+            <summary>
+            Platform abstraction level.
+            </summary>
+        </member>
+        <member name="M:AM.PlatformAbstraction.PlatformAbstractionLayer.GetRandomGenerator">
+            <summary>
+            Get random number generator.
+            </summary>
+        </member>
+        <member name="M:AM.PlatformAbstraction.PlatformAbstractionLayer.Now">
+            <summary>
+            Get current date and time.
+            </summary>
+        </member>
+        <member name="M:AM.PlatformAbstraction.PlatformAbstractionLayer.Today">
+            <summary>
+            Get today date.
+            </summary>
+        </member>
+        <member name="M:AM.PlatformAbstraction.PlatformAbstractionLayer.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
         <member name="T:AM.NumericUtility">
             <summary>
             Helper methods for numeric values.
@@ -4639,21 +4654,18 @@
         </member>
         <member name="M:AM.Collections.DictionaryCounterInt32`1.#ctor">
             <summary>
-            Initializes a new instance of the 
-            <see cref="T:AM.Collections.DictionaryCounterInt32`1"/> class.
+            Constructor.
             </summary>
         </member>
         <member name="M:AM.Collections.DictionaryCounterInt32`1.#ctor(System.Collections.Generic.IEqualityComparer{`0})">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:AM.Collections.DictionaryCounterInt32`1"/> class.
+            Constructor.
             </summary>
             <param name="comparer">The comparer.</param>
         </member>
         <member name="M:AM.Collections.DictionaryCounterInt32`1.#ctor(System.Int32)">
             <summary>
-            Initializes a new instance of the 
-            <see cref="T:AM.Collections.DictionaryCounterInt32`1"/> class.
+            Constructor.
             </summary>
             <param name="capacity">The capacity.</param>
         </member>
@@ -5229,7 +5241,7 @@
             </summary>
         </member>
         <member name="M:AM.Collections.VirtualList`1.System#Collections#Generic#ICollection{T}#Add(`0)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Add(`0)"/>
         </member>
         <member name="M:AM.Collections.VirtualList`1.System#Collections#Generic#ICollection{T}#Clear">
             <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Clear"/>
@@ -7469,12 +7481,10 @@
             Is zero-length or less?
             </summary>
         </member>
-        <member name="M:AM.TimeSpanUtility.LessThenZero(System.TimeSpan)">
+        <member name="M:AM.TimeSpanUtility.LessThanZero(System.TimeSpan)">
             <summary>
             Is length of the time span less than zero?
             </summary>
-            <param name="timeSpan"></param>
-            <returns></returns>
         </member>
         <member name="M:AM.TimeSpanUtility.ToAutoString(System.TimeSpan)">
             <summary>
@@ -7982,10 +7992,8 @@
         </member>
         <member name="M:AM.MessageEventArgs.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the 
-            <see cref="T:AM.MessageEventArgs"/> class.
+            Constructor.
             </summary>
-            <param name="message">The message.</param>
         </member>
         <member name="P:AM.MessageEventArgs.Message">
             <summary>
@@ -9461,6 +9469,16 @@
         <member name="M:AM.IO.ByteNavigator.IsWhiteSpace">
             <summary>
             Пробельный символ?
+            </summary>
+        </member>
+        <member name="M:AM.IO.ByteNavigator.MoveAbsolute(System.Int32)">
+            <summary>
+            Абсолютное перемещение.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ByteNavigator.MoveRelative(System.Int32)">
+            <summary>
+            Относительное перемещение.
             </summary>
         </member>
         <member name="M:AM.IO.ByteNavigator.PeekByte">
@@ -11320,10 +11338,10 @@
             <inheritdoc cref="M:System.Object.Equals(System.Object)"/>
         </member>
         <member name="M:AM.Optional`1.GetHashCode">
-            <inheritdoc cref="M:System.Object.GetHashCode"/>
+            <inheritdoc cref="M:System.ValueType.GetHashCode"/>
         </member>
         <member name="M:AM.Optional`1.ToString">
-            <inheritdoc cref="M:System.Object.ToString"/>
+            <inheritdoc cref="!:ValueType.ToString"/>
         </member>
         <member name="P:AM.Optional`1.Value">
             <summary>
@@ -11525,6 +11543,11 @@
         <member name="M:AM.Collections.NonNullCollection`1.SetItem(System.Int32,`0)">
             <inheritdoc cref="M:System.Collections.ObjectModel.Collection`1.SetItem(System.Int32,`0)"/>
         </member>
+        <member name="P:AM.Collections.NonNullCollection`1.Capacity">
+            <summary>
+            Capacity.
+            </summary>
+        </member>
         <member name="T:AM.Collections.DoublyLinkedList`1">
             <summary>
             Дважды-связанный список
@@ -11534,13 +11557,6 @@
             <summary>
             Get node at specified index.
             </summary>
-        </member>
-        <member name="M:AM.Collections.DoublyLinkedList`1._CreateNode(`0)">
-            <summary>
-            _s the create node.
-            </summary>
-            <param name="value">The value.</param>
-            <returns></returns>
         </member>
         <member name="M:AM.Collections.DoublyLinkedList`1.IndexOf(`0)">
             <inheritdoc cref="M:System.Collections.Generic.IList`1.IndexOf(`0)"/>
@@ -11591,43 +11607,28 @@
         <member name="P:AM.Collections.DoublyLinkedList`1.IsReadOnly">
             <inheritdoc cref="P:System.Collections.Generic.ICollection`1.IsReadOnly"/>
         </member>
-        <member name="T:AM.Collections.DoublyLinkedList`1.Node`1">
+        <member name="T:AM.Collections.DoublyLinkedList`1.Node">
             <summary>
             Элемент дважды-связанного списка.
             </summary>
-            <typeparam name="T2"></typeparam>
         </member>
-        <member name="M:AM.Collections.DoublyLinkedList`1.Node`1.#ctor(`1)">
-            <summary>
-            Constructor.
-            </summary>
+        <member name="M:AM.Collections.DoublyLinkedList`1.Node.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
-        <member name="M:AM.Collections.DoublyLinkedList`1.Node`1.ToString">
-            <inheritdoc/>
-        </member>
-        <member name="P:AM.Collections.DoublyLinkedList`1.Node`1.List">
-            <summary>
-            Список-владелец.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:AM.Collections.DoublyLinkedList`1.Node`1.Previous">
+        <member name="P:AM.Collections.DoublyLinkedList`1.Node.Previous">
             <summary>
             Предыдущий элемент.
             </summary>
-            <value></value>
         </member>
-        <member name="P:AM.Collections.DoublyLinkedList`1.Node`1.Next">
+        <member name="P:AM.Collections.DoublyLinkedList`1.Node.Next">
             <summary>
             Последующий элемент.
             </summary>
-            <value></value>
         </member>
-        <member name="P:AM.Collections.DoublyLinkedList`1.Node`1.Value">
+        <member name="P:AM.Collections.DoublyLinkedList`1.Node.Value">
             <summary>
             Хранимое значение.
             </summary>
-            <value></value>
         </member>
         <member name="T:AM.Text.Output.ConsoleOutput">
             <summary>
@@ -12090,6 +12091,15 @@
             Check an assembly to see if it has the given public key token.
             </summary>
         </member>
+        <member name="M:AM.Reflection.AssemblyUtility.GetAssemblyPath(System.Reflection.Assembly)">
+            <summary>
+            Get directory path where the assembly resides.
+            </summary>
+            <remarks>
+            Borrowerd from StackOverflow:
+            https://stackoverflow.com/questions/52797/how-do-i-get-the-path-of-the-assembly-the-code-is-in
+            </remarks>
+        </member>
         <member name="M:AM.Reflection.AssemblyUtility.IsDebugAssembly(System.Reflection.Assembly)">
             <summary>
             Determines whether the specified assembly is debug version.
@@ -12298,7 +12308,7 @@
             
             </summary>
         </member>
-        <member name="T:Newtonsoft.Json.Linq.DummyClass">
+        <member name="T:Newtonsoft.Json.Linq.DummyClass123">
             <summary>
             
             </summary>
@@ -12617,6 +12627,11 @@
             Exception.
             </summary>
         </member>
+        <member name="P:AM.ExceptionEventArgs.Handled">
+            <summary>
+            Handled?
+            </summary>
+        </member>
         <member name="T:AM.EnvironmentUtility">
             <summary>
             Program environment study routines.
@@ -12645,7 +12660,6 @@
             <summary>
             System uptime.
             </summary>
-            <value></value>
         </member>
         <member name="T:AM.DateTimeUtility">
             <summary>
@@ -12966,19 +12980,16 @@
             <summary>
             
             </summary>
-            <param name="value"></param>
         </member>
         <member name="M:AM.Reflection.PropertyAccessor`2.OnSettingValue(`1)">
             <summary>
             
             </summary>
-            <param name="value"></param>
         </member>
         <member name="M:AM.Reflection.PropertyAccessor`2.OnTargetChanged(`0)">
             <summary>
             
             </summary>
-            <param name="previousTarget"></param>
         </member>
         <member name="M:AM.Reflection.PropertyAccessor`2.SetTarget(`0)">
             <summary>
@@ -13000,14 +13011,19 @@
             Fired when target changed.
             </summary>
         </member>
-        <member name="P:AM.Reflection.PropertyAccessor`2.Target">
-            <summary>
-             Target.
-            </summary>
-        </member>
         <member name="P:AM.Reflection.PropertyAccessor`2.Info">
             <summary>
              Property info.
+            </summary>
+        </member>
+        <member name="P:AM.Reflection.PropertyAccessor`2.Name">
+            <summary>
+            Name of the property.
+            </summary>
+        </member>
+        <member name="P:AM.Reflection.PropertyAccessor`2.Target">
+            <summary>
+             Target.
             </summary>
         </member>
         <member name="P:AM.Reflection.PropertyAccessor`2.Value">
@@ -13080,19 +13096,10 @@
             </summary>
         </member>
         <member name="M:AM.Collections.DictionaryList`2.System#Collections#IEnumerable#GetEnumerator">
-            <summary>
-            Returns an enumerator that iterates through a collection.
-            </summary>
-            <returns>An <see cref="T:System.Collections.IEnumerator" />
-            object that can be used to iterate through the collection.
-            </returns>
+            <inheritdoc cref="M:System.Collections.IEnumerable.GetEnumerator"/>
         </member>
         <member name="M:AM.Collections.DictionaryList`2.GetEnumerator">
-            <summary>
-            Returns an enumerator that iterates through the collection.
-            </summary>
-            <returns>A <see cref="T:System.Collections.Generic.IEnumerator`1" />
-            that can be used to iterate through the collection.</returns>
+            <inheritdoc cref="M:System.Collections.Generic.IEnumerable`1.GetEnumerator"/>
         </member>
         <member name="P:AM.Collections.DictionaryList`2.Count">
             <summary>
@@ -13127,14 +13134,14 @@
             Mark instance field as auto-disposable.
             </summary>
         </member>
-        <member name="T:AM.PlatformAbstraction.PlatformAbstractionLevel">
+        <member name="T:AM.EmptyArray`1">
             <summary>
-            Platform abstraction level.
+            
             </summary>
         </member>
-        <member name="M:AM.PlatformAbstraction.PlatformAbstractionLevel.Now">
+        <member name="F:AM.EmptyArray`1.Value">
             <summary>
-            Get now date and time.
+            Value.
             </summary>
         </member>
     </members>

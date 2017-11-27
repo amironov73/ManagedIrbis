@@ -125,7 +125,7 @@ namespace AM.Reflection
         {
             Code.NotNull(assembly, "assembly");
 
-#if UAP || WIN81 || PORTABLE
+#if UAP || WIN81 || PORTABLE || WINMOBILE
 
             Log.Error
                 (
@@ -133,7 +133,7 @@ namespace AM.Reflection
                     + "not implemented"
                 );
 
-            throw new NotImplementedException("");
+            throw new NotImplementedException("GetAssemblyPath");
 
 #else
 

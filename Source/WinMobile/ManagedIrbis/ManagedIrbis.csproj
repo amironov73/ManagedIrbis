@@ -254,6 +254,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ConnectionElement.cs">
       <Link>Source\ConnectionElement.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ConnectionFactory.cs">
+      <Link>Source\ConnectionFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ConnectionSettings.cs">
       <Link>Source\ConnectionSettings.cs</Link>
     </Compile>
@@ -356,11 +359,17 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FieldComparer.cs">
       <Link>Source\FieldComparer.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FieldDifference.cs">
+      <Link>Source\FieldDifference.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FieldIndicator.cs">
       <Link>Source\FieldIndicator.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FieldReference.cs">
       <Link>Source\FieldReference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FieldState.cs">
+      <Link>Source\FieldState.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ArrivalsInfo.cs">
       <Link>Source\Fields\ArrivalsInfo.cs</Link>
@@ -1535,6 +1544,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforB.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforB.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforBang.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforBang.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforC.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforC.cs</Link>
     </Compile>
@@ -1624,6 +1636,12 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusPlus0.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusPlus0.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusR.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusR.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusS.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusS.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforQ.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforQ.cs</Link>

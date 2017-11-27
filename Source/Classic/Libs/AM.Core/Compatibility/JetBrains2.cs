@@ -43,6 +43,11 @@ namespace JetBrains.Annotations
     {
     }
 
+    public sealed class MustUseReturnValueAttribute
+        : Attribute
+    {
+    }
+
     /// <summary>
     /// 
     /// </summary>

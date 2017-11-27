@@ -130,7 +130,7 @@ namespace ManagedIrbis.Infrastructure.Commands
         }
 
         /// <summary>
-        /// Basic implementation of <see cref="Verify"/>.
+        /// Basic implementation of <see cref="AbstractCommand.Verify"/>.
         /// </summary>
         public bool BaseVerify
             (
