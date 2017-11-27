@@ -34,7 +34,7 @@ using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Search;
-
+using ManagedIrbis.Search.Infrastructure;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -491,7 +491,7 @@ namespace ManagedIrbis.Client
             FileSpecification specification = new FileSpecification
                 (
                     IrbisPath.MasterFile,
-                    DataPath,
+                    Database,
                     fileName
                 );
             string content = ReadFile(specification) ?? string.Empty;
@@ -537,10 +537,10 @@ namespace ManagedIrbis.Client
                     );
 
                 string[] lines = File.ReadAllLines
-                (
-                    fileName,
-                    IrbisEncoding.Ansi
-                );
+                    (
+                        fileName,
+                        IrbisEncoding.Ansi
+                    );
 
                 DatabaseInfo[] result = DatabaseInfo.ParseMenu(lines);
 
@@ -770,37 +770,49 @@ namespace ManagedIrbis.Client
 
             using (new BusyGuard(BusyState))
             {
-                DirectAccess64 accessor = null;
-                try
-                {
-                    accessor = _GetAccessor();
-                    if (!ReferenceEquals(accessor, null))
-                    {
-                        // TODO Использовать нормальный поиск!
-                        if (expression.StartsWith("\""))
-                        {
-                            expression = expression.Unquote();
-                        }
+                    SearchManager manager = new SearchManager(this);
+                    SearchContext context = new SearchContext(manager, this);
 
-                        result = accessor.SearchSimple(expression);
-                    }
-                }
-                catch (Exception exception)
-                {
-                    Log.TraceException
-                        (
-                            "LocalProvider::Search",
-                            exception
-                        );
-                }
-                finally
-                {
-                    if (!ReferenceEquals(accessor, null)
-                        && !_persistentAccessor)
-                    {
-                        accessor.Dispose();
-                    }
-                }
+                    SearchTokenList tokens
+                        = SearchQueryLexer.Tokenize(expression);
+                    SearchQueryParser parser
+                        = new SearchQueryParser(tokens);
+                    SearchProgram program = parser.Parse();
+
+                    TermLink[] found = program.Find(context);
+                    result = TermLink.ToMfn(found);
+
+                //    DirectAccess64 accessor = null;
+                //    try
+                //    {
+                //        accessor = _GetAccessor();
+                //        if (!ReferenceEquals(accessor, null))
+                //        {
+                //            // TODO Использовать нормальный поиск!
+                //            if (expression.StartsWith("\""))
+                //            {
+                //                expression = expression.Unquote();
+                //            }
+
+                //            result = accessor.SearchSimple(expression);
+                //        }
+                //    }
+                //    catch (Exception exception)
+                //    {
+                //        Log.TraceException
+                //            (
+                //                "LocalProvider::Search",
+                //                exception
+                //            );
+                //    }
+                //    finally
+                //    {
+                //        if (!ReferenceEquals(accessor, null)
+                //            && !_persistentAccessor)
+                //        {
+                //            accessor.Dispose();
+                //        }
+                //    }
             }
 
 #endif
@@ -808,7 +820,50 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-#endregion
+        /// <inheritdoc cref="IrbisProvider.ExactSearchLinks" />
+        public override TermLink[] ExactSearchLinks
+            (
+                string term
+            )
+        {
+            if (string.IsNullOrEmpty(term))
+            {
+                return TermLink.EmptyArray;
+            }
+
+            TermLink[] result = TermLink.EmptyArray;
+            bool alreadyHave = !ReferenceEquals(_accessor, null);
+            DirectAccess64 accessor = null;
+            try
+            {
+                accessor = _GetAccessor();
+                if (!ReferenceEquals(accessor, null))
+                {
+                    result = accessor.ReadLinks(term);
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException
+                    (
+                        "LocalProvider::Search",
+                        exception
+                    );
+            }
+            finally
+            {
+                if (!alreadyHave
+                    && !ReferenceEquals(accessor, null)
+                    && !_persistentAccessor)
+                {
+                    accessor.Dispose();
+                }
+            }
+
+            return result;
+        }
+
+        #endregion
 
         #region IDisposable members
 

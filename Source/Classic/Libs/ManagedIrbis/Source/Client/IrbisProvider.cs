@@ -324,7 +324,10 @@ namespace ManagedIrbis.Client
             string text = ReadFile(fileSpecification);
             if (!string.IsNullOrEmpty(text))
             {
-                result = new IniFile();
+                result = new IniFile
+                {
+                    FileName = fileSpecification.FileName
+                };
                 StringReader reader = new StringReader(text);
                 result.Read(reader);
             }

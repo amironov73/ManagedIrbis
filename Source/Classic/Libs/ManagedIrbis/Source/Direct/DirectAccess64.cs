@@ -195,15 +195,29 @@ namespace ManagedIrbis.Direct
                     }
                     MstRecord64 mstRecord = Mst.ReadRecord(offset);
                     MarcRecord previousVersion = mstRecord.DecodeRecord();
-                    if (previousVersion != null)
-                    {
-                        result.Add(previousVersion);
-                        lastVersion = previousVersion;
-                    }
+                    previousVersion.Database = lastVersion.Database;
+                    previousVersion.Mfn = lastVersion.Mfn;
+                    result.Add(previousVersion);
+                    lastVersion = previousVersion;
                 }
             }
 
             return result.ToArray();
+        }
+
+        /// <summary>
+        /// Read links for the term.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public TermLink[] ReadLinks
+            (
+                [NotNull] string key
+            )
+        {
+            Code.NotNull(key, "key");
+
+            return InvertedFile.SearchExact(key);
         }
 
         /// <summary>
@@ -320,7 +334,7 @@ namespace ManagedIrbis.Direct
                 leader.Previous = previousOffset;
                 MstRecordLeader64 previousLeader
                     = Mst.ReadLeader(previousOffset);
-                previousLeader.Status = (int) RecordStatus.NonActualized;
+                previousLeader.Status = (int)RecordStatus.NonActualized;
                 Mst.UpdateLeader(previousLeader, previousOffset);
                 xrfRecord.Offset = Mst.WriteRecord(mstRecord);
             }

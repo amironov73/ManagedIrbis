@@ -80,10 +80,6 @@ namespace ManagedIrbis.Magazines
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>

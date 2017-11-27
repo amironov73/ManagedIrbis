@@ -48,6 +48,12 @@ namespace ManagedIrbis.Search
         #region Properties
 
         /// <summary>
+        /// Empty array.
+        /// </summary>
+        [NotNull]
+        public static readonly TermInfo[] EmptyArray = new TermInfo[0];
+
+        /// <summary>
         /// Количество ссылок.
         /// </summary>
         [XmlAttribute("count")]

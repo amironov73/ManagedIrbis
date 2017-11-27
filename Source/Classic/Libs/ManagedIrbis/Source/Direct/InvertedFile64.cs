@@ -325,9 +325,144 @@ namespace ManagedIrbis.Direct
         {
             Code.NotNull(parameters, "parameters");
 
-            // TODO Implement
+            // TODO Implement reverse order
 
-            return new TermInfo[0];
+            string key = parameters.StartTerm;
+            if (string.IsNullOrEmpty(key))
+            {
+                return TermInfo.EmptyArray;
+            }
+
+            List<TermInfo> result = new List<TermInfo>();
+            try
+            {
+                key = IrbisText.ToUpper(key);
+
+                NodeRecord firstNode = ReadNode(1);
+                NodeRecord rootNode = ReadNode(firstNode.Leader.Number);
+                NodeRecord currentNode = rootNode;
+
+                NodeItem goodItem = null, candidate=null;
+                int goodIndex = 0;
+                while (true)
+                {
+                    bool found = false;
+                    bool beyond = false;
+
+                    if (ReferenceEquals(currentNode, null))
+                    {
+                        break;
+                    }
+
+                    for (int index = 0; index < currentNode.Leader.TermCount; index++)
+                    {
+                        NodeItem item = currentNode.Items[index];
+                        int compareResult = string.CompareOrdinal
+                            (
+                                item.Text,
+                                key
+                            );
+                        if (compareResult > 0)
+                        {
+                            candidate = item;
+                            goodIndex = index;
+                            beyond = true;
+                            break;
+                        }
+
+                        goodItem = item;
+                        goodIndex = index;
+                        found = true;
+
+                        if (compareResult == 0
+                            && currentNode.IsLeaf)
+                        {
+                            goto FOUND;
+                        }
+
+                    }
+                    if (ReferenceEquals(goodItem, null))
+                    {
+                        break;
+                    }
+                    if (found)
+                    {
+                        if (beyond || currentNode.Leader.Next == -1)
+                        {
+                            if (currentNode.IsLeaf)
+                            {
+                                goodItem = candidate;
+                                goto FOUND;
+                            }
+                            currentNode = goodItem.RefersToLeaf
+                                ? ReadLeaf(goodItem.LowOffset)
+                                : ReadNode(goodItem.LowOffset);
+                        }
+                        else
+                        {
+                            currentNode = ReadNext(currentNode);
+                        }
+                    }
+                    else
+                    {
+                        currentNode = goodItem.RefersToLeaf
+                            ? ReadLeaf(goodItem.LowOffset)
+                            : ReadNode(goodItem.LowOffset);
+                    }
+                }
+
+                FOUND:
+                if (!ReferenceEquals(goodItem, null))
+                {
+                    int count = parameters.NumberOfTerms;
+                    while (count > 0)
+                    {
+                        if (ReferenceEquals(currentNode, null))
+                        {
+                            break;
+                        }
+                        TermInfo term = new TermInfo
+                        {
+                            Text = goodItem.Text,
+                            Count = 0
+                        };
+                        long offset = goodItem.FullOffset;
+                        if (offset <= 0)
+                        {
+                            break;
+                        }
+                        IfpRecord ifp = ReadIfpRecord(offset);
+                        term.Count += ifp.BlockLinkCount;
+                        result.Add(term);
+                        count--;
+                        if (count > 0)
+                        {
+                            if (goodIndex >= currentNode.Leader.TermCount)
+                            {
+                                currentNode = ReadNext(currentNode);
+                                goodIndex = 0;
+                            }
+                            else
+                            {
+                                goodIndex++;
+                                goodItem = currentNode.Items[goodIndex];
+                            }
+                        }
+                    }
+
+                    return result.ToArray();
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException
+                    (
+                        "InvertedFile64::SearchExact",
+                        exception
+                    );
+            }
+
+            return TermInfo.EmptyArray;
         }
 
         /// <summary>
@@ -451,7 +586,7 @@ namespace ManagedIrbis.Direct
                     }
                 }
 
-            FOUND:
+                FOUND:
                 if (goodItem != null)
                 {
                     // ibatrak записи могут иметь ссылки на следующие
@@ -462,8 +597,8 @@ namespace ManagedIrbis.Direct
                     {
                         IfpRecord ifp = ReadIfpRecord(offset);
                         result.AddRange(ifp.Links);
-                        offset = ifp.FullOffset > 0 
-                            ? ifp.FullOffset 
+                        offset = ifp.FullOffset > 0
+                            ? ifp.FullOffset
                             : 0;
                     }
 
@@ -563,7 +698,7 @@ namespace ManagedIrbis.Direct
                 }
             }
 
-        FOUND:
+            FOUND:
             if (goodItem != null)
             {
                 currentNode = ReadLeaf(goodItem.LowOffset);
@@ -598,7 +733,7 @@ namespace ManagedIrbis.Direct
                                 {
                                     IfpRecord ifp = ReadIfpRecord(offset);
                                     result.AddRange(ifp.Links);
-                                    offset = ifp.FullOffset > 0 
+                                    offset = ifp.FullOffset > 0
                                         ? ifp.FullOffset
                                         : 0;
                                 }
@@ -613,7 +748,7 @@ namespace ManagedIrbis.Direct
                 }
             }
 
-        DONE:
+            DONE:
             return result
                 .Distinct()
                 .ToArray();
