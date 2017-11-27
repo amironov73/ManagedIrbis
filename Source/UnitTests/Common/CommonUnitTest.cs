@@ -16,6 +16,11 @@ namespace UnitTests.Common
     public class CommonUnitTest
     {
         /// <summary>
+        /// Контекст текста.
+        /// </summary>
+        public TestContext TestContext { get; set; }
+
+        /// <summary>
         /// Папка, в которой расположена UnitTests.dll.
         /// </summary>
         [NotNull]

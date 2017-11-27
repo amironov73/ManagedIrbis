@@ -438,6 +438,7 @@
     <Compile Include="ManagedIrbis\LanguageFileTest.cs" />
     <Compile Include="ManagedIrbis\LocalizationManagerTest.cs" />
     <Compile Include="ManagedIrbis\Magazines\MagazineArticleInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Magazines\MagazineCumulationTest.cs" />
     <Compile Include="ManagedIrbis\Magazines\MagazineInfoTest.cs" />
     <Compile Include="ManagedIrbis\Magazines\MagazineIssueInfoTest.cs" />
     <Compile Include="ManagedIrbis\Marc\Schema\SubFieldSchemaTest.cs" />

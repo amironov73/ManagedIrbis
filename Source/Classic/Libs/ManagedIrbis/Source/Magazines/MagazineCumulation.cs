@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
@@ -47,6 +49,11 @@ namespace ManagedIrbis.Magazines
         /// Тег поля.
         /// </summary>
         public const int Tag = 909;
+
+        /// <summary>
+        /// Known subfield codes.
+        /// </summary>
+        public const string KnownCodes = "dfhkq";
 
         #endregion
 
@@ -92,9 +99,44 @@ namespace ManagedIrbis.Magazines
         [JsonProperty("set", NullValueHandling = NullValueHandling.Ignore)]
         public string Set { get; set; }
 
+        /// <summary>
+        /// Unknown subfields.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("unknown")]
+        [JsonProperty("unknown", NullValueHandling = NullValueHandling.Ignore)]
+        public SubField[] UnknownSubFields { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public object UserData { get; set; }
+
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Apply to the <see cref="RecordField"/>.
+        /// </summary>
+        public void ApplyToField
+            (
+                [NotNull] RecordField field
+            )
+        {
+            Code.NotNull(field, "field");
+
+            field
+                .ApplySubField('q', Year)
+                .ApplySubField('f', Volume)
+                .ApplySubField('d', Place)
+                .ApplySubField('h', Numbers)
+                .ApplySubField('k', Set);
+        }
 
         /// <summary>
         /// Разбор поля.
@@ -113,7 +155,8 @@ namespace ManagedIrbis.Magazines
                 Volume = field.GetFirstSubFieldValue('f'),
                 Place = field.GetFirstSubFieldValue('d'),
                 Numbers = field.GetFirstSubFieldValue('h'),
-                Set = field.GetFirstSubFieldValue('k')
+                Set = field.GetFirstSubFieldValue('k'),
+                UnknownSubFields = field.SubFields.GetUnknownSubFields(KnownCodes)
             };
 
             return result;
@@ -123,6 +166,7 @@ namespace ManagedIrbis.Magazines
         /// Разбор записи.
         /// </summary>
         [NotNull]
+        [ItemNotNull]
         public static MagazineCumulation[] Parse
             (
                 [NotNull] MarcRecord record,
@@ -140,12 +184,41 @@ namespace ManagedIrbis.Magazines
         /// <summary>
         /// Разбор записи.
         /// </summary>
+        [NotNull]
+        [ItemNotNull]
         public static MagazineCumulation[] Parse
             (
-                MarcRecord record
+                [NotNull] MarcRecord record
             )
         {
             return Parse(record, Tag);
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="UnknownSubFields"/> array?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeUnknownSubFields()
+        {
+            return !ReferenceEquals(UnknownSubFields, null)
+                   && UnknownSubFields.Length != 0;
+        }
+
+        /// <summary>
+        /// Convert back to <see cref="RecordField"/>.
+        /// </summary>
+        [NotNull]
+        public RecordField ToField()
+        {
+            RecordField result = new RecordField(Tag)
+                .AddNonEmptySubField('q', Year)
+                .AddNonEmptySubField('f', Volume)
+                .AddNonEmptySubField('d', Place)
+                .AddNonEmptySubField('h', Numbers)
+                .AddNonEmptySubField('k', Set)
+                .AddSubFields(UnknownSubFields);
+
+            return result;
         }
 
         #endregion
@@ -158,11 +231,14 @@ namespace ManagedIrbis.Magazines
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             Year = reader.ReadNullableString();
             Volume = reader.ReadNullableString();
             Place = reader.ReadNullableString();
             Numbers = reader.ReadNullableString();
             Set = reader.ReadNullableString();
+            UnknownSubFields = reader.ReadNullableArray<SubField>();
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -171,12 +247,15 @@ namespace ManagedIrbis.Magazines
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer
                 .WriteNullable(Year)
                 .WriteNullable(Volume)
                 .WriteNullable(Place)
                 .WriteNullable(Numbers)
-                .WriteNullable(Set);
+                .WriteNullable(Set)
+                .WriteNullableArray(UnknownSubFields);
         }
 
         #endregion
@@ -206,7 +285,7 @@ namespace ManagedIrbis.Magazines
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            return Year + ":" + Numbers;
+            return Year.ToVisibleString() + ":" + Numbers.ToVisibleString();
         }
 
         #endregion
