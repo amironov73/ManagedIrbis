@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
@@ -39,7 +40,9 @@ namespace ManagedIrbis.Monitoring
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [XmlRoot("database")]
     public sealed class DatabaseData
+        : IHandmadeSerializable
     {
         #region Properties
 
@@ -47,36 +50,66 @@ namespace ManagedIrbis.Monitoring
         /// Database name.
         /// </summary>
         [CanBeNull]
+        [XmlAttribute("name")]
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
 
         /// <summary>
         /// Number of deleted records.
         /// </summary>
-        [JsonProperty("deletedRecords")]
+        [XmlAttribute("deletedRecords")]
+        [JsonProperty("deletedRecords", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int DeletedRecords { get; set; }
 
         /// <summary>
         /// Number of locked records.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("lockedRecords")]
+        [XmlArray("locked")]
+        [XmlArrayItem("mfn")]
+        [JsonProperty("lockedRecords", NullValueHandling = NullValueHandling.Ignore)]
         public int[] LockedRecords { get; set; }
 
         #endregion
 
-        #region Construction
+        #region IHandmadeSerializable members
 
-        #endregion
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
 
-        #region Private members
+            Name = reader.ReadNullableString();
+            DeletedRecords = reader.ReadPackedInt32();
+            LockedRecords = reader.ReadNullableInt32Array();
+        }
 
-        #endregion
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
 
-        #region Public methods
+            writer
+                .WriteNullable(Name)
+                .WritePackedInt32(DeletedRecords)
+                .WriteNullableArray(LockedRecords);
+        }
 
         #endregion
 
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return Name.ToVisibleString();
+        }
 
         #endregion
     }

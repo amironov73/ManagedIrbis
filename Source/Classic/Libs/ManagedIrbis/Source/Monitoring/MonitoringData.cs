@@ -10,15 +10,12 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 using AM;
-using AM.Collections;
 using AM.IO;
 using AM.Runtime;
 
@@ -39,50 +36,93 @@ namespace ManagedIrbis.Monitoring
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [XmlRoot("monitoring")]
     public sealed class MonitoringData
+        : IHandmadeSerializable
     {
         #region Properties
 
         /// <summary>
         /// Moment of time.
         /// </summary>
-        [JsonProperty("moment")]
+        [XmlAttribute("moment")]
+        [JsonProperty("moment", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DateTime Moment { get; set; }
 
         /// <summary>
         /// Number of running clients.
         /// </summary>
-        [JsonProperty("clients")]
+        [XmlAttribute("clients")]
+        [JsonProperty("clients", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Clients { get; set; }
 
         /// <summary>
         /// Command count.
         /// </summary>
-        [JsonProperty("commands")]
+        [XmlAttribute("commands")]
+        [JsonProperty("commands", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Commands { get; set; }
 
         /// <summary>
         /// Data for databases.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("databases")]
+        [XmlElement("database")]
+        [JsonProperty("databases", NullValueHandling = NullValueHandling.Ignore)]
         public DatabaseData[] Databases { get; set; }
 
         #endregion
 
-        #region Construction
+        #region IHandmadeSerializable members
 
-        #endregion
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
 
-        #region Private members
+            long ticks = reader.ReadInt64();
+            Moment = new DateTime(ticks);
+            Clients = reader.ReadPackedInt32();
+            Commands = reader.ReadPackedInt32();
+            Databases = reader.ReadNullableArray<DatabaseData>();
+        }
 
-        #endregion
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
 
-        #region Public methods
+            writer.Write(Moment.Ticks);
+            writer
+                .WritePackedInt32(Clients)
+                .WritePackedInt32(Commands)
+                .WriteNullableArray(Databases);
+        }
 
         #endregion
 
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append(Moment);
+            if (!ReferenceEquals(Databases, null)
+                && Databases.Length != 0)
+            {
+                result.Append(':');
+                result.Append(StringUtility.Join(",", Databases.Select(d => d.Name)));
+            }
+
+            return result.ToString();
+        }
 
         #endregion
     }
