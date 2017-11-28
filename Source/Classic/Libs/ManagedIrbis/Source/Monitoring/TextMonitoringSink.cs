@@ -10,18 +10,9 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using AM;
-using AM.Collections;
-using AM.IO;
 using AM.Logging;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -73,7 +64,7 @@ namespace ManagedIrbis.Monitoring
 
         #region MonitoringSink members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="MonitoringSink.WriteData" />
         public override bool WriteData
             (
                 MonitoringData data
@@ -83,6 +74,8 @@ namespace ManagedIrbis.Monitoring
 
             try
             {
+                // TODO implement properly
+
                 string text = JsonConvert.SerializeObject
                     (
                         data,

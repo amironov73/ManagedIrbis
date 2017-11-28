@@ -27,7 +27,7 @@ namespace ManagedIrbis.Monitoring
     {
         #region MonitoringSink members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="MonitoringSink.WriteData" />
         public override bool WriteData
             (
                 MonitoringData data

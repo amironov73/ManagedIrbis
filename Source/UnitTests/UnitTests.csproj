@@ -450,6 +450,8 @@
     <Compile Include="ManagedIrbis\Monitoring\BlockedRecordTest.cs" />
     <Compile Include="ManagedIrbis\Monitoring\DatabaseDataTest.cs" />
     <Compile Include="ManagedIrbis\Monitoring\MonitoringDataTest.cs" />
+    <Compile Include="ManagedIrbis\Monitoring\NullMonitoringSinkTest.cs" />
+    <Compile Include="ManagedIrbis\Monitoring\TextMonitoringSinkTest.cs" />
     <Compile Include="ManagedIrbis\Morphology\IrbisMorphologyProviderTest.cs" />
     <Compile Include="ManagedIrbis\Morphology\MorphologyEngineTest.cs" />
     <Compile Include="ManagedIrbis\Morphology\MorphologyEntryTest.cs" />
