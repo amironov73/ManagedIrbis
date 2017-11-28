@@ -831,6 +831,12 @@ namespace ManagedIrbis.Client
                 return TermLink.EmptyArray;
             }
 
+#if PORTABLE || WIN81 || SILVERLIGHT
+
+            throw new System.NotImplementedException();
+
+#else
+
             TermLink[] result = TermLink.EmptyArray;
             bool alreadyHave = !ReferenceEquals(_accessor, null);
             DirectAccess64 accessor = null;
@@ -861,6 +867,8 @@ namespace ManagedIrbis.Client
             }
 
             return result;
+
+#endif
         }
 
         #endregion

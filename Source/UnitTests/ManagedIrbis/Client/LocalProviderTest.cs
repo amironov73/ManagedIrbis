@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+
 using AM.IO;
 using AM.Json;
 using AM.Runtime;
@@ -12,6 +13,7 @@ using ManagedIrbis.Direct;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Pft;
 using ManagedIrbis.Search;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.ManagedIrbis.Client

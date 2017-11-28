@@ -11,19 +11,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
-using AM.Collections;
 using AM.IO;
-using AM.Logging;
 using AM.Runtime;
-using AM.Text;
 
 using CodeJam;
 
@@ -34,6 +28,8 @@ using MoonSharp.Interpreter;
 using Newtonsoft.Json;
 
 #endregion
+
+// ReSharper disable ForCanBeConvertedToForeach
 
 namespace ManagedIrbis.Monitoring
 {
@@ -79,6 +75,13 @@ namespace ManagedIrbis.Monitoring
         [JsonProperty("since", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DateTime Since { get; set; }
 
+        /// <summary>
+        /// Mark.
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        public bool Marked { get; set; }
+
         #endregion
 
         #region Construction
@@ -91,6 +94,69 @@ namespace ManagedIrbis.Monitoring
 
         #region Public methods
 
+        /// <summary>
+        /// Merge the database info.
+        /// </summary>
+        [NotNull]
+        public static List<BlockedRecord> Merge
+            (
+                [NotNull] List<BlockedRecord> list,
+                [NotNull] DatabaseInfo[] databases
+            )
+        {
+            Code.NotNull(list, "list");
+            Code.NotNull(databases, "databases");
+
+            foreach (BlockedRecord record in list)
+            {
+                record.Marked = false;
+            }
+
+            foreach (DatabaseInfo database in databases)
+            {
+                int[] lockedRecords = database.LockedRecords;
+                if (ReferenceEquals(lockedRecords, null))
+                {
+                    continue;
+                }
+                foreach (int mfn in lockedRecords)
+                {
+                    BlockedRecord found = null;
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        BlockedRecord record = list[i];
+                        if (record.Database == database.Name
+                            && record.Mfn == mfn)
+                        {
+                            found = record;
+                            found.Marked = true;
+                            found.Count++;
+                        }
+                    }
+                    if (ReferenceEquals(found, null))
+                    {
+                        BlockedRecord record = new BlockedRecord
+                        {
+                            Database = database.Name,
+                            Mfn = mfn,
+                            Count = 1,
+                            Since = DateTime.Now,
+                            Marked = true
+                        };
+                        list.Add(record);
+                    }
+                }
+            }
+
+            BlockedRecord[] records = list.Where(r => !r.Marked).ToArray();
+            foreach (BlockedRecord blocked in records)
+            {
+                list.Remove(blocked);
+            }
+
+            return list;
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
@@ -102,6 +168,12 @@ namespace ManagedIrbis.Monitoring
             )
         {
             Code.NotNull(reader, "reader");
+
+            Database = reader.ReadNullableString();
+            Mfn = reader.ReadPackedInt32();
+            Count = reader.ReadPackedInt32();
+            long ticks = reader.ReadInt64();
+            Since = new DateTime(ticks);
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -111,6 +183,12 @@ namespace ManagedIrbis.Monitoring
             )
         {
             Code.NotNull(writer, "writer");
+
+            writer
+                .WriteNullable(Database)
+                .WritePackedInt32(Mfn)
+                .WritePackedInt32(Count)
+                .Write(Since.Ticks);
         }
 
         #endregion
@@ -155,10 +233,45 @@ namespace ManagedIrbis.Monitoring
 
         #region Object members
 
+        /// <inheritdoc cref="object.Equals(object)" />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(obj, this))
+            {
+                return true;
+            }
+            BlockedRecord record = obj as BlockedRecord;
+            if (ReferenceEquals(record, null))
+            {
+                return false;
+            }
+            return Equals(record);
+        }
+
+        /// <inheritdoc cref="object.GetHashCode" />
+        public override int GetHashCode()
+        {
+            int result = Mfn;
+            if (!string.IsNullOrEmpty(Database))
+            {
+                result = result * 17 + Database.GetHashCode();
+            }
+
+            return result;
+        }
+
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            return Database.ToVisibleString() + ":" + Mfn.ToInvariantString();
+            return Database.ToVisibleString()
+                + ":"
+                + Mfn.ToInvariantString()
+                + ":"
+                + Count.ToInvariantString();
         }
 
         #endregion

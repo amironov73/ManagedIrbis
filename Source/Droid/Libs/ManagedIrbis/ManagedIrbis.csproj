@@ -979,6 +979,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\RusMarcMetadataFormat.cs">
       <Link>Source\Metadata\RusMarcMetadataFormat.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Monitoring\BlockedRecord.cs">
+      <Link>Source\Monitoring\BlockedRecord.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Monitoring\DatabaseData.cs">
       <Link>Source\Monitoring\DatabaseData.cs</Link>
     </Compile>

@@ -447,6 +447,7 @@
     <Compile Include="ManagedIrbis\Menus\MenuEntryTest.cs" />
     <Compile Include="ManagedIrbis\Menus\MenuSpecificationTest.cs" />
     <Compile Include="ManagedIrbis\Menus\MenuUtilityTest.cs" />
+    <Compile Include="ManagedIrbis\Monitoring\BlockedRecordTest.cs" />
     <Compile Include="ManagedIrbis\Morphology\IrbisMorphologyProviderTest.cs" />
     <Compile Include="ManagedIrbis\Morphology\MorphologyEngineTest.cs" />
     <Compile Include="ManagedIrbis\Morphology\MorphologyEntryTest.cs" />
