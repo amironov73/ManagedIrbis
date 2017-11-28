@@ -75,7 +75,8 @@ namespace AM.Text
         [CanBeNull]
         public static string Encode
             (
-                [CanBeNull] string text
+                [CanBeNull] string text,
+                [CanBeNull] UnicodeRange goodRange
             )
         {
             if (string.IsNullOrEmpty(text))
@@ -84,40 +85,59 @@ namespace AM.Text
             }
 
             int length = text.Length;
-            int found = 0;
-            for (int i = 0; i < length; i++)
-            {
-                char c = text[i];
-                if (c == '{' || c == '}' || c == '\\')
-                {
-                    found++;
-                }
-            }
-            if (found == 0)
-            {
-                return text;
-            }
 
-            StringBuilder result = new StringBuilder(length + found);
+            StringBuilder result = new StringBuilder(length);
             foreach (char c in text)
             {
-                switch (c)
+                if (c < 0x20)
                 {
-                    case '{':
-                        result.Append("\\{");
-                        break;
+                    result.AppendFormat("\\'{0:x2}", (byte)c);
+                }
+                else if (c < 0x80)
+                {
+                    switch (c)
+                    {
+                        case '{':
+                            result.Append("\\{");
+                            break;
 
-                    case '}':
-                        result.Append("\\}");
-                        break;
+                        case '}':
+                            result.Append("\\}");
+                            break;
 
-                    case '\\':
-                        result.Append("\\\\");
-                        break;
+                        case '\\':
+                            result.Append("\\\\");
+                            break;
 
-                    default:
+                        default:
+                            result.Append(c);
+                            break;
+                    }
+                }
+                else if (c < 0x100)
+                {
+                    result.AppendFormat("\\'{0:x2}", (byte)c);
+                }
+                else
+                {
+                    bool simple = false;
+                    if (!ReferenceEquals(goodRange, null))
+                    {
+                        if (c >= goodRange.From && c <= goodRange.To)
+                        {
+                            simple = true;
+                        }
+                    }
+                    if (simple)
+                    {
                         result.Append(c);
-                        break;
+                    }
+                    else
+                    {
+                        // После \u следующий символ съедается
+                        // поэтому подсовываем знак вопроса
+                        result.AppendFormat("\\u{0}?", (short)c);
+                    }
                 }
             }
 

@@ -75,7 +75,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                             "\\b #{0}/{1}:_\\b0 {2}\\par ",
                             tag.ToInvariantString(),
                             field.Repeat,
-                            RichText.Encode(text)
+                            RichText.Encode(text, null)
                         );
                 }
 
