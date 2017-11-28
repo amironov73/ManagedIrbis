@@ -42,6 +42,15 @@ namespace ManagedIrbis.Monitoring
     [MoonSharpUserData]
     public sealed class IrbisMonitor
     {
+        #region Constants
+
+        /// <summary>
+        /// Default interval value, milliseconds.
+        /// </summary>
+        public const int DefaultInterval = 1000;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -53,7 +62,7 @@ namespace ManagedIrbis.Monitoring
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get; private set; }
+        public IIrbisConnection Connection { get; private set; }
 
         /// <summary>
         /// Database name.
@@ -62,7 +71,7 @@ namespace ManagedIrbis.Monitoring
         public NonEmptyStringCollection Databases { get; private set; }
 
         /// <summary>
-        /// Interval between measuring.
+        /// Interval between measuring, milliseconds.
         /// </summary>
         public int Interval 
         {
@@ -99,7 +108,7 @@ namespace ManagedIrbis.Monitoring
         /// </summary>
         public IrbisMonitor
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] IEnumerable<string> databases
             )
         {
@@ -112,7 +121,7 @@ namespace ManagedIrbis.Monitoring
             {
                 Databases.Add(database);
             }
-            _interval = 1000;
+            _interval = DefaultInterval;
             Sink = new NullMonitoringSink();
         }
 
@@ -136,7 +145,6 @@ namespace ManagedIrbis.Monitoring
                 }
 
                 Task.Delay(Interval).Wait();
-
             }
         }
 
@@ -156,7 +164,10 @@ namespace ManagedIrbis.Monitoring
             };
 
             ServerStat serverStat = Connection.GetServerStat();
-            result.Clients = serverStat.RunningClients.Length;
+            ClientInfo[] clients = serverStat.RunningClients;
+            result.Clients = ReferenceEquals(clients, null)
+                ? 0
+                : clients.Length;
             result.Commands = serverStat.TotalCommandCount;
 
             List<DatabaseData> list = new List<DatabaseData>(Databases.Count);
@@ -192,11 +203,6 @@ namespace ManagedIrbis.Monitoring
 
             Active = true;
             _workerTask = new Task(_MonitoringRoutine);
-            //_workerThread = new Thread(_MonitoringRoutine)
-            //{
-            //    Name = "IrbisMonitor",
-            //    IsBackground = true
-            //};
             _workerTask.Start();
         }
 
@@ -218,10 +224,6 @@ namespace ManagedIrbis.Monitoring
                 _workerTask = null;
             }
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

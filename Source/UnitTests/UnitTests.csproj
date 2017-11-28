@@ -449,6 +449,7 @@
     <Compile Include="ManagedIrbis\Menus\MenuUtilityTest.cs" />
     <Compile Include="ManagedIrbis\Monitoring\BlockedRecordTest.cs" />
     <Compile Include="ManagedIrbis\Monitoring\DatabaseDataTest.cs" />
+    <Compile Include="ManagedIrbis\Monitoring\IrbisMonitorTest.cs" />
     <Compile Include="ManagedIrbis\Monitoring\MonitoringDataTest.cs" />
     <Compile Include="ManagedIrbis\Monitoring\NullMonitoringSinkTest.cs" />
     <Compile Include="ManagedIrbis\Monitoring\TextMonitoringSinkTest.cs" />

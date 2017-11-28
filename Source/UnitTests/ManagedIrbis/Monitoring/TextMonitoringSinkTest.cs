@@ -62,7 +62,14 @@ namespace UnitTests.ManagedIrbis.Monitoring
             MonitoringData data = _GetData();
             sink.WriteData(data);
             string actual = writer.ToString().DosToUnix();
-            Assert.AreEqual("{\n  \"moment\": \"2017-11-28T09:39:00\",\n  \"clients\": 10,\n  \"commands\": 1234,\n  \"databases\": [\n    {\n      \"name\": \"IBIS\",\n      \"deletedRecords\": 100,\n      \"lockedRecords\": [\n        1,\n        2,\n        3\n      ]\n    },\n    {\n      \"name\": \"RDR\",\n      \"deletedRecords\": 10,\n      \"lockedRecords\": [\n        4,\n        5,\n        6\n      ]\n    }\n  ]\n}\n", actual);
+            Assert.AreEqual("{\n  \"moment\": \"2017-11-28T09:39:00\",\n"
+                + "  \"clients\": 10,\n  \"commands\": 1234,\n"
+                + "  \"databases\": [\n    {\n      \"name\": \"IBIS\",\n"
+                + "      \"deletedRecords\": 100,\n      \"lockedRecords\":"
+                + " [\n        1,\n        2,\n        3\n      ]\n    },\n"
+                + "    {\n      \"name\": \"RDR\",\n      \"deletedRecords\": 10,\n"
+                + "      \"lockedRecords\": [\n        4,\n        5,\n"
+                + "        6\n      ]\n    }\n  ]\n}\n", actual);
         }
 
         [TestMethod]
