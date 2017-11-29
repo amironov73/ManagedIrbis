@@ -91,6 +91,13 @@ namespace AM.Text
         public static readonly UnicodeRange CyrillicSupplement
             = new UnicodeRange("Cyrillic Supplement", '\x0500', '\x052F');
 
+        /// <summary>
+        /// Russian.
+        /// </summary>
+        [NotNull]
+        public static readonly UnicodeRange Russian
+            = new UnicodeRange("Russian", '\x0410', '\x0451');
+
         #endregion
 
         #region Properties

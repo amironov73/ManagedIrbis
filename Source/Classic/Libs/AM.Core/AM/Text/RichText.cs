@@ -144,6 +144,64 @@ namespace AM.Text
             return result.ToString();
         }
 
+        /// <summary>
+        /// Encode text.
+        /// </summary>
+        [CanBeNull]
+        public static string Encode2
+            (
+                [CanBeNull] string text,
+                [CanBeNull] UnicodeRange goodRange
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            int length = text.Length;
+
+            StringBuilder result = new StringBuilder(length);
+            foreach (char c in text)
+            {
+                if (c < 0x20)
+                {
+                    result.AppendFormat("\\'{0:x2}", (byte)c);
+                }
+                else if (c < 0x80)
+                {
+                    result.Append(c);
+                }
+                else if (c < 0x100)
+                {
+                    result.AppendFormat("\\'{0:x2}", (byte)c);
+                }
+                else
+                {
+                    bool simple = false;
+                    if (!ReferenceEquals(goodRange, null))
+                    {
+                        if (c >= goodRange.From && c <= goodRange.To)
+                        {
+                            simple = true;
+                        }
+                    }
+                    if (simple)
+                    {
+                        result.Append(c);
+                    }
+                    else
+                    {
+                        // После \u следующий символ съедается
+                        // поэтому подсовываем знак вопроса
+                        result.AppendFormat("\\u{0}?", (short)c);
+                    }
+                }
+            }
+
+            return result.ToString();
+        }
+
         #endregion
     }
 }
