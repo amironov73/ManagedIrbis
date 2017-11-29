@@ -258,6 +258,7 @@ namespace ManagedIrbis.Biblio
                 .ThrowIfNull("context.Processor");
             IrbisReport report = processor.Report
                 .ThrowIfNull("processor.Report");
+            // ReportDriver driver = context.ReportContext.Driver;
 
             if (Records.Count != 0
                 || Duplicates.Count != 0
@@ -278,7 +279,13 @@ namespace ManagedIrbis.Biblio
                             number.ToInvariantString() + ") "
                         );
                     report.Body.Add(band);
-                    band.Cells.Add(new SimpleTextCell(description));
+
+                    band.Cells.Add(new SimpleTextCell
+                        (
+                            // TODO implement properly!!!
+                            RichText.Encode(description)
+                            //description
+                        ));
                 }
 
                 log.WriteLine(" done");

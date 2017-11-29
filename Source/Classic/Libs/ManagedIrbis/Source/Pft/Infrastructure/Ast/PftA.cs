@@ -67,14 +67,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region ICloneable members
 
         /// <inheritdoc cref="PftNode.Clone" />

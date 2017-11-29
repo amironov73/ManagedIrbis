@@ -61,7 +61,7 @@ namespace ManagedIrbis.Reports
 
         #endregion
 
-        #region ReportCell
+        #region ReportCell members
 
         /// <inheritdoc cref="TextCell.Compute"/>
         public override string Compute
