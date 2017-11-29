@@ -142,7 +142,7 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNull(context, "text");
 
-            string encoded = RichText.Encode(text);
+            string encoded = RichText.Encode(text, null);
             ReportOutput output = context.Output;
             output.Write(encoded);
         }
