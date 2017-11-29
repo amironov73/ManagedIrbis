@@ -703,6 +703,7 @@
     <Compile Include="ManagedIrbis\RecordGuardTest.cs" />
     <Compile Include="ManagedIrbis\SubFieldUtilityTest.cs" />
     <Compile Include="ManagedIrbis\TableDefinitionTest.cs" />
+    <Compile Include="ManagedIrbis\Worksheet\EditContextTest.cs" />
     <Compile Include="ManagedIrbis\Worksheet\WorksheetPageTest.cs" />
     <Compile Include="ManagedIrbis\Worksheet\WsFileTest.cs" />
     <Compile Include="ManagedIrbis\Worksheet\WssFileTest.cs" />

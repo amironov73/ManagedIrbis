@@ -87,17 +87,5 @@ namespace ManagedIrbis.Worksheet
         public object UserData { get; set; }
 
         #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
     }
 }

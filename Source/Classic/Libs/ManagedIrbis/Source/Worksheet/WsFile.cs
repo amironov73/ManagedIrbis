@@ -9,13 +9,9 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
@@ -43,9 +39,10 @@ namespace ManagedIrbis.Worksheet
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    [XmlRoot("ws-file")]
+    [XmlRoot("worksheet")]
     public sealed class WsFile
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -54,7 +51,7 @@ namespace ManagedIrbis.Worksheet
         /// </summary>
         [CanBeNull]
         [XmlAttribute("name")]
-        [JsonProperty("name")]
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
 
         /// <summary>
@@ -77,10 +74,6 @@ namespace ManagedIrbis.Worksheet
         {
             Pages = new NonNullCollection<WorksheetPage>();
         }
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
@@ -154,6 +147,7 @@ namespace ManagedIrbis.Worksheet
             using (StringReader reader = new StringReader(content))
             {
                 result = ParseStream(reader);
+                result.Name = specification.FileName;
             }
 
             for (int i = 0; i < result.Pages.Count; )
@@ -302,22 +296,32 @@ namespace ManagedIrbis.Worksheet
 
 #endif
 
+        /// <summary>
+        /// Should serialize the <see cref="Pages"/> collection?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializePages()
+        {
+            return Pages.Count != 0;
+        }
 
         #endregion
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             Name = reader.ReadNullableString();
             Pages = reader.ReadNonNullCollection<WorksheetPage>();
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -329,9 +333,29 @@ namespace ManagedIrbis.Worksheet
 
         #endregion
 
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<WsFile> verifier = new Verifier<WsFile>(this, throwOnError);
+
+            foreach (WorksheetPage page in Pages)
+            {
+                verifier.VerifySubObject(page, "page");
+            }
+
+            return verifier.Result;
+        }
+
+        #endregion
+
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return Name.ToVisibleString();

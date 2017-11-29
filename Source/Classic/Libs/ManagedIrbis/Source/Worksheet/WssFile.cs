@@ -10,6 +10,7 @@
 #region Using directives
 
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
@@ -39,10 +40,11 @@ namespace ManagedIrbis.Worksheet
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    [XmlRoot("wss-file")]
+    [XmlRoot("wss")]
     [DebuggerDisplay("{Name}")]
     public sealed class WssFile
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -74,10 +76,6 @@ namespace ManagedIrbis.Worksheet
         {
             Items = new NonNullCollection<WorksheetItem>();
         }
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
@@ -132,8 +130,6 @@ namespace ManagedIrbis.Worksheet
             }
         }
 
-
-
 #if !WIN81 && !PORTABLE
 
         /// <summary>
@@ -181,35 +177,69 @@ namespace ManagedIrbis.Worksheet
 
 #endif
 
+        /// <summary>
+        /// Should serialize the <see cref="Items"/> collection?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeItems()
+        {
+            return Items.Count != 0;
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             Name = reader.ReadNullableString();
             Items = reader.ReadNonNullCollection<WorksheetItem>();
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer.WriteNullable(Name);
             writer.Write(Items);
         }
 
         #endregion
 
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<WssFile> verifier
+                = new Verifier<WssFile>(this, throwOnError);
+
+            foreach (WorksheetItem item in Items)
+            {
+                verifier.VerifySubObject(item, "item");
+            }
+
+            return verifier.Result;
+        }
+
+        #endregion
+
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return Name.ToVisibleString();

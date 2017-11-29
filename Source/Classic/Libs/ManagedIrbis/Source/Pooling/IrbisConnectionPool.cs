@@ -253,8 +253,7 @@ namespace ManagedIrbis.Pooling
         /// </summary>
         public Task<IrbisConnection> AcquireConnectionAsync()
         {
-            Task<IrbisConnection> result
-                = Task<IrbisConnection>.Factory.StartNew
+            Task<IrbisConnection> result = Task<IrbisConnection>.Factory.StartNew
                     (
                         () =>
                         {
@@ -444,13 +443,10 @@ namespace ManagedIrbis.Pooling
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
-            Log.Trace
-                (
-                    "IrbisConnectionPool::Dispose"
-                );
+            Log.Trace("IrbisConnectionPool::Dispose: Enter");
 
             lock (_syncRoot)
             {
@@ -470,6 +466,8 @@ namespace ManagedIrbis.Pooling
                     client.Dispose();
                 }
             }
+
+            Log.Trace("IrbisConnectionPool::Dispose: Leave");
         }
 
         #endregion

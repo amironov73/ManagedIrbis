@@ -59,10 +59,7 @@ namespace ManagedIrbis.Pooling
         {
             Code.NotNull(pool, "pool");
 
-            Log.Trace
-                (
-                    "IrbisPoolGuard::Constructor"
-                );
+            Log.Trace("IrbisPoolGuard::Constructor");
 
             Pool = pool;
             Connection = Pool.AcquireConnection();
@@ -87,7 +84,7 @@ namespace ManagedIrbis.Pooling
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
             Log.Trace
