@@ -283,8 +283,7 @@ namespace ManagedIrbis.Biblio
                     band.Cells.Add(new SimpleTextCell
                         (
                             // TODO implement properly!!!
-                            RichText.Encode(description)
-                            //description
+                            RichText.Encode(description, UnicodeRange.Cyrillic)
                         ));
                 }
 
