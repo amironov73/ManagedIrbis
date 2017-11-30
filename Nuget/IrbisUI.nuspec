@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>ArsMagna.Irbis.UI</id>
-    <version>1.8.2.2150</version>
+    <version>1.8.3.2300</version>
     <title>ArsMagna Irbis UI services</title>
     <authors>Mironov Alexey</authors>
     <owners></owners>
@@ -25,10 +25,10 @@
       <dependency id="JetBrains.Annotations" version="10.2.1" />
       <dependency id="MoonSharp" version="2.0.0.0" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
-      <dependency id="ArsMagna.Core" version="1.8.2" />
-      <dependency id="ArsMagna.Drawing" version="1.8.2" />
-      <dependency id="ArsMagna.Windows.Forms" version="1.8.2" />
-      <dependency id="ManagedIrbis" version="1.8.2" />
+      <dependency id="ArsMagna.Core" version="1.8.3" />
+      <dependency id="ArsMagna.Drawing" version="1.8.3" />
+      <dependency id="ArsMagna.Windows.Forms" version="1.8.3" />
+      <dependency id="ManagedIrbis" version="1.8.3" />
       <dependency id="ICSharpCode.TextEditor" version="3.2.1.6466" />
     </dependencies>
     <references></references>
