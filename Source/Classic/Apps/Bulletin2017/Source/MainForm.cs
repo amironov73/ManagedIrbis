@@ -67,6 +67,9 @@ namespace Bulletin2017
             HideMainMenu();
             HideToolStrip();
             HideStatusStrip();
+
+            BulletinPanel panel = new BulletinPanel(this);
+            SetupCentralControl(panel);
         }
 
         #endregion
@@ -74,10 +77,10 @@ namespace Bulletin2017
         #region Private members
 
         private void _Initialize
-        (
-            object sender,
-            EventArgs e
-        )
+            (
+                object sender,
+                EventArgs e
+            )
         {
             Icon = Properties.Resources.Bulletin;
 

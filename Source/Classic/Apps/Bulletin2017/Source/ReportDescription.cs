@@ -37,33 +37,19 @@ namespace Bulletin2017
         public string Title { get; set; }
 
         [CanBeNull]
-        [XmlAttribute("class")]
-        [JsonProperty("class")]
-        public string ReportClass { get; set; }
+        [XmlAttribute("file")]
+        [JsonProperty("file", NullValueHandling = NullValueHandling.Ignore)]
+        public string ReportFile { get; set; }
 
         [NotNull]
         [XmlElement("group")]
         [JsonProperty("groups")]
         public List<GroupDescription> Groups { get; set; }
 
-        [NotNull]
-        [XmlElement("mailto")]
-        [JsonProperty("mailto")]
-        public List<string> MailTo { get; set; }
-
         [CanBeNull]
-        [XmlElement("template")]
-        [JsonProperty("template", NullValueHandling = NullValueHandling.Ignore)]
-        public string MailTemplate { get; set; }
-
-        [CanBeNull]
-        [XmlElement("brief")]
-        [JsonProperty("brief", NullValueHandling = NullValueHandling.Ignore)]
+        [XmlElement("format")]
+        [JsonProperty("format", NullValueHandling = NullValueHandling.Ignore)]
         public string Brief { get; set; }
-
-        [XmlElement("dontSort")]
-        [JsonProperty("dontSort", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool DontSort { get; set; }
 
         #endregion
 
@@ -72,7 +58,6 @@ namespace Bulletin2017
         public ReportDescription()
         {
             Groups = new List<GroupDescription>();
-            MailTo = new List<string>();
         }
 
         #endregion
