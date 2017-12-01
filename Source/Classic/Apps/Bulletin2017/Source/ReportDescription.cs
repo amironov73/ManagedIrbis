@@ -24,17 +24,14 @@ namespace Bulletin2017
 {
     [XmlRoot("report")]
     public sealed class ReportDescription
+        : IVerifiable
     {
         #region Properties
 
-        [XmlAttribute("default")]
-        [JsonProperty("default", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool Default { get; set; }
-
         [CanBeNull]
-        [XmlElement("title")]
-        [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
-        public string Title { get; set; }
+        [XmlAttribute("id")]
+        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
+        public string Id { get; set; }
 
         [CanBeNull]
         [XmlAttribute("file")]
@@ -62,11 +59,32 @@ namespace Bulletin2017
 
         #endregion
 
+        #region IVerifiable members
+
+        public bool Verify(bool throwOnError)
+        {
+            Verifier<ReportDescription> verifier
+                = new Verifier<ReportDescription>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Id, "Id")
+                .NotNullNorEmpty(ReportFile, "ReportFile");
+            foreach (GroupDescription theGroup in Groups)
+            {
+                verifier
+                    .VerifySubObject(theGroup, "group");
+            }
+
+            return verifier.Result;
+        }
+
+        #endregion
+
         #region Object members
 
         public override string ToString()
         {
-            return Title.ToVisibleString();
+            return Id.ToVisibleString();
         }
 
         #endregion

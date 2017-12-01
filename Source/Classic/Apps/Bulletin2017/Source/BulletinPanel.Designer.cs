@@ -33,6 +33,9 @@
             this._prevMonthButton = new System.Windows.Forms.ToolStripButton();
             this._periodLabel = new System.Windows.Forms.ToolStripLabel();
             this._nextMonthButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this._catalogBox = new System.Windows.Forms.ToolStripComboBox();
+            this._reportBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -41,7 +44,10 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._prevMonthButton,
             this._periodLabel,
-            this._nextMonthButton});
+            this._nextMonthButton,
+            this.toolStripSeparator1,
+            this._catalogBox,
+            this._reportBox});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(860, 25);
@@ -74,6 +80,24 @@
             this._nextMonthButton.Text = "toolStripButton2";
             this._nextMonthButton.Click += new System.EventHandler(this._nextMonthButton_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // _catalogBox
+            // 
+            this._catalogBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._catalogBox.Name = "_catalogBox";
+            this._catalogBox.Size = new System.Drawing.Size(200, 25);
+            this._catalogBox.SelectedIndexChanged += new System.EventHandler(this._catalogBox_SelectedIndexChanged);
+            // 
+            // _reportBox
+            // 
+            this._reportBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._reportBox.Name = "_reportBox";
+            this._reportBox.Size = new System.Drawing.Size(200, 25);
+            // 
             // BulletinPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -94,5 +118,8 @@
         private System.Windows.Forms.ToolStripButton _prevMonthButton;
         private System.Windows.Forms.ToolStripLabel _periodLabel;
         private System.Windows.Forms.ToolStripButton _nextMonthButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripComboBox _catalogBox;
+        private System.Windows.Forms.ToolStripComboBox _reportBox;
     }
 }

@@ -52,8 +52,6 @@ namespace Bulletin2017
     {
         #region Properties
 
-
-
         #endregion
 
         #region Construction
@@ -103,7 +101,7 @@ namespace Bulletin2017
                 return;
             }
 
-            WriteLine("Bulletin2107 ready");
+            WriteLine("Bulletin2017 ready");
         }
 
         #endregion

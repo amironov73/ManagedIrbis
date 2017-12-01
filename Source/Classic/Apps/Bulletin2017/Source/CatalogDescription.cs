@@ -10,6 +10,7 @@
 #region Using directives
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 
 using AM;
@@ -24,12 +25,13 @@ namespace Bulletin2017
 {
     [XmlRoot("catalog")]
     public sealed class CatalogDescription
+        : IVerifiable
     {
         #region Properties
 
         [XmlAttribute("default")]
         [JsonProperty("default", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool IsDefault { get; set; }
+        public bool Default { get; set; }
 
         [CanBeNull]
         [XmlElement("title")]
@@ -49,7 +51,7 @@ namespace Bulletin2017
         [NotNull]
         [XmlElement("report")]
         [JsonProperty("reports")]
-        public List<ReportDescription> Reports { get; set; }
+        public List<ReportReference> Reports { get; set; }
 
         #endregion
 
@@ -57,21 +59,44 @@ namespace Bulletin2017
 
         public CatalogDescription()
         {
-            Reports = new List<ReportDescription>();
+            Reports = new List<ReportReference>();
         }
 
         #endregion
 
         #region Public methods
 
-        //public ReportDescription GetDefaultReport()
-        //{
-        //    return (from report in Reports
-        //               where report.Default
-        //               select report).FirstOrDefault()
-        //           ?? (from report in Reports
-        //               select report).First();
-        //}
+        [NotNull]
+        public ReportReference GetDefaultReport()
+        {
+            return Reports
+                       .FirstOrDefault(report => report.Default)
+                   ?? Reports.First();
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<CatalogDescription> verifier
+                = new Verifier<CatalogDescription>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Title, "Title")
+                .NotNullNorEmpty(ConnectionString, "ConnectionString");
+            foreach (ReportReference report in Reports)
+            {
+                verifier
+                    .VerifySubObject(report, "report");
+            }
+
+            return verifier.Result;
+        }
 
         #endregion
 

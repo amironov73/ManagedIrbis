@@ -51,12 +51,37 @@ using Newtonsoft.Json.Linq;
 
 #endregion
 
+// ReSharper disable CoVariantArrayConversion
+
 namespace Bulletin2017
 {
     public partial class BulletinPanel
         : UniversalCentralControl
     {
         #region Properties
+
+        [NotNull]
+        public CatalogDescription CurrentCatalog
+        {
+            get
+            {
+                return (CatalogDescription)_catalogBox.SelectedItem
+                    .ThrowIfNull("CurrentCatalog");
+            }
+        }
+
+        [NotNull]
+        public ReportReference CurrentReport
+        {
+            get
+            {
+                return (ReportReference)_reportBox.SelectedItem
+                    .ThrowIfNull("CurrentReport");
+            }
+        }
+
+        [NotNull]
+        public Model Model { get; private set; }
 
         /// <summary>
         /// Busy state controller.
@@ -96,6 +121,9 @@ namespace Bulletin2017
         public BulletinPanel()
             : base(null)
         {
+            Model = Model.LoadFromJson("Configuration.json");
+            Model.Verify(true);
+
             InitializeComponent();
         }
 
@@ -105,10 +133,16 @@ namespace Bulletin2017
             )
             : base(mainForm)
         {
+            Model = Model.LoadFromJson("Configuration.json");
+            Model.Verify(true);
+
             InitializeComponent();
 
             mainForm.Icon = Properties.Resources.Bulletin;
             Period = DateTimeUtility.ThisMonth;
+
+            _catalogBox.Items.AddRange(Model.Catalogs.ToArray());
+            _catalogBox.SelectedItem = Model.GetDefaultCatalog();
         }
 
         #endregion
@@ -136,6 +170,14 @@ namespace Bulletin2017
         private void _nextMonthButton_Click(object sender, EventArgs e)
         {
             Period = Period.AddMonths(1);
+        }
+
+        private void _catalogBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CatalogDescription catalog = CurrentCatalog;
+            _reportBox.Items.Clear();
+            _reportBox.Items.AddRange(catalog.Reports.ToArray());
+            _reportBox.SelectedItem = catalog.GetDefaultReport();
         }
 
         #endregion

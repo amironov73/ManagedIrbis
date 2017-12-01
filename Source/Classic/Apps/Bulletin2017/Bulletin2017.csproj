@@ -151,6 +151,7 @@
       <DependentUpon>BulletinPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\CatalogDescription.cs" />
+    <Compile Include="Source\Model.cs" />
     <Compile Include="Source\GroupDescription.cs" />
     <Compile Include="Source\MainForm.cs">
       <SubType>Form</SubType>
@@ -161,6 +162,7 @@
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\ReportDescription.cs" />
+    <Compile Include="Source\ReportReference.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
