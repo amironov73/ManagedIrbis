@@ -161,6 +161,7 @@
     </Compile>
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\PythonFormatter.cs" />
     <Compile Include="Source\ReportDescription.cs" />
     <Compile Include="Source\ReportReference.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
