@@ -312,6 +312,7 @@
     <Compile Include="AM\Text\Tokenizer\TokenKind.cs" />
     <Compile Include="AM\Text\Tokenizer\TokenStream.cs" />
     <Compile Include="AM\Text\Transliterator.cs" />
+    <Compile Include="AM\Text\UnicodeCharacter.cs" />
     <Compile Include="AM\Text\UnicodeRange.cs" />
     <Compile Include="AM\Threading\BusyGuard.cs" />
     <Compile Include="AM\Threading\BusyState.cs" />

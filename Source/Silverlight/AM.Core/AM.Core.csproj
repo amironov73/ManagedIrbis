@@ -620,6 +620,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Transliterator.cs">
       <Link>AM\Text\Transliterator.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\UnicodeCharacter.cs">
+      <Link>AM\Text\UnicodeRange.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\UnicodeRange.cs">
       <Link>AM\Text\UnicodeRange.cs</Link>
     </Compile>
