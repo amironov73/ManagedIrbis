@@ -14,8 +14,13 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
+using AM.Logging;
 using AM.Reflection;
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -96,6 +101,60 @@ namespace AM.Runtime
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Pre-JIT types of the <paramref name="assembly"/>.
+        /// </summary>
+        public static void PrepareAssembly
+            (
+                [NotNull] Assembly assembly
+            )
+        {
+            Code.NotNull(assembly, "assembly");
+
+            try
+            {
+                foreach (Type type in assembly.GetTypes())
+                {
+                    PrepareType(type);
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException
+                    (
+                        "RuntimeUtility::PrepareAssembly",
+                        exception
+                    );
+            }
+        }
+
+        /// <summary>
+        /// Pre-JIT methods of the <paramref name="type"/>.
+        /// </summary>
+        public static void PrepareType
+            (
+                [NotNull] Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+            try
+            {
+                foreach (MethodInfo method in type.GetMethods())
+                {
+                    RuntimeHelpers.PrepareMethod(method.MethodHandle);
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException
+                    (
+                        "RuntimeUtility::PrepareType",
+                        exception
+                    );
+            }
+        }
 
         #endregion
     }
