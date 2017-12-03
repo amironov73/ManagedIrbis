@@ -51,7 +51,7 @@ namespace ManagedIrbis.Infrastructure
         /// </summary>
         public StandardEngine
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [CanBeNull] AbstractEngine nestedEngine
             )
             : base(connection, nestedEngine)

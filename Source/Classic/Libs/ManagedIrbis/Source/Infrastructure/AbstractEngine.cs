@@ -60,7 +60,7 @@ namespace ManagedIrbis.Infrastructure
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get; private set; }
+        public IIrbisConnection Connection { get; private set; }
 
         /// <summary>
         /// Nested engine.
@@ -88,7 +88,7 @@ namespace ManagedIrbis.Infrastructure
         /// </summary>
         protected AbstractEngine
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [CanBeNull] AbstractEngine nestedEngine
             )
         {
@@ -192,34 +192,36 @@ namespace ManagedIrbis.Infrastructure
         {
             Log.Trace("AbstractEngine::OnException");
 
+            // TODO Implement properly!
+
             ArsMagnaException exception
                 = context.Exception as ArsMagnaException;
-            if (!ReferenceEquals(exception, null))
+            IrbisConnection connection = Connection as IrbisConnection;
+            if (!ReferenceEquals(exception, null)
+                && !ReferenceEquals(connection, null))
             {
-                if (!ReferenceEquals(Connection.RawClientRequest, null))
+                if (!ReferenceEquals(connection.RawClientRequest, null))
                 {
                     BinaryAttachment request = new BinaryAttachment
                         (
                             "request",
-                            Connection.RawClientRequest
+                            connection.RawClientRequest
                         );
                     exception.Attach(request);
                 }
 
-                if (!ReferenceEquals(Connection.RawServerResponse, null))
+                if (!ReferenceEquals(connection.RawServerResponse, null))
                 {
-                    BinaryAttachment response
-                        = new BinaryAttachment
+                    BinaryAttachment response = new BinaryAttachment
                         (
                             "response",
-                            Connection.RawServerResponse
+                            connection.RawServerResponse
                         );
                     exception.Attach(response);
                 }
             }
 
-            EventHandler<ExecutionEventArgs> handler
-                = ExceptionOccurs;
+            EventHandler<ExecutionEventArgs> handler = ExceptionOccurs;
 
             if (!ReferenceEquals(handler, null))
             {

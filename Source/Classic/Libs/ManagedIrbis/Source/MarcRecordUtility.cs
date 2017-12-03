@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using AM;
@@ -45,19 +46,61 @@ namespace ManagedIrbis
     [MoonSharpUserData]
     public static class MarcRecordUtility
     {
-        #region Constants
-
-        #endregion
-
-        #region Properties
-        
-        #endregion
-
-        #region Private members
-
-        #endregion
-
         #region Public methods
+
+        /// <summary>
+        /// Add the field to the record.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord AddField
+            (
+                [NotNull] this MarcRecord record,
+                [NotNull] RecordField field
+            )
+        {
+            Code.NotNull(record, "record");
+            Code.NotNull(field, "field");
+
+            record.Fields.Add(field);
+
+            return record;
+        }
+
+        /// <summary>
+        /// Add the field to the record.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord AddField
+            (
+                [NotNull] this MarcRecord record,
+                int tag,
+                [NotNull] object value
+            )
+        {
+            Code.NotNull(record, "record");
+            Code.NotNull(value, "value");
+
+            RecordField field = value as RecordField;
+            if (!ReferenceEquals(field, null))
+            {
+                Debug.Assert(tag == field.Tag, "tag == field.Tag");
+            }
+            else
+            {
+                string text = value.ToString();
+                if (!string.IsNullOrEmpty(text))
+                {
+                    field = RecordField.Parse(tag, value.ToString());
+                }
+                else
+                {
+                    field = new RecordField(tag);
+                }
+            }
+            record.Fields.Add(field);
+
+            return record;
+        }
 
         /// <summary>
         /// Add non-empty field.
@@ -74,8 +117,21 @@ namespace ManagedIrbis
 
             if (!ReferenceEquals(value, null))
             {
-                RecordField field = new RecordField(tag, value.ToString());
-                record.Fields.Add(field);
+                RecordField field = value as RecordField;
+                if (!ReferenceEquals(field, null))
+                {
+                    Debug.Assert(tag == field.Tag, "tag == field.Tag");
+                    record.Fields.Add(field);
+                }
+                else
+                {
+                    string text = value.ToString();
+                    if (!string.IsNullOrEmpty(text))
+                    {
+                        field = new RecordField(tag, text);
+                        record.Fields.Add(field);
+                    }
+                }
             }
 
             return record;
@@ -131,23 +187,84 @@ namespace ManagedIrbis
         /// </summary>
         public static bool HaveField
             (
-                this MarcRecord record,
+                [NotNull] this MarcRecord record,
                 params int[] tags
             )
         {
-            return record.Fields.GetField(tags).Length != 0;
+            RecordFieldCollection fields = record.Fields;
+            for (int i = 0; i < fields.Count; i++)
+            {
+                if (fields[i].Tag.OneOf(tags))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
+
+        /// <summary>
+        /// Есть хотя бы одно поле с указанным тегом?
+        /// </summary>
+        public static bool HaveField
+            (
+                [NotNull] this MarcRecord record,
+                int tag
+            )
+        {
+            RecordFieldCollection fields = record.Fields;
+            for (int i = 0; i < fields.Count; i++)
+            {
+                if (fields[i].Tag == tag)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
 
         /// <summary>
         /// Нет ни одного поля с указанными тегами?
         /// </summary>
         public static bool HaveNotField
+        (
+            this MarcRecord record,
+            params int[] tags
+        )
+        {
+            RecordFieldCollection fields = record.Fields;
+            for (int i = 0; i < fields.Count; i++)
+            {
+                if (fields[i].Tag.OneOf(tags))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Нет ни одного поля с указанным тегом?
+        /// </summary>
+        public static bool HaveNotField
             (
                 this MarcRecord record,
-                params int[] tags
+                int tag
             )
         {
-            return record.Fields.GetField(tags).Length == 0;
+            RecordFieldCollection fields = record.Fields;
+            for (int i = 0; i < fields.Count; i++)
+            {
+                if (fields[i].Tag == tag)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -277,22 +394,22 @@ namespace ManagedIrbis
             (
                 [NotNull] this MarcRecord record,
                 int tag,
-                string text
+                [CanBeNull] string value
             )
         {
             Code.NotNull(record, "record");
+            Code.Positive(tag, "tag");
 
-            RecordField field = record.Fields
-                .GetField(tag)
-                .FirstOrDefault();
+            RecordField field = record.Fields.GetFirstField(tag);
 
-            if (field == null)
+            if (ReferenceEquals(field, null))
             {
                 field = new RecordField(tag);
                 record.Fields.Add(field);
             }
 
-            field.Value = text;
+            field.SubFields.Clear();
+            field.Value = value;
 
             return record;
         }
@@ -310,13 +427,13 @@ namespace ManagedIrbis
             )
         {
             Code.NotNull(record, "record");
+            Code.Positive(tag, "tag");
 
-            RecordField field = record.Fields
-                .GetField(tag)
-                .GetOccurrence(occurrence);
+            RecordField field = record.Fields.GetField(tag, occurrence);
 
             if (!ReferenceEquals(field, null))
             {
+                field.SubFields.Clear();
                 field.Value = newText;
             }
 
@@ -332,22 +449,21 @@ namespace ManagedIrbis
                 [NotNull] this MarcRecord record,
                 int tag,
                 char code,
-                string text
+                [CanBeNull] string newValue
             )
         {
             Code.NotNull(record, "record");
+            Code.Positive(tag, "tag");
 
-            RecordField field = record.Fields
-                .GetField(tag)
-                .FirstOrDefault();
+            RecordField field = record.Fields.GetFirstField(tag);
 
-            if (field == null)
+            if (ReferenceEquals(field, null))
             {
                 field = new RecordField(tag);
                 record.Fields.Add(field);
             }
 
-            field.SetSubField(code, text);
+            field.SetSubField(code, newValue);
 
             return record;
         }
@@ -363,32 +479,25 @@ namespace ManagedIrbis
                 int fieldOccurrence,
                 char code,
                 int subFieldOccurrence,
-                string newText
+                [CanBeNull] string newValue
             )
         {
             Code.NotNull(record, "record");
+            Code.Positive(tag, "tag");
 
-            RecordField field = record.Fields
-                .GetField(tag)
-                .GetOccurrence(fieldOccurrence);
+            RecordField field = record.Fields.GetField(tag, fieldOccurrence);
 
             if (!ReferenceEquals(field, null))
             {
-                SubField subField = field.GetSubField
-                    (
-                        code,
-                        subFieldOccurrence
-                    );
+                SubField subField = field.GetSubField(code, subFieldOccurrence);
                 if (!ReferenceEquals(subField, null))
                 {
-                    subField.Value = newText;
+                    subField.Value = newValue;
                 }
             }
 
             return record;
         }
-
-#if !WINMOBILE && !PocketPC
 
         /// <summary>
         /// Convert the <see cref="MarcRecord"/> to JSON.
@@ -401,15 +510,19 @@ namespace ManagedIrbis
         {
             Code.NotNull(record, "record");
 
+#if WINMOBILE || PocketPC
+
+            throw new System.NotImplementedException();
+
+#else
+
             string result = JObject.FromObject(record)
                 .ToString(Formatting.None);
 
             return result;
-        }
 
 #endif
-
-#if CLASSIC || NETCORE
+        }
 
         /// <summary>
         /// Convert the <see cref="MarcRecord"/> to YAML.
@@ -422,13 +535,19 @@ namespace ManagedIrbis
         {
             Code.NotNull(record, "record");
 
+#if !CLASSIC && !NETCORE
+
+            throw new System.NotImplementedException();
+
+#else
+
             Serializer serializer = new Serializer();
             string result = serializer.Serialize(record);
 
             return result;
-        }
 
 #endif
+        }
 
         #endregion
     }

@@ -10,13 +10,10 @@
 #region Using directives
 
 using System;
-using System.Diagnostics;
-using System.IO;
-
-#if FW4
-using System.Diagnostics.CodeAnalysis;
 using System.ComponentModel;
-#endif
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 
 using AM;
 using AM.IO;
@@ -458,10 +455,8 @@ namespace ManagedIrbis
         /// <summary>
         /// For Newtonsoft.Json.
         /// </summary>
-        #if FW4
         [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        #endif
         public bool ShouldSerializeDatabase()
         {
             return !string.IsNullOrEmpty(Database);
@@ -470,10 +465,8 @@ namespace ManagedIrbis
         /// <summary>
         /// For Newtonsoft.Json.
         /// </summary>
-        #if FW4
         [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        #endif
         public bool ShouldSerializeHostName()
         {
             return !string.IsNullOrEmpty(HostName);
@@ -483,10 +476,8 @@ namespace ManagedIrbis
         /// <summary>
         /// For Newtonsoft.Json.
         /// </summary>
-        #if FW4
         [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        #endif
         public bool ShouldSerializeMfn()
         {
             return Mfn != 0;
@@ -495,10 +486,8 @@ namespace ManagedIrbis
         /// <summary>
         /// For Newtonsoft.Json.
         /// </summary>
-        #if FW4
         [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        #endif
         public bool ShouldSerializeStatus()
         {
             return Status != 0;
@@ -507,10 +496,8 @@ namespace ManagedIrbis
         /// <summary>
         /// For Newtonsoft.Json.
         /// </summary>
-        #if FW4
         [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        #endif
         public bool ShouldSerializeVersion()
         {
             return Version != 0;
@@ -520,7 +507,7 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -540,7 +527,7 @@ namespace ManagedIrbis
             Index = reader.ReadNullableString();
         }
 
-        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -611,7 +598,7 @@ namespace ManagedIrbis
 
         #region IVerifiable members
 
-        /// <inheritdoc cref="IVerifiable.Verify"/>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
@@ -641,7 +628,7 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString"/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return ProtocolText.EncodeRecord(this);

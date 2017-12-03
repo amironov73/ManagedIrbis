@@ -442,6 +442,7 @@
     <Compile Include="ManagedIrbis\Magazines\MagazineCumulationTest.cs" />
     <Compile Include="ManagedIrbis\Magazines\MagazineInfoTest.cs" />
     <Compile Include="ManagedIrbis\Magazines\MagazineIssueInfoTest.cs" />
+    <Compile Include="ManagedIrbis\MarcRecordUtilityTest.cs" />
     <Compile Include="ManagedIrbis\Marc\Schema\SubFieldSchemaTest.cs" />
     <Compile Include="ManagedIrbis\Marc\Schema\RelatedFieldTest.cs" />
     <Compile Include="ManagedIrbis\Menus\MenuEntryTest.cs" />

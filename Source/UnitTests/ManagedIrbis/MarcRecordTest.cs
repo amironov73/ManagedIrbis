@@ -1,8 +1,11 @@
 ﻿using System.Linq;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM;
 using AM.Runtime;
+
+using JetBrains.Annotations;
 
 using ManagedIrbis;
 
@@ -11,54 +14,7 @@ namespace UnitTests.ManagedIrbis
     [TestClass]
     public class MarcRecordTest
     {
-        [TestMethod]
-        public void MarcRecord_Constructor_1()
-        {
-            MarcRecord record = new MarcRecord();
-
-            Assert.IsNotNull(record);
-            Assert.IsNotNull(record.Fields);
-            Assert.IsNull(record.Database);
-            Assert.IsNull(record.Description);
-            Assert.AreEqual(0, record.Version);
-
-            record.Fields.Add(new RecordField());
-
-            Assert.AreEqual(record, record.Fields[0].Record);
-        }
-
-        private void _TestSerialization
-            (
-                MarcRecord record1
-            )
-        {
-            byte[] bytes = record1.SaveToMemory();
-
-            MarcRecord record2 = bytes
-                .RestoreObjectFromMemory<MarcRecord>();
-            Assert.IsNotNull(record2);
-            Assert.AreEqual
-                (
-                    0,
-                    MarcRecord.Compare
-                    (
-                        record1,
-                        record2
-                    )
-                );
-        }
-
-        [TestMethod]
-        public void MarcRecord_Serialization_1()
-        {
-            MarcRecord record = new MarcRecord();
-            _TestSerialization(record);
-            record.Fields.Add(new RecordField("200"));
-            _TestSerialization(record);
-            record.Fields.Add(new RecordField("300", "Hello"));
-            _TestSerialization(record);
-        }
-
+        [NotNull]
         private MarcRecord _GetRecord()
         {
             MarcRecord result = new MarcRecord();
@@ -87,6 +43,45 @@ namespace UnitTests.ManagedIrbis
             result.Fields.Add(field);
 
             return result;
+        }
+
+        [TestMethod]
+        public void MarcRecord_Constructor_1()
+        {
+            MarcRecord record = new MarcRecord();
+
+            Assert.IsNotNull(record);
+            Assert.IsNotNull(record.Fields);
+            Assert.IsNull(record.Database);
+            Assert.IsNull(record.Description);
+            Assert.AreEqual(0, record.Version);
+
+            record.Fields.Add(new RecordField());
+
+            Assert.AreEqual(record, record.Fields[0].Record);
+        }
+
+        private void _TestSerialization
+            (
+                [NotNull] MarcRecord first
+            )
+        {
+            byte[] bytes = first.SaveToMemory();
+
+            MarcRecord second = bytes.RestoreObjectFromMemory<MarcRecord>();
+            Assert.AreEqual(0, MarcRecord.Compare(first, second));
+            Assert.IsNull(second.UserData);
+        }
+
+        [TestMethod]
+        public void MarcRecord_Serialization_1()
+        {
+            MarcRecord record = new MarcRecord();
+            _TestSerialization(record);
+
+            record = _GetRecord();
+            record.UserData = "User data";
+            _TestSerialization(record);
         }
 
         [TestMethod]
