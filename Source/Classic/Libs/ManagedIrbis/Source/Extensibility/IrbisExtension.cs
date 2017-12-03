@@ -80,34 +80,53 @@ namespace ManagedIrbis.Extensibility
         /// Decode the record.
         /// </summary>
         [NotNull]
-        protected static MarcRecord DecodeRecord
+        public static MarcRecord DecodeRecord
             (
                 [NotNull] string text
             )
         {
             Code.NotNullNorEmpty(text, "text");
 
-            using (StringReader reader = new StringReader(text))
-            {
-                MarcRecord result = PlainText.ReadRecord(reader)
-                    .ThrowIfNull("PlainText.ReadRecord");
+            MarcRecord result = new MarcRecord();
+            result.Fields.BeginUpdate();
+            result.Fields.Clear();
 
-                return result;
+            string[] split = text.SplitLines();
+            ProtocolText.ParseMfnStatusVersion
+                (
+                    split[1],
+                    split[2],
+                    result
+                );
+
+            for (int i = 3; i < split.Length; i++)
+            {
+                string line = split[i];
+                if (!string.IsNullOrEmpty(line))
+                {
+                    RecordField field = ProtocolText.ParseLine(line);
+                    if (field.Tag > 0)
+                    {
+                        result.Fields.Add(field);
+                    }
+                }
             }
+
+            return result;
         }
 
         /// <summary>
         /// Encode the record.
         /// </summary>
         [NotNull]
-        protected static string EncodeRecord
+        public static string EncodeRecord
             (
                 [NotNull] MarcRecord record
             )
         {
             Code.NotNull(record, "record");
 
-            string result = record.ToPlainText();
+            string result = PlainText.ToAllFormat(record);
 
             return result;
         }

@@ -87,39 +87,6 @@ namespace ManagedIrbis.ImportExport
             return result.ToString();
         }
 
-        private static RecordField _ParseLine
-            (
-                string line
-            )
-        {
-            StringReader reader = new StringReader(line);
-
-            RecordField result = new RecordField
-            {
-                Tag = NumericUtility.ParseInt32(_ReadTo(reader, '#')),
-                Value = _ReadTo(reader, '^')
-            };
-
-            while (true)
-            {
-                int next = reader.Read();
-                if (next < 0)
-                {
-                    break;
-                }
-                char code = char.ToLower((char)next);
-                string text = _ReadTo(reader, '^');
-                SubField subField = new SubField
-                {
-                    Code = code,
-                    Value = text
-                };
-                result.SubFields.Add(subField);
-            }
-
-            return result;
-        }
-
         #endregion
 
         #region Public methods
@@ -213,6 +180,45 @@ namespace ManagedIrbis.ImportExport
         }
 
         /// <summary>
+        /// Parse the line.
+        /// </summary>
+        [NotNull]
+        public static RecordField ParseLine
+            (
+                [NotNull] string line
+            )
+        {
+            Code.NotNullNorEmpty(line, "line");
+
+            StringReader reader = new StringReader(line);
+
+            RecordField result = new RecordField
+            {
+                Tag = NumericUtility.ParseInt32(_ReadTo(reader, '#')),
+                Value = _ReadTo(reader, '^')
+            };
+
+            while (true)
+            {
+                int next = reader.Read();
+                if (next < 0)
+                {
+                    break;
+                }
+                char code = char.ToLower((char)next);
+                string text = _ReadTo(reader, '^');
+                SubField subField = new SubField
+                {
+                    Code = code,
+                    Value = text
+                };
+                result.SubFields.Add(subField);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Parse MFN, status and version of the record
         /// </summary>
         [NotNull]
@@ -282,7 +288,7 @@ namespace ManagedIrbis.ImportExport
                     {
                         break;
                     }
-                    RecordField field = _ParseLine(line);
+                    RecordField field = ParseLine(line);
                     if (field.Tag > 0)
                     {
                         record.Fields.Add(field);
@@ -353,7 +359,7 @@ namespace ManagedIrbis.ImportExport
                 for (int i = 1; i < split.Length; i++)
                 {
                     string line = split[i];
-                    RecordField field = _ParseLine(line);
+                    RecordField field = ParseLine(line);
                     if (field.Tag > 0)
                     {
                         record.Fields.Add(field);
@@ -400,7 +406,7 @@ namespace ManagedIrbis.ImportExport
                 for (int i = 2; i < split.Length; i++)
                 {
                     string line = split[i];
-                    RecordField field = _ParseLine(line);
+                    RecordField field = ParseLine(line);
                     if (field.Tag > 0)
                     {
                         record.Fields.Add(field);
@@ -451,7 +457,7 @@ namespace ManagedIrbis.ImportExport
                 for (int i = 3; i < split.Length; i++)
                 {
                     line = split[i];
-                    RecordField field = _ParseLine(line);
+                    RecordField field = ParseLine(line);
                     if (field.Tag > 0)
                     {
                         record.Fields.Add(field);
@@ -502,7 +508,7 @@ namespace ManagedIrbis.ImportExport
                     line = split[i];
                     if (!string.IsNullOrEmpty(line))
                     {
-                        RecordField field = _ParseLine(line);
+                        RecordField field = ParseLine(line);
                         if (field.Tag > 0)
                         {
                             record.Fields.Add(field);
@@ -546,7 +552,7 @@ namespace ManagedIrbis.ImportExport
                 for (int i = 1; i < split.Length; i++)
                 {
                     line = split[i];
-                    RecordField field = _ParseLine(line);
+                    RecordField field = ParseLine(line);
                     if (field.Tag > 0)
                     {
                         record.Fields.Add(field);

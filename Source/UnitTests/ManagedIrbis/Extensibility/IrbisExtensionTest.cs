@@ -59,13 +59,9 @@ namespace UnitTests.ManagedIrbis.Extensibility
                 MarcRecord source = provider.ReadRecord(1);
                 Assert.IsNotNull(source);
                 Assert.IsFalse(source.HaveField(1000));
-                string input = PlainText.ToPlainText(source);
+                string input = PlainText.ToAllFormat(source);
                 string output = extension.HandleInput(input);
-                MarcRecord target;
-                using (StringReader reader = new StringReader(output))
-                {
-                    target = PlainText.ReadRecord(reader);
-                }
+                MarcRecord target = IrbisExtension.DecodeRecord(output);
                 Assert.IsTrue(target.HaveField(1000));
             }
         }
@@ -85,7 +81,9 @@ namespace UnitTests.ManagedIrbis.Extensibility
                 Marshal.Copy(bytes, 0, inputBuffer, bytes.Length);
                 IntPtr outputBuffer = Marshal.AllocHGlobal(32000);
                 int retCode = extension.EntryPoint(inputBuffer, outputBuffer, 32000);
-                Marshal.Copy(outputBuffer, bytes, 0, 32000);
+                Assert.AreEqual(1, retCode);
+                bytes = new byte[32000];
+                Marshal.Copy(outputBuffer, bytes, 0, bytes.Length);
                 int length = 0;
                 while (length < 32000)
                 {
@@ -96,11 +94,7 @@ namespace UnitTests.ManagedIrbis.Extensibility
                     length++;
                 }
                 string output = Encoding.UTF8.GetString(bytes, 0, length);
-                MarcRecord target;
-                using (StringReader reader = new StringReader(output))
-                {
-                    target = PlainText.ReadRecord(reader);
-                }
+                MarcRecord target = IrbisExtension.DecodeRecord(output);
                 Assert.IsTrue(target.HaveField(1000));
             }
         }

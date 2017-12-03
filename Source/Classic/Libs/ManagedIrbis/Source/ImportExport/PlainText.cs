@@ -294,6 +294,32 @@ namespace ManagedIrbis.ImportExport
 #endif
 
         /// <summary>
+        /// Формирует представление записи в формате ALL.
+        /// </summary>
+        [NotNull]
+        public static string ToAllFormat
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            StringBuilder output = new StringBuilder();
+            output.AppendLine("0");
+            output.AppendLine(string.Format
+                (
+                    "{0}#0", record.Mfn
+                ));
+            output.AppendLine(string.Format
+                (
+                    "0#{0}", record.Version
+                ));
+            output.Append(record.ToPlainText());
+
+            return output.ToString();
+        }
+
+        /// <summary>
         /// Формирует плоское текстовое представление записи.
         /// </summary>
         [NotNull]
