@@ -64,14 +64,7 @@ namespace ManagedIrbis
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class IlfFile
-        :
-
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !PORTABLE
-
-        IHandmadeSerializable,
-
-#endif
-
+        : IHandmadeSerializable,
         IVerifiable
     {
         #region Constants
@@ -92,11 +85,7 @@ namespace ManagedIrbis
         [DebuggerDisplay("[{Number}] {Name}")]
         public sealed class Entry
             :
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-
             IHandmadeSerializable,
-
-#endif
 
             IVerifiable
         {
@@ -154,7 +143,6 @@ namespace ManagedIrbis
 
             #region IHandmadeSerializable members
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
             /// <summary>
             /// Restore object state from the specified stream.
@@ -164,6 +152,14 @@ namespace ManagedIrbis
                     BinaryReader reader
                 )
             {
+                Code.NotNull(reader, "reader");
+
+#if WINMOBILE || PocketPC || SILVERLIGHT
+
+                throw new System.NotImplementedException();
+
+#else
+
                 Position = reader.ReadPackedInt32();
                 Date = reader.ReadDateTime();
                 Deleted = reader.ReadBoolean();
@@ -173,6 +169,8 @@ namespace ManagedIrbis
                 DataLength = reader.ReadPackedInt32();
                 Description = reader.ReadNullableString();
                 Data = reader.ReadNullableString();
+
+#endif
             }
 
             /// <summary>
@@ -183,6 +181,14 @@ namespace ManagedIrbis
                     BinaryWriter writer
                 )
             {
+                Code.NotNull(writer, "writer");
+
+#if WINMOBILE || PocketPC || SILVERLIGHT
+
+                throw new System.NotImplementedException();
+
+#else
+
                 writer.WritePackedInt32(Position);
                 writer.Write(Date);
                 writer.Write(Deleted);
@@ -192,11 +198,12 @@ namespace ManagedIrbis
                 writer.WritePackedInt32(DataLength);
                 writer.WriteNullable(Description);
                 writer.WriteNullable(Data);
-            }
 
 #endif
+            }
 
-            #endregion
+
+                #endregion
 
             #region IVerifiable members
 
@@ -208,15 +215,13 @@ namespace ManagedIrbis
                     bool throwOnError
                 )
             {
-                bool result = !string.IsNullOrEmpty(Name)
-                              && !string.IsNullOrEmpty(Data);
+                Verifier<Entry> verifier = new Verifier<Entry>(this, throwOnError);
 
-                if (!result && throwOnError)
-                {
-                    throw new VerificationException();
-                }
+                verifier
+                    .NotNullNorEmpty(Name, "Name")
+                    .NotNullNorEmpty(Data, "Data");
 
-                return result;
+                return verifier.Result;
             }
 
             #endregion
@@ -454,15 +459,23 @@ namespace ManagedIrbis
 
         #region IHandmadeSerializable members
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-
         /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
         public void RestoreFromStream
             (
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
+#if WINMOBILE || PocketPC || SILVERLIGHT
+
+            throw new NotImplementedExcetpion();
+
+#else
+
             reader.ReadCollection(Entries);
+
+#endif
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
@@ -471,10 +484,19 @@ namespace ManagedIrbis
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
+#if WINMOBILE || PocketPC || SILVERLIGHT
+
+            throw new NotImplementedException();
+
+#else
+
             writer.WriteCollection(Entries);
-        }
 
 #endif
+        }
+
 
         #endregion
 
@@ -486,31 +508,14 @@ namespace ManagedIrbis
                 bool throwOnError
             )
         {
-            bool result = true;
+            Verifier<IlfFile> verifier = new Verifier<IlfFile>(this, throwOnError);
 
-            if (Entries.Count != 0)
+            foreach (Entry entry in Entries)
             {
-                result = Entries.All
-                    (
-                        entry => entry.Verify(throwOnError)
-                    );
+                verifier.VerifySubObject(entry, "entry");
             }
 
-            if (!result)
-            {
-                Log.Error
-                    (
-                        "IlfFile::Verify: "
-                        + "verification error"
-                    );
-
-                if (throwOnError)
-                {
-                    throw new VerificationException();
-                }
-            }
-
-            return result;
+            return verifier.Result;
         }
 
         #endregion
