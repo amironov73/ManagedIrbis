@@ -82,7 +82,7 @@ namespace AM.IO
                     secondStream = File.OpenRead(second)
             )
             {
-                return StreamUtility.Compare
+                return StreamUtility.CompareTo
                 (
                     firstStream,
                     secondStream

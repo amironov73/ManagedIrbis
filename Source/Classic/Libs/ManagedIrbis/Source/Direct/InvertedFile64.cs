@@ -186,7 +186,7 @@ namespace ManagedIrbis.Direct
             foreach (NodeItem item in result.Items)
             {
                 stream.Position = offset + item.KeyOffset;
-                byte[] buffer = stream.ReadBytes(item.Length)
+                byte[] buffer = StreamUtility.ReadBytes(stream, item.Length)
                     .ThrowIfNull("buffer");
 
                 string text = EncodingUtility.GetString

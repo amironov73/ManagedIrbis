@@ -9,12 +9,8 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using CodeJam;
 
@@ -47,7 +43,7 @@ namespace AM.IO
         {
 #if WIN81 || PORTABLE
 
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
 
 #else
 
@@ -56,11 +52,7 @@ namespace AM.IO
 
             StreamWriter result = new StreamWriter
                 (
-                    new FileStream
-                        (
-                            fileName,
-                            FileMode.Append
-                        ),
+                    new FileStream(fileName, FileMode.Append),
                     encoding
                 );
 
@@ -81,7 +73,7 @@ namespace AM.IO
         {
 #if WIN81 || PORTABLE
 
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
 
 #else
 
@@ -90,11 +82,7 @@ namespace AM.IO
 
             StreamWriter result = new StreamWriter
                 (
-                    new FileStream
-                        (
-                            fileName, 
-                            FileMode.Create
-                        ),
+                    new FileStream(fileName, FileMode.Create),
                     encoding
                 );
 

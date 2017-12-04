@@ -171,7 +171,7 @@ namespace ManagedIrbis.Direct
             {
                 long endOffset = offset + leader.Base + entry.Position;
                 _stream.Seek(endOffset, SeekOrigin.Begin);
-                entry.Bytes = _stream.ReadBytes(entry.Length);
+                entry.Bytes = StreamUtility.ReadBytes(_stream, entry.Length);
                 if (entry.Bytes != null)
                 {
                     byte[] bytes = entry.Bytes;
@@ -234,7 +234,7 @@ namespace ManagedIrbis.Direct
             {
                 long endOffset = leader.Base + entry.Position;
                 memory.Seek(endOffset, SeekOrigin.Begin);
-                entry.Bytes = memory.ReadBytes(entry.Length);
+                entry.Bytes = StreamUtility.ReadBytes(memory, entry.Length);
                 if (entry.Bytes != null)
                 {
                     byte[] buffer = entry.Bytes;

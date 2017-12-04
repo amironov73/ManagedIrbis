@@ -9,7 +9,6 @@
 
 #region Using directives
 
-using System;
 using System.IO;
 using System.Text;
 
@@ -46,7 +45,7 @@ namespace AM.IO
         {
 #if WIN81 || PORTABLE
 
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
 
 #else
 

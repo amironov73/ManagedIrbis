@@ -181,7 +181,7 @@ namespace ManagedIrbis.Direct
             {
                 stream.Position = offset + item.KeyOffset;
 
-                byte[] buffer = stream.ReadBytes(item.Length)
+                byte[] buffer = StreamUtility.ReadBytes(stream, item.Length)
                     .ThrowIfNull("buffer");
 
                 string text = _encoding.GetString(buffer, 0, buffer.Length);
