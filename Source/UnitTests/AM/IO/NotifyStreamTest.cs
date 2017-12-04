@@ -10,7 +10,7 @@ namespace UnitTests.AM.IO
     public class NotifyStreamTest
     {
         [TestMethod]
-        public void NotifyStream_StreamChanged()
+        public void NotifyStream_StreamChanged_1()
         {
             Stream baseStream = Stream.Null;
             NotifyStream notifyStream = new NotifyStream(baseStream);

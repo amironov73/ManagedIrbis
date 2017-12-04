@@ -220,6 +220,7 @@
     <Compile Include="AM\IO\InsistentFile.cs" />
     <Compile Include="AM\IO\InterceptorStream.cs" />
     <Compile Include="AM\IO\MultiStream.cs" />
+    <Compile Include="AM\IO\NonBufferedStream.cs" />
     <Compile Include="AM\IO\NonCloseableStream.cs" />
     <Compile Include="AM\IO\NonCloseableStreamReader.cs" />
     <Compile Include="AM\IO\NonCloseableTextReader.cs" />

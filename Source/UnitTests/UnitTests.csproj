@@ -188,6 +188,7 @@
     <Compile Include="AM\FunctionalUtilityTest.cs" />
     <Compile Include="AM\GenderUtilityTest.cs" />
     <Compile Include="AM\IO\ByteNavigatorTest.cs" />
+    <Compile Include="AM\IO\NonBufferedStreamTest.cs" />
     <Compile Include="AM\Json\JsonUtilityTest.cs" />
     <Compile Include="AM\MessageEventArgsTest.cs" />
     <Compile Include="AM\ObjectDumperTest.cs" />
