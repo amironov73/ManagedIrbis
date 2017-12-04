@@ -215,6 +215,7 @@
     <Compile Include="AM\IO\CountingMemoryStream.cs" />
     <Compile Include="AM\IO\DirectoryUtility.cs" />
     <Compile Include="AM\IO\DumpUtility.cs" />
+    <Compile Include="AM\IO\DynamicStream.cs" />
     <Compile Include="AM\IO\IConsoleOutputReceiver.cs" />
     <Compile Include="AM\IO\IniFile.cs" />
     <Compile Include="AM\IO\InsistentFile.cs" />

@@ -56,14 +56,6 @@ namespace AM.IO
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region Stream members
 
         /// <inheritdoc cref="Stream.Flush" />
