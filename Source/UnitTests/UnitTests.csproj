@@ -190,6 +190,7 @@
     <Compile Include="AM\IO\ByteNavigatorTest.cs" />
     <Compile Include="AM\IO\DynamicStreamTest.cs" />
     <Compile Include="AM\IO\NonBufferedStreamTest.cs" />
+    <Compile Include="AM\IO\NonCloseableStreamTest.cs" />
     <Compile Include="AM\IO\StreamUtilityTest.cs" />
     <Compile Include="AM\IO\TextWriterUtilityTest.cs" />
     <Compile Include="AM\Json\JsonUtilityTest.cs" />

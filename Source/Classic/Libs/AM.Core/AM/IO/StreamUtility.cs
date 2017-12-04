@@ -10,6 +10,7 @@
 #region Using directives
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -360,15 +361,15 @@ namespace AM.IO
         /// Reads array of <see cref="Int16"/> values from the 
         /// <see cref="Stream"/>.
         /// </summary>
-        public static int[] ReadInt16Array
+        public static short[] ReadInt16Array
             (
                 [NotNull] Stream stream
             )
         {
             Code.NotNull(stream, "stream");
 
-            int length = ReadInt16(stream);
-            int[] result = new int[length];
+            int length = ReadInt32(stream);
+            short[] result = new short[length];
             for (int i = 0; i < length; i++)
             {
                 result[i] = ReadInt16(stream);
@@ -382,15 +383,15 @@ namespace AM.IO
         /// <see cref="Stream"/>.
         /// </summary>
         [CLSCompliant(false)]
-        public static uint[] ReadUInt16Array
+        public static ushort[] ReadUInt16Array
             (
                 [NotNull] Stream stream
             )
         {
             Code.NotNull(stream, "stream");
 
-            int length = ReadInt16(stream);
-            uint[] result = new uint[length];
+            int length = ReadInt32(stream);
+            ushort[] result = new ushort[length];
             for (int i = 0; i < length; i++)
             {
                 result[i] = ReadUInt16(stream);
@@ -1042,19 +1043,7 @@ namespace AM.IO
                 [NotNull] this Stream stream
             )
         {
-            byte[] buffer = new byte[2];
-
-            int readed = stream.Read(buffer, 0, 2);
-            if (readed != 2)
-            {
-                Log.Error
-                    (
-                        "StreamUtility::ReadInt16Network: "
-                        + "unexpected end of stream"
-                    );
-
-                throw new IOException();
-            }
+            byte[] buffer = ReadExact(stream, 2);
             NetworkToHost16(buffer, 0);
             short result = BitConverter.ToInt16(buffer, 0);
 
@@ -1069,19 +1058,7 @@ namespace AM.IO
                 [NotNull] this Stream stream
             )
         {
-            byte[] buffer = new byte[2];
-
-            int readed = stream.Read(buffer, 0, 2);
-            if (readed != 2)
-            {
-                Log.Error
-                    (
-                        "StreamUtility::ReadInt16Host: "
-                        + "unexpected end of stream"
-                    );
-
-                throw new IOException();
-            }
+            byte[] buffer = ReadExact(stream, 2);
             short result = BitConverter.ToInt16(buffer, 0);
 
             return result;
@@ -1095,19 +1072,7 @@ namespace AM.IO
                 [NotNull] this Stream stream
             )
         {
-            byte[] buffer = new byte[4];
-
-            int readed = stream.Read(buffer, 0, 4);
-            if (readed != 4)
-            {
-                Log.Error
-                    (
-                        "StreamUtility::ReadInt32Network: "
-                        + "unexpected end of stream"
-                    );
-
-                throw new IOException();
-            }
+            byte[] buffer = ReadExact(stream, 4);
             NetworkToHost32(buffer, 0);
             int result = BitConverter.ToInt32(buffer, 0);
 
@@ -1122,19 +1087,7 @@ namespace AM.IO
                 [NotNull] this Stream stream
             )
         {
-            byte[] buffer = new byte[4];
-
-            int readed = stream.Read(buffer, 0, 4);
-            if (readed != 4)
-            {
-                Log.Error
-                    (
-                        "StreamUtility::ReadInt32Host: "
-                        + "unexpected end of stream"
-                    );
-
-                throw new IOException();
-            }
+            byte[] buffer = ReadExact(stream, 4);
             int result = BitConverter.ToInt32(buffer, 0);
 
             return result;
@@ -1148,19 +1101,7 @@ namespace AM.IO
                 [NotNull] this Stream stream
             )
         {
-            byte[] buffer = new byte[8];
-
-            int readed = stream.Read(buffer, 0, 8);
-            if (readed != 8)
-            {
-                Log.Error
-                    (
-                        "StreamUtility::ReadInt64Network: "
-                        + "unexpected end of stream"
-                    );
-
-                throw new IOException();
-            }
+            byte[] buffer = ReadExact(stream, 8);
             NetworkToHost64(buffer, 0);
             long result = BitConverter.ToInt64(buffer, 0);
 
@@ -1175,19 +1116,7 @@ namespace AM.IO
                 [NotNull] this Stream stream
             )
         {
-            byte[] buffer = new byte[8];
-
-            int readed = stream.Read(buffer, 0, 8);
-            if (readed != 8)
-            {
-                Log.Error
-                    (
-                        "StreamUtility::ReadInt64Host: "
-                        + "unexpected end of stream"
-                    );
-
-                throw new IOException();
-            }
+            byte[] buffer = ReadExact(stream, 8);
             long result = BitConverter.ToInt64(buffer, 0);
 
             return result;
@@ -1231,6 +1160,7 @@ namespace AM.IO
         /// </summary>
         /// <remarks>For WinMobile compatibility.</remarks>
         [MethodImpl(Aggressive)]
+        [ExcludeFromCodeCoverage]
         public static void Lock
             (
                 [NotNull] FileStream stream,
@@ -1250,6 +1180,7 @@ namespace AM.IO
         /// </summary>
         /// <remarks>For WinMobile compatibility.</remarks>
         [MethodImpl(Aggressive)]
+        [ExcludeFromCodeCoverage]
         public static void Unlock
             (
                 [NotNull] FileStream stream,
@@ -1276,7 +1207,7 @@ namespace AM.IO
             )
         {
             byte[] buffer = BitConverter.GetBytes(value);
-            HostToNetwork32(buffer, 0);
+            HostToNetwork16(buffer, 0);
             stream.Write(buffer, 0, 2);
         }
 
@@ -1304,7 +1235,7 @@ namespace AM.IO
             )
         {
             byte[] buffer = BitConverter.GetBytes(value);
-            HostToNetwork32(buffer, 0);
+            HostToNetwork64(buffer, 0);
             stream.Write(buffer, 0, 8);
         }
 
