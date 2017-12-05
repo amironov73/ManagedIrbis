@@ -52,9 +52,9 @@ namespace AM.IO
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="baseStream"></param>
-        public VersionStream(Stream baseStream)
-            : base(baseStream)
+        /// <param name="innerStream"></param>
+        public VersionStream(Stream innerStream)
+            : base(innerStream)
         {
         }
 

@@ -13,8 +13,6 @@ using System;
 using System.IO;
 using System.Text;
 
-using CodeJam;
-
 using JetBrains.Annotations;
 
 #endregion
@@ -27,7 +25,7 @@ namespace AM.IO
     [PublicAPI]
     public class NonCloseableStreamReader
         : StreamReader,
-          IDisposable
+        IDisposable
     {
         #region Construction
 
@@ -36,7 +34,7 @@ namespace AM.IO
         /// </summary>
         public NonCloseableStreamReader
             (
-                Stream stream
+                [NotNull] Stream stream
             )
             : base(stream)
         {
@@ -49,7 +47,7 @@ namespace AM.IO
         /// </summary>
         public NonCloseableStreamReader
             (
-                string path
+                [NotNull] string path
             )
             : base(path)
         {
@@ -62,7 +60,7 @@ namespace AM.IO
         /// </summary>
         public NonCloseableStreamReader
             (
-                Stream stream,
+                [NotNull] Stream stream,
                 bool detectEncodingFromByteOrderMarks
             )
             : base(stream, detectEncodingFromByteOrderMarks)
@@ -74,8 +72,8 @@ namespace AM.IO
         /// </summary>
         public NonCloseableStreamReader
             (
-                Stream stream,
-                Encoding encoding
+                [NotNull] Stream stream,
+                [NotNull] Encoding encoding
             )
             : base(stream, encoding)
         {
@@ -88,7 +86,7 @@ namespace AM.IO
         /// </summary>
         public NonCloseableStreamReader
             (
-                string path,
+                [NotNull] string path,
                 bool detectEncodingFromByteOrderMarks
             )
             : base(path, detectEncodingFromByteOrderMarks)
@@ -100,8 +98,8 @@ namespace AM.IO
         /// </summary>
         public NonCloseableStreamReader
             (
-                string path,
-                Encoding encoding
+                [NotNull] string path,
+                [NotNull] Encoding encoding
             )
             : base(path, encoding)
         {
@@ -114,8 +112,8 @@ namespace AM.IO
         /// </summary>
         public NonCloseableStreamReader
             (
-                Stream stream,
-                Encoding encoding,
+                [NotNull] Stream stream,
+                [NotNull] Encoding encoding,
                 bool detectEncodingFromByteOrderMarks
             )
             : base(stream, encoding, detectEncodingFromByteOrderMarks)
@@ -129,8 +127,8 @@ namespace AM.IO
         /// </summary>
         public NonCloseableStreamReader
             (
-                string path,
-                Encoding encoding,
+                [NotNull] string path,
+                [NotNull] Encoding encoding,
                 bool detectEncodingFromByteOrderMarks
             )
             : base(path, encoding, detectEncodingFromByteOrderMarks)
@@ -145,7 +143,7 @@ namespace AM.IO
         /// <param name="reader">The reader.</param>
         public NonCloseableStreamReader
             (
-                StreamReader reader
+                [NotNull] StreamReader reader
             )
             : base(reader.BaseStream, reader.CurrentEncoding)
         {
@@ -160,7 +158,7 @@ namespace AM.IO
         /// </summary>
         public virtual void ReallyClose()
         {
-            base.Dispose();
+            BaseStream.Close();
         }
 
         #endregion
@@ -181,11 +179,17 @@ namespace AM.IO
             // Nothing to do actually
         }
 
+        /// <inheritdoc cref="StreamReader.Dispose(bool)" />
+        protected override void Dispose(bool disposing)
+        {
+            // Nothing to do actually
+        }
+
         #endregion
 
         #region IDisposable Members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         void IDisposable.Dispose()
         {
             // Nothing to do actually

@@ -10,7 +10,6 @@
 #region Using directives
 
 using System;
-using System.Diagnostics;
 using System.IO;
 
 using CodeJam;
@@ -43,19 +42,11 @@ namespace AM.IO
 
         #region Properties
 
-        private readonly Stream _baseStream;
-
         /// <summary>
-        /// Base stream.
+        /// Inner stream.
         /// </summary>
-        public Stream BaseStream
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return _baseStream;
-            }
-        }
+        [NotNull]
+        public Stream InnerStream { get; private set; }
 
         #endregion
 
@@ -66,23 +57,12 @@ namespace AM.IO
         /// </summary>
         public NotifyStream
             (
-                [NotNull] Stream baseStream
+                [NotNull] Stream innerStream
             )
         {
-            Code.NotNull(baseStream, "baseStream");
+            Code.NotNull(innerStream, "innerStream");
 
-            _baseStream = baseStream;
-        }
-
-        /// <summary>
-        /// Releases unmanaged resources and performs 
-        /// other cleanup operations before the
-        /// <see cref="T:AM.IO.NotifyStream"/> 
-        /// is reclaimed by garbage collection.
-        /// </summary>
-        ~NotifyStream()
-        {
-            Dispose();
+            InnerStream = innerStream;
         }
 
         #endregion
@@ -101,126 +81,66 @@ namespace AM.IO
 
         #region Stream members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Stream.CanRead" />
         public override bool CanRead
         {
-            [DebuggerStepThrough]
-            get
-            {
-                return _baseStream.CanRead;
-            }
+            get { return InnerStream.CanRead; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Stream.CanSeek" />
         public override bool CanSeek
         {
-            [DebuggerStepThrough]
-            get
-            {
-                return _baseStream.CanSeek;
-            }
+            get { return InnerStream.CanSeek; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Stream.CanWrite" />
         public override bool CanWrite
         {
-            [DebuggerStepThrough]
-            get
-            {
-                return _baseStream.CanWrite;
-            }
+            get { return InnerStream.CanWrite; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Stream.Flush" />
         public override void Flush()
         {
-            _baseStream.Flush();
+            InnerStream.Flush();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Stream.Length" />
         public override long Length
         {
-            [DebuggerStepThrough]
-            get
-            {
-                return _baseStream.Length;
-            }
+            get { return InnerStream.Length; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Stream.Position" />
         public override long Position
         {
-            [DebuggerStepThrough]
-            get
-            {
-                return _baseStream.Position;
-            }
-            [DebuggerStepThrough]
-            set
-            {
-                _baseStream.Position = value;
-            }
+            get { return InnerStream.Position; }
+            set { InnerStream.Position = value; }
         }
 
-        /// <inheritdoc />
-        public override int Read
-            (
-                byte[] buffer,
-                int offset,
-                int count
-            )
+        /// <inheritdoc cref="Stream.Read" />
+        public override int Read(byte[] buffer, int offset, int count)
         {
-            return _baseStream.Read
-                (
-                    buffer,
-                    offset,
-                    count
-                );
+            return InnerStream.Read(buffer, offset, count);
         }
 
-        /// <inheritdoc />
-        public override long Seek
-            (
-                long offset,
-                SeekOrigin origin
-            )
+        /// <inheritdoc cref="Stream.Seek" />
+        public override long Seek(long offset, SeekOrigin origin)
         {
-            return _baseStream.Seek
-                (
-                    offset,
-                    origin
-                );
+            return InnerStream.Seek(offset, origin);
         }
 
-        /// <inheritdoc />
-        public override void SetLength
-            (
-                long value
-            )
+        /// <inheritdoc cref="Stream.SetLength" />
+        public override void SetLength(long value)
         {
-            _baseStream.SetLength
-                (
-                    value
-                );
-
+            InnerStream.SetLength(value);
             OnStreamChanged();
         }
 
-        /// <inheritdoc />
-        public override void Write
-            (
-                byte[] buffer,
-                int offset,
-                int count
-            )
+        /// <inheritdoc cref="Stream.Write" />
+        public override void Write(byte[] buffer, int offset, int count)
         {
-            _baseStream.Write
-                (
-                    buffer,
-                    offset,
-                    count
-                );
-
+            InnerStream.Write(buffer, offset, count);
             OnStreamChanged();
         }
 
@@ -228,15 +148,10 @@ namespace AM.IO
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         void IDisposable.Dispose()
         {
-            if (!ReferenceEquals(_baseStream, null))
-            {
-                _baseStream.Dispose();
-            }
-
-            GC.SuppressFinalize(this);
+            InnerStream.Dispose();
         }
 
         #endregion

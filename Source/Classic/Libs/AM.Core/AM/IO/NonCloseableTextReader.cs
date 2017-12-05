@@ -18,7 +18,7 @@ using JetBrains.Annotations;
 
 #endregion
 
-namespace AM.IO.NonCloseable
+namespace AM.IO
 {
     /// <summary>
     /// Non-closeable <see cref="T:System.IO.TextReader"/>.

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -181,6 +182,16 @@ namespace UnitTests.AM.IO
             Stream innerStream = mock.Object;
             NonCloseableStream stream = new NonCloseableStream(innerStream);
             stream.Close();
+            mock.Verify(s => s.Close(), Times.Never);
+        }
+
+        [TestMethod]
+        public void NonCloseableStream_Dispose_1()
+        {
+            Mock<Stream> mock = _GetMock();
+            Stream innerStream = mock.Object;
+            NonCloseableStream stream = new NonCloseableStream(innerStream);
+            ((IDisposable)stream).Dispose();
             mock.Verify(s => s.Close(), Times.Never);
         }
 
