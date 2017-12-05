@@ -122,10 +122,10 @@ namespace UnitTests.ManagedIrbis.Monitoring
         public void MonitoringData_ToString_1()
         {
             MonitoringData data = new MonitoringData();
-            Assert.AreEqual("01.01.0001 0:00:00", data.ToString());
+            Assert.AreEqual("0001-01-01 00:00:00", data.ToString());
 
             data = _GetData();
-            Assert.AreEqual("28.11.2017 9:39:00:IBIS,RDR", data.ToString());
+            Assert.AreEqual("2017-11-28 09:39:00:IBIS,RDR", data.ToString());
         }
     }
 }

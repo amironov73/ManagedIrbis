@@ -113,7 +113,7 @@ namespace ManagedIrbis.Monitoring
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
-            result.Append(Moment);
+            result.Append(Moment.ToLongUniformString());
             if (!ReferenceEquals(Databases, null)
                 && Databases.Length != 0)
             {

@@ -295,6 +295,30 @@ namespace AM
 #endif
 
         /// <summary>
+        /// Универсальное длинное представление.
+        /// </summary>
+        [NotNull]
+        public static string ToLongUniformString
+            (
+                this DateTime dateTime
+            )
+        {
+            return dateTime.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
+        /// <summary>
+        /// Универсальное короткое представление.
+        /// </summary>
+        [NotNull]
+        public static string ToShortUniformString
+            (
+                this DateTime dateTime
+            )
+        {
+            return dateTime.ToString("yyyy-MM-dd");
+        }
+
+        /// <summary>
         /// Переводит указанную дату в формат Unix.
         /// </summary>
         public static long ToUnixTime
