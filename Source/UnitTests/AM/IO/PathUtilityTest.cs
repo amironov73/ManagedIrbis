@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.IO;
@@ -15,7 +16,7 @@ namespace UnitTests.AM.IO
             = new string(Path.DirectorySeparatorChar, 1);
 
         [TestMethod]
-        public void PathUtility_AppendBackslash()
+        public void PathUtility_AppendBackslash_1()
         {
             const string source = "Some\\Path";
             string expected = source + _bs;
@@ -27,7 +28,7 @@ namespace UnitTests.AM.IO
         }
 
         [TestMethod]
-        public void PathUtility_ConvertSlashes()
+        public void PathUtility_ConvertSlashes_1()
         {
             string source = "Some" + _sl + "Path";
             string expected = "Some" + _bs + "Path";
@@ -40,7 +41,7 @@ namespace UnitTests.AM.IO
         }
 
         [TestMethod]
-        public void PathUtility_MapPath()
+        public void PathUtility_MapPath_1()
         {
             string source = "Some" + _bs + "Path";
             string actual = PathUtility.MapPath(source);
@@ -48,7 +49,7 @@ namespace UnitTests.AM.IO
         }
 
         [TestMethod]
-        public void PathUtility_StripExtension()
+        public void PathUtility_StripExtension_1()
         {
             string source = "Some" + _bs + "Path" + _bs + "FileName.ext";
             string expected = "Some" + _bs + "Path" + _bs + "FileName";
@@ -60,7 +61,7 @@ namespace UnitTests.AM.IO
         }
 
         [TestMethod]
-        public void PathUtility_StripTrailingBackslash()
+        public void PathUtility_StripTrailingBackslash_1()
         {
             string source = "Some" + _bs + "Path" + _bs;
             string expected = "Some" + _bs + "Path";

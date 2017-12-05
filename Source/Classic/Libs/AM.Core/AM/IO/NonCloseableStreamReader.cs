@@ -158,7 +158,7 @@ namespace AM.IO
         /// </summary>
         public virtual void ReallyClose()
         {
-            BaseStream.Close();
+            BaseStream.Dispose();
         }
 
         #endregion

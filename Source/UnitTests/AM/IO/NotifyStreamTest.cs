@@ -9,6 +9,8 @@ using JetBrains.Annotations;
 
 using Moq;
 
+// ReSharper disable UseObjectOrCollectionInitializer
+
 namespace UnitTests.AM.IO
 {
     [TestClass]

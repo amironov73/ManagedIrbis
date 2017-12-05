@@ -50,9 +50,7 @@ namespace AM.IO
     /// используя по возможности меньше байт ( но до
     /// архиватора не дотягивает ).
     /// </summary>
-    /// <remark>This class is not CLS-compliant.</remark>
     [PublicAPI]
-    //[CLSCompliant(false)]
     [MoonSharpUserData]
     public static class StreamPacker
     {
@@ -74,11 +72,14 @@ namespace AM.IO
             Code.NotNull(stream, "stream");
 
             byte[] bytes = BitConverter.GetBytes(val);
-            //Array.Reverse ( bytes );
-            byte c = bytes[3]; bytes[3] = bytes[0]; bytes[0] = c;
-            c = bytes[2]; bytes[2] = bytes[1]; bytes[1] = c;
-            int len;
+            byte c = bytes[3];
+            bytes[3] = bytes[0];
+            bytes[0] = c;
+            c = bytes[2];
+            bytes[2] = bytes[1];
+            bytes[1] = c;
 
+            int len;
             unchecked
             {
                 if (val <= 63) /* 0x3F */
@@ -296,24 +297,20 @@ namespace AM.IO
         /// <returns>Количество байт, необходимых для вывода.</returns>
         public static int PackBytes
             (
-                [NotNull] Stream stream, 
+                [NotNull] Stream stream,
                 [NotNull] byte[] bytes
             )
         {
             Code.NotNull(stream, "stream");
             Code.NotNull(bytes, "bytes");
 
-            int len = unchecked((bytes.Length
-                    + PackUInt32
-                    (
-                        stream, 
-                        (uint)bytes.Length))
-                    );
+            int len = unchecked
+                (
+                    bytes.Length
+                    + PackUInt32(stream, (uint)bytes.Length)
+                );
 
-            if (len != 0)
-            {
-                stream.Write(bytes, 0, bytes.Length);
-            }
+            stream.Write(bytes, 0, bytes.Length);
 
             return len;
         }
@@ -440,7 +437,7 @@ namespace AM.IO
         {
             return UnpackString
                 (
-                    stream, 
+                    stream,
                     null
                 );
         }
