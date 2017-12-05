@@ -214,6 +214,7 @@
     <Compile Include="AM\Text\TextUtilityTest.cs" />
     <Compile Include="AM\UtilityTest.cs" />
     <Compile Include="ManagedIrbis\AsyncExtensionsTest.cs" />
+    <Compile Include="ManagedIrbis\Authentication\IrbisCredentialsTest.cs" />
     <Compile Include="ManagedIrbis\Batch\BatchAccessorTest.cs" />
     <Compile Include="ManagedIrbis\Batch\BatchFactoryTest.cs" />
     <Compile Include="ManagedIrbis\Batch\BatchRecordFormatterTest.cs" />

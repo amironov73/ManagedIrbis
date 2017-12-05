@@ -871,6 +871,66 @@ namespace ManagedIrbis.Client
 #endif
         }
 
+        /// <inheritdoc cref="IrbisProvider.ExactSearchTrimLinks" />
+        public override TermLink[] ExactSearchTrimLinks
+            (
+                string term,
+                int limit
+            )
+        {
+            if (string.IsNullOrEmpty(term))
+            {
+                return TermLink.EmptyArray;
+            }
+
+            if (limit < 1)
+            {
+                limit = 1;
+            }
+
+#if PORTABLE || WIN81 || SILVERLIGHT
+
+            throw new System.NotImplementedException();
+
+#else
+
+            TermLink[] result = TermLink.EmptyArray;
+            bool alreadyHave = !ReferenceEquals(_accessor, null);
+            DirectAccess64 accessor = null;
+            try
+            {
+                accessor = _GetAccessor();
+                if (!ReferenceEquals(accessor, null))
+                {
+                    result = accessor.InvertedFile
+                        .SearchStart(term)
+                        .Take(limit)
+                        .ToArray();
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException
+                (
+                    "LocalProvider::Search",
+                    exception
+                );
+            }
+            finally
+            {
+                if (!alreadyHave
+                    && !ReferenceEquals(accessor, null)
+                    && !_persistentAccessor)
+                {
+                    accessor.Dispose();
+                }
+            }
+
+            return result;
+
+#endif
+        }
+
         #endregion
 
         #region IDisposable members

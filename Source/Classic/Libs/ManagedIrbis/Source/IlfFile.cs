@@ -488,7 +488,7 @@ namespace ManagedIrbis
 
 #if WINMOBILE || PocketPC || SILVERLIGHT
 
-            throw new SystemNotImplementedException();
+            throw new NotImplementedException();
 
 #else
 

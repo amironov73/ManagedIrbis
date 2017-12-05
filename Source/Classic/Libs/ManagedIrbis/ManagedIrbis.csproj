@@ -133,7 +133,7 @@
     <Compile Include="Source\AsyncExtensions.cs" />
     <Compile Include="Source\Authentication\AbstractAuthenticator.cs" />
     <Compile Include="Source\Authentication\AuthenticationResult.cs" />
-    <Compile Include="Source\Authentication\Credentials.cs" />
+    <Compile Include="Source\Authentication\IrbisCredentials.cs" />
     <Compile Include="Source\Authentication\UserContext.cs" />
     <Compile Include="Source\Batch\BatchAccessor.cs" />
     <Compile Include="Source\Batch\BatchFactory.cs" />

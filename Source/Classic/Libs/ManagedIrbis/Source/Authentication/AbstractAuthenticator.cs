@@ -43,7 +43,7 @@ namespace ManagedIrbis.Authentication
         [NotNull]
         public abstract AuthenticationResult Authenticate
             (
-                [NotNull] Credentials credentials
+                [NotNull] IrbisCredentials credentials
             );
 
         /// <summary>

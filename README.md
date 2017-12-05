@@ -20,11 +20,11 @@ ManagedIrbis currently supports:
 - **AM.Drawing** - System.Drawing related stuff;
 - **AM.Rfid** - RFID technology support;
 - **AM.Suggestions** - suggestion control and clients (currently dadata.ru only);
-- **AM.Windows.Forms** - Syste.Windows.Forms based visual components;
+- **AM.Windows.Forms** - System.Windows.Forms based visual components;
 - **AM.Win32** - interop, Win32 API wrappers;
 - **IrbisInterop** - interop with IRBIS64.DLL (Win32 only);
 - **IrbisUI** - System.Windows.Forms based common UI components for clients;
-- **ManagedIrbis** - common IRBIS client related classes;
+- **ManagedIrbis** - common IRBIS related classes and routines;
 - **ManagedIrbis.Office** - report driver for Excel file generation;
 - **MoonIrbis** - Lua-based client scripting;
 - **RestfulIrbis** - REST client and server for IRBIS;

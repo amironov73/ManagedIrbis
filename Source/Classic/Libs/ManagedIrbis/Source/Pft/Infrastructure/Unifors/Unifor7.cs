@@ -14,6 +14,7 @@ using AM.Text;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Client;
+using ManagedIrbis.Search;
 
 #endregion
 
@@ -52,6 +53,32 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
     static class Unifor7
     {
+        #region Private members
+
+        [NotNull]
+        private static TermLink[] ExtractLinks
+            (
+                [NotNull] IrbisProvider provider,
+                [NotNull] string term
+            )
+        {
+            TermLink[] result;
+
+            if (term.EndsWith("$"))
+            {
+                string start = term.Substring(0, term.Length - 1);
+                result = provider.ExactSearchTrimLinks(start, 100);
+            }
+            else
+            {
+                result = provider.ExactSearchLinks(term);
+            }
+
+            return result;
+        }
+
+        #endregion
+
         #region Public methods
 
         public static void FormatDocuments
@@ -102,20 +129,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             try
             {
                 provider.Database = database;
-                int[] found = provider.Search(term);
+                TermLink[] links = ExtractLinks(provider, term);
+                int[] found = TermLink.ToMfn(links);
                 if (found.Length != 0)
                 {
                     PftProgram program = PftUtility.CompileProgram(format);
 
-                    using (PftContextGuard guard
-                        = new PftContextGuard(context))
+                    using (PftContextGuard guard = new PftContextGuard(context))
                     {
                         PftContext copy = guard.ChildContext;
                         copy.Output = context.Output;
                         foreach (int mfn in found)
                         {
-                            MarcRecord record
-                                = copy.Provider.ReadRecord(mfn);
+                            MarcRecord record = copy.Provider.ReadRecord(mfn);
                             if (!ReferenceEquals(record, null))
                             {
                                 copy.Record = record;

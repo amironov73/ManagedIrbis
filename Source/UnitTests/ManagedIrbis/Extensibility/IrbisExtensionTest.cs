@@ -75,7 +75,7 @@ namespace UnitTests.ManagedIrbis.Extensibility
                 MarcRecord source = provider.ReadRecord(1);
                 Assert.IsNotNull(source);
                 Assert.IsFalse(source.HaveField(1000));
-                string input = PlainText.ToPlainText(source);
+                string input = PlainText.ToAllFormat(source);
                 IntPtr inputBuffer = Marshal.AllocHGlobal(32000);
                 byte[] bytes = Encoding.UTF8.GetBytes(input);
                 Marshal.Copy(bytes, 0, inputBuffer, bytes.Length);

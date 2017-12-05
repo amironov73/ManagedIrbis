@@ -16,6 +16,8 @@ using AM.Text;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Search;
+
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
@@ -101,8 +103,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     context.Provider.Database = database;
 
-                    // TODO Использовать термы, а не поиск
-                    found = context.Provider.Search(query);
+                    TermLink[] links = context.Provider.ExactSearchLinks(query);
+                    found = TermLink.ToMfn(links);
                 }
                 finally
                 {
