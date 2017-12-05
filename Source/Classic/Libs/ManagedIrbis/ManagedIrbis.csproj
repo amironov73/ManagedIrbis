@@ -288,7 +288,7 @@
     <Compile Include="Source\Client\DisplayIniSection.cs" />
     <Compile Include="Source\Client\EntryIniSection.cs" />
     <Compile Include="Source\Client\IrbisProvider.cs" />
-    <Compile Include="Source\Client\Alias.cs" />
+    <Compile Include="Source\Client\ConnectionAlias.cs" />
     <Compile Include="Source\Client\AliasManager.cs" />
     <Compile Include="Source\Client\ConnectedClient.cs" />
     <Compile Include="Source\Client\IrbisProviderAsyncExtensions.cs" />

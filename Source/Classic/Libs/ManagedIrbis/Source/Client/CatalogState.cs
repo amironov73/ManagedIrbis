@@ -34,6 +34,7 @@ namespace ManagedIrbis.Client
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [XmlRoot("database")]
     [DebuggerDisplay("{Database}")]
     public sealed class CatalogState
         : IHandmadeSerializable
@@ -50,54 +51,42 @@ namespace ManagedIrbis.Client
         /// <summary>
         /// Date.
         /// </summary>
-        [JsonProperty("date")]
         [XmlAttribute("date")]
+        [JsonProperty("date", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DateTime Date { get; set; }
 
         /// <summary>
         /// Database name.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("database")]
         [XmlAttribute("database")]
+        [JsonProperty("database", NullValueHandling = NullValueHandling.Ignore)]
         public string Database { get; set; }
 
         /// <summary>
         /// Maximal MFN.
         /// </summary>
-        [JsonProperty("maxMfn")]
         [XmlAttribute("maxMfn")]
+        [JsonProperty("maxMfn", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int MaxMfn { get; set; }
 
         /// <summary>
         /// Records.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("records")]
         [XmlArray("records")]
         [XmlArrayItem("record")]
+        [JsonProperty("records", NullValueHandling = NullValueHandling.Ignore)]
         public RecordState[] Records { get; set; }
 
         /// <summary>
         /// Logically deleted records.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("logicallyDeleted")]
         [XmlArray("logicallyDeleted")]
         [XmlArrayItem("mfn")]
+        [JsonProperty("logicallyDeleted", NullValueHandling = NullValueHandling.Ignore)]
         public int[] LogicallyDeleted { get; set; }
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 

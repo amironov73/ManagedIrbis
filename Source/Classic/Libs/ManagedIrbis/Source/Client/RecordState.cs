@@ -11,6 +11,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -53,27 +54,23 @@ namespace ManagedIrbis.Client
         /// <summary>
         /// MFN.
         /// </summary>
-        [JsonProperty("mfn")]
         [XmlAttribute("mfn")]
+        [JsonProperty("mfn", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Mfn { get; set; }
 
         /// <summary>
         /// Status.
         /// </summary>
-        [JsonProperty("status")]
         [XmlAttribute("status")]
+        [JsonProperty("status", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public RecordStatus Status { get; set; }
 
         /// <summary>
         /// Version.
         /// </summary>
-        [JsonProperty("version")]
         [XmlAttribute("version")]
+        [JsonProperty("version", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Version { get; set; }
-
-        #endregion
-
-        #region Construction
 
         #endregion
 
@@ -143,11 +140,38 @@ namespace ManagedIrbis.Client
             return result;
         }
 
+        /// <summary>
+        /// Should serialize the <see cref="Mfn"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeMfn()
+        {
+            return Mfn != 0;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Status"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeStatus()
+        {
+            return Status != 0;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Version"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeVersion()
+        {
+            return Version != 0;
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -161,7 +185,7 @@ namespace ManagedIrbis.Client
             Version = reader.ReadPackedInt32();
         }
 
-        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -180,14 +204,14 @@ namespace ManagedIrbis.Client
 
         #region Object members
 
-        /// <inheritdoc cref="ValueType.ToString"/>
+        /// <inheritdoc cref="ValueType.ToString" />
         public override string ToString()
         {
             return string.Format
                 (
-                    "{0} {1} {2}",
+                    "{0}:{1}:{2}",
                     Mfn,
-                    Status,
+                    (int)Status,
                     Version
                 );
         }

@@ -180,7 +180,7 @@ namespace ManagedIrbis.Client
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -195,7 +195,7 @@ namespace ManagedIrbis.Client
                 );
         }
 
-        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -205,10 +205,6 @@ namespace ManagedIrbis.Client
 
             writer.WriteArray(_list.ToArray());
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

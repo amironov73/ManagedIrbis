@@ -46,21 +46,21 @@ namespace ManagedIrbis.Client
         /// </summary>
         public AliasManager()
         {
-            _aliases = new List<Alias>();
+            _aliases = new List<ConnectionAlias>();
         }
 
         #endregion
 
         #region Private members
 
-        private readonly List<Alias> _aliases;
+        private readonly List<ConnectionAlias> _aliases;
 
-        private Alias _GetAlias
+        private ConnectionAlias _GetAlias
             (
                 string name
             )
         {
-            foreach (Alias theAlias in _aliases)
+            foreach (ConnectionAlias theAlias in _aliases)
             {
                 if (theAlias.Name.SameString(name))
                 {
@@ -114,7 +114,7 @@ namespace ManagedIrbis.Client
                     {
                         break;
                     }
-                    Alias theAlias = new Alias
+                    ConnectionAlias theAlias = new ConnectionAlias
                     {
                         Name = line1,
                         Value = line2
@@ -137,7 +137,7 @@ namespace ManagedIrbis.Client
         {
             Code.NotNullNorEmpty(name, "name");
 
-            Alias theAlias = _GetAlias(name);
+            ConnectionAlias theAlias = _GetAlias(name);
             string result = ReferenceEquals(theAlias, null)
                 ? null
                 : theAlias.Value;
@@ -174,7 +174,7 @@ namespace ManagedIrbis.Client
                         IrbisEncoding.Ansi
                     ))
             {
-                foreach (Alias theAlias in _aliases)
+                foreach (ConnectionAlias theAlias in _aliases)
                 {
                     writer.WriteLine(theAlias.Name);
                     writer.WriteLine(theAlias.Value);
@@ -194,12 +194,12 @@ namespace ManagedIrbis.Client
         {
             Code.NotNullNorEmpty(name, "name");
 
-            Alias theAlias = _GetAlias(name);
+            ConnectionAlias theAlias = _GetAlias(name);
             if (ReferenceEquals(theAlias, null))
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    theAlias = new Alias
+                    theAlias = new ConnectionAlias
                     {
                         Name = name,
                         Value = value

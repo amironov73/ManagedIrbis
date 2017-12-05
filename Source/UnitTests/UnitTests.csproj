@@ -228,7 +228,9 @@
     <Compile Include="ManagedIrbis\Caching\RecordCacheTest.cs" />
     <Compile Include="ManagedIrbis\Caching\TextCacheTest.cs" />
     <Compile Include="ManagedIrbis\ClientInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Client\ConnectionAliasTest.cs" />
     <Compile Include="ManagedIrbis\Client\LocalProviderTest.cs" />
+    <Compile Include="ManagedIrbis\Client\RecordStateTest.cs" />
     <Compile Include="ManagedIrbis\ConnectionFactoryTest.cs" />
     <Compile Include="ManagedIrbis\DatabaseInfoTest.cs" />
     <Compile Include="ManagedIrbis\Direct\DirectUtilityTest.cs" />
