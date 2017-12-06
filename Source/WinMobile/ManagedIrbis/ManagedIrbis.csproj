@@ -290,9 +290,6 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\InvertedFile64.cs">
       <Link>Source\Direct\InvertedFile64.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\LocalDatabase.cs">
-      <Link>Source\Direct\LocalDatabase.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstControlRecord32.cs">
       <Link>Source\Direct\MstControlRecord32.cs</Link>
     </Compile>
