@@ -129,12 +129,12 @@ namespace ManagedIrbis.Direct
                     status = RecordStatus.LogicallyDeleted;
                 }
 
-                int blockNumber = (value < 0)
+                int blockNumber = value < 0
                     ? (-(int)(value & 0xFFFFF800) >> 11) - 1
-                    : ((value & 0x7FFFF800) >> 11);
-                int blockOffset = (value < 0)
-                    ? ((-value) & 0x7FF)
-                    : (value & 0x7FF);
+                    : (value & 0x7FFFF800) >> 11;
+                int blockOffset = value < 0
+                    ? -value & 0x7FF
+                    : value & 0x7FF;
 
                 XrfRecord32 result = new XrfRecord32
                 {
@@ -209,7 +209,7 @@ namespace ManagedIrbis.Direct
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
             if (!ReferenceEquals(_stream, null))

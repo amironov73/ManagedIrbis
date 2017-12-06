@@ -59,6 +59,24 @@ namespace UnitTests.Common
         }
 
         /// <summary>
+        /// Корневая папка с тестовыми данными для ИРБИС32.
+        /// </summary>
+        [NotNull]
+        public string Irbis32RootPath
+        {
+            get
+            {
+                string result = Path.Combine
+                    (
+                        TestDataPath,
+                        "Irbis32"
+                    );
+
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Корневая папка с тестовыми данными для ИРБИС64.
         /// </summary>
         [NotNull]

@@ -54,10 +54,6 @@ namespace ManagedIrbis.Direct
     public sealed class XrfFile64
         : IDisposable
     {
-        #region Constants
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -93,28 +89,14 @@ namespace ManagedIrbis.Direct
             _stream = DirectUtility.OpenFile(fileName, mode);
         }
 
-        /// <summary>
-        /// Finalizer.
-        /// </summary>
-        ~XrfFile64()
-        {
-            if (!ReferenceEquals(_stream, null))
-            {
-                lock (_lockObject)
-                {
-                    _stream.Dispose(); //-V3100
-                    _stream = null;
-                }
-            }
-        }
-
         #endregion
 
         #region Private members
 
         private object _lockObject;
 
-        private Stream _stream;
+        [NotNull]
+        private readonly Stream _stream;
 
         private long _GetOffset
             (
@@ -140,22 +122,21 @@ namespace ManagedIrbis.Direct
         {
             Code.Positive(mfn, "mfn");
 
-            long offset = _GetOffset(mfn);
-            if (offset >= _stream.Length)
-            {
-                throw new ArgumentOutOfRangeException("mfn");
-            }
-
             long ofs;
             int flags;
-
             lock (_lockObject)
             {
+                long offset = _GetOffset(mfn);
+                if (offset >= _stream.Length)
+                {
+                    throw new ArgumentOutOfRangeException("mfn");
+                }
                 if (_stream.Seek(offset, SeekOrigin.Begin) != offset)
                 {
                     throw new IOException();
                 }
 
+                _stream.Flush();
                 ofs = _stream.ReadInt64Network();
                 flags = _stream.ReadInt32Network();
             }
@@ -202,6 +183,7 @@ namespace ManagedIrbis.Direct
             XrfRecord64 record = ReadRecord(mfn);
             if (flag != record.Locked)
             {
+                record.Locked = flag;
                 WriteRecord(record);
             }
         }
@@ -213,12 +195,10 @@ namespace ManagedIrbis.Direct
         /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
-            if (!ReferenceEquals(_stream, null))
+            lock (_lockObject)
             {
                 _stream.Dispose();
-                _stream = null;
             }
-            GC.SuppressFinalize(this);
         }
 
         #endregion
@@ -226,4 +206,6 @@ namespace ManagedIrbis.Direct
 }
 
 #endif
+
+
 
