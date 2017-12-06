@@ -182,8 +182,8 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\AbstractIniSection.cs">
       <Link>Source\Client\AbstractIniSection.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\Alias.cs">
-      <Link>Source\Client\Alias.cs</Link>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\ConnectionAlias.cs">
+      <Link>Source\Client\ConnectionAlias.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\AliasManager.cs">
       <Link>Source\Client\AliasManager.cs</Link>
