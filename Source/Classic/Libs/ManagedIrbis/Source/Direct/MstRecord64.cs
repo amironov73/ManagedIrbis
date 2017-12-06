@@ -34,9 +34,6 @@ namespace ManagedIrbis.Direct
     [DebuggerDisplay("Leader={Leader}")]
     public sealed class MstRecord64
     {
-        #region Constants
-
-        #endregion
 
         #region Properties
 
@@ -62,11 +59,11 @@ namespace ManagedIrbis.Direct
         {
             get
             {
-                return (Leader.Status &
-                      (int)(RecordStatus.LogicallyDeleted
-                              | RecordStatus.PhysicallyDeleted)
-                            )
-                        != 0;
+                const int badStatus
+                    = (int)(RecordStatus.LogicallyDeleted
+                    | RecordStatus.PhysicallyDeleted);
+
+                return (Leader.Status & badStatus) != 0;
             }
         }
 
@@ -87,6 +84,7 @@ namespace ManagedIrbis.Direct
 
         #region Private members
 
+        [NotNull]
         private string _DumpDictionary ()
         {
             StringBuilder result = new StringBuilder();

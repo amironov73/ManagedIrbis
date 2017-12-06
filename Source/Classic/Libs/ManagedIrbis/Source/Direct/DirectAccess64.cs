@@ -110,10 +110,6 @@ namespace ManagedIrbis.Direct
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>

@@ -33,7 +33,7 @@ namespace ManagedIrbis.Direct
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class DirectReader32
+    public sealed class DirectAccess32
         : IDisposable
     {
         #region Properties
@@ -69,7 +69,7 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Constructor.
         /// </summary>
-        public DirectReader32
+        public DirectAccess32
             (
                 [NotNull] string masterFile
             )

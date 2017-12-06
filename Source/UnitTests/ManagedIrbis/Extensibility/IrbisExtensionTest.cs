@@ -42,7 +42,6 @@ namespace UnitTests.ManagedIrbis.Extensibility
             }
         }
 
-
         [TestMethod]
         public void IrbisExtension_Construction_1()
         {

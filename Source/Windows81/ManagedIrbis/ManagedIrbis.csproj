@@ -200,8 +200,8 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\DatabaseInfo.cs">
       <Link>Source\DatabaseInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectReader32.cs">
-      <Link>Source\Direct\DirectReader32.cs</Link>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectAccess32.cs">
+      <Link>Source\Direct\DirectAccess32.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectAccess64.cs">
       <Link>Source\Direct\DirectAccess64.cs</Link>

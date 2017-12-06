@@ -9,15 +9,7 @@
 
 #region Usingd directives
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-
-using CodeJam;
-
-using JetBrains.Annotations;
 
 #endregion
 
@@ -51,8 +43,7 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Fixed record size.
         /// </summary>
-        public const int RecordSize
-            = sizeof(long) + sizeof(int);
+        public const int RecordSize = sizeof(long) + sizeof(int);
 
         #endregion
 
@@ -99,27 +90,19 @@ namespace ManagedIrbis.Direct
         {
             get
             {
-                return (Status & 
-                    (
-                        RecordStatus.LogicallyDeleted
-                        | RecordStatus.PhysicallyDeleted
-                    )) != 0;
+                const RecordStatus badStatus
+                    = RecordStatus.LogicallyDeleted
+                    | RecordStatus.PhysicallyDeleted;
+
+                return (Status & badStatus) != 0;
             }
         }
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region Object members
 
-        /// <inheritdoc cref="object.ToString"/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format

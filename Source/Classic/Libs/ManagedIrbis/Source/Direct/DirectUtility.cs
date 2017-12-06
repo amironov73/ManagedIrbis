@@ -11,9 +11,6 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
 using AM.IO;
@@ -36,14 +33,6 @@ namespace ManagedIrbis.Direct
     [MoonSharpUserData]
     public static class DirectUtility
     {
-        #region Properties
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
         #region Private members
 
         private static byte[] _l01Content32 = {};

@@ -233,7 +233,10 @@
     <Compile Include="ManagedIrbis\Client\RecordStateTest.cs" />
     <Compile Include="ManagedIrbis\ConnectionFactoryTest.cs" />
     <Compile Include="ManagedIrbis\DatabaseInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Direct\DirectAccess64Test.cs" />
     <Compile Include="ManagedIrbis\Direct\DirectUtilityTest.cs" />
+    <Compile Include="ManagedIrbis\Direct\MstRecord64Test.cs" />
+    <Compile Include="ManagedIrbis\Direct\XrfRecord64Test.cs" />
     <Compile Include="ManagedIrbis\Extensibility\ExtensionInfoTest.cs" />
     <Compile Include="ManagedIrbis\Extensibility\ExtensionManagerTest.cs" />
     <Compile Include="ManagedIrbis\Extensibility\IrbisExtensionTest.cs" />
