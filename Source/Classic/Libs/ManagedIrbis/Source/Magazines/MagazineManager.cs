@@ -59,7 +59,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         [NotNull]
         // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local
-        public IrbisConnection Connection { get; private set; }
+        public IIrbisConnection Connection { get; private set; }
 
         #endregion
 
@@ -70,7 +70,7 @@ namespace ManagedIrbis.Magazines
         /// </summary>
         public MagazineManager
             (
-                IrbisConnection connection
+                IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");
@@ -167,6 +167,42 @@ namespace ManagedIrbis.Magazines
                 (
                         "\"I={0}/$\"",
                         magazine.Index
+                );
+            IEnumerable<MarcRecord> records
+                = BatchRecordReader.Search
+                (
+                    Connection,
+                    Connection.Database,
+                    searchExpression,
+                    1000
+                );
+
+            MagazineIssueInfo[] result = records
+                .Select(record => MagazineIssueInfo.Parse(record))
+                .NonNullItems()
+                .ToArray();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Получение списка выпусков данного журнала.
+        /// </summary>
+        [NotNull]
+        public MagazineIssueInfo[] GetIssues
+            (
+                [NotNull] MagazineInfo magazine,
+                [NotNull] string year
+            )
+        {
+            Code.NotNull(magazine, "magazine");
+            Code.NotNullNorEmpty(year, "year");
+
+            string searchExpression = string.Format
+                (
+                        "\"I={0}/{1}/$\"",
+                        magazine.Index,
+                        year
                 );
             IEnumerable<MarcRecord> records
                 = BatchRecordReader.Search

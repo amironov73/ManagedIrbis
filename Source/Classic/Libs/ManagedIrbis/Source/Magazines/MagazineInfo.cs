@@ -22,6 +22,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Fields;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -174,6 +176,14 @@ namespace ManagedIrbis.Magazines
         public MagazineCumulation[] Cumulation { get; set; }
 
         /// <summary>
+        /// Сведения о заказах (поквартальные). Поле 938.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("order")]
+        [JsonProperty("orders", NullValueHandling = NullValueHandling.Ignore)]
+        public QuarterlyOrderInfo[] QuarterlyOrders { get; set; }
+
+        /// <summary>
         /// MFN записи журнала.
         /// </summary>
         [XmlElement("mfn")]
@@ -226,6 +236,7 @@ namespace ManagedIrbis.Magazines
                 Title = record.FM(200, 'a'),
                 SubTitle = record.FM(200, 'e'),
                 Cumulation = MagazineCumulation.Parse(record),
+                QuarterlyOrders = QuarterlyOrderInfo.ParseRecord(record),
                 SeriesNumber = record.FM(923,'h'),
                 SeriesTitle = record.FM(923, 'i'),
                 MagazineType = record.FM(110, 't'),
@@ -277,6 +288,7 @@ namespace ManagedIrbis.Magazines
             MagazineKind = reader.ReadNullableString();
             Periodicity = reader.ReadNullableString();
             Mfn = reader.ReadPackedInt32();
+            QuarterlyOrders = reader.ReadNullableArray<QuarterlyOrderInfo>();
 
             // TODO Handle Cumulation array
         }
@@ -299,7 +311,8 @@ namespace ManagedIrbis.Magazines
                 .WriteNullable(MagazineType)
                 .WriteNullable(MagazineKind)
                 .WriteNullable(Periodicity)
-                .WritePackedInt32(Mfn);
+                .WritePackedInt32(Mfn)
+                .WriteNullableArray(QuarterlyOrders);
 
             // TODO Handle Cumulation array
         }
