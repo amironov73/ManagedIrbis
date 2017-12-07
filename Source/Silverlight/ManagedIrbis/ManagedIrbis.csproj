@@ -327,6 +327,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\QuantitativeCharacteristics.cs">
       <Link>Source\Fields\QuantitativeCharacteristics.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\QuarterlyOrderInfo.cs">
+      <Link>Source\Fields\QuarterlyOrderInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ResourceView.cs">
       <Link>Source\Fields\ResourceView.cs</Link>
     </Compile>

@@ -440,6 +440,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\QuantitativeCharacteristics.cs">
       <Link>Source\Fields\QuantitativeCharacteristics.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\QuarterlyOrderInfo.cs">
+      <Link>Source\Fields\QuarterlyOrderInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ReplacementInfo.cs">
       <Link>Source\Fields\ReplacementInfo.cs</Link>
     </Compile>
