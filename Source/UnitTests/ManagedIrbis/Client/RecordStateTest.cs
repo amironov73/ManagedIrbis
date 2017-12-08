@@ -12,6 +12,7 @@ namespace UnitTests.ManagedIrbis.Client
 {
     [TestClass]
     public class RecordStateTest
+        : Common.CommonUnitTest
     {
         private RecordState _GetState()
         {

@@ -11,9 +11,10 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
-
+using AM;
 using AM.IO;
 using AM.Runtime;
 
@@ -35,7 +36,7 @@ namespace ManagedIrbis.Client
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("database")]
-    [DebuggerDisplay("{Database}")]
+    [DebuggerDisplay("{Database} {Date} {MaxMfn}")]
     public sealed class CatalogState
         : IHandmadeSerializable
     {
@@ -90,6 +91,28 @@ namespace ManagedIrbis.Client
 
         #endregion
 
+        #region Public methods
+
+        /// <summary>
+        /// Should serialize the <see cref="Date"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeDate()
+        {
+            return Date != DateTime.MinValue;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="MaxMfn"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeMaxMfn()
+        {
+            return MaxMfn != 0;
+        }
+
+        #endregion
+
         #region IHandmadeSerializable
 
         /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
@@ -123,6 +146,20 @@ namespace ManagedIrbis.Client
                 .WritePackedInt32(MaxMfn)
                 .WriteNullableArray(Records)
                 .WriteNullableArray(LogicallyDeleted);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return Database.ToVisibleString()
+                + " "
+                + Date.ToLongUniformString()
+                + " "
+                + MaxMfn.ToInvariantString();
         }
 
         #endregion

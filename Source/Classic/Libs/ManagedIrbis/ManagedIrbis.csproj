@@ -130,6 +130,11 @@
     <Compile Include="..\..\Common\AssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Source\AsyncExtensions.cs" />
     <Compile Include="Source\Authentication\AbstractAuthenticator.cs" />
     <Compile Include="Source\Authentication\AuthenticationResult.cs" />
@@ -999,7 +1004,13 @@
     <Compile Include="Source\Worksheet\WsFile.cs" />
     <Compile Include="Source\Worksheet\WssFile.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.ru.resx" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />
   </ItemGroup>

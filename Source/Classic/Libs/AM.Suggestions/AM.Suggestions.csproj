@@ -154,7 +154,6 @@
     <Compile Include="AM\Suggestions\TodayEditor.cs" />
     <Compile Include="AM\Suggestions\TodaySuggester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AM\Suggestions\TodayControl.resx">
