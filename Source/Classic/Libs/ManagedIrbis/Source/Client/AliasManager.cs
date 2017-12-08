@@ -82,6 +82,7 @@ namespace ManagedIrbis.Client
         public AliasManager Clear()
         {
             _aliases.Clear();
+
             return this;
         }
 
@@ -89,7 +90,7 @@ namespace ManagedIrbis.Client
         /// Read file and create <see cref="AliasManager"/>.
         /// </summary>
         [NotNull]
-        public static AliasManager FromFile
+        public static AliasManager FromPlainTextFile
             (
                 [NotNull] string fileName
             )
@@ -130,7 +131,7 @@ namespace ManagedIrbis.Client
         /// Get alias value if exists.
         /// </summary>
         [CanBeNull]
-        public string Get
+        public string GetAliasValue
             (
                 [NotNull] string name
             )
@@ -161,7 +162,7 @@ namespace ManagedIrbis.Client
         /// <summary>
         /// Save aliases to file.
         /// </summary>
-        public void SaveToFile
+        public void SaveToPlainTextFile
             (
                 [NotNull] string fileName
             )
@@ -186,7 +187,7 @@ namespace ManagedIrbis.Client
         /// Add new or modify existing alias.
         /// </summary>
         [NotNull]
-        public AliasManager Set
+        public AliasManager SetAlias
             (
                 [NotNull] string name,
                 [CanBeNull] string value
@@ -221,10 +222,6 @@ namespace ManagedIrbis.Client
 
             return this;
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

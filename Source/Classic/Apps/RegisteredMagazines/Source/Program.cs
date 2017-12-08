@@ -26,7 +26,7 @@ using ManagedIrbis.Magazines;
 
 #endregion
 
-namespace LackedMagazines
+namespace RegisteredMagazines
 {
     using Properties;
 
@@ -35,35 +35,9 @@ namespace LackedMagazines
         private static IrbisConnection _connection;
         private static MagazineManager _manager;
         private static TextWriter _writer;
-        private static string _year;
         private static string _period;
+        private static string _year;
         private static List<PeriodInfo> _list;
-
-        private static bool Match
-            (
-                [CanBeNull] string issue,
-                [NotNull] NumberText required
-            )
-        {
-            if (string.IsNullOrEmpty(issue))
-            {
-                return false;
-            }
-            if (issue.Contains('/'))
-            {
-                string[] parts = issue.Split('/');
-                if (parts.Length < 2)
-                {
-                    return false;
-                }
-                NumberText first = parts[0];
-                NumberText second = parts[1];
-
-                return first <= required && second >= required;
-            }
-
-            return required == issue;
-        }
 
         [NotNull]
         private static string CompressIfPossible
@@ -89,59 +63,43 @@ namespace LackedMagazines
             )
         {
             Console.WriteLine(magazine);
-            if (ReferenceEquals(magazine.QuarterlyOrders, null))
-            {
-                Console.WriteLine(Resources.HaventOrders);
-                return;
-            }
-            QuarterlyOrderInfo order = magazine.QuarterlyOrders.FirstOrDefault
-                (
-                    o => o.Period.SameString(_period)
-                );
-            if (ReferenceEquals(order, null)
-                || string.IsNullOrEmpty(order.FirstIssue)
-                || string.IsNullOrEmpty(order.LastIssue))
-            {
-                Console.WriteLine(Resources.NoOrderInfoFor, _period);
-                return;
-            }
-
             MagazineIssueInfo[] issues = _manager.GetIssues(magazine, _year);
 
-            string[] registered = issues.Select(i => i.Number).ToArray();
-            registered = NumberText.Sort(registered).ToArray();
-
-            NumberText first = order.FirstIssue;
-            NumberText current = first.Clone();
-            NumberText last = order.LastIssue;
-
-            PeriodInfo info = new PeriodInfo
+            List<string> registered = new List<string>(issues.Length);
+            foreach (MagazineIssueInfo issue in issues)
             {
-                Title = magazine.ExtendedTitle,
-                Expected = first + "-" + last,
-                Registered = CompressIfPossible(registered)
-            };
-            _list.Add(info);
-
-            List<string> missingIssues = new List<string>();
-            while (current <= last)
-            {
-                MagazineIssueInfo found = issues.FirstOrDefault
-                    (
-                        i => Match(i.Number, current)
-                    );
-                if (ReferenceEquals(found, null))
+                ExemplarInfo[] exemplars = issue.Exemplars;
+                if (!ReferenceEquals(exemplars, null))
                 {
-                    missingIssues.Add(current.ToString());
+                    foreach (ExemplarInfo exemplar in exemplars)
+                    {
+                        string number = issue.Number;
+                        if (!ReferenceEquals(number, null)
+                            && exemplar.KsuNumber1.SameString(_period))
+                        {
+                            registered.Add(issue.Number);
+                            break;
+                        }
+                    }
                 }
-
-                current = current.Increment();
             }
 
-            info.Missing = CompressIfPossible(missingIssues);
+            registered = NumberText.Sort(registered).Distinct().ToList();
 
-            Console.WriteLine(Resources.Present, info.Registered);
-            Console.WriteLine(Resources.Missing, info.Missing);
+            if (registered.Count == 0)
+            {
+                Console.WriteLine(Resources.T0, string.Empty);
+            }
+            else
+            {
+                PeriodInfo info = new PeriodInfo
+                {
+                    Title = magazine.ExtendedTitle,
+                    Registered = CompressIfPossible(registered)
+                };
+                _list.Add(info);
+                Console.WriteLine(Resources.T0, info.Registered);
+            }
         }
 
         static void PrintMagazine
@@ -154,13 +112,7 @@ namespace LackedMagazines
             _writer.WriteLine(HtmlText.Encode(info.Title));
             _writer.WriteLine("</td>");
             _writer.WriteLine("<td>");
-            _writer.WriteLine(HtmlText.Encode(info.Expected));
-            _writer.WriteLine("</td>");
-            _writer.WriteLine("<td>");
             _writer.WriteLine(HtmlText.Encode(info.Registered));
-            _writer.WriteLine("</td>");
-            _writer.WriteLine("<td>");
-            _writer.WriteLine(HtmlText.Encode(info.Missing));
             _writer.WriteLine("</td>");
             _writer.WriteLine("</tr>");
         }
@@ -194,15 +146,13 @@ namespace LackedMagazines
                     _list = _list.OrderBy(i => i.Title).ToList();
 
                     _writer.WriteLine("<h3>");
-                    _writer.WriteLine(Resources.MagazineRegistrationForPeriod);
-                    _writer.WriteLine(HtmlText.Encode(_period));
+                    _writer.WriteLine(Resources.RegisteredPeriodicalsInYear);
+                    _writer.WriteLine(HtmlText.Encode(_year));
                     _writer.WriteLine("</h3>");
                     _writer.WriteLine("<table border='1' cellpadding='3' cellspacing='0'>");
                     _writer.WriteLine("<tr>");
                     _writer.WriteLine(Resources.MagazineTitle);
-                    _writer.WriteLine(Resources.ExpectedIssueNumbers);
-                    _writer.WriteLine(Resources.RegisteredIssues);
-                    _writer.WriteLine(Resources.MissedIssues);
+                    _writer.WriteLine(Resources.RegisteredIssuesTh);
                     _writer.WriteLine("</tr>");
                     foreach (PeriodInfo info in _list)
                     {
