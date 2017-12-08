@@ -246,6 +246,7 @@
     <Compile Include="ManagedIrbis\FastFieldsTest.cs" />
     <Compile Include="ManagedIrbis\FieldDifferenceTest.cs" />
     <Compile Include="ManagedIrbis\FieldReferenceTest.cs" />
+    <Compile Include="ManagedIrbis\Fields\ArrivalsInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fields\BinaryResourceTest.cs" />
     <Compile Include="ManagedIrbis\Fields\CodesInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fields\FieldFilterTest.cs" />

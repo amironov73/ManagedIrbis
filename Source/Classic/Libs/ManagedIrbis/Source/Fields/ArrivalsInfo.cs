@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -199,6 +200,30 @@ namespace ManagedIrbis.Fields
         }
 
         /// <summary>
+        /// Parse the <see cref="MarcRecord"/>.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static ArrivalsInfo[] ParseRecord
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            List<ArrivalsInfo> result = new List<ArrivalsInfo>();
+            foreach (RecordField field in record.Fields)
+            {
+                if (field.Tag == Tag)
+                {
+                    result.Add(ParseField(field));
+                }
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
         /// Should serialize the <see cref="UnknownSubFields"/> array?
         /// </summary>
         [ExcludeFromCodeCoverage]
@@ -306,7 +331,7 @@ namespace ManagedIrbis.Fields
                     OffBalanceWithoutPeriodicals.ToVisibleString(),
                     TotalWithoutPeriodicals.ToVisibleString(),
                     OffBalanceWithPeriodicals.ToVisibleString(),
-                    Educational
+                    Educational.ToVisibleString()
                 );
         }
 

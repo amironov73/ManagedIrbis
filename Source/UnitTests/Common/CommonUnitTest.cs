@@ -1,11 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-
+using AM;
 using AM.PlatformAbstraction;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis;
 using ManagedIrbis.Client;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -105,6 +107,39 @@ namespace UnitTests.Common
             };
 
             return result;
+        }
+
+        protected static string GatherCodes
+            (
+                [NotNull] RecordField field
+            )
+        {
+            char[] codes = field.SubFields.Select(sf => sf.Code)
+                .OrderBy(c => c)
+                .ToArray();
+
+            return new string(codes);
+        }
+
+        protected static void CompareFields
+            (
+                [NotNull] RecordField expected,
+                [NotNull] RecordField actual
+            )
+        {
+            string expectedCodes = GatherCodes(expected);
+            string actualCodes = GatherCodes(actual);
+            Assert.AreEqual(expectedCodes, actualCodes, true);
+            foreach (char code in expectedCodes)
+            {
+                SubField[] expectedSubFields = expected.GetSubField(code);
+                SubField[] actualSubFields = actual.GetSubField(code);
+                Assert.AreEqual(expectedSubFields.Length, actualSubFields.Length);
+                for (int i = 0; i < expectedSubFields.Length; i++)
+                {
+                    Assert.AreEqual(expectedSubFields[i].Value, actualSubFields[i].Value);
+                }
+            }
         }
     }
 }

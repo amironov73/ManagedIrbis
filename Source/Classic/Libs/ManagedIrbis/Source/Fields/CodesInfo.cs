@@ -35,6 +35,7 @@ namespace ManagedIrbis.Fields
     /// Коды (поле 900).
     /// </summary>
     [PublicAPI]
+    [XmlRoot("codes")]
     [MoonSharpUserData]
     public sealed class CodesInfo
         : IHandmadeSerializable,
@@ -197,7 +198,7 @@ namespace ManagedIrbis.Fields
         [Browsable(false)]
         [Description("Поле")]
         [DisplayName("Поле")]
-        public RecordField Field { get; private set; }
+        public RecordField Field { get; set; }
 
         /// <summary>
         /// Arbitrary user data.
@@ -369,9 +370,9 @@ namespace ManagedIrbis.Fields
                 (
                     "DocumentType: {0}, DocumentKind: {1}, "
                     + "DocumentCharacter1: {2}",
-                    DocumentType,
-                    DocumentKind,
-                    DocumentCharacter1
+                    DocumentType.ToVisibleString(),
+                    DocumentKind.ToVisibleString(),
+                    DocumentCharacter1.ToVisibleString()
                 );
         }
 
