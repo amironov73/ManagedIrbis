@@ -230,9 +230,12 @@
     <Compile Include="ManagedIrbis\ClientInfoTest.cs" />
     <Compile Include="ManagedIrbis\Client\CatalogStateTest.cs" />
     <Compile Include="ManagedIrbis\Client\ConnectionAliasTest.cs" />
+    <Compile Include="ManagedIrbis\Client\DisplayIniSectionTest.cs" />
+    <Compile Include="ManagedIrbis\Client\EntryIniSectionTest.cs" />
     <Compile Include="ManagedIrbis\Client\LocalProviderTest.cs" />
     <Compile Include="ManagedIrbis\Client\MessageFileTest.cs" />
     <Compile Include="ManagedIrbis\Client\ProviderManagerTest.cs" />
+    <Compile Include="ManagedIrbis\Client\RecordStateComparerTest.cs" />
     <Compile Include="ManagedIrbis\Client\RecordStateTest.cs" />
     <Compile Include="ManagedIrbis\ConnectionFactoryTest.cs" />
     <Compile Include="ManagedIrbis\DatabaseInfoTest.cs" />

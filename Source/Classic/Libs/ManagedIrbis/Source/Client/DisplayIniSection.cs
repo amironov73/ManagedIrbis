@@ -39,7 +39,7 @@ namespace ManagedIrbis.Client
         /// <summary>
         /// Section name.
         /// </summary>
-        public const string SectionName = "DISPLAY";
+        public const string SectionName = "Display";
 
         #endregion
 
@@ -52,8 +52,8 @@ namespace ManagedIrbis.Client
         [JsonProperty("maxBriefPortion")]
         public int MaxBriefPortion
         {
-            get { return Section.GetValue("MAXBRIEFPORTION", 6); }
-            set { Section.SetValue("MAXBRIEFPORTION", value); }
+            get { return Section.GetValue("MaxBriefPortion", 6); }
+            set { Section.SetValue("MaxBriefPortion", value); }
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace ManagedIrbis.Client
         [JsonProperty("maxMarked")]
         public int MaxMarked
         {
-            get { return Section.GetValue("MAXMARKED", 100); }
-            set { Section.SetValue("MAXMARKED", value); }
+            get { return Section.GetValue("MaxMarked", 100); }
+            set { Section.SetValue("MaxMarked", value); }
         }
 
         #endregion
@@ -100,18 +100,6 @@ namespace ManagedIrbis.Client
             : base(section)
         {
         }
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

@@ -210,10 +210,9 @@ namespace AM.IO
             {
                 string result = string.Format
                     (
-                        "{0}={1}{2}",
+                        "{0}={1}",
                         Key,
-                        Value,
-                        Modified ? " [modified]" : string.Empty
+                        Value
                     );
 
                 return result;
@@ -612,6 +611,26 @@ namespace AM.IO
             public IEnumerator<Line> GetEnumerator()
             {
                 return _lines.GetEnumerator();
+            }
+
+            #endregion
+
+            #region Object members
+
+            /// <inheritdoc cref="object.ToString" />
+            public override string ToString()
+            {
+                StringBuilder result = new StringBuilder();
+                result
+                    .AppendFormat("[{0}]", Name)
+                    .AppendLine();
+
+                foreach (Line line in _lines)
+                {
+                    result.AppendLine(line.ToString());
+                }
+
+                return result.ToString();
             }
 
             #endregion

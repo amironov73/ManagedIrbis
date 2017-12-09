@@ -166,5 +166,11 @@ namespace ManagedIrbis.Client
         }
 
         #endregion
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return Section.ToString();
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace ManagedIrbis.Client
         /// <summary>
         /// Section name.
         /// </summary>
-        public const string SectionName = "CONTEXT";
+        public const string SectionName = "Entry";
 
         #endregion
 
@@ -54,8 +54,30 @@ namespace ManagedIrbis.Client
         [JsonProperty("dbnflc")]
         public string DbnFlc
         {
-            get { return Section["DBNFLC"]; }
+            get { return Section.GetValue("DBNFLC", "DBNFLC"); }
             set { Section["DBNFLC"] = value; }
+        }
+
+        /// <summary>
+        /// DefFieldNumb.
+        /// </summary>
+        [XmlElement("DefFieldNumb")]
+        [JsonProperty("DefFieldNumb")]
+        public int DefFieldNumb
+        {
+            get { return Section.GetValue("DefFieldNumb", 10); }
+            set { Section.SetValue("DefFieldNumb", value); }
+        }
+
+        /// <summary>
+        /// MaxAddFields.
+        /// </summary>
+        [XmlElement("MaxAddFields")]
+        [JsonProperty("MaxAddFields")]
+        public int MaxAddFields
+        {
+            get { return Section.GetValue("MaxAddFields", 10); }
+            set { Section.SetValue("MaxAddFields", value); }
         }
 
         /// <summary>
@@ -111,18 +133,6 @@ namespace ManagedIrbis.Client
             : base(section)
         {
         }
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }
