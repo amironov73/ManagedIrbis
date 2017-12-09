@@ -11,10 +11,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Logging;
@@ -95,10 +92,6 @@ namespace ManagedIrbis.Client
                 {Default, typeof(ConnectedClient)}
             };
         }
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
@@ -196,6 +189,8 @@ namespace ManagedIrbis.Client
                             "Provider not found: " + name
                         );
                 }
+
+                return null;
             }
 
             if (ReferenceEquals(type, null))
@@ -207,14 +202,18 @@ namespace ManagedIrbis.Client
                         + name
                     );
 
-                throw new IrbisException
+                if (throwOnError)
+                {
+                    throw new IrbisException
                     (
                         "Can't find type: " + name
                     );
+                }
+
+                return null;
             }
 
-            IrbisProvider result
-                = (IrbisProvider)Activator.CreateInstance(type);
+            IrbisProvider result = (IrbisProvider)Activator.CreateInstance(type);
 
             return result;
         }
