@@ -9,20 +9,13 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-using AM;
-using AM.Collections;
 using AM.IO;
 using AM.Logging;
 using AM.Runtime;
-using AM.Text;
 
 using CodeJam;
 
@@ -189,6 +182,7 @@ namespace ManagedIrbis.Client
             Code.NotNull(reader, "reader");
 
             _list.Clear();
+            Name = reader.ReadNullableString();
             _list.AddRange
                 (
                     reader.ReadStringArray()
@@ -203,6 +197,7 @@ namespace ManagedIrbis.Client
         {
             Code.NotNull(writer, "writer");
 
+            writer.WriteNullable(Name);
             writer.WriteArray(_list.ToArray());
         }
 
