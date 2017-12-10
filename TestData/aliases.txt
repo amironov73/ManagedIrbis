@@ -1,0 +1,4 @@
+IBIS
+Provider=Connected;Host=127.0.0.1;Port=6666;User=1;Password=1;Db=IBIS;
+RDR
+Provider=Connected;Host=127.0.0.1;Port=6666;User=1;Password=1;Db=RDR;

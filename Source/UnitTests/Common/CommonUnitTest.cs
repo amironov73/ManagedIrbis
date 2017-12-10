@@ -14,7 +14,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Common
 {
-    [TestClass]
     public class CommonUnitTest
     {
         /// <summary>

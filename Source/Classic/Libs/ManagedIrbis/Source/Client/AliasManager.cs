@@ -35,10 +35,6 @@ namespace ManagedIrbis.Client
     [DebuggerDisplay("Count={_aliases.Count}")]
     public sealed class AliasManager
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>

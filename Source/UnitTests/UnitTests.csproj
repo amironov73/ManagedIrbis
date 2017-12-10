@@ -228,6 +228,7 @@
     <Compile Include="ManagedIrbis\Caching\RecordCacheTest.cs" />
     <Compile Include="ManagedIrbis\Caching\TextCacheTest.cs" />
     <Compile Include="ManagedIrbis\ClientInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Client\AliasManagerTest.cs" />
     <Compile Include="ManagedIrbis\Client\CatalogStateTest.cs" />
     <Compile Include="ManagedIrbis\Client\ConnectionAliasTest.cs" />
     <Compile Include="ManagedIrbis\Client\DisplayIniSectionTest.cs" />
