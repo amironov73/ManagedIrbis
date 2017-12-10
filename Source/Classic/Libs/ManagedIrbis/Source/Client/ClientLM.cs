@@ -90,10 +90,6 @@ namespace ManagedIrbis.Client
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -160,10 +156,6 @@ namespace ManagedIrbis.Client
 
             return result;
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

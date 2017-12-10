@@ -234,17 +234,5 @@ namespace ManagedIrbis.Client
         }
 
         #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
-        #region Object members
-
-        #endregion
     }
 }

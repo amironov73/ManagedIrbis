@@ -97,6 +97,8 @@ namespace ManagedIrbis.Client
         [JsonProperty("query")]
         public string Query
         {
+            // TODO использовать UTF8
+
             get { return Section["QUERY"]; }
             set { Section["QUERY"] = value; }
         }
@@ -170,18 +172,6 @@ namespace ManagedIrbis.Client
             : base(section)
         {
         }
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }
