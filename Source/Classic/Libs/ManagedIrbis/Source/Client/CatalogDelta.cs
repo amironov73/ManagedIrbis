@@ -10,11 +10,10 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
@@ -54,23 +53,23 @@ namespace ManagedIrbis.Client
         /// <summary>
         /// First date.
         /// </summary>
-        [JsonProperty("firstDate")]
         [XmlAttribute("firstDate")]
+        [JsonProperty("firstDate", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DateTime FirstDate { get; set; }
 
         /// <summary>
         /// Second date.
         /// </summary>
-        [JsonProperty("secondDate")]
         [XmlAttribute("secondDate")]
+        [JsonProperty("secondDate", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DateTime SecondDate { get; set; }
 
         /// <summary>
         /// Database name.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("database")]
         [XmlAttribute("database")]
+        [JsonProperty("database", NullValueHandling = NullValueHandling.Ignore)]
         public string Database { get; set; }
 
         /// <summary>
@@ -86,23 +85,19 @@ namespace ManagedIrbis.Client
         /// Deleted records.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("deleted")]
         [XmlArray("deleted")]
         [XmlArrayItem("mfn")]
+        [JsonProperty("deleted", NullValueHandling = NullValueHandling.Ignore)]
         public int[] DeletedRecords { get; set; }
 
         /// <summary>
         /// Altered records.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("altered")]
         [XmlArray("altered")]
         [XmlArrayItem("mfn")]
+        [JsonProperty("altered", NullValueHandling = NullValueHandling.Ignore)]
         public int[] AlteredRecords { get; set; }
-
-        #endregion
-
-        #region Construction
 
         #endregion
 
@@ -187,6 +182,7 @@ namespace ManagedIrbis.Client
                 .Select(state => state.Mfn)
                 .Where(mfn => mfn != 0)
                 .Except(result.NewRecords.ThrowIfNull("result.NewRecords"))
+                .Except(secondDeleted)
                 .ToArray();
 
             result.DeletedRecords 
@@ -197,11 +193,29 @@ namespace ManagedIrbis.Client
             return result;
         }
 
+        /// <summary>
+        /// Should serialize the <see cref="FirstDate"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeFirstDate()
+        {
+            return FirstDate != DateTime.MinValue;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="SecondDate"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeSecondDate()
+        {
+            return SecondDate != DateTime.MinValue;
+        }
+
         #endregion
 
         #region IHandmadeSerializable
 
-        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream"/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -209,6 +223,7 @@ namespace ManagedIrbis.Client
         {
             Code.NotNull(reader, "reader");
 
+            Id = reader.ReadPackedInt32();
             FirstDate = reader.ReadDateTime();
             SecondDate = reader.ReadDateTime();
             Database = reader.ReadNullableString();
@@ -217,7 +232,7 @@ namespace ManagedIrbis.Client
             AlteredRecords = reader.ReadNullableInt32Array();
         }
 
-        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -226,6 +241,7 @@ namespace ManagedIrbis.Client
             Code.NotNull(writer, "writer");
 
             writer
+                .WritePackedInt32(Id)
                 .Write(FirstDate)
                 .Write(SecondDate)
                 .WriteNullable(Database)
@@ -238,7 +254,7 @@ namespace ManagedIrbis.Client
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString"/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
