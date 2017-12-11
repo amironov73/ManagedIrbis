@@ -136,6 +136,7 @@ namespace ManagedIrbis.Client
         /// <summary>
         /// Exact search.
         /// </summary>
+        [NotNull]
         public virtual TermLink[] ExactSearchLinks
             (
                 [NotNull] string term
@@ -147,6 +148,7 @@ namespace ManagedIrbis.Client
         /// <summary>
         /// Exact search with trim.
         /// </summary>
+        [NotNull]
         public virtual TermLink[] ExactSearchTrimLinks
             (
                 [NotNull] string term,
@@ -215,6 +217,7 @@ namespace ManagedIrbis.Client
             CatalogState result = new CatalogState
             {
                 Database = database,
+                Date = PlatformAbstraction.Today(),
                 Records = new RecordState[0]
             };
 
@@ -457,10 +460,6 @@ namespace ManagedIrbis.Client
 
             PlatformAbstraction.Dispose();
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

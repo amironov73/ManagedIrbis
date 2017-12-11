@@ -228,6 +228,7 @@
     <Compile Include="ManagedIrbis\Caching\RecordCacheTest.cs" />
     <Compile Include="ManagedIrbis\Caching\TextCacheTest.cs" />
     <Compile Include="ManagedIrbis\ClientInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Client\AbstractIniSectionTest.cs" />
     <Compile Include="ManagedIrbis\Client\AliasManagerTest.cs" />
     <Compile Include="ManagedIrbis\Client\CatalogDeltaTest.cs" />
     <Compile Include="ManagedIrbis\Client\CatalogStateTest.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="ManagedIrbis\Client\EntryIniSectionTest.cs" />
     <Compile Include="ManagedIrbis\Client\LocalProviderTest.cs" />
     <Compile Include="ManagedIrbis\Client\MessageFileTest.cs" />
+    <Compile Include="ManagedIrbis\Client\NullProviderTest.cs" />
     <Compile Include="ManagedIrbis\Client\ProviderManagerTest.cs" />
     <Compile Include="ManagedIrbis\Client\RecordStateComparerTest.cs" />
     <Compile Include="ManagedIrbis\Client\RecordStateTest.cs" />

@@ -11,6 +11,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -32,6 +33,7 @@ namespace ManagedIrbis.Client
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [ExcludeFromCodeCoverage]
     public sealed class ClientRunner
     {
         #region Properties
@@ -207,10 +209,6 @@ namespace ManagedIrbis.Client
                 process.WaitForExit();
             }
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

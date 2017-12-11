@@ -9,14 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CodeJam;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -33,5 +25,16 @@ namespace ManagedIrbis.Client
     public sealed class NullProvider
         : IrbisProvider
     {
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public NullProvider()
+        {
+            Database = "IBIS";
+        }
+
+        #endregion
     }
 }
