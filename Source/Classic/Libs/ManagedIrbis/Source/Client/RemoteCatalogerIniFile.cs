@@ -40,22 +40,22 @@ namespace ManagedIrbis.Client
         /// <summary>
         /// Display section name.
         /// </summary>
-        public string Display = "Display";
+        public const string Display = "Display";
 
         /// <summary>
         /// Entry section name.
         /// </summary>
-        public string Entry = "Entry";
+        public const string Entry = "Entry";
 
         /// <summary>
         /// Main section name.
         /// </summary>
-        public string Main = "Main";
+        public const string Main = "Main";
 
         /// <summary>
         /// Private section name.
         /// </summary>
-        public string Private = "Private";
+        public const string Private = "Private";
 
         #endregion
 
@@ -80,7 +80,7 @@ namespace ManagedIrbis.Client
         /// </summary>
         public bool AutoMerge
         {
-            get { return GetValue(Main, "AUTOMERGE", false); }
+            get { return GetBoolean(Main, "AUTOMERGE", "0"); }
         }
 
         /// <summary>
@@ -309,11 +309,32 @@ namespace ManagedIrbis.Client
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
+
+        /// <summary>
+        /// Get boolean value
+        /// </summary>
+        public bool GetBoolean
+            (
+                [NotNull] string sectionName,
+                [NotNull] string keyName,
+                [NotNull] string defaultValue
+            )
+        {
+            Code.NotNullNorEmpty(sectionName, "sectionName");
+            Code.NotNullNorEmpty(keyName, "keyName");
+            Code.NotNullNorEmpty(defaultValue, "defaultValue");
+
+            string text = Ini.GetValue
+                (
+                    sectionName,
+                    keyName,
+                    defaultValue
+                )
+                .ThrowIfNull("Ini.GetValue");
+
+            return ConversionUtility.ToBoolean(text);
+        }
 
         /// <summary>
         /// Get value.

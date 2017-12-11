@@ -244,6 +244,7 @@
     <Compile Include="ManagedIrbis\Client\ProviderManagerTest.cs" />
     <Compile Include="ManagedIrbis\Client\RecordStateComparerTest.cs" />
     <Compile Include="ManagedIrbis\Client\RecordStateTest.cs" />
+    <Compile Include="ManagedIrbis\Client\RemoteCatalogerIniFileTest.cs" />
     <Compile Include="ManagedIrbis\ConnectionFactoryTest.cs" />
     <Compile Include="ManagedIrbis\DatabaseInfoTest.cs" />
     <Compile Include="ManagedIrbis\Direct\DirectAccess64Test.cs" />
