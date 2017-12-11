@@ -40,7 +40,7 @@ namespace ManagedIrbis.Server
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class IrbisSocketServer
+    public sealed class IrbisServerEngine
         : IDisposable
     {
         #region Properties
@@ -76,7 +76,7 @@ namespace ManagedIrbis.Server
         /// <summary>
         /// Constructor.
         /// </summary>
-        public IrbisSocketServer
+        public IrbisServerEngine
             (
                 [NotNull] ServerIniFile iniFile
             )
@@ -139,7 +139,7 @@ namespace ManagedIrbis.Server
         /// <summary>
         /// Process loop.
         /// </summary>
-        public void ProcessLoop()
+        public void MainLoop()
         {
             Listener.Start();
 

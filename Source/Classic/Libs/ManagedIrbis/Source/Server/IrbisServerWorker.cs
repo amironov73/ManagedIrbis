@@ -45,7 +45,7 @@ namespace ManagedIrbis.Server
         /// Server.
         /// </summary>
         [NotNull]
-        public IrbisSocketServer Server { get; private set; }
+        public IrbisServerEngine Engine { get; private set; }
 
         /// <summary>
         /// Socket.
@@ -68,14 +68,14 @@ namespace ManagedIrbis.Server
         /// </summary>
         public IrbisServerWorker
             (
-                [NotNull] IrbisSocketServer server,
+                [NotNull] IrbisServerEngine engine,
                 [NotNull] IrbisServerSocket socket
             )
         {
-            Code.NotNull(server, "server");
+            Code.NotNull(engine, "engine");
             Code.NotNull(socket, "socket");
 
-            Server = server;
+            Engine = engine;
             Socket = socket;
 
             Task = new Task(DoWork);

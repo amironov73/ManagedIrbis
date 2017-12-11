@@ -12,11 +12,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
@@ -29,6 +31,8 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
+using Newtonsoft.Json;
+
 #endregion
 
 namespace ManagedIrbis.Server
@@ -38,8 +42,10 @@ namespace ManagedIrbis.Server
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [XmlRoot("context")]
     public class ServerContext
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+        IVerifiable
     {
         #region Properties
 
@@ -47,50 +53,76 @@ namespace ManagedIrbis.Server
         /// Address.
         /// </summary>
         [CanBeNull]
+        [XmlElement("address")]
+        [JsonProperty("address", NullValueHandling = NullValueHandling.Ignore)]
         public string Address { get; set; }
 
         /// <summary>
         /// Command count.
         /// </summary>
+        [XmlElement("commandCount")]
+        [JsonProperty("commandCount", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int CommandCount { get; set; }
 
         /// <summary>
         /// Connection established time.
         /// </summary>
+        [XmlElement("connected")]
+        [JsonProperty("connected", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DateTime Connected { get; set; }
 
         /// <summary>
         /// Context identifier.
         /// </summary>
+        [XmlElement("id")]
+        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
 
         /// <summary>
         /// Last activity time.
         /// </summary>
+        [XmlElement("lastActivity")]
+        [JsonProperty("lastActivity", NullValueHandling = NullValueHandling.Ignore)]
         public DateTime LastActivity { get; set; }
 
         /// <summary>
         /// Password.
         /// </summary>
         [CanBeNull]
+        [XmlElement("password")]
+        [JsonProperty("password", NullValueHandling = NullValueHandling.Ignore)]
         public string Password { get; set; }
 
         /// <summary>
         /// Server.
         /// </summary>
-        [NotNull]
-        public IrbisSocketServer Server { get; set; }
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public IrbisServerEngine Engine { get; set; }
 
         /// <summary>
         /// User name.
         /// </summary>
         [CanBeNull]
+        [XmlElement("username")]
+        [JsonProperty("username")]
         public string Username { get; set; }
 
         /// <summary>
         /// Workstation.
         /// </summary>
+        [XmlElement("workstation")]
+        [JsonProperty("workstation")]
         public IrbisWorkstation Workstation { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public object UserData { get; set; }
 
         #endregion
 
@@ -104,11 +136,47 @@ namespace ManagedIrbis.Server
 
         #region Public methods
 
+        /// <summary>
+        /// Should serialize the <see cref="CommandCount"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeCommandCount()
+        {
+            return CommandCount != 0;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Connected"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeConnected()
+        {
+            return Connected != DateTime.MinValue;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="LastActivity"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeLastActivity()
+        {
+            return LastActivity != DateTime.MinValue;
+        }
+
+        /// <summary>
+        /// Should serialize the <see cref="Workstation"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public bool ShouldSerializeWorkstation()
+        {
+            return Workstation != IrbisWorkstation.None;
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -126,7 +194,7 @@ namespace ManagedIrbis.Server
             Workstation = (IrbisWorkstation) reader.ReadPackedInt32();
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -147,9 +215,28 @@ namespace ManagedIrbis.Server
 
         #endregion
 
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            Verifier<ServerContext> verifier
+                = new Verifier<ServerContext>(this, throwOnError);
+
+            verifier
+                .NotNull(Engine, "Engine");
+
+            return verifier.Result;
+        }
+
+        #endregion
+
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return Id.ToVisibleString();

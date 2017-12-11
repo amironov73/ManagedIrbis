@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
@@ -40,6 +41,7 @@ namespace ManagedIrbis.Server
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [XmlRoot("configuration")]
     public sealed class ServerConfiguration
         : IHandmadeSerializable,
         IVerifiable
@@ -50,37 +52,33 @@ namespace ManagedIrbis.Server
         /// Path for AlphabetTable (without extension).
         /// </summary>
         [CanBeNull]
-        [JsonProperty("alphabetTablePath")]
+        [XmlElement("alphabetTablePath")]
+        [JsonProperty("alphabetTablePath", NullValueHandling = NullValueHandling.Ignore)]
         public string AlphabetTablePath { get; set; }
 
         /// <summary>
         /// Data path.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("dataPath")]
+        [XmlElement("dataPath")]
+        [JsonProperty("dataPath", NullValueHandling = NullValueHandling.Ignore)]
         public string DataPath { get; set; }
 
         /// <summary>
         /// System path.
         /// </summary>
         [CanBeNull]
-        [JsonProperty("systemPath")]
+        [XmlElement("systemPath")]
+        [JsonProperty("systemPath", NullValueHandling = NullValueHandling.Ignore)]
         public string SystemPath { get; set; }
 
         /// <summary>
         /// Path for UpperCaseTable (without extension).
         /// </summary>
         [CanBeNull]
-        [JsonProperty("upperCaseTable")]
+        [XmlElement("upperCaseTable")]
+        [JsonProperty("upperCaseTable", NullValueHandling = NullValueHandling.Ignore)]
         public string UpperCaseTable { get; set; }
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
@@ -126,10 +124,7 @@ namespace ManagedIrbis.Server
                     false
                 ))
             {
-                ServerIniFile serverIni = new ServerIniFile
-                (
-                    iniFile
-                );
+                ServerIniFile serverIni = new ServerIniFile(iniFile);
                 ServerConfiguration result = FromIniFile(serverIni);
 
                 return result;
@@ -148,6 +143,7 @@ namespace ManagedIrbis.Server
             Code.NotNullNorEmpty(path, "path");
 
             string systemPath = Path.GetFullPath(path);
+            systemPath = PathUtility.StripTrailingBackslash(systemPath);
 
             ServerConfiguration result = new ServerConfiguration
             {
@@ -156,7 +152,7 @@ namespace ManagedIrbis.Server
                 DataPath = Path.Combine
                     (
                         systemPath,
-                        "Datai"
+                        "DATAI"
                         + Path.DirectorySeparatorChar
                     ),
                 AlphabetTablePath = Path.Combine(systemPath, "isisacw"),
@@ -223,6 +219,12 @@ namespace ManagedIrbis.Server
         #endregion
 
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return SystemPath.ToVisibleString();
+        }
 
         #endregion
     }

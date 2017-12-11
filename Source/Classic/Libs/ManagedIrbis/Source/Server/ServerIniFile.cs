@@ -10,8 +10,6 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 
 #if !WIN81
@@ -49,14 +47,19 @@ namespace ManagedIrbis.Server
         #region Constants
 
         /// <summary>
+        /// Name of the server INI-file.
+        /// </summary>
+        public const string FileName = "irbis_server.ini";
+
+        /// <summary>
         /// Main section name.
         /// </summary>
-        public string Main = "Main";
+        public const string Main = "Main";
 
         /// <summary>
         /// REDIRECT section name.
         /// </summary>
-        public string Redirect = "REDIRECT";
+        public const string Redirect = "REDIRECT";
 
         #endregion
 
@@ -369,10 +372,6 @@ namespace ManagedIrbis.Server
 
             Ini = iniFile;
         }
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
