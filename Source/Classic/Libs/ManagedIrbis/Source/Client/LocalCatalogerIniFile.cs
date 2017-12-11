@@ -60,24 +60,7 @@ namespace ManagedIrbis.Client
             get
             {
                 IniFile ini = Ini;
-                if (ReferenceEquals(ini, null))
-                {
-                    // Can it be?
-
-                    throw new IrbisException("INI file is null");
-                }
-
-                IniFile.Section result = ini.GetSection(Main);
-                if (ReferenceEquals(result, null))
-                {
-                    Log.Error
-                        (
-                            "LocalCatalogerIniFile::MainSection: "
-                            + "missing main section"
-                        );
-
-                    throw new IrbisException("Missing main section");
-                }
+                IniFile.Section result = ini.GetOrCreateSection(Main);
 
                 return result; 
             }
@@ -142,10 +125,6 @@ namespace ManagedIrbis.Client
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -172,7 +151,6 @@ namespace ManagedIrbis.Client
             return result;
         }
 
-#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Load from specified file.
@@ -185,20 +163,22 @@ namespace ManagedIrbis.Client
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if WIN81 || PORTABLE
+
+            throw new System.NotImplementedException();
+
+#else
+
             IniFile iniFile = new IniFile();
-            iniFile.Read
-                (
-                    fileName,
-                    IrbisEncoding.Ansi
-                );
-            LocalCatalogerIniFile result
-                = new LocalCatalogerIniFile(iniFile);
+            iniFile.Read(fileName, IrbisEncoding.Ansi);
+            LocalCatalogerIniFile result = new LocalCatalogerIniFile(iniFile);
 
             return result;
-        }
 
 #endif
+        }
 
-        #endregion
-    }
+
+            #endregion
+        }
 }
