@@ -9,8 +9,11 @@
 
 #region Using directives
 
+using System.Linq;
 using System.Text;
+
 using AM;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Compiler;
@@ -166,11 +169,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (!_valueAlreadySpecified)
             {
-                PftNumeric numeric = null;
-                if (Children.Count == 1)
-                {
-                    numeric = Children[0] as PftNumeric;
-                }
+                PftNumeric numeric = Children.FirstOrDefault() as PftNumeric;
                 if (!ReferenceEquals(numeric, null))
                 {
                     numeric.Execute(context);
@@ -227,7 +226,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     first = false;
                 }
             }
-
             result.Append(')');
 
             return result.ToString();

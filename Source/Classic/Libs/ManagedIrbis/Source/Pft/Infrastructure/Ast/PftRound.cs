@@ -11,10 +11,14 @@
 
 using System;
 using System.Linq;
+using System.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Compiler;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -64,15 +68,40 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region PftNode members
+
+        /// <inheritdoc cref="PftNode.Compile" />
+        public override void Compile
+            (
+                PftCompiler compiler
+            )
+        {
+            PftNumeric child = Children.FirstOrDefault() as PftNumeric;
+            if (ReferenceEquals(child, null))
+            {
+                throw new PftCompilerException();
+            }
+
+            child.Compile(compiler);
+
+            compiler.StartMethod(this);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("double value = ")
+                .CallNodeMethod(child);
+
+            compiler
+                .WriteIndent()
+                .WriteLine("double result = Math.Round(value);");
+
+            compiler
+                .WriteIndent()
+                .WriteLine("return result;");
+
+            compiler.EndMethod(this);
+            compiler.MarkReady(this);
+        }
 
         /// <inheritdoc cref="PftNumeric.Execute" />
         public override void Execute
@@ -90,6 +119,39 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.EatWhitespace();
+            printer
+                .SingleSpace()
+                .Write("round(");
+            base.PrettyPrint(printer);
+            printer.Write(")");
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append("round(");
+            PftNode child = Children.FirstOrDefault();
+            if (!ReferenceEquals(child, null))
+            {
+                result.Append(child);
+            }
+            result.Append(')');
+
+            return result.ToString();
         }
 
         #endregion

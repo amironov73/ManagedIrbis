@@ -68,14 +68,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region PftNode members
 
         /// <inheritdoc cref="PftNode.Compile" />
@@ -137,7 +129,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             printer
                 .SingleSpace()
-                .Write("blank(");
+                .Write("sign(");
             base.PrettyPrint(printer);
             printer.Write(')');
         }
@@ -151,15 +143,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             StringBuilder result = new StringBuilder();
             result.Append("sign(");
-            bool first = true;
-            foreach (PftNode child in Children)
+            PftNode child = Children.FirstOrDefault();
+            if (!ReferenceEquals(child, null))
             {
-                if (!first)
-                {
-                    result.Append(' ');
-                }
                 result.Append(child);
-                first = false;
             }
             result.Append(')');
 

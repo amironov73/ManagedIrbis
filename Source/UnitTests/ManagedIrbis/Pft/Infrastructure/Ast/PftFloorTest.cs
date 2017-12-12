@@ -17,10 +17,10 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
     public class PftFloorTest
     {
         private void _Execute
-        (
-            [NotNull] PftFloor node,
-            [NotNull] string expected
-        )
+            (
+                [NotNull] PftNode node,
+                [NotNull] string expected
+            )
         {
             PftContext context = new PftContext(null);
             node.Execute(context);
@@ -34,6 +34,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             PftFloor node = new PftFloor();
             Assert.IsFalse(node.ConstantExpression);
             Assert.IsTrue(node.RequiresConnection);
+            Assert.IsTrue(node.ExtendedSyntax);
         }
 
         [TestMethod]
@@ -43,16 +44,69 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             PftFloor node = new PftFloor(token);
             Assert.IsFalse(node.ConstantExpression);
             Assert.IsTrue(node.RequiresConnection);
+            Assert.IsTrue(node.ExtendedSyntax);
             Assert.AreEqual(token.Column, node.Column);
             Assert.AreEqual(token.Line, node.LineNumber);
             Assert.AreEqual(token.Text, node.Text);
         }
 
         [TestMethod]
-        public void PftFloor_Execute_1()
+        public void PftFloor_Compile_1()
         {
             PftFloor node = new PftFloor();
-            _Execute(node, "");
+            node.Children.Add(new PftNumericLiteral(123.45));
+            NullProvider provider = new NullProvider();
+            PftCompiler compiler = new PftCompiler();
+            compiler.SetProvider(provider);
+            PftProgram program = new PftProgram();
+            program.Children.Add(node);
+            compiler.CompileProgram(program);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftCompilerException))]
+        public void PftFloor_Compile_2()
+        {
+            PftFloor node = new PftFloor();
+            NullProvider provider = new NullProvider();
+            PftCompiler compiler = new PftCompiler();
+            compiler.SetProvider(provider);
+            PftProgram program = new PftProgram();
+            program.Children.Add(node);
+            compiler.CompileProgram(program);
+        }
+
+        [TestMethod]
+        public void PftFloor_Execute_1()
+        {
+            PftProgram program = new PftProgram();
+            PftFloor node = new PftFloor();
+            PftNumeric number = new PftNumericLiteral(123.45);
+            node.Children.Add(number);
+            PftF format = new PftF
+            {
+                Argument1 = node,
+                Argument2 = new PftNumericLiteral(10),
+                Argument3 = new PftNumericLiteral(5)
+            };
+            program.Children.Add(format);
+            _Execute(program, " 123.00000");
+
+            number.Value = -123.45;
+            _Execute(program, "-124.00000");
+
+            number.Value = 0.0;
+            _Execute(program, "   0.00000");
+        }
+
+        [TestMethod]
+        public void PftFloor_PrettyPrint_1()
+        {
+            PftFloor node = new PftFloor();
+            node.Children.Add(new PftNumericLiteral(123.45));
+            PftPrettyPrinter printer = new PftPrettyPrinter();
+            node.PrettyPrint(printer);
+            Assert.AreEqual("floor(123.45)", printer.ToString());
         }
 
         [TestMethod]
@@ -60,6 +114,14 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftFloor node = new PftFloor();
             Assert.AreEqual("floor()", node.ToString());
+        }
+
+        [TestMethod]
+        public void PftFloor_ToString_2()
+        {
+            PftFloor node = new PftFloor();
+            node.Children.Add(new PftNumericLiteral(123.45));
+            Assert.AreEqual("floor(123.45)", node.ToString());
         }
     }
 }
