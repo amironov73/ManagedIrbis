@@ -10,7 +10,7 @@
 #region Using directives
 
 using System.Text;
-
+using AM;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Compiler;
@@ -77,10 +77,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     public sealed class PftVal
         : PftNumeric
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -99,6 +95,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
             : base(value)
         {
+            _valueAlreadySpecified = true;
         }
 
         /// <summary>
@@ -116,9 +113,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
-        #endregion
-
-        #region Public methods
+        private bool _valueAlreadySpecified;
 
         #endregion
 
@@ -169,8 +164,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            string text = context.Evaluate(Children);
-            Value = PftUtility.ExtractNumericValue(text);
+            if (!_valueAlreadySpecified)
+            {
+                PftNumeric numeric = null;
+                if (Children.Count == 1)
+                {
+                    numeric = Children[0] as PftNumeric;
+                }
+                if (!ReferenceEquals(numeric, null))
+                {
+                    numeric.Execute(context);
+                    Value = numeric.Value;
+                }
+                else
+                {
+                    string text = context.Evaluate(Children);
+                    Value = PftUtility.ExtractNumericValue(text);
+                }
+            }
 
             OnAfterExecution(context);
         }
@@ -198,16 +209,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             StringBuilder result = new StringBuilder();
             result.Append("val(");
-            bool first = true;
-            foreach (PftNode child in Children)
+            if (_valueAlreadySpecified)
             {
-                if (!first)
-                {
-                    result.Append(' ');
-                }
-                result.Append(child);
-                first = false;
+                result.Append(Value.ToInvariantString());
             }
+            else
+            {
+                bool first = true;
+                foreach (PftNode child in Children)
+                {
+                    if (!first)
+                    {
+                        result.Append(' ');
+                    }
+
+                    result.Append(child);
+                    first = false;
+                }
+            }
+
             result.Append(')');
 
             return result.ToString();

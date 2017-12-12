@@ -17,10 +17,10 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
     public class PftValTest
     {
         private void _Execute
-        (
-            [NotNull] PftVal node,
-            [NotNull] string expected
-        )
+            (
+                [NotNull] PftNode node,
+                [NotNull] string expected
+            )
         {
             PftContext context = new PftContext(null);
             node.Execute(context);
@@ -49,10 +49,104 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
+        public void PftVal_Construction_3()
+        {
+            double value = 123.45;
+            PftVal node = new PftVal(value);
+            Assert.IsFalse(node.ConstantExpression);
+            Assert.IsTrue(node.RequiresConnection);
+            Assert.AreEqual(value, node.Value);
+        }
+
+        [TestMethod]
+        public void PftVal_Compile_1()
+        {
+            PftVal node = new PftVal();
+            node.Children.Add(new PftUnconditionalLiteral("123.45"));
+            NullProvider provider = new NullProvider();
+            PftCompiler compiler = new PftCompiler();
+            compiler.SetProvider(provider);
+            PftProgram program = new PftProgram();
+            program.Children.Add(node);
+            compiler.CompileProgram(program);
+        }
+
+        [TestMethod]
+        public void PftVal_Compile_2()
+        {
+            PftVal node = new PftVal();
+            NullProvider provider = new NullProvider();
+            PftCompiler compiler = new PftCompiler();
+            compiler.SetProvider(provider);
+            PftProgram program = new PftProgram();
+            program.Children.Add(node);
+            compiler.CompileProgram(program);
+        }
+
+        [TestMethod]
         public void PftVal_Execute_1()
         {
             PftVal node = new PftVal();
-            _Execute(node, "");
+            node.Children.Add(new PftUnconditionalLiteral("123.45"));
+            PftF format = new PftF
+            {
+                Argument1 = node,
+                Argument2 = new PftNumericLiteral(5.0),
+                Argument3 = new PftNumericLiteral(2.0)
+            };
+            _Execute(format, "123.45");
+        }
+
+        [TestMethod]
+        public void PftVal_Execute_2()
+        {
+            PftVal node = new PftVal();
+            node.Children.Add(new PftUnconditionalLiteral("123"));
+            node.Children.Add(new PftComma());
+            node.Children.Add(new PftUnconditionalLiteral(".45"));
+            PftF format = new PftF
+            {
+                Argument1 = node,
+                Argument2 = new PftNumericLiteral(5.0),
+                Argument3 = new PftNumericLiteral(2.0)
+            };
+            _Execute(format, "123.45");
+        }
+
+        [TestMethod]
+        public void PftVal_Execute_3()
+        {
+            PftVal node = new PftVal();
+            node.Children.Add(new PftNumericLiteral(123.45));
+            PftF format = new PftF
+            {
+                Argument1 = node,
+                Argument2 = new PftNumericLiteral(5.0),
+                Argument3 = new PftNumericLiteral(2.0)
+            };
+            _Execute(format, "123.45");
+        }
+
+        [TestMethod]
+        public void PftVal_PrettyPrint_1()
+        {
+            PftVal node = new PftVal();
+            node.Children.Add(new PftUnconditionalLiteral("123.45"));
+            PftPrettyPrinter printer = new PftPrettyPrinter();
+            node.PrettyPrint(printer);
+            Assert.AreEqual("val('123.45')", printer.ToString());
+        }
+
+        [TestMethod]
+        public void PftVal_PrettyPrint_2()
+        {
+            PftVal node = new PftVal();
+            node.Children.Add(new PftUnconditionalLiteral("123"));
+            node.Children.Add(new PftComma());
+            node.Children.Add(new PftUnconditionalLiteral(".45"));
+            PftPrettyPrinter printer = new PftPrettyPrinter();
+            node.PrettyPrint(printer);
+            Assert.AreEqual("val('123', '.45')", printer.ToString());
         }
 
         [TestMethod]
@@ -60,6 +154,31 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftVal node = new PftVal();
             Assert.AreEqual("val()", node.ToString());
+        }
+
+        [TestMethod]
+        public void PftVal_ToString_2()
+        {
+            PftVal node = new PftVal();
+            node.Children.Add(new PftUnconditionalLiteral("123.45"));
+            Assert.AreEqual("val('123.45')", node.ToString());
+        }
+
+        [TestMethod]
+        public void PftVal_ToString_3()
+        {
+            PftVal node = new PftVal();
+            node.Children.Add(new PftUnconditionalLiteral("123"));
+            node.Children.Add(new PftComma());
+            node.Children.Add(new PftUnconditionalLiteral(".45"));
+            Assert.AreEqual("val('123' , '.45')", node.ToString());
+        }
+
+        [TestMethod]
+        public void PftVal_ToString_4()
+        {
+            PftVal node = new PftVal(123.45);
+            Assert.AreEqual("val(123.45)", node.ToString());
         }
     }
 }

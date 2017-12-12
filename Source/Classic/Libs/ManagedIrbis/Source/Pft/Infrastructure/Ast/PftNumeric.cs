@@ -68,14 +68,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region PftNode members
 
         /// <inheritdoc cref="PftNode.Execute" />

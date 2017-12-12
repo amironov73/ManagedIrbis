@@ -50,6 +50,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             set { base.Text = PftUtility.PrepareText(value); }
         }
 
+        /// <inheritdoc cref="PftNode.RequiresConnection" />
+        public override bool RequiresConnection
+        {
+            get { return false; }
+        }
+
         /// <summary>
         /// Throw an exception when empty literal detected.
         /// </summary>
@@ -113,15 +119,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 throw new PftSyntaxException(token, exception);
             }
+
+            if (string.IsNullOrEmpty(Text) && ThrowOnEmpty)
+            {
+                Log.Error
+                    (
+                        "PftUnconditionalLiteral::Constructor: "
+                        + "empty unconditional literal"
+                    );
+
+                throw new PftSyntaxException(token);
+            }
         }
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
