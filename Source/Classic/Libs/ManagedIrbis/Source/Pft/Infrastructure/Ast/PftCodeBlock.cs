@@ -97,10 +97,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Public methods
-
-        #endregion
-
         #region PftNode members
 
         /// <inheritdoc cref="PftNode.Execute" />
@@ -159,6 +155,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .WriteLine("}}}");
         }
 
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString()" />
+        public override string ToString()
+        {
+            return "{{{" + Text + "}}}";
+        }
 
         #endregion
     }

@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -62,6 +63,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         [CanBeNull]
         public PftNode RightOperand { get; set; }
 
+        /// <inheritdoc cref="PftNode.ExtendedSyntax" />
+        public override bool ExtendedSyntax
+        {
+            get
+            {
+                switch (Operation)
+                {
+                    case "::":
+                    case "~":
+                    case "~~":
+                    case "!~":
+                    case "!~~":
+                    case "==":
+                    case "!==":
+
+                        return true;
+                }
+
+                return base.ExtendedSyntax;
+            }
+        }
+
         /// <inheritdoc cref="PftNode.Children" />
         public override IList<PftNode> Children
         {
@@ -86,6 +109,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -550,16 +574,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     (
                         "PftComparison::Execute: "
                         + "LeftOperand not set"
-                    );
-
-                throw new PftSyntaxException(this);
-            }
-            if (string.IsNullOrEmpty(Operation))
-            {
-                Log.Error
-                    (
-                        "PftComparison::Execute: "
-                        + "Operation not set"
                     );
 
                 throw new PftSyntaxException(this);

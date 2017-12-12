@@ -144,6 +144,28 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
+        public void PftF_Execute_2()
+        {
+            PftF node = _GetNode();
+            _Execute(node, "3.14159265");
+
+            node.Argument3 = new PftNumericLiteral(3);
+            _Execute(node, "     3.142");
+
+            node.Argument3 = new PftNumericLiteral(0);
+            _Execute(node, "         3");
+
+            node.Argument2 = new PftNumericLiteral(3);
+            _Execute(node, "  3");
+
+            node.Argument2 = new PftNumericLiteral(0);
+            _Execute(node, "3");
+
+            node.Argument1 = new PftNumericLiteral(123.45);
+            _Execute(node, "123");
+        }
+
+        [TestMethod]
         public void PftF_GetNodeInfo_1()
         {
             PftF node = _GetNode();
