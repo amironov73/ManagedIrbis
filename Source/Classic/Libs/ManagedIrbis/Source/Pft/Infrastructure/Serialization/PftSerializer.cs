@@ -407,6 +407,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 
             writer.Write(mapping.Code);
             node.Serialize(writer);
+            writer.Flush();
         }
 
         /// <summary>

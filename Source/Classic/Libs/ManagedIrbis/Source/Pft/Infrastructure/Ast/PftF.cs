@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 
@@ -154,6 +155,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -197,10 +199,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Public methods
-
-        #endregion
-
         #region ICloneable members
 
         /// <inheritdoc cref="ICloneable.Clone" />
@@ -233,6 +231,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region PftNode members
 
         /// <inheritdoc cref="PftNode.CompareNode"/>
+        [ExcludeFromCodeCoverage]
         internal override void CompareNode
             (
                 PftNode otherNode
@@ -332,12 +331,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             base.Deserialize(reader);
 
-            Argument1
-                = (PftNumeric) PftSerializer.DeserializeNullable(reader);
-            Argument2
-                = (PftNumeric) PftSerializer.DeserializeNullable(reader);
-            Argument3
-                = (PftNumeric) PftSerializer.DeserializeNullable(reader);
+            Argument1 = (PftNumeric) PftSerializer.DeserializeNullable(reader);
+            Argument2 = (PftNumeric) PftSerializer.DeserializeNullable(reader);
+            Argument3 = (PftNumeric) PftSerializer.DeserializeNullable(reader);
         }
 
         /// <inheritdoc cref="PftNode.Execute" />

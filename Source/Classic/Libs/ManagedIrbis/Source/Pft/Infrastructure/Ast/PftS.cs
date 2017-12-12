@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Linq;
 using System.Text;
 
 using AM.Text;
@@ -35,10 +36,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     public sealed class PftS
         : PftNode
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -60,14 +57,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.S);
         }
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -113,6 +102,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 // Take the node away from the AST
 
                 return null;
+            }
+
+            if (children.Count == 1)
+            {
+                return children.First();
             }
 
             return this;

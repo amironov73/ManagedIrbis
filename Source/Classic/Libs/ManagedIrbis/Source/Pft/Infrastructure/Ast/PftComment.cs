@@ -67,13 +67,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Text = token.Text;
         }
 
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftComment
+            (
+                [CanBeNull] string text
+            )
+        {
+            Text = text;
+        }
 
         #endregion
 

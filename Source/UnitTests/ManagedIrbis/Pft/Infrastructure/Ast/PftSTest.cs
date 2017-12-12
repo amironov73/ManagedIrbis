@@ -17,10 +17,10 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
     public class PftSTest
     {
         private void _Execute
-        (
-            [NotNull] PftS node,
-            [NotNull] string expected
-        )
+            (
+                [NotNull] PftS node,
+                [NotNull] string expected
+            )
         {
             PftContext context = new PftContext(null);
             node.Execute(context);
@@ -34,6 +34,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             PftS node = new PftS();
             Assert.IsFalse(node.ConstantExpression);
             Assert.IsTrue(node.RequiresConnection);
+            Assert.IsFalse(node.ExtendedSyntax);
         }
 
         [TestMethod]
@@ -43,9 +44,23 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             PftS node = new PftS(token);
             Assert.IsFalse(node.ConstantExpression);
             Assert.IsTrue(node.RequiresConnection);
+            Assert.IsFalse(node.ExtendedSyntax);
             Assert.AreEqual(token.Column, node.Column);
             Assert.AreEqual(token.Line, node.LineNumber);
             Assert.AreEqual(token.Text, node.Text);
+        }
+
+        [TestMethod]
+        public void PftBlank_Compile_1()
+        {
+            PftS node = new PftS();
+            node.Children.Add(new PftUnconditionalLiteral("123.45"));
+            NullProvider provider = new NullProvider();
+            PftCompiler compiler = new PftCompiler();
+            compiler.SetProvider(provider);
+            PftProgram program = new PftProgram();
+            program.Children.Add(node);
+            compiler.CompileProgram(program);
         }
 
         [TestMethod]
@@ -56,10 +71,82 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
+        public void PftS_Execute_2()
+        {
+            PftS node = new PftS();
+            node.Children.Add(new PftUnconditionalLiteral("Hello"));
+            _Execute(node, "Hello");
+        }
+
+        [TestMethod]
+        public void PftS_Execute_3()
+        {
+            PftS node = new PftS();
+            node.Children.Add(new PftUnconditionalLiteral("Hello, "));
+            node.Children.Add(new PftUnconditionalLiteral("world!"));
+            _Execute(node, "Hello, world!");
+        }
+
+        [TestMethod]
+        public void PftS_Optimize_1()
+        {
+            PftS node = new PftS();
+            Assert.IsNull(node.Optimize());
+        }
+
+        [TestMethod]
+        public void PftS_Optimize_2()
+        {
+            PftS node = new PftS();
+            PftUnconditionalLiteral literal = new PftUnconditionalLiteral("text");
+            node.Children.Add(literal);
+            Assert.AreEqual(literal, node.Optimize());
+        }
+
+        [TestMethod]
+        public void PftS_Optimize_3()
+        {
+            PftS node = new PftS();
+            node.Children.Add(new PftUnconditionalLiteral("Hello"));
+            node.Children.Add(new PftUnconditionalLiteral("world"));
+            Assert.AreSame(node, node.Optimize());
+        }
+
+        [TestMethod]
+        public void PftS_PrettyPrint_1()
+        {
+            PftS node = new PftS();
+            node.Children.Add(new PftUnconditionalLiteral("Hello"));
+            node.Children.Add(new PftComma());
+            node.Children.Add(new PftUnconditionalLiteral("world"));
+            PftPrettyPrinter printer = new PftPrettyPrinter();
+            node.PrettyPrint(printer);
+            Assert.AreEqual("s('Hello', 'world')", printer.ToString());
+        }
+
+        [TestMethod]
         public void PftS_ToString_1()
         {
             PftS node = new PftS();
             Assert.AreEqual("s()", node.ToString());
+        }
+
+        [TestMethod]
+        public void PftS_ToString_2()
+        {
+            PftS node = new PftS();
+            node.Children.Add(new PftUnconditionalLiteral("Hello"));
+            Assert.AreEqual("s('Hello')", node.ToString());
+        }
+
+        [TestMethod]
+        public void PftS_ToString_3()
+        {
+            PftS node = new PftS();
+            node.Children.Add(new PftUnconditionalLiteral("Hello, "));
+            node.Children.Add(new PftComma());
+            node.Children.Add(new PftUnconditionalLiteral("world!"));
+            Assert.AreEqual("s('Hello, ' , 'world!')", node.ToString());
         }
     }
 }
