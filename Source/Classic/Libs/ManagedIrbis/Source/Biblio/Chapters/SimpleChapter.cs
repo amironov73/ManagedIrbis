@@ -200,6 +200,7 @@ namespace ManagedIrbis.Biblio
 
                     // TODO handle string.IsNullOrEmpty(order)
 
+                    //item.Order = RichText.Decode(order);
                     item.Order = order;
                 }
                 log.WriteLine(" done");

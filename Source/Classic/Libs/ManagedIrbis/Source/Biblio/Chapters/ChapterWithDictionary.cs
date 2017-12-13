@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using AM;
@@ -128,6 +129,25 @@ namespace ManagedIrbis.Biblio
             AbstractOutput log = context.Log;
             BiblioProcessor processor = context.Processor
                 .ThrowIfNull("context.Processor");
+
+            SpecialSettings settings = Settings;
+            if (!ReferenceEquals(settings, null))
+            {
+                string pattern = settings.GetSetting("chapterFilter");
+                if (!string.IsNullOrEmpty(pattern))
+                {
+                    string title = chapter.Title;
+                    if (!ReferenceEquals(title, null))
+                    {
+                        if (!Regex.IsMatch(title, pattern))
+                        {
+                            log.WriteLine("Filtered");
+
+                            return;
+                        }
+                    }
+                }
+            }
 
             ItemCollection items = chapter.Items;
             if (!ReferenceEquals(items, null)
@@ -374,7 +394,11 @@ namespace ManagedIrbis.Biblio
                 }
                 builder.Append('}');
 
-                band.Cells.Add(new SimpleTextCell(builder.ToString()));
+                band.Cells.Add(new SimpleTextCell
+                    (
+                        // TODO implement properly!!!
+                        RichText.Encode2(builder.ToString(), UnicodeRange.Russian)
+                    ));
             }
 
             log.WriteLine(" done");

@@ -1,6 +1,5 @@
 "\par\pard\keep\b "d461,
 
-'MFN ',f(mfn,0,0), ' ',
 
 "\b "v200^v"\b0 ",
 if p(v200^v) and p(v200^a) then' : 'fi,

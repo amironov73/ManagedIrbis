@@ -123,6 +123,38 @@ namespace ManagedIrbis.Biblio
                 .ThrowIfNull("MainChapter.Format");
         }
 
+        /// <summary>
+        /// Get order format from chapter hierarchy.
+        /// </summary>
+        [NotNull]
+        protected virtual string GetOrderFormat()
+        {
+            BiblioChapter chapter = this;
+            while (!ReferenceEquals(chapter, null))
+            {
+                MenuSubChapter subChapter = chapter as MenuSubChapter;
+                if (!ReferenceEquals(subChapter, null))
+                {
+                    SpecialSettings settings = subChapter.Settings;
+                    if (!ReferenceEquals(settings, null))
+                    {
+                        string result = settings.GetSetting("order");
+                        if (!string.IsNullOrEmpty(result))
+                        {
+                            return result;
+                        }
+                    }
+                }
+
+                chapter = chapter.Parent;
+            }
+
+            return MainChapter
+                .ThrowIfNull("MainChapter")
+                .OrderBy
+                .ThrowIfNull("MainChapter.Format");
+        }
+
         #endregion
 
         #region Public methods
@@ -187,8 +219,9 @@ namespace ManagedIrbis.Biblio
 
                     log.WriteLine(" done");
 
-                    string orderFormat = mainChapter.OrderBy
-                        .ThrowIfNull("mainChapter.OrderBy");
+                    //string orderFormat = mainChapter.OrderBy
+                    //    .ThrowIfNull("mainChapter.OrderBy");
+                    string orderFormat = GetOrderFormat();
                     orderFormat = processor.GetText
                         (
                             context,
@@ -204,6 +237,7 @@ namespace ManagedIrbis.Biblio
 
                         // TODO handle string.IsNullOrEmpty(order)
 
+                        //item.Order = RichText.Decode(order);
                         item.Order = order;
                     }
 

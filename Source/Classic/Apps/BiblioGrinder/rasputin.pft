@@ -1,6 +1,5 @@
 mhl,
 '\fi360',
-'MFN ',f(mfn,0,0), ' ',
 if s(v982^s,v982^k)<>'' then v903' '&unifor("kstr.mnu|"v982^s),", "d982^k,&unifor('Av982^k#1')," "d982^i,&unifor('Av982^i#1'),". "d982^k,'\par\keep ',fi,
 "\keep\keepn "v461^x,
 v461^b,
@@ -111,8 +110,6 @@ fi fi),
 ". - \b Пер.изд.: \b0"v454^a," / "v454^d,", "v454^e,", "v454^f,". - "v454^p,
 ". - "v454^g,", "v454^h,". - "v963^1,
 if v920:'NJ' then else if p(v463) then ,&uf('6OISTASPK'), fi, fi,
-
-if s(v461^j)=''then". - \b ISSN \b0 "|. - |+v11^a fi,
 
 if p(v101) and v101 <> &uf('Korg.mnu!6') then 
   '. - ',

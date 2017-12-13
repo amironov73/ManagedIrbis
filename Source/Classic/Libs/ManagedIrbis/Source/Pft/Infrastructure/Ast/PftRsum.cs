@@ -63,6 +63,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftRsum
             (
+                [NotNull] string name
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
+
+            Name = name;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftRsum
+            (
                 [NotNull] PftToken token
             )
             : base(token)
@@ -82,14 +95,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftSyntaxException("Name");
             }
         }
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 

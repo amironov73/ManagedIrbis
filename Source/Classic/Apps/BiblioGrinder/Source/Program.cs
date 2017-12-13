@@ -67,10 +67,8 @@ namespace BiblioGrinder
 
                 NativeIrbisProvider.Register();
 
-                using (provider = ProviderManager.GetAndConfigureProvider
-                (
-                    configurationString
-                ))
+                using (provider = ProviderManager
+                    .GetAndConfigureProvider(configurationString))
                 {
                     log.WriteLine
                         (

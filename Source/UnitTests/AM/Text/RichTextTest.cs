@@ -8,6 +8,23 @@ namespace UnitTests.AM.Text
     public class RichTextTest
     {
         [TestMethod]
+        public void RichText_Decode_1()
+        {
+            Assert.AreEqual(null, RichText.Decode(null));
+            Assert.AreEqual("", RichText.Decode(""));
+            Assert.AreEqual("\\", RichText.Decode("\\"));
+            Assert.AreEqual("Hello", RichText.Decode("Hello"));
+            Assert.AreEqual("\\{\\}", RichText.Decode("\\{\\}"));
+            Assert.AreEqual("\\b Hello \\b0", RichText.Decode("\\b Hello \\b0"));
+        }
+
+        [TestMethod]
+        public void RichText_Decode_2()
+        {
+            Assert.AreEqual("Привет", RichText.Decode("\\u1055?\\u1088?\\u1080?\\u1074?\\u1077?\\u1090?"));
+        }
+
+        [TestMethod]
         public void RichText_Encode_1()
         {
             Assert.AreEqual(null, RichText.Encode(null, null));

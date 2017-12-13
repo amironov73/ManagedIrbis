@@ -48,7 +48,49 @@ namespace ManagedIrbis.Biblio
 
         #endregion
 
-        #region Construction
+        #region Private members
+
+        private static void ReadDigit
+            (
+                [NotNull] TextNavigator navigator,
+                [NotNull] StringBuilder text
+            )
+        {
+            char c = navigator.PeekChar();
+            if (char.IsDigit(c))
+            {
+                navigator.ReadChar();
+                text.Append(c);
+            }
+        }
+
+        [CanBeNull]
+        private static string _TrimOrder
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            StringBuilder result = new StringBuilder();
+            TextNavigator navigator = new TextNavigator(text);
+            ReadDigit(navigator, result);
+            ReadDigit(navigator, result);
+            ReadDigit(navigator, result);
+            ReadDigit(navigator, result);
+
+            while (navigator.IsDigit())
+            {
+                navigator.ReadChar();
+            }
+
+            result.Append(navigator.GetRemainingText());
+
+            return result.ToString();
+        }
 
         private static int _Comparison
             (
@@ -73,6 +115,10 @@ namespace ManagedIrbis.Biblio
         public void SortByOrder()
         {
             List<BiblioItem> list = this.ToList();
+            foreach (BiblioItem item in list)
+            {
+                item.Order = _TrimOrder(item.Order);
+            }
             list.Sort(_Comparison);
             Clear();
             AddRange(list);

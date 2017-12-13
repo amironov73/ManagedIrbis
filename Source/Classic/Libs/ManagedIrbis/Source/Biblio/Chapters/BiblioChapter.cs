@@ -58,6 +58,7 @@ namespace ManagedIrbis.Biblio
 
         /// <inheritdoc cref="IAttributable.Attributes" />
         [NotNull]
+        [JsonProperty("attr")]
         public ReportAttributes Attributes { get; private set; }
 
         /// <summary>

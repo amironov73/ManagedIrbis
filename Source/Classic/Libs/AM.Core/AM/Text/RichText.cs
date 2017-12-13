@@ -70,6 +70,65 @@ namespace AM.Text
         #region Public methods
 
         /// <summary>
+        /// Decode text.
+        /// </summary>
+        [CanBeNull]
+        public static string Decode
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            int length = text.Length;
+
+            StringBuilder result = new StringBuilder(length);
+            TextNavigator navigator = new TextNavigator(text);
+            while (!navigator.IsEOF)
+            {
+                string chunk = navigator.ReadUntil('\\');
+                result.Append(chunk);
+                char prefix = navigator.ReadChar();
+                if (prefix != '\\')
+                {
+                    break;
+                }
+                char c = navigator.ReadChar();
+                if (c == '\0')
+                {
+                    result.Append(prefix);
+                    break;
+                }
+                if (c != 'u')
+                {
+                    result.Append(prefix);
+                    result.Append(c);
+                    continue;
+                }
+                StringBuilder buffer = new StringBuilder();
+                while (!navigator.IsEOF)
+                {
+                    c = navigator.ReadChar();
+                    if (!char.IsDigit(c))
+                    {
+                        break;
+                    }
+                    buffer.Append(c);
+                }
+                if (buffer.Length != 0)
+                {
+                    c = (char)int.Parse(buffer.ToString());
+                    result.Append(c);
+                }
+            }
+
+            return result.ToString();
+        }
+
+        /// <summary>
         /// Encode text.
         /// </summary>
         [CanBeNull]
@@ -194,7 +253,7 @@ namespace AM.Text
                     {
                         // После \u следующий символ съедается
                         // поэтому подсовываем знак вопроса
-                        result.AppendFormat("\\u{0}?", (short)c);
+                        result.AppendFormat("\\u{0}?", (int)c);
                     }
                 }
             }
@@ -202,6 +261,66 @@ namespace AM.Text
             return result.ToString();
         }
 
+        /// <summary>
+        /// Encode text.
+        /// </summary>
+        [CanBeNull]
+        public static string Encode3
+            (
+                [CanBeNull] string text,
+                [CanBeNull] UnicodeRange goodRange
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            int length = text.Length;
+
+            StringBuilder result = new StringBuilder(length);
+            foreach (char c in text)
+            {
+                if (c < 0x20)
+                {
+                    result.AppendFormat("\\'{0:x2}", (byte)c);
+                }
+                else if (c < 0x80)
+                {
+                    result.Append(c);
+                }
+                else if (c < 0x100)
+                {
+                    result.AppendFormat("\\f1\\'{0:x2}\\f2 ", (byte)c);
+                }
+                else
+                {
+                    bool simple = false;
+                    if (!ReferenceEquals(goodRange, null))
+                    {
+                        if (c >= goodRange.From && c <= goodRange.To)
+                        {
+                            simple = true;
+                        }
+                    }
+                    if (simple)
+                    {
+                        result.Append(c);
+                    }
+                    else
+                    {
+                        // После \u следующий символ съедается
+                        // поэтому подсовываем знак вопроса
+                        result.AppendFormat("\\u{0}?", (int)c);
+                    }
+                }
+            }
+
+            return result.ToString();
+        }
+
+
         #endregion
     }
 }
+

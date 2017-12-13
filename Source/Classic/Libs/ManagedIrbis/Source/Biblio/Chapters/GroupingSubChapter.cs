@@ -133,6 +133,7 @@ namespace ManagedIrbis.Biblio
                         MarcRecord record = item.Record
                             .ThrowIfNull("item.Record");
                         string order = formatter.FormatRecord(record.Mfn);
+                        //item.Order = RichText.Decode(order);
                         item.Order = order;
                     }
                 }
