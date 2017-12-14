@@ -34,6 +34,7 @@ using ManagedIrbis.Reports;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 #endregion
 
@@ -243,6 +244,40 @@ namespace ManagedIrbis.Biblio
             }
 
             log.WriteLine("End build items {0}", this);
+        }
+
+        /// <summary>
+        /// Clean gathered records.
+        /// </summary>
+        public virtual void CleanRecords
+            (
+                [NotNull] BiblioContext context,
+                [NotNull] RecordCollection records
+            )
+        {
+            Code.NotNull(context, "context");
+
+            BiblioDocument document = context.Document
+                .ThrowIfNull("context.Document");
+            JArray array = (JArray)document.CommonSettings
+                .SelectToken("$.removeTags");
+            int[] tags = new int[0];
+            if (!ReferenceEquals(array, null))
+            {
+                tags = array.ToObject<int[]>();
+            }
+            if (tags.Length == 0)
+            {
+                return;
+            }
+
+            foreach (MarcRecord record in records)
+            {
+                foreach (int tag in tags)
+                {
+                    record.RemoveField(tag);
+                }
+            }
         }
 
         /// <summary>

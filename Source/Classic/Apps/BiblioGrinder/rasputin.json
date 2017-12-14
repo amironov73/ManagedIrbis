@@ -24,7 +24,10 @@
     },
     "recordAttributes": {
       // Атрибуты записи по умолчанию
-    }
+    },
+    "removeTags": [
+        10, 11, 320, 488, 517, 470
+    ] 
   },
 
   // ================================================================
@@ -199,15 +202,15 @@
             "Русский"
           ]
         },
-        {
-          "$type": "ChapterWithDictionary",
-          "title": "Указатель издающих организаций",
-          "attr": {
-            "pageBreak": true
-          },
-          "select": "*publishers.pft",
-          "orderBy": "*publishers.pft"
-        },
+        //{
+        //  "$type": "ChapterWithDictionary",
+        //  "title": "Указатель издающих организаций",
+        //  "attr": {
+        //    "pageBreak": true
+        //  },
+        //  "select": "*publishers.pft",
+        //  "orderBy": "*publishers.pft"
+        //},
         {
           "$type": "ChapterWithDictionary",
           "title": "Указатель мест изданий",
@@ -216,20 +219,20 @@
           },
           "select": "*places.pft",
           "orderBy": "*places.pft"
-        },
-        {
-          "$type": "ChapterWithDictionary",
-          "title": "Предметные рубрики",
-          "attr": {
-            "pageBreak": true
-          },
-          "select": "*headings.pft",
-          "orderBy": "*headings.pft",
-          "active": false, 
-          "exclude": [
-            "Распутин Валентин Григорьевич (писатель; 15.03.1937-14.03.2015)"
-          ]
-        }
+        }//,
+        //{
+        //  "$type": "ChapterWithDictionary",
+        //  "title": "Предметные рубрики",
+        //  "attr": {
+        //    "pageBreak": true
+        //  },
+        //  "select": "*headings.pft",
+        //  "orderBy": "*headings.pft",
+        //  "active": false, 
+        //  "exclude": [
+        //    "Распутин Валентин Григорьевич (писатель; 15.03.1937-14.03.2015)"
+        //  ]
+        //}
       ]
     }
   ]

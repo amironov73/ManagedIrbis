@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -79,6 +80,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -187,7 +189,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc cref="PftNode.CompareNode"/>
+        /// <inheritdoc cref="PftNode.CompareNode" />
         internal override void CompareNode
             (
                 PftNode otherNode

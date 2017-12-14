@@ -11,13 +11,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Logging;
+using AM.Text;
 
 using CodeJam;
 
@@ -25,7 +25,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
-
+using ManagedIrbis.Pft.Infrastructure.Text;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -73,6 +73,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -121,10 +122,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region Private members
 
         private VirtualChildren _virtualChildren;
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -239,6 +236,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.EatWhitespace();
+            printer
+                .SingleSpace()
+                .Write("last(");
+            if (!ReferenceEquals(InnerCondition, null))
+            {
+                InnerCondition.PrettyPrint(printer);
+            }
+            printer.Write(')');
+        }
+
         /// <inheritdoc cref="PftNode.Serialize" />
         protected internal override void Serialize
             (
@@ -248,6 +262,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.Serialize(writer);
 
             PftSerializer.SerializeNullable(writer, InnerCondition);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = StringBuilderCache.Acquire();
+            result.Append("last(");
+            PftUtility.NodesToText(result, Children);
+            result.Append(')');
+
+            return StringBuilderCache.GetStringAndRelease(result);
         }
 
         #endregion

@@ -397,7 +397,8 @@ namespace ManagedIrbis.Biblio
                 band.Cells.Add(new SimpleTextCell
                     (
                         // TODO implement properly!!!
-                        RichText.Encode2(builder.ToString(), UnicodeRange.Russian)
+                        //RichText.Encode2(builder.ToString(), UnicodeRange.Russian)
+                        RichText.Encode3(builder.ToString(), UnicodeRange.Russian, "\\f2")
                     ));
             }
 

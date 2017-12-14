@@ -186,66 +186,76 @@ namespace ManagedIrbis.Biblio
                     MenuChapter mainChapter = MainChapter
                         .ThrowIfNull("MainChapter");
 
-                    string descriptionFormat = GetDescriptionFormat();
-                    descriptionFormat = processor.GetText
-                        (
-                            context,
-                            descriptionFormat
-                        )
-                        .ThrowIfNull("processor.GetText");
-                    string[] formatted
-                        = FormatRecords(context, descriptionFormat);
-
-                    for (int i = 0; i < Records.Count; i++)
+                    using (IPftFormatter formatter
+                        = processor.AcquireFormatter(context))
                     {
-                        log.Write(".");
-                        record = Records[i];
-                        string description = formatted[i]
-                            .TrimEnd('\u001F');
+                        string descriptionFormat = GetDescriptionFormat();
+                        descriptionFormat = processor.GetText
+                            (
+                                context,
+                                descriptionFormat
+                            )
+                            .ThrowIfNull("processor.GetText");
+                        formatter.ParseProgram(descriptionFormat);
+                        //string[] formatted
+                        //    = FormatRecords(context, descriptionFormat);
 
-                        // TODO handle string.IsNullOrEmpty(description)
-
-                        description
-                            = BiblioUtility.AddTrailingDot(description);
-
-                        BiblioItem item = new BiblioItem
+                        for (int i = 0; i < Records.Count; i++)
                         {
-                            Chapter = this,
-                            Record = record,
-                            Description = description
-                        };
-                        Items.Add(item);
+                            log.Write(".");
+                            record = Records[i];
+                            //string description = formatted[i]
+                            //    .TrimEnd('\u001F');
+                            string description = formatter.FormatRecord(record)
+                                .TrimEnd('\u001F');
+
+                            // TODO handle string.IsNullOrEmpty(description)
+
+                            description
+                                = BiblioUtility.AddTrailingDot(description);
+
+                            BiblioItem item = new BiblioItem
+                            {
+                                Chapter = this,
+                                Record = record,
+                                Description = description
+                            };
+                            Items.Add(item);
+                        }
+
+                        log.WriteLine(" done");
+
+                        //string orderFormat = mainChapter.OrderBy
+                        //    .ThrowIfNull("mainChapter.OrderBy");
+                        string orderFormat = GetOrderFormat();
+                        orderFormat = processor.GetText
+                            (
+                                context,
+                                orderFormat
+                            )
+                            .ThrowIfNull("processor.GetText");
+                        formatter.ParseProgram(orderFormat);
+                        // formatted = FormatRecords(context, orderFormat);
+                        for (int i = 0; i < Items.Count; i++)
+                        {
+                            log.Write(".");
+                            BiblioItem item = Items[i];
+                            //string order = formatted[i].TrimEnd('\u001F');
+                            string order = formatter.FormatRecord(record)
+                                .TrimEnd('\u001F');
+
+                            // TODO handle string.IsNullOrEmpty(order)
+
+                            //item.Order = RichText.Decode(order);
+                            item.Order = order;
+                        }
+
+                        log.WriteLine(" done");
+
+                        Items.SortByOrder();
+
+                        log.WriteLine("Items: {0}", Items.Count);
                     }
-
-                    log.WriteLine(" done");
-
-                    //string orderFormat = mainChapter.OrderBy
-                    //    .ThrowIfNull("mainChapter.OrderBy");
-                    string orderFormat = GetOrderFormat();
-                    orderFormat = processor.GetText
-                        (
-                            context,
-                            orderFormat
-                        )
-                        .ThrowIfNull("processor.GetText");
-                    formatted = FormatRecords(context, orderFormat);
-                    for (int i = 0; i < Items.Count; i++)
-                    {
-                        log.Write(".");
-                        BiblioItem item = Items[i];
-                        string order = formatted[i].TrimEnd('\u001F');
-
-                        // TODO handle string.IsNullOrEmpty(order)
-
-                        //item.Order = RichText.Decode(order);
-                        item.Order = order;
-                    }
-
-                    log.WriteLine(" done");
-
-                    Items.SortByOrder();
-
-                    log.WriteLine("Items: {0}", Items.Count);
                 }
 
                 foreach (BiblioChapter chapter in Children)
@@ -317,7 +327,8 @@ namespace ManagedIrbis.Biblio
                     band.Cells.Add(new SimpleTextCell
                         (
                             // TODO implement properly!!!
-                            RichText.Encode2(description, UnicodeRange.Russian)
+                            //RichText.Encode2(description, UnicodeRange.Russian)
+                            RichText.Encode3(description, UnicodeRange.Russian, "\\f2")
                         ));
                 }
 

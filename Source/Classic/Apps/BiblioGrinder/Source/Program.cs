@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using AM;
@@ -84,6 +85,15 @@ namespace BiblioGrinder
                     processor.BuildDocument(context);
 
                     string outputText = processor.Output.Text;
+
+                    // TODO implement properly
+                    outputText = Regex.Replace
+                        (
+                            outputText,
+                            @"\s-\sIS[BS]N\s[0-9-]*\.",
+                            string.Empty
+                        );
+
                     File.WriteAllText
                         (
                             "output.rtf",

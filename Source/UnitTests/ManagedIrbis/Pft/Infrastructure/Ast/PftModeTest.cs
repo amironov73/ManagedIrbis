@@ -175,9 +175,6 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftMode node = new PftMode();
             _TestSerialization(node);
-
-            node = new PftMode();
-            _TestSerialization(node);
         }
 
         [TestMethod]

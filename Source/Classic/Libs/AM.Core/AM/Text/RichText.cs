@@ -268,7 +268,8 @@ namespace AM.Text
         public static string Encode3
             (
                 [CanBeNull] string text,
-                [CanBeNull] UnicodeRange goodRange
+                [CanBeNull] UnicodeRange goodRange,
+                [CanBeNull] string modeSwitch
             )
         {
             if (string.IsNullOrEmpty(text))
@@ -291,7 +292,9 @@ namespace AM.Text
                 }
                 else if (c < 0x100)
                 {
-                    result.AppendFormat("\\f1\\'{0:x2}\\f2 ", (byte)c);
+                    result.Append('{');
+                    result.AppendFormat("{0}\\'{1:x2}", modeSwitch, (byte)c);
+                    result.Append('}');
                 }
                 else
                 {

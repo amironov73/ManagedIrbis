@@ -11,10 +11,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Text;
 
 using AM;
 using AM.Logging;
+using AM.Text;
 
 using CodeJam;
 
@@ -77,6 +80,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -119,10 +123,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region Private members
 
         private VirtualChildren _virtualChildren;
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -225,8 +225,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     // ReSharper restore HeuristicUnreachableCode
 
                     if (!context._vMonitor.Output
-                        || context.BreakFlag
-                       )
+                        || context.BreakFlag)
                     {
                         break;
                     }
@@ -290,6 +289,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.Serialize(writer);
 
             PftSerializer.SerializeNullable(writer, InnerCondition);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = StringBuilderCache.Acquire();
+            result.Append("first(");
+            PftUtility.NodesToText(result, Children);
+            result.Append(')');
+
+            return StringBuilderCache.GetStringAndRelease(result);
         }
 
         #endregion

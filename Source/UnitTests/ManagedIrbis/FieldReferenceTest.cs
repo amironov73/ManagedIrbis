@@ -2,6 +2,8 @@
 
 using AM.Runtime;
 
+using JetBrains.Annotations;
+
 using ManagedIrbis;
 using ManagedIrbis.Pft;
 
@@ -92,6 +94,7 @@ namespace UnitTests.ManagedIrbis
             _TestSerialization(reference);
         }
 
+        [NotNull]
         private MarcRecord _GetRecord()
         {
             MarcRecord result = new MarcRecord();

@@ -231,29 +231,31 @@ namespace ManagedIrbis.Biblio
 
                     log.Write("Reading records");
 
-                    //for (int i = 0; i < found.Length; i++)
-                    //{
-                    //    log.Write(".");
-                    //    record = provider.ReadRecord(found[i]);
-                    //    records.Add(record);
-                    //    context.Records.Add(record);
-                    //}
-
-                    // Пробуем не загружать записи,
-                    // а предоставить заглушки
-
                     for (int i = 0; i < found.Length; i++)
                     {
                         log.Write(".");
-                        record = new MarcRecord
-                        {
-                            Mfn = found[i]
-                        };
+                        record = provider.ReadRecord(found[i]);
                         records.Add(record);
                         context.Records.Add(record);
                     }
 
+                    //// Пробуем не загружать записи,
+                    //// а предоставить заглушки
+
+                    //for (int i = 0; i < found.Length; i++)
+                    //{
+                    //    log.Write(".");
+                    //    record = new MarcRecord
+                    //    {
+                    //        Mfn = found[i]
+                    //    };
+                    //    records.Add(record);
+                    //    context.Records.Add(record);
+                    //}
+
                     log.WriteLine(" done");
+
+                    CleanRecords(context, records);
 
                     Dictionary<string, MenuSubChapter> dictionary
                         = new Dictionary<string, MenuSubChapter>();
@@ -288,7 +290,7 @@ namespace ManagedIrbis.Biblio
 
                         record = records[i];
                         //string key
-                        //    = formatter.FormatRecord(record.Mfn);
+                        //    = formatter.FormatRecord(record);
                         string key = formatted[i];
                         if (string.IsNullOrEmpty(key))
                         {

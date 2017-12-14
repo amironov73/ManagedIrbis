@@ -55,5 +55,23 @@ namespace UnitTests.AM.Text
             UnicodeRange range = UnicodeRange.LatinExtended;
             Assert.AreEqual("\\u1055?\\u1088?\\u1080?\\u1074?\\u1077?\\u1090?", RichText.Encode("Привет", range));
         }
+
+        [TestMethod]
+        public void RichText_Encode_5()
+        {
+            UnicodeRange range = UnicodeRange.Russian;
+            Assert.AreEqual("Geld f\\'fcr Maria : erz\\'e4hlung",
+                RichText.Encode2("Geld für Maria : erzählung", range));
+        }
+
+        [TestMethod]
+        public void RichText_Encode_6()
+        {
+            UnicodeRange range = UnicodeRange.Russian;
+            string fontSwitch = "\\f2";
+            Assert.AreEqual("Geld f{\\f2\\'fc}r Maria : erz{\\f2\\'e4}hlung",
+                RichText.Encode3("Geld für Maria : erzählung", range,
+                    fontSwitch));
+        }
     }
 }
