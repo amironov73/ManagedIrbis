@@ -10,11 +10,8 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
@@ -52,6 +49,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Upper-case mode.
         /// </summary>
         public bool UpperMode { get; set; }
+
+        /// <inheritdoc cref="PftNode.ConstantExpression" />
+        public override bool ConstantExpression
+        {
+            get { return true; }
+        }
+
+        /// <inheritdoc cref="PftNode.RequiresConnection" />
+        public override bool RequiresConnection
+        {
+            get { return false; }
+        }
 
         #endregion
 
@@ -125,23 +134,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
-
-        /// <inheritdoc cref="PftNode.Deserialize" />
-        protected internal override void Deserialize
-            (
-                BinaryReader reader
-            )
-        {
-            base.Deserialize(reader);
-
-            OutputMode = (PftFieldOutputMode) reader.ReadPackedInt32();
-            UpperMode = reader.ReadBoolean();
-        }
 
         /// <summary>
         /// Parse specified text.
@@ -154,7 +147,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNullNorEmpty(text, "text");
 
             text = text.ToLower();
-            if (text.Length != 3)
+            if (text.Length != 3
+                || text[0] != 'm')
             {
                 Log.Error
                     (
@@ -240,6 +234,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler.EndMethod(this);
             compiler.MarkReady(this);
+        }
+        /// <inheritdoc cref="PftNode.Deserialize" />
+        protected internal override void Deserialize
+        (
+            BinaryReader reader
+        )
+        {
+            base.Deserialize(reader);
+
+            OutputMode = (PftFieldOutputMode) reader.ReadPackedInt32();
+            UpperMode = reader.ReadBoolean();
         }
 
         /// <inheritdoc cref="PftNode.Execute" />

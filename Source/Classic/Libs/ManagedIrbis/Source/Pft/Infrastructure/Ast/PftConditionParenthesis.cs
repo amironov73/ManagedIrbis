@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 
@@ -65,6 +66,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -108,10 +110,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Public methods
-
-        #endregion
-
         #region ICloneable members
 
         /// <inheritdoc cref="ICloneable.Clone" />
@@ -150,7 +148,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 );
         }
 
-        /// <inheritdoc cref="PftNode.Compile"/>
+        /// <inheritdoc cref="PftNode.Compile" />
         public override void Compile
             (
                 PftCompiler compiler
@@ -236,6 +234,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             if (!ReferenceEquals(InnerCondition, null))
             {
+                // TODO is it correct?
+
                 return InnerCondition;
             }
 
@@ -272,7 +272,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Object members
 
-        /// <inheritdoc cref="object.ToString"/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
