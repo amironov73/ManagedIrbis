@@ -14,6 +14,7 @@ using ManagedIrbis.Pft.Infrastructure.Text;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+// ReSharper disable ExpressionIsAlwaysNull
 // ReSharper disable ObjectCreationAsStatement
 
 namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
@@ -34,7 +35,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [NotNull]
-        private PftRsum _GetRsum()
+        private PftRsum _GetNode()
         {
             PftRsum result = new PftRsum
             {
@@ -103,7 +104,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [TestMethod]
         public void PftRsum_Clone_2()
         {
-            PftRsum first = _GetRsum();
+            PftRsum first = _GetNode();
             PftRsum second = (PftRsum) first.Clone();
             PftSerializationUtility.CompareNodes(first, second);
         }
@@ -112,7 +113,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [ExpectedException(typeof(PftSerializationException))]
         public void PftRsum_Clone_3()
         {
-            PftRsum first = _GetRsum();
+            PftRsum first = _GetNode();
             PftRsum second = (PftRsum) first.Clone();
             second.Name = "@@@";
             PftSerializationUtility.CompareNodes(first, second);
@@ -134,19 +135,19 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [TestMethod]
         public void PftRsum_Compile_1()
         {
-            PftRsum node = _GetRsum();
+            PftRsum node = _GetNode();
             node.Name = "rsum";
             _TestCompile(node);
 
-            node = _GetRsum();
+            node = _GetNode();
             node.Name = "rmin";
             _TestCompile(node);
 
-            node = _GetRsum();
+            node = _GetNode();
             node.Name = "rmax";
             _TestCompile(node);
 
-            node = _GetRsum();
+            node = _GetNode();
             node.Name = "ravr";
             _TestCompile(node);
         }
@@ -155,7 +156,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [ExpectedException(typeof(PftCompilerException))]
         public void PftRsum_Compile_2()
         {
-            PftRsum node = _GetRsum();
+            PftRsum node = _GetNode();
             node.Name = "@@@";
             NullProvider provider = new NullProvider();
             PftCompiler compiler = new PftCompiler();
@@ -171,7 +172,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             PftRsum node = new PftRsum();
             _Execute(node, 0);
 
-            node = _GetRsum();
+            node = _GetNode();
 
             node.Name = "rsum";
             _Execute(node, 6);
@@ -193,7 +194,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             PftRsum node = new PftRsum();
             _Execute(node, 0);
 
-            node = _GetRsum();
+            node = _GetNode();
             node.Name = "@@@";
             _Execute(node, 6);
         }
@@ -201,7 +202,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [TestMethod]
         public void PftRsum_PrettyPrint_1()
         {
-            PftRsum node = _GetRsum();
+            PftRsum node = _GetNode();
             PftPrettyPrinter printer = new PftPrettyPrinter();
             node.PrettyPrint(printer);
             Assert.AreEqual("rsum('1;''2;''3;')", printer.ToString());
@@ -224,12 +225,12 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftComparison_Serialization_1()
+        public void PftRsum_Serialization_1()
         {
             PftRsum node = new PftRsum();
             _TestSerialization(node);
 
-            node = _GetRsum();
+            node = _GetNode();
             _TestSerialization(node);
         }
 
@@ -243,7 +244,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [TestMethod]
         public void PftRsum_ToString_2()
         {
-            PftRsum node = _GetRsum();
+            PftRsum node = _GetNode();
             Assert.AreEqual("rsum('1;' '2;' '3;')", node.ToString());
         }
     }

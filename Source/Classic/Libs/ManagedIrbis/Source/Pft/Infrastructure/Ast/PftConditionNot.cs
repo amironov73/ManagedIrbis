@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 
@@ -64,6 +65,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -104,10 +106,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region Private members
 
         private VirtualChildren _virtualChildren;
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -254,7 +252,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Object members
 
-        /// <inheritdoc cref="PftNode.ToString"/>
+        /// <inheritdoc cref="PftNode.ToString" />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
