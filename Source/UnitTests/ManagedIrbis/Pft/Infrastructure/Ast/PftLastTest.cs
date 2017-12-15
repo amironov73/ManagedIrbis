@@ -133,8 +133,30 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        [ExpectedException(typeof(PftSemanticException))]
         public void PftLast_Execute_2()
+        {
+            MarcRecord record = _GetRecord();
+            PftLast node = _GetNode();
+            PftComparison comparison = (PftComparison) node.InnerCondition;
+            Assert.IsNotNull(comparison);
+            comparison.RightOperand = new PftUnconditionalLiteral("noSuchWord");
+            _Execute(record, node, 0);
+        }
+
+        [TestMethod]
+        public void PftLast_Execute_2a()
+        {
+            MarcRecord record = _GetRecord();
+            PftLast node = _GetNode();
+            PftComparison comparison = (PftComparison) node.InnerCondition;
+            Assert.IsNotNull(comparison);
+            comparison.RightOperand = new PftV("v444");
+            _Execute(record, node, 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSemanticException))]
+        public void PftLast_Execute_3()
         {
             MarcRecord record = _GetRecord();
             PftLast node = _GetNode();
@@ -146,7 +168,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftLast_Execute_3()
+        public void PftLast_Execute_4()
         {
             MarcRecord record = _GetRecord();
             PftLast node = new PftLast
@@ -171,6 +193,15 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             Assert.AreEqual("Last", info.Name);
         }
 
+        [TestMethod]
+        public void PftLast_PrettyPrint_1()
+        {
+            PftLast node = _GetNode();
+            PftPrettyPrinter printer = new PftPrettyPrinter();
+            node.PrettyPrint(printer);
+            Assert.AreEqual("last(v300:'примечание')", printer.ToString());
+        }
+
         private void _TestSerialization
             (
                 [NotNull] PftLast first
@@ -188,15 +219,6 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
 
             // TODO FIX THIS!
             //PftSerializationUtility.CompareNodes(first, second);
-        }
-
-        [TestMethod]
-        public void PftRsum_PrettyPrint_1()
-        {
-            PftLast node = _GetNode();
-            PftPrettyPrinter printer = new PftPrettyPrinter();
-            node.PrettyPrint(printer);
-            Assert.AreEqual("last(v300:'примечание')", printer.ToString());
         }
 
         [TestMethod]

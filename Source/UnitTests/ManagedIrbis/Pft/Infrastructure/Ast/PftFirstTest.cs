@@ -133,8 +133,30 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        [ExpectedException(typeof(PftSemanticException))]
         public void PftFirst_Execute_2()
+        {
+            MarcRecord record = _GetRecord();
+            PftFirst node = _GetNode();
+            PftComparison comparison = (PftComparison) node.InnerCondition;
+            Assert.IsNotNull(comparison);
+            comparison.RightOperand = new PftUnconditionalLiteral("noSuchWord");
+            _Execute(record, node, 0);
+        }
+
+        [TestMethod]
+        public void PftFirst_Execute_2a()
+        {
+            MarcRecord record = _GetRecord();
+            PftFirst node = _GetNode();
+            PftComparison comparison = (PftComparison) node.InnerCondition;
+            Assert.IsNotNull(comparison);
+            comparison.LeftOperand = new PftV("v444");
+            _Execute(record, node, 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSemanticException))]
+        public void PftFirst_Execute_3()
         {
             MarcRecord record = _GetRecord();
             PftFirst node = _GetNode();
@@ -146,7 +168,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftFirst_Execute_3()
+        public void PftFirst_Execute_4()
         {
             MarcRecord record = _GetRecord();
             PftFirst node = new PftFirst
@@ -161,7 +183,6 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             _Execute(record, node, 0);
         }
 
-
         [TestMethod]
         public void PftFirst_GetNodeInfo_1()
         {
@@ -169,6 +190,15 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             PftNodeInfo info = node.GetNodeInfo();
             Assert.AreSame(node, info.Node);
             Assert.AreEqual("First", info.Name);
+        }
+
+        [TestMethod]
+        public void PftFirst_PrettyPrint_1()
+        {
+            PftFirst node = _GetNode();
+            PftPrettyPrinter printer = new PftPrettyPrinter();
+            node.PrettyPrint(printer);
+            Assert.AreEqual("first(v300:'Третье')", printer.ToString());
         }
 
         private void _TestSerialization
@@ -188,15 +218,6 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
 
             // TODO FIX THIS!
             //PftSerializationUtility.CompareNodes(first, second);
-        }
-
-        [TestMethod]
-        public void PftRsum_PrettyPrint_1()
-        {
-            PftFirst node = _GetNode();
-            PftPrettyPrinter printer = new PftPrettyPrinter();
-            node.PrettyPrint(printer);
-            Assert.AreEqual("first(v300:'Третье')", printer.ToString());
         }
 
         [TestMethod]

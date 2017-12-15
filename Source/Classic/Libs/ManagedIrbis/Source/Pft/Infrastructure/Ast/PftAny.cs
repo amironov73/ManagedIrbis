@@ -11,10 +11,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Text;
 
 using AM;
 using AM.Logging;
+using AM.Text;
 
 using CodeJam;
 
@@ -67,9 +70,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
+
+                Log.Error
+                    (
+                        "PftAny::Children: "
+                        + "set value="
+                        + value.ToVisibleString()
+                    );
             }
         }
 
@@ -269,6 +280,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.Serialize(writer);
 
             PftSerializer.SerializeNullable(writer, InnerCondition);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = StringBuilderCache.Acquire();
+            result.Append("any(");
+            PftUtility.NodesToText(result, Children);
+            result.Append(')');
+
+            return StringBuilderCache.GetStringAndRelease(result);
         }
 
         #endregion
