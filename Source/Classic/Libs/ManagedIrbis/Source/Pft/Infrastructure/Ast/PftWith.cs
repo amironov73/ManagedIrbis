@@ -11,7 +11,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Text;
 
 using AM;
 using AM.Collections;
@@ -92,6 +94,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -145,10 +148,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region Private members
 
         private VirtualChildren _virtualChildren;
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -430,11 +429,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .WriteLine()
                 .WriteIndent()
                 .Write("end");
-            if (!ReferenceEquals(Variable, null))
-            {
-                printer.Write(" /* with ");
-                Variable.PrettyPrint(printer);
-            }
+            //if (!ReferenceEquals(Variable, null))
+            //{
+            //    printer.Write(" /* with ");
+            //    Variable.PrettyPrint(printer);
+            //}
             printer.WriteLine();
         }
 
@@ -453,6 +452,38 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 field.Serialize(writer);
             }
             PftSerializer.Serialize(writer, Body);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="Object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append("with ");
+            result.Append(Variable);
+            result.Append(" in ");
+            bool first = true;
+            foreach (FieldSpecification field in Fields)
+            {
+                if (!first)
+                {
+                    result.Append(',');
+                }
+                result.Append(field);
+                first = false;
+            }
+            result.Append(" do");
+            foreach (PftNode node in Body)
+            {
+                result.Append(' ');
+                result.Append(node);
+            }
+            result.Append(" end");
+
+            return result.ToString();
         }
 
         #endregion

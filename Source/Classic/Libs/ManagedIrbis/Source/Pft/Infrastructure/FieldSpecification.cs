@@ -124,6 +124,29 @@ namespace ManagedIrbis.Pft.Infrastructure
             ParseSubFieldSpecification = true;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public FieldSpecification()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public FieldSpecification
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNull(text, "text");
+
+            if (!Parse(text))
+            {
+                throw new IrbisException();
+            }
+        }
+
         #endregion
 
         #region Private members

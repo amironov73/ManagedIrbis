@@ -11,8 +11,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
+
 using AM;
 using AM.Logging;
 
@@ -89,6 +91,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -158,22 +161,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Public methods
-
-        #endregion
-
         #region ICloneable members
 
         /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
-            PftWhile result = (PftWhile) base.Clone();
+            PftWhile result = (PftWhile)base.Clone();
 
             result._virtualChildren = null;
 
             if (!ReferenceEquals(Condition, null))
             {
-                result.Condition = (PftCondition) Condition.Clone();
+                result.Condition = (PftCondition)Condition.Clone();
             }
 
             result.Body = Body.CloneNodes(result).ThrowIfNull();
@@ -193,7 +192,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             base.CompareNode(otherNode);
 
-            PftWhile otherWhile = (PftWhile) otherNode;
+            PftWhile otherWhile = (PftWhile)otherNode;
             PftSerializationUtility.CompareNodes
                 (
                     Condition,
@@ -252,7 +251,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.Deserialize(reader);
 
             Condition
-                = (PftCondition) PftSerializer.DeserializeNullable(reader);
+                = (PftCondition)PftSerializer.DeserializeNullable(reader);
             PftSerializer.Deserialize(reader, Body);
         }
 
@@ -376,15 +375,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Object members
 
-        /// <inheritdoc cref="Object.ToString"/>
+        /// <inheritdoc cref="Object.ToString" />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
             result.Append("while ");
-            if (!ReferenceEquals(Condition, null))
-            {
-                result.Append(Condition);
-            }
+            result.Append(Condition);
             result.Append(" do");
             foreach (PftNode node in Body)
             {
