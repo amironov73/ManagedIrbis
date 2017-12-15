@@ -11,12 +11,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 using AM;
 using AM.Logging;
+using AM.Text;
 
 using CodeJam;
 
@@ -24,6 +27,8 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
+using ManagedIrbis.Pft.Infrastructure.Text;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -50,6 +55,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
+
+        /// <inheritdoc cref="PftNode.ComplexExpression" />
+        public override bool ComplexExpression
         {
             get { return true; }
         }
@@ -99,6 +110,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -163,10 +175,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             return Condition.Value;
         }
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -346,6 +354,46 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.EatWhitespace();
+            printer.EatNewLine();
+
+            printer
+                .WriteLine()
+                .WriteIndent()
+                .Write("parallel for ");
+
+            printer.WriteNodes(Initialization);
+            printer.Write("; ");
+
+            if (!ReferenceEquals(Condition, null))
+            {
+                Condition.PrettyPrint(printer);
+            }
+            printer.Write("; ");
+
+            printer.WriteNodes(Loop);
+            printer.WriteLine(';');
+            printer
+                .WriteIndent()
+                .WriteLine("do");
+
+            printer.IncreaseLevel();
+            printer.WriteNodes(Body);
+            printer.DecreaseLevel();
+            printer.EatWhitespace();
+            printer.EatNewLine();
+            printer.WriteLine();
+            printer
+                .WriteIndent()
+                .WriteLine("end");
+        }
+
         /// <inheritdoc cref="PftNode.Serialize" />
         protected internal override void Serialize
             (
@@ -358,6 +406,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftSerializer.SerializeNullable(writer, Condition);
             PftSerializer.Serialize(writer, Loop);
             PftSerializer.Serialize(writer, Body);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = StringBuilderCache.Acquire();
+            result.Append("parallel for ");
+            PftUtility.NodesToText(result, Initialization);
+            result.Append(';');
+            result.Append(Condition);
+            result.Append(';');
+            PftUtility.NodesToText(result, Loop);
+            result.Append(" do ");
+            PftUtility.NodesToText(result, Body);
+            result.Append(" end");
+
+            return StringBuilderCache.GetStringAndRelease(result);
         }
 
         #endregion

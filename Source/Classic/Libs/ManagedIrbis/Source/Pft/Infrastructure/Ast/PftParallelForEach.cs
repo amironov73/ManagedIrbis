@@ -11,16 +11,20 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Text;
 
 using AM;
 using AM.Logging;
+using AM.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -88,9 +92,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
+
+                Log.Error
+                    (
+                        "PftParallelForEach::Children: "
+                        + "set value="
+                        + value.ToVisibleString()
+                    );
             }
         }
 
@@ -150,10 +162,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             return result.ToArray();
         }
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -253,6 +261,71 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             return result;
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.EatWhitespace();
+            printer.EatNewLine();
+
+            printer
+                .WriteLine()
+                .WriteIndent()
+                .Write("parallel foreach ");
+
+            if (!ReferenceEquals(Variable, null))
+            {
+                Variable.PrettyPrint(printer);
+            }
+            printer.Write(" in ");
+
+            bool first = true;
+            foreach (PftNode node in Sequence)
+            {
+                if (!first)
+                {
+                    printer.Write(", ");
+                }
+                node.PrettyPrint(printer);
+                first = false;
+            }
+
+            printer
+                .WriteIndent()
+                .WriteLine("do");
+
+            printer.IncreaseLevel();
+            printer.WriteNodes(Body);
+            printer.DecreaseLevel();
+            printer.EatWhitespace();
+            printer.EatNewLine();
+            printer.WriteLine();
+            printer
+                .WriteIndent()
+                .WriteLine("end");
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = StringBuilderCache.Acquire();
+            result.Append("parallel foreach ");
+            result.Append(Variable);
+            result.Append(" in ");
+            PftUtility.NodesToText(result, Sequence);
+            result.Append(" do ");
+            PftUtility.NodesToText(result, Body);
+            result.Append(" end");
+
+            return StringBuilderCache.GetStringAndRelease(result);
         }
 
         #endregion

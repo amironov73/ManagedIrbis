@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 
@@ -120,6 +121,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -169,10 +171,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region Private members
 
         private VirtualChildren _virtualChildren;
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -243,34 +241,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 );
         }
 
-        /// <inheritdoc cref="PftNode.Compile" />
-        public override void Compile
-            (
-                PftCompiler compiler
-            )
-        {
-            if (ReferenceEquals(Variable, null)
-                || Source.Count == 0
-                || Select.Count == 0)
-            {
-                throw new PftCompilerException();
-            }
+        ///// <inheritdoc cref="PftNode.Compile" />
+        //public override void Compile
+        //    (
+        //        PftCompiler compiler
+        //    )
+        //{
+        //    if (ReferenceEquals(Variable, null)
+        //        || Source.Count == 0
+        //        || Select.Count == 0)
+        //    {
+        //        throw new PftCompilerException();
+        //    }
 
-            // TODO implement
+        //    // TODO implement
 
-            compiler.CompileNodes(Source);
-            if (!ReferenceEquals(Where, null))
-            {
-                Where.Compile(compiler);
-            }
-            compiler.CompileNodes(Select);
-            compiler.CompileNodes(Order);
+        //    compiler.CompileNodes(Source);
+        //    if (!ReferenceEquals(Where, null))
+        //    {
+        //        Where.Compile(compiler);
+        //    }
+        //    compiler.CompileNodes(Select);
+        //    compiler.CompileNodes(Order);
 
-            compiler.StartMethod(this);
+        //    compiler.StartMethod(this);
 
-            compiler.EndMethod(this);
-            compiler.MarkReady(this);
-        }
+        //    compiler.EndMethod(this);
+        //    compiler.MarkReady(this);
+        //}
 
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
@@ -444,9 +442,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         /// <inheritdoc cref="PftNode.PrettyPrint" />
         public override void PrettyPrint
-        (
-            PftPrettyPrinter printer
-        )
+            (
+                PftPrettyPrinter printer
+            )
         {
             printer.EatWhitespace();
             printer.EatNewLine();

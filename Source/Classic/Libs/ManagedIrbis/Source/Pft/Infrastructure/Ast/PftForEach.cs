@@ -11,11 +11,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 using AM;
 using AM.Logging;
+using AM.Text;
 
 using CodeJam;
 
@@ -91,6 +94,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -160,10 +164,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             return result.ToArray();
         }
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -352,7 +352,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .WriteLine("end");
         }
 
-
         /// <inheritdoc cref="PftNode.Serialize" />
         protected internal override void Serialize
             (
@@ -364,6 +363,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftSerializer.SerializeNullable(writer, Variable);
             PftSerializer.Serialize(writer, Sequence);
             PftSerializer.Serialize(writer, Body);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = StringBuilderCache.Acquire();
+            result.Append("foreach ");
+            result.Append(Variable);
+            result.Append(" in ");
+            PftUtility.NodesToText(result, Sequence);
+            result.Append(" do ");
+            PftUtility.NodesToText(result, Body);
+            result.Append(" end");
+
+            return StringBuilderCache.GetStringAndRelease(result);
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+
 using AM.Text;
 
 using JetBrains.Annotations;
@@ -172,7 +173,6 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             // TODO FIX THIS!
             PftSerializationUtility.CompareNodes(first, second);
         }
-
 
         [TestMethod]
         public void PftFor_Execute_1()
