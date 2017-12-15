@@ -11,10 +11,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Text;
 
 using AM;
 using AM.Logging;
+using AM.Text;
 
 using CodeJam;
 
@@ -106,6 +109,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -173,10 +177,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Public methods
-
-        #endregion
-
         #region ICloneable members
 
         /// <inheritdoc cref="ICloneable.Clone" />
@@ -211,7 +211,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             base.CompareNode(otherNode);
 
-            PftFor otherFor = (PftFor) otherNode;
+            PftFor otherFor = (PftFor)otherNode;
             PftSerializationUtility.CompareLists
                 (
                     Initialization,
@@ -244,7 +244,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             PftSerializer.Deserialize(reader, Initialization);
             Condition
-                = (PftCondition) PftSerializer.DeserializeNullable(reader);
+                = (PftCondition)PftSerializer.DeserializeNullable(reader);
             PftSerializer.Deserialize(reader, Loop);
             PftSerializer.Deserialize(reader, Body);
         }
@@ -318,7 +318,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 PftNodeInfo loop = new PftNodeInfo
                 {
-                    Name="Loop"
+                    Name = "Loop"
                 };
                 result.Children.Add(loop);
                 foreach (PftNode node in Loop)
@@ -392,6 +392,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftSerializer.SerializeNullable(writer, Condition);
             PftSerializer.Serialize(writer, Loop);
             PftSerializer.Serialize(writer, Body);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = StringBuilderCache.Acquire();
+            result.Append("for ");
+            PftUtility.NodesToText(result, Initialization);
+            result.Append(';');
+            result.Append(Condition);
+            result.Append(';');
+            PftUtility.NodesToText(result, Loop);
+            result.Append(" do ");
+            PftUtility.NodesToText(result, Body);
+            result.Append(" end");
+
+            return StringBuilderCache.GetStringAndRelease(result);
         }
 
         #endregion

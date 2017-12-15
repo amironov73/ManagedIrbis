@@ -181,6 +181,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             };
             _Execute(record, node, false);
         }
+
         [TestMethod]
         public void PftAny_GetNodeInfo_1()
         {
