@@ -10,14 +10,17 @@
 #region Using directives
 
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-using AM.Collections;
 using AM.Logging;
+using AM.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -39,6 +42,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// Throw an exception when an empty group is detected?
         /// </summary>
         public static bool ThrowOnEmpty { get; set; }
+
+        /// <inheritdoc cref="PftNode.ComplexExpression" />
+        public override bool ComplexExpression
+        {
+            get { return true; }
+        }
 
         #endregion
 
@@ -71,14 +80,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.Parallel);
         }
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -207,6 +208,81 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 context.CurrentGroup = null;
             }
+        }
+
+        /// <inheritdoc cref="PftNode.Optimize" />
+        public override PftNode Optimize()
+        {
+            PftNodeCollection children = (PftNodeCollection) Children;
+            children.Optimize();
+
+            if (children.Count == 0)
+            {
+                // Take the node away from the AST
+
+                return null;
+            }
+
+            return this;
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            bool isComplex = PftUtility.IsComplexExpression(Children);
+            if (isComplex)
+            {
+                printer.EatWhitespace();
+                printer.EatNewLine();
+                printer.WriteLine();
+                printer
+                    .WriteIndent()
+                    .Write("parallel(");
+                printer.IncreaseLevel();
+                printer.WriteLine();
+                printer.WriteIndent();
+            }
+            else
+            {
+                printer
+                    .WriteIndentIfNeeded()
+                    .Write("parallel( ");
+            }
+            base.PrettyPrint(printer);
+            if (isComplex)
+            {
+                printer.EatWhitespace();
+                printer.EatNewLine();
+                printer.WriteLine()
+                    .DecreaseLevel()
+                    .WriteIndent()
+                    .Write(')')
+                    .WriteLine();
+            }
+            else
+            {
+                printer
+                    .WriteIndentIfNeeded()
+                    .Write(')');
+            }
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = StringBuilderCache.Acquire();
+            result.Append("parallel(");
+            PftUtility.NodesToText(result, Children);
+            result.Append(')');
+
+            return StringBuilderCache.GetStringAndRelease(result);
         }
 
         #endregion

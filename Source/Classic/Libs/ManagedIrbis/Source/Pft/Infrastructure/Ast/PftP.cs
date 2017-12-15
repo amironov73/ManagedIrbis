@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 using AM;
@@ -65,6 +66,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -98,6 +100,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
             : base(token)
         {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftP
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNull(text, "text");
+
+            // TODO support for G
+            Field = new PftV(text);
         }
 
         #endregion
