@@ -17,7 +17,7 @@ using AM.Text.Output;
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedIrbis.Pft.Infrastructure.Compiler;
+
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
@@ -54,10 +54,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Procedures = new PftProcedureManager();
         }
-
-        #endregion
-
-        #region Private members
 
         #endregion
 

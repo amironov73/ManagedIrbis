@@ -240,6 +240,13 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private static void Exit(PftContext context, PftNode node, PftNode[] arguments)
+        {
+            throw new PftExitException();
+        }
+
+        //=================================================
+
         private static void Fatal(PftContext context, PftNode node, PftNode[] arguments)
         {
             string expression = context.GetStringArgument(arguments, 0);
@@ -892,6 +899,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("debug", Debug);
             reg.Add("delField", DelField);
             reg.Add("error", Error);
+            reg.Add("exit", Exit);
             reg.Add("fatal", Fatal);
             reg.Add("getenv", GetEnv);
             reg.Add("iocc", IOcc);

@@ -13,13 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
-using AM;
-using AM.Collections;
-using AM.IO;
 using AM.Logging;
 
 using CodeJam;
@@ -27,8 +22,6 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -241,31 +234,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Move to begin of the list.
-        /// </summary>
-        public PftTokenList Reset()
-        {
-            _position = 0;
-
-            return this;
-        }
-
-        /// <summary>
-        /// Restore position.
-        /// </summary>
-        public PftTokenList RestorePosition
-            (
-                int position
-            )
-        {
-            Code.Nonnegative(position, "position");
-
-            _position = position;
-
-            return this;
-        }
-
-        /// <summary>
         /// Require next token.
         /// </summary>
         public PftTokenList RequireNext
@@ -287,6 +255,31 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 throw new PftSyntaxException(Current);
             }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Move to begin of the list.
+        /// </summary>
+        public PftTokenList Reset()
+        {
+            _position = 0;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Restore position.
+        /// </summary>
+        public PftTokenList RestorePosition
+            (
+                int position
+            )
+        {
+            Code.Nonnegative(position, "position");
+
+            _position = position;
 
             return this;
         }
@@ -329,6 +322,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (foundPosition < 0)
             {
                 _position = savePosition;
+
                 return null;
             }
 
