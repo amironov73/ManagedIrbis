@@ -512,7 +512,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftEat.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftEmpty.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftF.cs" />
-    <Compile Include="Source\Pft\Infrastructure\Ast\PftF2.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftFmt.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftFalse.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftFieldAssignment.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftFirst.cs" />

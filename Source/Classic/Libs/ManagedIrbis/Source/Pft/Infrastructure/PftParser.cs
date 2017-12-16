@@ -419,7 +419,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private PftNode ParseF2()
         {
-            PftF2 result = new PftF2(Tokens.Current);
+            PftFmt result = new PftFmt(Tokens.Current);
             Tokens.RequireNext(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext();
             result.Number = ParseArithmetic
@@ -1511,10 +1511,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return result;
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

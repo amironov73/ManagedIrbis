@@ -74,61 +74,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         // ReSharper disable once InconsistentNaming
         private bool IsEOF { get { return _navigator.IsEOF; } }
 
-        private static bool IsIdentifier
-            (
-                char c
-            )
-        {
-            return Array.IndexOf(Identifier, c) >= 0;
-        }
-
-        private static bool IsInteger
-            (
-                char c
-            )
-        {
-            return Array.IndexOf(Integer, c) >= 0;
-        }
-
-        private static bool IsInteger
-            (
-                string s
-            )
-        {
-#if PORTABLE
-
-            bool result = false;
-
-            foreach (char c in s)
-            {
-                if (!IsInteger(c))
-                {
-                    return false;
-                }
-                result = true;
-            }
-
-            return result;
-
-#else
-
-            return s.All(c => IsInteger(c));
-
-#endif
-        }
-
         private int Line { get { return _navigator.Line; } }
 
         private char PeekChar()
         {
             //return _navigator.PeekChar();
             return _navigator.PeekCharNoCrLf();
-        }
-
-        private string PeekString(int length)
-        {
-            //return _navigator.PeekString(length);
-            return _navigator.PeekStringNoCrLf(length);
         }
 
         private char ReadChar()
@@ -258,13 +209,13 @@ namespace ManagedIrbis.Pft.Infrastructure
             bool digitFound = false;
 
             char c = PeekChar();
-            if (c != '+'
-                && c != '-'
-                && c != '.'
-                && !c.IsArabicDigit())
-            {
-                return null;
-            }
+            //if (c != '+'
+            //    && c != '-'
+            //    && c != '.'
+            //    && !c.IsArabicDigit())
+            //{
+            //    return null;
+            //}
             if (c == '.')
             {
                 dotFound = true;
@@ -421,7 +372,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 char c2, c3;
                 string value = null;
                 FieldSpecification field = null;
-                PftTokenKind kind = PftTokenKind.None;
+                PftTokenKind kind;
                 switch (c)
                 {
                     case '\'':
@@ -757,8 +708,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                             break;
                         }
                         value = ReadIdentifier(c);
-                        kind = PftTokenKind.Identifier;
-                        break;
+                        goto default;
 
                     case 'd':
                     case 'D':
@@ -906,8 +856,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                             break;
                         }
                         value = ReadIdentifier(c);
-                        kind = PftTokenKind.Identifier;
-                        break;
+                        goto default;
 
                     case '0':
                     case '1':
@@ -919,6 +868,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     case '7':
                     case '8':
                     case '9':
+                    case '.':
                         _navigator.Move(-1);
                         value = ReadFloat();
                         kind = PftTokenKind.Number;
@@ -1000,9 +950,9 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "end";
                                 break;
 
-                            case "f2":
-                                kind = PftTokenKind.F2;
-                                value = "f2";
+                            case "fmt":
+                                kind = PftTokenKind.Fmt;
+                                value = "fmt";
                                 break;
 
                             case "false":

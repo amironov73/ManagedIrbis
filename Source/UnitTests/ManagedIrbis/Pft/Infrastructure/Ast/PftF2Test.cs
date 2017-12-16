@@ -26,7 +26,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
     {
         private void _Execute
             (
-                [NotNull] PftF2 node,
+                [NotNull] PftFmt node,
                 [NotNull] string expected
             )
         {
@@ -37,9 +37,9 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [NotNull]
-        private PftF2 _GetNode()
+        private PftFmt _GetNode()
         {
-            return new PftF2
+            return new PftFmt
             {
                 Number = new PftNumericLiteral(Math.PI),
                 Format =
@@ -52,7 +52,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [TestMethod]
         public void PftF2_Construction_1()
         {
-            PftF2 node = new PftF2();
+            PftFmt node = new PftFmt();
             Assert.IsFalse(node.ConstantExpression);
             Assert.IsTrue(node.RequiresConnection);
             Assert.IsTrue(node.ExtendedSyntax);
@@ -63,8 +63,8 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [TestMethod]
         public void PftF2_Construction_2()
         {
-            PftToken token = new PftToken(PftTokenKind.F2, 1, 1, "f2");
-            PftF2 node = new PftF2(token);
+            PftToken token = new PftToken(PftTokenKind.Fmt, 1, 1, "f2");
+            PftFmt node = new PftFmt(token);
             Assert.IsFalse(node.ConstantExpression);
             Assert.IsTrue(node.RequiresConnection);
             Assert.IsTrue(node.ExtendedSyntax);
@@ -78,22 +78,22 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [TestMethod]
         public void PftF2_Clone_1()
         {
-            PftF2 first = new PftF2();
-            PftF2 second = (PftF2) first.Clone();
+            PftFmt first = new PftFmt();
+            PftFmt second = (PftFmt) first.Clone();
             PftSerializationUtility.CompareNodes(first, second);
         }
 
         [TestMethod]
         public void PftF2_Clone_2()
         {
-            PftF2 first = _GetNode();
-            PftF2 second = (PftF2) first.Clone();
+            PftFmt first = _GetNode();
+            PftFmt second = (PftFmt) first.Clone();
             PftSerializationUtility.CompareNodes(first, second);
         }
 
         private void _TestCompile
             (
-                [NotNull] PftF2 node
+                [NotNull] PftFmt node
             )
         {
             NullProvider provider = new NullProvider();
@@ -107,7 +107,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [TestMethod]
         public void PftF2_Compile_1()
         {
-            PftF2 node = _GetNode();
+            PftFmt node = _GetNode();
             _TestCompile(node);
         }
 
@@ -115,21 +115,21 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [ExpectedException(typeof(PftCompilerException))]
         public void PftF2_Compile_2()
         {
-            PftF2 node = new PftF2();
+            PftFmt node = new PftFmt();
             _TestCompile(node);
         }
 
         [TestMethod]
         public void PftF2_Execute_1()
         {
-            PftF2 node = new PftF2();
+            PftFmt node = new PftFmt();
             _Execute(node, "");
         }
 
         [TestMethod]
         public void PftF2_Execute_2()
         {
-            PftF2 node = _GetNode();
+            PftFmt node = _GetNode();
             _Execute(node, "3.14");
 
             node.Format.Clear();
@@ -139,7 +139,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [TestMethod]
         public void PftF2_Execute_3()
         {
-            PftF2 node = new PftF2
+            PftFmt node = new PftFmt
             {
                 Number = new PftNumericLiteral(Math.PI),
                 Format =
@@ -154,7 +154,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [TestMethod]
         public void PftF2_Execute_4()
         {
-            PftF2 node = new PftF2
+            PftFmt node = new PftFmt
             {
                 Number = new PftNumericLiteral(Math.PI),
                 Format =
@@ -170,15 +170,15 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [TestMethod]
         public void PftF2_GetNodeInfo_1()
         {
-            PftF2 node = _GetNode();
+            PftFmt node = _GetNode();
             PftNodeInfo info = node.GetNodeInfo();
             Assert.AreSame(node, info.Node);
-            Assert.AreEqual("F2", info.Name);
+            Assert.AreEqual("Fmt", info.Name);
         }
 
         private void _TestSerialization
             (
-                [NotNull] PftF2 first
+                [NotNull] PftFmt first
             )
         {
             MemoryStream stream = new MemoryStream();
@@ -188,41 +188,41 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             byte[] bytes = stream.ToArray();
             stream = new MemoryStream(bytes);
             BinaryReader reader = new BinaryReader(stream);
-            PftF2 second = (PftF2) PftSerializer.Deserialize(reader);
+            PftFmt second = (PftFmt) PftSerializer.Deserialize(reader);
             PftSerializationUtility.CompareNodes(first, second);
         }
 
         [TestMethod]
         public void PftF2_Serialization_1()
         {
-            PftF2 node = new PftF2();
+            PftFmt node = new PftFmt();
             _TestSerialization(node);
 
-            node = new PftF2();
+            node = new PftFmt();
             _TestSerialization(node);
         }
 
         [TestMethod]
         public void PftF2_ToString_1()
         {
-            PftF2 node = new PftF2();
-            Assert.AreEqual("f2(,)", node.ToString());
+            PftFmt node = new PftFmt();
+            Assert.AreEqual("fmt(,)", node.ToString());
         }
 
         [TestMethod]
         public void PftF2_ToString_2()
         {
-            PftF2 node = _GetNode();
-            Assert.AreEqual("f2(3.14159265358979,'F2')", node.ToString());
+            PftFmt node = _GetNode();
+            Assert.AreEqual("fmt(3.14159265358979,'F2')", node.ToString());
 
             node.Format.Clear();
-            Assert.AreEqual("f2(3.14159265358979,)", node.ToString());
+            Assert.AreEqual("fmt(3.14159265358979,)", node.ToString());
         }
 
         [TestMethod]
         public void PftF2_ToString_3()
         {
-            PftF2 node = new PftF2
+            PftFmt node = new PftFmt
             {
                 Number = new PftNumericLiteral(Math.PI),
                 Format =
@@ -231,13 +231,13 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
                     new PftUnconditionalLiteral("2")
                 }
             };
-            Assert.AreEqual("f2(3.14159265358979,'F' '2')", node.ToString());
+            Assert.AreEqual("fmt(3.14159265358979,'F' '2')", node.ToString());
         }
 
         [TestMethod]
         public void PftF2_ToString_4()
         {
-            PftF2 node = new PftF2
+            PftFmt node = new PftFmt
             {
                 Number = new PftNumericLiteral(Math.PI),
                 Format =
@@ -247,7 +247,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
                     new PftUnconditionalLiteral("2")
                 }
             };
-            Assert.AreEqual("f2(3.14159265358979,'F' , '2')", node.ToString());
+            Assert.AreEqual("fmt(3.14159265358979,'F' , '2')", node.ToString());
         }
     }
 }

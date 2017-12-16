@@ -98,7 +98,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             new TypeMap { Code=23, Type=typeof(PftEat) },
             new TypeMap { Code=24, Type=typeof(PftEmpty) },
             new TypeMap { Code=25, Type=typeof(PftF) },
-            new TypeMap { Code=26, Type=typeof(PftF2) },
+            new TypeMap { Code=26, Type=typeof(PftFmt) },
             new TypeMap { Code=27, Type=typeof(PftFalse) },
             new TypeMap { Code=28, Type=typeof(PftField) },
             new TypeMap { Code=29, Type=typeof(PftFieldAssignment) },

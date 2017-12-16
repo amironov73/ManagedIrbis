@@ -974,7 +974,7 @@ namespace ManagedIrbis.Pft
             "empty",
             "end",
             "f",
-            "f2",
+            "fmt",
             "false",
             "fi",
             "first",

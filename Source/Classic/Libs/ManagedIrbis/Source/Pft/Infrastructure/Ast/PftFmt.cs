@@ -43,7 +43,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     /// </example>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class PftF2
+    public sealed class PftFmt
         : PftNode
     {
         #region Properties
@@ -100,7 +100,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PftF2()
+        public PftFmt()
         {
             Format = new PftNodeCollection(this);
         }
@@ -108,14 +108,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PftF2
+        public PftFmt
             (
                 [NotNull] PftToken token
             )
             : base(token)
         {
             Code.NotNull(token, "token");
-            token.MustBe(PftTokenKind.F2);
+            token.MustBe(PftTokenKind.Fmt);
 
             Format = new PftNodeCollection(this);
         }
@@ -171,7 +171,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <inheritdoc cref="ICloneable.Clone" />
         public override object Clone()
         {
-            PftF2 result = (PftF2) base.Clone();
+            PftFmt result = (PftFmt) base.Clone();
 
             result._virtualChildren = null;
 
@@ -197,7 +197,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             base.CompareNode(otherNode);
 
-            PftF2 otherF = (PftF2)otherNode;
+            PftFmt otherF = (PftFmt)otherNode;
             PftSerializationUtility.CompareLists
                 (
                     Format,
@@ -292,7 +292,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftNodeInfo result = new PftNodeInfo
             {
                 Node = this,
-                Name = "F2"
+                Name = "Fmt"
             };
 
             if (!ReferenceEquals(Number, null))
@@ -324,7 +324,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             printer
                 .SingleSpace()
-                .Write("f2(");
+                .Write("fmt(");
             if (!ReferenceEquals(Number, null))
             {
                 Number.PrettyPrint(printer);
@@ -356,7 +356,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
-            result.Append("f2(");
+            result.Append("fmt(");
             if (!ReferenceEquals(Number, null))
             {
                 result.Append(Number);

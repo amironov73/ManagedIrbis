@@ -147,7 +147,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// f2(123)
         /// </summary>
-        F2,
+        Fmt,
 
         /// <summary>
         /// false

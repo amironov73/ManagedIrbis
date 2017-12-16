@@ -1127,8 +1127,8 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftF.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftF.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftF2.cs">
-      <Link>Source\Pft\Infrastructure\Ast\PftF2.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftFmt.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftFmt.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftFalse.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftFalse.cs</Link>
