@@ -197,7 +197,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             try
             {
                 context.CurrentGroup = group;
-                context._vMonitor = new VMonitor();
+                context.VMonitor = false;
 
                 OnBeforeExecution(context);
 
@@ -209,23 +209,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         context.Index++
                     )
                 {
-                    context._vMonitor.Output = false;
+                    context.VMonitor = false;
 
                     condition.Execute(context);
 
-                    // ReSharper disable ConditionIsAlwaysTrueOrFalse
-                    // ReSharper disable HeuristicUnreachableCode
-                    if (ReferenceEquals(context._vMonitor, null))
-                    {
-                        // Coverity says:
-                        // condition.Execute() may set _vMonitor to null
-                        context._vMonitor = new VMonitor();
-                    }
-                    // ReSharper restore ConditionIsAlwaysTrueOrFalse
-                    // ReSharper restore HeuristicUnreachableCode
-
-                    if (!context._vMonitor.Output
-                        || context.BreakFlag)
+                    if (!context.VMonitor || context.BreakFlag)
                     {
                         break;
                     }
@@ -242,7 +230,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             finally
             {
                 context.CurrentGroup = null;
-                context._vMonitor = null;
             }
         }
 

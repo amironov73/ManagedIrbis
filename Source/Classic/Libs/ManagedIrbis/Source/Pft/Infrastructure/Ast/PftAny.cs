@@ -197,7 +197,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             try
             {
                 context.CurrentGroup = group;
-                context._vMonitor = new VMonitor();
+                context.VMonitor = false;
 
                 OnBeforeExecution(context);
 
@@ -209,13 +209,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         context.Index++
                     )
                 {
-                    context._vMonitor.Output = false;
+                    context.VMonitor = false;
 
                     condition.Execute(context);
 
-                    if (!context._vMonitor.Output //-V3022
-                        || context.BreakFlag
-                       )
+                    if (!context.VMonitor || context.BreakFlag)
                     {
                         break;
                     }
@@ -234,7 +232,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             finally
             {
                 context.CurrentGroup = null;
-                context._vMonitor = null;
             }
         }
 

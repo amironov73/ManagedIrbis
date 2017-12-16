@@ -257,10 +257,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             }
 
             Context.OutputFlag = true;
-            if (!ReferenceEquals(Context._vMonitor, null))
-            {
-                Context._vMonitor.Output = true;
-            }
+            Context.VMonitor = true;
 
             rightHand.SafeCall();
         }
@@ -287,7 +284,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             if (HaveField(field))
             {
                 Context.OutputFlag = true;
-                Context.MarkVMonitor();
+                Context.VMonitor = true;
             }
 
             rightHand.SafeCall();

@@ -9,11 +9,11 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text;
+
+using AM;
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -83,10 +83,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftVariable
             (
-                string name,
+                [NotNull] string name,
                 bool isNumeric
             )
         {
+            Code.NotNullNorEmpty(name, "name");
+
             Name = name;
             IsNumeric = isNumeric;
         }
@@ -96,10 +98,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftVariable
             (
-                string name,
+                [NotNull] string name,
                 double numericValue
             )
         {
+            Code.NotNullNorEmpty(name, "name");
+
             Name = name;
             IsNumeric = true;
             NumericValue = numericValue;
@@ -110,42 +114,43 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public PftVariable
             (
-                string name,
+                [NotNull] string name,
                 string stringValue
             )
         {
+            Code.NotNullNorEmpty(name, "name");
+
             Name = name;
             StringValue = stringValue;
         }
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
 
-            result.Append(Name);
+            result.Append(Name.ToVisibleString());
             result.Append(": ");
             if (IsNumeric)
             {
-                result.Append(NumericValue);
+                result.Append(NumericValue.ToInvariantString());
             }
             else
             {
-                result.Append("\"");
-                result.Append(StringValue);
-                result.Append("\"");
+                if (ReferenceEquals(StringValue, null))
+                {
+                    result.Append("(null)");
+                }
+                else
+                {
+                    result.Append('\"');
+                    result.Append(StringValue);
+                    result.Append('\"');
+                }
             }
 
             return result.ToString();

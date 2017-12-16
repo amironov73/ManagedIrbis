@@ -232,5 +232,15 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return _children.Length.ToInvariantString();
+        }
+
+        #endregion
     }
 }

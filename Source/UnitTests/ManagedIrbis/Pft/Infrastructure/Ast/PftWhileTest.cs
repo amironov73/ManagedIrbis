@@ -245,7 +245,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         public void PftWhile_ToString_2()
         {
             PftWhile node = _GetNode();
-            Assert.AreEqual("while $x<10 do $x ' => Прикольно!' / $x=$x+1 end", node.ToString());
+            Assert.AreEqual("while $x<10 do $x ' => Прикольно!' / $x=$x+1; end", node.ToString());
         }
     }
 }

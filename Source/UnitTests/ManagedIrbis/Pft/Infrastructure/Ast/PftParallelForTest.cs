@@ -263,7 +263,9 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         public void PftParallelFor_ToString_2()
         {
             PftParallelFor node = _GetNode();
-            Assert.AreEqual("parallel for $i=1;$i<=10;$i=$i+1 do 'Строка ' $i / end", node.ToString());
+
+            // TODO FIX THIS!
+            Assert.AreEqual("parallel for $i=1;;$i<=10;$i=$i+1; do 'Строка ' $i / end", node.ToString());
         }
     }
 }

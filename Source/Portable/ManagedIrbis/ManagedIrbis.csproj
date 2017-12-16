@@ -1697,9 +1697,6 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\VirtualChildren.cs">
       <Link>Source\Pft\Infrastructure\VirtualChildren.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\VMonitor.cs">
-      <Link>Source\Pft\Infrastructure\VMonitor.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Walking\PftVisitor.cs">
       <Link>Source\Pft\Infrastructure\Walking\PftVisitor.cs</Link>
     </Compile>

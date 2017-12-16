@@ -174,6 +174,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public bool EatNextNewLine;
 
+        /// <summary>
+        /// Отслеживает, был ли вывод из поля с помощью vXXX.
+        /// </summary>
+        public bool VMonitor;
+
         #endregion
 
         #region Construction
@@ -232,10 +237,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             Debugger = ReferenceEquals(parent, null)
                 ? null
                 : parent.Debugger;
-
-            _vMonitor = ReferenceEquals(parent, null)
-                ? null
-                : parent._vMonitor;
         }
 
         #endregion
@@ -245,7 +246,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         // ReSharper disable InconsistentNaming
         private readonly PftContext _parent;
 
-        internal VMonitor _vMonitor;
         // ReSharper restore InconsistentNaming
 
         #endregion
@@ -604,19 +604,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         //=================================================
 
         /// <summary>
-        /// Сигнал, что использовалась конструкция v.
-        /// </summary>
-        public void MarkVMonitor()
-        {
-            if (!ReferenceEquals(_vMonitor, null))
-            {
-                _vMonitor.Output = true;
-            }
-        }
-
-        //=================================================
-
-        /// <summary>
         /// Временное переключение контекста (например,
         /// при вычислении строковых функций).
         /// </summary>
@@ -635,7 +622,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             if (!ReferenceEquals(Parent, null))
             {
-                Parent.BreakFlag = BreakFlag;
+                Parent.BreakFlag |= BreakFlag;
+                Parent.VMonitor |= VMonitor;
             }
         }
 

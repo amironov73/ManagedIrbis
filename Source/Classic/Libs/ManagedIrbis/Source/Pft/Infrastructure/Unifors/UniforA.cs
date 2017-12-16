@@ -79,11 +79,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         {
                             context.Write(node, result);
                             context.OutputFlag = true;
-
-                            if (!ReferenceEquals(context._vMonitor, null))
-                            {
-                                context._vMonitor.Output = true;
-                            }
+                            context.VMonitor = true;
                         }
                     }
                 }
