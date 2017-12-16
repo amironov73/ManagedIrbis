@@ -37,14 +37,6 @@ namespace ManagedIrbis.Pft.Infrastructure
     [MoonSharpUserData]
     public class PftLexer
     {
-        #region Properties
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
         #region Private members
 
         private TextNavigator _navigator;
@@ -120,7 +112,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
 #else
 
-            return s.All(c => IsInteger (c));
+            return s.All(c => IsInteger(c));
 
 #endif
         }
@@ -194,7 +186,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result.ToString();
         }
 
-        [CanBeNull]
+        [NotNull]
         private string ReadIdentifier
             (
                 char initialLetter
@@ -205,9 +197,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 return initialLetter.ToString();
             }
 
-            StringBuilder full = new StringBuilder();
-            full.Append(initialLetter);
             StringBuilder result = new StringBuilder();
+            result.Append(initialLetter);
             string[] reserved = PftUtility.GetReservedWords();
 
             while (true)
@@ -219,11 +210,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                     break;
                 }
                 result.Append(c);
-                full.Append(c);
                 ReadChar();
                 c = _navigator.PeekChar();
                 if ((c == '\r' || c == '\n')
-                    && Array.IndexOf(reserved, full.ToString()) >= 0)
+                    && Array.IndexOf(reserved, result.ToString()) >= 0)
                 {
                     break;
                 }
@@ -431,7 +421,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 char c2, c3;
                 string value = null;
                 FieldSpecification field = null;
-                PftTokenKind kind;
+                PftTokenKind kind = PftTokenKind.None;
                 switch (c)
                 {
                     case '\'':
@@ -609,16 +599,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                         break;
 
                     case '-':
-                        //if (IsInteger(PeekChar()))
-                        //{
-                        //    kind = PftTokenKind.Number;
-                        //    value = c + ReadFloat();
-                        //}
-                        //else
-                        //{
-                            kind = PftTokenKind.Minus;
-                            value = c.ToString();
-                        //}
+                        kind = PftTokenKind.Minus;
+                        value = c.ToString();
                         break;
 
                     case '*':
@@ -758,9 +740,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                     case 'a':
                     case 'A':
                         value = ReadIdentifier(c);
-                        if (!string.IsNullOrEmpty(value))
+                        if (value.Length != 1)
                         {
-                            value = c + value;
                             goto default;
                         }
                         kind = PftTokenKind.A;
@@ -776,18 +757,13 @@ namespace ManagedIrbis.Pft.Infrastructure
                             break;
                         }
                         value = ReadIdentifier(c);
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            value = c + value;
-                            goto default;
-                        }
                         kind = PftTokenKind.Identifier;
                         break;
 
                     case 'd':
                     case 'D':
                         field = ReadField();
-                        if (field == null)
+                        if (ReferenceEquals(field, null))
                         {
                             goto default;
                         }
@@ -798,12 +774,12 @@ namespace ManagedIrbis.Pft.Infrastructure
                     case 'f':
                     case 'F':
                         value = ReadIdentifier(c);
-                        if (!string.IsNullOrEmpty(value))
+                        if (value.Length != 1)
                         {
-                            value = c + value;
                             goto default;
                         }
                         kind = PftTokenKind.F;
+                        value = "f";
                         break;
 
                     case 'g':
@@ -820,25 +796,21 @@ namespace ManagedIrbis.Pft.Infrastructure
                     case 'l':
                     case 'L':
                         value = ReadIdentifier(c);
-                        if (!string.IsNullOrEmpty(value))
+                        if (value.Length != 1)
                         {
-                            value = c + value;
                             goto default;
                         }
                         kind = PftTokenKind.L;
+                        value = "l";
                         break;
 
                     case 'm':
                     case 'M':
                         value = ReadIdentifier(c);
-                        if (string.IsNullOrEmpty(value))
-                        {
-                            goto default;
-                        }
                         string value2 = value.ToLower();
-                        if (value2.Length == 2)
+                        if (value2.Length == 3)
                         {
-                            if (value2 == "fn")
+                            if (value2 == "mfn")
                             {
                                 StringBuilder builder = new StringBuilder();
 
@@ -869,24 +841,22 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "mfn" + builder;
                                 break;
                             }
-                            if ((value2[0] == 'h'
-                                || value2[0] == 'd'
-                                || value2[0] == 'p')
-                                && (value2[1] == 'l'
-                                    || value2[1] == 'u'))
+                            if ((value2[1] == 'h'
+                                || value2[1] == 'd'
+                                || value2[1] == 'p')
+                                && (value2[2] == 'l'
+                                    || value2[2] == 'u'))
                             {
                                 kind = PftTokenKind.Mpl;
-                                value = c + value2;
                                 break;
                             }
                         }
-                        value = c + value;
                         goto default;
 
                     case 'n':
                     case 'N':
                         field = ReadField();
-                        if (field == null)
+                        if (ReferenceEquals(field, null))
                         {
                             goto default;
                         }
@@ -897,29 +867,29 @@ namespace ManagedIrbis.Pft.Infrastructure
                     case 'p':
                     case 'P':
                         value = ReadIdentifier(c);
-                        if (!string.IsNullOrEmpty(value))
+                        if (value.Length != 1)
                         {
-                            value = c + value;
                             goto default;
                         }
                         kind = PftTokenKind.P;
+                        value = "p";
                         break;
 
                     case 's':
                     case 'S':
                         value = ReadIdentifier(c);
-                        if (!string.IsNullOrEmpty(value))
+                        if (value.Length != 1)
                         {
-                            value = c + value;
                             goto default;
                         }
                         kind = PftTokenKind.S;
+                        value = "s";
                         break;
 
                     case 'v':
                     case 'V':
                         field = ReadField();
-                        if (field == null)
+                        if (ReferenceEquals(field, null))
                         {
                             goto default;
                         }
@@ -936,11 +906,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                             break;
                         }
                         value = ReadIdentifier(c);
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            value = c + value;
-                            goto default;
-                        }
                         kind = PftTokenKind.Identifier;
                         break;
 
