@@ -33,6 +33,25 @@ namespace AM.Runtime
     public static class InteropUtility
     {
         /// <summary>
+        /// Allocate memory block via <see cref="Marshal"/>.
+        /// </summary>
+        public static IntPtr AllocateMemory
+            (
+                int size
+            )
+        {
+            Code.Positive(size, "size");
+
+            IntPtr result = Marshal.AllocHGlobal(size);
+            for (int i = 0; i < size; i++)
+            {
+                Marshal.WriteByte(result, i, 0);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Copies buffer to unmanaged memory and returns
         /// pointer to it.
         /// </summary>

@@ -166,10 +166,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Public methods
-
-        #endregion
-
         #region ICloneable members
 
         /// <inheritdoc cref="ICloneable.Clone" />
@@ -410,6 +406,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             StringBuilder result = StringBuilderCache.Acquire();
             result.AppendFormat("${0}{1}=", Name, Index.ToText());
             PftUtility.NodesToText(result, Children);
+            result.Append(';');
 
             return StringBuilderCache.GetStringAndRelease(result);
         }

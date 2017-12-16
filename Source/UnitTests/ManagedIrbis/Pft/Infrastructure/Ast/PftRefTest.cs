@@ -17,10 +17,10 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
     public class PftRefTest
     {
         private void _Execute
-        (
-            [NotNull] PftRef node,
-            [NotNull] string expected
-        )
+            (
+                [NotNull] PftRef node,
+                [NotNull] string expected
+            )
         {
             PftContext context = new PftContext(null);
             node.Execute(context);

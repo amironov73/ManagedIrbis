@@ -75,24 +75,18 @@ namespace UnitTests.ManagedIrbis.Extensibility
                 Assert.IsNotNull(source);
                 Assert.IsFalse(source.HaveField(1000));
                 string input = PlainText.ToAllFormat(source);
-                IntPtr inputBuffer = Marshal.AllocHGlobal(32000);
+                IntPtr inputBuffer = InteropUtility.AllocateMemory(32000);
                 byte[] bytes = Encoding.UTF8.GetBytes(input);
                 Marshal.Copy(bytes, 0, inputBuffer, bytes.Length);
-                IntPtr outputBuffer = Marshal.AllocHGlobal(32000);
+                IntPtr outputBuffer = InteropUtility.AllocateMemory(32000);
                 int retCode = extension.EntryPoint(inputBuffer, outputBuffer, 32000);
                 Assert.AreEqual(1, retCode);
-                bytes = new byte[32000];
-                Marshal.Copy(outputBuffer, bytes, 0, bytes.Length);
-                int length = 0;
-                while (length < 32000)
-                {
-                    if (bytes[length] == 0)
-                    {
-                        break;
-                    }
-                    length++;
-                }
-                string output = Encoding.UTF8.GetString(bytes, 0, length);
+                string output = InteropUtility.GetZeroTerminatedString
+                    (
+                        outputBuffer,
+                        Encoding.UTF8,
+                        32000
+                    );
                 MarcRecord target = IrbisExtension.DecodeRecord(output);
                 Assert.IsTrue(target.HaveField(1000));
             }

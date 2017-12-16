@@ -567,7 +567,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftPowTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftProcedureDefinitionTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftPTest.cs" />
-    <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftRef.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftRefTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftRepeatableLiteralTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftRoundTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftRsumTest.cs" />

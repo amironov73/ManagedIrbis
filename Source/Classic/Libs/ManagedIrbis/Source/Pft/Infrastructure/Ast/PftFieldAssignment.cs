@@ -11,10 +11,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Text;
 
 using AM;
 using AM.Logging;
+using AM.Text;
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -69,6 +74,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -84,6 +90,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         /// <inheritdoc cref="PftNode.ExtendedSyntax" />
         public override bool ExtendedSyntax
+        {
+            get { return true; }
+        }
+
+        /// <inheritdoc cref="PftNode.ComplexExpression" />
+        public override bool ComplexExpression
         {
             get { return true; }
         }
@@ -105,10 +117,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftFieldAssignment
             (
+                [NotNull] string fieldSpec
+            )
+        {
+            Code.NotNullNorEmpty(fieldSpec, "fieldSpec");
+
+            Field = new PftV(fieldSpec);
+            Expression = new PftNodeCollection(this);
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftFieldAssignment
+            (
                 [NotNull] PftToken token
             )
             : base(token)
         {
+            Field = new PftV(token.Text);
             Expression = new PftNodeCollection(this);
         }
 
@@ -117,10 +144,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region Private members
 
         private VirtualChildren _virtualChildren;
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -298,6 +321,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             PftSerializer.SerializeNullable(writer, Field);
             PftSerializer.Serialize(writer, Expression);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = StringBuilderCache.Acquire();
+            result.Append(Field);
+            result.Append('=');
+            PftUtility.NodesToText(result, Expression);
+            result.Append(';');
+
+            return StringBuilderCache.GetStringAndRelease(result);
         }
 
         #endregion
