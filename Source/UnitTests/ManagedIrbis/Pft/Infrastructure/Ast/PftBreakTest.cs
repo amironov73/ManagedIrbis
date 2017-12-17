@@ -68,7 +68,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         public void PftBreak_ToString_1()
         {
             PftBreak node = new PftBreak();
-            Assert.AreEqual("", node.ToString());
+            Assert.AreEqual("break", node.ToString());
         }
     }
 }

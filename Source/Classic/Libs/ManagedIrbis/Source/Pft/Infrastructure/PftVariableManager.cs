@@ -70,10 +70,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -88,7 +84,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             for (
                     PftVariableManager manager = this;
-                    manager != null;
+                    !ReferenceEquals(manager, null);
                     manager = manager.Parent
                 )
             {
@@ -112,7 +108,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             for (
                     PftVariableManager manager = this;
-                    manager != null;
+                    !ReferenceEquals(manager, null);
                     manager = manager.Parent
                 )
             {
@@ -141,7 +137,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftVariable result = null;
             for (
                     PftVariableManager manager = this;
-                    manager != null;
+                    !ReferenceEquals(manager, null);
                     manager = manager.Parent
                 )
             {
@@ -171,6 +167,13 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 result = new PftVariable(name, isNumeric);
                 Registry.Add(name, result);
+            }
+            else
+            {
+                if (result.IsNumeric != isNumeric)
+                {
+                    throw new IrbisException();
+                }
             }
 
             return result;
@@ -256,7 +259,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             return result;
         }
-
 
         #endregion
     }

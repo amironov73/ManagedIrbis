@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 using AM.Text;
 
@@ -159,6 +160,74 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
                 }
             };
             _Execute(record, program, "Hello");
+        }
+
+        [TestMethod]
+        public void PftProgram_Execute_5()
+        {
+            bool catched = false;
+
+            try
+            {
+                MarcRecord record = _GetRecord();
+                PftProgram program = new PftProgram
+                {
+                    Children =
+                    {
+                        new PftUnconditionalLiteral("Hello"),
+                        new PftFunctionCall("exit"),
+                        new PftUnconditionalLiteral("world")
+                    }
+                };
+                PftContext parent = new PftContext(null);
+                PftContext context = new PftContext(parent)
+                {
+                    Record = record
+                };
+                program.Execute(context);
+            }
+            catch (Exception exception)
+            {
+                if (exception.GetType().Name == "PftExitException")
+                {
+                    catched = true;
+                }
+            }
+            Assert.IsTrue(catched);
+        }
+
+        [TestMethod]
+        public void PftProgram_Execute_6()
+        {
+            bool catched = false;
+
+            try
+            {
+                MarcRecord record = _GetRecord();
+                PftProgram program = new PftProgram
+                {
+                    Children =
+                    {
+                        new PftUnconditionalLiteral("Hello"),
+                        new PftBreak(),
+                        new PftUnconditionalLiteral("world")
+                    }
+                };
+                PftContext parent = new PftContext(null);
+                PftContext context = new PftContext(parent)
+                {
+                    Record = record
+                };
+                program.Execute(context);
+            }
+            catch (Exception exception)
+            {
+                if (exception.GetType().Name == "PftBreakException")
+                {
+                    catched = true;
+                }
+            }
+            Assert.IsTrue(catched);
         }
 
         private void _TestSerialization

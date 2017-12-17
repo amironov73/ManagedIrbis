@@ -182,10 +182,10 @@ namespace AM.Text
                 if (!ArrayUtility.Coincide
                     (
                         _array,
-                        _length - len2,
+                        _length - len,
                         newLine,
                         0,
-                        len2
+                        len
                     ))
                 {
                     break;
