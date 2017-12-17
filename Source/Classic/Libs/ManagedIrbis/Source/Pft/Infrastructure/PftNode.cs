@@ -33,6 +33,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
+// ReSharper disable ConvertIfStatementToNullCoalescingExpression
 // ReSharper disable DoNotCallOverridableMethodsInConstructor
 
 namespace ManagedIrbis.Pft.Infrastructure
@@ -91,7 +92,10 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
             protected set
             {
-                _children = (PftNodeCollection)value;
+                PftNodeCollection collection = (PftNodeCollection)value;
+                collection.Parent = this;
+                collection.EnsureParent();
+                _children = collection;
             }
         }
 
@@ -183,8 +187,18 @@ namespace ManagedIrbis.Pft.Infrastructure
                 [NotNull] PftNode otherNode
             )
         {
-            bool result = Column == otherNode.Column
+            bool result = ReferenceEquals
+                (
+                    GetType(),
+                    otherNode.GetType()
+                );
+
+            if (result)
+            {
+                result = Column == otherNode.Column
                           && LineNumber == otherNode.LineNumber;
+
+            }
 
             if (result && ShouldSerializeText())
             {
@@ -205,7 +219,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                         {
                             throw new PftSerializationException
                                 (
-                                    "Expecting " + our.GetType()
+                                    "Expecting child " + our.GetType()
                                     + ", got " + their.GetType()
                                 );
                         }
@@ -621,19 +635,19 @@ namespace ManagedIrbis.Pft.Infrastructure
                     child => child.Verify(throwOnError)
                 );
 
-            if (!result)
-            {
-                Log.Error
-                    (
-                        "PftNode::Verify: "
-                        + "verification failed"
-                    );
+            //if (!result)
+            //{
+            //    Log.Error
+            //        (
+            //            "PftNode::Verify: "
+            //            + "verification failed"
+            //        );
 
-                if (throwOnError)
-                {
-                    throw new VerificationException();
-                }
-            }
+            //    if (throwOnError)
+            //    {
+            //        throw new VerificationException();
+            //    }
+            //}
 
             return result;
         }

@@ -39,7 +39,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Parent node.
         /// </summary>
         [CanBeNull]
-        public PftNode Parent { get; private set; }
+        public PftNode Parent { get; internal set; }
 
         #endregion
 
@@ -54,6 +54,18 @@ namespace ManagedIrbis.Pft.Infrastructure
             )
         {
             Parent = parent;
+        }
+
+        #endregion
+
+        #region Private members
+
+        internal void EnsureParent()
+        {
+            foreach (PftNode node in this)
+            {
+                node.Parent = Parent;
+            }
         }
 
         #endregion
