@@ -591,8 +591,11 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftDebugEventArgsTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftLexerTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftMaskTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\PftNodeCollectionTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftNodeTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftParserTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\PftProcedureManagerTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\PftProcedureTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftProgramTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftTokenListTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftTokenTest.cs" />

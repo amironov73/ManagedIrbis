@@ -14,6 +14,8 @@ using System.IO;
 using AM;
 using AM.Logging;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Compiler;
@@ -63,6 +65,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
             : base(token)
         {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftA
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            Field = new PftV(text);
         }
 
         #endregion

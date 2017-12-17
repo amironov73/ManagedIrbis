@@ -65,10 +65,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -134,6 +130,16 @@ namespace ManagedIrbis.Pft.Infrastructure
             result.Body = Body.CloneNodes(null).ThrowIfNull();
 
             return result;
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return Name.ToVisibleString();
         }
 
         #endregion

@@ -9,12 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using AM.Logging;
 
 using CodeJam;
@@ -187,6 +181,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .SingleSpace()
                 .Write("break")
                 .SingleSpace();
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return "break";
         }
 
         #endregion
