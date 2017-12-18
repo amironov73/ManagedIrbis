@@ -9,13 +9,9 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
@@ -203,7 +199,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         void IHandmadeSerializable.RestoreFromStream
             (
                 BinaryReader reader
@@ -211,11 +207,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNull(reader, "reader");
 
-            Number = reader.ReadPackedInt32();
+            _number = reader.ReadPackedInt32();
             reader.ReadCollection(Fields);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         void IHandmadeSerializable.SaveToStream
             (
                 BinaryWriter writer
@@ -231,7 +227,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();

@@ -189,6 +189,25 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
+        public void PftGroup_Execute_6()
+        {
+            PftContext context = new PftContext(null);
+            PftGroup node = new PftGroup();
+            node.Children.Add(new PftUnifor
+            {
+                Name = "uf",
+                Children = { new PftUnconditionalLiteral("+90")}
+            });
+            node.Children.Add(new PftSlash());
+            node.Execute(context);
+            string actual = context.Text.DosToUnix();
+            Assert.IsNotNull(actual);
+            Assert.IsTrue(actual.StartsWith("1\n"));
+            Assert.IsTrue(actual.EndsWith("500\n"));
+        }
+
+
+        [TestMethod]
         public void PftGroup_Optimize_1()
         {
             PftGroup node = _GetNode();

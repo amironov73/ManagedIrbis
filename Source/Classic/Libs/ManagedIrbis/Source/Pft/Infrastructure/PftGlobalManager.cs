@@ -277,7 +277,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNull(reader, "reader");
 
-
+            Clear();
+            PftGlobal[] values = reader.ReadArray<PftGlobal>();
+            foreach (PftGlobal value in values)
+            {
+                Registry.Add(value.Number, value);
+            }
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -288,13 +293,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNull(writer, "writer");
 
-
+            PftGlobal[] values = GetAllVariables();
+            writer.WriteArray(values);
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }
 }
+
