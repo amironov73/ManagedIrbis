@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* BookBinding.cs -- 
+/* IRecordDecoder.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -24,11 +24,11 @@ using AM.Logging;
 using AM.Runtime;
 using AM.Text;
 
-using BLToolkit.DataAccess;
-
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis;
 
 using MoonSharp.Interpreter;
 
@@ -39,42 +39,14 @@ using Newtonsoft.Json;
 namespace AM.Istu.BookSupply
 {
     /// <summary>
-    /// 
+    /// Декодирование записи.
     /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
-    [TableName("book_bindings")]
-    public class BookBinding
-        : ObjectWithID
+    public interface IRecordDecoder
     {
-        #region Properties
-
-        /// <summary>
-        /// Номер каталожной карточки.
-        /// </summary>
-        public string Card { get; set; }
-
-        /// <summary>
-        /// Номер дисциплины.
-        /// </summary>
-        public int Discipline { get; set; }
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
-        #region Object members
-
-        #endregion
+        [NotNull]
+        BookInfo DecodeBookRecord
+            (
+                [NotNull] MarcRecord record
+            );
     }
 }

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* DisciplineInfo.cs -- 
+/* DataAccessLayer.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -24,6 +24,9 @@ using AM.Logging;
 using AM.Runtime;
 using AM.Text;
 
+using BLToolkit.Data;
+using BLToolkit.Data.Linq;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -37,50 +40,39 @@ using Newtonsoft.Json;
 namespace AM.Istu.BookSupply
 {
     /// <summary>
-    /// 
+    /// Слой доступа к БД.
     /// </summary>
-    [PublicAPI]
-    [MoonSharpUserData]
-    public class DisciplineInfo
-        : ObjectWithID
+    public class DataAccessLayer
+        : DbManager
     {
         #region Properties
 
         /// <summary>
-        /// Компонент (федеральный и т. д.)
+        /// Привязки книг.
         /// </summary>
-        public int Component { get; set; }
+        [NotNull]
+        public Table<BookBinding> BookBindings
+        {
+            get { return GetTable<BookBinding>(); }
+        }
 
         /// <summary>
-        /// Цикл
+        /// Факультеты.
         /// </summary>
-        public int Cycle { get; set; }
+        [NotNull]
+        public Table<DepartmentInfo> Departments
+        {
+            get { return GetTable<DepartmentInfo>(); }
+        }
 
         /// <summary>
-        /// Код направления
+        /// Привязки групп.
         /// </summary>
-        public string Direction { get; set; }
-
-        /// <summary>
-        /// Вид обучения
-        /// </summary>
-        public int Kind { get; set; }
-
-        /// <summary>
-        /// Форма обучения
-        /// </summary>
-        public int Form { get; set; }
-
-        /// <summary>
-        /// Назначение числа студентов
-        /// </summary>
-        // float?
-        public int Students { get; set; }
-
-        /// <summary>
-        /// Специальность
-        /// </summary>
-        public string Speciality { get; set; }
+        [NotNull]
+        public Table<GroupBinding> GroupBindings
+        {
+            get { return GetTable<GroupBinding>(); }
+        }
 
         #endregion
 
@@ -94,7 +86,14 @@ namespace AM.Istu.BookSupply
 
         #region Public methods
 
+        [NotNull]
+        public DepartmentInfo[] ListDepartments()
+        {
+            return Departments.ToArray();
+        }
+
         #endregion
+
 
         #region Object members
 

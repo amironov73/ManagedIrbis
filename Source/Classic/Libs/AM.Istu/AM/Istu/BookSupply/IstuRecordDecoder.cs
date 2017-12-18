@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* DisciplineInfo.cs -- 
+/* IstuRecordDecoder.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -28,6 +28,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -41,46 +43,10 @@ namespace AM.Istu.BookSupply
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class DisciplineInfo
-        : ObjectWithID
+    public class IstuRecordDecoder
+        : IRecordDecoder
     {
         #region Properties
-
-        /// <summary>
-        /// Компонент (федеральный и т. д.)
-        /// </summary>
-        public int Component { get; set; }
-
-        /// <summary>
-        /// Цикл
-        /// </summary>
-        public int Cycle { get; set; }
-
-        /// <summary>
-        /// Код направления
-        /// </summary>
-        public string Direction { get; set; }
-
-        /// <summary>
-        /// Вид обучения
-        /// </summary>
-        public int Kind { get; set; }
-
-        /// <summary>
-        /// Форма обучения
-        /// </summary>
-        public int Form { get; set; }
-
-        /// <summary>
-        /// Назначение числа студентов
-        /// </summary>
-        // float?
-        public int Students { get; set; }
-
-        /// <summary>
-        /// Специальность
-        /// </summary>
-        public string Speciality { get; set; }
 
         #endregion
 
@@ -93,6 +59,23 @@ namespace AM.Istu.BookSupply
         #endregion
 
         #region Public methods
+
+        #endregion
+
+        #region IRecordDecoder
+
+        /// <inheritdoc cref="IRecordDecoder.DecodeBookRecord" />
+        public BookInfo DecodeBookRecord
+            (
+                MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            BookInfo result = new BookInfo();
+
+            return result;
+        }
 
         #endregion
 

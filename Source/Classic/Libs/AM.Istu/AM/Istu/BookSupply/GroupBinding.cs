@@ -24,6 +24,8 @@ using AM.Logging;
 using AM.Runtime;
 using AM.Text;
 
+using BLToolkit.DataAccess;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -41,7 +43,9 @@ namespace AM.Istu.BookSupply
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [TableName("group_binding")]
     public class GroupBinding
+        : ObjectWithID
     {
         #region Properties
 

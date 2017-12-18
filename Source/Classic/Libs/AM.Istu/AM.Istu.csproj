@@ -137,8 +137,14 @@
     <Compile Include="AM\Istu\BookSupply\BookBinding.cs" />
     <Compile Include="AM\Istu\BookSupply\BookInfo.cs" />
     <Compile Include="AM\Istu\BookSupply\BookSupplyException.cs" />
+    <Compile Include="AM\Istu\BookSupply\DepartmentInfo.cs" />
     <Compile Include="AM\Istu\BookSupply\DisciplineInfo.cs" />
     <Compile Include="AM\Istu\BookSupply\GroupBinding.cs" />
+    <Compile Include="AM\Istu\BookSupply\IRecordDecoder.cs" />
+    <Compile Include="AM\Istu\BookSupply\IstuRecordDecoder.cs" />
+    <Compile Include="AM\Istu\BookSupply\ObjectWithCode.cs" />
+    <Compile Include="AM\Istu\BookSupply\ObjectWithID.cs" />
+    <Compile Include="AM\Istu\BookSupply\SelectableObject.cs" />
     <Compile Include="AM\Istu\BookSupply\Semester.cs" />
     <Compile Include="AM\Istu\ChooseReaderForm.cs">
       <SubType>Form</SubType>
@@ -146,6 +152,7 @@
     <Compile Include="AM\Istu\ChooseReaderForm.Designer.cs">
       <DependentUpon>ChooseReaderForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AM\Istu\BookSupply\DataAccessLayer.cs" />
     <Compile Include="AM\Istu\IstuDepartment.cs" />
     <Compile Include="AM\Istu\IstuReader.cs" />
     <Compile Include="AM\Istu\OldModel\AttendanceRecord.cs" />
