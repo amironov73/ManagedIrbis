@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System.Diagnostics;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Compiler;
@@ -122,6 +124,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .SingleSpace()
                 .Write('!')
                 .SingleSpace();
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

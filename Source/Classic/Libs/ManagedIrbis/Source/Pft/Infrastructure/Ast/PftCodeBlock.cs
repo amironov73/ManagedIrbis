@@ -62,6 +62,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftCodeBlock
             (
+                [NotNull] string text
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            Text = text;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftCodeBlock
+            (
                 [NotNull] PftToken token
             )
             : base(token)

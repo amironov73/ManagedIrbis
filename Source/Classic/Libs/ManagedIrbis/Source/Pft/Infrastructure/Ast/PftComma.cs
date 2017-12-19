@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System.Diagnostics;
+
 using AM;
 
 using CodeJam;
@@ -144,6 +146,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 printer.EatWhitespace();
                 printer.WriteLine();
             }
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

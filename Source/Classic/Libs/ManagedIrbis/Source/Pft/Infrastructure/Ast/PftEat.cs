@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System.Diagnostics;
+using System.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -93,6 +95,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             printer.Write("[[[");
             base.PrettyPrint(printer);
             printer.Write("]]] ");
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append("[[[");
+            PftUtility.NodesToText(result, Children);
+            result.Append("]]]");
+
+            return result.ToString();
         }
 
         #endregion

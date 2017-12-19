@@ -10,6 +10,7 @@
 #region Using directives
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -394,6 +395,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             writer.Write(IsNumeric);
             writer.WriteNullable(Name);
             Index.Serialize(writer);
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

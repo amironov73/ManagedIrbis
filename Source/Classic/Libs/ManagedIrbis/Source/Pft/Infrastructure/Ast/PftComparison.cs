@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
@@ -722,6 +723,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftSerializer.SerializeNullable(writer, LeftOperand);
             writer.WriteNullable(Operation);
             PftSerializer.SerializeNullable(writer, RightOperand);
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

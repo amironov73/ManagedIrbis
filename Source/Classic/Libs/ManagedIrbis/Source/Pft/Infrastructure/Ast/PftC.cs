@@ -10,6 +10,7 @@
 #region Using directives
 
 using System;
+using System.Diagnostics;
 using System.IO;
 
 using AM;
@@ -111,7 +112,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftSyntaxException(token, exception);
             }
         }
-
 
         #endregion
 
@@ -267,6 +267,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.Serialize(writer);
 
             writer.WritePackedInt32(NewPosition);
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

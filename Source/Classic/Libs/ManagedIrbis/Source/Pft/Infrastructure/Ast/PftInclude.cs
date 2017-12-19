@@ -97,6 +97,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         /// <summary>
+        /// Construction.
+        /// </summary>
+        public PftInclude
+            (
+                [NotNull] string name
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
+
+            Text = name;
+        }
+
+        /// <summary>
         /// Constructor.
         /// </summary>
         public PftInclude
