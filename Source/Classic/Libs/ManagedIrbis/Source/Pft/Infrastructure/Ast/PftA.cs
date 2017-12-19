@@ -330,13 +330,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftSerializer.SerializeNullable(writer, Field);
         }
 
-        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
-        [DebuggerStepThrough]
-        protected internal override bool ShouldSerializeText()
-        {
-            return false;
-        }
-
         /// <inheritdoc cref="PftNode.PrettyPrint" />
         public override void PrettyPrint
             (
@@ -352,6 +345,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 Field.PrettyPrint(printer);
             }
             printer.Write(')');
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

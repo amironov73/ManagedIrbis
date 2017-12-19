@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Diagnostics;
 using System.Text;
 
 using AM.Logging;
@@ -244,6 +245,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     .WriteIndentIfNeeded()
                     .Write(')');
             }
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

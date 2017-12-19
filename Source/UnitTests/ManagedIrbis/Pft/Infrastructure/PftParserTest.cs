@@ -446,6 +446,327 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
+        public void PftParser_F_1()
+        {
+            PftProgram expected = new PftProgram
+            {
+                Children =
+                {
+                    new PftF
+                    {
+                        Argument1 = new PftNumericExpression
+                        {
+                            LeftOperand = new PftNumericLiteral(3),
+                            Operation = "+",
+                            RightOperand = new PftNumericLiteral(0.14)
+                        },
+                        Argument2 = new PftNumericLiteral(10),
+                        Argument3 = new PftNumericLiteral(5)
+                    }
+                }
+            };
+            PftProgram actual = _Parse("f(3+0.14,10,5)");
+            _Compare(expected, actual);
+        }
+
+        [TestMethod]
+        public void PftParser_F_2()
+        {
+            PftProgram expected = new PftProgram
+            {
+                Children =
+                {
+                    new PftF
+                    {
+                        Argument1 = new PftNumericExpression
+                        {
+                            LeftOperand = new PftNumericLiteral(3),
+                            Operation = "+",
+                            RightOperand = new PftNumericLiteral(0.14)
+                        },
+                        Argument2 = new PftNumericLiteral(10)
+                    }
+                }
+            };
+            PftProgram actual = _Parse("f(3+0.14,10)");
+            _Compare(expected, actual);
+        }
+
+        [TestMethod]
+        public void PftParser_F_3()
+        {
+            PftProgram expected = new PftProgram
+            {
+                Children =
+                {
+                    new PftF
+                    {
+                        Argument1 = new PftNumericExpression
+                        {
+                            LeftOperand = new PftNumericLiteral(3),
+                            Operation = "+",
+                            RightOperand = new PftNumericLiteral(0.14)
+                        }
+                    }
+                }
+            };
+            PftProgram actual = _Parse("f(3+0.14)");
+            _Compare(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftException))]
+        public void PftParser_F_3a()
+        {
+            _Parse("f(3+0.14");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSyntaxException))]
+        public void PftParser_F_3b()
+        {
+            _Parse("f(3+0.14,");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSyntaxException))]
+        public void PftParser_F_3c()
+        {
+            _Parse("f(3+0.14,10");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSyntaxException))]
+        public void PftParser_F_3d()
+        {
+            _Parse("f(3+0.14,10,");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSyntaxException))]
+        public void PftParser_F_3e()
+        {
+            _Parse("f(3+0.14,10,5");
+        }
+
+        [TestMethod]
+        public void PftParser_Fmt_1()
+        {
+            PftProgram expected = new PftProgram
+            {
+                Children =
+                {
+                    new PftFmt
+                    {
+                        Number = new PftNumericExpression
+                        {
+                            LeftOperand = new PftNumericLiteral(3),
+                            Operation = "+",
+                            RightOperand = new PftNumericLiteral(0.14)
+                        },
+                        Format =
+                        {
+                            new PftUnconditionalLiteral("F2")
+                        }
+                    }
+                }
+            };
+            PftProgram actual = _Parse("fmt(3+0.14,'F2')");
+            _Compare(expected, actual);
+        }
+
+        [TestMethod]
+        public void PftParser_False_1()
+        {
+            PftProgram expected = new PftProgram
+            {
+                Children =
+                {
+                    new PftConditionalStatement
+                    {
+                        Condition = new PftFalse()
+                    }
+                }
+            };
+            PftProgram actual = _Parse("if false then fi");
+            _Compare(expected, actual);
+        }
+
+        [TestMethod]
+        public void PftParser_First_1()
+        {
+            PftProgram expected = new PftProgram
+            {
+                Children =
+                {
+                    new PftF
+                    {
+                        Argument1 = new PftFirst
+                        {
+                            InnerCondition = new PftComparison
+                            {
+                                LeftOperand = new PftV("v910^a"),
+                                Operation = "=",
+                                RightOperand = new PftUnconditionalLiteral("0")
+                            }
+                        }
+                    }
+                }
+            };
+            PftProgram actual = _Parse("f(first(v910^a='0'))");
+            _Compare(expected, actual);
+        }
+
+        [TestMethod]
+        public void PftParser_Floor_1()
+        {
+            PftProgram expected = new PftProgram
+            {
+                Children =
+                {
+                    new PftF
+                    {
+                        Argument1 = new PftFloor
+                        {
+                            Children = { new PftNumericLiteral(3.14) }
+                        },
+                        Argument2 = new PftNumericLiteral(0),
+                        Argument3 = new PftNumericLiteral(0)
+                    }
+                }
+            };
+            PftProgram actual = _Parse("f(floor(3.14),0,0)");
+            _Compare(expected, actual);
+        }
+
+        [TestMethod]
+        public void PftParser_For_1()
+        {
+            PftProgram expected = new PftProgram
+            {
+                Children =
+                {
+                    new PftFor
+                    {
+                        Initialization =
+                        {
+                            new PftAssignment
+                            {
+                                IsNumeric = true,
+                                Name = "x",
+                                Children = { new PftNumericLiteral(1) }
+                            }
+                        },
+                        Condition = new PftComparison
+                        {
+                            LeftOperand = new PftVariableReference("x"),
+                            Operation = "<",
+                            RightOperand = new PftNumericLiteral(10)
+                        },
+                        Loop =
+                        {
+                            new PftAssignment
+                            {
+                                IsNumeric = true,
+                                Name = "x",
+                                Children =
+                                {
+                                    new PftNumericExpression
+                                    {
+                                        LeftOperand = new PftVariableReference("x"),
+                                        Operation = "+",
+                                        RightOperand = new PftNumericLiteral(1)
+                                    }
+                                }
+                            }
+                        },
+                        Body =
+                        {
+                            new PftUnconditionalLiteral("Hello"),
+                            new PftSlash()
+                        }
+                    }
+                }
+            };
+            PftProgram actual = _Parse("for $x=1; $x < 10; $x = $x + 1; do 'Hello' / end");
+            _Compare(expected, actual);
+        }
+
+        [TestMethod]
+        public void PftParser_Frac_1()
+        {
+            PftProgram expected = new PftProgram
+            {
+                Children =
+                {
+                    new PftF
+                    {
+                        Argument1 = new PftFrac
+                        {
+                            Children = { new PftNumericLiteral(3.14) }
+                        },
+                        Argument2 = new PftNumericLiteral(0),
+                        Argument3 = new PftNumericLiteral(0)
+                    }
+                }
+            };
+            PftProgram actual = _Parse("f(frac(3.14),0,0)");
+            _Compare(expected, actual);
+        }
+
+        [TestMethod]
+        public void PftParser_Group_1()
+        {
+            PftProgram expected = new PftProgram
+            {
+                Children =
+                {
+                    new PftGroup
+                    {
+                        Children =
+                        {
+                            new PftV("v910^b"),
+                            new PftComma(),
+                            new PftSlash()
+                        }
+                    }
+                }
+            };
+            PftProgram actual = _Parse("( v910^b , / )");
+            _Compare(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftException))]
+        public void PftParser_Group_2()
+        {
+            _Parse("( v910^b /");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSyntaxException))]
+        public void PftParser_Group_3()
+        {
+            _Parse("( v910^b ( v910^d / ) / )");
+        }
+
+        [TestMethod]
+        public void PftParser_Hash_1()
+        {
+            PftProgram expected = new PftProgram
+            {
+                Children =
+                {
+                    new PftHash(),
+                    new PftHash(),
+                    new PftHash()
+                }
+            };
+            PftProgram actual = _Parse("###");
+            _Compare(expected, actual);
+        }
+
+        [TestMethod]
         public void PftParser_UnconditionalLiteral_1()
         {
             PftProgram expected = new PftProgram
