@@ -108,10 +108,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftParallelGroup first = _GetNode();
             PftParallelGroup second = (PftParallelGroup)first.Clone();
-            Assert.IsNotNull(second);
-
-            // TODO FIX THIS!
-            //PftSerializationUtility.CompareNodes(first, second);
+            PftSerializationUtility.CompareNodes(first, second);
         }
 
         [TestMethod]
@@ -243,10 +240,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             stream = new MemoryStream(bytes);
             BinaryReader reader = new BinaryReader(stream);
             PftParallelGroup second = (PftParallelGroup) PftSerializer.Deserialize(reader);
-            Assert.IsNotNull(second);
-
-            // TODO FIX THIS!
-            //PftSerializationUtility.CompareNodes(first, second);
+            PftSerializationUtility.CompareNodes(first, second);
         }
 
         [TestMethod]

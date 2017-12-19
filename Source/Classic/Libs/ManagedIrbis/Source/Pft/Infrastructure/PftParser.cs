@@ -79,12 +79,12 @@ namespace ManagedIrbis.Pft.Infrastructure
             Tokens.RequireNext(PftTokenKind.LeftParenthesis);
             Tokens.RequireNext(PftTokenKind.V);
             PftField field = ParseField();
-            if (ReferenceEquals(field, null))
+            if (field.Command != 'v' && field.Command != 'g')
             {
                 Log.Error
                     (
                         "PftParser::ParseA: "
-                        + "field not specified"
+                        + "bad field specified"
                     );
 
                 throw new PftSyntaxException(Tokens.Current);

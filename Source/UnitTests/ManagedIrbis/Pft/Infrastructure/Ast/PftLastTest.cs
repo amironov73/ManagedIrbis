@@ -118,10 +118,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftLast first = _GetNode();
             PftLast second = (PftLast)first.Clone();
-            Assert.IsNotNull(second);
-
-            // TODO FIX THIS!
-            //PftSerializationUtility.CompareNodes(first, second);
+            PftSerializationUtility.CompareNodes(first, second);
         }
 
         [TestMethod]
@@ -215,10 +212,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             stream = new MemoryStream(bytes);
             BinaryReader reader = new BinaryReader(stream);
             PftLast second = (PftLast) PftSerializer.Deserialize(reader);
-            Assert.IsNotNull(second);
-
-            // TODO FIX THIS!
-            //PftSerializationUtility.CompareNodes(first, second);
+            PftSerializationUtility.CompareNodes(first, second);
         }
 
         [TestMethod]

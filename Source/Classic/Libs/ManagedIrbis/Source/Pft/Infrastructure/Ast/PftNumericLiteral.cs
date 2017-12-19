@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Diagnostics;
 using System.Globalization;
 
 using AM;
@@ -134,6 +135,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             printer.Write(Value.ToInvariantString());
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

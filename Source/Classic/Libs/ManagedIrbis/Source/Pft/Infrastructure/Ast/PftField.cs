@@ -514,12 +514,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 || Tag != otherField.Tag
                 || TagSpecification != otherField.TagSpecification
                 || RepeatCount != otherField.RepeatCount
-                || IndexSpecification.Compare
+                || !IndexSpecification.Compare
                     (
                         FieldRepeat,
                         otherField.FieldRepeat
                     )
-                || IndexSpecification.Compare
+                || !IndexSpecification.Compare
                     (
                         SubFieldRepeat,
                         otherField.SubFieldRepeat

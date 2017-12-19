@@ -193,12 +193,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                     otherNode.GetType()
                 );
 
-            if (result)
-            {
-                result = Column == otherNode.Column
-                          && LineNumber == otherNode.LineNumber;
-
-            }
+            //if (result)
+            //{
+            //    result = Column == otherNode.Column
+            //              && LineNumber == otherNode.LineNumber;
+            //}
 
             if (result && ShouldSerializeText())
             {

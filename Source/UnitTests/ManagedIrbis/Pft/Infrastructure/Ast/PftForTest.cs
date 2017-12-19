@@ -159,7 +159,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         public void PftFor_Clone_1()
         {
             PftFor first = new PftFor();
-            PftFor second = (PftFor) first.Clone();
+            PftFor second = (PftFor)first.Clone();
             PftSerializationUtility.CompareNodes(first, second);
         }
 
@@ -168,17 +168,14 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftFor first = _GetNode();
             PftFor second = (PftFor)first.Clone();
-            Assert.IsNotNull(second);
-
-            // TODO FIX THIS!
             PftSerializationUtility.CompareNodes(first, second);
         }
 
         [TestMethod]
         public void PftFor_Execute_1()
         {
-           MarcRecord record = _GetRecord();
-           PftFor node = _GetNode();
+            MarcRecord record = _GetRecord();
+            PftFor node = _GetNode();
             _Execute
                 (
                     record,
@@ -190,14 +187,119 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [TestMethod]
         public void PftFor_Execute_2()
         {
-           MarcRecord record = _GetRecord();
-           PftFor node = _GetNode();
+            MarcRecord record = _GetRecord();
+            PftFor node = _GetNode();
             node.Body.Add(new PftBreak());
             _Execute
                 (
                     record,
                     node,
                     "Строка 1\n"
+                );
+        }
+
+        [TestMethod]
+        public void PftFor_Execute_3()
+        {
+            // Вложенные циклы
+
+            string outer = "i", inner = "j";
+            MarcRecord record = _GetRecord();
+            PftFor node = new PftFor
+            {
+                Initialization =
+                {
+                    new PftAssignment
+                    {
+                        IsNumeric = true,
+                        Name = outer,
+                        Children =
+                        {
+                            new PftNumericLiteral(1)
+                        }
+                    }
+                },
+                Condition = new PftComparison
+                {
+                    LeftOperand = new PftVariableReference(outer),
+                    Operation = "<=",
+                    RightOperand = new PftNumericLiteral(3)
+                },
+                Loop =
+                {
+                    new PftAssignment
+                    {
+                        IsNumeric = true,
+                        Name = outer,
+                        Children =
+                        {
+                            new PftNumericExpression
+                            {
+                                LeftOperand = new PftVariableReference(outer),
+                                Operation = "+",
+                                RightOperand = new PftNumericLiteral(1)
+                            }
+                        }
+                    }
+                },
+                Body =
+                {
+                    new PftFor
+                    {
+                        Initialization =
+                        {
+                            new PftAssignment
+                            {
+                                IsNumeric = true,
+                                Name = inner,
+                                Children =
+                                {
+                                    new PftNumericLiteral(1)
+                                }
+                            }
+                        },
+                        Condition = new PftComparison
+                        {
+                            LeftOperand = new PftVariableReference(inner),
+                            Operation = "<=",
+                            RightOperand = new PftNumericLiteral(3)
+                        },
+                        Loop =
+                        {
+                            new PftAssignment
+                            {
+                                IsNumeric = true,
+                                Name = inner,
+                                Children =
+                                {
+                                    new PftNumericExpression
+                                    {
+                                        LeftOperand = new PftVariableReference(inner),
+                                        Operation = "+",
+                                        RightOperand = new PftNumericLiteral(1)
+                                    }
+                                }
+                            }
+                        },
+                        Body =
+                        {
+                            new PftVariableReference(outer),
+                            new PftUnconditionalLiteral("=>"),
+                            new PftVariableReference(inner),
+                            new PftSlash()
+                        }
+                    },
+                    new PftUnconditionalLiteral("=================="),
+                    new PftSlash()
+                }
+            };
+            _Execute
+                (
+                    record,
+                    node,
+                    "1=>1\n1=>2\n1=>3\n==================\n" +
+                    "2=>1\n2=>2\n2=>3\n==================\n" +
+                    "3=>1\n3=>2\n3=>3\n==================\n"
                 );
         }
 
@@ -231,10 +333,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             byte[] bytes = stream.ToArray();
             stream = new MemoryStream(bytes);
             BinaryReader reader = new BinaryReader(stream);
-            PftFor second = (PftFor) PftSerializer.Deserialize(reader);
-            Assert.IsNotNull(second);
-
-            // TODO FIX THIS!
+            PftFor second = (PftFor)PftSerializer.Deserialize(reader);
             PftSerializationUtility.CompareNodes(first, second);
         }
 

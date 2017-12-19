@@ -117,10 +117,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftAny first = _GetNode();
             PftAny second = (PftAny)first.Clone();
-            Assert.IsNotNull(second);
-
-            // TODO FIX THIS!
-            //PftSerializationUtility.CompareNodes(first, second);
+            PftSerializationUtility.CompareNodes(first, second);
         }
 
         [TestMethod]
@@ -157,7 +154,6 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [ExpectedException(typeof(PftSemanticException))]
         public void PftAny_Execute_3()
         {
-            MarcRecord record = _GetRecord();
             PftAny node = _GetNode();
             PftContext context = new PftContext(null)
             {
@@ -213,10 +209,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             stream = new MemoryStream(bytes);
             BinaryReader reader = new BinaryReader(stream);
             PftAny second = (PftAny) PftSerializer.Deserialize(reader);
-            Assert.IsNotNull(second);
-
-            // TODO FIX THIS!
-            //PftSerializationUtility.CompareNodes(first, second);
+            PftSerializationUtility.CompareNodes(first, second);
         }
 
         [TestMethod]

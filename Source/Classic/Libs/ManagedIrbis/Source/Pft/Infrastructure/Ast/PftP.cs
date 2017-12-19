@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
@@ -267,7 +268,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftSerializationUtility.CompareNodes
                 (
                     Field,
-                    ((PftA)otherNode).Field
+                    ((PftP)otherNode).Field
                 );
         }
 
@@ -502,6 +503,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 Field.PrettyPrint(printer);
             }
             printer.Write(')');
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

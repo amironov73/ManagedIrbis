@@ -38,6 +38,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
     partial class PftParser
     {
+        [NotNull]
         private PftField ParseField()
         {
             List<PftNode> leftHand = new List<PftNode>();
