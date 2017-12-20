@@ -750,7 +750,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
             Log.Trace("PftContext::Dispose");
@@ -762,12 +762,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" /> 
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return Output.ToString();

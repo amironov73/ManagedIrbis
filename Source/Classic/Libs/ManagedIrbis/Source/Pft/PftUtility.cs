@@ -183,9 +183,28 @@ namespace ManagedIrbis.Pft
             }
 
             RecordField[] fields = record.Fields.GetField(tag);
-            string[] lines = value.SplitLines()
-                .NonEmptyLines()
-                .ToArray();
+
+            if (string.IsNullOrEmpty(value))
+            {
+                if (index.Kind == IndexKind.None
+                    || index.Kind == IndexKind.AllRepeats)
+                {
+                    record.RemoveField(tag);
+                }
+                else
+                {
+                    int i = index.ComputeValue(context, fields);
+
+                    if (i >= 0 && i < fields.Length)
+                    {
+                        record.Fields.Remove(fields[i]);
+                    }
+                }
+
+                return;
+            }
+
+            string[] lines = value.SplitLines().NonEmptyLines().ToArray();
             List<RecordField> newFields = new List<RecordField>();
             foreach (string line in lines)
             {
@@ -270,6 +289,14 @@ namespace ManagedIrbis.Pft
             }
 
             RecordField[] fields = record.Fields.GetField(tag);
+
+            if (ReferenceEquals(value, null))
+            {
+                // TODO implement properly
+
+                return;
+            }
+
             if (fieldIndex.Kind != IndexKind.None)
             {
                 int i = fieldIndex.ComputeValue(context, fields);
@@ -1068,11 +1095,9 @@ namespace ManagedIrbis.Pft
                     fieldIndex
                 );
 
-            string[] result = fields
-                .Select
+            string[] result = fields.Select
                 (
-                    subField => subField
-                        .GetFirstSubFieldValue(code)
+                    subField => subField.GetFirstSubFieldValue(code)
                                 ?? string.Empty
                 )
                 .ToArray();
@@ -1403,6 +1428,13 @@ namespace ManagedIrbis.Pft
             if (index.Kind == IndexKind.None)
             {
                 array = new[] { value };
+            }
+            else if (index.Kind == IndexKind.AllRepeats)
+            {
+                for (int i = 0; i < array.Length; i++)
+                {
+                    array[i] = value;
+                }
             }
             else
             {

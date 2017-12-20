@@ -50,6 +50,22 @@ namespace UnitTests.ManagedIrbis.Pft
         }
 
         [TestMethod]
+        public void PftUtility_AssignField_1()
+        {
+            MarcRecord record = _GetRecord();
+            PftContext context = new PftContext(null)
+            {
+                Record = record
+            };
+
+            PftUtility.AssignField(context, 300, 1, null);
+            string[] actual = record.FMA(300);
+            Assert.AreEqual(2, actual.Length);
+            Assert.AreEqual("Второе примечание", actual[0]);
+            Assert.AreEqual("Третье примечание", actual[1]);
+        }
+
+        [TestMethod]
         public void PftUtility_GetFieldCount_1()
         {
             MarcRecord record = _GetRecord();
@@ -247,6 +263,39 @@ namespace UnitTests.ManagedIrbis.Pft
             int[] result = PftUtility.SetArrayItem(context, array, index, value);
             Assert.AreEqual(1, result.Length);
             Assert.AreEqual(value, result[0]);
+        }
+
+        [TestMethod]
+        public void PftUtility_SetArrayItem_4()
+        {
+            PftContext context = new PftContext(null);
+            int[] array = { 1, 2, 3, 4 };
+            IndexSpecification index = new IndexSpecification()
+            {
+                Kind = IndexKind.AllRepeats
+            };
+            int value = 123;
+            int[] result = PftUtility.SetArrayItem(context, array, index, value);
+            Assert.AreEqual(4, result.Length);
+            Assert.AreEqual(value, result[0]);
+            Assert.AreEqual(value, result[1]);
+            Assert.AreEqual(value, result[2]);
+            Assert.AreEqual(value, result[3]);
+        }
+
+        [TestMethod]
+        public void PftUtility_SetArrayItem_5()
+        {
+            PftContext context = new PftContext(null);
+            int[] array = { 1, 2, 3, 4 };
+            IndexSpecification index = new IndexSpecification()
+            {
+                Kind = IndexKind.NewRepeat
+            };
+            int value = 123;
+            int[] result = PftUtility.SetArrayItem(context, array, index, value);
+            Assert.AreEqual(5, result.Length);
+            Assert.AreEqual(value, result[4]);
         }
     }
 }

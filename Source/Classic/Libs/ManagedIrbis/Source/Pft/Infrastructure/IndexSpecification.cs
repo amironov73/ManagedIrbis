@@ -194,6 +194,32 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Get "all repeats" value.
+        /// </summary>
+        public static IndexSpecification GetAll()
+        {
+            return new IndexSpecification
+            {
+                Kind = IndexKind.AllRepeats
+            };
+        }
+
+        /// <summary>
+        /// Get literal value.
+        /// </summary>
+        public static IndexSpecification GetLiteral
+            (
+                int i
+            )
+        {
+            return new IndexSpecification
+            {
+                Kind = IndexKind.Literal,
+                Literal = i
+            };
+        }
+
+        /// <summary>
         /// Get node info for debugger visualization.
         /// </summary>
         [NotNull]
@@ -289,6 +315,21 @@ namespace ManagedIrbis.Pft.Infrastructure
             result.Append(']');
 
             return StringBuilderCache.GetStringAndRelease(result);
+        }
+
+        #endregion
+
+        #region Operators
+
+        /// <summary>
+        /// Implicit conversion.
+        /// </summary>
+        public static implicit operator IndexSpecification
+            (
+                int i
+            )
+        {
+            return GetLiteral(i);
         }
 
         #endregion
