@@ -35,10 +35,6 @@ namespace ManagedIrbis.Pft
     public class PftFormatter
         : IPftFormatter
     {
-        #region Events
-
-        #endregion
-
         #region Properties
 
         /// <inheritdoc cref="IPftFormatter.SupportsExtendedSyntax" />

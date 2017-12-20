@@ -9,19 +9,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.IO;
 using AM.Logging;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -77,14 +65,6 @@ namespace ManagedIrbis.Pft
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region PftFormatter members
 
         /// <inheritdoc cref="PftFormatter.ParseProgram" />
@@ -110,10 +90,6 @@ namespace ManagedIrbis.Pft
 
             base.ParseProgram(prepared);
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

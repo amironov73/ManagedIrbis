@@ -933,9 +933,6 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ParFile.cs">
       <Link>Source\ParFile.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\FormatError.cs">
-      <Link>Source\Pft\FormatError.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftA.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftA.cs</Link>
     </Compile>

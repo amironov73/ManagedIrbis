@@ -650,6 +650,8 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforYTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforZTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\VirtualChildrenTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\PftFormatterTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\PftHtmlFormatterTest.cs" />
     <Compile Include="ManagedIrbis\Pft\PftNotConnectedExceptionTest.cs" />
     <Compile Include="ManagedIrbis\Pft\PftSemanticExceptionTest.cs" />
     <Compile Include="ManagedIrbis\Pft\PftSyntaxExceptionTest.cs" />

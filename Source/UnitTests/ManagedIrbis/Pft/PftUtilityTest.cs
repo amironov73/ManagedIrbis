@@ -1,15 +1,19 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.ManagedIrbis.Pft
 {
     [TestClass]
     public class PftUtilityTest
     {
+        [NotNull]
         private MarcRecord _GetRecord()
         {
             MarcRecord result = new MarcRecord();

@@ -19,15 +19,12 @@ namespace ManagedIrbis.Pft
 {
     /// <summary>
     /// Format error codes.
+    /// Not used at this moment.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public static class FormatError
     {
-        #region Constants
-
-        #endregion
-
         #region Nested classes
 
         class Pair

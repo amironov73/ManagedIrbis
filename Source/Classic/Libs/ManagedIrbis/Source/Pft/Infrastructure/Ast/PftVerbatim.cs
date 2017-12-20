@@ -69,6 +69,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftVerbatim
             (
+                [NotNull] string text
+            )
+        {
+            Code.NotNull(text, "text");
+
+            Text = text;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftVerbatim
+            (
                 [NotNull] PftToken token
             )
             : base(token)
@@ -81,10 +94,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     token.Text.ThrowIfNull("token.Text")
                 );
         }
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
