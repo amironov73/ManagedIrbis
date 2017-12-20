@@ -9,11 +9,15 @@
 
 #region Using directives
 
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -75,14 +79,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region PftNode members
 
         /// <inheritdoc cref="PftNode.Execute" />
@@ -93,17 +89,41 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            using (PftContextGuard guard = new PftContextGuard(context))
+            MarcRecord mainRecord = context.Record;
+            MarcRecord alternativeRecord = context.AlternativeRecord;
+
+            try
             {
-                PftContext copy = guard.ChildContext;
-                copy.Output = context.Output;
-                MarcRecord temp = copy.Record;
-                copy.Record = copy.AlternativeRecord;
-                copy.AlternativeRecord = temp;
-                copy.Execute(Children);
+                context.Record = alternativeRecord;
+                context.AlternativeRecord = mainRecord;
+                context.Execute(Children);
+            }
+            finally
+            {
+                context.Record = mainRecord;
+                context.AlternativeRecord = alternativeRecord;
             }
 
             OnAfterExecution(context);
+        }
+
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.Write("{");
+            base.PrettyPrint(printer);
+            printer.Write("} ");
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        [ExcludeFromCodeCoverage]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion
@@ -115,16 +135,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             StringBuilder result = new StringBuilder();
             result.Append('{');
-            bool first = true;
-            foreach (PftNode child in Children)
-            {
-                if (!first)
-                {
-                    result.Append(' ');
-                }
-                result.Append(child);
-                first = false;
-            }
+            PftUtility.NodesToText(result, Children);
             result.Append('}');
 
             return result.ToString();
