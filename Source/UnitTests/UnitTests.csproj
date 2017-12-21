@@ -581,6 +581,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftValTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftVariableReferenceTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftVerbatimTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftVTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftWhileTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftWithTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftXTest.cs" />

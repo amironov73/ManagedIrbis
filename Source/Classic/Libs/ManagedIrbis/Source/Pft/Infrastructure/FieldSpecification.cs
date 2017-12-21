@@ -147,6 +147,34 @@ namespace ManagedIrbis.Pft.Infrastructure
             }
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public FieldSpecification
+            (
+                int tag,
+                char code
+            )
+        {
+            Code.Positive(tag, "tag");
+
+            Tag = tag;
+            SubField = code;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public FieldSpecification
+            (
+                int tag
+            )
+        {
+            Code.Positive(tag, "tag");
+
+            Tag = tag;
+        }
+
         #endregion
 
         #region Private members

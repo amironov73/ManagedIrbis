@@ -92,6 +92,38 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftRepeatableLiteral
             (
+                [NotNull] string text,
+                bool isPrefix,
+                bool plus
+            )
+        {
+            Code.NotNull(text, "text");
+
+            Text = text;
+            IsPrefix = isPrefix;
+            Plus = plus;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftRepeatableLiteral
+            (
+                [NotNull] string text,
+                bool isPrefix
+            )
+        {
+            Code.NotNull(text, "text");
+
+            Text = text;
+            IsPrefix = isPrefix;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftRepeatableLiteral
+            (
                 [NotNull] PftToken token
             )
             : base(token)

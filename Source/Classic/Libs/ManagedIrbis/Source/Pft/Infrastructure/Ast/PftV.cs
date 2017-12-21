@@ -87,6 +87,41 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Apply(specification);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftV
+            (
+                int tag,
+                char code
+            )
+        {
+            Code.Positive(tag, "tag");
+
+            FieldSpecification specification = new FieldSpecification(tag, code)
+                {
+                    Command = 'v'
+                };
+            Apply(specification);
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftV
+            (
+                int tag
+            )
+        {
+            Code.Positive(tag, "tag");
+
+            FieldSpecification specification = new FieldSpecification(tag)
+            {
+                Command = 'v'
+            };
+            Apply(specification);
+        }
+
         #endregion
 
         #region Private members
@@ -143,7 +178,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(context, "context");
 
             MarcRecord record = context.Record;
-            if (record == null
+            if (ReferenceEquals(record, null)
                 || string.IsNullOrEmpty(Tag))
             {
                 return 0;
