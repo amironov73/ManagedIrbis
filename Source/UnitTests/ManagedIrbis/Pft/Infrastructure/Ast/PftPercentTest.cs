@@ -17,10 +17,10 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
     public class PftPercentTest
     {
         private void _Execute
-        (
-            [NotNull] PftPercent node,
-            [NotNull] string expected
-        )
+            (
+                [NotNull] PftNode node,
+                [NotNull] string expected
+            )
         {
             PftContext context = new PftContext(null);
             node.Execute(context);
@@ -49,10 +49,60 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
+        public void PftPercent_Compile_1()
+        {
+            PftPercent node = new PftPercent();
+            NullProvider provider = new NullProvider();
+            PftCompiler compiler = new PftCompiler();
+            compiler.SetProvider(provider);
+            PftProgram program = new PftProgram();
+            program.Children.Add(node);
+            compiler.CompileProgram(program);
+        }
+
+        [TestMethod]
         public void PftPercent_Execute_1()
         {
             PftPercent node = new PftPercent();
             _Execute(node, "\n");
+        }
+
+        [TestMethod]
+        public void PftPercent_Execute_2()
+        {
+            PftProgram node = new PftProgram
+            {
+                Children =
+                {
+                    new PftPercent(),
+                    new PftPercent()
+                }
+            };
+            _Execute(node, "\n");
+        }
+
+        [TestMethod]
+        public void PftPercent_Execute_3()
+        {
+            PftProgram node = new PftProgram
+            {
+                Children =
+                {
+                    new PftPercent(),
+                    new PftPercent(),
+                    new PftPercent()
+                }
+            };
+            _Execute(node, "\n");
+        }
+
+        [TestMethod]
+        public void PftPercent_PrettyPrint_1()
+        {
+            PftPercent node = new PftPercent();
+            PftPrettyPrinter printer = new PftPrettyPrinter();
+            node.PrettyPrint(printer);
+            Assert.AreEqual("% ", printer.ToString());
         }
 
         [TestMethod]

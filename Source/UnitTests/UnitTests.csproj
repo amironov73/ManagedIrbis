@@ -558,6 +558,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftNlTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftNTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftNumericExpressionTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftNumericLiteralTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftOrphanTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftParallelForEachTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftParallelForTest.cs" />

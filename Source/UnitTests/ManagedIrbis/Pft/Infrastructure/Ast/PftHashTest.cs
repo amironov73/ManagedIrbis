@@ -18,7 +18,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
     {
         private void _Execute
         (
-            [NotNull] PftHash node,
+            [NotNull] PftNode node,
             [NotNull] string expected
         )
         {
@@ -34,6 +34,8 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             PftHash node = new PftHash();
             Assert.IsTrue(node.ConstantExpression);
             Assert.IsFalse(node.RequiresConnection);
+            Assert.IsFalse(node.ComplexExpression);
+            Assert.IsFalse(node.ExtendedSyntax);
         }
 
         [TestMethod]
@@ -43,9 +45,23 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             PftHash node = new PftHash(token);
             Assert.IsTrue(node.ConstantExpression);
             Assert.IsFalse(node.RequiresConnection);
+            Assert.IsFalse(node.ComplexExpression);
+            Assert.IsFalse(node.ExtendedSyntax);
             Assert.AreEqual(token.Column, node.Column);
             Assert.AreEqual(token.Line, node.LineNumber);
             Assert.AreEqual(token.Text, node.Text);
+        }
+
+        [TestMethod]
+        public void PftHash_Compile_1()
+        {
+            PftHash node = new PftHash();
+            NullProvider provider = new NullProvider();
+            PftCompiler compiler = new PftCompiler();
+            compiler.SetProvider(provider);
+            PftProgram program = new PftProgram();
+            program.Children.Add(node);
+            compiler.CompileProgram(program);
         }
 
         [TestMethod]
@@ -53,6 +69,44 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftHash node = new PftHash();
             _Execute(node, "\n");
+        }
+
+        [TestMethod]
+        public void PftHash_Execute_2()
+        {
+            PftProgram node = new PftProgram
+            {
+                Children =
+                {
+                    new PftHash(),
+                    new PftHash()
+                }
+            };
+            _Execute(node, "\n\n");
+        }
+
+        [TestMethod]
+        public void PftHash_Execute_3()
+        {
+            PftProgram node = new PftProgram
+            {
+                Children =
+                {
+                    new PftHash(),
+                    new PftHash(),
+                    new PftHash()
+                }
+            };
+            _Execute(node, "\n\n\n");
+        }
+
+        [TestMethod]
+        public void PftHash_PrettyPrint_1()
+        {
+            PftHash node = new PftHash();
+            PftPrettyPrinter printer = new PftPrettyPrinter();
+            node.PrettyPrint(printer);
+            Assert.AreEqual("# ", printer.ToString());
         }
 
         [TestMethod]

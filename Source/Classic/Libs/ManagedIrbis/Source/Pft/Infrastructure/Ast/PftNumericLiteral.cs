@@ -11,6 +11,7 @@
 
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 
 using AM;
 
@@ -20,6 +21,8 @@ using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
+
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 #endregion
 
@@ -87,14 +90,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region PftNode members
 
         /// <inheritdoc cref="PftNode.Compile" />
@@ -113,6 +108,31 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler.EndMethod(this);
             compiler.MarkReady(this);
+        }
+
+        /// <inheritdoc cref="PftNode.CompareNode"/>
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftNumericLiteral otherLiteral = (PftNumericLiteral) otherNode;
+            if (Value != otherLiteral.Value)
+            {
+                throw new IrbisException();
+            }
+        }
+
+        /// <inheritdoc cref="PftNode.Deserialize" />
+        protected internal override void Deserialize
+            (
+                BinaryReader reader
+            )
+        {
+            base.Deserialize(reader);
+            Value = reader.ReadDouble();
         }
 
         /// <inheritdoc cref="PftNumeric.Execute" />
@@ -135,6 +155,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             printer.Write(Value.ToInvariantString());
+        }
+
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
+            (
+                BinaryWriter writer
+            )
+        {
+            base.Serialize(writer);
+            writer.Write(Value);
         }
 
         /// <inheritdoc cref="PftNode.ShouldSerializeText" />
