@@ -91,6 +91,38 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 );
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftG
+            (
+                int number
+            )
+        {
+            Code.Positive(number, "number");
+
+            Command = 'g';
+            Number = number;
+            Tag = number.ToInvariantString();
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftG
+            (
+                int number,
+                char subField
+            )
+        {
+            Code.Positive(number, "number");
+
+            Command = 'g';
+            Number = number;
+            Tag = number.ToInvariantString();
+            SubField = subField;
+        }
+
         #endregion
 
         #region Private members

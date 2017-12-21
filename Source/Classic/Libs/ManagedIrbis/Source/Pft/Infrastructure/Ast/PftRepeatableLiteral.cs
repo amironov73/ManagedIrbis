@@ -11,6 +11,7 @@
 
 using System;
 using System.IO;
+using System.Text;
 
 using AM;
 using AM.Logging;
@@ -268,9 +269,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 PftPrettyPrinter printer
             )
         {
+            if (!IsPrefix && Plus)
+            {
+                printer.Write('+');
+            }
             printer.Write('|');
             printer.Write(Text);
             printer.Write('|');
+            if (IsPrefix && Plus)
+            {
+                printer.Write('+');
+            }
         }
 
         #endregion
@@ -280,7 +289,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            return '|' + Text + '|';
+            StringBuilder result = new StringBuilder();
+            if (!IsPrefix && Plus)
+            {
+                result.Append('+');
+            }
+            result.Append('|');
+            result.Append(Text);
+            result.Append('|');
+            if (IsPrefix && Plus)
+            {
+                result.Append('+');
+            }
+
+            return result.ToString();
         }
 
         #endregion
