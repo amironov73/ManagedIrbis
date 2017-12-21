@@ -32,6 +32,9 @@ namespace AM
     {
         #region Delegates
 
+        /// <summary>
+        /// ???
+        /// </summary>
         public delegate void RemoveDelegate(EventHandler handler);
 
         #endregion
