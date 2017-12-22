@@ -34,10 +34,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     public sealed class PftMinus
         : PftNumeric
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -59,14 +55,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.Minus);
         }
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -152,16 +140,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             StringBuilder result = new StringBuilder();
             result.Append("-(");
-            bool first = true;
-            foreach (PftNode child in Children)
-            {
-                if (!first)
-                {
-                    result.Append(' ');
-                }
-                result.Append(child);
-                first = false;
-            }
+            PftUtility.NodesToText(result, Children);
             result.Append(')');
 
             return result.ToString();

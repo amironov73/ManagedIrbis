@@ -126,7 +126,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftRsum_PrettyPrint_1()
+        public void PftPow_PrettyPrint_1()
         {
             PftPow node = _GetNode();
             PftPrettyPrinter printer = new PftPrettyPrinter();

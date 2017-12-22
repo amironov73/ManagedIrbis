@@ -11,8 +11,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
+
 using AM;
 using AM.Logging;
 using AM.IO;
@@ -82,6 +85,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -131,7 +135,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <summary>
         /// Do the operation.
         /// </summary>
-        public double DoOperation
+        public static double DoOperation
             (
                 [NotNull] PftContext context,
                 double leftValue,
@@ -189,7 +193,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                             + operation
                         );
 
-                    throw new PftSyntaxException(this);
+                    throw new PftSyntaxException();
             }
 
             return result;
@@ -460,6 +464,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftSerializer.SerializeNullable(writer, LeftOperand);
             writer.WriteNullable(Operation);
             PftSerializer.SerializeNullable(writer, RightOperand);
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion
