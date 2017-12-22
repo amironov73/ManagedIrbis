@@ -11,6 +11,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -77,6 +79,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -317,7 +320,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .SingleSpace()
                 .Write(Name)
                 .Write('(')
-                .WriteNodes(Arguments)
+                .WriteNodes(", ", Arguments)
                 .Write(')');
         }
 
@@ -333,6 +336,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftSerializer.Serialize(writer, Arguments);
         }
 
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
+        }
+
         #endregion
 
         #region Object members
@@ -343,7 +353,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             StringBuilder result = new StringBuilder();
             result.Append(Name);
             result.Append('(');
-            PftUtility.NodesToText(result, Arguments);
+            PftUtility.NodesToText(",", result, Arguments);
             result.Append(')');
 
             return result.ToString();

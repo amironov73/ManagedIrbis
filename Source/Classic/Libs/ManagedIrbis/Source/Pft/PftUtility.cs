@@ -1243,6 +1243,33 @@ namespace ManagedIrbis.Pft
         //=================================================
 
         /// <summary>
+        /// Build text representation of <see cref="PftNode"/>'s.
+        /// </summary>
+        public static void NodesToText
+            (
+                [NotNull] string delimiter,
+                [NotNull] StringBuilder builder,
+                [NotNull] IEnumerable<PftNode> nodes
+            )
+        {
+            Code.NotNull(builder, "builder");
+            Code.NotNull(nodes, "nodes");
+
+            bool first = true;
+            foreach (PftNode node in nodes.NonNullItems())
+            {
+                if (!first)
+                {
+                    builder.Append(delimiter);
+                }
+                builder.Append(node);
+                first = false;
+            }
+        }
+
+        //=================================================
+
+        /// <summary>
         /// Parse the field.
         /// </summary>
         [NotNull]

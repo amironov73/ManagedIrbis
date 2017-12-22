@@ -412,7 +412,11 @@ namespace AM.Text
                     string hex = match.Groups[3].Value;
                     string character = match.Groups[4].Value;
                     string brace = match.Groups[5].Value;
-                    string tchar = match.Groups[6].Value;
+                    //ibatrak после ввода символов перевода строки в группу, сменился номер
+                    //string tchar = match.Groups[6].Value;
+                    //ibatrak символы перевода строки
+                    string newline = match.Groups[6].Value;
+                    string tchar = match.Groups[7].Value;
 
                     if (!string.IsNullOrEmpty(brace))
                     {
@@ -532,6 +536,11 @@ namespace AM.Text
                         {
                             outList.Add(tchar);
                         }
+                    }
+                    //ibatrak добавляем символы перевода строки в вывод
+                    if (!string.IsNullOrEmpty(newline))
+                    {
+                        outList.Add(newline);
                     }
                 }
             }

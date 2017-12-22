@@ -1,11 +1,16 @@
-﻿using AM.Text;
+﻿using System.IO;
+using AM.Text;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
+using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 using ManagedIrbis.Pft.Infrastructure.Compiler;
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,6 +20,17 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
     [TestClass]
     public class PftFunctionCallTest
     {
+        [NotNull]
+        private PftFunctionCall _GetNode()
+        {
+            PftFunctionCall result = new PftFunctionCall("replace");
+            result.Arguments.Add(new PftUnconditionalLiteral("Happy New Year!"));
+            result.Arguments.Add(new PftUnconditionalLiteral("New Year"));
+            result.Arguments.Add(new PftUnconditionalLiteral("Birthday"));
+
+            return result;
+        }
+
         [NotNull]
         private PftProgram _GetProgram
             (
@@ -59,32 +75,102 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             Assert.IsNotNull(node.Arguments);
             Assert.AreEqual(0, node.Arguments.Count);
             Assert.IsTrue(node.ExtendedSyntax);
+            Assert.IsNotNull(node.Children);
+            Assert.AreEqual(0, node.Children.Count);
         }
 
         [TestMethod]
         public void PftFunctionCall_Construction_2()
         {
-            PftToken token = new PftToken(PftTokenKind.Identifier, 1, 1, "name");
+            string name = "name";
+            PftToken token = new PftToken(PftTokenKind.Identifier, 1, 1, name);
             PftFunctionCall node = new PftFunctionCall(token);
-            Assert.AreEqual("name", node.Name);
+            Assert.AreEqual(name, node.Name);
             Assert.IsNotNull(node.Arguments);
             Assert.AreEqual(0, node.Arguments.Count);
             Assert.IsTrue(node.ExtendedSyntax);
+            Assert.IsNotNull(node.Children);
+            Assert.AreEqual(0, node.Children.Count);
         }
 
         [TestMethod]
         public void PftFunctionCall_Construction_3()
         {
-            const string name = "name";
+            string name = "name";
             PftFunctionCall node = new PftFunctionCall(name);
             Assert.AreEqual(name, node.Name);
             Assert.IsNotNull(node.Arguments);
             Assert.AreEqual(0, node.Arguments.Count);
             Assert.IsTrue(node.ExtendedSyntax);
+            Assert.IsNotNull(node.Children);
+            Assert.AreEqual(0, node.Children.Count);
         }
 
         [TestMethod]
-        public void PftFunctionCall_bold_1()
+        public void PftFunctionCall_Clone_1()
+        {
+            PftFunctionCall first = new PftFunctionCall();
+            PftFunctionCall second = (PftFunctionCall) first.Clone();
+            PftSerializationUtility.CompareNodes(first, second);
+        }
+
+        [TestMethod]
+        public void PftFunctionCall_Clone_2()
+        {
+            PftFunctionCall first = _GetNode();
+            PftFunctionCall second = (PftFunctionCall) first.Clone();
+            PftSerializationUtility.CompareNodes(first, second);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSerializationException))]
+        public void PftFunctionCall_Clone_3()
+        {
+            PftFunctionCall first = _GetNode();
+            PftFunctionCall second = (PftFunctionCall) first.Clone();
+            second.Name = "qqq";
+            PftSerializationUtility.CompareNodes(first, second);
+        }
+
+        private void _TestCompile
+            (
+                [NotNull] PftFunctionCall node
+            )
+        {
+            NullProvider provider = new NullProvider();
+            PftCompiler compiler = new PftCompiler();
+            compiler.SetProvider(provider);
+            PftProgram program = new PftProgram();
+            program.Children.Add(node);
+            compiler.CompileProgram(program);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftCompilerException))]
+        public void PftFunctionCall_Compile_1()
+        {
+            PftFunctionCall node = new PftFunctionCall();
+            _TestCompile(node);
+        }
+
+        [TestMethod]
+        public void PftFunctionCall_Compile_2()
+        {
+            PftFunctionCall node = _GetNode();
+            _TestCompile(node);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSyntaxException))]
+        public void PftFunctionCall_Execute_1()
+        {
+            PftFunctionCall node = new PftFunctionCall();
+            PftContext context = new PftContext(null);
+            node.Execute(context);
+        }
+
+        [TestMethod]
+        public void PftFunctionCall_Execute_bold_1()
         {
             _Execute
                 (
@@ -106,7 +192,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftFunctionCall_chr_1()
+        public void PftFunctionCall_Execute_chr_1()
         {
             _Execute
                 (
@@ -128,7 +214,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftFunctionCall_insert_1()
+        public void PftFunctionCall_Execute_insert_1()
         {
             _Execute
                 (
@@ -146,7 +232,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftFunctionCall_italic_1()
+        public void PftFunctionCall_Execute_italic_1()
         {
             _Execute
                 (
@@ -168,7 +254,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftFunctionCall_len_1()
+        public void PftFunctionCall_Execute_len_1()
         {
             _Execute
                 (
@@ -190,7 +276,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftFunctionCall_padLeft_1()
+        public void PftFunctionCall_Execute_padLeft_1()
         {
             _Execute
                 (
@@ -230,7 +316,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftFunctionCall_padRight_1()
+        public void PftFunctionCall_Execute_padRight_1()
         {
             _Execute
                 (
@@ -270,7 +356,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftFunctionCall_remove_1()
+        public void PftFunctionCall_Execute_remove_1()
         {
             _Execute
                 (
@@ -288,7 +374,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftFunctionCall_replace_1()
+        public void PftFunctionCall_Execute_replace_1()
         {
             _Execute
                 (
@@ -306,7 +392,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftFunctionCall_size_1()
+        public void PftFunctionCall_Execute_size_1()
         {
             _Execute
                 (
@@ -319,6 +405,60 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
                     "1",
                     new PftUnconditionalLiteral("Happy New Year!")
                 );
+        }
+
+        [TestMethod]
+        public void PftFunctionCall_GetNodeInfo_1()
+        {
+            PftFunctionCall node = _GetNode();
+            PftNodeInfo info = node.GetNodeInfo();
+            Assert.IsNotNull(info);
+            Assert.AreEqual("FunctionCall", info.Name);
+        }
+
+        [TestMethod]
+        public void PftFunctionCall_PrettyPrint_1()
+        {
+            PftFunctionCall node = _GetNode();
+            PftPrettyPrinter printer = new PftPrettyPrinter();
+            node.PrettyPrint(printer);
+            Assert.AreEqual("replace('Happy New Year!', 'New Year', 'Birthday')", printer.ToString().DosToUnix());
+        }
+
+        private void _TestSerialization
+            (
+                [NotNull] PftFunctionCall first
+            )
+        {
+            MemoryStream stream = new MemoryStream();
+            BinaryWriter writer = new BinaryWriter(stream);
+            PftSerializer.Serialize(writer, first);
+
+            byte[] bytes = stream.ToArray();
+            stream = new MemoryStream(bytes);
+            BinaryReader reader = new BinaryReader(stream);
+            PftFunctionCall second = (PftFunctionCall) PftSerializer.Deserialize(reader);
+            PftSerializationUtility.CompareNodes(first, second);
+        }
+
+        [TestMethod]
+        public void PftFunctionCall_Serialization_1()
+        {
+            PftFunctionCall node = new PftFunctionCall();
+            _TestSerialization(node);
+
+            node = _GetNode();
+            _TestSerialization(node);
+        }
+
+        [TestMethod]
+        public void PftFunctionCall_ToString_1()
+        {
+            PftFunctionCall node = new PftFunctionCall();
+            Assert.AreEqual("()", node.ToString());
+
+            node = _GetNode();
+            Assert.AreEqual("replace('Happy New Year!','New Year','Birthday')", node.ToString());
         }
     }
 }

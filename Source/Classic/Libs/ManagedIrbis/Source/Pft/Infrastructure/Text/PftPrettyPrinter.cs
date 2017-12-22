@@ -533,6 +533,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Text
             return this;
         }
 
+        /// <summary>
+        /// Write nodes.
+        /// </summary>
+        [NotNull]
+        public PftPrettyPrinter WriteNodes
+            (
+                [NotNull] string delimiter,
+                [NotNull] IList<PftNode> nodes
+            )
+        {
+            Code.NotNull(nodes, "nodes");
+
+            bool first = true;
+            foreach (PftNode node in nodes)
+            {
+                if (!first)
+                {
+                    Write(delimiter);
+                }
+                WriteIndentIfNeeded();
+                node.PrettyPrint(this);
+                WriteLineIfNeeded();
+                first = false;
+            }
+
+            return this;
+        }
+
         #endregion
 
         #region IDisposable members

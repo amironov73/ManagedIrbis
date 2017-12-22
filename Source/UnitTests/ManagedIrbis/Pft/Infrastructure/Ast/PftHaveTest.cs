@@ -180,14 +180,14 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftConditionalStatement_Serialization_1()
+        public void PftHave_Serialization_1()
         {
             PftHave node = new PftHave();
             _TestSerialization(node);
         }
 
         [TestMethod]
-        public void PftConditionalStatement_Serialization_2()
+        public void PftHave_Serialization_2()
         {
             PftHave node = _GetVariableNode();
             _TestSerialization(node);
