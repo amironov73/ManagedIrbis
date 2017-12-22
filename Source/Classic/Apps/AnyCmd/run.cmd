@@ -25,6 +25,8 @@ rem AnyCmd.exe "host=127.0.0.1;port=6666;user=1;password=1;db=IBIS;arm=A;" "K" "
 
 rem AnyCmd.exe "host=127.0.0.1;port=6666;user=1;password=1;db=IBIS;arm=C;" "C" "IBIS" "1" "0" "v200"
 
-AnyCmd.exe "host=127.0.0.1;port=6666;user=1;password=1;db=IBIS;arm=A;" "X" "RQST" "1" 
+rem AnyCmd.exe "host=127.0.0.1;port=6666;user=1;password=1;db=IBIS;arm=A;" "X" "RQST" "1" 
+
+AnyCmd.exe "host=127.0.0.1;port=6666;user=1;password=1;db=IBIS;arm=A;" "I" "IBIS" "2" "1" "*" "T=ALEXANDRE NEVSKI"
 
 cd ..\..

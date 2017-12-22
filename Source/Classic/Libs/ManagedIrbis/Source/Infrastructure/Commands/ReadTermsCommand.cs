@@ -69,6 +69,11 @@ namespace ManagedIrbis.Infrastructure.Commands
     // ТЕРМИН СЛОВАРЯ (если задан пустой формат)
     //
 
+    //
+    // О четвёртом варианте форматирования
+    // см. ReadPostingsCommand
+    //
+
     /// <summary>
     /// Read terms from the search index.
     /// </summary>
