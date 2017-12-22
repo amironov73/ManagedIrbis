@@ -54,7 +54,8 @@ namespace AM.Text
 
         private static readonly Regex _rtfRegex = new Regex
             (
-                @"\\([a-z]{1,32})(-?\d{1,10})?[ ]?|\\'([0-9a-f]{2})|\\([^a-z])|([{}])|[\r\n]+|(.)",
+                //ibatrak перводы строк также вносим в группу
+                @"\\([a-z]{1,32})(-?\d{1,10})?[ ]?|\\'([0-9a-f]{2})|\\([^a-z])|([{}])|([\r\n]+)|(.)",
                 RegexOptions.Singleline | RegexOptions.IgnoreCase
             );
 
@@ -389,7 +390,7 @@ namespace AM.Text
                 [CanBeNull] string inputRtf
             )
         {
-            if (inputRtf == null)
+            if (ReferenceEquals(inputRtf, null))
             {
                 return null;
             }
@@ -535,12 +536,7 @@ namespace AM.Text
                 }
             }
 
-            string result = string.Join
-            (
-                string.Empty,
-                outList.ToArray()
-            );
-
+            string result = string.Join(string.Empty, outList.ToArray()); 
             return result;
         }
 

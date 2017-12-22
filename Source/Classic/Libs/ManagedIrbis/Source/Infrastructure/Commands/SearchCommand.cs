@@ -65,6 +65,48 @@ namespace ManagedIrbis.Infrastructure.Commands
     // MFN# результат_форматирования
     //
 
+    //
+    // Поисковое выражение для последовательного поиска
+    // как правило имеет вид
+    //
+    // !(if V910^D='ФКХ' then '1' else '0' fi)
+    //
+    // где восклицательный знак в начале означает использование
+    // кодировки UTF8 (без восклицательного знака -- CP1251).
+    //
+    // Также в начале строки может стоять звёздочка, означающая
+    // требование "для всех повторений поля". В этом случае
+    // ИРБИС64-сервер расформатирует запись и
+    // то результирующая строка должна быть непустой и состоять
+    // только из единиц, чтобы запись считалась удовлетворяющей
+    // условию.
+    //
+    // В отсутствие звёздочки достаточно наличия хотя бы одной
+    // единицы в результирующей строке.
+    //
+
+    //
+    // Если пользователь ввёл поисковое выражение в текстбокс
+    // "Свободный поиск", то АРМ автоматически обрамляет его
+    // if ... then '1' else '0' fi
+    //
+
+    //
+    // Если "Свободный поиск" начать с символа |, то автоматически
+    // формируется конструкция
+    // (if ... then '1' else '0' fi)
+    //
+    // Если "Свободный поиск" начать с выражения |MMM, где MMM-метка
+    // поля, то автоматически формируется конструкция
+    // (if p(vMMM) then if ... then '1' else '0' fi fi), '0'
+    //
+
+    //
+    // Пример поискового выражения, сформированного АРМ "Каталогизатор":
+    //
+    // *!(if p(v910) then if v910^d='ФКХ' then '1' else '0' fi fi),'0'
+    //
+
     /// <summary>
     /// Search records on IRBIS-server.
     /// </summary>
@@ -123,6 +165,17 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// Use UTF8 for <see cref="FormatSpecification"/>?
         /// </summary>
         public bool UtfFormat { get; set; }
+
+        /// <summary>
+        /// Условие должно выполняться для каждого повторения поля.
+        /// </summary>
+        public bool ForEachRepeat { get; set; }
+
+        /// <summary>
+        /// Переписывать поисковое выражение для последовательного поиска
+        /// согласно традициям ИРБИС.
+        /// </summary>
+        public bool RewriteSequential { get; set; }
 
         /// <summary>
         /// Found records.
@@ -226,8 +279,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             MinMfn = parameters.MinMfn;
             NumberOfRecords = parameters.NumberOfRecords;
             SearchExpression = parameters.SearchExpression;
-            SequentialSpecification
-                = parameters.SequentialSpecification;
+            SequentialSpecification = parameters.SequentialSpecification;
             UtfFormat = parameters.UtfFormat;
         }
 

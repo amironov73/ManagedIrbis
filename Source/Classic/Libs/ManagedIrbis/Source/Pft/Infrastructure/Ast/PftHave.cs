@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Diagnostics;
 using System.IO;
 
 using AM.IO;
@@ -78,13 +79,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             token.MustBe(PftTokenKind.Have);
         }
 
-        #endregion
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftHave
+            (
+                [NotNull] string name,
+                bool variable
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
+            if (variable)
+            {
+                Variable = new PftVariableReference(name);
+            }
+            else
+            {
+                Identifier = name;
+            }
+        }
 
         #endregion
 
@@ -107,6 +121,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
+        /// <inheritdoc cref="PftNode.CompareNode" />
+        internal override void CompareNode
+            (
+                PftNode otherNode
+            )
+        {
+            base.CompareNode(otherNode);
+
+            PftHave otherHave = (PftHave)otherNode;
+            PftSerializationUtility.CompareNodes
+                (
+                    Variable,
+                    otherHave.Variable
+                );
+            PftSerializationUtility.CompareStrings
+                (
+                    Identifier,
+                    otherHave.Identifier
+                );
+        }
+
         /// <inheritdoc cref="PftNode.Deserialize" />
         protected internal override void Deserialize
             (
@@ -115,8 +150,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             base.Deserialize(reader);
 
-            Variable
-                = (PftVariableReference) PftSerializer.DeserializeNullable(reader);
+            Variable = (PftVariableReference)
+                PftSerializer.DeserializeNullable(reader);
             Identifier = reader.ReadNullableString();
         }
 
@@ -171,6 +206,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 result.Children.Add(Variable.GetNodeInfo());
             }
 
+            if (!ReferenceEquals(Identifier, null))
+            {
+                result.Children.Add(new PftNodeInfo
+                {
+                    Name = Identifier
+                });
+            }
+
             return result;
         }
 
@@ -184,6 +227,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             PftSerializer.SerializeNullable(writer, Variable);
             writer.WriteNullable(Identifier);
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            if (!ReferenceEquals(Variable, null))
+            {
+                return "have(" + Variable + ")";
+            }
+
+            return "have(" + Identifier + ")";
         }
 
         #endregion
