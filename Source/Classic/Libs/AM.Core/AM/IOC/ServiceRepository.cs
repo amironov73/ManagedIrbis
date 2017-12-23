@@ -91,7 +91,7 @@ namespace AM.IOC
 
             Log.Trace("ServiceRepository::Register");
 
-#if !NETCORE && !UAP && !WIN81 && !PCL && !PORTABLE
+#if !UAP
 
             if (type.IsValueType)
             {

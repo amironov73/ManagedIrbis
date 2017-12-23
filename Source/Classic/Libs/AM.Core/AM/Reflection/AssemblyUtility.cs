@@ -22,11 +22,11 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-#if NETCORE
+//#if NETCORE
 
-using System.Runtime.Loader;
+//using System.Runtime.Loader;
 
-#endif
+//#endif
 
 #endregion
 
@@ -55,18 +55,6 @@ namespace AM.Reflection
             Code.NotNull(assembly, "assembly");
             Code.NotNull(expectedToken, "expectedToken");
 
-#if SILVERLIGHT
-
-            Log.Error
-                (
-                    "AssemblyUtility::CheckForToken: "
-                    + "not implemented"
-                );
-
-            throw new NotImplementedException ();
-
-#else
-
             byte[] realToken = assembly.GetName().GetPublicKeyToken();
             if (ReferenceEquals(realToken, null))
             {
@@ -74,8 +62,6 @@ namespace AM.Reflection
             }
 
             return ArrayUtility.Compare(realToken, expectedToken) == 0;
-
-#endif
         }
 
         /// <summary>
@@ -125,7 +111,7 @@ namespace AM.Reflection
         {
             Code.NotNull(assembly, "assembly");
 
-#if UAP || WIN81 || PORTABLE || WINMOBILE
+#if WINMOBILE
 
             Log.Error
                 (
@@ -225,14 +211,7 @@ namespace AM.Reflection
         {
             Code.NotNullNorEmpty(path, "path");
 
-#if NETCORE
-
-            Assembly result = AssemblyLoadContext.Default
-                .LoadFromAssemblyPath (path);
-
-            return result;
-
-#elif PORTABLE || WIN81 || SILVERLIGHT || UAP || WINMOBILE
+#if UAP || WINMOBILE
 
             throw new NotSupportedException();
 

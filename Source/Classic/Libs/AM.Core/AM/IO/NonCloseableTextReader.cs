@@ -71,7 +71,7 @@ namespace AM.IO
         /// 
         /// </summary>
         public
-#if !NETCORE && !UAP && !WIN81 && !PORTABLE
+#if !UAP
             override
 #endif
             void Close()

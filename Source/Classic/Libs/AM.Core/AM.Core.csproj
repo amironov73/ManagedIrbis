@@ -385,7 +385,6 @@
     <Compile Include="AM\Xml\XmlNamespaces.cs" />
     <Compile Include="AM\Xml\XmlUtility.cs" />
     <Compile Include="Compatibility\ComponentModel.cs" />
-    <Compile Include="Compatibility\Data.cs" />
     <Compile Include="Compatibility\DummyClass.cs" />
     <Compile Include="Compatibility\JetBrains.cs" />
     <Compile Include="Compatibility\MoonSharp.cs" />

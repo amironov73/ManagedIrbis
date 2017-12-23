@@ -491,19 +491,11 @@ namespace AM
         {
             Code.NotNull(reader, "reader");
 
-#if NETCORE
-
-            throw new NotImplementedException();
-
-#else
-
             string value = reader.ReadString();
             _value = value == "(null)"
                 ? null
                 : value;
             reader.ReadEndElement();
-
-#endif
         }
 
         /// <inheritdoc cref="IXmlSerializable.WriteXml" />

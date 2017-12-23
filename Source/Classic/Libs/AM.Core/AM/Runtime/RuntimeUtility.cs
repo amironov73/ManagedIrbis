@@ -140,8 +140,6 @@ namespace AM.Runtime
         {
             Code.NotNull(type, "type");
 
-#if !NETCORE
-
             try
             {
                 foreach (MethodInfo method in type.GetMethods())
@@ -157,8 +155,6 @@ namespace AM.Runtime
                         exception
                     );
             }
-
-#endif
 
         }
 

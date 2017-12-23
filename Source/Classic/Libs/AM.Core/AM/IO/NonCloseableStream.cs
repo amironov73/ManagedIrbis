@@ -104,7 +104,7 @@ namespace AM.IO
         /// </summary>
         /// <seealso cref="M:AM.IO.NonCloseable.NonCloseableStream.ReallyClose"/>
         public
-#if !NETCORE && !UAP && !WIN81 && !PORTABLE
+#if !UAP
             override
 #endif
             void Close()

@@ -7,15 +7,10 @@
  * Status: poor
  */
 
-#if !NETCORE
-
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 using AM.IO;
 using AM.Logging;
@@ -72,10 +67,6 @@ namespace AM.Runtime
         {
             PrefixLength = prefixLength;
         }
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
@@ -249,5 +240,3 @@ namespace AM.Runtime
         #endregion
     }
 }
-
-#endif

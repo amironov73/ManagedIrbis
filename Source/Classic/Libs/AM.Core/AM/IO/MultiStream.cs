@@ -202,17 +202,12 @@ namespace AM.IO
 
         /// <inheritdoc cref="Stream.Close" />
         public
-#if !NETCORE && !UAP && !WIN81 && !PORTABLE
+#if !UAP
             override 
 #endif
             void Close()
         {
-
-#if PORTABLE
-
-            Dispose();
-
-#elif !NETCORE && !UAP && !WIN81
+#if !UAP
 
             base.Close();
 

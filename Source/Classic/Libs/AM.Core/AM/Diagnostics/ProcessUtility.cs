@@ -7,15 +7,9 @@
  * Status: poor
  */
 
-#if !NETCORE && !PORTABLE
-
 #region Using directives
 
-using System;
 using System.Diagnostics;
-using System.Linq;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -32,11 +26,6 @@ namespace AM.Diagnostics
     [MoonSharpUserData]
     public static class ProcessUtility
     {
-        #region Private members
-
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -46,7 +35,6 @@ namespace AM.Diagnostics
         /// <param name="info"></param>
         /// <param name="standardInput">Если не null, задает
         /// содержимое стандартного ввода.</param>
-        /// <returns></returns>
         public static string RunAndReadStandardOutput
             (
                 ProcessStartInfo info,
@@ -76,8 +64,6 @@ namespace AM.Diagnostics
         /// Запуск процесса с перехватом всего консольного вывода
         /// в строковую переменную.
         /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
         public static string RunAndReadStandardOutput
             (
                 ProcessStartInfo info
@@ -94,10 +80,6 @@ namespace AM.Diagnostics
         /// Запуск процесса с перехватом всего консольного вывода
         /// в строковую переменную.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="arguments"></param>
-        /// <param name="standardInput"></param>
-        /// <returns></returns>
         public static string RunAndReadStandardOutput
             (
                 string fileName,
@@ -109,7 +91,8 @@ namespace AM.Diagnostics
                 (
                     fileName,
                     arguments
-                  );
+                );
+
             return RunAndReadStandardOutput(psi, standardInput);
         }
 
@@ -117,20 +100,18 @@ namespace AM.Diagnostics
         /// Запуск процесса с перехватом всего консольного вывода
         /// в строковую переменную.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="arguments"></param>
-        /// <returns></returns>
         public static string RunAndReadStandardOutput
             (
-            string fileName,
-            string arguments)
+                string fileName,
+                string arguments
+            )
         {
             return RunAndReadStandardOutput
                 (
                     fileName,
                     arguments,
                     null
-                  );
+                );
         }
 
         /// <summary>
@@ -140,7 +121,6 @@ namespace AM.Diagnostics
         /// <param name="info"></param>
         /// <param name="standardInput">Если не null, задает
         /// содержимое стандартного ввода.</param>
-        /// <returns></returns>
         public static string[] RunAndReadStandardOutputAndError
             (
                 ProcessStartInfo info,
@@ -165,7 +145,7 @@ namespace AM.Diagnostics
                 process.WaitForExit();
                 string stdout = process.StandardOutput.ReadToEnd();
                 string stderr = process.StandardError.ReadToEnd();
-                return new string[]
+                return new []
                     {
                         stdout, stderr
                     };
@@ -176,8 +156,6 @@ namespace AM.Diagnostics
         /// Запуск процесса с перехватом всего консольного вывода
         /// в строковую переменную.
         /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
         public static string[] RunAndReadStandardOutputAndError
             (
                 ProcessStartInfo info
@@ -190,10 +168,6 @@ namespace AM.Diagnostics
         /// Запуск процесса с перехватом всего консольного вывода
         /// в строковую переменную.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="arguments"></param>
-        /// <param name="standardInfo"></param>
-        /// <returns></returns>
         public static string[] RunAndReadStandardOutputAndError
             (
                 string fileName,
@@ -211,9 +185,6 @@ namespace AM.Diagnostics
         /// Запуск процесса с перехватом всего консольного вывода
         /// в строковую переменную.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="arguments"></param>
-        /// <returns></returns>
         public static string[] RunAndReadStandardOutputAndError
             (
                 string fileName,
@@ -252,6 +223,7 @@ namespace AM.Diagnostics
                 {
                     process.WaitForExit();
                 }
+
                 return process.ExitCode;
             }
         }
@@ -280,15 +252,13 @@ namespace AM.Diagnostics
             {
                 UseShellExecute = false
             };
+
             return RunAndWait(psi, milliseconds);
         }
 
         /// <summary>
         /// Запускает процесс и ожидает его завершения.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="arguments"></param>
-        /// <returns></returns>
         public static int RunAndWait
             (
                 string fileName,
@@ -301,19 +271,16 @@ namespace AM.Diagnostics
         /// <summary>
         /// Запускает процесс и ожидает его завершения.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
         public static int RunAndWait
             (
                 string fileName
             )
         {
             ProcessStartInfo psi = new ProcessStartInfo(fileName);
+
             return RunAndWait(psi, -1);
         }
 
         #endregion
     }
 }
-
-#endif

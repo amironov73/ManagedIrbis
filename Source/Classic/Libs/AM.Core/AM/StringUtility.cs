@@ -436,7 +436,7 @@ namespace AM
         [ExcludeFromCodeCoverage]
         public static IEqualityComparer<string> GetCaseInsensitiveComparer()
         {
-#if NETCORE || UAP || WIN81 || PORTABLE
+#if UAP || WIN81 || PORTABLE
 
             return StringComparer.OrdinalIgnoreCase;
 
@@ -1262,7 +1262,7 @@ namespace AM
                 (
                     s1,
                     s2,
-#if NETCORE || UAP || WIN81 || PORTABLE
+#if UAP || WIN81 || PORTABLE
 
                     StringComparison.OrdinalIgnoreCase
 
