@@ -25,11 +25,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
+    <OutputPath>..\..\..\For4.0\bin\Release\</OutputPath>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\AM.Drawing.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\For4.0\bin\Release\AM.Drawing.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>
@@ -89,19 +89,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AM.Core\AM.Core.csproj">
-      <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
-      <Name>AM.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="BlueBook.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ArsMagna.private.snk" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AM.Core\AM.Core.4.0.csproj">
+      <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
+      <Name>AM.Core.4.0</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

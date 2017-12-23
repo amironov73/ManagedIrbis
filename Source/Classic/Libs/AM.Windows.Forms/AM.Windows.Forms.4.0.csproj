@@ -25,11 +25,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
+    <OutputPath>..\..\..\For4.0\bin\Release\</OutputPath>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\AM.Windows.Forms.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\For4.0\bin\Release\AM.Windows.Forms.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>
@@ -41,6 +41,15 @@
     <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\For4.0\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\For4.0\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\For4.0\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
     <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
       <Private>True</Private>
@@ -57,6 +66,16 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\For4.0\packages\Microsoft.Bcl.1.1.8\lib\net40\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Runtime, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\For4.0\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\For4.0\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Threading.Tasks.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -88,7 +107,9 @@
     <Compile Include="AM\Windows\Forms\BrowserForm.Designer.cs">
       <DependentUpon>BrowserForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AM\Windows\Forms\BusyController.cs" />
+    <Compile Include="AM\Windows\Forms\BusyController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="AM\Windows\Forms\BusyStateEventArgs.cs" />
     <Compile Include="AM\Windows\Forms\BusyStripe.cs" />
     <Compile Include="AM\Windows\Forms\CheckBoxGroup.cs" />
@@ -288,18 +309,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <ProjectReference Include="..\AM.Core\AM.Core.csproj">
-      <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
-      <Name>AM.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AM.Drawing\AM.Drawing.csproj">
-      <Project>{f64c8161-d6e3-4d78-88db-c1787f4fe981}</Project>
-      <Name>AM.Drawing</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="BlueBook.ico" />
     <EmbeddedResource Include="Properties\Resources.ru.resx" />
+    <None Include="app.config" />
     <None Include="Images\arrowUp.png" />
     <None Include="Images\arrowDown.png" />
     <None Include="Images\upArrow.png" />
@@ -416,8 +428,22 @@
       <DependentUpon>ToolStripCustomizationForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AM.Core\AM.Core.4.0.csproj">
+      <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
+      <Name>AM.Core.4.0</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AM.Drawing\AM.Drawing.4.0.csproj">
+      <Project>{f64c8161-d6e3-4d78-88db-c1787f4fe981}</Project>
+      <Name>AM.Drawing.4.0</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\..\For4.0\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\For4.0\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\..\..\For4.0\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\..\..\For4.0\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

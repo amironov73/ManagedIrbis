@@ -27,11 +27,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\..\For4.0\bin\Release\</OutputPath>
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\ManagedIrbis.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\For4.0\bin\Release\ManagedIrbis.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>
@@ -976,9 +976,9 @@
     <None Include="Source\Reports\Docs\Отчёты в ManagedIrbis.docx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AM.Core\AM.Core.csproj">
+    <ProjectReference Include="..\AM.Core\AM.Core.4.0.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
-      <Name>AM.Core</Name>
+      <Name>AM.Core.4.0</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

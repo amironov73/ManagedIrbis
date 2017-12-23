@@ -1,0 +1,483 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AEEBB65D-1023-4AC2-A280-4639E085CDB5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IrbisUI</RootNamespace>
+    <AssemblyName>IrbisUI</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\For4.0\bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\..\For4.0\bin\Debug\IrbisUI.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\For4.0\bin\Release\</OutputPath>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\..\For4.0\bin\Release\IrbisUI.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>BlueBook.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <Choose>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
+      <ItemGroup>
+        <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net35-client\MoonSharp.Interpreter.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net35\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\TaskParallelLibrary.1.0.2856.0\lib\Net35\System.Threading.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
+      <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Runtime, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Runtime.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Threading.Tasks, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Threading.Tasks.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.TextEditor, Version=3.2.1.6466, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ICSharpCode.TextEditor.3.2.1.6466\lib\Net20\ICSharpCode.TextEditor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <Choose>
+    <When Condition=" '$(TargetFrameworkVersion)'!='v3.5' ">
+      <ItemGroup>
+        <Compile Include="Source\Universal\UniversalCentralControl.cs">
+          <SubType>UserControl</SubType>
+        </Compile>
+        <Compile Include="Source\Universal\UniversalCentralControl.Designer.cs">
+          <DependentUpon>UniversalCentralControl.cs</DependentUpon>
+        </Compile>
+        <Compile Include="Source\Universal\UniversalForm.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="Source\Universal\UniversalForm.Designer.cs">
+          <DependentUpon>UniversalForm.cs</DependentUpon>
+        </Compile>
+        <EmbeddedResource Include="Source\Universal\UniversalCentralControl.resx">
+          <DependentUpon>UniversalCentralControl.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Include="Source\Universal\UniversalForm.resx">
+          <DependentUpon>UniversalForm.cs</DependentUpon>
+        </EmbeddedResource>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
+      <ItemGroup>
+        <Compile Include="Properties\35\Resources.Designer.cs">
+          <AutoGen>True</AutoGen>
+          <DesignTime>True</DesignTime>
+          <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+        <EmbeddedResource Include="Properties\35\Resources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Compile Include="Properties\Resources.Designer.cs">
+          <AutoGen>True</AutoGen>
+          <DesignTime>True</DesignTime>
+          <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+        <EmbeddedResource Include="Properties\Resources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+          <SubType>Designer</SubType>
+        </EmbeddedResource>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="..\..\Common\AssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Source\ChairComboBox.cs" />
+    <Compile Include="Source\DatabaseComboBox.cs" />
+    <Compile Include="Source\DictionaryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\DictionaryForm.Designer.cs">
+      <DependentUpon>DictionaryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\DictionaryPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\DictionaryPanel.Designer.cs">
+      <DependentUpon>DictionaryPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Editors\FieldItem.cs" />
+    <Compile Include="Source\Editors\MenuEditor.cs" />
+    <Compile Include="Source\Editors\SimplestMarcEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\Editors\SimplestMarcEditor.Designer.cs">
+      <DependentUpon>SimplestMarcEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\FieldPainter.cs" />
+    <Compile Include="Source\FoundPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\FoundPanel.Designer.cs">
+      <DependentUpon>FoundPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Grid\SiberianDimensions.cs" />
+    <Compile Include="Source\Grid\SiberianFoundCheckCell.cs" />
+    <Compile Include="Source\Grid\SiberianFoundCheckColumn.cs" />
+    <Compile Include="Source\Grid\SiberianFoundDescriptionCell.cs" />
+    <Compile Include="Source\Grid\SiberianFoundDescriptionColumn.cs" />
+    <Compile Include="Source\Grid\SiberianFoundGrid.cs" />
+    <Compile Include="Source\Grid\SiberianFoundIconCell.cs" />
+    <Compile Include="Source\Grid\SiberianFoundIconColumn.cs" />
+    <Compile Include="Source\Grid\SiberianFoundMfnCell.cs" />
+    <Compile Include="Source\Grid\SiberianFoundMfnColumn.cs" />
+    <Compile Include="Source\Grid\SiberianMeasureEventArgs.cs" />
+    <Compile Include="Source\Grid\SiberianMenuCodeCell.cs" />
+    <Compile Include="Source\Grid\SiberianButtonCell.cs" />
+    <Compile Include="Source\Grid\SiberianButtonColumn.cs" />
+    <Compile Include="Source\Grid\SiberianCell.cs" />
+    <Compile Include="Source\Grid\SiberianCheckCell.cs" />
+    <Compile Include="Source\Grid\SiberianCheckColumn.cs" />
+    <Compile Include="Source\Grid\SiberianClickEventArgs.cs" />
+    <Compile Include="Source\Grid\SiberianCodeCell.cs" />
+    <Compile Include="Source\Grid\SiberianCodeColumn.cs" />
+    <Compile Include="Source\Grid\SiberianColumn.cs" />
+    <Compile Include="Source\Grid\SiberianDateCell.cs" />
+    <Compile Include="Source\Grid\SiberianDateColumn.cs" />
+    <Compile Include="Source\Grid\SiberianDoubleCell.cs" />
+    <Compile Include="Source\Grid\SiberianDoubleColumn.cs" />
+    <Compile Include="Source\Grid\SiberianField.cs" />
+    <Compile Include="Source\Grid\SiberianFieldCell.cs" />
+    <Compile Include="Source\Grid\SiberianFieldColumn.cs" />
+    <Compile Include="Source\Grid\SiberianFieldGrid.cs" />
+    <Compile Include="Source\Grid\SiberianGrid.Control.cs" />
+    <Compile Include="Source\Grid\SiberianGrid.cs" />
+    <Compile Include="Source\Grid\SiberianImageCell.cs" />
+    <Compile Include="Source\Grid\SiberianImageColumn.cs" />
+    <Compile Include="Source\Grid\SiberianIntegerCell.cs" />
+    <Compile Include="Source\Grid\SiberianIntegerColumn.cs" />
+    <Compile Include="Source\Grid\SiberianMenuCodeColumn.cs" />
+    <Compile Include="Source\Grid\SiberianMenuCommentCell.cs" />
+    <Compile Include="Source\Grid\SiberianMenuCommentColumn.cs" />
+    <Compile Include="Source\Grid\SiberianMenuGrid.cs" />
+    <Compile Include="Source\Grid\SiberianNavigationEventArgs.cs" />
+    <Compile Include="Source\Grid\SiberianOptions.cs" />
+    <Compile Include="Source\Grid\SiberianPalette.cs" />
+    <Compile Include="Source\Grid\SiberianRepeatCell.cs" />
+    <Compile Include="Source\Grid\SiberianRepeatColumn.cs" />
+    <Compile Include="Source\Grid\SiberianRow.cs" />
+    <Compile Include="Source\Grid\SiberianSubField.cs" />
+    <Compile Include="Source\Grid\SiberianSubFieldCell.cs" />
+    <Compile Include="Source\Grid\SiberianSubFieldColumn.cs" />
+    <Compile Include="Source\Grid\SiberianSubFieldGrid.cs" />
+    <Compile Include="Source\Grid\SiberianTab.cs" />
+    <Compile Include="Source\Grid\SiberianTagCell.cs" />
+    <Compile Include="Source\Grid\SiberianTagColumn.cs" />
+    <Compile Include="Source\Grid\SiberianTermCountCell.cs" />
+    <Compile Include="Source\Grid\SiberianTermCountColumn.cs" />
+    <Compile Include="Source\Grid\SiberianTermGrid.cs" />
+    <Compile Include="Source\Grid\SiberianTermTextCell.cs" />
+    <Compile Include="Source\Grid\SiberianTermTextColumn.cs" />
+    <Compile Include="Source\Grid\SiberianTextCell.cs" />
+    <Compile Include="Source\Grid\SiberianTextColumn.cs" />
+    <Compile Include="Source\Grid\SiberianToolTipEventArgs.cs" />
+    <Compile Include="Source\Grid\SiberianUtility.cs" />
+    <Compile Include="Source\IrbisBusyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\IrbisBusyForm.Designer.cs">
+      <DependentUpon>IrbisBusyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\IrbisBusyManager.cs" />
+    <Compile Include="Source\IrbisBusyStripe.cs" />
+    <Compile Include="Source\IrbisCredentialsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\IrbisCredentialsForm.Designer.cs">
+      <DependentUpon>IrbisCredentialsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\IrbisIdleManager.cs" />
+    <Compile Include="Source\IrbisLoginCenter.cs" />
+    <Compile Include="Source\IrbisLoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\IrbisLoginForm.Designer.cs">
+      <DependentUpon>IrbisLoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\IrbisLoginForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\IrbisLoginForm2.Designer.cs">
+      <DependentUpon>IrbisLoginForm2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Editors\MenuForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Editors\MenuForm.Designer.cs">
+      <DependentUpon>MenuForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\IrbisUIUtility.cs" />
+    <Compile Include="Source\MagazineListBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\MagazineListBox.Designer.cs">
+      <DependentUpon>MagazineListBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Pft\PftEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\Pft\PftGlobalGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\Pft\PftGlobalGrid.Designer.cs">
+      <DependentUpon>PftGlobalGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Pft\PftSyntaxModeProvider.cs" />
+    <Compile Include="Source\Pft\PftTokenGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\Pft\PftTokenGrid.Designer.cs">
+      <DependentUpon>PftTokenGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Pft\PftTreeView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\Pft\PftTreeView.Designer.cs">
+      <DependentUpon>PftTreeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Pft\PftVariableGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\Pft\PftVariableGrid.Designer.cs">
+      <DependentUpon>PftVariableGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Pft\PftDebuggerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Pft\PftDebuggerForm.Designer.cs">
+      <DependentUpon>PftDebuggerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Pft\PftUiDebugger.cs" />
+    <Compile Include="Source\PreviewPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\PreviewPanel.Designer.cs">
+      <DependentUpon>PreviewPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\RecordViewGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Source\RecordViewGrid.Designer.cs">
+      <DependentUpon>RecordViewGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\RelatedSearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\RelatedSearchForm.Designer.cs">
+      <DependentUpon>RelatedSearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Reports\BandLabel.cs" />
+    <Compile Include="Source\Reports\CellLabel.cs" />
+    <Compile Include="Source\Statistics\PingPlotter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Source\Statistics\PingPlotter.Designer.cs">
+      <DependentUpon>PingPlotter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\WorksheetLine.cs" />
+    <Compile Include="Source\WssForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\WssForm.Designer.cs">
+      <DependentUpon>WssForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BlueBook.ico" />
+    <Content Include="Images\check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="ArsMagna.private.snk" />
+    <None Include="packages.config" />
+    <EmbeddedResource Include="Properties\PftMode.xshd" />
+    <None Include="Properties\DataSources\IrbisUI.Editors.FieldItem.datasource" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.ru.resx" />
+    <EmbeddedResource Include="Source\DictionaryForm.resx">
+      <DependentUpon>DictionaryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\DictionaryPanel.resx">
+      <DependentUpon>DictionaryPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Editors\SimplestMarcEditor.resx">
+      <DependentUpon>SimplestMarcEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\FoundPanel.resx">
+      <DependentUpon>FoundPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\IrbisBusyForm.resx">
+      <DependentUpon>IrbisBusyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\IrbisCredentialsForm.resx">
+      <DependentUpon>IrbisCredentialsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\IrbisLoginForm.resx">
+      <DependentUpon>IrbisLoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\IrbisLoginForm2.resx">
+      <DependentUpon>IrbisLoginForm2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Editors\MenuForm.resx">
+      <DependentUpon>MenuForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\MagazineListBox.resx">
+      <DependentUpon>MagazineListBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Pft\PftGlobalGrid.resx">
+      <DependentUpon>PftGlobalGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Pft\PftTokenGrid.resx">
+      <DependentUpon>PftTokenGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Pft\PftTreeView.resx">
+      <DependentUpon>PftTreeView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Pft\PftVariableGrid.resx">
+      <DependentUpon>PftVariableGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Pft\PftDebuggerForm.resx">
+      <DependentUpon>PftDebuggerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\PreviewPanel.resx">
+      <DependentUpon>PreviewPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\RecordViewGrid.resx">
+      <DependentUpon>RecordViewGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\RelatedSearchForm.resx">
+      <DependentUpon>RelatedSearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\WssForm.resx">
+      <DependentUpon>WssForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AM.Core\AM.Core.4.0.csproj">
+      <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
+      <Name>AM.Core.4.0</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AM.Drawing\AM.Drawing.4.0.csproj">
+      <Project>{f64c8161-d6e3-4d78-88db-c1787f4fe981}</Project>
+      <Name>AM.Drawing.4.0</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AM.Windows.Forms\AM.Windows.Forms.4.0.csproj">
+      <Project>{c06e1d15-0d0d-44b3-bf74-1b2c616f9ee5}</Project>
+      <Name>AM.Windows.Forms.4.0</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ManagedIrbis\ManagedIrbis.4.0.csproj">
+      <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
+      <Name>ManagedIrbis.4.0</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Condition=" '$(TargetFrameworkVersion)'=='v4.0' " Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

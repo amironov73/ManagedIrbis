@@ -27,11 +27,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
+    <OutputPath>..\..\..\For4.0\bin\Release\</OutputPath>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\AM.Core.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\For4.0\bin\Release\AM.Core.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>

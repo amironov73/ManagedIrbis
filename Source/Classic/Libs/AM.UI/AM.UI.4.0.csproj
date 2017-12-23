@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E9C1C881-8AF0-4625-9494-956A1C331649}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AM.UI</RootNamespace>
+    <AssemblyName>AM.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\For4.0\bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\..\For4.0\bin\Debug\AM.UI.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\For4.0\bin\Release\</OutputPath>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\..\For4.0\bin\Release\AM.UI.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="DevExpress.BonusSkins.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.BonusSkins.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Charts.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Charts.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.CodeParser.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.CodeParser.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Data.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.DataAccess.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.DataAccess.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.DataAccess.v16.2.UI, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.DataAccess.v16.2.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Diagram.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Diagram.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Docs.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Docs.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Office.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Office.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Pdf.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Pdf.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Pdf.v16.2.Drawing, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Pdf.v16.2.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.PivotGrid.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.PivotGrid.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Printing.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.RichEdit.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Snap.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Snap.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Sparkline.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Sparkline.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.SpellChecker.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.SpellChecker.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Spreadsheet.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Spreadsheet.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Utils.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v16.2.UI, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Utils.v16.2.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraBars.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraCharts.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v16.2.Extensions, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraCharts.v16.2.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v16.2.UI, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraCharts.v16.2.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraDiagram.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraDiagram.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraEditors.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraGrid.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraLayout.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraLayout.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraNavBar.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraNavBar.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPdfViewer.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraPdfViewer.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPivotGrid.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraPivotGrid.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraPrinting.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraReports.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v16.2.Extensions, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraReports.v16.2.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraRichEdit.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraRichEdit.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraRichEdit.v16.2.Extensions, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraRichEdit.v16.2.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraSpellChecker.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraSpellChecker.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraSpreadsheet.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraSpreadsheet.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraTreeList.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraTreeList.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraVerticalGrid.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraVerticalGrid.v16.2.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Choose>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
+      <ItemGroup>
+        <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net35-client\MoonSharp.Interpreter.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net35\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\TaskParallelLibrary.1.0.2856.0\lib\Net35\System.Threading.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFrameworkVersion)'=='v4.0' ">
+      <ItemGroup>
+        <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.IO, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.IO.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Runtime, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Runtime.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Threading.Tasks, Version=2.6.8.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.Threading.Tasks.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Common\AssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="AM\UI\ExcelColumn.cs" />
+    <Compile Include="AM\UI\ExcelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AM\UI\ExcelForm.designer.cs">
+      <DependentUpon>ExcelForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\UI\MoonExcelData.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="ArsMagna.private.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AM\UI\ExcelForm.resx">
+      <DependentUpon>ExcelForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.ru.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AM.Core\AM.Core.4.0.csproj">
+      <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
+      <Name>AM.Core.4.0</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AM.Drawing\AM.Drawing.4.0.csproj">
+      <Project>{f64c8161-d6e3-4d78-88db-c1787f4fe981}</Project>
+      <Name>AM.Drawing.4.0</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AM.Windows.Forms\AM.Windows.Forms.4.0.csproj">
+      <Project>{c06e1d15-0d0d-44b3-bf74-1b2c616f9ee5}</Project>
+      <Name>AM.Windows.Forms.4.0</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ManagedIrbis\ManagedIrbis.4.0.csproj">
+      <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
+      <Name>ManagedIrbis.4.0</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Condition=" '$(TargetFrameworkVersion)'=='v4.0' " Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

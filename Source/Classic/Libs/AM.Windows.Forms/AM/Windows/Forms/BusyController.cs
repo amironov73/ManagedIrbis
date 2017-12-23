@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if FW45
+#if FW4
 
 #region Using directives
 
@@ -302,6 +302,7 @@ namespace AM.Windows.Forms
                 try
                 {
                     UpdateControlState(false);
+
                     await state.RunAsync(action);
 
                     result = true;

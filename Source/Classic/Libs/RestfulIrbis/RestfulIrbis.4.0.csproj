@@ -99,17 +99,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AM.Core\AM.Core.csproj">
-      <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
-      <Name>AM.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ManagedIrbis\ManagedIrbis.csproj">
-      <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
-      <Name>ManagedIrbis</Name>
-    </ProjectReference>
+    <Content Include="rest.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="rest.ico" />
+    <ProjectReference Include="..\AM.Core\AM.Core.4.0.csproj">
+      <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
+      <Name>AM.Core.4.0</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ManagedIrbis\ManagedIrbis.4.0.csproj">
+      <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
+      <Name>ManagedIrbis.4.0</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
