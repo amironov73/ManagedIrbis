@@ -28,7 +28,6 @@ cd ..
 rmdir content > nul 2> nul
 )
 
-
 GOTO :END
 
 :BUILD
@@ -43,23 +42,11 @@ IF not exist net35 mkdir net35 > nul 2> nul
 IF not exist net40 mkdir net40 > nul 2> nul
 IF not exist net45 mkdir net45 > nul 2> nul
 
-IF %2==core  mkdir netstandard1.6        > nul 2> nul
-IF %2==no    rmdir netstandard1.6        > nul 2> nul
-
-IF %3==sl    mkdir sl50                  > nul 2> nul
-IF %3==no    rmdir sl50                  > nul 2> nul
-
 IF %4==droid mkdir MonoAndroid           > nul 2> nul
 IF %4==no    rmdir MonoAndroid           > nul 2> nul
 
 IF %5==uap   mkdir uap                   > nul 2> nul
 IF %5==no    rmdir uap                   > nul 2> nul
-
-IF %6==win81 mkdir win81                 > nul 2> nul
-IF %6==no    rmdir win81                 > nul 2> nul
-
-IF %7==pcl   mkdir "portable-net45+win8" > nul 2> nul
-IF %7==no    rmdir "portable-net45+win8" > nul 2> nul
 
 IF %8==core2 mkdir netstandard2.0        > nul 2> nul
 IF %8==no    rmdir netstandard2.0        > nul 2> nul
@@ -96,12 +83,8 @@ copy %BIN%\%BUILD%45\ru\%1.resources.dll lib\net45\ru > nul 2> nul
 
 copy %BIN%\%BUILD%35\System.Threading.* lib\net35\ > nul
 
-IF %2==core  copy %BIN%\%BUILD%Core\%1.*                               lib\netstandard1.6        > nul
-IF %3==sl    copy %BIN%\%BUILD%SL50\%1.*                               lib\sl50                  > nul
 IF %4==droid copy %BIN%\%BUILD%Droid\%1.*                              lib\MonoAndroid           > nul
 IF %5==uap   copy %BIN%\%BUILD%Universal\%1.*                          lib\uap                   > nul
-IF %6==win81 copy %BIN%\%BUILD%Windows81\%1.*                          lib\win81                 > nul
-IF %7==pcl   copy %BIN%\%BUILD%Portable\%1.*                           "lib\portable-net45+win8" > nul
 IF %8==core2 copy %BIN%\%BUILD%Core2\%1.*                              lib\netstandard2.0        > nul
 
 IF %1==AM.Rfid (
