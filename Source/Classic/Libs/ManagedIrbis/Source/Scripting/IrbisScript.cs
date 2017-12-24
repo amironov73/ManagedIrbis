@@ -119,8 +119,6 @@ namespace ManagedIrbis.Scripting
         /// </summary>
         private void _Initialize()
         {
-#if !NETCORE
-
             RegisterIrbisTypes();
             Engine = new Script(CoreModules.Preset_Complete);
 
@@ -142,7 +140,6 @@ namespace ManagedIrbis.Scripting
             }
 
             SetRecord(null);
-#endif
         }
 
 #endregion

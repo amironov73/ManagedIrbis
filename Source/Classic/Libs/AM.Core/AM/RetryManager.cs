@@ -109,6 +109,8 @@ namespace AM
 
                 Task.Delay(DelayInterval).Wait();
 
+#else
+
                 Thread.Sleep(DelayInterval);
 
 #endif

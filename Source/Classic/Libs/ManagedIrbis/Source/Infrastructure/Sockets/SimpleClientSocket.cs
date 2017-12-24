@@ -109,7 +109,7 @@ namespace ManagedIrbis.Infrastructure
 
             // TODO some setup
 
-#if NETCORE || UAP
+#if UAP
 
             Task task = result.ConnectAsync(_address, Connection.Port);
             task.Wait();

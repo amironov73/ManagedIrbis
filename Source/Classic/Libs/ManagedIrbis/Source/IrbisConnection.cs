@@ -66,7 +66,9 @@ namespace ManagedIrbis
 
         #region Properties
 
-#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
+#if !UAP
+
+        // TODO Implement properly
 
         /// <summary>
         /// Версия клиента.

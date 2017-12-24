@@ -111,7 +111,7 @@ namespace AM.Reflection
         {
             Code.NotNull(assembly, "assembly");
 
-#if WINMOBILE
+#if WINMOBILE || UAP
 
             Log.Error
                 (

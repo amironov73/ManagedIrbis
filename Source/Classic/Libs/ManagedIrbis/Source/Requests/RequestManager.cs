@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !NETCORE && !SILVERLIGHT && !ANDROID && !UAP && !WIN81
+#if !UAP
 
 #region Using directives
 
@@ -32,7 +32,7 @@ using MoonSharp.Interpreter;
 
 using CM=OpenNETCF.Configuration.ConfigurationSettings;
 
-#elif !PORTABLE
+#else
 
 using CM = System.Configuration.ConfigurationManager;
 

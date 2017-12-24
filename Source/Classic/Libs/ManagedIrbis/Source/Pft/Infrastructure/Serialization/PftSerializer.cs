@@ -53,7 +53,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
         private static int _CurrentVersion()
         {
             int result =
-#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
+#if !UAP
 
                 IrbisConnection.ClientVersion.Revision;
 

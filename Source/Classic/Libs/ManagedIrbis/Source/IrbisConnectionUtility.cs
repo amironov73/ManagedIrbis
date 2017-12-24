@@ -1194,7 +1194,7 @@ namespace ManagedIrbis
 
         // ========================================================
 
-#if !NETCORE && !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
+#if !UAP 
 
         /// <summary>
         /// Require minimal client version.

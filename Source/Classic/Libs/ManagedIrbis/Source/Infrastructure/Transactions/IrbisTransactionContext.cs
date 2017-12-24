@@ -33,10 +33,8 @@ namespace ManagedIrbis.Infrastructure.Transactions
         /// <summary>
         /// Transaction items.
         /// </summary>
-        public NonNullCollection<IrbisTransactionItem> Items
-        {
-            get { return _items; }
-        }
+        [NotNull]
+        public NonNullCollection<IrbisTransactionItem> Items { get; private set; }
 
         /// <summary>
         /// Name of the context (optional).
@@ -62,7 +60,7 @@ namespace ManagedIrbis.Infrastructure.Transactions
         /// </summary>
         public IrbisTransactionContext()
         {
-            _items = new NonNullCollection<IrbisTransactionItem>();
+            Items = new NonNullCollection<IrbisTransactionItem>();
         }
 
         /// <summary>
@@ -109,12 +107,6 @@ namespace ManagedIrbis.Infrastructure.Transactions
             Name = name;
             ParentContext = parentContext;
         }
-
-        #endregion
-
-        #region Private members
-
-        private readonly NonNullCollection<IrbisTransactionItem> _items;
 
         #endregion
 
