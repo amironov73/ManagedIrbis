@@ -73,14 +73,6 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region AbstractCommand members
 
         /// <inheritdoc cref="AbstractCommand.CreateQuery" />

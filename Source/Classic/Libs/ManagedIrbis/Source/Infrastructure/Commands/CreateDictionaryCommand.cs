@@ -88,11 +88,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             )
         {
             Verifier<CreateDictionaryCommand> verifier
-                = new Verifier<CreateDictionaryCommand>
-                (
-                    this,
-                    throwOnError
-                );
+                = new Verifier<CreateDictionaryCommand>(this, throwOnError);
 
             verifier
                 .NotNullNorEmpty(Database, "Database");

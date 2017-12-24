@@ -27,10 +27,6 @@ namespace ManagedIrbis.Infrastructure.Commands
     public class DisconnectCommand
         : AbstractCommand
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -76,7 +72,11 @@ namespace ManagedIrbis.Infrastructure.Commands
                     + result.ReturnCode
                 );
 
-            ((IrbisConnection)Connection)._connected = false;
+            IrbisConnection connection = Connection as IrbisConnection;
+            if (!ReferenceEquals(connection, null))
+            {
+                connection._connected = false;
+            }
 
             return result;
         }
