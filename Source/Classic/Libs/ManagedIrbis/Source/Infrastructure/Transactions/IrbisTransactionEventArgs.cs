@@ -9,7 +9,11 @@
 
 #region Using directives
 
+using CodeJam;
+
 using JetBrains.Annotations;
+
+using ManagedIrbis.Client;
 
 using MoonSharp.Interpreter;
 
@@ -29,17 +33,17 @@ namespace ManagedIrbis.Infrastructure.Transactions
         /// <summary>
         /// Connection.
         /// </summary>
-        public IrbisConnection Connection { get; internal set; }
+        public IrbisProvider Provider { get; private set; }
 
         /// <summary>
         /// Context.
         /// </summary>
-        public IrbisTransactionContext Context { get; internal set; }
+        public IrbisTransactionContext Context { get; private set; }
 
         /// <summary>
         /// Item.
         /// </summary>
-        public IrbisTransactionItem Item { get; internal set; }
+        public IrbisTransactionItem Item { get; private set; }
 
         #endregion
 
@@ -50,12 +54,16 @@ namespace ManagedIrbis.Infrastructure.Transactions
         /// </summary>
         public IrbisTransactionEventArgs
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IrbisProvider provider,
                 [NotNull] IrbisTransactionContext context,
                 [NotNull] IrbisTransactionItem item
             )
         {
-            Connection = connection;
+            Code.NotNull(provider, "provider");
+            Code.NotNull(context, "context");
+            Code.NotNull(item, "item");
+
+            Provider = provider;
             Context = context;
             Item = item;
         }

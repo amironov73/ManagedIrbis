@@ -10,12 +10,6 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -28,6 +22,8 @@ namespace ManagedIrbis.Infrastructure.Transactions
     /// <summary>
     /// Данные об элементе транзакции.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class IrbisTransactionItem
     {
         #region Properties
@@ -46,6 +42,7 @@ namespace ManagedIrbis.Infrastructure.Transactions
         /// <summary>
         /// Имя базы данных, в которой происходило действие.
         /// </summary>
+        [CanBeNull]
         public string Database { get; set; }
 
         /// <summary>

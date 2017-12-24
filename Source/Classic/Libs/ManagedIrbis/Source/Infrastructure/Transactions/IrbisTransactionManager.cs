@@ -10,14 +10,15 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
+
+using AM;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Client;
 
 using MoonSharp.Interpreter;
 
@@ -38,12 +39,13 @@ namespace ManagedIrbis.Infrastructure.Transactions
         /// <summary>
         /// Context.
         /// </summary>
+        [NotNull]
         public IrbisTransactionContext Context { get; private set; }
 
         /// <summary>
         /// Connection.
         /// </summary>
-        public IrbisConnection Connection { get; private set; }
+        public IrbisProvider Provider { get; private set; }
 
         /// <summary>
         /// In transaction now?
@@ -52,7 +54,7 @@ namespace ManagedIrbis.Infrastructure.Transactions
         {
             get
             {
-                return (Context.Items.Count != 0);
+                return Context.Items.Count != 0;
             }
         }
 
@@ -65,13 +67,13 @@ namespace ManagedIrbis.Infrastructure.Transactions
         /// </summary>
         public IrbisTransactionManager
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IrbisProvider provider
             )
         {
-            Code.NotNull(connection, "connection");
+            Code.NotNull(provider, "provider");
 
             Context = new IrbisTransactionContext();
-            Connection = connection;
+            Provider = provider;
 
             //Connection.Transaction += _EventHandler;
         }
@@ -80,17 +82,14 @@ namespace ManagedIrbis.Infrastructure.Transactions
 
         #region Private members
 
-        private void _EventHandler
-            (
-                object sender,
-                IrbisTransactionEventArgs eventArgs
-            )
-        {
-            Context.Items.Add
-                (
-                    eventArgs.Item
-                );
-        }
+        //private void _EventHandler
+        //    (
+        //        object sender,
+        //        IrbisTransactionEventArgs eventArgs
+        //    )
+        //{
+        //    Context.Items.Add(eventArgs.Item);
+        //}
 
         #endregion
 
@@ -116,11 +115,12 @@ namespace ManagedIrbis.Infrastructure.Transactions
         /// </summary>
         public void CommitTransaction()
         {
-            Context = Context.ParentContext;
-            if (ReferenceEquals(Context, null))
-            {
-                Context = new IrbisTransactionContext();
-            }
+            IrbisTransactionContext context = Context.ParentContext
+                ?? new IrbisTransactionContext();
+
+            Context = context;
+
+            // TODO implement
         }
 
         /// <summary>
@@ -128,20 +128,22 @@ namespace ManagedIrbis.Infrastructure.Transactions
         /// </summary>
         public void RollbackTransaction()
         {
-            throw new NotImplementedException("Rollback transaction");
+            IrbisTransactionContext context = Context.ParentContext
+                                              ?? new IrbisTransactionContext();
+
+            Context = context;
+
+            // TODO implement
         }
 
         #endregion
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
-            if (!ReferenceEquals(Connection, null))
-            {
-                // Connection.Transaction -= _EventHandler;
-            }
+            // TODO implement
         }
 
         #endregion

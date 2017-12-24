@@ -109,17 +109,5 @@ namespace ManagedIrbis.Infrastructure.Transactions
         }
 
         #endregion
-
-        #region Public methods
-
-        /// <summary>
-        /// Clear the context.
-        /// </summary>
-        public void Clear()
-        {
-            Items.Clear();
-        }
-
-        #endregion
     }
 }

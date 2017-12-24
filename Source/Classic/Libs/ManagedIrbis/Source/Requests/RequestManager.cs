@@ -32,7 +32,7 @@ using MoonSharp.Interpreter;
 
 using CM=OpenNETCF.Configuration.ConfigurationSettings;
 
-#else
+#elif !ANDROID
 
 using CM = System.Configuration.ConfigurationManager;
 
