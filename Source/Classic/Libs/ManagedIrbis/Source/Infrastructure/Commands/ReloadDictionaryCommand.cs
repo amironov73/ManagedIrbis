@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using AM;
 using AM.Logging;
  
 using CodeJam;
@@ -54,14 +55,6 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region AbstractCommand members
 
         /// <inheritdoc cref="AbstractCommand.CreateQuery" />
@@ -98,6 +91,18 @@ namespace ManagedIrbis.Infrastructure.Commands
             result.GetReturnCode();
 
             return result;
+        }
+
+        /// <inheritdoc cref="AbstractCommand.Verify" />
+        public override bool Verify(bool throwOnError)
+        {
+            Verifier<ReloadDictionaryCommand> verifier
+                = new Verifier<ReloadDictionaryCommand>(this, throwOnError);
+
+            verifier
+                .NotNullNorEmpty(Database, "Database");
+
+            return verifier.Result;
         }
 
         #endregion

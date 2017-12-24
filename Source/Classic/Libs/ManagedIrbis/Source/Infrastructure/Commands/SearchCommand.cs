@@ -349,7 +349,7 @@ namespace ManagedIrbis.Infrastructure.Commands
                         + "database not set"
                     );
 
-                throw new IrbisNetworkException("database not set");
+                throw new IrbisException("database not set");
             }
 
             result.Add(database);

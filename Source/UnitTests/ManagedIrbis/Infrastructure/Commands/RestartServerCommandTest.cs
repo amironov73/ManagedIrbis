@@ -9,6 +9,7 @@ using AM.Text;
 using ManagedIrbis;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Infrastructure.Commands;
+using ManagedIrbis.Infrastructure.Sockets;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -28,6 +29,35 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
             RestartServerCommand command
                 = new RestartServerCommand(connection);
             Assert.AreSame(connection, command.Connection);
+        }
+
+        [TestMethod]
+        public void RestartServerCommand_CreateQuery_1()
+        {
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
+            RestartServerCommand command = new RestartServerCommand(connection);
+            ClientQuery query = command.CreateQuery();
+            Assert.IsNotNull(query);
+        }
+
+        [TestMethod]
+        public void RestartServerCommand_ExecuteRequest_1()
+        {
+            int returnCode = 0;
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
+            RestartServerCommand command = new RestartServerCommand(connection);
+            ResponseBuilder builder = new ResponseBuilder()
+                .StandardHeader(CommandCode.RestartServer, 123, 456)
+                .NewLine()
+                .Append(returnCode)
+                .NewLine();
+            TestingSocket socket = (TestingSocket) connection.Socket;
+            socket.Response = builder.Encode();
+            ClientQuery query = command.CreateQuery();
+            ServerResponse response = command.Execute(query);
+            Assert.AreEqual(returnCode, response.ReturnCode);
         }
 
         [TestMethod]

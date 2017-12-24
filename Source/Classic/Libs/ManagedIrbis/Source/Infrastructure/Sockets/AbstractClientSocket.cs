@@ -62,7 +62,7 @@ namespace ManagedIrbis.Infrastructure
         /// <summary>
         /// Requires connection?
         /// </summary>
-        public virtual bool RequiresConnection { get { return true; } }
+        public virtual bool RequireConnection { get { return true; } }
 
         #endregion
 

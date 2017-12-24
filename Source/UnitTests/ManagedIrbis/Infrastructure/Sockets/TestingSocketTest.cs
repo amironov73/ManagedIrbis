@@ -31,7 +31,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Sockets
             Mock<IIrbisConnection> mock = _GetMock();
             IIrbisConnection connection = mock.Object;
             TestingSocket socket = new TestingSocket(connection);
-            Assert.IsFalse(socket.RequiresConnection);
+            Assert.IsFalse(socket.RequireConnection);
         }
 
         [TestMethod]

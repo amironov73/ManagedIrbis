@@ -9,6 +9,7 @@ using AM.Text;
 using ManagedIrbis;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Infrastructure.Commands;
+using ManagedIrbis.Infrastructure.Sockets;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -28,6 +29,47 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
             ReadFileCommand command
                 = new ReadFileCommand(connection);
             Assert.AreSame(connection, command.Connection);
+        }
+
+        [TestMethod]
+        public void ReadFileCommand_CreateQuery_1()
+        {
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
+            ReadFileCommand command = new ReadFileCommand(connection)
+            {
+                Files =
+                {
+                    new FileSpecification(IrbisPath.MasterFile, "IBIS", "file.txt")
+                }
+            };
+            ClientQuery query = command.CreateQuery();
+            Assert.IsNotNull(query);
+        }
+
+        [TestMethod]
+        public void ReadFileCommand_ExecuteRequest_1()
+        {
+            int returnCode = 0;
+            Mock<IIrbisConnection> mock = GetConnectionMock();
+            IIrbisConnection connection = mock.Object;
+            ReadFileCommand command = new ReadFileCommand(connection)
+            {
+                Files =
+                {
+                    new FileSpecification(IrbisPath.MasterFile, "IBIS", "file.txt")
+                }
+            };
+            ResponseBuilder builder = new ResponseBuilder()
+                .StandardHeader(CommandCode.ReadDocument, 123, 456)
+                .NewLine()
+                .Append(returnCode)
+                .NewLine();
+            TestingSocket socket = (TestingSocket) connection.Socket;
+            socket.Response = builder.Encode();
+            ClientQuery query = command.CreateQuery();
+            ServerResponse response = command.Execute(query);
+            Assert.IsNotNull(response);
         }
 
         [TestMethod]

@@ -123,7 +123,7 @@ namespace ManagedIrbis.Infrastructure
             IrbisConnection connection = context.Connection
                 .ThrowIfNull("Connection");
 
-            if (command.RequireConnection)
+            if (command.RequireConnection && connection.Socket.RequireConnection)
             {
                 if (!connection.Connected)
                 {

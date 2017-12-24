@@ -144,10 +144,6 @@ namespace ManagedIrbis.Infrastructure.Commands
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -175,12 +171,9 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// <summary>
         /// Clone the command.
         /// </summary>
-        public SearchCommand Clone()
+        public SearchRawCommand Clone()
         {
-            SearchCommand result = new SearchCommand
-                (
-                    Connection
-                )
+            SearchRawCommand result = new SearchRawCommand(Connection)
             {
                 Database = Database,
                 FirstRecord = FirstRecord,
@@ -238,7 +231,7 @@ namespace ManagedIrbis.Infrastructure.Commands
                         + "database not set"
                     );
 
-                throw new IrbisNetworkException("database not set");
+                throw new IrbisException("database not set");
             }
 
             result.Add(database);

@@ -75,7 +75,11 @@ namespace ManagedIrbis.Infrastructure
                 byte[] request
             )
         {
-            Connection.RawClientRequest = request;
+            IrbisConnection connection = Connection as IrbisConnection;
+            if (!ReferenceEquals(connection, null))
+            {
+                connection.RawClientRequest = request;
+            }
 
             Debug.WriteLine("AsyncClientSocket: entering");
 
@@ -188,7 +192,10 @@ namespace ManagedIrbis.Infrastructure
 
                     Debug.WriteLine("AsyncClientSocket: exiting");
 
-                    Connection.RawServerResponse = _result;
+                    if (!ReferenceEquals(connection, null))
+                    {
+                        connection.RawServerResponse = _result;
+                    }
 
                     // Thread.Sleep(3000); // for debugging only!
                 }

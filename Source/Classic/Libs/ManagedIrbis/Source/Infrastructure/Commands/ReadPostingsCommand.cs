@@ -332,9 +332,5 @@ namespace ManagedIrbis.Infrastructure.Commands
         }
 
         #endregion
-
-        #region Object members
-
-        #endregion
     }
 }

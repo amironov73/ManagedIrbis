@@ -32,7 +32,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
 
         [TestMethod]
         [ExpectedException(typeof(IrbisException))]
-        public void CreateDictionayCommand_CreateQuery_1()
+        public void CreateDictionaryCommand_CreateQuery_1()
         {
             Mock<IIrbisConnection> mock = GetConnectionMock();
             IIrbisConnection connection = mock.Object;

@@ -79,6 +79,11 @@ namespace ManagedIrbis.Infrastructure.Commands
         public string Username { get; set; }
 
         /// <summary>
+        /// Confirmation interval, minutes.
+        /// </summary>
+        public int ConfirmationInterval { get; set; }
+
+        /// <summary>
         /// Server version.
         /// </summary>
         [CanBeNull]
@@ -197,8 +202,11 @@ namespace ManagedIrbis.Infrastructure.Commands
                 // CLIENT_ALREADY_EXISTS
                 if (result.ReturnCode == -3337)
                 {
-                    query.ClientID = ((IrbisConnection)Connection)
-                        .GenerateClientID();
+                    IrbisConnection connection = Connection as IrbisConnection;
+                    int newId = ReferenceEquals(connection, null)
+                        ? Connection.ClientID + 1
+                        : connection.GenerateClientID();
+                    query.ClientID = newId;
                 }
                 else
                 {
@@ -208,6 +216,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
             if (result.ReturnCode == 0)
             {
+                ConfirmationInterval = result.RequireInt32();
                 Configuration = result.RemainingAnsiText();
             }
 
@@ -230,8 +239,8 @@ namespace ManagedIrbis.Infrastructure.Commands
                 = new Verifier<ConnectCommand>(this, throwOnError);
 
             verifier
-                .NotNullNorEmpty(Connection.Username, "Username")
-                .NotNullNorEmpty(Connection.Password, "Password");
+                .NotNullNorEmpty(Username, "Username")
+                .NotNullNorEmpty(Password, "Password");
 
             return verifier.Result;
         }

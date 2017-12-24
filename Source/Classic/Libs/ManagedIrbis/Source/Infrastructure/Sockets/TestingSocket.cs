@@ -51,8 +51,8 @@ namespace ManagedIrbis.Infrastructure.Sockets
         [CanBeNull]
         public byte[] ExpectedRequest { get; set; }
 
-        /// <inheritdoc cref="AbstractClientSocket.RequiresConnection" />
-        public override bool RequiresConnection
+        /// <inheritdoc cref="AbstractClientSocket.RequireConnection" />
+        public override bool RequireConnection
         {
             get { return false; }
         }
