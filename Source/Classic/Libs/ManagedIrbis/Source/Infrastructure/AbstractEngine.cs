@@ -260,12 +260,8 @@ namespace ManagedIrbis.Infrastructure
 
             using (new BusyGuard(connection.Busy))
             {
-                ServerResponse result = ServerResponse
-                    .GetEmptyResponse
-                    (
-                        connection
-                    );
-
+                ServerResponse result
+                    = ServerResponse.GetEmptyResponse(connection);
                 connection.Interrupted = false;
 
                 try

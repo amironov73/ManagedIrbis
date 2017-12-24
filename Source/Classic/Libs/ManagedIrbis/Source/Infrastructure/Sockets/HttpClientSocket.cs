@@ -194,7 +194,12 @@ namespace ManagedIrbis.Infrastructure.Sockets
         {
             Code.NotNull(request, "request");
 
-            Connection.RawClientRequest = request;
+            IrbisConnection connection = Connection as IrbisConnection;
+
+            if (!ReferenceEquals(connection, null))
+            {
+                connection.RawClientRequest = request;
+            }
 
             _ResolveHostAddress(Connection.Host);
 
@@ -211,7 +216,10 @@ namespace ManagedIrbis.Infrastructure.Sockets
                     byte[] answer = socket.ReceiveToEnd();
                     byte[] result = _TranswormAnswer(answer);
 
-                    Connection.RawServerResponse = result;
+                    if (!ReferenceEquals(connection, null))
+                    {
+                        connection.RawServerResponse = result;
+                    }
 
                     return result;
                 }

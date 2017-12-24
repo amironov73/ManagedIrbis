@@ -467,6 +467,7 @@
     <Compile Include="ManagedIrbis\Infrastructure\Commands\WriteRecordCommandTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\Commands\WriteRecordsCommandTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\FileSpecificationTest.cs" />
+    <Compile Include="ManagedIrbis\Infrastructure\Sockets\TestingSocketTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\Transactions\IrbisTransactionContextTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\Transactions\IrbisTransactionEventArgsTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\Transactions\IrbisTransactionItemTest.cs" />

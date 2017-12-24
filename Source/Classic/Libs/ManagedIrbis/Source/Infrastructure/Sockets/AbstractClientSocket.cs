@@ -45,7 +45,7 @@ namespace ManagedIrbis.Infrastructure
         /// Connection.
         /// </summary>
         [NotNull]
-        public IrbisConnection Connection { get; internal set; }
+        public IIrbisConnection Connection { get; internal set; }
 
         /// <summary>
         /// Busy state flag.
@@ -59,6 +59,11 @@ namespace ManagedIrbis.Infrastructure
         [CanBeNull]
         public AbstractClientSocket InnerSocket { get; internal set; }
 
+        /// <summary>
+        /// Requires connection?
+        /// </summary>
+        public virtual bool RequiresConnection { get { return true; } }
+
         #endregion
 
         #region Construction
@@ -68,7 +73,7 @@ namespace ManagedIrbis.Infrastructure
         /// </summary>
         protected AbstractClientSocket
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");

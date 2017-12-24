@@ -84,9 +84,7 @@ namespace ManagedIrbis.Client
             Registry = new Dictionary<string, Type>
             {
                 {Null, typeof(NullProvider)},
-#if !SILVERLIGHT
                 {Local, typeof(LocalProvider)},
-#endif
                 {Connected, typeof(ConnectedClient)},
                 {SemiConnected, typeof(SemiConnectedClient)},
                 {Default, typeof(ConnectedClient)}
@@ -124,7 +122,7 @@ namespace ManagedIrbis.Client
                 name = Default;
             }
 
-#if CLASSIC || ANDROID
+#if CLASSIC || NETCORE || ANDROID
 
             string assemblyParameter
                 = parameters.GetParameter("Assembly", null)

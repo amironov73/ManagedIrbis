@@ -143,17 +143,12 @@ namespace ManagedIrbis.Infrastructure
         {
             Code.NotNull(request, "request");
 
-            Connection.RawClientRequest = request;
+            IrbisConnection connection = Connection as IrbisConnection;
 
-#if SILVERLIGHT
-
-            throw new NotImplementedException();
-
-#elif WIN81 || PORTABLE
-
-            throw new NotImplementedException();
-
-#else
+            if (!ReferenceEquals(connection, null))
+            {
+                connection.RawClientRequest = request;
+            }
 
             _ResolveHostAddress(Connection.Host);
 
@@ -172,13 +167,15 @@ namespace ManagedIrbis.Infrastructure
                             GetType(),
                             result.Length
                         );
-                    Connection.RawServerResponse = result;
+
+                    if (!ReferenceEquals(connection, null))
+                    {
+                        connection.RawServerResponse = result;
+                    }
 
                     return result;
                 }
             }
-
-#endif
         }
 
         #endregion

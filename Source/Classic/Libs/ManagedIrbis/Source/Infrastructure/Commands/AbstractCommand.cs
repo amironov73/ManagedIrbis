@@ -132,20 +132,25 @@ namespace ManagedIrbis.Infrastructure.Commands
         /// <summary>
         /// Create client query.
         /// </summary>
-        public virtual ClientQuery CreateQuery ()
+        public virtual ClientQuery CreateQuery()
         {
             Log.Trace("AbstractCommand::CreateQuery");
 
             // TODO fix it!
 
-            ClientQuery result = new ClientQuery (Connection)
+            ClientQuery result = new ClientQuery(Connection)
             {
                 Workstation = Connection.Workstation,
                 ClientID = Connection.ClientID,
-                CommandNumber = ((IrbisConnection)Connection).IncrementCommandNumber(),
+                CommandNumber = 1,
                 UserLogin = Connection.Username,
                 UserPassword = Connection.Password
             };
+            IrbisConnection connection = Connection as IrbisConnection;
+            if (!ReferenceEquals(connection, null))
+            {
+                result.CommandNumber = connection.IncrementCommandNumber();
+            }
 
             return result;
         }

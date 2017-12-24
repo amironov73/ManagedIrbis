@@ -274,6 +274,7 @@
     <Compile Include="Source\IIrbisConnection.cs" />
     <Compile Include="Source\Infrastructure\CommandKind.cs" />
     <Compile Include="Source\Infrastructure\ResponseBuilder.cs" />
+    <Compile Include="Source\Infrastructure\Sockets\TestingSocket.cs" />
     <Compile Include="Source\Monitoring\BlockedRecord.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\CompilerProxy.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexInfo.cs" />
