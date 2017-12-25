@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Diagnostics;
 using System.Text;
 
 using CodeJam;
@@ -32,10 +33,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     public sealed class PftL
         : PftNumeric
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -57,14 +54,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.L);
         }
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -157,6 +146,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             printer.Write(')');
         }
 
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
+        }
+
         #endregion
 
         #region Object members
@@ -166,16 +162,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             StringBuilder result = new StringBuilder();
             result.Append("l(");
-            bool first = true;
-            foreach (PftNode child in Children)
-            {
-                if (!first)
-                {
-                    result.Append(' ');
-                }
-                result.Append(child);
-                first = false;
-            }
+            PftUtility.NodesToText(result, Children);
             result.Append(')');
 
             return result.ToString();

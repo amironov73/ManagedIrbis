@@ -117,6 +117,29 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Field = new PftV(text);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftP
+            (
+                int tag
+            )
+        {
+            Field = new PftV(tag);
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftP
+            (
+                int tag,
+                char code
+            )
+        {
+            Field = new PftV(tag, code);
+        }
+
         #endregion
 
         #region Private members
