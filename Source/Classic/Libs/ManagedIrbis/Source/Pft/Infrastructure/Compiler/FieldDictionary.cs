@@ -88,7 +88,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         {
             Code.NotNull(field, "field");
 
-            string text = field.ToString();
+            string text = field.ToSpecification().ToString();
             FieldInfo result;
             Forward.TryGetValue(text, out result);
 

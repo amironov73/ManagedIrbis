@@ -10,7 +10,11 @@
 #region Using directives
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+
+using AM;
+using AM.Logging;
 
 using JetBrains.Annotations;
 
@@ -56,9 +60,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
+
+                Log.Error
+                    (
+                        "PftProcedureDefinition::Children: "
+                        + "set value="
+                        + value.ToVisibleString()
+                    );
             }
         }
 
@@ -95,10 +107,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         #region Private members
 
         private VirtualChildren _virtualChildren;
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 

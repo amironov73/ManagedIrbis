@@ -11,14 +11,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
@@ -72,9 +76,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
+
+                Log.Error
+                    (
+                        "PftRef::Children: "
+                        + "set value="
+                        + value.ToVisibleString()
+                    );
             }
         }
 
@@ -113,10 +125,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Public methods
-
-        #endregion
-
         #region ICloneable members
 
         /// <inheritdoc cref="ICloneable.Clone" />
@@ -146,7 +154,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             base.CompareNode(otherNode);
 
-            PftRef otherRef = (PftRef) otherNode;
+            PftRef otherRef = (PftRef)otherNode;
             PftSerializationUtility.CompareNodes
                 (
                     Mfn,
@@ -223,7 +231,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             base.Deserialize(reader);
 
-            Mfn = (PftNumeric) PftSerializer.DeserializeNullable(reader);
+            Mfn = (PftNumeric)PftSerializer.DeserializeNullable(reader);
             PftSerializer.Deserialize(reader, Format);
         }
 
@@ -266,7 +274,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 PftNodeInfo mfnInfo = new PftNodeInfo
                 {
-                    Node=Mfn,
+                    Node = Mfn,
                     Name = "Mfn"
                 };
                 result.Children.Add(mfnInfo);
@@ -275,7 +283,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             PftNodeInfo formatInfo = new PftNodeInfo
             {
-                Name="Format"
+                Name = "Format"
             };
             foreach (PftNode node in Format)
             {
@@ -289,10 +297,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <inheritdoc cref="PftNode.Optimize" />
         public override PftNode Optimize()
         {
-            if (!ReferenceEquals(Mfn, null))
+            if (ReferenceEquals(Mfn, null))
             {
-                Mfn = (PftNumeric) Mfn.Optimize();
+                return null;
             }
+            Mfn = (PftNumeric)Mfn.Optimize();
             Format.Optimize();
 
             if (Format.Count == 0)
@@ -333,6 +342,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftSerializer.Serialize(writer, Format);
         }
 
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
+        }
+
         #endregion
 
         #region Object members
@@ -347,16 +363,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 result.Append(Mfn);
             }
             result.Append(',');
-            bool first = true;
-            foreach (PftNode node in Format)
-            {
-                if (!first)
-                {
-                    result.Append(' ');
-                }
-                result.Append(node);
-                first = false;
-            }
+            PftUtility.NodesToText(result, Format);
             result.Append(')');
 
             return result.ToString();
