@@ -11,8 +11,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Text;
 
 using AM;
 using AM.Logging;
@@ -66,6 +66,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
@@ -159,23 +160,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Program = parser.Parse();
         }
 
-        private void ParseProgram
-            (
-                [NotNull] PftContext context
-            )
-        {
-            string fileName = context.Evaluate(Children);
-            ParseProgram
-                (
-                    context,
-                    fileName
-                );
-        }
-
-        #endregion
-
-        #region Public methods
-
         #endregion
 
         #region ICloneable members
@@ -183,11 +167,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <inheritdoc cref="PftNode.Clone" />
         public override object Clone()
         {
-            PftInclude result = (PftInclude) base.Clone();
+            PftInclude result = (PftInclude)base.Clone();
 
             if (!ReferenceEquals(Program, null))
             {
-                result.Program = (PftProgram) Program.Clone();
+                result.Program = (PftProgram)Program.Clone();
             }
 
             return result;
@@ -217,7 +201,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 }
             }
 
-            PftProgram program = (PftProgram) Program.ThrowIfNull().Clone();
+            PftProgram program = (PftProgram)Program.ThrowIfNull().Clone();
             program.Optimize();
 
             compiler.RenumberNodes(program);
@@ -241,7 +225,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             base.Deserialize(reader);
 
-            Program = (PftProgram) PftSerializer.DeserializeNullable(reader);
+            Program = (PftProgram)PftSerializer.DeserializeNullable(reader);
         }
 
         /// <inheritdoc cref="PftNode.Execute" />
@@ -256,18 +240,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 try
                 {
-                    if (!string.IsNullOrEmpty(Text))
+                    if (string.IsNullOrEmpty(Text))
                     {
-                        ParseProgram
+                        throw new PftSyntaxException();
+                    }
+                    ParseProgram
                         (
                             context,
                             Text
                         );
-                    }
-                    else
-                    {
-                        ParseProgram(context);
-                    }
                 }
                 catch (Exception exception)
                 {

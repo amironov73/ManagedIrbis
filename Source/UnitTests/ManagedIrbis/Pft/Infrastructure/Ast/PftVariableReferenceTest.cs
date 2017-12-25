@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+
 using AM.Text;
 
 using JetBrains.Annotations;
@@ -119,7 +120,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftP_Clone_2()
+        public void PftVariableReference_Clone_2()
         {
             PftVariableReference first = new PftVariableReference("x", 5);
             PftVariableReference second = (PftVariableReference)first.Clone();
@@ -128,7 +129,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
 
         [TestMethod]
         [ExpectedException(typeof(PftSerializationException))]
-        public void PftP_Clone_3()
+        public void PftVariableReference_Clone_3()
         {
             PftVariableReference first = new PftVariableReference("x", 5);
             PftVariableReference second = (PftVariableReference)first.Clone();
@@ -280,7 +281,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftRef_Serialization_1()
+        public void PftVariableReference_Serialization_1()
         {
             PftVariableReference node = new PftVariableReference();
             _TestSerialization(node);
