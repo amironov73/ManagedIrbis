@@ -70,10 +70,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 token = Tokens.Current;
                 if (token.Kind == PftTokenKind.RepeatableLiteral)
                 {
-                    literal = new PftRepeatableLiteral(token)
-                    {
-                        IsPrefix = true
-                    };
+                    literal = new PftRepeatableLiteral(token, true);
                     leftHand.Add(literal);
 
                     if (Tokens.Peek() == PftTokenKind.Plus)
@@ -193,7 +190,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     }
                     if (token.Kind == PftTokenKind.RepeatableLiteral)
                     {
-                        literal = new PftRepeatableLiteral(token)
+                        literal = new PftRepeatableLiteral(token, false)
                         {
                             Plus = plus
                         };

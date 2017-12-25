@@ -124,12 +124,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftRepeatableLiteral
             (
-                [NotNull] PftToken token
+                [NotNull] PftToken token,
+                bool isPrefix
             )
             : base(token)
         {
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.RepeatableLiteral);
+
+            IsPrefix = isPrefix;
 
             try
             {
@@ -193,10 +196,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 }
 
                 FieldInfo info = compiler.Fields.Get(field);
-                if (ReferenceEquals(info, null))
-                {
-                    throw new PftCompilerException();
-                }
+                //if (ReferenceEquals(info, null))
+                //{
+                //    throw new PftCompilerException();
+                //}
 
                 compiler
                     .WriteIndent()

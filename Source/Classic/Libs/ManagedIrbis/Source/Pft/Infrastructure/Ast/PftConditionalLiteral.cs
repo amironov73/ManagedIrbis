@@ -20,6 +20,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Compiler;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
@@ -153,7 +154,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (IsSuffix != ((PftConditionalLiteral) otherNode).IsSuffix)
             {
-                throw new IrbisException();
+                throw new PftSerializationException();
             }
         }
 
@@ -174,20 +175,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 }
 
                 FieldInfo info = compiler.Fields.Get(field);
-                if (ReferenceEquals(info, null))
-                {
-                    throw new PftCompilerException();
-                }
+                //if (ReferenceEquals(info, null))
+                //{
+                //    throw new PftCompilerException();
+                //}
 
                 compiler
                     .WriteIndent()
                     .WriteLine
-                    (
-                        "DoConditionalLiteral(\"{0}\", {1}, {2});",
-                        CompilerUtility.Escape(Text),
-                        info.Reference,
-                        CompilerUtility.BooleanToText(IsSuffix)
-                    );
+                        (
+                            "DoConditionalLiteral(\"{0}\", {1}, {2});",
+                            CompilerUtility.Escape(Text),
+                            info.Reference,
+                            CompilerUtility.BooleanToText(IsSuffix)
+                        );
             }
 
             compiler.EndMethod(this);

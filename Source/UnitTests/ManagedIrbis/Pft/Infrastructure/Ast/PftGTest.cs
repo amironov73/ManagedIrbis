@@ -129,7 +129,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         public void PftG_CompareNode_1()
         {
             PftG left = new PftG(100);
-            PftG right = new PftG(100) {Number = 101};
+            PftG right = new PftG(100) { Number = 101 };
             PftSerializationUtility.CompareNodes(left, right);
         }
 
@@ -384,7 +384,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             byte[] bytes = stream.ToArray();
             stream = new MemoryStream(bytes);
             BinaryReader reader = new BinaryReader(stream);
-            PftG second = (PftG) PftSerializer.Deserialize(reader);
+            PftG second = (PftG)PftSerializer.Deserialize(reader);
             PftSerializationUtility.CompareNodes(first, second);
         }
 

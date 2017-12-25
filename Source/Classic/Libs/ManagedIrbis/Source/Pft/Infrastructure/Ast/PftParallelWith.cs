@@ -11,11 +11,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM;
 using AM.Collections;
+using AM.Logging;
 
 using CodeJam;
 
@@ -74,9 +77,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 return _virtualChildren;
             }
+            [ExcludeFromCodeCoverage]
             protected set
             {
                 // Nothing to do here
+
+                Log.Error
+                    (
+                        "PftParallelWith::Children: "
+                        + "set value="
+                        + value.ToVisibleString()
+                    );
             }
         }
 
@@ -112,30 +123,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Public methods
-
-        #endregion
-
-        #region PftNode members
-
-        /// <inheritdoc />
-        public override void Execute
-            (
-                PftContext context
-            )
-        {
-            OnBeforeExecution(context);
-
-            base.Execute(context);
-
-            OnAfterExecution(context);
-        }
-
-        #endregion
-
         #region ICloneable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Clone" />
         public override object Clone()
         {
             PftParallelWith result = (PftParallelWith)base.Clone();
@@ -151,12 +141,29 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             foreach (FieldSpecification field in Fields)
             {
                 result.Fields.Add
-                    (
-                        (FieldSpecification)field.Clone()
-                    );
+                (
+                    (FieldSpecification)field.Clone()
+                );
             }
 
             return result;
+        }
+
+        #endregion
+
+        #region PftNode members
+
+        /// <inheritdoc cref="PftNode.Execute" />
+        public override void Execute
+            (
+                PftContext context
+            )
+        {
+            OnBeforeExecution(context);
+
+            base.Execute(context);
+
+            OnAfterExecution(context);
         }
 
         #endregion

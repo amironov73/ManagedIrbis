@@ -95,6 +95,36 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftVariableReference
             (
+                [NotNull] string name,
+                int index
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
+
+            Name = name;
+            Index = IndexSpecification.GetLiteral(index);
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftVariableReference
+            (
+                [NotNull] string name,
+                char code
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
+
+            Name = name;
+            SubFieldCode = code;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftVariableReference
+            (
                 [NotNull] PftToken token
             )
             : base(token)
@@ -102,7 +132,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.Variable);
 
-            Name = token.Text;
+            string text = token.Text.ThrowIfNull("token.Text");
+            if (text.StartsWith("$"))
+            {
+                text = text.Substring(1);
+            }
+            Name = text;
         }
 
         #endregion
@@ -445,9 +480,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             result.Append(Name);
             if (Index.Kind != IndexKind.None)
             {
-                result.Append('[');
-                result.Append(Index);
-                result.Append(']');
+                result.Append(Index.ToText());
             }
 
             if (SubFieldCode != SubField.NoCode)

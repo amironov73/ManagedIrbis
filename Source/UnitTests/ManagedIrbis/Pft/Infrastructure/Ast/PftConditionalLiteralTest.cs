@@ -1,15 +1,21 @@
-﻿using AM.Text;
+﻿using System.IO;
+
+using AM.Text;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Client;
+using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 using ManagedIrbis.Pft.Infrastructure.Compiler;
+using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+// ReSharper disable ObjectCreationAsStatement
 
 namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
 {
@@ -26,6 +32,25 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             PftContext context = new PftContext(null)
             {
                 Record = record
+            };
+            context.Globals.Add(100, "First");
+            context.Globals.Append(100, "Second");
+            node.Execute(context);
+            string actual = context.Text.DosToUnix();
+            Assert.AreEqual(expected, actual);
+        }
+
+        private void _ExecuteUpper
+            (
+                [NotNull] MarcRecord record,
+                [NotNull] PftField node,
+                [NotNull] string expected
+            )
+        {
+            PftContext context = new PftContext(null)
+            {
+                Record = record,
+                UpperMode = true
             };
             context.Globals.Add(100, "First");
             context.Globals.Append(100, "Second");
@@ -56,6 +81,34 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
                 result.LeftHand.Add
                     (
                         new PftConditionalLiteral(">> ", false)
+                    );
+            }
+
+            return result;
+        }
+
+        [NotNull]
+        private PftField _GetVNode2
+            (
+                int tag,
+                char code,
+                bool suffix
+            )
+        {
+            PftV result = new PftV(tag, code);
+
+            if (suffix)
+            {
+                result.RightHand.Add
+                    (
+                        new PftConditionalLiteral(" суффикс", true)
+                    );
+            }
+            else
+            {
+                result.LeftHand.Add
+                    (
+                        new PftConditionalLiteral("префикс ", false)
                     );
             }
 
@@ -148,6 +201,60 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
+        [ExpectedException(typeof(PftSyntaxException))]
+        public void PftConditionalLiteral_Construction_2a()
+        {
+            PftToken token = new PftToken(PftTokenKind.ConditionalLiteral, 1, 1, null);
+            new PftConditionalLiteral(token, false);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftSerializationException))]
+        public void PftConditionalLiteral_CompareNode_1()
+        {
+            PftConditionalLiteral left = new PftConditionalLiteral("Hello", false);
+            PftConditionalLiteral right = new PftConditionalLiteral("Hello", true);
+            PftSerializationUtility.CompareNodes(left, right);
+        }
+
+        [TestMethod]
+        public void PftConditionalLiteral_Compile_1()
+        {
+            PftNode node = _GetVNode(200, 'a', true);
+            NullProvider provider = new NullProvider();
+            PftCompiler compiler = new PftCompiler();
+            compiler.SetProvider(provider);
+            PftProgram program = new PftProgram();
+            program.Children.Add(node);
+            compiler.CompileProgram(program);
+        }
+
+        [TestMethod]
+        public void PftConditionalLiteral_Compile_2()
+        {
+            PftNode node = _GetGNode(100, '\0', true);
+            NullProvider provider = new NullProvider();
+            PftCompiler compiler = new PftCompiler();
+            compiler.SetProvider(provider);
+            PftProgram program = new PftProgram();
+            program.Children.Add(node);
+            compiler.CompileProgram(program);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftCompilerException))]
+        public void PftConditionalLiteral_Compile_3()
+        {
+            PftNode node = new PftConditionalLiteral("text", false);
+            NullProvider provider = new NullProvider();
+            PftCompiler compiler = new PftCompiler();
+            compiler.SetProvider(provider);
+            PftProgram program = new PftProgram();
+            program.Children.Add(node);
+            compiler.CompileProgram(program);
+        }
+
+        [TestMethod]
         public void PftConditionalLiteral_Execute_1()
         {
             MarcRecord record = _GetRecord();
@@ -228,6 +335,43 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
+        public void PftConditionalLiteral_Execute_11()
+        {
+            MarcRecord record = _GetRecord();
+            PftField node = _GetVNode2(200, 'a', false);
+            _ExecuteUpper(record, node, "ПРЕФИКС ЗАГЛАВИЕ");
+        }
+
+        [TestMethod]
+        public void PftConditionalLiteral_Execute_12()
+        {
+            MarcRecord record = _GetRecord();
+            PftField node = _GetVNode2(200, 'a', true);
+            _ExecuteUpper(record, node, "ЗАГЛАВИЕ СУФФИКС");
+        }
+
+        [TestMethod]
+        public void PftConditionalLiteral_Optimize_1()
+        {
+            PftConditionalLiteral node = new PftConditionalLiteral();
+            Assert.IsNull(node.Optimize());
+        }
+
+        [TestMethod]
+        public void PftConditionalLiteral_Optimize_2()
+        {
+            PftConditionalLiteral node = new PftConditionalLiteral(string.Empty, true);
+            Assert.IsNull(node.Optimize());
+        }
+
+        [TestMethod]
+        public void PftConditionalLiteral_Optimize_3()
+        {
+            PftConditionalLiteral node = new PftConditionalLiteral("Hello", true);
+            Assert.AreSame(node, node.Optimize());
+        }
+
+        [TestMethod]
         public void PftConditionalLiteral_PrettyPrint_1()
         {
             PftField node = _GetVNode(200, 'a', true);
@@ -245,23 +389,58 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             Assert.AreEqual("\">> \"v200^a", printer.ToString());
         }
 
-        //[TestMethod]
-        //public void PftConditionalLiteral_PrettyPrint_3()
-        //{
-        //    PftField node = _GetGNode(100, '\0', true);
-        //    PftPrettyPrinter printer = new PftPrettyPrinter();
-        //    node.PrettyPrint(printer);
-        //    Assert.AreEqual("g100\" <<\"", printer.ToString());
-        //}
+        [TestMethod]
+        public void PftConditionalLiteral_PrettyPrint_3()
+        {
+            PftField node = _GetGNode(100, '\0', true);
+            PftPrettyPrinter printer = new PftPrettyPrinter();
+            node.PrettyPrint(printer);
+            Assert.AreEqual("g100\" <<\"", printer.ToString());
+        }
 
-        //[TestMethod]
-        //public void PftConditionalLiteral_PrettyPrint_4()
-        //{
-        //    PftField node = _GetGNode(100, '\0', false);
-        //    PftPrettyPrinter printer = new PftPrettyPrinter();
-        //    node.PrettyPrint(printer);
-        //    Assert.AreEqual("\">> \"g100", printer.ToString());
-        //}
+        [TestMethod]
+        public void PftConditionalLiteral_PrettyPrint_4()
+        {
+            PftField node = _GetGNode(100, '\0', false);
+            PftPrettyPrinter printer = new PftPrettyPrinter();
+            node.PrettyPrint(printer);
+            Assert.AreEqual("\">> \"g100", printer.ToString());
+        }
+
+        private void _TestSerialization
+            (
+                [NotNull] PftNode first
+            )
+        {
+            MemoryStream stream = new MemoryStream();
+            BinaryWriter writer = new BinaryWriter(stream);
+            PftSerializer.Serialize(writer, first);
+
+            byte[] bytes = stream.ToArray();
+            stream = new MemoryStream(bytes);
+            BinaryReader reader = new BinaryReader(stream);
+            PftNode second = PftSerializer.Deserialize(reader);
+            PftSerializationUtility.CompareNodes(first, second);
+        }
+
+        [TestMethod]
+        public void PftConditionalLiteral_Serialization_1()
+        {
+            PftNode node = new PftRepeatableLiteral();
+            _TestSerialization(node);
+
+            node = new PftRepeatableLiteral("Hello", true, true);
+            _TestSerialization(node);
+
+            node = _GetVNode(200, 'a', true);
+            _TestSerialization(node);
+
+            node = _GetVNode2(200, 'a', true);
+            _TestSerialization(node);
+
+            node = _GetGNode(100, '\0', true);
+            _TestSerialization(node);
+        }
 
         [TestMethod]
         public void PftConditionalLiteral_ToString_1()

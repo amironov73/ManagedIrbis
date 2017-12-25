@@ -1159,7 +1159,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private PftNode ParseRepeatableLiteral()
         {
-            return MoveNext(new PftRepeatableLiteral(Tokens.Current));
+            return MoveNext(new PftRepeatableLiteral(Tokens.Current, false));
         }
 
         //=================================================

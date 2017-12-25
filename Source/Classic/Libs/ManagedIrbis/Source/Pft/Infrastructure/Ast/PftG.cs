@@ -386,25 +386,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return new int[0];
         }
 
-        /// <inheritdoc cref="PftField.PrettyPrint" />
-        public override void PrettyPrint
-            (
-                PftPrettyPrinter printer
-            )
-        {
-            foreach (PftNode node in LeftHand)
-            {
-                node.PrettyPrint(printer);
-            }
-
-            printer.Write(ToString());
-
-            foreach (PftNode node in RightHand)
-            {
-                node.PrettyPrint(printer);
-            }
-        }
-
         /// <inheritdoc cref="PftNode.Serialize" />
         protected internal override void Serialize
             (
@@ -414,21 +395,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.Serialize(writer);
 
             writer.WritePackedInt32(Number);
-        }
-
-        #endregion
-
-        #region Object members
-
-        /// <inheritdoc cref="object.ToString" />
-        public override string ToString()
-        {
-            StringBuilder result = new StringBuilder();
-            PftUtility.NodesToText(result, LeftHand);
-            result.Append(ToSpecification());
-            PftUtility.NodesToText(result, RightHand);
-
-            return result.ToString();
         }
 
         #endregion
