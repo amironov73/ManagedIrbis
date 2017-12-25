@@ -10,6 +10,7 @@
 #region Using directives
 
 using System.IO;
+using System.Text;
 
 using AM;
 using AM.IO;
@@ -422,7 +423,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            return ToSpecification().ToString();
+            StringBuilder result = new StringBuilder();
+            PftUtility.NodesToText(result, LeftHand);
+            result.Append(ToSpecification());
+            PftUtility.NodesToText(result, RightHand);
+
+            return result.ToString();
         }
 
         #endregion

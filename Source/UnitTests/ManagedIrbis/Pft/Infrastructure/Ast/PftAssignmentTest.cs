@@ -28,6 +28,8 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             PftContext context = new PftContext(null);
+            context.Variables.SetVariable("y1", 3.14);
+            context.Variables.SetVariable("y2", "hello");
             node.Execute(context);
             PftVariable variable = context.Variables.GetExistingVariable(node.Name);
             string actual = variable.StringValue.DosToUnix();
@@ -41,6 +43,8 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             PftContext context = new PftContext(null);
+            context.Variables.SetVariable("y1", 3.14);
+            context.Variables.SetVariable("y2", "hello");
             node.Execute(context);
             PftVariable variable = context.Variables.GetExistingVariable(node.Name);
             double actual = variable.NumericValue;
@@ -67,6 +71,34 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
                             RightOperand = new PftNumericLiteral(3)
                         }
                     }
+                }
+            };
+        }
+
+        [NotNull]
+        private PftAssignment _GetDirectAssignment1()
+        {
+            return new PftAssignment
+            {
+                IsNumeric = true,
+                Name = "x",
+                Children =
+                {
+                    new PftVariableReference("y1")
+                }
+            };
+        }
+
+        [NotNull]
+        private PftAssignment _GetDirectAssignment2()
+        {
+            return new PftAssignment
+            {
+                IsNumeric = false,
+                Name = "x",
+                Children =
+                {
+                    new PftVariableReference("y2")
                 }
             };
         }
@@ -154,6 +186,16 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
+        [ExpectedException(typeof(PftSerializationException))]
+        public void PftAssignment_Clone_4()
+        {
+            PftAssignment first = _GetStringAssignment();
+            PftAssignment second = (PftAssignment)first.Clone();
+            second.IsNumeric = true;
+            PftSerializationUtility.CompareNodes(first, second);
+        }
+
+        [TestMethod]
         public void PftWhile_Compile_1()
         {
             PftProgram program = new PftProgram();
@@ -170,6 +212,32 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         {
             PftProgram program = new PftProgram();
             PftAssignment node = _GetStringAssignment();
+            program.Children.Add(node);
+            NullProvider provider = new NullProvider();
+            PftCompiler compiler = new PftCompiler();
+            compiler.SetProvider(provider);
+            compiler.CompileProgram(program);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(PftCompilerException))]
+        public void PftWhile_Compile_3()
+        {
+            PftProgram program = new PftProgram();
+            PftAssignment node = new PftAssignment();
+            program.Children.Add(node);
+            NullProvider provider = new NullProvider();
+            PftCompiler compiler = new PftCompiler();
+            compiler.SetProvider(provider);
+            compiler.CompileProgram(program);
+        }
+
+        [TestMethod]
+        public void PftWhile_Compile_4()
+        {
+            PftProgram program = new PftProgram();
+            PftAssignment node = _GetStringAssignment();
+            node.Children.Clear();
             program.Children.Add(node);
             NullProvider provider = new NullProvider();
             PftCompiler compiler = new PftCompiler();
@@ -200,6 +268,20 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
+        public void PftAssignment_Execute_4()
+        {
+            PftAssignment node = _GetDirectAssignment1();
+            _Execute(node, 3.14);
+        }
+
+        [TestMethod]
+        public void PftAssignment_Execute_5()
+        {
+            PftAssignment node = _GetDirectAssignment2();
+            _Execute(node, "hello");
+        }
+
+        [TestMethod]
         public void PftAssignment_GetNodeInfo_1()
         {
             PftAssignment node = _GetNumericAssignment();
@@ -212,6 +294,16 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         public void PftAssignment_GetNodeInfo_2()
         {
             PftAssignment node = _GetStringAssignment();
+            PftNodeInfo info = node.GetNodeInfo();
+            Assert.AreSame(node, info.Node);
+            Assert.AreEqual("Assignment", info.Name);
+        }
+
+        [TestMethod]
+        public void PftAssignment_GetNodeInfo_3()
+        {
+            PftAssignment node = _GetStringAssignment();
+            node.Index = IndexSpecification.GetLiteral(5);
             PftNodeInfo info = node.GetNodeInfo();
             Assert.AreSame(node, info.Node);
             Assert.AreEqual("Assignment", info.Name);

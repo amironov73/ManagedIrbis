@@ -256,9 +256,9 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Activate debugger (if attached).
         /// </summary>
         public void ActivateDebugger
-        (
-            [NotNull] PftNode node
-        )
+            (
+                [NotNull] PftNode node
+            )
         {
             Code.NotNull(node, "node");
 
@@ -267,10 +267,10 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (!ReferenceEquals(Debugger, null))
             {
                 PftDebugEventArgs args = new PftDebugEventArgs
-                (
-                    this,
-                    node
-                );
+                    (
+                        this,
+                        node
+                    );
                 Debugger.Activate(args);
             }
         }

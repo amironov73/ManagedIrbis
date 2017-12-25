@@ -141,10 +141,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Public methods
-
-        #endregion
-
         #region PftNode members
 
         /// <inheritdoc cref="PftNode.CompareNode" />
