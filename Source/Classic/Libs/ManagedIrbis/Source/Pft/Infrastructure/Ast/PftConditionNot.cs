@@ -185,7 +185,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 = (PftCondition) PftSerializer.DeserializeNullable(reader);
         }
 
-        /// <inheritdoc cref="PftCondition.Execute" />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context

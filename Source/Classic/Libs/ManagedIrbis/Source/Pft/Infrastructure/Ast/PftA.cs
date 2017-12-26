@@ -232,7 +232,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Field = (PftField) PftSerializer.DeserializeNullable(reader);
         }
 
-        /// <inheritdoc cref="PftCondition.Execute" />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -342,17 +342,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
-        /// <inheritdoc cref="PftNode.Serialize" />
-        protected internal override void Serialize
-            (
-                BinaryWriter writer
-            )
-        {
-            base.Serialize(writer);
-
-            PftSerializer.SerializeNullable(writer, Field);
-        }
-
         /// <inheritdoc cref="PftNode.PrettyPrint" />
         public override void PrettyPrint
             (
@@ -368,6 +357,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 Field.PrettyPrint(printer);
             }
             printer.Write(')');
+        }
+
+        /// <inheritdoc cref="PftNode.Serialize" />
+        protected internal override void Serialize
+            (
+                BinaryWriter writer
+            )
+        {
+            base.Serialize(writer);
+
+            PftSerializer.SerializeNullable(writer, Field);
         }
 
         /// <inheritdoc cref="PftNode.ShouldSerializeText" />

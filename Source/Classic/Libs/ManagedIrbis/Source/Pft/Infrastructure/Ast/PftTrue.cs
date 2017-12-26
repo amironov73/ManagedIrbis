@@ -111,7 +111,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             compiler.MarkReady(this);
         }
 
-        /// <inheritdoc cref="PftCondition.Execute" />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context

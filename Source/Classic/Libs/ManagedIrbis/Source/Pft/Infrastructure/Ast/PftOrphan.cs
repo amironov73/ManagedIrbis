@@ -78,7 +78,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return new int[0];
         }
 
-        /// <inheritdoc cref="PftField.Execute" />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -97,7 +97,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             OnAfterExecution(context);
         }
 
-        /// <inheritdoc cref="PftField.Optimize" />
+        /// <inheritdoc cref="PftNode.Optimize" />
         public override PftNode Optimize()
         {
             // Take the node away from the AST

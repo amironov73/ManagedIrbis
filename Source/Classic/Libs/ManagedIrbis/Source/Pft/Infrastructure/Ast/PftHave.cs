@@ -155,7 +155,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Identifier = reader.ReadNullableString();
         }
 
-        /// <inheritdoc cref="PftCondition.Execute" />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context

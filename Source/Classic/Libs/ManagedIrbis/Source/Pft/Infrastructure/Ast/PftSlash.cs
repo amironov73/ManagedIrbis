@@ -45,6 +45,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             get { return true; }
         }
 
+        /// <inheritdoc cref="PftNode.RequiresConnection" />
+        public override bool RequiresConnection
+        {
+            get { return false; }
+        }
+
         #endregion
 
         #region Construction
@@ -68,14 +74,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.Slash);
         }
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 

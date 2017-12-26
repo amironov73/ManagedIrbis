@@ -579,6 +579,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftRsumTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftSemicolonTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftSignTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftSlashTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftSTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftTrueTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftTruncTest.cs" />

@@ -9,9 +9,12 @@
 
 #region Using directives
 
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 
+using AM;
 using AM.Collections;
 using AM.IO;
 
@@ -20,6 +23,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
@@ -124,6 +128,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             base.Deserialize(reader);
 
+            Names.Clear();
             Names.AddRange(reader.ReadStringArray());
         }
 
@@ -186,6 +191,48 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             return result;
         }
 
+        /// <inheritdoc cref="PftNode.PrettyPrint" />
+        public override void PrettyPrint
+            (
+                PftPrettyPrinter printer
+            )
+        {
+            printer.EatWhitespace();
+            printer.EatNewLine();
+
+            printer
+                .WriteLine()
+                .WriteIndent()
+                .Write("local ");
+
+            bool first = true;
+            foreach (string name in Names)
+            {
+                if (!first)
+                {
+                    printer.Write(", ");
+                }
+                printer.Write('$');
+                printer.Write(name);
+                first = false;
+            }
+
+            printer
+                .WriteLine()
+                .WriteIndent()
+                .WriteLine("do");
+
+            printer.IncreaseLevel();
+            printer.WriteNodes(Children);
+            printer.DecreaseLevel();
+            printer.EatWhitespace();
+            printer.EatNewLine();
+            printer.WriteLine();
+            printer
+                .WriteIndent()
+                .WriteLine("end");
+        }
+
         /// <inheritdoc cref="PftNode.Serialize" />
         protected internal override void Serialize
             (
@@ -197,6 +244,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             writer.WriteArray(Names.ToArray());
         }
 
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
+        }
+
         #endregion
 
         #region Object members
@@ -205,22 +259,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
-            result.Append("local");
-            foreach (string name in Names)
-            {
-                result.AppendFormat(" {0},", name);
-            }
+            result.Append("local ");
+            result.Append
+                (
+                    StringUtility.Join
+                        (
+                            ", ",
+                            Names.Select(name => "$" + name)
+                        )
+                );
             result.Append(" do ");
-            bool first = true;
-            foreach (PftNode child in Children)
-            {
-                if (!first)
-                {
-                    result.Append(' ');
-                }
-                result.Append(child);
-                first = false;
-            }
+            PftUtility.NodesToText(result, Children);
             result.Append(" end");
 
             return result.ToString();

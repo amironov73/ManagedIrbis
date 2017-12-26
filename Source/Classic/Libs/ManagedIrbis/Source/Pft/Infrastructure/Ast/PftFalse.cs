@@ -120,7 +120,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         }
 
 
-        /// <inheritdoc cref="PftCondition.Execute" />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
