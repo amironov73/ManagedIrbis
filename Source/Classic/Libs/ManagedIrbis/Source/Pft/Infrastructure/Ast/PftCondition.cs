@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System.Diagnostics.CodeAnalysis;
+
 using AM.Logging;
 
 using JetBrains.Annotations;
@@ -27,10 +29,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     public abstract class PftCondition
         : PftBoolean
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -53,30 +51,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region PftNode members
 
-        /// <inheritdoc cref="PftBoolean.Execute" />
-        public override void Execute
-            (
-                PftContext context
-            )
-        {
-            Log.Error
-                (
-                    "PftCondition::Execute: "
-                    + "must be overridden"
-                );
+        ///// <inheritdoc cref="PftBoolean.Execute" />
+        //[ExcludeFromCodeCoverage]
+        //public override void Execute
+        //    (
+        //        PftContext context
+        //    )
+        //{
+        //    Log.Error
+        //        (
+        //            "PftCondition::Execute: "
+        //            + "must be overridden"
+        //        );
 
-            throw new PftException("Execute() must be overridden!");
-        }
+        //    throw new PftException("Execute() must be overridden!");
+        //}
 
         #endregion
     }

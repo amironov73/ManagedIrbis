@@ -465,22 +465,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             result.Append("with ");
             result.Append(Variable);
             result.Append(" in ");
-            bool first = true;
-            foreach (FieldSpecification field in Fields)
-            {
-                if (!first)
-                {
-                    result.Append(',');
-                }
-                result.Append(field);
-                first = false;
-            }
+            PftUtility.FieldsToText(result, Fields);
             result.Append(" do");
-            foreach (PftNode node in Body)
-            {
-                result.Append(' ');
-                result.Append(node);
-            }
+            PftUtility.NodesToText(result, Body);
             result.Append(" end");
 
             return result.ToString();

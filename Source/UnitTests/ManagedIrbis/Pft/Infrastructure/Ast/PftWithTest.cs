@@ -186,7 +186,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         public void PftWith_ToString_2()
         {
             PftWith node = _GetNode();
-            Assert.AreEqual("with $x in v910^b do $x / end", node.ToString());
+            Assert.AreEqual("with $x in v910^b do$x / end", node.ToString());
         }
     }
 }

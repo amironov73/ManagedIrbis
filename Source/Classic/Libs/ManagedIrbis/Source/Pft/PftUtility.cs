@@ -640,6 +640,32 @@ namespace ManagedIrbis.Pft
         //=================================================
 
         /// <summary>
+        /// Build text representation of <see cref="FieldSpecification"/>'s.
+        /// </summary>
+        public static void FieldsToText
+            (
+                [NotNull] StringBuilder builder,
+                [NotNull] IEnumerable<FieldSpecification> fields
+            )
+        {
+            Code.NotNull(builder, "builder");
+            Code.NotNull(fields, "fields");
+
+            bool first = true;
+            foreach (FieldSpecification field in fields.NonNullItems())
+            {
+                if (!first)
+                {
+                    builder.Append(", ");
+                }
+                builder.Append(field);
+                first = false;
+            }
+        }
+
+        //=================================================
+
+        /// <summary>
         /// Format for data mode.
         /// </summary>
         [NotNull]
@@ -989,6 +1015,7 @@ namespace ManagedIrbis.Pft
         {
             "a",
             "abs",
+            "absent",
             "all",
             "any",
             "and",
@@ -1000,6 +1027,7 @@ namespace ManagedIrbis.Pft
             "else",
             "empty",
             "end",
+            "eval",
             "f",
             "fmt",
             "false",
@@ -1026,6 +1054,7 @@ namespace ManagedIrbis.Pft
             "p",
             "parallel",
             "pow",
+            "present",
             "proc",
             "ravr",
             "ref",

@@ -49,6 +49,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             : base(token)
         {
             Code.NotNull(token, "token");
+            token.MustBe(PftTokenKind.V);
+
+            FieldSpecification specification
+                = ((FieldSpecification)token.UserData)
+                .ThrowIfNull("token.UserData");
+            Apply(specification);
         }
 
         /// <summary>
@@ -74,6 +80,41 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 throw new PftSyntaxException();
             }
 
+            Apply(specification);
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftD
+            (
+                int tag,
+                char code
+            )
+        {
+            Code.Positive(tag, "tag");
+
+            FieldSpecification specification = new FieldSpecification(tag, code)
+            {
+                Command = 'd'
+            };
+            Apply(specification);
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftD
+            (
+                int tag
+            )
+        {
+            Code.Positive(tag, "tag");
+
+            FieldSpecification specification = new FieldSpecification(tag)
+            {
+                Command = 'd'
+            };
             Apply(specification);
         }
 
@@ -106,7 +147,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc cref="PftField.Execute" />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context

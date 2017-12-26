@@ -600,22 +600,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             SubFieldSpecification = reader.ReadNullableString();
         }
 
-        /// <inheritdoc cref="PftNode.Execute" />
-        public override void Execute
-            (
-                PftContext context
-            )
-        {
-            OnBeforeExecution(context);
+        ///// <inheritdoc cref="PftNode.Execute" />
+        //public override void Execute
+        //    (
+        //        PftContext context
+        //    )
+        //{
+        //    OnBeforeExecution(context);
 
-            Log.Error
-                (
-                    "PftField::Execute: "
-                    + "must be overridden"
-                );
+        //    Log.Error
+        //        (
+        //            "PftField::Execute: "
+        //            + "must be overridden"
+        //        );
 
-            OnAfterExecution(context);
-        }
+        //    OnAfterExecution(context);
+        //}
 
         /// <inheritdoc cref="PftNode.GetNodeInfo" />
         public override PftNodeInfo GetNodeInfo()
