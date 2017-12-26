@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
 {
@@ -12,12 +6,22 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
     public class UniforLTest
         : CommonUniforTest
     {
-        // [TestMethod]
+        [TestMethod]
         public void UniforL_ContinueTerm_1()
         {
-            // TODO implement
-
             Execute("LJAZ=рус", "СКИЙ");
+        }
+
+        [TestMethod]
+        public void UniforL_ContinueTerm_2()
+        {
+            Execute("L", "");
+        }
+
+        [TestMethod]
+        public void UniforL_ContinueTerm_3()
+        {
+            Execute("LJUK=", "");
         }
     }
 }

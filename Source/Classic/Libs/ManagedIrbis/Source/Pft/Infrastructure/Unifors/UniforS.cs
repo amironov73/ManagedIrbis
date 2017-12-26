@@ -9,29 +9,38 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
 using AM;
 using AM.Text;
 
-using CodeJam;
-
 using JetBrains.Annotations;
-
-using ManagedIrbis.ImportExport;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
+    //
+    // Универсальный счетчик – &uf('S')
+    // Вид функции: S.
+    //
+    // Назначение: Универсальный счетчик.
+    //
+    // Формат (передаваемая строка):
+    //
+    // SN
+    // где:
+    //
+    // N=0 - обнулить счетчик.
+    // N=1..9 – увеличить значение счетчика на со-отв. значение.
+    // N=A – вернуть значение счетчика – арабскими цифрами.
+    // N=X – вернуть значение счетчика – римскими цифрами.
+    //
+    // Примеры:
+    //
+    // &unifor('S0')
+    // &unifor('S1')
+    // &unifor('SA')
+    //
+
     static class UniforS
     {
         #region Private members
@@ -42,7 +51,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         internal static string ToRoman(int number)
         {
-            if ((number < 0) || (number > 3999))
+            if (number < 0 || number > 3999)
             {
                 return string.Empty;
             }
@@ -60,6 +69,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             if (number >= 9) return "IX" + ToRoman(number - 9);
             if (number >= 5) return "V" + ToRoman(number - 5);
             if (number >= 4) return "IV" + ToRoman(number - 4);
+
             return "I" + ToRoman(number - 1);
         }
 
@@ -67,11 +77,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
         #region Public methods
 
+        /// <summary>
+        /// &amp;uf('S1') -увеличить значение счётчика
+        /// на соответствующее значение.
+        /// </summary>
         public static void Add
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             if (!string.IsNullOrEmpty(expression))
@@ -95,11 +109,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
         }
 
+        /// <summary>
+        /// &amp;uf('SA') - напечатать значение счётчика арабскими цифрами.
+        /// </summary>
         public static void Arabic
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             string output = context.UniversalCounter.ToInvariantString();
@@ -107,21 +124,27 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             context.OutputFlag = true;
         }
 
+        /// <summary>
+        /// &amp;uf('S0') - обнулить счётчик.
+        /// </summary>
         public static void Clear
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             context.UniversalCounter = 0;
         }
 
+        /// <summary>
+        /// &amp;uf('SX') - напечатать значение счётчика римскими цифрами.
+        /// </summary>
         public static void Roman
             (
-                PftContext context,
-                PftNode node,
-                string expression
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
             )
         {
             //

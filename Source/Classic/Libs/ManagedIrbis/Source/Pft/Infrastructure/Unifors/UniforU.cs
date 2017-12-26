@@ -26,7 +26,7 @@ using JetBrains.Annotations;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Кумуляция номеров журналов – &uf('U
+    // Кумуляция номеров журналов – &uf('U')
     // Вид функции: U.
     // Назначение: Кумуляция номеров журналов.
     // Формат (передаваемая строка):

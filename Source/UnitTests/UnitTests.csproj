@@ -641,6 +641,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlus4Test.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlus5Test.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlus6Test.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlus7Test.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlus9Test.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlusAtTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlusDTest.cs" />
@@ -652,6 +653,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforQTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforRTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforSTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforTTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforUTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforXTest.cs" />
