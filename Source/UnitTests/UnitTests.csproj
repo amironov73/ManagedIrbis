@@ -592,6 +592,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftWhileTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftWithTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftXTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Compiler\PftPacketTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\FormatExitTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\FunctionDescriptorTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\IndexSpecificationTest.cs" />

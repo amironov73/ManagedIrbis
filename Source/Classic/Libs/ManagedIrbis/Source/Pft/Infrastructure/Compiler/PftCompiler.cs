@@ -337,7 +337,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 WriteIndent();
                 WriteLine("Command = '{0}',", spec.Command);
                 WriteIndent();
-                WriteLine("Tag = \"{0}\",", spec.Tag);
+                WriteLine("Tag = {0},", spec.Tag);
                 if (spec.SubField != SubField.NoCode)
                 {
                     WriteIndent();

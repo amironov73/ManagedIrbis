@@ -314,10 +314,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             }
             else
             {
-                foreach (RecordField field in fields)
+                for
+                    (
+                        Context.Index = 0;
+                        Context.Index < PftConfig.MaxRepeat;
+                        Context.Index++
+                    )
                 {
+                    Context.OutputFlag = false;
+
+                    RecordField field = fields.GetOccurrence(Context.Index);
                     DoFieldG(field, spec, leftHand, rightHand);
+
+                    if (!Context.OutputFlag || Context.BreakFlag) //-V3022
+                    {
+                        break;
+                    }
                 }
+
+                Context.Index = 0;
             }
         }
 
@@ -346,7 +361,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 bool plus
             )
         {
-            bool flag = HaveField(field);
+            bool flag = field.Command == 'g'
+                ? HaveGlobal(field)
+                : HaveField(field);
 
             if (flag)
             {
@@ -429,11 +446,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         {
             // ReSharper disable once PossibleNullReferenceException
 
-            RecordField field = Context.Record.Fields.GetField
-                (
-                    spec.Tag,
-                    Context.Index
-                );
+            RecordField field = spec.Command == 'g'
+                ? Context.Globals.Get(spec.Tag).GetOccurrence(Context.Index)
+                : Context.Record.Fields.GetField(spec.Tag, Context.Index);
             if (ReferenceEquals(field, null))
             {
                 return null;
@@ -494,6 +509,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                     spec.Tag,
                     Context.Index
                 );
+
+            return !ReferenceEquals(field, null);
+        }
+
+        /// <summary>
+        /// Have the field?
+        /// </summary>
+        protected bool HaveGlobal
+            (
+                [NotNull] FieldSpecification spec
+            )
+        {
+            // ReSharper disable once PossibleNullReferenceException
+
+            RecordField field = Context.Globals.Get(spec.Tag)
+                .GetOccurrence(Context.Index);
 
             return !ReferenceEquals(field, null);
         }

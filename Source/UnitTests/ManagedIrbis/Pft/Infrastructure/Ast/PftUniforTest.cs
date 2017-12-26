@@ -33,7 +33,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [NotNull]
         private PftUnifor _GetNode()
         {
             return new PftUnifor("unifor")

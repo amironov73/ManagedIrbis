@@ -43,14 +43,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region PftVisitor members
 
         /// <inheritdoc cref="PftVisitor.VisitNode" />
@@ -65,10 +57,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
 
             return true;
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }
