@@ -307,7 +307,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         }
 
         [TestMethod]
-        public void PftRef_Serialization_1()
+        public void PftP_Serialization_1()
         {
             PftP node = new PftP();
             _TestSerialization(node);

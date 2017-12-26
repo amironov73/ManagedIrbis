@@ -21,6 +21,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Pft.Infrastructure.Compiler;
+using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
 
@@ -69,6 +70,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
 
             Name = token.Text;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftUnifor
+            (
+                [NotNull] string name
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
+
+            Name = name;
         }
 
         #endregion
@@ -144,12 +158,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             using (PftContextGuard guard = new PftContextGuard(context))
             {
                 PftContext subContext = guard.ChildContext;
-
-                foreach (PftNode node in Children)
-                {
-                    node.Execute(subContext);
-                }
-
+                subContext.Execute(Children);
                 expression = subContext.Text;
             }
 
@@ -160,6 +169,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     Name.ThrowIfNull("Name"),
                     expression
                 );
+        }
+
+        /// <inheritdoc cref="PftNode.GetNodeInfo" />
+        public override PftNodeInfo GetNodeInfo()
+        {
+            PftNodeInfo result = new PftNodeInfo
+            {
+                Node = this,
+                Name = "FormatExit"
+            };
+            PftNodeInfo body = new PftNodeInfo
+            {
+                Name = "Body"
+            };
+            result.Children.Add(body);
+            foreach (PftNode node in Children)
+            {
+                PftNodeInfo info = node.GetNodeInfo();
+                body.Children.Add(info);
+            }
+
+            return result;
         }
 
         /// <inheritdoc cref="PftNode.Optimize" />

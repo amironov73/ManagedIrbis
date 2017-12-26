@@ -109,7 +109,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             compiler.MarkReady(this);
         }
 
-        /// <inheritdoc cref="PftNumeric.Execute" />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context

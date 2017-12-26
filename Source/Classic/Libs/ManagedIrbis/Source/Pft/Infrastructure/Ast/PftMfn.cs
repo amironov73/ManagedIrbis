@@ -150,7 +150,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Width = reader.ReadPackedInt32();
         }
 
-        /// <inheritdoc cref="PftNumeric.Execute" />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context

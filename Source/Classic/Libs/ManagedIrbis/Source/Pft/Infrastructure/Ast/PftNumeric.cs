@@ -70,18 +70,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc cref="PftNode.Execute" />
-        public override void Execute
-            (
-                PftContext context
-            )
-        {
-            OnBeforeExecution(context);
+        ///// <inheritdoc cref="PftNode.Execute" />
+        //public override void Execute
+        //    (
+        //        PftContext context
+        //    )
+        //{
+        //    OnBeforeExecution(context);
 
-            base.Execute(context);
+        //    base.Execute(context);
 
-            OnAfterExecution(context);
-        }
+        //    OnAfterExecution(context);
+        //}
 
         #endregion
     }

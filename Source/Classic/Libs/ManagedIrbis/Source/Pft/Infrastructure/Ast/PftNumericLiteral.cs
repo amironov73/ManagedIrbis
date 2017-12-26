@@ -135,7 +135,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Value = reader.ReadDouble();
         }
 
-        /// <inheritdoc cref="PftNumeric.Execute" />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
