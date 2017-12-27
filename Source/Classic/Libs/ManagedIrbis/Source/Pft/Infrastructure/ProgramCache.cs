@@ -9,17 +9,13 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
+
+using AM.Collections;
 
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
@@ -28,6 +24,7 @@ namespace ManagedIrbis.Pft.Infrastructure
     /// <summary>
     /// 
     /// </summary>
+    [ExcludeFromCodeCoverage]
     static class ProgramCache
     {
         #region Properties
@@ -36,7 +33,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Registry.
         /// </summary>
         [NotNull]
-        public static Dictionary<string, PftProgram> Registry
+        public static CaseInsensitiveDictionary<PftProgram> Registry
         {
             get;
             private set;
@@ -48,10 +45,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         static ProgramCache()
         {
-            Registry = new Dictionary<string, PftProgram>
-                (
-                    StringComparer.CurrentCultureIgnoreCase
-                );
+            Registry = new CaseInsensitiveDictionary<PftProgram>();
             _sync = new object();
         }
 
@@ -59,7 +53,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Private members
 
-        // ReSharper disable once InconsistentNaming
         private static readonly object _sync;
 
         #endregion
