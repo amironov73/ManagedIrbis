@@ -10,19 +10,14 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
-using System.Threading.Tasks;
 
-using AM;
 using AM.Logging;
 
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
@@ -31,6 +26,7 @@ namespace ManagedIrbis.PlatformSpecific
     /// <summary>
     /// Method runner
     /// </summary>
+    [ExcludeFromCodeCoverage]
     static class MethodRunner
     {
         #region Properties
@@ -39,14 +35,6 @@ namespace ManagedIrbis.PlatformSpecific
         /// Buffer size, bytes.
         /// </summary>
         public static int BufferSize = 100*1024;
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
 
         #endregion
 

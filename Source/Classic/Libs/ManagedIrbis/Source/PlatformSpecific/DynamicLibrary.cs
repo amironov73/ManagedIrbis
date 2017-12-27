@@ -7,11 +7,12 @@
  * Status: poor
  */
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
 #region Using directives
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 using AM;
@@ -25,7 +26,6 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-
 namespace ManagedIrbis.PlatformSpecific
 {
     /// <summary>
@@ -33,6 +33,7 @@ namespace ManagedIrbis.PlatformSpecific
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [ExcludeFromCodeCoverage]
     public class DynamicLibrary
         : IDisposable
     {

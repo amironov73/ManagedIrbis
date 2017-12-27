@@ -9,12 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -33,6 +27,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Walking
     public sealed class VisitorContext
     {
         #region Properties
+
+        /// <summary>
+        /// Visitor.
+        /// </summary>
+        [NotNull]
+        public PftVisitor Visitor { get; private set; }
 
         /// <summary>
         /// Node.
@@ -54,11 +54,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Walking
         /// </summary>
         public VisitorContext
             (
+                [NotNull] PftVisitor visitor,
                 [NotNull] PftNode node
             )
         {
+            Code.NotNull(visitor, "visitor");
             Code.NotNull(node, "node");
 
+            Visitor = visitor;
             Node = node;
             Result = true;
         }

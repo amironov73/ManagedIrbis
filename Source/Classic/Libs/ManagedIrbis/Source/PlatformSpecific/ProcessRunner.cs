@@ -10,12 +10,9 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
-#if CLASSIC || DESKTOP
+#if CLASSIC || NETCORE
 
 using System.Diagnostics;
 
@@ -27,8 +24,6 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace ManagedIrbis.PlatformSpecific
@@ -36,21 +31,19 @@ namespace ManagedIrbis.PlatformSpecific
     /// <summary>
     /// 
     /// </summary>
+    [ExcludeFromCodeCoverage]
     static class ProcessRunner
     {
-        #region Properties
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
         #region Public methods
+
+        [NotNull]
+        public static string GetShell()
+        {
+            string result = Environment.GetEnvironmentVariable("COMSPEC")
+                             ?? "cmd.exe";
+
+            return result;
+        }
 
         /// <summary>
         /// Run process and forget about it.
@@ -62,11 +55,9 @@ namespace ManagedIrbis.PlatformSpecific
         {
             Code.NotNull(commandLine, "commandLine");
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
-            string comspec = Environment
-                .GetEnvironmentVariable("comspec")
-                ?? "cmd.exe";
+            string comspec = GetShell();
 
             commandLine = "/c " + commandLine;
             ProcessStartInfo startInfo = new ProcessStartInfo
@@ -96,11 +87,9 @@ namespace ManagedIrbis.PlatformSpecific
         {
             Code.NotNull(commandLine, "commandLine");
 
-#if CLASSIC || DESKTOP
+#if CLASSIC || NETCORE
 
-            string comspec = Environment
-                .GetEnvironmentVariable("comspec")
-                ?? "cmd.exe";
+            string comspec = GetShell();
 
             commandLine = "/c " + commandLine;
             ProcessStartInfo startInfo = new ProcessStartInfo
@@ -140,11 +129,9 @@ namespace ManagedIrbis.PlatformSpecific
         {
             Code.NotNull(commandLine, "commandLine");
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
-            string comspec = Environment
-                .GetEnvironmentVariable("comspec")
-                ?? "cmd.exe";
+            string comspec = GetShell();
 
             commandLine = "/c " + commandLine;
             ProcessStartInfo startInfo = new ProcessStartInfo

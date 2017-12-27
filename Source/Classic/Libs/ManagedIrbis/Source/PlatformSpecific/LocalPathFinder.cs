@@ -10,17 +10,8 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -37,6 +28,7 @@ namespace ManagedIrbis.PlatformSpecific
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [ExcludeFromCodeCoverage]
     public class LocalPathFinder
         : PathFinder
     {
@@ -111,11 +103,9 @@ namespace ManagedIrbis.PlatformSpecific
 
         #endregion
 
-#region PathFinder members
+        #region PathFinder members
 
-#if !WIN81 && !PORTABLE
-
-        /// <inheritdoc/>
+        /// <inheritdoc cref="PathFinder.FindFile" />
         public override string FindFile
             (
                 string path,
@@ -178,8 +168,6 @@ namespace ManagedIrbis.PlatformSpecific
 
             return null;
         }
-
-#endif
 
         #endregion
     }

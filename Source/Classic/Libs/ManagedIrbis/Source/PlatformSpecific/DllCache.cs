@@ -7,13 +7,14 @@
  * Status: poor
  */
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
 #region Using directives
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -39,6 +40,7 @@ namespace ManagedIrbis.PlatformSpecific
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [ExcludeFromCodeCoverage]
     public static class DllCache
     {
         #region Properties
@@ -164,10 +166,6 @@ namespace ManagedIrbis.PlatformSpecific
 
             return result;
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

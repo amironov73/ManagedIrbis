@@ -9,25 +9,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-#if CLASSIC || DESKTOP
-
-using System.Diagnostics;
-
-#endif
-
-using AM;
-
-using CodeJam;
-
-using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
+using System.Diagnostics.CodeAnalysis;
 
 #endregion
 
@@ -36,6 +18,7 @@ namespace ManagedIrbis.PlatformSpecific
     /// <summary>
     /// Result of external method call.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     sealed class MethodResult
     {
         #region Properties
@@ -54,18 +37,6 @@ namespace ManagedIrbis.PlatformSpecific
         /// Output.
         /// </summary>
         public string Output { get; set; }
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
     }

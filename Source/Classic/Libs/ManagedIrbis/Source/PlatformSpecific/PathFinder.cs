@@ -9,18 +9,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
+using System.Diagnostics.CodeAnalysis;
 
 using CodeJam;
 
@@ -37,6 +26,7 @@ namespace ManagedIrbis.PlatformSpecific
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [ExcludeFromCodeCoverage]
     public abstract class PathFinder
     {
         #region Public methods

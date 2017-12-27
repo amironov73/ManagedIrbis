@@ -60,7 +60,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Walking
             Action<VisitorContext> visitor = Visitor;
             if (!ReferenceEquals(visitor, null))
             {
-                VisitorContext context = new VisitorContext(node);
+                VisitorContext context = new VisitorContext(this, node);
                 visitor(context);
 
                 return context.Result;
