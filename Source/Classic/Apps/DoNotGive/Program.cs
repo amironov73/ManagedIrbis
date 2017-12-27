@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,19 +28,18 @@ namespace DoNotGive
     class Program
     {
         private static string _connectionString;
-        private static string _fromNumber, _toNumber, _fond;
+        private static string _fileName, _fond;
         private static IrbisProvider _provider;
 
         static void _ProcessNumber
             (
-                NumberText number
+                string number
             )
         {
-            string n1 = number.ToString();
             int[] found = _provider.Search
                 (
                     "\"IN="
-                    + n1
+                    + number
                     + "\""
                 );
             foreach (int mfn in found)
@@ -54,7 +54,7 @@ namespace DoNotGive
                 foreach (RecordField field in record.Fields.GetField(910))
                 {
                     string n2 = field.GetFirstSubFieldValue('b');
-                    if (!n2.SameString(n1))
+                    if (!n2.SameString(number))
                     {
                         continue;
                     }
@@ -67,13 +67,14 @@ namespace DoNotGive
                     }
 
                     string status = field.GetFirstSubFieldValue('a');
-                    if (status == "5")
+                    if (status == "0")
                     {
                         continue;
                     }
 
-                    Console.WriteLine(n1);
-                    field.SetSubField('a', "5");
+                    Console.WriteLine(number);
+                    field.SetSubField('d', _fond);
+                    field.SetSubField('a', "0");
                     modified = true;
                 }
 
@@ -89,15 +90,16 @@ namespace DoNotGive
                 string[] args
             )
         {
-            if (args.Length != 4)
+            if (args.Length != 3)
             {
                 return;
             }
 
             _connectionString = args[0];
             _fond = args[1];
-            _fromNumber = args[2];
-            _toNumber = args[3];
+            _fileName = args[2];
+            string[] numbers = File.ReadAllLines(_fileName)
+                .NonEmptyLines().ToArray();
 
             NativeIrbisProvider.Register();
 
@@ -106,11 +108,9 @@ namespace DoNotGive
                 using (_provider = ProviderManager
                     .GetAndConfigureProvider(_connectionString))
                 {
-                    NumberText currentNumber = _fromNumber;
-                    while (currentNumber < _toNumber)
+                    foreach (string number in numbers)
                     {
-                        _ProcessNumber(currentNumber);
-                        currentNumber = currentNumber.Increment();
+                        _ProcessNumber(number);
                     }
                 }
             }

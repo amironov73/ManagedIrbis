@@ -1829,6 +1829,10 @@ namespace IrbisInterop
                             );
                 if (retCode == -300
                     || retCode == -301
+                    || retCode == -400
+                    || retCode == -401
+                    || retCode == -402
+                    || retCode == -403
                     || retCode == -602
                    )
                 {
@@ -1859,6 +1863,10 @@ namespace IrbisInterop
                                 );
                     if (retCode == -300
                         || retCode == -301
+                        || retCode == -400
+                        || retCode == -401
+                        || retCode == -402
+                        || retCode == -403
                        )
                     {
                         if (retryCount > 0)
