@@ -115,6 +115,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             token.MustBe(PftTokenKind.All);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftAll
+            (
+                [NotNull] PftCondition condition
+            )
+        {
+            Code.NotNull(condition, "condition");
+
+            InnerCondition = condition;
+        }
+
         #endregion
 
         #region Private members

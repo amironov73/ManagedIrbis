@@ -117,6 +117,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Format = new PftNodeCollection(this);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftRef
+            (
+                [NotNull] PftNumeric mfn,
+                params PftNode[] format
+            )
+            : this()
+        {
+            Code.NotNull(mfn, "mfn");
+
+            Mfn = mfn;
+            foreach (PftNode node in format)
+            {
+                Format.Add(node);
+            }
+        }
+
         #endregion
 
         #region Private members

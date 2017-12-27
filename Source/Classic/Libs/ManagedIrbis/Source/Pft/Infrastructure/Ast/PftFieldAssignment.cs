@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
@@ -124,6 +125,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             Field = new PftV(fieldSpec);
             Expression = new PftNodeCollection(this);
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftFieldAssignment
+            (
+                [NotNull] string fieldSpec,
+                params PftNode[] bodyNodes
+            )
+        {
+            Code.NotNullNorEmpty(fieldSpec, "fieldSpec");
+
+            Field = new PftV(fieldSpec);
+            Expression = new PftNodeCollection(this);
+            Expression.AddRange(bodyNodes);
         }
 
         /// <summary>
@@ -321,6 +338,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             PftSerializer.SerializeNullable(writer, Field);
             PftSerializer.Serialize(writer, Expression);
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

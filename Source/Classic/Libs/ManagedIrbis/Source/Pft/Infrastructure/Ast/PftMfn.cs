@@ -10,6 +10,7 @@
 #region Using directives
 
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 
@@ -20,7 +21,9 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft.Infrastructure.Text;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -207,6 +210,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     .Write(Width)
                     .Write(')');
             }
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

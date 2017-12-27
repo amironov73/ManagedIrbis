@@ -25,6 +25,8 @@ using MoonSharp.Interpreter;
 
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
+
 namespace ManagedIrbis.Pft.Infrastructure
 {
     /// <summary>
@@ -53,6 +55,21 @@ namespace ManagedIrbis.Pft.Infrastructure
         public PftProgram()
         {
             Procedures = new PftProcedureManager();
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftProgram
+            (
+                params PftNode[] nodes
+            )
+            : this ()
+        {
+            foreach (PftNode node in nodes)
+            {
+                Children.Add(node);
+            }
         }
 
         #endregion

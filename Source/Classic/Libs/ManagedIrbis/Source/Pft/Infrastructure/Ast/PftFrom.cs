@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
@@ -23,7 +24,6 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 using ManagedIrbis.Pft.Infrastructure.Serialization;
 using ManagedIrbis.Pft.Infrastructure.Text;
@@ -534,6 +534,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             PftSerializer.SerializeNullable(writer, Where);
             PftSerializer.Serialize(writer, Select);
             PftSerializer.Serialize(writer, Order);
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

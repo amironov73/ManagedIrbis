@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
@@ -109,6 +110,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.Pow);
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftPow
+            (
+                [NotNull] PftNumeric x,
+                [NotNull] PftNumeric y
+            )
+        {
+            Code.NotNull(x, "x");
+            Code.NotNull(y, "y");
+
+            X = x;
+            Y = y;
         }
 
         #endregion
@@ -274,6 +291,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             PftSerializer.SerializeNullable(writer, X);
             PftSerializer.SerializeNullable(writer, Y);
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

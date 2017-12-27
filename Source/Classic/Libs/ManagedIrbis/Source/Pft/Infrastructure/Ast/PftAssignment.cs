@@ -101,6 +101,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftAssignment
             (
+                [NotNull] string name,
+                params PftNode[] body
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
+
+            Name = name;
+            foreach (PftNode node in body)
+            {
+                Children.Add(node);
+            }
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftAssignment
+            (
                 [NotNull] PftToken token
             )
             : base(token)

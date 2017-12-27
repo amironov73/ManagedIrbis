@@ -55,6 +55,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             token.MustBe(PftTokenKind.L);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftL
+            (
+                params PftNode[] body
+            )
+        {
+            foreach (PftNode node in body)
+            {
+                Children.Add(node);
+            }
+        }
+
         #endregion
 
         #region PftNode members
