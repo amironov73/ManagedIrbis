@@ -86,13 +86,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftGroup
             (
-                params PftNode[] nodes
+                params PftNode[] children
             )
+            : base(children)
         {
-            foreach (PftNode node in nodes)
-            {
-                Children.Add(node);
-            }
         }
 
         #endregion

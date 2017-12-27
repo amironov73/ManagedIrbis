@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -112,6 +113,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftVal
+            (
+                params PftNode[] children
+            )
+            : base(children)
+        {
+        }
+
         #endregion
 
         #region Private members
@@ -197,6 +209,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .Write("val(");
             base.PrettyPrint(printer);
             printer.Write(")");
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

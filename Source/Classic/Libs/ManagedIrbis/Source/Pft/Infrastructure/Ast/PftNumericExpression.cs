@@ -122,6 +122,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNull(token, "token");
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftNumericExpression
+            (
+                [NotNull] PftNumeric leftOperand,
+                [NotNull] string operation,
+                [NotNull] PftNumeric rightOperand
+            )
+        {
+            Code.NotNull(leftOperand, "leftOperand");
+            Code.NotNullNorEmpty(operation, "operation");
+            Code.NotNull(rightOperand, "rightOperand");
+
+            LeftOperand = leftOperand;
+            Operation = operation;
+            RightOperand = rightOperand;
+        }
+
         #endregion
 
         #region Private members

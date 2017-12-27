@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -69,6 +70,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             Code.NotNullNorEmpty(name, "name");
 
             Name = name;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftRsum
+            (
+                [NotNull] string name,
+                params PftNode[] children
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
+
+            Name = name;
+            foreach (PftNode node in children)
+            {
+                Children.Add(node);
+            }
         }
 
         /// <summary>
@@ -269,6 +288,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.Serialize(writer);
 
             writer.WriteNullable(Name);
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

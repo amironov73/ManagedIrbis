@@ -68,6 +68,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             token.MustBe(PftTokenKind.EatOpen);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftEat
+            (
+                params PftNode[] children
+            )
+            : base(children)
+        {
+        }
+
         #endregion
 
         #region PftNode members

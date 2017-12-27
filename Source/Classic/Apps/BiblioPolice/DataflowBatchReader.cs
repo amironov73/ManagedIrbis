@@ -181,7 +181,7 @@ namespace BiblioPolice
             }
         }
 
-        public string[] _ReadRawRecords
+        private string[] _ReadRawRecords
             (
                 [NotNull] int[] mfnList
             )

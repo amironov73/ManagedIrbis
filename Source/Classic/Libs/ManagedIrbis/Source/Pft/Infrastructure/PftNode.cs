@@ -173,6 +173,20 @@ namespace ManagedIrbis.Pft.Infrastructure
             Text = token.Text;
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftNode
+            (
+                params PftNode[] children
+            )
+        {
+            foreach (PftNode child in children)
+            {
+                Children.Add(child);
+            }
+        }
+
         #endregion
 
         #region Private members

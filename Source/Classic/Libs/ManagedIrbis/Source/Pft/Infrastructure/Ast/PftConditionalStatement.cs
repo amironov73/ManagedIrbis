@@ -130,6 +130,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             ThenBranch = new PftNodeCollection(this);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftConditionalStatement
+            (
+                [NotNull] PftCondition condition,
+                params PftNode[] thenBranch
+            )
+            : this()
+        {
+            Code.NotNull(condition, "condition");
+
+            Condition = condition;
+            foreach (PftNode node in thenBranch)
+            {
+                ThenBranch.Add(node);
+            }
+        }
+
         #endregion
 
         #region Private members

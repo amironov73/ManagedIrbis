@@ -111,6 +111,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 IndexSpecification right
             )
         {
+            // TODO more intelligent compare
+
             bool result = left.Kind == right.Kind
                 && left.Literal == right.Literal
                 && PftSerializationUtility.CompareStrings
@@ -215,7 +217,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             return new IndexSpecification
             {
                 Kind = IndexKind.Literal,
-                Literal = i
+                Literal = i,
+                Expression = i.ToInvariantString()
             };
         }
 

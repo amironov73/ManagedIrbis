@@ -72,6 +72,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             token.MustBe(PftTokenKind.Floor);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftFloor
+            (
+                [NotNull] PftNumeric value
+            )
+        {
+            Code.NotNull(value, "value");
+
+            Children.Add(value);
+        }
+
         #endregion
 
         #region PftNode members

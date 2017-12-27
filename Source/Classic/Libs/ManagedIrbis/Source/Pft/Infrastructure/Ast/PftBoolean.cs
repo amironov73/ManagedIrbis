@@ -62,6 +62,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        protected PftBoolean
+            (
+                params PftNode[] children
+            )
+            : base(children)
+        {
+        }
+
         #endregion
 
         #region PftNode members

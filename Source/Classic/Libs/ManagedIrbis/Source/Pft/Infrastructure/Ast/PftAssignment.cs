@@ -101,12 +101,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftAssignment
             (
+                bool isNumeric,
                 [NotNull] string name,
                 params PftNode[] body
             )
         {
             Code.NotNullNorEmpty(name, "name");
 
+            IsNumeric = isNumeric;
             Name = name;
             foreach (PftNode node in body)
             {

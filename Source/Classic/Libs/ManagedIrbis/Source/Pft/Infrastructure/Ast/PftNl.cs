@@ -10,6 +10,7 @@
 #region Using directives
 
 using System;
+using System.Diagnostics;
 
 using CodeJam;
 
@@ -121,6 +122,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             printer
                 .WriteIndentIfNeeded()
                 .Write(" nl ");
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

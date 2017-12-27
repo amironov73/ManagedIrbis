@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -79,6 +80,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.Parallel);
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftParallelGroup
+            (
+                params PftNode[] children
+            )
+            : base(children)
+        {
         }
 
         #endregion
@@ -268,6 +280,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     .WriteIndentIfNeeded()
                     .Write(')');
             }
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

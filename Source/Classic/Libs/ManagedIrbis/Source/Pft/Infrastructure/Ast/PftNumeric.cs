@@ -63,7 +63,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
             : base(token)
         {
+        }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        protected PftNumeric
+            (
+                params PftNode[] children
+            )
+            : base(children)
+        {
         }
 
         #endregion

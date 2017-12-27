@@ -71,6 +71,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             token.MustBe(PftTokenKind.Empty);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftEmpty
+            (
+                params PftNode[] children
+            )
+            : base(children)
+        {
+        }
+
         #endregion
 
         #region PftNode members

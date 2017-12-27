@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -56,6 +57,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             Code.NotNull(token, "token");
             token.MustBe(PftTokenKind.S);
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftS
+            (
+                params PftNode[] children
+            )
+        {
+            foreach (PftNode child in children)
+            {
+                Children.Add(child);
+            }
         }
 
         #endregion
@@ -125,6 +140,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.PrettyPrint(printer);
             printer.EatWhitespace();
             printer.Write(')');
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

@@ -139,6 +139,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PftComparison
+            (
+                [NotNull] PftNode leftOperand,
+                [NotNull] string operation,
+                [NotNull] PftNode rightOperand
+            )
+        {
+            Code.NotNull(leftOperand, "leftOperand");
+            Code.NotNullNorEmpty(operation, "operation");
+            Code.NotNull(rightOperand, "rightOperand");
+
+            LeftOperand = leftOperand;
+            Operation = operation;
+            RightOperand = rightOperand;
+        }
+
         #endregion
 
         #region Private members

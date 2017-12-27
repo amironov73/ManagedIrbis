@@ -10,6 +10,7 @@
 #region Using directives
 
 using System;
+using System.Diagnostics;
 using System.IO;
 
 using AM;
@@ -253,6 +254,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                         Shift.ToInvariantString()
                     )
                 .SingleSpace();
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

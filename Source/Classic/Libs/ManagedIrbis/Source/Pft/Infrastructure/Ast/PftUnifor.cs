@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -77,12 +78,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// </summary>
         public PftUnifor
             (
-                [NotNull] string name
+                [NotNull] string name,
+                params PftNode[] body
             )
         {
             Code.NotNullNorEmpty(name, "name");
 
             Name = name;
+            foreach (PftNode child in body)
+            {
+                Children.Add(child);
+            }
         }
 
         #endregion
@@ -231,6 +237,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .Write('(');
             base.PrettyPrint(printer);
             printer.Write(')');
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion

@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System.Diagnostics;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -106,6 +108,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             // Добавляем пробел для читабельности
             printer.Write("; ");
+        }
+
+        /// <inheritdoc cref="PftNode.ShouldSerializeText" />
+        [DebuggerStepThrough]
+        protected internal override bool ShouldSerializeText()
+        {
+            return false;
         }
 
         #endregion
