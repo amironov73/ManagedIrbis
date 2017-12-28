@@ -52,12 +52,7 @@ namespace ManagedIrbis
         /// Empty array of <see cref="RecordField"/>.
         /// </summary>
         [NotNull]
-        public static readonly RecordField[] EmptyArray
-            = new RecordField[0];
-
-        #endregion
-
-        #region Private members
+        public static readonly RecordField[] EmptyArray = new RecordField[0];
 
         #endregion
 
