@@ -1,10 +1,12 @@
 ﻿using System;
 
+using AM.PlatformAbstraction;
 using AM.Text;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
 using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
 
@@ -28,6 +30,90 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             formatter.Program.Execute(result);
 
             return result;
+        }
+
+        [CanBeNull]
+        private string _Test
+            (
+                [NotNull] string source
+            )
+        {
+            using (IrbisProvider provider = GetProvider())
+            {
+                provider.PlatformAbstraction = new TestingPlatformAbstraction();
+                PftContext context = new PftContext(null);
+                context.SetProvider(provider);
+                PftFormatter formatter = new PftFormatter(context);
+                formatter.ParseProgram(source);
+                formatter.Program.Execute(context);
+                string result = context.Text.DosToUnix();
+
+                return result;
+            }
+        }
+
+        private void _Test
+            (
+                [NotNull] string source,
+                [NotNull] string expected
+            )
+        {
+            using (IrbisProvider provider = GetProvider())
+            {
+                provider.PlatformAbstraction = new TestingPlatformAbstraction();
+                PftContext context = new PftContext(null);
+                context.SetProvider(provider);
+                PftFormatter formatter = new PftFormatter(context);
+                formatter.ParseProgram(source);
+                formatter.Program.Execute(context);
+                string actual = context.Text.DosToUnix();
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [CanBeNull]
+        private string _Test
+            (
+                [NotNull] MarcRecord record,
+                [NotNull] string source
+            )
+        {
+            using (IrbisProvider provider = GetProvider())
+            {
+                PftContext context = new PftContext(null)
+                {
+                    Record = record
+                };
+                context.SetProvider(provider);
+                PftFormatter formatter = new PftFormatter(context);
+                formatter.ParseProgram(source);
+                formatter.Program.Execute(context);
+                string result = context.Text.DosToUnix();
+
+                return result;
+            }
+        }
+
+        private void _Test
+            (
+                [NotNull] MarcRecord record,
+                [NotNull] string source,
+                [NotNull] string expected
+            )
+        {
+            using (IrbisProvider provider = GetProvider())
+            {
+                PftContext context = new PftContext(null)
+                {
+                    Record = record
+                };
+                context.SetProvider(provider);
+                PftFormatter formatter = new PftFormatter(context);
+                formatter.ParseProgram(source);
+                formatter.Program.Execute(context);
+                string actual = context.Text.DosToUnix();
+                Assert.AreEqual(expected, actual);
+            }
         }
 
         [TestMethod]
@@ -348,5 +434,230 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
                     _Run("warn()").Output.WarningText.DosToUnix()
                 );
         }
+
+        // ===================================================================
+
+        [TestMethod]
+        public void StandardFunctions_AddField_1()
+        {
+            MarcRecord record = new MarcRecord();
+            _Test(record, "addField('100#Field100')", "");
+            string[] field = record.FMA(100);
+            Assert.AreEqual(1, field.Length);
+            Assert.AreEqual("Field100", field[0]);
+        }
+
+        [TestMethod]
+        public void StandardFunctions_AddField_2()
+        {
+            MarcRecord record = new MarcRecord();
+            _Test(record, "addField('100#Line1'/'Line2')", "");
+            string[] field = record.FMA(100);
+            Assert.AreEqual(2, field.Length);
+            Assert.AreEqual("Line1", field[0]);
+            Assert.AreEqual("Line2", field[1]);
+        }
+
+        [TestMethod]
+        public void StandardFunctions_Cat_1()
+        {
+            _Test("cat('dumb.fst')", "201 0 (v200 /)\n");
+        }
+
+        [TestMethod]
+        public void StandardFunctions_CommandLine_1()
+        {
+            string commandLine = _Test("commandLine()");
+            Assert.IsNotNull(commandLine);
+        }
+
+        [TestMethod]
+        public void StandardFunctions_COut_1()
+        {
+            string output = _Test("cout('Hello')");
+            Assert.IsNotNull(output);
+        }
+
+        [TestMethod]
+        public void StandardFunctions_Debug_1()
+        {
+            string output = _Test("debug('Hello')");
+            Assert.IsNotNull(output);
+        }
+
+        [TestMethod]
+        public void StandardFunctions_DelField_1()
+        {
+            MarcRecord record = new MarcRecord();
+            record.Fields.Add(new RecordField(100, "Field100"));
+            _Test(record, "delField('100')");
+            Assert.IsFalse(record.HaveField(100));
+        }
+
+        [TestMethod]
+        public void StandardFunctions_DelField_2()
+        {
+            MarcRecord record = new MarcRecord();
+            record.Fields.Add(new RecordField(100, "Field100-1"));
+            record.Fields.Add(new RecordField(100, "Field100-2"));
+            _Test(record, "delField('100#2')");
+            string[] fields = record.FMA(100);
+            Assert.AreEqual(1, fields.Length);
+            Assert.AreEqual("Field100-1", fields[0]);
+        }
+
+        [TestMethod]
+        public void StandardFunctions_DelField_3()
+        {
+            MarcRecord record = new MarcRecord();
+            record.Fields.Add(new RecordField(100, "Field100-1"));
+            record.Fields.Add(new RecordField(100, "Field100-2"));
+            _Test(record, "delField('100#*')");
+            string[] fields = record.FMA(100);
+            Assert.AreEqual(1, fields.Length);
+            Assert.AreEqual("Field100-1", fields[0]);
+        }
+
+        [TestMethod]
+        public void StandardFunctions_DelField_4()
+        {
+            MarcRecord record = new MarcRecord();
+            record.Fields.Add(new RecordField(100, "Field100-1"));
+            record.Fields.Add(new RecordField(100, "Field100-2"));
+            _Test(record, "delField('100#?')");
+            string[] fields = record.FMA(100);
+            Assert.AreEqual(2, fields.Length);
+            Assert.AreEqual("Field100-1", fields[0]);
+            Assert.AreEqual("Field100-2", fields[1]);
+        }
+
+        [TestMethod]
+        public void StandardFunctions_GetEnv_1()
+        {
+            string comspec = Environment.GetEnvironmentVariable("COMSPEC")
+                ?? string.Empty;
+            _Test("getEnv('COMSPEC')", comspec);
+        }
+
+        [TestMethod]
+        public void StandardFunctions_MachineName_1()
+        {
+            string machineName = Environment.MachineName;
+            _Test("machineName()", machineName);
+        }
+
+        [TestMethod]
+        public void StandardFunctions_Now_1()
+        {
+            string format = IrbisDate.DefaultFormat;
+            string now =
+                new TestingPlatformAbstraction().NowValue.ToString(format);
+            string source = string.Format("now('{0}')", format);
+            _Test(source, now);
+        }
+
+        [TestMethod]
+        public void StandardFunctions_NPost_1()
+        {
+            MarcRecord record = new MarcRecord();
+            record
+                .AddField(100, "Line1")
+                .AddField(100, "Line2");
+            _Test(record, "npost('v100')", "2");
+        }
+
+        [TestMethod]
+        public void StandardFunctions_Search_1()
+        {
+            _Test("search('K=ATLAS')", "27");
+        }
+
+        [TestMethod]
+        public void StandardFunctions_Search_2()
+        {
+            _Test("search('K=A$')", "197\n19\n97\n203\n20\n151\n328\n136\n204\n111\n27");
+        }
+
+        [TestMethod]
+        public void StandardFunctions_Split_1()
+        {
+            _Test("split('First,Second,Third';',')", "First\nSecond\nThird");
+        }
+
+        [TestMethod]
+        public void StandardFunctions_Split_2()
+        {
+            _Test("split('First,Second,Third')", "");
+        }
+
+        [TestMethod]
+        public void StandardFunctions_Tags_1()
+        {
+            MarcRecord record = new MarcRecord()
+                .AddField(100, "Field100")
+                .AddField(200, "Field200")
+                .AddField(210, "Field210")
+                .AddField(215, "Field215")
+                .AddField(300, "Field300");
+            _Test(record, "tags()", "100\n200\n210\n215\n300");
+        }
+
+        [TestMethod]
+        public void StandardFunctions_Tags_2()
+        {
+            MarcRecord record = new MarcRecord()
+                .AddField(100, "Field100")
+                .AddField(200, "Field200")
+                .AddField(210, "Field210")
+                .AddField(215, "Field215")
+                .AddField(300, "Field300");
+            _Test(record, "tags('^2')", "200\n210\n215");
+        }
+
+        [TestMethod]
+        public void StandardFunctions_Today_1()
+        {
+            string format = "yyyyMMdd";
+            string today =
+                new TestingPlatformAbstraction().NowValue.Date.ToString(format);
+            string source = string.Format("now('{0}')", format);
+            _Test(source, today);
+        }
+
+        [TestMethod]
+        public void StandardFunctions_Trace_1()
+        {
+            string output = _Test("trace('Hello')");
+            Assert.IsNotNull(output);
+        }
+
+        [TestMethod]
+        public void StandardFunctions_LoadRecord_1()
+        {
+            string source = "loadRecord(1)";
+            _Test(source, "1");
+        }
+
+        [TestMethod]
+        public void StandardFunctions_LoadRecord_2()
+        {
+            string source = "loadRecord(1111111)";
+            _Test(source, "0");
+        }
+
+        [TestMethod]
+        public void StandardFunctions_LoadRecord_3()
+        {
+            string source = "{ loadRecord(1;2) / v200^a }";
+            _Test(source, "1\nКуда пойти учиться?");
+        }
+
+        [TestMethod]
+        public void StandardFunctions_LoadRecord_4()
+        {
+            string source = "{ loadRecord(1) } / v200^a";
+            _Test(source, "1\n");
+        }
+
     }
 }

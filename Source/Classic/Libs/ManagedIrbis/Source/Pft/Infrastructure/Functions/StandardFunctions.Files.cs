@@ -7,31 +7,15 @@
  * Status: poor
  */
 
-#if !WIN81 && !PORTABLE
-
 #region Using directives
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
-
-using ManagedIrbis.Infrastructure;
-using ManagedIrbis.Pft.Infrastructure.Ast;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
@@ -63,6 +47,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             FileObject file;
             if (Files.TryGetValue(fullPath, out file))
             {
+                file.Dispose();
                 Files.Remove(fullPath);
             }
         }
@@ -311,5 +296,3 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
     }
 }
-
-#endif

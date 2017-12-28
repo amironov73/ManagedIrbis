@@ -163,7 +163,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void Debug(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if CLASSIC
+#if CLASSIC || NETCORE
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
@@ -259,7 +259,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     + message.ToVisibleString()
                 );
 
-#if PocketPC || WINMOBILE || SILVERLIGHT
+#if PocketPC || WINMOBILE
 
             throw new Exception(message);
 
@@ -274,7 +274,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void GetEnv(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if !WIN81 && !PORTABLE && !PocketPC && !WINMOBILE && !SILVERLIGHT
+#if !PocketPC && !WINMOBILE
 
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
@@ -421,7 +421,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void MachineName(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if UAP || WIN81 || PocketPC || PORTABLE || SILVERLIGHT
+#if UAP || PocketPC || WINMOBILE
 
             context.WriteLine(node, "ManagedIrbis");
 
@@ -498,7 +498,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void OsVersion(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if CLASSIC
+#if CLASSIC || NETCORE
             context.Write(node, Environment.OSVersion.ToString());
 #endif
         }
@@ -681,7 +681,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 return;
             }
 
-#if PocketPC
+#if PocketPC || WINMOBILE
 
             string[] lines = StringUtility.SplitString(text, separator);
 
@@ -933,8 +933,6 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             // ===================
 
-#if !WIN81 && !PORTABLE
-
             reg.Add("close", Close);
             reg.Add("isOpen", IsOpen);
             reg.Add("openAppend", OpenAppend);
@@ -944,8 +942,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("readLine", ReadLine);
             reg.Add("write", Write);
             reg.Add("writeLine", WriteLine);
-
-#endif
 
             // ===================
 

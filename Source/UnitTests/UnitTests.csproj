@@ -597,6 +597,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\FunctionDescriptorTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\IndexSpecificationTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftContextSaverTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\PftContextTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftDebugEventArgsTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftGlobalManagerTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftGlobalTest.cs" />
@@ -613,6 +614,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftTokenTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftVariableManagerTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftVariableTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\StandardFunctionsFileTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\UmarciTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\CommonUniforTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\Unifor0Test.cs" />

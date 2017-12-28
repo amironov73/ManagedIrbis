@@ -7,11 +7,10 @@
  * Status: poor
  */
 
-#if !WIN81 && !PORTABLE
-
 #region Using directives
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 using CodeJam;
@@ -27,10 +26,13 @@ namespace ManagedIrbis.Pft.Infrastructure
     {
         #region Properties
 
+        [ExcludeFromCodeCoverage]
         public bool AppendMode { get; private set; }
 
+        [ExcludeFromCodeCoverage]
         public string FileName { get; private set; }
 
+        [ExcludeFromCodeCoverage]
         public bool WriteMode { get; private set; }
 
         #endregion
@@ -152,11 +154,5 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         #endregion
-
-        #region Object members
-
-        #endregion
     }
 }
-
-#endif

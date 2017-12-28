@@ -232,6 +232,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                 ? new MarcRecord()
                 : parent.Record;
 
+            AlternativeRecord = ReferenceEquals(parent, null)
+                ? null
+                : parent.AlternativeRecord;
+
             Functions = new PftFunctionManager();
 
             Debugger = ReferenceEquals(parent, null)
