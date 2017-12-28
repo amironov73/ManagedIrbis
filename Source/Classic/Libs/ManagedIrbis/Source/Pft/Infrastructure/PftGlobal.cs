@@ -241,7 +241,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                     result.AppendLine();
                 }
                 first = false;
-                result.Append(field);
+                result.Append(field.ToText());
             }
 
             return result.ToString();

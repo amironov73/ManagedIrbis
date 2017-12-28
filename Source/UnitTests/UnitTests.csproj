@@ -598,6 +598,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\IndexSpecificationTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftContextSaverTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftDebugEventArgsTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\PftGlobalManagerTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftGlobalTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftLexerTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftMaskTest.cs" />
@@ -661,6 +662,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforXTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforYTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforZTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\UniforTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\VirtualChildrenTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Walking\UniversalVisitorTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Walking\VisitorContextTest.cs" />

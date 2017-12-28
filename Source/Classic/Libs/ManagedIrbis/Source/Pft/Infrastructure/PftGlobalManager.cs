@@ -9,16 +9,11 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
-using AM.Collections;
 using AM.IO;
 using AM.Runtime;
 
@@ -250,6 +245,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (ReferenceEquals(fields, null))
             {
                 Delete(index);
+
                 return;
             }
 
@@ -257,6 +253,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (array.Length == 0)
             {
                 Delete(index);
+
                 return;
             }
 
