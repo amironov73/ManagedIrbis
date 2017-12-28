@@ -612,6 +612,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftTokenTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftVariableManagerTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftVariableTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\UmarciTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\CommonUniforTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\Unifor0Test.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\Unifor1Test.cs" />

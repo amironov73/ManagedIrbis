@@ -221,12 +221,16 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (string.IsNullOrEmpty(expression)
                 || ReferenceEquals(context.Record, null))
             {
+                context.Write(node, "0");
+
                 return;
             }
 
             string[] parts = expression.Split('#');
             if (parts.Length != 2)
             {
+                context.Write(node, "0");
+
                 return;
             }
 
@@ -235,6 +239,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (string.IsNullOrEmpty(tag)
                 || string.IsNullOrEmpty(substring))
             {
+                context.Write(node, "0");
+
                 return;
             }
 
@@ -242,12 +248,16 @@ namespace ManagedIrbis.Pft.Infrastructure
                 .GetField(tag.SafeToInt32(), context.Index);
             if (ReferenceEquals(field, null))
             {
+                context.Write(node, "0");
+
                 return;
             }
 
             string text = field.ToText();
             if (string.IsNullOrEmpty(text))
             {
+                context.Write(node, "0");
+
                 return;
             }
 
@@ -335,11 +345,11 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             if (positions.Length == 0)
             {
-                if (index <= 0)
-                {
-                    context.Write(node, text);
-                    return;
-                }
+                //if (index < 0)
+                //{
+                //    context.Write(node, text);
+                //}
+                return;
             }
 
             if (index == 0)
@@ -362,7 +372,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             {
                 start = positions[index - 1] + 1;
                 end = text.Length;
-                length = end - start - 1;
+                length = end - start;
                 text = text.Substring(start, length);
             }
             else
