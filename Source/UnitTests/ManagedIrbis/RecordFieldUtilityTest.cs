@@ -7,6 +7,7 @@ using ManagedIrbis;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+// ReSharper disable PossiblyMistakenUseOfParamsMethod
 // ReSharper disable ConvertToLocalFunction
 // ReSharper disable ExpressionIsAlwaysNull
 // ReSharper disable InvokeAsExtensionMethod
@@ -663,6 +664,54 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
+        public void RecordFieldUtility_GetFieldRegex_5()
+        {
+            IEnumerable<RecordField> enumeration = _GetFieldEnumeration();
+            int[] tags = { 100, 200 };
+            string textRegex = "^Sub";
+            RecordField[] fields = RecordFieldUtility.GetFieldRegex(enumeration, tags, textRegex);
+            Assert.AreEqual(0, fields.Length);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetFieldRegex_6()
+        {
+            IEnumerable<RecordField> enumeration = _GetFieldEnumeration();
+            int[] tags = { 100, 200 };
+            string textRegex = "^Sub";
+            RecordField field = RecordFieldUtility.GetFieldRegex(enumeration, tags, textRegex, 0);
+            Assert.IsNull(field);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetFieldRegex_7()
+        {
+            IEnumerable<RecordField> enumeration = new []
+            {
+                new RecordField(100, "Field100"),
+                new RecordField(200, "TheField200"),
+            };
+            int[] tags = { 100, 200 };
+            string textRegex = "^Field";
+            RecordField[] fields = RecordFieldUtility.GetFieldRegex(enumeration, tags, textRegex);
+            Assert.AreEqual(1, fields.Length);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetFieldRegex_8()
+        {
+            IEnumerable<RecordField> enumeration = new []
+            {
+                new RecordField(100, "Field100"),
+                new RecordField(200, "TheField200"),
+            };
+            int[] tags = { 100, 200 };
+            string textRegex = "^Field";
+            RecordField field = RecordFieldUtility.GetFieldRegex(enumeration, tags, textRegex, 0);
+            Assert.IsNotNull(field);
+        }
+
+        [TestMethod]
         public void RecordFieldUtility_GetFieldValue_1()
         {
             IEnumerable<RecordField> enumeration = _GetFieldEnumeration();
@@ -692,6 +741,190 @@ namespace UnitTests.ManagedIrbis
             RecordFieldCollection enumeration = _GetFieldCollection();
             string[] values = RecordFieldUtility.GetFieldValue(enumeration, 100);
             Assert.AreEqual(0, values.Length);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetFieldValue_5()
+        {
+            RecordFieldCollection enumeration = new RecordFieldCollection
+            {
+                new RecordField(100, "Field100"),
+                new RecordField(200, "TheField200"),
+            };
+            string[] values = RecordFieldUtility.GetFieldValue(enumeration, 100);
+            Assert.AreEqual(1, values.Length);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetFieldValue_6()
+        {
+            RecordFieldCollection enumeration = new RecordFieldCollection
+            {
+                new RecordField(100, "Field100"),
+                new RecordField(200, "TheField200"),
+            };
+            string[] values = RecordFieldUtility.GetFieldValue(enumeration);
+            Assert.AreEqual(2, values.Length);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetFirstField_1()
+        {
+            IEnumerable<RecordField> enumeration = _GetFieldEnumeration();
+            RecordField field = RecordFieldUtility.GetFirstField(enumeration, 100);
+            Assert.IsNotNull(field);
+
+            enumeration = _GetFieldEnumeration();
+            field = RecordFieldUtility.GetFirstField(enumeration, 200);
+            Assert.IsNotNull(field);
+
+            enumeration = _GetFieldEnumeration();
+            field = RecordFieldUtility.GetFirstField(enumeration, 900);
+            Assert.IsNull(field);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetFirstField_2()
+        {
+            IEnumerable<RecordField> enumeration = _GetFieldEnumeration();
+            RecordField field = RecordFieldUtility.GetFirstField(enumeration, 100, 200);
+            Assert.IsNotNull(field);
+
+            enumeration = _GetFieldEnumeration();
+            field = RecordFieldUtility.GetFirstField(enumeration, 200);
+            Assert.IsNotNull(field);
+
+            enumeration = _GetFieldEnumeration();
+            field = RecordFieldUtility.GetFirstField(enumeration, 900, 1000);
+            Assert.IsNull(field);
+
+            enumeration = _GetFieldEnumeration();
+            field = RecordFieldUtility.GetFirstField(enumeration, 900, 200);
+            Assert.IsNotNull(field);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetFirstField_3()
+        {
+            RecordFieldCollection collection = _GetFieldCollection();
+            RecordField field = RecordFieldUtility.GetFirstField(collection, 100);
+            Assert.IsNotNull(field);
+
+            field = RecordFieldUtility.GetFirstField(collection, 200);
+            Assert.IsNotNull(field);
+
+            field = RecordFieldUtility.GetFirstField(collection, 900);
+            Assert.IsNull(field);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetFirstField_4()
+        {
+            RecordFieldCollection collection = _GetFieldCollection();
+            RecordField field = RecordFieldUtility.GetFirstField(collection, 100, 200);
+            Assert.IsNotNull(field);
+
+            field = RecordFieldUtility.GetFirstField(collection, 900, 1000);
+            Assert.IsNull(field);
+
+            field = RecordFieldUtility.GetFirstField(collection, 900, 200);
+            Assert.IsNotNull(field);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetFirstFieldValue_1()
+        {
+            RecordFieldCollection enumeration = new RecordFieldCollection
+            {
+                new RecordField(100, "Field100"),
+                new RecordField(200, "TheField200"),
+            };
+            string value = RecordFieldUtility.GetFirstFieldValue(enumeration, 100);
+            Assert.IsNotNull(value);
+
+            value = RecordFieldUtility.GetFirstFieldValue(enumeration, 200);
+            Assert.IsNotNull(value);
+
+            value = RecordFieldUtility.GetFirstFieldValue(enumeration, 900);
+            Assert.IsNull(value);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetFirstFieldValue_2()
+        {
+            RecordFieldCollection collection = new RecordFieldCollection
+            {
+                new RecordField(100, "Field100"),
+                new RecordField(200, "TheField200"),
+            };
+            string value = RecordFieldUtility.GetFirstFieldValue(collection, 100);
+            Assert.IsNotNull(value);
+
+            value = RecordFieldUtility.GetFirstFieldValue(collection, 200);
+            Assert.IsNotNull(value);
+
+            value = RecordFieldUtility.GetFirstFieldValue(collection, 900);
+            Assert.IsNull(value);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetFirstSubField_1()
+        {
+            RecordField field = _GetField();
+            SubField subField = RecordFieldUtility.GetFirstSubField(field, 'a');
+            Assert.IsNotNull(subField);
+
+            subField = RecordFieldUtility.GetFirstSubField(field, 'b');
+            Assert.IsNotNull(subField);
+
+            subField = RecordFieldUtility.GetFirstSubField(field, 'x');
+            Assert.IsNull(subField);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetSubField_1()
+        {
+            IEnumerable<RecordField> enumeration = _GetFieldEnumeration();
+            SubField[] subFields = RecordFieldUtility.GetSubField(enumeration, 'a');
+            Assert.AreEqual(1, subFields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            subFields = RecordFieldUtility.GetSubField(enumeration, 'b');
+            Assert.AreEqual(1, subFields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            subFields = RecordFieldUtility.GetSubField(enumeration, 'x');
+            Assert.AreEqual(0, subFields.Length);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetSubField_2()
+        {
+            IEnumerable<RecordField> enumeration = _GetFieldEnumeration();
+            SubField[] subFields = RecordFieldUtility.GetSubField(enumeration, 'a', 'b');
+            Assert.AreEqual(2, subFields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            subFields = RecordFieldUtility.GetSubField(enumeration, 'b', 'z');
+            Assert.AreEqual(1, subFields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            subFields = RecordFieldUtility.GetSubField(enumeration, 'x', 'z');
+            Assert.AreEqual(0, subFields.Length);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetSubField_3()
+        {
+            RecordField field = _GetField();
+            SubField[] subFields = RecordFieldUtility.GetSubField(field, 'a');
+            Assert.AreEqual(1, subFields.Length);
+
+            subFields = RecordFieldUtility.GetSubField(field, 'b');
+            Assert.AreEqual(1, subFields.Length);
+
+            subFields = RecordFieldUtility.GetSubField(field, 'x');
+            Assert.AreEqual(0, subFields.Length);
         }
 
         [TestMethod]

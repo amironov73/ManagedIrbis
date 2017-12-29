@@ -1218,28 +1218,28 @@ namespace ManagedIrbis
 
         // ==========================================================
 
-        /// <summary>
-        /// Значение первого поля с указанным тегом или <c>null</c>.
-        /// </summary>
-        [CanBeNull]
-        public static string GetFirstFieldValue
-            (
-                [NotNull] this IEnumerable<RecordField> fields,
-                int tag
-            )
-        {
-            Code.NotNull(fields, "fields");
+        ///// <summary>
+        ///// Значение первого поля с указанным тегом или <c>null</c>.
+        ///// </summary>
+        //[CanBeNull]
+        //public static string GetFirstFieldValue
+        //    (
+        //        [NotNull] this IEnumerable<RecordField> fields,
+        //        int tag
+        //    )
+        //{
+        //    Code.NotNull(fields, "fields");
 
-            foreach (RecordField field in fields)
-            {
-                if (field.Tag == tag)
-                {
-                    return field.Value;
-                }
-            }
+        //    foreach (RecordField field in fields)
+        //    {
+        //        if (field.Tag == tag)
+        //        {
+        //            return field.Value;
+        //        }
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
         /// <summary>
         /// Значение первого поля с указанным тегом или <c>null</c>.
