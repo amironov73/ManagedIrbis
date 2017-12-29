@@ -427,37 +427,37 @@ namespace ManagedIrbis
                 .ToArray();
         }
 
-        /// <summary>
-        /// Фильтрация полей.
-        /// </summary>
-        [NotNull]
-        [ItemNotNull]
-        public static RecordField[] GetField
-            (
-                [NotNull] this RecordFieldCollection fields,
-                params int[] tags
-            )
-        {
-            Code.NotNull(fields, "fields");
+        ///// <summary>
+        ///// Фильтрация полей.
+        ///// </summary>
+        //[NotNull]
+        //[ItemNotNull]
+        //public static RecordField[] GetField
+        //    (
+        //        [NotNull] this RecordFieldCollection fields,
+        //        params int[] tags
+        //    )
+        //{
+        //    Code.NotNull(fields, "fields");
 
-            List<RecordField> result = null;
-            int count = fields.Count;
-            for (int i = 0; i < count; i++)
-            {
-                if (fields[i].Tag.OneOf(tags))
-                {
-                    if (ReferenceEquals(result, null))
-                    {
-                        result = new List<RecordField>();
-                    }
-                    result.Add(fields[i]);
-                }
-            }
+        //    List<RecordField> result = null;
+        //    int count = fields.Count;
+        //    for (int i = 0; i < count; i++)
+        //    {
+        //        if (fields[i].Tag.OneOf(tags))
+        //        {
+        //            if (ReferenceEquals(result, null))
+        //            {
+        //                result = new List<RecordField>();
+        //            }
+        //            result.Add(fields[i]);
+        //        }
+        //    }
 
-            return ReferenceEquals(result, null)
-                ? EmptyArray
-                : result.ToArray();
-        }
+        //    return ReferenceEquals(result, null)
+        //        ? EmptyArray
+        //        : result.ToArray();
+        //}
 
         /// <summary>
         /// Фильтрация полей.
