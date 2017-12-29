@@ -39,10 +39,18 @@ namespace ManagedIrbis.PlatformSpecific
         [NotNull]
         public static string GetShell()
         {
+#if WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
+#else
+
             string result = Environment.GetEnvironmentVariable("COMSPEC")
                              ?? "cmd.exe";
 
             return result;
+
+#endif
         }
 
         /// <summary>

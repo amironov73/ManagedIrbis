@@ -613,6 +613,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Transliterator.cs">
       <Link>AM\Text\Transliterator.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\UnicodeRange.cs">
+      <Link>AM\Text\UnicodeRange.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\BusyGuard.cs">
       <Link>AM\Threading\BusyGuard.cs</Link>
     </Compile>
@@ -666,9 +669,6 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\ComponentModel.cs">
       <Link>Compability\ComponentModel.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\Data.cs">
-      <Link>Compability\Data.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\Diagnostics.cs">
       <Link>Compability\Diagnostics.cs</Link>

@@ -120,11 +120,12 @@ namespace ManagedIrbis.PlatformSpecific
 
 #if PocketPC || WINMOBILE
 
-            string[] elements = StringUtility.SplitString
+            string[] elements = AM.StringUtility.SplitString
                 (
                     path,
                     Separators
                 );
+
 #else
 
             string[] elements = path.Split

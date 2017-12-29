@@ -257,6 +257,8 @@ namespace ManagedIrbis.Biblio
         {
             Code.NotNull(context, "context");
 
+#if !WINMOBILE && !PocketPC
+
             BiblioDocument document = context.Document
                 .ThrowIfNull("context.Document");
             JArray array = (JArray)document.CommonSettings
@@ -278,6 +280,8 @@ namespace ManagedIrbis.Biblio
                     record.RemoveField(tag);
                 }
             }
+
+#endif
         }
 
         /// <summary>

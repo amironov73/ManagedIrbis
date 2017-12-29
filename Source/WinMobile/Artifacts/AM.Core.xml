@@ -113,6 +113,16 @@
             Some useful methods for runtime.
             </summary>
         </member>
+        <member name="M:AM.Runtime.RuntimeUtility.PrepareAssembly(System.Reflection.Assembly)">
+            <summary>
+            Pre-JIT types of the <paramref name="assembly"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Runtime.RuntimeUtility.PrepareType(System.Type)">
+            <summary>
+            Pre-JIT methods of the <paramref name="type"/>.
+            </summary>
+        </member>
         <member name="P:AM.Runtime.RuntimeUtility.FrameworkLocation">
             <summary>
             Путь к файлам текущей версии Net Framework.
@@ -2040,7 +2050,22 @@
             Russian prologue for RTF file.
             </summary>
         </member>
-        <member name="M:AM.Text.RichText.Encode(System.String)">
+        <member name="M:AM.Text.RichText.Decode(System.String)">
+            <summary>
+            Decode text.
+            </summary>
+        </member>
+        <member name="M:AM.Text.RichText.Encode(System.String,AM.Text.UnicodeRange)">
+            <summary>
+            Encode text.
+            </summary>
+        </member>
+        <member name="M:AM.Text.RichText.Encode2(System.String,AM.Text.UnicodeRange)">
+            <summary>
+            Encode text.
+            </summary>
+        </member>
+        <member name="M:AM.Text.RichText.Encode3(System.String,AM.Text.UnicodeRange,System.String)">
             <summary>
             Encode text.
             </summary>
@@ -2371,6 +2396,11 @@
         <member name="M:AM.EventUtility.UnsubscribeAll(System.Object,System.String)">
             <summary>
             Unsubscribe all handlers from the event.
+            </summary>
+        </member>
+        <member name="T:AM.EventUtility.RemoveDelegate">
+            <summary>
+            ???
             </summary>
         </member>
         <member name="T:AM.DisposableUtility">
@@ -3004,7 +3034,6 @@
             используя по возможности меньше байт ( но до
             архиватора не дотягивает ).
             </summary>
-            <remark>This class is not CLS-compliant.</remark>
         </member>
         <member name="M:AM.IO.StreamPacker.PackUInt32(System.IO.Stream,System.UInt32)">
             <summary>
@@ -4463,8 +4492,7 @@
         </member>
         <member name="M:AM.IO.NonCloseableStream.#ctor(System.IO.Stream)">
             <summary>
-            Initializes a new instance of the
-            <see cref="T:AM.IO.NonCloseableStream"/> class.
+            Constructor.
             </summary>
         </member>
         <member name="M:AM.IO.NonCloseableStream.ReallyClose">
@@ -4480,158 +4508,42 @@
             <seealso cref="M:AM.IO.NonCloseable.NonCloseableStream.ReallyClose"/>
         </member>
         <member name="M:AM.IO.NonCloseableStream.Flush">
-            <summary>
-            Clears all buffers for this stream and causes any 
-            buffered data to be written to the underlying device.
-            </summary>
-            <exception cref="T:System.IO.IOException">
-            An I/O error occurs. </exception>
+            <inheritdoc cref="M:System.IO.Stream.Flush"/>
         </member>
         <member name="M:AM.IO.NonCloseableStream.Read(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            Reads a sequence of bytes from the current stream 
-            and advances the position within the stream by the 
-            number of bytes read.
-            </summary>
-            <param name="buffer">An array of bytes. When 
-            this method returns, the buffer contains the specified 
-            byte array with the values between offset and 
-            (offset + count - 1) replaced by the bytes read from 
-            the current source.</param>
-            <param name="offset">The zero-based byte offset 
-            in buffer at which to begin storing the data read from 
-            the current stream.</param>
-            <param name="count">The maximum number of 
-            bytes to be read from the current stream.</param>
-            <returns>
-            The total number of bytes read into the buffer. This can 
-            be less than the number of bytes requested if that many 
-            bytes are not currently available, or zero (0) if the end of 
-            the stream has been reached.
-            </returns>
-            <exception cref="T:System.ArgumentException">The sum 
-            of offset and count is larger than the buffer length. </exception>
-            <exception cref="T:System.ObjectDisposedException">Methods 
-            were called after the stream was closed. </exception>
-            <exception cref="T:System.NotSupportedException">The stream 
-            does not support reading. </exception>
-            <exception cref="T:System.ArgumentNullException">buffer 
-            is <c>null</c>. </exception>
-            <exception cref="T:System.IO.IOException">An I/O error 
-            occurs. </exception>
-            <exception cref="T:System.ArgumentOutOfRangeException">
-            offset or count is negative. </exception>
+            <inheritdoc cref="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)"/>
         </member>
         <member name="M:AM.IO.NonCloseableStream.Seek(System.Int64,System.IO.SeekOrigin)">
-            <summary>
-            Sets the position within the current stream.
-            </summary>
-            <param name="offset">A byte offset relative to the origin parameter.
-            </param>
-            <param name="origin">A value of type 
-            <see cref="T:System.IO.SeekOrigin"></see> indicating the reference 
-            point used to obtain the new position.</param>
-            <returns>
-            The new position within the current stream.
-            </returns>
-            <exception cref="T:System.IO.IOException">An I/O error occurs. 
-            </exception>
-            <exception cref="T:System.NotSupportedException">The stream 
-            does not support seeking, such as if the stream is constructed from 
-            a pipe or console output. </exception>
-            <exception cref="T:System.ObjectDisposedException">Methods 
-            were called after the stream was closed. </exception>
+            <inheritdoc cref="M:System.IO.Stream.Seek(System.Int64,System.IO.SeekOrigin)"/>
         </member>
         <member name="M:AM.IO.NonCloseableStream.SetLength(System.Int64)">
-            <summary>
-            Sets the length of the current stream.
-            </summary>
-            <param name="value">The desired length of 
-            the current stream in bytes.</param>
-            <exception cref="T:System.NotSupportedException">
-            The stream does not support both writing and seeking, such as 
-            if the stream is constructed from a pipe or console output. 
-            </exception>
-            <exception cref="T:System.IO.IOException">An I/O 
-            error occurs. </exception>
-            <exception cref="T:System.ObjectDisposedException">
-            Methods were called after the stream was closed. </exception>
+            <inheritdoc cref="M:System.IO.Stream.SetLength(System.Int64)"/>
         </member>
         <member name="M:AM.IO.NonCloseableStream.Write(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            Writes a sequence of bytes to the current stream and advances 
-            the current position within this stream by the number of bytes written.
-            </summary>
-            <param name="buffer">An array of bytes. This method 
-            copies count bytes from buffer to the current stream.</param>
-            <param name="offset">The zero-based byte offset 
-            in buffer at which to begin copying bytes to the current stream.
-            </param>
-            <param name="count">The number of bytes to be written 
-            to the current stream.</param>
-            <exception cref="T:System.IO.IOException">An I/O error occurs. 
-            </exception>
-            <exception cref="T:System.NotSupportedException">The stream 
-            does not support writing. </exception>
-            <exception cref="T:System.ObjectDisposedException">Methods 
-            were called after the stream was closed. </exception>
-            <exception cref="T:System.ArgumentNullException">buffer 
-            is <c>null</c>. </exception>
-            <exception cref="T:System.ArgumentException">The sum 
-            of offset and count is greater than the buffer length. </exception>
-            <exception cref="T:System.ArgumentOutOfRangeException">
-            offset or count is negative. </exception>
+            <inheritdoc cref="M:System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)"/>
         </member>
         <member name="M:AM.IO.NonCloseableStream.System#IDisposable#Dispose">
             <inheritdoc cref="M:System.IDisposable.Dispose"/>
         </member>
-        <member name="P:AM.IO.NonCloseableStream.CanRead">
+        <member name="P:AM.IO.NonCloseableStream.InnerStream">
             <summary>
-            Gets a value indicating whether the current
-            stream supports reading.
+            Inner stream.
             </summary>
+        </member>
+        <member name="P:AM.IO.NonCloseableStream.CanRead">
+            <inheritdoc cref="P:System.IO.Stream.CanRead"/>
         </member>
         <member name="P:AM.IO.NonCloseableStream.CanSeek">
-            <summary>
-            Gets a value indicating whether the current stream supports seeking.
-            </summary>
-            <value></value>
-            <returns><c>true</c> if the stream supports seeking; 
-            otherwise, <c>false</c>.</returns>
+            <inheritdoc cref="P:System.IO.Stream.CanSeek"/>
         </member>
         <member name="P:AM.IO.NonCloseableStream.CanWrite">
-            <summary>
-            Gets a value indicating whether the current stream supports writing.
-            </summary>
-            <value></value>
-            <returns><c>true</c> if the stream supports writing; 
-            otherwise, <c>false</c>.</returns>
+            <inheritdoc cref="P:System.IO.Stream.CanWrite"/>
         </member>
         <member name="P:AM.IO.NonCloseableStream.Length">
-            <summary>
-            Gets the length in bytes of the stream.
-            </summary>
-            <value></value>
-            <returns>A long value representing the 
-            length of the stream in bytes.</returns>
-            <exception cref="T:System.NotSupportedException">
-            A class derived from Stream does not support seeking. 
-            </exception>
-            <exception cref="T:System.ObjectDisposedException">
-            Methods were called after the stream was closed. </exception>
+            <inheritdoc cref="P:System.IO.Stream.Length"/>
         </member>
         <member name="P:AM.IO.NonCloseableStream.Position">
-            <summary>
-            Gets or sets the position within the current stream.
-            </summary>
-            <value></value>
-            <returns>The current position within the stream.</returns>
-            <exception cref="T:System.IO.IOException">An I/O 
-            error occurs. </exception>
-            <exception cref="T:System.NotSupportedException">The stream 
-            does not support seeking. </exception>
-            <exception cref="T:System.ObjectDisposedException">Methods 
-            were called after the stream was closed. </exception>
+            <inheritdoc cref="P:System.IO.Stream.Position"/>
         </member>
         <member name="T:AM.Collections.DisposableCollection`1">
             <summary>
@@ -5092,33 +5004,25 @@
             Constructor.
             </summary>
         </member>
-        <member name="M:AM.IO.NotifyStream.Finalize">
-            <summary>
-            Releases unmanaged resources and performs 
-            other cleanup operations before the
-            <see cref="T:AM.IO.NotifyStream"/> 
-            is reclaimed by garbage collection.
-            </summary>
-        </member>
         <member name="M:AM.IO.NotifyStream.OnStreamChanged">
             <summary>
             Called when stream content is changed.
             </summary>
         </member>
         <member name="M:AM.IO.NotifyStream.Flush">
-            <inheritdoc />
+            <inheritdoc cref="M:System.IO.Stream.Flush"/>
         </member>
         <member name="M:AM.IO.NotifyStream.Read(System.Byte[],System.Int32,System.Int32)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)"/>
         </member>
         <member name="M:AM.IO.NotifyStream.Seek(System.Int64,System.IO.SeekOrigin)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.IO.Stream.Seek(System.Int64,System.IO.SeekOrigin)"/>
         </member>
         <member name="M:AM.IO.NotifyStream.SetLength(System.Int64)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.IO.Stream.SetLength(System.Int64)"/>
         </member>
         <member name="M:AM.IO.NotifyStream.Write(System.Byte[],System.Int32,System.Int32)">
-            <inheritdoc />
+            <inheritdoc cref="M:System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)"/>
         </member>
         <member name="M:AM.IO.NotifyStream.System#IDisposable#Dispose">
             <inheritdoc cref="M:System.IDisposable.Dispose"/>
@@ -5128,31 +5032,31 @@
             Issued when stream content is changed.
             </summary>
         </member>
-        <member name="P:AM.IO.NotifyStream.BaseStream">
+        <member name="P:AM.IO.NotifyStream.InnerStream">
             <summary>
-            Base stream.
+            Inner stream.
             </summary>
         </member>
         <member name="P:AM.IO.NotifyStream.CanRead">
-            <inheritdoc />
+            <inheritdoc cref="P:System.IO.Stream.CanRead"/>
         </member>
         <member name="P:AM.IO.NotifyStream.CanSeek">
-            <inheritdoc />
+            <inheritdoc cref="P:System.IO.Stream.CanSeek"/>
         </member>
         <member name="P:AM.IO.NotifyStream.CanWrite">
-            <inheritdoc />
+            <inheritdoc cref="P:System.IO.Stream.CanWrite"/>
         </member>
         <member name="P:AM.IO.NotifyStream.Length">
-            <inheritdoc />
+            <inheritdoc cref="P:System.IO.Stream.Length"/>
         </member>
         <member name="P:AM.IO.NotifyStream.Position">
-            <inheritdoc />
+            <inheritdoc cref="P:System.IO.Stream.Position"/>
         </member>
         <member name="M:AM.IO.VersionStream.#ctor(System.IO.Stream)">
             <summary>
             Constructor
             </summary>
-            <param name="baseStream"></param>
+            <param name="innerStream"></param>
         </member>
         <member name="M:AM.IO.VersionStream.ResetVersion">
             <summary>
@@ -6426,57 +6330,48 @@
             Parse specified string.
             </summary>
         </member>
-        <member name="T:AM.IO.NonCloseable.NonCloseableTextReader">
+        <member name="T:AM.IO.NonCloseableTextReader">
             <summary>
             Non-closeable <see cref="T:System.IO.TextReader"/>.
-            Call <see cref="M:AM.IO.NonCloseable.NonCloseableTextReader.ReallyClose"/> to close it.
+            Call <see cref="M:AM.IO.NonCloseableTextReader.ReallyClose"/> to close it.
             </summary>
         </member>
-        <member name="M:AM.IO.NonCloseable.NonCloseableTextReader.#ctor(System.IO.TextReader)">
+        <member name="M:AM.IO.NonCloseableTextReader.#ctor(System.IO.TextReader)">
             <summary>
             Initializes a new instance of the 
-            <see cref="T:AM.IO.NonCloseable.NonCloseableTextReader"/> class.
+            <see cref="T:AM.IO.NonCloseableTextReader"/> class.
             </summary>
             <param name="innerReader">The inner reader.</param>
         </member>
-        <member name="M:AM.IO.NonCloseable.NonCloseableTextReader.ReallyClose">
+        <member name="M:AM.IO.NonCloseableTextReader.ReallyClose">
             <summary>
             Really closes the reader.
             </summary>
         </member>
-        <member name="M:AM.IO.NonCloseable.NonCloseableTextReader.Close">
+        <member name="M:AM.IO.NonCloseableTextReader.Close">
             <summary>
             
             </summary>
         </member>
-        <member name="M:AM.IO.NonCloseable.NonCloseableTextReader.Dispose(System.Boolean)">
+        <member name="M:AM.IO.NonCloseableTextReader.Dispose(System.Boolean)">
             <summary>
             
             </summary>
             <param name="disposing"></param>
         </member>
-        <member name="M:AM.IO.NonCloseable.NonCloseableTextReader.Peek">
+        <member name="M:AM.IO.NonCloseableTextReader.Peek">
             <summary>
             
             </summary>
             <returns></returns>
         </member>
-        <member name="M:AM.IO.NonCloseable.NonCloseableTextReader.Read">
+        <member name="M:AM.IO.NonCloseableTextReader.Read">
             <summary>
             
             </summary>
             <returns></returns>
         </member>
-        <member name="M:AM.IO.NonCloseable.NonCloseableTextReader.Read(System.Char[],System.Int32,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="buffer"></param>
-            <param name="index"></param>
-            <param name="count"></param>
-            <returns></returns>
-        </member>
-        <member name="M:AM.IO.NonCloseable.NonCloseableTextReader.ReadBlock(System.Char[],System.Int32,System.Int32)">
+        <member name="M:AM.IO.NonCloseableTextReader.Read(System.Char[],System.Int32,System.Int32)">
             <summary>
             
             </summary>
@@ -6485,13 +6380,22 @@
             <param name="count"></param>
             <returns></returns>
         </member>
-        <member name="M:AM.IO.NonCloseable.NonCloseableTextReader.ReadLine">
+        <member name="M:AM.IO.NonCloseableTextReader.ReadBlock(System.Char[],System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="buffer"></param>
+            <param name="index"></param>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AM.IO.NonCloseableTextReader.ReadLine">
             <summary>
             
             </summary>
             <returns></returns>
         </member>
-        <member name="M:AM.IO.NonCloseable.NonCloseableTextReader.ReadToEnd">
+        <member name="M:AM.IO.NonCloseableTextReader.ReadToEnd">
             <summary>
             Reads all characters from the current position to the end 
             of the TextReader and returns them as one string.
@@ -6506,7 +6410,7 @@
             <exception cref="T:System.OutOfMemoryException">There is insufficient memory to allocate a buffer for the returned string. </exception>
             <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextReader"></see> is closed. </exception>
         </member>
-        <member name="M:AM.IO.NonCloseable.NonCloseableTextReader.System#IDisposable#Dispose">
+        <member name="M:AM.IO.NonCloseableTextReader.System#IDisposable#Dispose">
             <inheritdoc cref="M:System.IDisposable.Dispose"/>
         </member>
         <member name="T:AM.IO.FileUtility">
@@ -8043,6 +7947,16 @@
             Borrowed from Stephen Toub book.
             </summary>
         </member>
+        <member name="T:AM.EmptyArray`1">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AM.EmptyArray`1.Value">
+            <summary>
+            Value.
+            </summary>
+        </member>
         <member name="T:AM.Configuration.ConfigurationUtility">
             <summary>
             Some useful routines for System.Configuration.
@@ -8414,6 +8328,11 @@
             Set of interop helper routines.
             </summary>
         </member>
+        <member name="M:AM.Runtime.InteropUtility.AllocateMemory(System.Int32)">
+            <summary>
+            Allocate memory block via <see cref="T:System.Runtime.InteropServices.Marshal"/>.
+            </summary>
+        </member>
         <member name="M:AM.Runtime.InteropUtility.BufferToPtr(System.Byte[])">
             <summary>
             Copies buffer to unmanaged memory and returns
@@ -8588,68 +8507,27 @@
             Stream manipulation routines.
             </summary>
         </member>
-        <member name="M:AM.IO.StreamUtility.Append(System.IO.Stream,System.IO.Stream,System.Int32)">
+        <member name="M:AM.IO.StreamUtility.AppendTo(System.IO.Stream,System.IO.Stream,System.Int32)">
             <summary>
             Appends one's stream contents (starting from current position)
             to another stream.
             </summary>
-            <param name="sourceStream">The source stream.</param>
-            <param name="destinationStream">The destination stream.</param>
-            <param name="chunkSize">Size of the chunk. 
-            If <paramref name="chunkSize"/> is less that 0, it will
-            be chosen by routine.</param>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="sourceStream"/> or 
-            <paramref name="destinationStream"/> is <c>null</c>.
-            </exception>
         </member>
-        <member name="M:AM.IO.StreamUtility.Compare(System.IO.Stream,System.IO.Stream)">
+        <member name="M:AM.IO.StreamUtility.CompareTo(System.IO.Stream,System.IO.Stream)">
             <summary>
             Compares two <see cref="T:System.IO.Stream"/>'s from current position.
             </summary>
-            <param name="firstStream">The first stream.</param>
-            <param name="secondStream">The second stream.</param>
-            <returns>0, if both streams are identical.</returns>
-        </member>
-        <member name="M:AM.IO.StreamUtility.Copy(System.IO.Stream,System.IO.Stream)">
-            <summary>
-            Appends one's stream contents (starting from current position)
-            to another stream.
-            </summary>
-            <param name="sourceStream">The source stream.</param>
-            <param name="destinationStream">The destination stream.</param>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadAsMuchAsPossible(System.IO.Stream,System.Int32)">
             <summary>
             Read as up to <paramref name="maximum"/> bytes 
             from the given stream.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <param name="maximum">Maximum bytes to read.</param>
-            <returns>Readed data.</returns>
-            <remarks>Don't make <paramref name="maximum"/>
-            <c>Int32.Max</c> or so.
-            </remarks>
-            <exception cref="T:System.ArgumentOutOfRangeException">
-            <paramref name="maximum"/> is less than zero.
-            </exception>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.
-            </exception>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadBoolean(System.IO.Stream)">
             <summary>
             Reads <see cref="T:System.Boolean"/> value from the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written by <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Boolean)"/>
-            or compatible method.</remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Boolean)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadBytes(System.IO.Stream,System.Int32)">
             <summary>
@@ -8660,139 +8538,47 @@
             <summary>
             Reads <see cref="T:System.Int16"/> value from the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written by <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int16)"/>
-            or compatible method.</remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadUInt16(System.IO.Stream)"/>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int16)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadUInt16(System.IO.Stream)">
             <summary>
             Reads <see cref="T:System.UInt16"/> value from the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written by <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt16)"/>
-            or compatible method.</remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadInt16(System.IO.Stream)"/>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt16)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadInt32(System.IO.Stream)">
             <summary>
             Reads <see cref="T:System.Int32"/> value from the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written by <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int32)"/>
-            or compatible method.</remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadUInt32(System.IO.Stream)"/>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int32)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadUInt32(System.IO.Stream)">
             <summary>
             Reads <see cref="T:System.UInt32"/> value from the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written by <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt32)"/>
-            or compatible method.</remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadInt32(System.IO.Stream)"/>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt32)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadInt64(System.IO.Stream)">
             <summary>
             Reads <see cref="T:System.Int64"/> value from the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written by <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int64)"/>
-            or compatible method.</remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadUInt64(System.IO.Stream)"/>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int64)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadUInt64(System.IO.Stream)">
             <summary>
             Reads <see cref="T:System.UInt64"/> value from the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written by <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt64)"/>
-            or compatible method.</remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadInt64(System.IO.Stream)"/>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt64)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadSingle(System.IO.Stream)">
             <summary>
             Reads <see cref="T:System.Single"/> value from the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written by <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Single)"/>
-            or compatible method.</remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadDouble(System.IO.Stream)"/>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Single)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadDouble(System.IO.Stream)">
             <summary>
             Reads <see cref="T:System.Double"/> value from the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written by <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Double)"/>
-            or compatible method.</remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadSingle(System.IO.Stream)"/>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Double)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadString(System.IO.Stream,System.Text.Encoding)">
             <summary>
             Reads <see cref="T:System.String"/> value from the <see cref="T:System.IO.Stream"/>
             using specified <see cref="T:System.Text.Encoding"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <param name="encoding">Encoding to use.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written by 
-            <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.String,System.Text.Encoding)"/> or compatible method.
-            </remarks>
-            <exception cref="T:System.ArgumentNullException">Either
-            <paramref name="stream"/> or <paramref name="encoding"/>
-            is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadString(System.IO.Stream)"/>
             <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.String,System.Text.Encoding)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadString(System.IO.Stream)">
@@ -8800,347 +8586,126 @@
             Reads <see cref="T:System.Boolean"/> value from the <see cref="T:System.IO.Stream"/>
             using UTF-8 <see cref="T:System.Text.Encoding"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written by <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.String)"/>
-            or compatible method.</remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadString(System.IO.Stream,System.Text.Encoding)"/>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.String)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadInt16Array(System.IO.Stream)">
             <summary>
             Reads array of <see cref="T:System.Int16"/> values from the 
             <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written by <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int16[])"/>
-            or compatible method.</remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadUInt16Array(System.IO.Stream)"/>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int16[])"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadUInt16Array(System.IO.Stream)">
             <summary>
             Reads array of <see cref="T:System.UInt16"/> values from the 
             <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written by <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt16[])"/>
-            or compatible method.</remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadInt16Array(System.IO.Stream)"/>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt16[])"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadInt32Array(System.IO.Stream)">
             <summary>
             Reads array of <see cref="T:System.Int32"/> values from the 
             <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written by <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int32[])"/>
-            or compatible method.</remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadUInt32Array(System.IO.Stream)"/>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int32[])"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadUInt32Array(System.IO.Stream)">
             <summary>
             Reads array of <see cref="T:System.UInt32"/> values from the 
             <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written by <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt32[])"/>
-            or compatible method.</remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadInt32Array(System.IO.Stream)"/>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt32[])"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadStringArray(System.IO.Stream,System.Text.Encoding)">
             <summary>
             Reads array of <see cref="T:System.String"/>'s from the given stream until the end
             of the stream using specified <see cref="T:System.Text.Encoding"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <param name="encoding">Encoding.</param>
-            <returns>Readed strings.</returns>
-            <remarks>Value must be written by 
-            <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.String[],System.Text.Encoding)"/>
-            or compatible method.</remarks>
-            <exception cref="T:System.ArgumentNullException">Either 
-            <paramref name="stream"/> or 
-            <paramref name="encoding"/> is <c>null</c>.
-            </exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadStringArray(System.IO.Stream)"/>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.String[])"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadStringArray(System.IO.Stream)">
             <summary>
             Reads array of <see cref="T:System.String"/>'s from the <see cref="T:System.IO.Stream"/>
             using UTF-8 <see cref="T:System.Text.Encoding"/>.
             </summary>
-            <param name="stream">Stream to read from.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written by 
-            <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.String[])"/> or compatible method.
-            </remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadStringArray(System.IO.Stream,System.Text.Encoding)"/>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.String[])"/>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadDecimal(System.IO.Stream)">
             <summary>
             Reads the <see cref="T:System.Decimal"/> from the specified 
             <see cref="T:System.IO.Stream"/>.
             </summary>
+        </member>
+        <member name="M:AM.IO.StreamUtility.ReadDateTime(System.IO.Stream)">
+            <summary>
+            Reads the date time.
+            </summary>
             <param name="stream">The stream.</param>
-            <returns>Readed value.</returns>
-            <remarks>Value must be written with 
-            <see cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Decimal)"/> or compatible method.
-            </remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">Error during stream input
-            happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Decimal)"/>
+        </member>
+        <member name="M:AM.IO.StreamUtility.ReadExact(System.IO.Stream,System.Int32)">
+            <summary>
+            Чтение точного числа байт.
+            </summary>
         </member>
         <member name="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Boolean)">
             <summary>
             Writes the <see cref="T:System.Boolean"/> value to the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to write.</param>
-            <param name="value">Value to write.</param>
-            <remarks>Value can be readed with 
-            <see cref="M:AM.IO.StreamUtility.ReadBoolean(System.IO.Stream)"/> or compatible method.
-            </remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream
-            output happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.ReadBoolean(System.IO.Stream)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int16)">
             <summary>
             Writes the <see cref="T:System.Int16"/> value to the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to write to.</param>
-            <param name="value">Value to write.</param>
-            <remarks>Value can be readed with 
-            <see cref="M:AM.IO.StreamUtility.ReadInt16(System.IO.Stream)"/> or compatible method.
-            </remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream
-            output happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt16)"/>
-            <see cref="M:AM.IO.StreamUtility.ReadInt16(System.IO.Stream)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt16)">
             <summary>
             Writes the <see cref="T:System.UInt16"/> value to the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to write to.</param>
-            <param name="value">Value to write.</param>
-            <remarks>Value can be readed with 
-            <see cref="M:AM.IO.StreamUtility.ReadUInt16(System.IO.Stream)"/> or compatible method.
-            </remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream
-            output happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int16)"/>
-            <seealso cref="M:AM.IO.StreamUtility.ReadUInt16(System.IO.Stream)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int32)">
             <summary>
             Writes the <see cref="T:System.Int32"/> to the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to write to.</param>
-            <param name="value">Value to write.</param>
-            <remarks>Value can be readed with 
-            <see cref="M:AM.IO.StreamUtility.ReadInt32(System.IO.Stream)"/> or compatible method.
-            </remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream
-            output happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt32)"/>
-            <seealso cref="M:AM.IO.StreamUtility.ReadInt32(System.IO.Stream)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt32)">
             <summary>
             Writes the <see cref="T:System.UInt32"/> to the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to write to.</param>
-            <param name="value">Value to write.</param>
-            <remarks>Value can be readed with 
-            <see cref="M:AM.IO.StreamUtility.ReadUInt32(System.IO.Stream)"/> or compatible method.
-            </remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream
-            output happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int32)"/>
-            <seealso cref="M:AM.IO.StreamUtility.ReadInt32(System.IO.Stream)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int64)">
             <summary>
             Writes the <see cref="T:System.Int64"/> to the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to write to.</param>
-            <param name="value">Value to write.</param>
-            <remarks>Value can be readed with 
-            <see cref="M:AM.IO.StreamUtility.ReadInt64(System.IO.Stream)"/> or compatible method.
-            </remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream
-            output happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt64)"/>
-            <seealso cref="M:AM.IO.StreamUtility.ReadInt64(System.IO.Stream)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt64)">
             <summary>
             Writes the <see cref="T:System.UInt64"/> to the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to write to.</param>
-            <param name="value">Value to write.</param>
-            <remarks>Value can be readed with 
-            <see cref="M:AM.IO.StreamUtility.ReadUInt64(System.IO.Stream)"/> or compatible method.
-            </remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream
-            output happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int64)"/>
-            <seealso cref="M:AM.IO.StreamUtility.ReadUInt64(System.IO.Stream)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Single)">
             <summary>
             Writes the <see cref="T:System.Single"/> to the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to write to.</param>
-            <param name="value">Value to write.</param>
-            <remarks>Value can be readed with 
-            <see cref="M:AM.IO.StreamUtility.ReadSingle(System.IO.Stream)"/> or compatible method.
-            </remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream
-            output happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Double)"/>
-            <seealso cref="M:AM.IO.StreamUtility.ReadSingle(System.IO.Stream)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Double)">
             <summary>
             Writes the <see cref="T:System.Double"/> to the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to write to.</param>
-            <param name="value">Value to write.</param>
-            <remarks>Value can be readed with 
-            <see cref="M:AM.IO.StreamUtility.ReadDouble(System.IO.Stream)"/> or compatible method.
-            </remarks>
-            <exception cref="T:System.ArgumentNullException">
-            <paramref name="stream"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream
-            output happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Single)"/>
-            <seealso cref="M:AM.IO.StreamUtility.ReadDouble(System.IO.Stream)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.String,System.Text.Encoding)">
             <summary>
             Writes the <see cref="T:System.String"/> to the <see cref="T:System.IO.Stream"/>
             using specified <see cref="T:System.Text.Encoding"/>.
             </summary>
-            <param name="stream">Stream to write to.</param>
-            <param name="value">String to write.</param>
-            <param name="encoding">Encoding to use.</param>
-            <remarks>Value can be readed with 
-            <see cref="M:AM.IO.StreamUtility.ReadString(System.IO.Stream,System.Text.Encoding)"/> or compatible method.
-            </remarks>
-            <exception cref="T:System.ArgumentNullException">Either 
-            <paramref name="stream"/> or <paramref name="value"/>
-            or <paramref name="encoding"/> is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream
-            output happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.String)"/>
-            <see cref="M:AM.IO.StreamUtility.ReadString(System.IO.Stream)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.String)">
             <summary>
             Writes the <see cref="T:System.String"/> to the <see cref="T:System.IO.Stream"/>
             using UTF-8 <see cref="T:System.Text.Encoding"/>.
             </summary>
-            <param name="stream">Stream to write to.</param>
-            <param name="value">String to write.</param>
-            <remarks>Value can be readed with 
-            <see cref="M:AM.IO.StreamUtility.ReadString(System.IO.Stream)"/> or compatible method.
-            </remarks>
-            <exception cref="T:System.ArgumentNullException">Either 
-            <paramref name="stream"/> or <paramref name="value"/>
-            is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream
-            output happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.String,System.Text.Encoding)"/>
-            <seealso cref="M:AM.IO.StreamUtility.ReadString(System.IO.Stream)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int16[])">
             <summary>
             Writes the array of <see cref="T:System.Int16"/> to the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to write to.</param>
-            <param name="values">Array of signed short integer numbers.
-            </param>
-            <remarks>Value can be readed with 
-            <see cref="M:AM.IO.StreamUtility.ReadInt16Array(System.IO.Stream)"/> or compatible method.
-            </remarks>
-            <exception cref="T:System.ArgumentNullException">Either 
-            <paramref name="stream"/> or <paramref name="values"/>
-            is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream
-            output happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt16[])"/>
-            <seealso cref="M:AM.IO.StreamUtility.ReadInt16Array(System.IO.Stream)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.UInt16[])">
             <summary>
             Writes the array of <see cref="T:System.UInt16"/> to the <see cref="T:System.IO.Stream"/>.
             </summary>
-            <param name="stream">Stream to write to.</param>
-            <param name="values">Array of unsigned short integer 
-            numbers.</param>
-            <remarks>Value can be readed with 
-            <see cref="M:AM.IO.StreamUtility.ReadUInt16Array(System.IO.Stream)"/> or compatible method.
-            </remarks>
-            <exception cref="T:System.ArgumentNullException">Either 
-            <paramref name="stream"/> or <paramref name="values"/>
-            is <c>null</c>.</exception>
-            <exception cref="T:System.IO.IOException">An error during stream
-            output happens.</exception>
-            <seealso cref="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int16[])"/>
-            <seealso cref="M:AM.IO.StreamUtility.ReadUInt16Array(System.IO.Stream)"/>
         </member>
         <member name="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.Int32[])">
             <summary>
@@ -9225,6 +8790,12 @@
             <exception cref="T:System.IO.IOException">Error during stream output
             happens.</exception>
             <seealso cref="M:AM.IO.StreamUtility.ReadDecimal(System.IO.Stream)"/>
+        </member>
+        <member name="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.DateTime)">
+            <summary>
+            Writes the <see cref="T:System.DateTime"/> to the specified 
+            <see cref="T:System.IO.Stream"/>.
+            </summary>
         </member>
         <member name="M:AM.IO.StreamUtility.NetworkToHost16(System.Byte[],System.Int32)">
             <summary>
@@ -10684,6 +10255,9 @@
         </member>
         <member name="M:AM.IO.IniFile.Section.GetEnumerator">
             <inheritdoc cref="M:System.Collections.Generic.IEnumerable`1.GetEnumerator"/>
+        </member>
+        <member name="M:AM.IO.IniFile.Section.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:AM.IO.IniFile.Section.Count">
             <summary>
@@ -12235,6 +11809,9 @@
             associated with the reader.
             </summary>
         </member>
+        <member name="M:AM.IO.NonCloseableStreamReader.Dispose(System.Boolean)">
+            <inheritdoc cref="M:System.IO.StreamReader.Dispose(System.Boolean)"/>
+        </member>
         <member name="M:AM.IO.NonCloseableStreamReader.System#IDisposable#Dispose">
             <inheritdoc cref="M:System.IDisposable.Dispose"/>
         </member>
@@ -12687,6 +12264,16 @@
             <param name="other">Other dates/times.</param>
             <returns>Minimum.</returns>
         </member>
+        <member name="M:AM.DateTimeUtility.ToLongUniformString(System.DateTime)">
+            <summary>
+            Универсальное длинное представление.
+            </summary>
+        </member>
+        <member name="M:AM.DateTimeUtility.ToShortUniformString(System.DateTime)">
+            <summary>
+            Универсальное короткое представление.
+            </summary>
+        </member>
         <member name="M:AM.DateTimeUtility.ToUnixTime(System.DateTime)">
             <summary>
             Переводит указанную дату в формат Unix.
@@ -13134,14 +12721,81 @@
             Mark instance field as auto-disposable.
             </summary>
         </member>
-        <member name="T:AM.EmptyArray`1">
+        <member name="T:AM.Text.UnicodeRange">
             <summary>
             
             </summary>
         </member>
-        <member name="F:AM.EmptyArray`1.Value">
+        <member name="F:AM.Text.UnicodeRange.ControlCharacters">
             <summary>
-            Value.
+            Control characters.
+            </summary>
+        </member>
+        <member name="F:AM.Text.UnicodeRange.BasicLatin">
+            <summary>
+            Basic Latin.
+            </summary>
+        </member>
+        <member name="F:AM.Text.UnicodeRange.Latin1Supplement">
+            <summary>
+            Latin1 supplement.
+            </summary>
+        </member>
+        <member name="F:AM.Text.UnicodeRange.LatinExtended">
+            <summary>
+            Latin extended.
+            </summary>
+        </member>
+        <member name="F:AM.Text.UnicodeRange.Cyrillic">
+            <summary>
+            Cyrillic.
+            </summary>
+        </member>
+        <member name="F:AM.Text.UnicodeRange.CyrillicSupplement">
+            <summary>
+            Cyrillic supplement.
+            </summary>
+        </member>
+        <member name="F:AM.Text.UnicodeRange.Russian">
+            <summary>
+            Russian.
+            </summary>
+        </member>
+        <member name="M:AM.Text.UnicodeRange.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Text.UnicodeRange.#ctor(System.String,System.Char,System.Char)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Text.UnicodeRange.RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
+        </member>
+        <member name="M:AM.Text.UnicodeRange.SaveToStream(System.IO.BinaryWriter)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
+        </member>
+        <member name="M:AM.Text.UnicodeRange.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="M:AM.Text.UnicodeRange.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:AM.Text.UnicodeRange.Name">
+            <summary>
+            Name.
+            </summary>
+        </member>
+        <member name="P:AM.Text.UnicodeRange.From">
+            <summary>
+            From.
+            </summary>
+        </member>
+        <member name="P:AM.Text.UnicodeRange.To">
+            <summary>
+            To (including).
             </summary>
         </member>
     </members>

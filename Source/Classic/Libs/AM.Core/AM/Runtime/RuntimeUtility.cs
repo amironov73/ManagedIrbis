@@ -140,6 +140,8 @@ namespace AM.Runtime
         {
             Code.NotNull(type, "type");
 
+#if !WINMOBILE && !PocketPC
+
             try
             {
                 foreach (MethodInfo method in type.GetMethods())
@@ -156,6 +158,7 @@ namespace AM.Runtime
                     );
             }
 
+#endif
         }
 
         #endregion

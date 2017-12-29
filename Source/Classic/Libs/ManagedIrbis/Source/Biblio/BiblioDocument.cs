@@ -71,12 +71,16 @@ namespace ManagedIrbis.Biblio
         [JsonProperty("chapters")]
         public ChapterCollection Chapters { get; private set; }
 
+#if !WINMOBILE && !PocketPC
+
         /// <summary>
         /// Common settings.
         /// </summary>
         [NotNull]
         [JsonIgnore]
         public JObject CommonSettings { get; private set; }
+
+#endif
 
         #endregion
 
