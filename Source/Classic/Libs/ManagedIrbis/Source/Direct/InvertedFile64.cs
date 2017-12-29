@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if !WIN81 && !PORTABLE && !SILVERLIGHT
-
 #region Using directives
 
 using System;
@@ -113,28 +111,40 @@ namespace ManagedIrbis.Direct
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+            _lockObject = new object();
             _encoding = new UTF8Encoding(false, true);
 
             FileName = fileName;
             Mode = mode;
 
-            Ifp = DirectUtility.OpenFile(fileName, mode);
-            IfpControlRecord = IfpControlRecord64.Read(Ifp);
-            L01 = DirectUtility.OpenFile
+            Ifp = new NonBufferedStream
                 (
-                    Path.ChangeExtension(fileName, ".l01"),
-                    mode
+                    DirectUtility.OpenFile(fileName, mode)
                 );
-            N01 = DirectUtility.OpenFile
+            IfpControlRecord = IfpControlRecord64.Read(Ifp);
+            L01 = new NonBufferedStream
                 (
-                    Path.ChangeExtension(fileName, ".n01"),
-                    mode
+                    DirectUtility.OpenFile
+                        (
+                            Path.ChangeExtension(fileName, ".l01"),
+                            mode
+                        )
+                );
+            N01 = new NonBufferedStream
+                (
+                    DirectUtility.OpenFile
+                    (
+                        Path.ChangeExtension(fileName, ".n01"),
+                        mode
+                    )
                 );
         }
 
         #endregion
 
         #region Private members
+
+        private object _lockObject;
 
         private readonly Encoding _encoding;
 
@@ -156,49 +166,52 @@ namespace ManagedIrbis.Direct
                 long offset
             )
         {
-            stream.Position = offset;
-
-            NodeRecord result = new NodeRecord(isLeaf)
+            lock (_lockObject)
             {
-                _stream = stream,
-                Leader =
-                        {
-                            Number = stream.ReadInt32Network(),
-                            Previous = stream.ReadInt32Network(),
-                            Next = stream.ReadInt32Network(),
-                            TermCount = stream.ReadInt16Network(),
-                            FreeOffset = stream.ReadInt16Network()
-                        }
-            };
+                stream.Position = offset;
 
-            for (int i = 0; i < result.Leader.TermCount; i++)
-            {
-                NodeItem item = new NodeItem
+                NodeRecord result = new NodeRecord(isLeaf)
                 {
-                    Length = stream.ReadInt16Network(),
-                    KeyOffset = stream.ReadInt16Network(),
-                    LowOffset = stream.ReadInt32Network(),
-                    HighOffset = stream.ReadInt32Network()
+                    _stream = stream,
+                    Leader =
+                    {
+                        Number = stream.ReadInt32Network(),
+                        Previous = stream.ReadInt32Network(),
+                        Next = stream.ReadInt32Network(),
+                        TermCount = stream.ReadInt16Network(),
+                        FreeOffset = stream.ReadInt16Network()
+                    }
                 };
-                result.Items.Add(item);
-            }
 
-            foreach (NodeItem item in result.Items)
-            {
-                stream.Position = offset + item.KeyOffset;
-                byte[] buffer = StreamUtility.ReadBytes(stream, item.Length)
-                    .ThrowIfNull("buffer");
+                for (int i = 0; i < result.Leader.TermCount; i++)
+                {
+                    NodeItem item = new NodeItem
+                    {
+                        Length = stream.ReadInt16Network(),
+                        KeyOffset = stream.ReadInt16Network(),
+                        LowOffset = stream.ReadInt32Network(),
+                        HighOffset = stream.ReadInt32Network()
+                    };
+                    result.Items.Add(item);
+                }
 
-                string text = EncodingUtility.GetString
+                foreach (NodeItem item in result.Items)
+                {
+                    stream.Position = offset + item.KeyOffset;
+                    byte[] buffer = StreamUtility.ReadBytes(stream, item.Length)
+                        .ThrowIfNull("buffer");
+
+                    string text = EncodingUtility.GetString
                     (
                         _encoding,
                         buffer
                     );
 
-                item.Text = text;
-            }
+                    item.Text = text;
+                }
 
-            return result;
+                return result;
+            }
         }
 
         #endregion
@@ -327,139 +340,147 @@ namespace ManagedIrbis.Direct
 
             // TODO Implement reverse order
 
-            string key = parameters.StartTerm;
-            if (string.IsNullOrEmpty(key))
+            lock (_lockObject)
             {
-                return TermInfo.EmptyArray;
-            }
-
-            List<TermInfo> result = new List<TermInfo>();
-            try
-            {
-                key = IrbisText.ToUpper(key);
-
-                NodeRecord firstNode = ReadNode(1);
-                NodeRecord rootNode = ReadNode(firstNode.Leader.Number);
-                NodeRecord currentNode = rootNode;
-
-                NodeItem goodItem = null, candidate=null;
-                int goodIndex = 0;
-                while (true)
+                string key = parameters.StartTerm;
+                if (string.IsNullOrEmpty(key))
                 {
-                    bool found = false;
-                    bool beyond = false;
-
-                    if (ReferenceEquals(currentNode, null))
-                    {
-                        break;
-                    }
-
-                    for (int index = 0; index < currentNode.Leader.TermCount; index++)
-                    {
-                        NodeItem item = currentNode.Items[index];
-                        int compareResult = string.CompareOrdinal
-                            (
-                                item.Text,
-                                key
-                            );
-                        if (compareResult > 0)
-                        {
-                            candidate = item;
-                            goodIndex = index;
-                            beyond = true;
-                            break;
-                        }
-
-                        goodItem = item;
-                        goodIndex = index;
-                        found = true;
-
-                        if (compareResult == 0
-                            && currentNode.IsLeaf)
-                        {
-                            goto FOUND;
-                        }
-
-                    }
-                    if (ReferenceEquals(goodItem, null))
-                    {
-                        break;
-                    }
-                    if (found)
-                    {
-                        if (beyond || currentNode.Leader.Next == -1)
-                        {
-                            if (currentNode.IsLeaf)
-                            {
-                                goodItem = candidate;
-                                goto FOUND;
-                            }
-                            currentNode = goodItem.RefersToLeaf
-                                ? ReadLeaf(goodItem.LowOffset)
-                                : ReadNode(goodItem.LowOffset);
-                        }
-                        else
-                        {
-                            currentNode = ReadNext(currentNode);
-                        }
-                    }
-                    else
-                    {
-                        currentNode = goodItem.RefersToLeaf
-                            ? ReadLeaf(goodItem.LowOffset)
-                            : ReadNode(goodItem.LowOffset);
-                    }
+                    return TermInfo.EmptyArray;
                 }
 
-                FOUND:
-                if (!ReferenceEquals(goodItem, null))
+                List<TermInfo> result = new List<TermInfo>();
+                try
                 {
-                    int count = parameters.NumberOfTerms;
-                    while (count > 0)
+                    key = IrbisText.ToUpper(key);
+
+                    NodeRecord firstNode = ReadNode(1);
+                    NodeRecord rootNode = ReadNode(firstNode.Leader.Number);
+                    NodeRecord currentNode = rootNode;
+
+                    NodeItem goodItem = null, candidate = null;
+                    int goodIndex = 0;
+                    while (true)
                     {
+                        bool found = false;
+                        bool beyond = false;
+
                         if (ReferenceEquals(currentNode, null))
                         {
                             break;
                         }
-                        TermInfo term = new TermInfo
+
+                        for (int index = 0; index < currentNode.Leader.TermCount; index++)
                         {
-                            Text = goodItem.Text,
-                            Count = 0
-                        };
-                        long offset = goodItem.FullOffset;
-                        if (offset <= 0)
+                            NodeItem item = currentNode.Items[index];
+                            int compareResult = string.CompareOrdinal
+                            (
+                                item.Text,
+                                key
+                            );
+                            if (compareResult > 0)
+                            {
+                                candidate = item;
+                                goodIndex = index;
+                                beyond = true;
+                                break;
+                            }
+
+                            goodItem = item;
+                            goodIndex = index;
+                            found = true;
+
+                            if (compareResult == 0
+                                && currentNode.IsLeaf)
+                            {
+                                goto FOUND;
+                            }
+
+                        }
+
+                        if (ReferenceEquals(goodItem, null))
                         {
                             break;
                         }
-                        IfpRecord ifp = ReadIfpRecord(offset);
-                        term.Count += ifp.BlockLinkCount;
-                        result.Add(term);
-                        count--;
-                        if (count > 0)
+
+                        if (found)
                         {
-                            if (goodIndex >= currentNode.Leader.TermCount)
+                            if (beyond || currentNode.Leader.Next == -1)
                             {
-                                currentNode = ReadNext(currentNode);
-                                goodIndex = 0;
+                                if (currentNode.IsLeaf)
+                                {
+                                    goodItem = candidate;
+                                    goto FOUND;
+                                }
+
+                                currentNode = goodItem.RefersToLeaf
+                                    ? ReadLeaf(goodItem.LowOffset)
+                                    : ReadNode(goodItem.LowOffset);
                             }
                             else
                             {
-                                goodIndex++;
-                                goodItem = currentNode.Items[goodIndex];
+                                currentNode = ReadNext(currentNode);
                             }
+                        }
+                        else
+                        {
+                            currentNode = goodItem.RefersToLeaf
+                                ? ReadLeaf(goodItem.LowOffset)
+                                : ReadNode(goodItem.LowOffset);
                         }
                     }
 
-                    return result.ToArray();
+                    FOUND:
+                    if (!ReferenceEquals(goodItem, null))
+                    {
+                        int count = parameters.NumberOfTerms;
+                        while (count > 0)
+                        {
+                            if (ReferenceEquals(currentNode, null))
+                            {
+                                break;
+                            }
+
+                            TermInfo term = new TermInfo
+                            {
+                                Text = goodItem.Text,
+                                Count = 0
+                            };
+                            long offset = goodItem.FullOffset;
+                            if (offset <= 0)
+                            {
+                                break;
+                            }
+
+                            IfpRecord ifp = ReadIfpRecord(offset);
+                            term.Count += ifp.BlockLinkCount;
+                            result.Add(term);
+                            count--;
+                            if (count > 0)
+                            {
+                                if (goodIndex >= currentNode.Leader.TermCount)
+                                {
+                                    currentNode = ReadNext(currentNode);
+                                    goodIndex = 0;
+                                }
+                                else
+                                {
+                                    goodIndex++;
+                                    goodItem = currentNode.Items[goodIndex];
+                                }
+                            }
+                        }
+
+                        return result.ToArray();
+                    }
                 }
-            }
-            catch (Exception exception)
-            {
-                Log.TraceException
-                    (
-                        "InvertedFile64::SearchExact",
-                        exception
-                    );
+                catch (Exception exception)
+                {
+                    Log.TraceException
+                        (
+                            "InvertedFile64::SearchExact",
+                            exception
+                        );
+                }
             }
 
             return TermInfo.EmptyArray;
@@ -477,28 +498,40 @@ namespace ManagedIrbis.Direct
 
             if (Mode != mode)
             {
-                Mode = mode;
+                lock (_lockObject)
+                {
+                    Mode = mode;
 
-                Ifp.Dispose();
-                Ifp = null;
-                Ifp = DirectUtility.OpenFile(FileName, mode);
-                IfpControlRecord = IfpControlRecord64.Read(Ifp);
+                    Ifp.Dispose();
+                    Ifp = null;
+                    Ifp = new NonBufferedStream
+                        (
+                            DirectUtility.OpenFile(FileName, mode)
+                        );
+                    IfpControlRecord = IfpControlRecord64.Read(Ifp);
 
-                L01.Dispose();
-                L01 = null;
-                L01 = DirectUtility.OpenFile
-                    (
-                        Path.ChangeExtension(FileName, ".l01"),
-                        mode
-                    );
+                    L01.Dispose();
+                    L01 = null;
+                    L01 = new NonBufferedStream
+                        (
+                            DirectUtility.OpenFile
+                                (
+                                    Path.ChangeExtension(FileName, ".l01"),
+                                    mode
+                                )
+                        );
 
-                N01.Dispose();
-                N01 = null;
-                N01 = DirectUtility.OpenFile
-                    (
-                        Path.ChangeExtension(FileName, ".n01"),
-                        mode
-                    );
+                    N01.Dispose();
+                    N01 = null;
+                    N01 = new NonBufferedStream
+                        (
+                            DirectUtility.OpenFile
+                                (
+                                    Path.ChangeExtension(FileName, ".n01"),
+                                    mode
+                                )
+                        );
+                }
             }
 
             // ReSharper restore AssignNullToNotNullAttribute
@@ -518,13 +551,134 @@ namespace ManagedIrbis.Direct
                 return TermLink.EmptyArray;
             }
 
-            try
+            lock (_lockObject)
             {
+                try
+                {
+                    key = IrbisText.ToUpper(key);
+
+                    NodeRecord firstNode = ReadNode(1);
+                    NodeRecord rootNode = ReadNode(firstNode.Leader.Number);
+                    NodeRecord currentNode = rootNode;
+
+                    NodeItem goodItem = null;
+                    while (true)
+                    {
+                        bool found = false;
+                        bool beyond = false;
+
+                        if (ReferenceEquals(currentNode, null))
+                        {
+                            break;
+                        }
+
+                        foreach (NodeItem item in currentNode.Items)
+                        {
+                            int compareResult = string.CompareOrdinal
+                            (
+                                item.Text,
+                                key
+                            );
+                            if (compareResult > 0)
+                            {
+                                beyond = true;
+                                break;
+                            }
+
+                            goodItem = item;
+                            found = true;
+
+                            if (compareResult == 0
+                                && currentNode.IsLeaf)
+                            {
+                                goto FOUND;
+                            }
+
+                        }
+
+                        if (goodItem == null)
+                        {
+                            break;
+                        }
+
+                        if (found)
+                        {
+                            if (beyond || currentNode.Leader.Next == -1)
+                            {
+                                currentNode = goodItem.RefersToLeaf
+                                    ? ReadLeaf(goodItem.LowOffset)
+                                    : ReadNode(goodItem.LowOffset);
+                            }
+                            else
+                            {
+                                currentNode = ReadNext(currentNode);
+                            }
+                        }
+                        else
+                        {
+                            currentNode = goodItem.RefersToLeaf
+                                ? ReadLeaf(goodItem.LowOffset)
+                                : ReadNode(goodItem.LowOffset);
+                        }
+                    }
+
+                    FOUND:
+                    if (goodItem != null)
+                    {
+                        // ibatrak записи могут иметь ссылки на следующие
+
+                        List<TermLink> result = new List<TermLink>();
+                        long offset = goodItem.FullOffset;
+                        while (offset > 0)
+                        {
+                            IfpRecord ifp = ReadIfpRecord(offset);
+                            result.AddRange(ifp.Links);
+                            offset = ifp.FullOffset > 0
+                                ? ifp.FullOffset
+                                : 0;
+                        }
+
+                        return result
+                            .Distinct()
+                            .ToArray();
+                        // ibatrak до сюда
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Log.TraceException
+                        (
+                            "InvertedFile64::SearchExact",
+                            exception
+                        );
+                }
+            }
+
+            return TermLink.EmptyArray;
+        }
+
+        /// <summary>
+        /// Search with truncation.
+        /// </summary>
+        [NotNull]
+        public TermLink[] SearchStart
+            (
+                [CanBeNull] string key
+            )
+        {
+            if (string.IsNullOrEmpty(key))
+            {
+                return TermLink.EmptyArray;
+            }
+
+            lock (_lockObject)
+            {
+                List<TermLink> result = new List<TermLink>();
+
                 key = IrbisText.ToUpper(key);
 
                 NodeRecord firstNode = ReadNode(1);
-                NodeRecord rootNode
-                    = ReadNode(firstNode.Leader.Number);
+                NodeRecord rootNode = ReadNode(firstNode.Leader.Number);
                 NodeRecord currentNode = rootNode;
 
                 NodeItem goodItem = null;
@@ -553,25 +707,23 @@ namespace ManagedIrbis.Direct
 
                         goodItem = item;
                         found = true;
-
-                        if (compareResult == 0
-                            && currentNode.IsLeaf)
-                        {
-                            goto FOUND;
-                        }
-
                     }
+
                     if (goodItem == null)
                     {
                         break;
                     }
+
                     if (found)
                     {
                         if (beyond || currentNode.Leader.Next == -1)
                         {
-                            currentNode = goodItem.RefersToLeaf
-                                ? ReadLeaf(goodItem.LowOffset)
-                                : ReadNode(goodItem.LowOffset);
+                            if (goodItem.RefersToLeaf)
+                            {
+                                goto FOUND;
+                            }
+
+                            currentNode = ReadNode(goodItem.LowOffset);
                         }
                         else
                         {
@@ -580,178 +732,73 @@ namespace ManagedIrbis.Direct
                     }
                     else
                     {
-                        currentNode = goodItem.RefersToLeaf
-                            ? ReadLeaf(goodItem.LowOffset)
-                            : ReadNode(goodItem.LowOffset);
+                        if (goodItem.RefersToLeaf)
+                        {
+                            goto FOUND;
+                        }
+
+                        currentNode = ReadNode(goodItem.LowOffset);
                     }
                 }
 
                 FOUND:
                 if (goodItem != null)
                 {
-                    // ibatrak записи могут иметь ссылки на следующие
+                    currentNode = ReadLeaf(goodItem.LowOffset);
 
-                    List<TermLink> result = new List<TermLink>();
-                    long offset = goodItem.FullOffset;
-                    while (offset > 0)
+                    while (true)
                     {
-                        IfpRecord ifp = ReadIfpRecord(offset);
-                        result.AddRange(ifp.Links);
-                        offset = ifp.FullOffset > 0
-                            ? ifp.FullOffset
-                            : 0;
-                    }
-
-                    return result
-                        .Distinct()
-                        .ToArray();
-                    // ibatrak до сюда
-                }
-            }
-            catch (Exception exception)
-            {
-                Log.TraceException
-                    (
-                        "InvertedFile64::SearchExact",
-                        exception
-                    );
-            }
-
-            return TermLink.EmptyArray;
-        }
-
-        /// <summary>
-        /// Search with truncation.
-        /// </summary>
-        [NotNull]
-        public TermLink[] SearchStart
-            (
-                [CanBeNull] string key
-            )
-        {
-            if (string.IsNullOrEmpty(key))
-            {
-                return TermLink.EmptyArray;
-            }
-
-            List<TermLink> result = new List<TermLink>();
-
-            key = IrbisText.ToUpper(key);
-
-            NodeRecord firstNode = ReadNode(1);
-            NodeRecord rootNode = ReadNode(firstNode.Leader.Number);
-            NodeRecord currentNode = rootNode;
-
-            NodeItem goodItem = null;
-            while (true)
-            {
-                bool found = false;
-                bool beyond = false;
-
-                if (ReferenceEquals(currentNode, null))
-                {
-                    break;
-                }
-
-                foreach (NodeItem item in currentNode.Items)
-                {
-                    int compareResult = string.CompareOrdinal
-                        (
-                            item.Text,
-                            key
-                        );
-                    if (compareResult > 0)
-                    {
-                        beyond = true;
-                        break;
-                    }
-
-                    goodItem = item;
-                    found = true;
-                }
-                if (goodItem == null)
-                {
-                    break;
-                }
-                if (found)
-                {
-                    if (beyond || currentNode.Leader.Next == -1)
-                    {
-                        if (goodItem.RefersToLeaf)
+                        if (ReferenceEquals(currentNode, null))
                         {
-                            goto FOUND;
+                            break;
                         }
-                        currentNode = ReadNode(goodItem.LowOffset);
-                    }
-                    else
-                    {
-                        currentNode = ReadNext(currentNode);
-                    }
-                }
-                else
-                {
-                    if (goodItem.RefersToLeaf)
-                    {
-                        goto FOUND;
-                    }
-                    currentNode = ReadNode(goodItem.LowOffset);
-                }
-            }
 
-            FOUND:
-            if (goodItem != null)
-            {
-                currentNode = ReadLeaf(goodItem.LowOffset);
-
-                while (true)
-                {
-                    if (ReferenceEquals(currentNode, null))
-                    {
-                        break;
-                    }
-
-                    foreach (NodeItem item in currentNode.Items)
-                    {
-                        int compareResult = string.CompareOrdinal
-                            (
-                                item.Text,
-                                key
-                            );
-                        if (compareResult >= 0)
+                        foreach (NodeItem item in currentNode.Items)
                         {
-                            bool starts = item.Text.StartsWith(key);
-                            if (compareResult > 0 && !starts)
+                            int compareResult = string.CompareOrdinal
+                                (
+                                    item.Text,
+                                    key
+                                );
+                            if (compareResult >= 0)
                             {
-                                goto DONE;
-                            }
-                            if (starts)
-                            {
-                                //ibatrak записи могут иметь ссылки на следующие
-
-                                var offset = item.FullOffset;
-                                while (offset > 0)
+                                bool starts = item.Text.StartsWith(key);
+                                if (compareResult > 0 && !starts)
                                 {
-                                    IfpRecord ifp = ReadIfpRecord(offset);
-                                    result.AddRange(ifp.Links);
-                                    offset = ifp.FullOffset > 0
-                                        ? ifp.FullOffset
-                                        : 0;
+                                    goto DONE;
                                 }
-                                //ibatrak до сюда
+
+                                if (starts)
+                                {
+                                    //ibatrak записи могут иметь ссылки на следующие
+
+                                    var offset = item.FullOffset;
+                                    while (offset > 0)
+                                    {
+                                        IfpRecord ifp = ReadIfpRecord(offset);
+                                        result.AddRange(ifp.Links);
+                                        offset = ifp.FullOffset > 0
+                                            ? ifp.FullOffset
+                                            : 0;
+                                    }
+
+                                    //ibatrak до сюда
+                                }
                             }
                         }
-                    }
-                    if (currentNode.Leader.Next > 0)
-                    {
-                        currentNode = ReadNext(currentNode);
+
+                        if (currentNode.Leader.Next > 0)
+                        {
+                            currentNode = ReadNext(currentNode);
+                        }
                     }
                 }
-            }
 
-            DONE:
-            return result
-                .Distinct()
-                .ToArray();
+                DONE:
+                return result
+                    .Distinct()
+                    .ToArray();
+            }
         }
 
         /// <summary>
@@ -768,25 +815,29 @@ namespace ManagedIrbis.Direct
                 return new int[0];
             }
 
-            TermLink[] result = TermLink.EmptyArray;
-
-            if (key.EndsWith("$"))
+            lock (_lockObject)
             {
-                key = key.Substring(0, key.Length - 1);
-                if (!string.IsNullOrEmpty(key))
+
+                TermLink[] result = TermLink.EmptyArray;
+
+                if (key.EndsWith("$"))
                 {
-                    result = SearchStart(key);
+                    key = key.Substring(0, key.Length - 1);
+                    if (!string.IsNullOrEmpty(key))
+                    {
+                        result = SearchStart(key);
+                    }
                 }
-            }
-            else
-            {
-                result = SearchExact(key);
-            }
+                else
+                {
+                    result = SearchExact(key);
+                }
 
-            return result
-                .Select(link => link.Mfn)
-                .Distinct()
-                .ToArray();
+                return result
+                    .Select(link => link.Mfn)
+                    .Distinct()
+                    .ToArray();
+            }
         }
 
         #endregion
@@ -796,29 +847,34 @@ namespace ManagedIrbis.Direct
         /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
+            // TODO implement properly
+
             // ReSharper disable ConditionIsAlwaysTrueOrFalse
+            // ReSharper disable AssignNullToNotNullAttribute
 
             if (!ReferenceEquals(Ifp, null))
             {
                 Ifp.Dispose();
+                Ifp = null;
             }
 
             if (!ReferenceEquals(L01, null))
             {
                 L01.Dispose();
+                L01 = null;
             }
 
             if (!ReferenceEquals(N01, null))
             {
                 N01.Dispose();
+                N01 = null;
             }
 
+            // ReSharper restore AssignNullToNotNullAttribute
             // ReSharper restore ConditionIsAlwaysTrueOrFalse
         }
 
         #endregion
     }
 }
-
-#endif
 

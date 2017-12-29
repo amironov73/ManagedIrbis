@@ -198,23 +198,13 @@ namespace ManagedIrbis.Client
 
         private bool _persistentAccessor;
 
-#if !WIN81 && !PORTABLE && !SILVERLIGHT
-
         private DirectAccess64 _accessor;
-
-#endif
 
         private string _ExpandPath
             (
                 [NotNull] FileSpecification fileSpecification
             )
         {
-#if WIN81 || PORTABLE || SILVERLIGHT
-
-            throw new NotImplementedException();
-
-#else
-
             string fileName = fileSpecification.FileName;
             if (string.IsNullOrEmpty(fileName))
             {
@@ -277,11 +267,7 @@ namespace ManagedIrbis.Client
             }
 
             return result;
-
-#endif
         }
-
-#if !WIN81 && !PORTABLE && !SILVERLIGHT
 
         private DirectAccess64 _GetAccessor()
         {
@@ -303,8 +289,6 @@ namespace ManagedIrbis.Client
 
             return _accessor;
         }
-
-#endif
 
         #endregion
 
@@ -375,7 +359,7 @@ namespace ManagedIrbis.Client
         {
             Code.NotNull(fileSpecification, "fileSpecification");
 
-#if WIN81 || PocketPC || WINMOBILE || PORTABLE || SILVERLIGHT
+#if PocketPC || WINMOBILE
 
             return false;
 
@@ -417,12 +401,6 @@ namespace ManagedIrbis.Client
         /// <inheritdoc cref="IrbisProvider.GetAlphabetTable" />
         public override IrbisAlphabetTable GetAlphabetTable()
         {
-#if WIN81 || SILVERLIGHT || PORTABLE
-
-            throw new NotImplementedException();
-
-#else
-
             FileSpecification specification = new FileSpecification
                 (
                     IrbisPath.System,
@@ -433,8 +411,6 @@ namespace ManagedIrbis.Client
             return File.Exists(path)
                 ? IrbisAlphabetTable.ParseLocalFile(path)
                 : new IrbisAlphabetTable();
-
-#endif
         }
 
         /// <inheritdoc cref="IrbisProvider.GetFileSearchPath" />
@@ -447,8 +423,6 @@ namespace ManagedIrbis.Client
         public override int GetMaxMfn()
         {
             int result = 0;
-
-#if !WIN81 && !SILVERLIGHT && !PORTABLE
 
             DirectAccess64 accessor = null;
             using (new BusyGuard(BusyState))
@@ -478,8 +452,6 @@ namespace ManagedIrbis.Client
                     }
                 }
             }
-
-#endif
 
             return result;
         }
@@ -522,7 +494,7 @@ namespace ManagedIrbis.Client
         /// <inheritdoc cref="IrbisProvider.ListDatabases" />
         public override DatabaseInfo[] ListDatabases()
         {
-#if WIN81 || PocketPC || WINMOBILE || PORTABLE || SILVERLIGHT
+#if PocketPC || WINMOBILE
 
             return new DatabaseInfo[0];
 
@@ -558,7 +530,7 @@ namespace ManagedIrbis.Client
         {
             Code.NotNull(fileSpecification, "fileSpecification");
 
-#if WIN81 || PocketPC || WINMOBILE || SILVERLIGHT || PORTABLE
+#if PocketPC || WINMOBILE
 
             return string.Empty;
 
@@ -603,8 +575,6 @@ namespace ManagedIrbis.Client
 
             MarcRecord result = null;
 
-#if !WIN81 && !SILVERLIGHT && !PORTABLE
-
             using (new BusyGuard(BusyState))
             {
                 DirectAccess64 accessor = null;
@@ -634,8 +604,6 @@ namespace ManagedIrbis.Client
                 }
             }
 
-#endif
-
             return result;
         }
 
@@ -652,8 +620,6 @@ namespace ManagedIrbis.Client
             }
 
             MarcRecord result = null;
-
-#if !WIN81 && !SILVERLIGHT && !PORTABLE
 
             using (new BusyGuard(BusyState))
             {
@@ -695,8 +661,6 @@ namespace ManagedIrbis.Client
 
             }
 
-#endif
-
             return result;
         }
 
@@ -707,8 +671,6 @@ namespace ManagedIrbis.Client
             )
         {
             TermInfo[] result = new TermInfo[0];
-
-#if !WIN81 && !SILVERLIGHT && !PORTABLE
 
             using (new BusyGuard(BusyState))
             {
@@ -739,8 +701,6 @@ namespace ManagedIrbis.Client
                 }
             }
 
-#endif
-
             return result;
         }
 
@@ -765,8 +725,6 @@ namespace ManagedIrbis.Client
             {
                 return result;
             }
-
-#if !WIN81 && !SILVERLIGHT && !PORTABLE
 
             using (new BusyGuard(BusyState))
             {
@@ -815,8 +773,6 @@ namespace ManagedIrbis.Client
                 //    }
             }
 
-#endif
-
             return result;
         }
 
@@ -830,12 +786,6 @@ namespace ManagedIrbis.Client
             {
                 return TermLink.EmptyArray;
             }
-
-#if PORTABLE || WIN81 || SILVERLIGHT
-
-            throw new System.NotImplementedException();
-
-#else
 
             TermLink[] result = TermLink.EmptyArray;
             bool alreadyHave = !ReferenceEquals(_accessor, null);
@@ -867,8 +817,6 @@ namespace ManagedIrbis.Client
             }
 
             return result;
-
-#endif
         }
 
         /// <inheritdoc cref="IrbisProvider.ExactSearchTrimLinks" />
@@ -887,12 +835,6 @@ namespace ManagedIrbis.Client
             {
                 limit = 1;
             }
-
-#if PORTABLE || WIN81 || SILVERLIGHT
-
-            throw new System.NotImplementedException();
-
-#else
 
             TermLink[] result = TermLink.EmptyArray;
             bool alreadyHave = !ReferenceEquals(_accessor, null);
@@ -927,8 +869,6 @@ namespace ManagedIrbis.Client
             }
 
             return result;
-
-#endif
         }
 
         #endregion
@@ -942,15 +882,11 @@ namespace ManagedIrbis.Client
 
             BusyState.WaitFreeState();
 
-#if !WIN81 && !PORTABLE && !SILVERLIGHT
-
             if (!ReferenceEquals(_accessor, null))
             {
                 _accessor.Dispose();
                 _accessor = null;
             }
-
-#endif
 
             base.Dispose();
 

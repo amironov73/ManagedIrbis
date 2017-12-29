@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if !WIN81 && !SILVERLIGHT && !PORTABLE
-
 #region Using directives
 
 using System;
@@ -86,7 +84,10 @@ namespace ManagedIrbis.Direct
             Mode = mode;
 
             _lockObject = new object();
-            _stream = DirectUtility.OpenFile(fileName, mode);
+            _stream = new NonBufferedStream
+                (
+                    DirectUtility.OpenFile(fileName, mode)
+                );
         }
 
         #endregion
@@ -95,8 +96,7 @@ namespace ManagedIrbis.Direct
 
         private object _lockObject;
 
-        [NotNull]
-        private readonly Stream _stream;
+        private Stream _stream;
 
         private long _GetOffset
             (
@@ -104,6 +104,7 @@ namespace ManagedIrbis.Direct
             )
         {
             long result = unchecked(XrfRecord64.RecordSize * (mfn - 1));
+
             return result;
         }
 
@@ -197,15 +198,15 @@ namespace ManagedIrbis.Direct
         {
             lock (_lockObject)
             {
-                _stream.Dispose();
+                if (!ReferenceEquals(_stream, null))
+                {
+                    _stream.Dispose();
+                    _stream = null;
+                }
             }
         }
 
         #endregion
     }
 }
-
-#endif
-
-
 

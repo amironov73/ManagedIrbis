@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if !WIN81 && !SILVERLIGHT && !PORTABLE
-
 #region Using directives
 
 using System;
@@ -17,7 +15,6 @@ using System.IO;
 using System.Text;
 
 using AM.IO;
-using AM.Logging;
 
 using CodeJam;
 
@@ -109,22 +106,25 @@ namespace ManagedIrbis.Direct
             Mode = mode;
 
             _lockObject = new object();
-            _stream = DirectUtility.OpenFile(fileName, mode);
+            _stream = new NonBufferedStream
+                (
+                    DirectUtility.OpenFile(fileName, mode)
+                );
 
             ControlRecord = MstControlRecord64.Read(_stream);
             _lockFlag = ControlRecord.Blocked != 0;
         }
 
-        /// <summary>
-        /// Finalizer.
-        /// </summary>
-        ~MstFile64()
-        {
-            if (!ReferenceEquals(_stream, null))
-            {
-                _stream.Dispose();
-            }
-        }
+        ///// <summary>
+        ///// Finalizer.
+        ///// </summary>
+        //~MstFile64()
+        //{
+        //    if (!ReferenceEquals(_stream, null))
+        //    {
+        //        _stream.Dispose();
+        //    }
+        //}
 
         #endregion
 
@@ -373,12 +373,16 @@ namespace ManagedIrbis.Direct
         /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
-            if (!ReferenceEquals(_stream, null))
+            lock (_lockObject)
             {
-                _stream.Dispose();
-                _stream = null;
+                if (!ReferenceEquals(_stream, null))
+                {
+                    _stream.Dispose();
+                    _stream = null;
+                }
             }
-            GC.SuppressFinalize(this);
+
+            // GC.SuppressFinalize(this);
         }
 
         #endregion
@@ -388,6 +392,4 @@ namespace ManagedIrbis.Direct
         #endregion
     }
 }
-
-#endif
 

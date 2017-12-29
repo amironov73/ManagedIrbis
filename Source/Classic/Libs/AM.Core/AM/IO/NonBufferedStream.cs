@@ -139,6 +139,22 @@ namespace AM.IO
             set { InnerStream.Position = value; }
         }
 
+        /// <inheritdoc cref="Stream.Close" />
+        public override void Close()
+        {
+            InnerStream.Close();
+        }
+
+        /// <inheritdoc cref="Stream.Dispose(bool)" />
+        protected override void Dispose
+            (
+                bool disposing
+            )
+        {
+            InnerStream.Dispose();
+            base.Dispose(disposing);
+        }
+
         #endregion
 
         #region Object members

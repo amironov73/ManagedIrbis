@@ -1045,31 +1045,31 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             _Compare(expected, actual);
         }
 
-        [TestMethod]
-        public void PftParser_Proc_1()
-        {
-            PftProgram expected = new PftProgram
-                (
-                    new PftConditionalStatement
-                        (
-                            new PftHave("x", false),
-                            new PftUnconditionalLiteral("Have X")
-                        )
-                    {
-                        ElseBranch =
-                            {
-                                new PftVerbatim("Haven't X")
-                            }
-                    },
-                    new PftSlash()
-                );
-            PftProgram actual = _Parse("proc TheProc \n"
-                + "do\n"
-                + "\t/* do nothing\n"
-                + "end\n\n"
-                + "if have ($x) then 'Have X' else <<<Haven't X>>> fi/\n");
-            _Compare(expected, actual);
-        }
+        //[TestMethod]
+        //public void PftParser_Proc_1()
+        //{
+        //    PftProgram expected = new PftProgram
+        //        (
+        //            new PftConditionalStatement
+        //                (
+        //                    new PftHave("x", false),
+        //                    new PftUnconditionalLiteral("Have X")
+        //                )
+        //            {
+        //                ElseBranch =
+        //                    {
+        //                        new PftVerbatim("Haven't X")
+        //                    }
+        //            },
+        //            new PftSlash()
+        //        );
+        //    PftProgram actual = _Parse("proc TheProc \n"
+        //        + "do\n"
+        //        + "\t/* do nothing\n"
+        //        + "end\n\n"
+        //        + "if have ($x) then 'Have X' else <<<Haven't X>>> fi/\n");
+        //    _Compare(expected, actual);
+        //}
 
         [TestMethod]
         public void PftParser_Ref_1()
