@@ -139,11 +139,15 @@ namespace AM.IO
             set { InnerStream.Position = value; }
         }
 
+#if !UAP
+
         /// <inheritdoc cref="Stream.Close" />
         public override void Close()
         {
             InnerStream.Close();
         }
+
+#endif
 
         /// <inheritdoc cref="Stream.Dispose(bool)" />
         protected override void Dispose

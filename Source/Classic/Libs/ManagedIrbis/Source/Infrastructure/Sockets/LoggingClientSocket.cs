@@ -182,8 +182,6 @@ namespace ManagedIrbis.Infrastructure.Sockets
                 Directory.CreateDirectory(debugPath);
             }
 
-#if !SILVERLIGHT
-
             if (clearDirectory)
             {
                 DirectoryUtility.ClearDirectory(debugPath);
@@ -192,8 +190,6 @@ namespace ManagedIrbis.Infrastructure.Sockets
             {
                 _counter = Directory.GetFiles(debugPath).Length;
             }
-
-#endif
         }
 
         #endregion

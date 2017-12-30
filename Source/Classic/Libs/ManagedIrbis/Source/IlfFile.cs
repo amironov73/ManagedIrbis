@@ -154,7 +154,7 @@ namespace ManagedIrbis
             {
                 Code.NotNull(reader, "reader");
 
-#if WINMOBILE || PocketPC || SILVERLIGHT
+#if WINMOBILE || PocketPC
 
                 throw new System.NotImplementedException();
 
@@ -183,7 +183,7 @@ namespace ManagedIrbis
             {
                 Code.NotNull(writer, "writer");
 
-#if WINMOBILE || PocketPC || SILVERLIGHT
+#if WINMOBILE || PocketPC
 
                 throw new System.NotImplementedException();
 
@@ -426,7 +426,7 @@ namespace ManagedIrbis
                     char[] chars = reader.ReadChars(entry.DataLength);
                     string text = new string(chars);
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+#if !WINMOBILE && !PocketPC
 
                     string[] parts = text.Split
                         (
@@ -467,7 +467,7 @@ namespace ManagedIrbis
         {
             Code.NotNull(reader, "reader");
 
-#if WINMOBILE || PocketPC || SILVERLIGHT
+#if WINMOBILE || PocketPC
 
             throw new NotImplementedException();
 
@@ -486,7 +486,7 @@ namespace ManagedIrbis
         {
             Code.NotNull(writer, "writer");
 
-#if WINMOBILE || PocketPC || SILVERLIGHT
+#if WINMOBILE || PocketPC
 
             throw new NotImplementedException();
 

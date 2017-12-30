@@ -21,7 +21,7 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
 using CM=System.Configuration.ConfigurationManager;
 
@@ -60,30 +60,9 @@ namespace ManagedIrbis
 
         #region Private members
 
-        private static Encoding _ansi =
+        private static Encoding _ansi = Encoding.GetEncoding(1251);
 
-#if SILVERLIGHT || WIN81 || PORTABLE
-
-            Encoding.GetEncoding("windows-1251")
-
-#else
-            Encoding.GetEncoding(1251)
-
-#endif
-            ;
-
-        private static Encoding _oem =
-
-#if SILVERLIGHT || WIN81 || PORTABLE
-
-            Encoding.GetEncoding("windows-1251")
-
-#else
-
-            Encoding.GetEncoding(866)
-
-#endif
-            ;
+        private static Encoding _oem = Encoding.GetEncoding(866);
 
         private static Encoding _utf8 = new UTF8Encoding
             (
@@ -131,7 +110,7 @@ namespace ManagedIrbis
             return result;
         }
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
         /// <summary>
         /// Get encoding from config file.
@@ -175,7 +154,7 @@ namespace ManagedIrbis
         {
             Code.NotNull(encoding, "encoding");
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81 && !PORTABLE
+#if !WINMOBILE && !PocketPC
 
             if (!encoding.IsSingleByte)
             {
@@ -203,7 +182,7 @@ namespace ManagedIrbis
         {
             Code.NotNull(encoding, "encoding");
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81 && !PORTABLE
+#if !WINMOBILE && !PocketPC
 
             if (!encoding.IsSingleByte)
             {

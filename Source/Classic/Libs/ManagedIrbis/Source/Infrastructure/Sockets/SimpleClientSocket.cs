@@ -15,24 +15,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-
-#if !WIN81 && !PORTABLE
-
 using System.Net.Sockets;
-
-#endif
 
 using System.Text;
 using System.Threading.Tasks;
 
 using AM.IO;
-
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
-
 using AM.Net;
-
-#endif
-
 using AM.Threading;
 
 using CodeJam;
@@ -69,8 +58,6 @@ namespace ManagedIrbis.Infrastructure
         #endregion
 
         #region Private members
-
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         private IPAddress _address;
 
@@ -122,8 +109,6 @@ namespace ManagedIrbis.Infrastructure
 
             return result;
         }
-
-#endif
 
         #endregion
 

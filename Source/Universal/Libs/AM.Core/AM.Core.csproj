@@ -362,6 +362,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\IO\MultiStream.cs">
       <Link>AM\IO\MultiStream.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\IO\NonBufferedStream.cs">
+      <Link>AM\IO\NonBufferedStream.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\IO\NonCloseableStream.cs">
       <Link>AM\IO\NonCloseableStream.cs</Link>
     </Compile>

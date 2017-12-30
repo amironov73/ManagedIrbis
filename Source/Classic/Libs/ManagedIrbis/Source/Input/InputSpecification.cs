@@ -78,8 +78,6 @@ namespace ManagedIrbis.Input
 
         #region Public methods
 
-#if !WIN81
-
         /// <summary>
         /// Load specification from JSON file.
         /// </summary>
@@ -100,10 +98,6 @@ namespace ManagedIrbis.Input
             return result;
         }
 
-#endif
-
-#if !SILVERLIGHT && !WIN81
-
         /// <summary>
         /// Load specification from XML file.
         /// </summary>
@@ -123,8 +117,6 @@ namespace ManagedIrbis.Input
 
             return result;
         }
-
-#endif
 
         #endregion
 

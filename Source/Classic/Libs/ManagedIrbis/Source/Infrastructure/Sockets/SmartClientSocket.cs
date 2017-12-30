@@ -15,12 +15,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-
-#if !WIN81 && !PORTABLE
-
 using System.Net.Sockets;
-
-#endif
 
 using System.Text;
 using System.Threading.Tasks;
@@ -28,13 +23,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.IO;
 using AM.Logging;
-
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
-
 using AM.Net;
-
-#endif
-
 using AM.Threading;
 
 using CodeJam;
@@ -71,8 +60,6 @@ namespace ManagedIrbis.Infrastructure.Sockets
         #endregion
 
         #region Private members
-
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         private IPAddress _address;
 
@@ -203,12 +190,6 @@ namespace ManagedIrbis.Infrastructure.Sockets
             return result;
         }
 
-#endif
-
-        #endregion
-
-        #region Public methods
-
         #endregion
 
         #region AbstractClientSocket members
@@ -231,16 +212,6 @@ namespace ManagedIrbis.Infrastructure.Sockets
         {
             Code.NotNull(request, "request");
 
-#if SILVERLIGHT
-
-            throw new NotImplementedException();
-
-#elif WIN81 || PORTABLE
-
-            throw new NotImplementedException();
-
-#else
-
             _ResolveHostAddress(Connection.Host);
 
             using (new BusyGuard(Busy))
@@ -256,8 +227,6 @@ namespace ManagedIrbis.Infrastructure.Sockets
                     return result;
                 }
             }
-
-#endif
         }
 
         #endregion

@@ -1463,7 +1463,7 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(loggingPath, "loggingPath");
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81 && !PORTABLE
+#if !WINMOBILE && !PocketPC
 
             AbstractClientSocket oldSocket = Socket;
             if (oldSocket is LoggingClientSocket)
@@ -1846,10 +1846,6 @@ namespace ManagedIrbis
                 .WriteNullable(Database)
                 .WritePackedInt32((int)Workstation);
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

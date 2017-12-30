@@ -151,7 +151,7 @@ namespace ManagedIrbis.Infrastructure.Commands
                     Records = Found
                         .ThrowIfNull("Found")
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+#if !WINMOBILE && !PocketPC
 
                         .AsParallel()
                         .AsOrdered()
