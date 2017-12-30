@@ -166,7 +166,7 @@ namespace ManagedIrbis.Gbl
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if WINMOBILE || PocketPC || WIN81 || PORTABLE
+#if WINMOBILE || PocketPC
 
             Log.Error
                 (
@@ -236,7 +236,7 @@ namespace ManagedIrbis.Gbl
             Code.NotNull(gbl, "gbl");
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if WINMOBILE || PocketPC || WIN81 || PORTABLE
+#if WINMOBILE || PocketPC
 
             Log.Error
                 (
@@ -272,7 +272,7 @@ namespace ManagedIrbis.Gbl
         {
             Code.NotNull(gbl, "gbl");
 
-#if WINMOBILE || PocketPC || WIN81 || PORTABLE
+#if WINMOBILE || PocketPC
 
             Log.Error
                 (

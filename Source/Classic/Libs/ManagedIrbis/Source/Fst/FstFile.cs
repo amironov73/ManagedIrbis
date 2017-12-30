@@ -131,12 +131,6 @@ namespace ManagedIrbis.Fst
                 [NotNull] Encoding encoding
             )
         {
-#if WIN81 || PORTABLE
-
-            throw new System.NotImplementedException();
-
-#else
-
             using (TextReader reader = TextReaderUtility.OpenRead
                 (
                     fileName,
@@ -148,8 +142,6 @@ namespace ManagedIrbis.Fst
 
                 return result;
             }
-
-#endif
         }
 
         /// <summary>

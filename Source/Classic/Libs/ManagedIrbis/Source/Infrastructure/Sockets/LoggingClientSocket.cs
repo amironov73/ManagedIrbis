@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !WINMOBILE && !PocketPC && !WIN81 && !PORTABLE
+#if !WINMOBILE && !PocketPC
 
 #region Using directives
 

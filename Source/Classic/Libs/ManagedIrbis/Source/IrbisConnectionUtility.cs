@@ -1076,7 +1076,7 @@ namespace ManagedIrbis
         {
             Code.NotNull(connection, "connection");
 
-#if !WINMOBILE && !PocketPC && !WIN81 && !PORTABLE
+#if !WINMOBILE && !PocketPC
 
             LoggingClientSocket oldSocket = connection.Socket
                 as LoggingClientSocket;

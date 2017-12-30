@@ -493,7 +493,7 @@ namespace ManagedIrbis
                 Connected = connection.Connected
             };
 
-#if !WINMOBILE && !PocketPC && !WIN81 && !PORTABLE
+#if !WINMOBILE && !PocketPC
 
             LoggingClientSocket loggingSocket
                 = connection.Socket as LoggingClientSocket;
@@ -511,7 +511,7 @@ namespace ManagedIrbis
                 result.RetryLimit = retrySocket.RetryManager.RetryLimit;
             }
 
-#if !WINMOBILE && !PocketPC && !WIN81 && !PORTABLE
+#if !WINMOBILE && !PocketPC
 
             if (connection.Socket.GetType() != typeof(SimpleClientSocket)
                 && retrySocket == null

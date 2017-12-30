@@ -558,8 +558,6 @@ namespace ManagedIrbis.Readers
             return result;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Считывание из файла.
         /// </summary>
@@ -592,8 +590,6 @@ namespace ManagedIrbis.Readers
 
             readers.SaveToFile(fileName);
         }
-
-#endif
 
         /// <summary>
         /// Формирование записи по данным о читателе.

@@ -223,8 +223,6 @@ namespace ManagedIrbis.ImportExport
             return result;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Read one record from local file.
         /// </summary>
@@ -290,8 +288,6 @@ namespace ManagedIrbis.ImportExport
 
             return result.ToArray();
         }
-
-#endif
 
         /// <summary>
         /// Формирует представление записи в формате ALL.

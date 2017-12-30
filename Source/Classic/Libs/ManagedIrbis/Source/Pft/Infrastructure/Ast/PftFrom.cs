@@ -345,19 +345,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                             buffer.Add(value);
                         }
 
-#if WIN81 || PORTABLE
-
-                        // TODO: implement!
-
-#else
-
                         Array.Sort
                             (
                                 lines,
                                 buffer.ToArray()
                             );
-
-#endif
                     }
 
                     string output = string.Join

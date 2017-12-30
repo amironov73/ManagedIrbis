@@ -40,8 +40,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 
         #region Construction
 
-#if !PORTABLE && !WIN81 && !WINMOBILE
-
         static TypeMap()
         {
             for (int i = 0; i < Map.Length; i++)
@@ -61,8 +59,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
                     .Compile();
             }
         }
-
-#endif
 
         #endregion
 

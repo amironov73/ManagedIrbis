@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if !WIN81
-
 #region Using directives
 
 using System;
@@ -370,12 +368,6 @@ namespace ManagedIrbis
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-#if PORTABLE
-
-            throw new NotImplementedException();
-
-#else
-
             IlfFile result = new IlfFile();
 
             using (Stream stream = File.OpenRead(fileName))
@@ -451,8 +443,6 @@ namespace ManagedIrbis
             }
 
             return result;
-
-#endif
         }
 
         #endregion
@@ -521,6 +511,4 @@ namespace ManagedIrbis
         #endregion
     }
 }
-
-#endif
 

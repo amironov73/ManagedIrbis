@@ -61,7 +61,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNullNorEmpty(className, "className");
 
-#if WIN81 || PocketPC || WINMOBILE || PORTABLE
+#if WINMOBILE || PocketPC
 
             Log.Error
                 (

@@ -162,22 +162,13 @@ namespace ManagedIrbis.Client
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if WIN81 || PORTABLE
-
-            throw new System.NotImplementedException();
-
-#else
-
             IniFile iniFile = new IniFile();
             iniFile.Read(fileName, IrbisEncoding.Ansi);
             LocalCatalogerIniFile result = new LocalCatalogerIniFile(iniFile);
 
             return result;
-
-#endif
         }
 
-
-            #endregion
-        }
+        #endregion
+    }
 }

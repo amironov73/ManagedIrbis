@@ -138,17 +138,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             Indexes = new IndexDictionary();
             Output = new StringWriter();
             Provider = new LocalProvider();
-
-#if WIN81 || PORTABLE
-
-            OutputPath = ".";
-
-#else
-
             OutputPath = Path.GetTempPath();
-
-#endif
-
             References = new NonNullCollection<string>
             {
                 "AM.Core.dll",

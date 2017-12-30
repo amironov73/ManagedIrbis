@@ -130,8 +130,6 @@ namespace ManagedIrbis.Worksheet
             }
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Считывание из локального файла.
         /// </summary>
@@ -174,8 +172,6 @@ namespace ManagedIrbis.Worksheet
                     IrbisEncoding.Ansi
                 );
         }
-
-#endif
 
         /// <summary>
         /// Should serialize the <see cref="Items"/> collection?

@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if FW4 || ANDROID || UAP || NETCORE || PORTABLE
+#if FW4 || ANDROID || UAP || NETCORE
 
 #region Using directives
 

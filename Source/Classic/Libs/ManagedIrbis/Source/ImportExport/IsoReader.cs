@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if !WIN81 && !PORTABLE
-
 #region Using directives
 
 using System;
@@ -161,6 +159,4 @@ namespace ManagedIrbis.ImportExport
         #endregion
     }
 }
-
-#endif
 

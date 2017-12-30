@@ -196,8 +196,6 @@ namespace ManagedIrbis.Reports
             driver.EndDocument(context, this);
         }
 
-#if !PORTABLE
-
         /// <summary>
         /// Load report from the JSON file.
         /// </summary>
@@ -209,7 +207,7 @@ namespace ManagedIrbis.Reports
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if WINMOBILE
+#if WINMOBILE || PocketPC
 
             return new IrbisReport();
 
@@ -448,8 +446,6 @@ namespace ManagedIrbis.Reports
 
 #endif
         }
-
-#endif
 
         #endregion
 

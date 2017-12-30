@@ -178,8 +178,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 [CanBeNull] string expression
             )
         {
-#if !WIN81 && !PORTABLE
-
             if (!string.IsNullOrEmpty(expression))
             {
                 string output = Path.GetDirectoryName(expression);
@@ -196,8 +194,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     context.OutputFlag = true;
                 }
             }
-
-#endif
         }
 
         // ================================================================
@@ -431,8 +427,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 long fileSize = 0;
 
-#if !WIN81 && !PORTABLE
-
                 try
                 {
                     FileInfo fileInfo = new FileInfo(expression);
@@ -446,8 +440,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                             exception
                         );
                 }
-
-#endif
 
                 string output = fileSize.ToInvariantString();
                 if (!string.IsNullOrEmpty(output))

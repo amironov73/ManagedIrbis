@@ -134,8 +134,6 @@ namespace ManagedIrbis.Mx
 
         #region Private members
 
-#if !PORTABLE
-
         private void _CancelKeyPress
             (
                 object sender,
@@ -144,8 +142,6 @@ namespace ManagedIrbis.Mx
         {
             StopFlag = true;
         }
-
-#endif
 
         private void _CreateStandardCommands()
         {
@@ -302,18 +298,10 @@ namespace ManagedIrbis.Mx
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if PORTABLE
-
-            return false;
-
-#else
-
             string text = File.ReadAllText(fileName, IrbisEncoding.Utf8);
             bool result = ExecuteLine(text);
 
             return result;
-
-#endif
         }
 
         /// <summary>
@@ -342,7 +330,7 @@ namespace ManagedIrbis.Mx
             return true;
         }
 
-#if !ANDROID && !PORTABLE
+#if !ANDROID
 
         /// <summary>
         /// REPL

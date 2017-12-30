@@ -195,8 +195,6 @@ namespace ManagedIrbis.Worksheet
             return result;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Fixup nested worksheets for local file.
         /// </summary>
@@ -293,8 +291,6 @@ namespace ManagedIrbis.Worksheet
                     IrbisEncoding.Ansi
                 );
         }
-
-#endif
 
         /// <summary>
         /// Should serialize the <see cref="Pages"/> collection?

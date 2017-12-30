@@ -98,12 +98,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         {
             Code.NotNull(assembly, "assembly");
 
-#if WIN81 || PORTABLE
-
-            Func<PftContext, PftPacket> result = null;
-
-#else
-
             Type[] types = assembly.GetTypes();
             if (types.Length != 1)
             {
@@ -115,22 +109,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 throw new PftCompilerException();
             }
 
-#if NETCORE
-
-            MethodInfo method = type.Bridge().GetMethod
-                (
-                    "CreateInstance",
-                    new Type[] { typeof(PftContext) },
-                    null
-                );
-
-            Func<PftContext, PftPacket> result
-                = (Func<PftContext, PftPacket>)method.CreateDelegate
-                    (
-                        typeof(Func<PftContext, PftPacket>)
-                    );
-
-#elif UAP
+#if UAP
 
             MethodInfo method = type.GetMethod
                 (
@@ -188,8 +167,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             {
                 throw new PftCompilerException();
             }
-
-#endif
 
             return result;
         }

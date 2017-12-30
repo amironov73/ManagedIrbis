@@ -224,11 +224,6 @@ namespace ManagedIrbis.Readers
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if WIN81 || PORTABLE
-
-            throw new System.NotImplementedException();
-#else
-
             IriProfile[] result = SerializationUtility
                 .RestoreArrayFromFile<IriProfile>
                     (
@@ -237,8 +232,6 @@ namespace ManagedIrbis.Readers
                 .ThrowIfNull("RestoreArrayFromFile");
 
             return result;
-
-#endif
         }
 
         /// <summary>
@@ -253,16 +246,7 @@ namespace ManagedIrbis.Readers
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(profiles, "profiles");
 
-#if WIN81 || PORTABLE
-
-            throw new System.NotImplementedException();
-
-#else
-
-
             profiles.SaveToFile(fileName);
-
-#endif
         }
 
 

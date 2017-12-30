@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if !PORTABLE
-
 #region Using directives
 
 using System;
@@ -274,5 +272,3 @@ namespace ManagedIrbis.Reports
         #endregion
     }
 }
-
-#endif

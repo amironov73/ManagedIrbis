@@ -82,7 +82,7 @@ namespace ManagedIrbis.Infrastructure
         {
             Code.NotNull(response, "response");
 
-#if !WINMOBILE && !PocketPC && !WIN81 && !PORTABLE
+#if !WINMOBILE && !PocketPC
 
             string filePath = Path.Combine
                 (
@@ -106,13 +106,7 @@ namespace ManagedIrbis.Infrastructure
                 string text
             )
         {
-#if NETCORE
-
-            Debug.WriteLine(text);
-
-#else
-
-#if !WINMOBILE && !PocketPC && !UAP && !WIN81 && !PORTABLE
+#if !WINMOBILE && !PocketPC && !UAP
 
             Debugger.Log
                 (
@@ -120,8 +114,6 @@ namespace ManagedIrbis.Infrastructure
                     "IRBIS",
                     text
                 );
-
-#endif
 
 #endif
         }

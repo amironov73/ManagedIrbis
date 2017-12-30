@@ -360,8 +360,6 @@ namespace ManagedIrbis.Menus
             return result;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Parses the local file.
         /// </summary>
@@ -403,8 +401,6 @@ namespace ManagedIrbis.Menus
                     IrbisEncoding.Ansi
                 );
         }
-
-#endif
 
         /// <summary>
         /// Parse server response.
