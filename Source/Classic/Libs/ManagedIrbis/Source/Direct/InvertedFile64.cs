@@ -117,27 +117,12 @@ namespace ManagedIrbis.Direct
             FileName = fileName;
             Mode = mode;
 
-            Ifp = new NonBufferedStream
-                (
-                    DirectUtility.OpenFile(fileName, mode)
-                );
+            Ifp = DirectUtility.OpenFile(fileName, mode);
             IfpControlRecord = IfpControlRecord64.Read(Ifp);
-            L01 = new NonBufferedStream
-                (
-                    DirectUtility.OpenFile
-                        (
-                            Path.ChangeExtension(fileName, ".l01"),
-                            mode
-                        )
-                );
-            N01 = new NonBufferedStream
-                (
-                    DirectUtility.OpenFile
-                    (
-                        Path.ChangeExtension(fileName, ".n01"),
-                        mode
-                    )
-                );
+            L01 = DirectUtility
+                .OpenFile ( Path.ChangeExtension(fileName, ".l01"), mode );
+            N01 = DirectUtility
+                .OpenFile(Path.ChangeExtension(fileName, ".n01"), mode);
         }
 
         #endregion
@@ -494,8 +479,6 @@ namespace ManagedIrbis.Direct
                 DirectAccessMode mode
             )
         {
-            // ReSharper disable AssignNullToNotNullAttribute
-
             if (Mode != mode)
             {
                 lock (_lockObject)
@@ -503,38 +486,18 @@ namespace ManagedIrbis.Direct
                     Mode = mode;
 
                     Ifp.Dispose();
-                    Ifp = null;
-                    Ifp = new NonBufferedStream
-                        (
-                            DirectUtility.OpenFile(FileName, mode)
-                        );
+                    Ifp = DirectUtility.OpenFile(FileName, mode);
                     IfpControlRecord = IfpControlRecord64.Read(Ifp);
 
                     L01.Dispose();
-                    L01 = null;
-                    L01 = new NonBufferedStream
-                        (
-                            DirectUtility.OpenFile
-                                (
-                                    Path.ChangeExtension(FileName, ".l01"),
-                                    mode
-                                )
-                        );
+                    L01 = DirectUtility
+                        .OpenFile(Path.ChangeExtension(FileName, ".l01"), mode);
 
                     N01.Dispose();
-                    N01 = null;
-                    N01 = new NonBufferedStream
-                        (
-                            DirectUtility.OpenFile
-                                (
-                                    Path.ChangeExtension(FileName, ".n01"),
-                                    mode
-                                )
-                        );
+                    N01 = DirectUtility
+                        .OpenFile(Path.ChangeExtension(FileName, ".n01"), mode);
                 }
             }
-
-            // ReSharper restore AssignNullToNotNullAttribute
         }
 
         /// <summary>

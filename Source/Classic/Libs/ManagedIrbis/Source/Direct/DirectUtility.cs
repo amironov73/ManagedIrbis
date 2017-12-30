@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if !WIN81 && !PORTABLE && !SILVERLIGHT
-
 #region Using directives
 
 using System.IO;
@@ -388,11 +386,7 @@ namespace ManagedIrbis.Direct
                         );
             }
 
-#if !WINMOBILE
-
-            result = new BufferedStream(result);
-
-#endif
+            result = new NonBufferedStream(result);
 
             return result;
         }
@@ -400,5 +394,3 @@ namespace ManagedIrbis.Direct
         #endregion
     }
 }
-
-#endif

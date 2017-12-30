@@ -593,8 +593,6 @@ namespace ManagedIrbis.Fields
         }
 
 
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
-
         /// <summary>
         /// Read configuration.
         /// </summary>
@@ -669,8 +667,6 @@ namespace ManagedIrbis.Fields
         {
             _list.ToArray().SaveToZipFile(fileName);
         }
-
-#endif
 
         /// <summary>
         /// Read many.

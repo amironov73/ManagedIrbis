@@ -118,18 +118,6 @@ namespace ManagedIrbis.Gbl
         {
             Code.NotNull(text, "text");
 
-#if SILVERLIGHT
-
-            Log.Error
-                (
-                    "GblUtility::FromXml: "
-                    + "not implemented"
-                );
-
-            throw new NotImplementedException();
-
-#else
-
             XmlSerializer serializer = new XmlSerializer(typeof(GblFile));
             using (StringReader reader = new StringReader(text))
             {
@@ -137,8 +125,6 @@ namespace ManagedIrbis.Gbl
 
                 return result;
             }
-
-#endif
         }
 
         //=================================================
@@ -214,7 +200,7 @@ namespace ManagedIrbis.Gbl
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if WINMOBILE || PocketPC || SILVERLIGHT || WIN81 || PORTABLE
+#if WINMOBILE || PocketPC
 
             Log.Error
                 (
@@ -317,25 +303,12 @@ namespace ManagedIrbis.Gbl
         {
             Code.NotNull(gbl, "gbl");
 
-#if SILVERLIGHT
-
-            Log.Error
-                (
-                    "GblUtility::ToXml: "
-                    + "not implemented"
-                );
-
-            throw new NotImplementedException();
-#else
-
             XmlSerializer serializer
                 = new XmlSerializer(typeof(GblFile));
             StringWriter writer = new StringWriter();
             serializer.Serialize(writer, gbl);
 
             return writer.ToString();
-
-#endif
         }
 
 #endregion

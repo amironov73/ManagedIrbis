@@ -7,13 +7,10 @@
  * Status: poor
  */
 
-#if !WIN81 && !SILVERLIGHT && !PORTABLE
-
 #region Using directives
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
 using AM.Logging;
@@ -91,21 +88,9 @@ namespace ManagedIrbis.Direct
             Code.NotNullNorEmpty(masterFile, "masterFile");
 
             Database = Path.GetFileNameWithoutExtension(masterFile);
-            Mst = new MstFile64
-                (
-                    Path.ChangeExtension(masterFile, ".mst"),
-                    mode
-                );
-            Xrf = new XrfFile64
-                (
-                    Path.ChangeExtension(masterFile, ".xrf"),
-                    mode
-                );
-            InvertedFile = new InvertedFile64
-                (
-                    Path.ChangeExtension(masterFile, ".ifp"),
-                    mode
-                );
+            Mst = new MstFile64(Path.ChangeExtension(masterFile, ".mst"), mode);
+            Xrf = new XrfFile64(Path.ChangeExtension(masterFile, ".xrf"), mode);
+            InvertedFile = new InvertedFile64(Path.ChangeExtension(masterFile, ".ifp"), mode);
         }
 
         #endregion
@@ -231,6 +216,19 @@ namespace ManagedIrbis.Direct
             TermInfo[] result = InvertedFile.ReadTerms(parameters);
 
             return result;
+        }
+
+        /// <summary>
+        /// Reopen files.
+        /// </summary>
+        public void ReopenFiles
+            (
+                DirectAccessMode newMode
+            )
+        {
+            Mst.ReopenFile(newMode);
+            Xrf.ReopenFile(newMode);
+            InvertedFile.ReopenFiles(newMode);
         }
 
         /// <summary>
@@ -379,6 +377,4 @@ namespace ManagedIrbis.Direct
         #endregion
     }
 }
-
-#endif
 

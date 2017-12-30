@@ -35,6 +35,7 @@ using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Search;
 using ManagedIrbis.Search.Infrastructure;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -151,7 +152,7 @@ namespace ManagedIrbis.Client
         /// </summary>
         public LocalProvider
             (
-                string rootPath
+                [NotNull] string rootPath
             )
             : this(rootPath, DirectAccessMode.Exclusive, true)
         {
@@ -162,32 +163,18 @@ namespace ManagedIrbis.Client
         /// </summary>
         public LocalProvider
             (
-                string rootPath,
+                [NotNull] string rootPath,
                 DirectAccessMode mode,
                 bool persistent
             )
             : this()
         {
+            Code.NotNullNorEmpty(rootPath, "rootPath");
+
             _persistentAccessor = persistent;
             RootPath = rootPath;
             DataPath = rootPath + "/DataI";
             Mode = mode;
-        }
-
-        /// <summary>
-        /// Finalizer.
-        /// </summary>
-        ~LocalProvider()
-        {
-#if !WIN81 && !PORTABLE && !SILVERLIGHT
-
-            if (!ReferenceEquals(_accessor, null))
-            {
-                _accessor.Dispose();
-                _accessor = null;
-            }
-
-#endif
         }
 
         #endregion
@@ -198,8 +185,10 @@ namespace ManagedIrbis.Client
 
         private bool _persistentAccessor;
 
+        [CanBeNull]
         private DirectAccess64 _accessor;
 
+        [CanBeNull]
         private string _ExpandPath
             (
                 [NotNull] FileSpecification fileSpecification
@@ -889,13 +878,7 @@ namespace ManagedIrbis.Client
             }
 
             base.Dispose();
-
-            GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

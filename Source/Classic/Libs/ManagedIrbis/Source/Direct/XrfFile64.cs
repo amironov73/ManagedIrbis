@@ -84,10 +84,7 @@ namespace ManagedIrbis.Direct
             Mode = mode;
 
             _lockObject = new object();
-            _stream = new NonBufferedStream
-                (
-                    DirectUtility.OpenFile(fileName, mode)
-                );
+            _stream = DirectUtility.OpenFile(fileName, mode);
         }
 
         #endregion
@@ -96,6 +93,7 @@ namespace ManagedIrbis.Direct
 
         private object _lockObject;
 
+        [NotNull]
         private Stream _stream;
 
         private long _GetOffset
@@ -111,6 +109,25 @@ namespace ManagedIrbis.Direct
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Lock the record.
+        /// </summary>
+        public void LockRecord
+            (
+                int mfn,
+                bool flag
+            )
+        {
+            Code.Positive(mfn, "mfn");
+
+            XrfRecord64 record = ReadRecord(mfn);
+            if (flag != record.Locked)
+            {
+                record.Locked = flag;
+                WriteRecord(record);
+            }
+        }
 
         /// <summary>
         /// Read the record.
@@ -153,6 +170,26 @@ namespace ManagedIrbis.Direct
         }
 
         /// <summary>
+        /// Reopen file.
+        /// </summary>
+        public void ReopenFile
+            (
+                DirectAccessMode mode
+            )
+        {
+            if (Mode != mode)
+            {
+                lock (_lockObject)
+                {
+                    Mode = mode;
+
+                    _stream.Dispose();
+                    _stream = DirectUtility.OpenFile(FileName, mode);
+                }
+            }
+        }
+
+        /// <summary>
         /// Write the record.
         /// </summary>
         public void WriteRecord
@@ -172,23 +209,6 @@ namespace ManagedIrbis.Direct
             }
         }
 
-        /// <summary>
-        /// Lock the record.
-        /// </summary>
-        public void LockRecord
-            (
-                int mfn,
-                bool flag
-            )
-        {
-            XrfRecord64 record = ReadRecord(mfn);
-            if (flag != record.Locked)
-            {
-                record.Locked = flag;
-                WriteRecord(record);
-            }
-        }
-
         #endregion
 
         #region IDisposable members
@@ -198,11 +218,7 @@ namespace ManagedIrbis.Direct
         {
             lock (_lockObject)
             {
-                if (!ReferenceEquals(_stream, null))
-                {
-                    _stream.Dispose();
-                    _stream = null;
-                }
+                _stream.Dispose();
             }
         }
 

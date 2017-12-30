@@ -106,34 +106,22 @@ namespace ManagedIrbis.Direct
             Mode = mode;
 
             _lockObject = new object();
-            _stream = new NonBufferedStream
-                (
-                    DirectUtility.OpenFile(fileName, mode)
-                );
+            _stream = DirectUtility.OpenFile(fileName, mode);
 
             ControlRecord = MstControlRecord64.Read(_stream);
             _lockFlag = ControlRecord.Blocked != 0;
         }
 
-        ///// <summary>
-        ///// Finalizer.
-        ///// </summary>
-        //~MstFile64()
-        //{
-        //    if (!ReferenceEquals(_stream, null))
-        //    {
-        //        _stream.Dispose();
-        //    }
-        //}
-
         #endregion
 
         #region Private members
 
+        [NotNull]
         private object _lockObject;
 
         private bool _lockFlag;
 
+        [NotNull]
         private Stream _stream;
 
         private static void _AppendStream
@@ -215,7 +203,7 @@ namespace ManagedIrbis.Direct
             {
                 long endOffset = leader.Base + entry.Position;
                 memory.Seek(endOffset, SeekOrigin.Begin);
-                entry.Bytes = StreamUtility.ReadBytes(memory,entry.Length);
+                entry.Bytes = StreamUtility.ReadBytes(memory, entry.Length);
                 if (!ReferenceEquals(entry.Bytes, null))
                 {
                     byte[] buffer = entry.Bytes;
@@ -302,6 +290,26 @@ namespace ManagedIrbis.Direct
         }
 
         /// <summary>
+        /// Reopen file.
+        /// </summary>
+        public void ReopenFile
+            (
+                DirectAccessMode mode
+            )
+        {
+            if (Mode != mode)
+            {
+                lock (_lockObject)
+                {
+                    Mode = mode;
+
+                    _stream.Dispose();
+                    _stream = DirectUtility.OpenFile(FileName, mode);
+                }
+            }
+        }
+
+        /// <summary>
         /// Update control record.
         /// </summary>
         public void UpdateControlRecord
@@ -375,19 +383,9 @@ namespace ManagedIrbis.Direct
         {
             lock (_lockObject)
             {
-                if (!ReferenceEquals(_stream, null))
-                {
-                    _stream.Dispose();
-                    _stream = null;
-                }
+                _stream.Dispose();
             }
-
-            // GC.SuppressFinalize(this);
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }
