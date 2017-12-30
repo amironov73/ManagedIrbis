@@ -136,7 +136,7 @@ namespace ManagedIrbis.Search
                     break;
                 }
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+#if !WINMOBILE && !PocketPC
 
                 string[] parts = line.Split(_separators, 5);
 

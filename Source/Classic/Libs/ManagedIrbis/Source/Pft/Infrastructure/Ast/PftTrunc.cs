@@ -130,7 +130,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 child.Execute(context);
 
-#if PocketPC || WINMOBILE || SILVERLIGHT
+#if PocketPC || WINMOBILE
 
                 Value = (int) child.Value;
 

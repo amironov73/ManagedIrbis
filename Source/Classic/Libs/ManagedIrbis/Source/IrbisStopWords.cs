@@ -234,7 +234,7 @@ namespace ManagedIrbis
                 );
         }
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81 && !PORTABLE
+#if !WINMOBILE && !PocketPC
 
         /// <summary>
         /// Parse the text file.

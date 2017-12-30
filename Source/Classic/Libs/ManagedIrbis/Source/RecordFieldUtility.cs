@@ -2331,8 +2331,6 @@ namespace ManagedIrbis
                 );
         }
 
-#if !SILVERLIGHT
-
         /// <summary>
         /// Converts the field to XML.
         /// </summary>
@@ -2379,8 +2377,6 @@ namespace ManagedIrbis
 
             return result;
         }
-
-#endif
 
         /// <summary>
         /// Фильтрация полей.

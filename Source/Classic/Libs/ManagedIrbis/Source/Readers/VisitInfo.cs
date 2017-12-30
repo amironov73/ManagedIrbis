@@ -559,15 +559,7 @@ namespace ManagedIrbis.Readers
                 [NotNull][ItemNotNull] VisitInfo[] visits
             )
         {
-#if SILVERLIGHT || WIN81 || PORTABLE
-
-            throw new NotImplementedException();
-
-#else
-
             visits.SaveToFile(fileName);
-
-#endif
         }
 
 
@@ -610,18 +602,10 @@ namespace ManagedIrbis.Readers
                 [NotNull] string fileName
             )
         {
-#if SILVERLIGHT || WIN81 || PORTABLE
-
-            throw new NotImplementedException();
-
-#else
-
             VisitInfo[] result = SerializationUtility
                 .RestoreArrayFromFile<VisitInfo>(fileName);
 
             return result;
-
-#endif
         }
 
 

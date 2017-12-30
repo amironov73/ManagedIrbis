@@ -141,7 +141,7 @@ namespace ManagedIrbis
             Code.NotNull(encoding, "encoding");
             Code.NotNull(table, "table");
 
-#if !SILVERLIGHT && !WIN81 && !PocketPC && !PORTABLE
+#if !WINMOBILE && !PocketPC
 
             if (!encoding.IsSingleByte)
             {
@@ -500,11 +500,9 @@ namespace ManagedIrbis
         {
             Code.NotNull(reader, "reader");
 
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
             _encoding = Encoding.GetEncoding(reader.ReadInt32());
             _table = reader.ReadByteArray();
             _BuildMapping();
-#endif
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -515,10 +513,8 @@ namespace ManagedIrbis
         {
             Code.NotNull(writer, "writer");
 
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
             writer.Write(_encoding.CodePage);
             writer.WriteArray(_table);
-#endif
         }
 
 

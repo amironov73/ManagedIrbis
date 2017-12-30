@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 
 using AM;
 using AM.IO;
@@ -24,12 +25,6 @@ using JetBrains.Annotations;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
 
 using MoonSharp.Interpreter;
-
-#if !SILVERLIGHT
-
-using System.IO.Compression;
-
-#endif
 
 #endregion
 
@@ -58,7 +53,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
                 IrbisConnection.ClientVersion.Revision;
 
 #else
-                1800;
+
+                2300;
+
 #endif
 
             return result;
@@ -108,15 +105,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 
             try
             {
-#if PORTABLE || WIN81
-
-                result = (PftNode) Activator.CreateInstance(mapping.Type);
-
-#else
-
                 result = mapping.Create();
-
-#endif
             }
             catch (Exception exception)
             {
@@ -209,16 +198,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             PftNode result;
             MemoryStream memory = new MemoryStream(bytes);
 
-#if SILVERLIGHT
-
-            using (BinaryReader reader
-                = new BinaryReader(memory, IrbisEncoding.Utf8))
-            {
-                result = Read(reader);
-            }
-
-#else
-
             using (DeflateStream compressor
                 = new DeflateStream(memory, CompressionMode.Decompress))
             using (BinaryReader reader
@@ -226,8 +205,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             {
                 result = Read(reader);
             }
-
-#endif
 
             return result;
         }
@@ -272,25 +249,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if PORTABLE || WIN81
-
-            throw new NotSupportedException();
-
-#else
-
             using (Stream stream = File.OpenRead(fileName))
-
-#if SILVERLIGHT
-
-            using (BinaryReader reader
-                = new BinaryReader(stream, IrbisEncoding.Utf8))
-            {
-                PftNode result = Read(reader);
-
-                return result;
-            }
-
-#else
 
             using (DeflateStream compressor
                 = new DeflateStream(stream, CompressionMode.Decompress))
@@ -301,11 +260,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 
                 return result;
             }
-
-#endif
-
-#endif
-
         }
 
         /// <summary>
@@ -339,22 +293,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             Code.NotNull(rootNode, "rootNode");
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if PORTABLE || WIN81
-
-            throw new NotSupportedException();
-#else
-
             using (Stream stream = File.Create(fileName))
-
-#if SILVERLIGHT
-
-            using (BinaryWriter writer
-                = new BinaryWriter(stream, IrbisEncoding.Utf8))
-            {
-                Save(rootNode, writer);
-            }
-
-#else
 
             using (DeflateStream compressor
                 = new DeflateStream(stream, CompressionMode.Compress))
@@ -363,10 +302,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             {
                 Save(rootNode, writer);
             }
-
-#endif
-
-#endif
         }
 
         /// <summary>
@@ -464,16 +399,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 
             MemoryStream memory = new MemoryStream();
 
-#if SILVERLIGHT
-
-            using (BinaryWriter writer
-                = new BinaryWriter(memory, IrbisEncoding.Utf8))
-            {
-                Save(rootNode, writer);
-            }
-
-#else
-
             using (DeflateStream compressor
                 = new DeflateStream(memory, CompressionMode.Compress))
             using (BinaryWriter writer
@@ -481,8 +406,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
             {
                 Save(rootNode, writer);
             }
-
-#endif
 
             return memory.ToArray();
         }

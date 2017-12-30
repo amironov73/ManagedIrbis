@@ -317,8 +317,6 @@ namespace ManagedIrbis.Menus
             return result;
         }
 
-#if !SILVERLIGHT
-
         /// <summary>
         /// Converts the menu to XML.
         /// </summary>
@@ -347,8 +345,6 @@ namespace ManagedIrbis.Menus
 
             return output.ToString();
         }
-
-#endif
 
         #endregion
     }

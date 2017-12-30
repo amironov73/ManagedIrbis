@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if !SILVERLIGHT
-
 #region Using directives
 
 using System;
@@ -303,6 +301,4 @@ namespace ManagedIrbis.Marc.Schema
         #endregion
     }
 }
-
-#endif
 

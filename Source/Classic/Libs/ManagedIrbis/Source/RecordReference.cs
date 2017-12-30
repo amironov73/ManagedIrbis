@@ -174,18 +174,10 @@ namespace ManagedIrbis
         {
             Code.NotNull(fileName, "fileName");
 
-#if SILVERLIGHT || WIN81 || PORTABLE
-
-            throw new System.NotImplementedException();
-
-#else
-
             RecordReference[] result = SerializationUtility
                 .RestoreArrayFromFile<RecordReference>(fileName);
 
             return result;
-
-#endif
         }
 
         /// <summary>
@@ -277,15 +269,7 @@ namespace ManagedIrbis
             Code.NotNull(references, "references");
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if SILVERLIGHT || WIN81 || PORTABLE
-
-            throw new System.NotImplementedException();
-
-#else
-
             references.SaveToFile(fileName);
-
-#endif
         }
 
 

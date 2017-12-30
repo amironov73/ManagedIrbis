@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if !WIN81 && !PORTABLE && !SILVERLIGHT
-
 #region Using directives
 
 using System;
@@ -270,6 +268,4 @@ namespace ManagedIrbis
         #endregion
     }
 }
-
-#endif
 

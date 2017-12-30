@@ -199,7 +199,7 @@ namespace ManagedIrbis
                     && !string.IsNullOrEmpty(value))
                 {
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+#if !WINMOBILE && !PocketPC
 
                     string[] parts = value.Split
                         (
