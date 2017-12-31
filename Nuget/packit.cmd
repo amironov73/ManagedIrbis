@@ -87,6 +87,14 @@ IF %4==droid copy %BIN%\%BUILD%Droid\%1.*                              lib\MonoA
 IF %5==uap   copy %BIN%\%BUILD%Universal\%1.*                          lib\uap                   > nul
 IF %8==core2 copy %BIN%\%BUILD%Core2\%1.*                              lib\netstandard2.0        > nul
 
+IF %1==ManagedIrbis (
+mkdir content
+del lib\net40\*.dll.config
+del lib\net35\ManagedIrbis.Isis.*
+del lib\net40\ManagedIrbis.Isis.*
+del lib\net45\ManagedIrbis.Isis.*
+)
+
 IF %1==AM.Rfid (
 copy %BIN%\%BUILD%35\FeCom.dll                lib\net35 > nul
 copy %BIN%\%BUILD%35\FedmIscCoreVC80.dll      lib\net35 > nul
@@ -131,7 +139,6 @@ copy %BIN%\%BUILD%45\pcsc-sharp.pdb           lib\net45 > nul
 copy %BIN%\%BUILD%45\pcsc-sharp.xml           lib\net45 > nul
 )
 
-
 IF %1==IrbisInterop (
 copy ..\Source\Delphi\Irbis65\Irbis65.dll     lib\net35 > nul
 copy ..\Source\Delphi\Irbis65\Irbis65.dll     lib\net40 > nul
@@ -142,7 +149,6 @@ IF %1==ManagedIrbis.Isis (
 mkdir content
 copy %BIN%\%BUILD%35\ISIS32.DLL               content   > nul
 )
-
 
 PatchNugetVersion.exe %BIN%\%BUILD%40\AM.Core.dll %1.nuspec
 
