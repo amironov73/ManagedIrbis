@@ -158,7 +158,7 @@
     <EmbeddedResource Include="AM\Deployment\UpdateProgressForm.resx">
       <DependentUpon>UpdateProgressForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AM\Deployment\UpdateProgressForm.ru-RU.resx">
+    <EmbeddedResource Include="AM\Deployment\UpdateProgressForm.ru.resx">
       <DependentUpon>UpdateProgressForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
