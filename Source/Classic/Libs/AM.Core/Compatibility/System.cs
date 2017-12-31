@@ -7,27 +7,16 @@
  * Status: poor
  */
 
-#if NETCORE || WINMOBILE || PocketPC || PORTABLE
+#if WINMOBILE || PocketPC
 
 using System;
 
 namespace System
 {
-#if PocketPC || WINMOBILE
-
     /// <summary>
     /// Generic data converter.
     /// </summary>
     public delegate TOutput Converter<TInput, TOutput> (TInput input);
-
-#else
-
-    /// <summary>
-    /// Generic data converter.
-    /// </summary>
-    public delegate TOutput Converter<in TInput, out TOutput> (TInput input);
-
-#endif
 
     ///// <summary>
     ///// 
@@ -62,7 +51,7 @@ namespace System
 
 #endif
 
-#if UAP || WIN81 || PORTABLE || SILVERLIGHT || WINMOBILE || PocketPC
+#if UAP || WINMOBILE || PocketPC
 
 namespace System
 {
@@ -924,7 +913,7 @@ namespace System
 
 #endif
 
-#if ANDROID || UAP || SILVERLIGHT || WIN81 || PORTABLE
+#if ANDROID || UAP
 
 namespace System
 {

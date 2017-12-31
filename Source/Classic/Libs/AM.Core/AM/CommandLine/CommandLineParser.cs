@@ -159,7 +159,7 @@ namespace AM.CommandLine
                     if (secondChar == CommandLineSettings.ResponsePrefix)
                     {
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81 && !PORTABLE
+#if !WINMOBILE && !PocketPC
 
                         string fileName = trimmed.Substring(1);
                         ParsedCommandLine inner = ParseFile(fileName);
@@ -180,7 +180,7 @@ namespace AM.CommandLine
                 else if (firstChar == CommandLineSettings.ResponsePrefix)
                 {
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81 && !PORTABLE
+#if !WINMOBILE && !PocketPC
 
                     string fileName = argument.Substring(1);
                     ParsedCommandLine inner = ParseFile(fileName);
@@ -202,7 +202,7 @@ namespace AM.CommandLine
             return result;
         }
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81 && !PORTABLE
+#if !WINMOBILE && !PocketPC
 
         /// <summary>
         /// Parse arguments from response file.

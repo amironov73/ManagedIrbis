@@ -129,11 +129,7 @@ namespace AM
         {
             Code.NotNull(type, "type");
 
-#if PORTABLE || WIN81
-
-            return type.GetRuntimeFields().ToArray();
-
-#elif UAP
+#if UAP
 
             FieldInfo[] result = TypeExtensions.GetFields
                 (
@@ -171,17 +167,7 @@ namespace AM
             Code.NotNull(type, "type");
             Code.NotNullNorEmpty(name, "name");
 
-#if PORTABLE
-
-            // TODO implement
-
-            return null;
-
-#elif SILVERLIGHT
-
-            return type.Bridge().GetInterface(name, false);
-
-#elif UAP || WIN81
+#if UAP
 
             // TODO implement
 
@@ -249,7 +235,7 @@ namespace AM
         {
             Code.NotNull(type, "type");
 
-#if PORTABLE || SILVERLIGHT || UAP || WIN81
+#if UAP
 
             return false;
 

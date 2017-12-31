@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if !PORTABLE && !SILVERLIGHT && !WIN81
-
 #region Using directives
 
 using System;
@@ -228,5 +226,3 @@ namespace AM.IO
         #endregion
     }
 }
-
-#endif

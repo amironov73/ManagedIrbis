@@ -213,15 +213,9 @@ namespace AM.Threading.Tasks
                     + "begin1"
                 );
 
-#if NETCORE || PORTABLE
-
-            SpinWait.SpinUntil(() => _queue.IsCompleted);
-
-#else
-
             while (!_queue.IsCompleted)
             {
-#if UAP || WIN81
+#if UAP
 
                 Task.Delay(TimeSpan.FromSeconds(30)).Wait();
 
@@ -231,8 +225,6 @@ namespace AM.Threading.Tasks
 
 #endif
             }
-
-#endif
 
                 Log.Trace
                     (

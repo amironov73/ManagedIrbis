@@ -54,24 +54,16 @@ namespace AM
                     return true;
                 }
 
-#if !NETCORE && !WIN81 && !PORTABLE
-
                 if (targetType.IsAssignableFrom(sourceType))
                 {
                     return true;
                 }
-
-#endif
-
-#if !WIN81 && !PORTABLE
 
                 IConvertible convertible = value as IConvertible;
                 if (convertible != null)
                 {
                     return true; // ???
                 }
-
-#endif
 
                 //TypeConverter converterFrom
                 //    = TypeDescriptor.GetConverter(value);
@@ -113,16 +105,12 @@ namespace AM
                 return (T)(object)value.ToString();
             }
 
-#if !NETCORE && !WIN81 && !PORTABLE
-
             if (targetType.IsAssignableFrom(sourceType))
             {
                 return (T)value;
             }
 
-#endif
-
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81 && !PORTABLE
+#if !WINMOBILE && !PocketPC
 
             IConvertible convertible = value as IConvertible;
             if (convertible != null)
@@ -187,7 +175,7 @@ namespace AM
             )
         {
             Code.NotNull(value, "value");
-            
+
             if (value is bool)
             {
                 return (bool)value;
@@ -200,7 +188,7 @@ namespace AM
 
             bool result;
 
-#if !PocketPC
+#if !WINMOBILE && !PocketPC
 
             if (bool.TryParse(value as string, out result))
             {
@@ -254,36 +242,34 @@ namespace AM
                 return true;
             }
 
-            unchecked
+            if (value is int
+                 || value is uint
+                 || value is byte
+                 || value is sbyte)
             {
-                if (value is int
-                     || value is uint
-                     || value is byte
-                     || value is sbyte
-                    )
-                {
-                    int intValue = (int)value;
-                    return intValue != 0;
-                }
-                if (value is long
-                     || value is ulong
-                    )
-                {
-                    long longValue = (long)value;
-                    return longValue != 0L;
-                }
+                int intValue = (int)value;
+                return intValue != 0;
             }
+
+            if (value is long
+                 || value is ulong
+                )
+            {
+                long longValue = (long)value;
+                return longValue != 0L;
+            }
+
             if (value is decimal)
             {
                 decimal doubleValue = (decimal)value;
                 return doubleValue != 0m;
             }
+
             if (value is float
-                 || value is double
-                )
+                 || value is double)
             {
                 double doubleValue = (double)value;
-                
+
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
                 return doubleValue != 0.0;
             }
@@ -301,6 +287,6 @@ namespace AM
                 );
         }
 
-#endregion
+        #endregion
     }
 }

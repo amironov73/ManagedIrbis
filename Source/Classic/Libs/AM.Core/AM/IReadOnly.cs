@@ -9,11 +9,7 @@
 
 #region Using directives
 
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
-
 using System.Data;
-
-#endif
 
 using JetBrains.Annotations;
 

@@ -111,8 +111,6 @@ namespace AM.IO
             Dump(writer, data);
         }
 
-#if !UAP && !WIN81 && !PORTABLE
-
         /// <summary>
         /// Dump the array of data to console output.
         /// </summary>
@@ -124,10 +122,12 @@ namespace AM.IO
         {
             Code.NotNull(data, "data");
 
+#if !UAP
+
             Dump(Console.Out, data);
-        }
 
 #endif
+        }
 
         /// <summary>
         /// Dump the array of data to <see cref="AbstractOutput"/>.

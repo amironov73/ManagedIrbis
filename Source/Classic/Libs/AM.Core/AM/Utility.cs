@@ -217,14 +217,11 @@ namespace AM
                 return left.Equals(right);
             }
 
-#if !WIN81 && !PORTABLE
-
             if (type == type.GetMethod("Equals").DeclaringType)
             {
                 return left.Equals(right);
             }
 
-#endif
             IEnumerable leftEnumerable = left as IEnumerable;
             IEnumerable rightEnumerable = right as IEnumerable;
             if (!ReferenceEquals(leftEnumerable, null))
@@ -235,8 +232,6 @@ namespace AM
                         rightEnumerable
                     );
             }
-
-#if !WIN81 && !PORTABLE
 
             // compare each property
             foreach (PropertyInfo info in type.GetProperties
@@ -281,8 +276,6 @@ namespace AM
                 }
             }
 
-#endif
-
             return true;
         }
 
@@ -314,12 +307,6 @@ namespace AM
                 return false;
             }
 
-#if WIN81 || PORTABLE
-
-            throw new NotImplementedException();
-
-#else
-
             PropertyInfo[] properties = type.GetProperties
                 (
                     BindingFlags.Public
@@ -342,8 +329,6 @@ namespace AM
                     return false;
                 }
             }
-
-#endif
 
             return true;
         }

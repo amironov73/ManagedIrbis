@@ -24,12 +24,6 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-#if WIN81
-
-using MvvmCross.Platform;
-
-#endif
-
 #endregion
 
 namespace AM.Reflection
@@ -81,9 +75,9 @@ namespace AM.Reflection
         //}
 
         /// <summary>
-        /// Bridge for NETCORE and UAP.
+        /// Bridge for UAP.
         /// </summary>
-#if NETCORE || UAP || PORTABLE || WIN81
+#if UAP
 
         [MethodImpl(Aggressive)]
         public static TypeInfo Bridge
@@ -122,12 +116,6 @@ namespace AM.Reflection
         {
             Code.NotNull(classType, "classType");
 
-#if PORTABLE
-
-            throw new NotSupportedException();
-
-#else
-
             var all = classType.Bridge().GetCustomAttributes
                 (
                     typeof(T),
@@ -135,8 +123,6 @@ namespace AM.Reflection
                 );
             
             return (T)all.FirstOrDefault();
-
-#endif
         }
 
         /// <summary>
@@ -152,12 +138,6 @@ namespace AM.Reflection
         {
             Code.NotNull(classType, "classType");
 
-#if PORTABLE || WIN81
-
-            throw new NotSupportedException();
-
-#else
-
             var all = classType.Bridge().GetCustomAttributes
                 (
                     typeof(T),
@@ -165,8 +145,6 @@ namespace AM.Reflection
                 );
 
             return (T) all.FirstOrDefault();
-
-#endif
         }
 
         /// <summary>
@@ -276,12 +254,6 @@ namespace AM.Reflection
         {
             Code.NotNullNorEmpty(fieldName, "fieldName");
 
-#if PORTABLE || WIN81
-
-            throw new NotSupportedException();
-
-#else
-
             FieldInfo fieldInfo = typeof(T).GetField
                 (
                     fieldName,
@@ -301,8 +273,6 @@ namespace AM.Reflection
             }
 
             return fieldInfo.GetValue(target);
-
-#endif
         }
 
         /// <summary>
@@ -355,26 +325,11 @@ namespace AM.Reflection
         {
             Code.NotNullNorEmpty(fieldName, "fieldName");
 
-#if PORTABLE
-
-            throw new NotSupportedException();
-
-#else
-
             FieldInfo fieldInfo = typeof(TTarget).GetField
                 (
                     fieldName,
-#if WIN81
-
-                    BindingFlags.Public
-                    | BindingFlags.Instance | BindingFlags.Static
-
-#else
-
                     BindingFlags.Public | BindingFlags.NonPublic
                     | BindingFlags.Instance | BindingFlags.Static
-
-#endif
                 );
             if (ReferenceEquals(fieldInfo, null))
             {
@@ -389,8 +344,6 @@ namespace AM.Reflection
             }
 
             fieldInfo.SetValue(target, value);
-
-#endif
         }
 
         /// <summary>
@@ -404,27 +357,11 @@ namespace AM.Reflection
         {
             Code.NotNullNorEmpty(propertyName, "propertyName");
 
-#if PORTABLE
-
-            throw new NotSupportedException();
-
-#else
-
             PropertyInfo propertyInfo = typeof(T).GetProperty
                 (
                     propertyName,
-
-#if WIN81
-
-                    BindingFlags.Public
-                    | BindingFlags.Instance | BindingFlags.Static
-
-#else
-
                     BindingFlags.Public | BindingFlags.NonPublic
                     | BindingFlags.Instance | BindingFlags.Static
-
-#endif
                 );
             if (ReferenceEquals(propertyInfo, null))
             {
@@ -439,11 +376,7 @@ namespace AM.Reflection
             }
 
             return propertyInfo.GetValue(target, null);
-
-#endif
         }
-
-#if !PORTABLE
 
         /// <summary>
         /// Gets the properties and fields.
@@ -469,8 +402,6 @@ namespace AM.Reflection
             return result.ToArray();
         }
 
-#endif
-
         /// <summary>
         /// Set property value either public or private.
         /// </summary>
@@ -483,27 +414,11 @@ namespace AM.Reflection
         {
             Code.NotNullNorEmpty(propertyName, "propertyName");
 
-#if PORTABLE
-
-            throw new NotSupportedException();
-
-#else
-
             PropertyInfo propertyInfo = typeof(TTarget).GetProperty
                 (
                     propertyName,
-
-#if WIN81
-
-                    BindingFlags.Public
-                    | BindingFlags.Instance | BindingFlags.Static
-
-#else
-
                     BindingFlags.Public | BindingFlags.NonPublic
                     | BindingFlags.Instance | BindingFlags.Static
-
-#endif
                 );
             if (ReferenceEquals(propertyInfo, null))
             {
@@ -518,8 +433,6 @@ namespace AM.Reflection
             }
 
             propertyInfo.SetValue(target, value, null);
-
-#endif
         }
 
         #endregion

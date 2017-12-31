@@ -171,39 +171,6 @@ namespace AM
 
 #endif
 
-        /// <summary>
-        /// Unsubscribe all handlers from the event.
-        /// </summary>
-        public static void UnsubscribeAll
-            (
-                [NotNull] object obj,
-                [NotNull] string eventName
-            )
-        {
-#if !PORTABLE && !WIN81
-
-            Code.NotNull(obj, "obj");
-            Code.NotNullNorEmpty(eventName, "eventName");
-
-            //if (!ReferenceEquals(handler, null))
-            {
-                Type type = obj.GetType();
-                EventInfo eventInfo = type.GetEvent(eventName);
-                MethodInfo methodInfo = eventInfo.GetRemoveMethod();
-                //Delegate method = Delegate.CreateDelegate(typeof(RemoveDelegate), methodInfo);
-
-                //Delegate[] subscribers
-                //    = handler.GetInvocationList();
-                //foreach (Delegate subscriber in subscribers)
-                //{
-                //    // ReSharper disable DelegateSubtraction
-                //    handler -= (EventHandler) subscriber;
-                //    // ReSharper restore DelegateSubtraction
-                //}
-            }
-#endif
-        }
-
         #endregion
     }
 }

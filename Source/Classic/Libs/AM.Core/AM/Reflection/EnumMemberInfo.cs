@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if !PORTABLE && !WIN81 && !WINMOBILE
-
 #region Using directives
 
 using System;
@@ -271,5 +269,3 @@ namespace AM.Reflection
         #endregion
     }
 }
-
-#endif

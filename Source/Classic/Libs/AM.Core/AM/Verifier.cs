@@ -200,8 +200,6 @@ namespace AM
             return this;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Specified directory must exist.
         /// </summary>
@@ -245,26 +243,24 @@ namespace AM
             if (string.IsNullOrEmpty(path))
             {
                 _Throw
-                (
-                    "File '{0}': path not specified",
-                    name
-                );
+                    (
+                        "File '{0}': path not specified",
+                        name
+                    );
             }
 
             if (!File.Exists(path))
             {
                 _Throw
-                (
-                    "File '{0}' is set to '{1}': path not exist",
-                    name,
-                    path
-                );
+                    (
+                        "File '{0}' is set to '{1}': path not exist",
+                        name,
+                        path
+                    );
             }
 
             return this;
         }
-
-#endif
 
         /// <summary>
         /// Not null?

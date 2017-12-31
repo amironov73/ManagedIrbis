@@ -23,6 +23,8 @@ using JetBrains.Annotations;
 
 #endregion
 
+// ReSharper disable ConvertIfStatementToNullCoalescingExpression
+
 namespace AM.Text
 {
     /// <summary>
@@ -62,15 +64,7 @@ namespace AM.Text
         {
             get
             {
-#if SILVERLIGHT || WIN81 || PORTABLE
-
-                return Windows1251;
-
-#else
-
                 return Encoding.GetEncoding(0);
-
-#endif
             }
         }
 
@@ -98,22 +92,10 @@ namespace AM.Text
             [DebuggerStepThrough]
             get
             {
-
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
-
                 if (ReferenceEquals(_windows1251, null))
                 {
                     _windows1251 = Encoding.GetEncoding(1251);
                 }
-
-#else
-
-                if (ReferenceEquals(_windows1251, null))
-                {
-                    _windows1251 = Encoding.GetEncoding("windows-1251");
-                }
-
-#endif
 
                 return _windows1251;
             }
@@ -180,7 +162,7 @@ namespace AM.Text
             //            )
             //    );
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT && !WIN81 && !PORTABLE
+#if !WINMOBILE && !PocketPC
 
             known.Add
                 (
@@ -313,8 +295,6 @@ namespace AM.Text
             return DetermineTextEncoding(textWithPreamble);
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Determines the text file encoding.
         /// </summary>
@@ -328,8 +308,6 @@ namespace AM.Text
                 return DetermineTextEncoding(stream);
             }
         }
-
-#endif
 
         /// <summary>
         /// Get string from bytes.
@@ -350,7 +328,7 @@ namespace AM.Text
             // ReSharper disable JoinDeclarationAndInitializer
             string result;
 
-#if WINMOBILE || PocketPC || SILVERLIGHT || WIN81 || PORTABLE
+#if WINMOBILE || PocketPC
 
             result = encoding.GetString(bytes, 0, bytes.Length);
 

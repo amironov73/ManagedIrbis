@@ -40,7 +40,7 @@ namespace AM.Threading
         {
             get
             {
-#if PORTABLE || SILVERLIGHT || UAP || WIN81
+#if UAP
 
                 return 1;
 

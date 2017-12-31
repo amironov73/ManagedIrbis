@@ -105,7 +105,7 @@ namespace AM
         {
             if (DelayInterval > 0)
             {
-#if NETCORE || FW45 || UAP || PORTABLE
+#if NETCORE || FW45 || UAP
 
                 Task.Delay(DelayInterval).Wait();
 
@@ -177,7 +177,7 @@ namespace AM
             _Delay();
         }
 
-#endregion
+        #endregion
 
         #region Public methods
 

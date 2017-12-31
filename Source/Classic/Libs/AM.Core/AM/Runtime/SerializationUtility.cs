@@ -71,8 +71,6 @@ namespace AM.Runtime
             return result;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Считывание массива из файла.
         /// </summary>
@@ -90,10 +88,6 @@ namespace AM.Runtime
                 return reader.RestoreArray<T>();
             }
         }
-
-#endif
-
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Считывание массива из файла.
@@ -118,8 +112,6 @@ namespace AM.Runtime
             }
         }
 
-#endif
-
         /// <summary>
         /// Считывание массива из памяти.
         /// </summary>
@@ -137,8 +129,6 @@ namespace AM.Runtime
                 return reader.ReadArray<T>();
             }
         }
-
-#if !SILVERLIGHT
 
         /// <summary>
         /// Считывание массива из памяти.
@@ -162,8 +152,6 @@ namespace AM.Runtime
                 return reader.ReadArray<T>();
             }
         }
-
-#endif
 
         /// <summary>
         /// Считывание из потока обнуляемого объекта.
@@ -189,8 +177,6 @@ namespace AM.Runtime
             return result;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Считывание объекта из файла.
         /// </summary>
@@ -211,9 +197,6 @@ namespace AM.Runtime
             }
         }
 
-#endif
-
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Считывание объекта из файла.
@@ -240,8 +223,6 @@ namespace AM.Runtime
             }
         }
 
-#endif
-
         /// <summary>
         /// Считывание объекта из памяти.
         /// </summary>
@@ -259,8 +240,6 @@ namespace AM.Runtime
                 return reader.RestoreNullable<T>();
             }
         }
-
-#if !SILVERLIGHT
 
         /// <summary>
         /// Считывание объекта из строки.
@@ -299,8 +278,6 @@ namespace AM.Runtime
             }
         }
 
-#endif
-
         /// <summary>
         /// Сохранение в поток массива элементов.
         /// </summary>
@@ -328,8 +305,6 @@ namespace AM.Runtime
             }
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Сохранение в файл объекта,
         /// умеющего сериализоваться вручную.
@@ -350,10 +325,6 @@ namespace AM.Runtime
                 obj.SaveToStream(writer);
             }
         }
-
-#endif
-
-#if !SILVERLIGHT && !WIN81 && !PORTABLE
 
         /// <summary>
         /// Сохранение в файл объекта,
@@ -381,10 +352,6 @@ namespace AM.Runtime
             }
         }
 
-#endif
-
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Сохранение в файл массива объектов,
         /// умеющих сериализоваться вручную.
@@ -405,8 +372,6 @@ namespace AM.Runtime
                 array.SaveToStream(writer);
             }
         }
-
-#endif
 
         /// <summary>
         /// Сохранение объекта.
@@ -451,8 +416,6 @@ namespace AM.Runtime
             }
         }
 
-#if !SILVERLIGHT
-
         /// <summary>
         /// Сохранение объекта в строке.
         /// </summary>
@@ -467,8 +430,6 @@ namespace AM.Runtime
 
             return result;
         }
-
-#if !WIN81 && !PORTABLE
 
         /// <summary>
         /// Сохранение в файл массива объектов
@@ -495,8 +456,6 @@ namespace AM.Runtime
                 writer.WriteArray(array);
             }
         }
-
-#endif
 
         /// <summary>
         /// Сохранение массива объектов.
@@ -550,8 +509,6 @@ namespace AM.Runtime
             }
         }
 
-#endif
-
         /// <summary>
         /// Сохранение в поток обнуляемого объекта.
         /// </summary>
@@ -577,6 +534,6 @@ namespace AM.Runtime
             return writer;
         }
 
-#endregion
+        #endregion
     }
 }

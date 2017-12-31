@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if !SILVERLIGHT
-
 #region Using directives
 
 using System;
@@ -19,11 +17,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-#if !ANDROID && !UAP && !WIN81 && !PORTABLE
-
 using AM.Reflection;
-
-#endif
 
 using CodeJam;
 
@@ -71,8 +65,6 @@ namespace AM.Xml
             }
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Deserialize object from file.
         /// </summary>
@@ -119,8 +111,6 @@ namespace AM.Xml
                 );
         }
 
-#endif
-
         /// <summary>
         /// Deserialize the string.
         /// </summary>
@@ -136,7 +126,7 @@ namespace AM.Xml
             return (T)serializer.Deserialize(reader);
         }
 
-#if !ANDROID && !UAP && !WIN81 && !PORTABLE
+#if !ANDROID
 
         /// <summary>
         /// Get serializer for tagged classes.
@@ -210,8 +200,6 @@ namespace AM.Xml
 //    }
 //}
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Serialize object to file.
         /// </summary>
@@ -251,9 +239,7 @@ namespace AM.Xml
             Serialize(fileName, serializer, obj);
         }
 
-#endif
-
-#if !UAP && !WIN81 && !PORTABLE
+#if !UAP
 
         /// <summary>
         /// Dumps the specified reader.
@@ -383,5 +369,3 @@ namespace AM.Xml
         #endregion
     }
 }
-
-#endif

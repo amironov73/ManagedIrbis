@@ -7,9 +7,7 @@
  * Status: poor
  */
 
-#if NETCORE || PORTABLE || WIN81 || UAP || SILVERLIGHT
-
-#if !NETCOREAPP2_0
+#if UAP
 
 namespace System
 {
@@ -17,7 +15,5 @@ namespace System
     {
     }
 }
-
-#endif
 
 #endif

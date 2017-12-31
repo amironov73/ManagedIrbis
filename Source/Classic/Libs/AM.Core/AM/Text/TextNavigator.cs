@@ -129,8 +129,6 @@ namespace AM.Text
             return result;
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Навигатор по текстовому файлу.
         /// </summary>
@@ -165,8 +163,6 @@ namespace AM.Text
 
             return result;
         }
-
-#endif
 
         /// <summary>
         /// Выдать остаток текста.

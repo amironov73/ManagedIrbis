@@ -40,7 +40,7 @@ namespace AM.IO
     [PublicAPI]
     [MoonSharpUserData]
     [DebuggerDisplay("Name={FileName}")]
-#if !SILVERLIGHT && !UAP && !WIN81 && !PORTABLE
+#if !UAP
     // ReSharper disable once RedundantNameQualifier
     [System.ComponentModel.DesignerCategory("Code")]
 #endif
@@ -704,8 +704,6 @@ namespace AM.IO
                 );
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -743,8 +741,6 @@ namespace AM.IO
 
             Read();
         }
-
-#endif
 
         #endregion
 
@@ -1300,7 +1296,7 @@ namespace AM.IO
 
             writer.WriteNullable(FileName);
 
-#if WINMOBILE || PocketPC || SILVERLIGHT || WIN81 || PORTABLE
+#if WINMOBILE || PocketPC
 
             string encodingName = null;
 #else
@@ -1347,16 +1343,12 @@ namespace AM.IO
                     "IniFile::Dispose"
                 );
 
-#if !WIN81 && !PORTABLE
-
             if (Writable
                 && Modified
                 && !string.IsNullOrEmpty(FileName))
             {
                 Save(FileName);
             }
-
-#endif
         }
 
         #endregion

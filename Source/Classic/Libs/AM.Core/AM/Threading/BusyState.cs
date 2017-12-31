@@ -33,6 +33,8 @@ using MoonSharp.Interpreter;
 
 #endregion
 
+// ReSharper disable ConvertIfStatementToConditionalTernaryExpression
+
 namespace AM.Threading
 {
     /// <summary>
@@ -112,8 +114,10 @@ namespace AM.Threading
 
         private bool _currentState;
 
-#if !UAP && !WIN81 && !PORTABLE
+#if !UAP
+
         private Thread _thread;
+
 #endif
 
         private ManualResetEvent _waitHandle;
@@ -193,7 +197,7 @@ namespace AM.Threading
                     {
                         _waitHandle.Reset();
 
-#if !UAP && !WIN81 && !PORTABLE
+#if !UAP
 
                         _thread = Thread.CurrentThread;
 
@@ -241,7 +245,7 @@ namespace AM.Threading
                         goto DONE;
                     }
 
-#if UAP || WIN81 || PORTABLE
+#if UAP
 
                     WaitHandle.WaitOne();
 
@@ -278,7 +282,7 @@ namespace AM.Threading
 
                 bool result;
 
-#if !UAP && !WIN81 && !PORTABLE
+#if !UAP
 
                 if (ReferenceEquals(_thread, Thread.CurrentThread))
                 {
@@ -303,7 +307,7 @@ namespace AM.Threading
 
 #endif
 
-#if !UAP && !WIN81 && !PORTABLE
+#if !UAP
                 }
 #endif
 
@@ -328,7 +332,7 @@ namespace AM.Threading
                     goto DONE;
                 }
 
-#if !UAP && !WIN81 && !PORTABLE
+#if !UAP
 
                 if (ReferenceEquals(_thread, Thread.CurrentThread))
                 {
@@ -357,7 +361,7 @@ namespace AM.Threading
                 return true;
             }
 
-#if !UAP && !WIN81 && !PORTABLE
+#if !UAP
 
             if (ReferenceEquals(_thread, Thread.CurrentThread))
             {
@@ -405,7 +409,7 @@ namespace AM.Threading
 
 #endregion
 
-#region IHandmadeSerializable members
+        #region IHandmadeSerializable members
 
         /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
@@ -427,9 +431,9 @@ namespace AM.Threading
             writer.Write(UseAsync);
         }
 
-#endregion
+        #endregion
 
-#region Object members
+        #region Object members
 
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()
@@ -437,6 +441,6 @@ namespace AM.Threading
             return string.Format("Busy: {0}", Busy);
         }
 
-#endregion
+        #endregion
     }
 }

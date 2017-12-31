@@ -198,18 +198,10 @@ namespace AM.IO
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if WIN81 || PORTABLE
-
-            throw new System.NotImplementedException();
-
-#else
-
             byte[] data = FileUtility.ReadAllBytes(fileName);
             ByteNavigator result = new ByteNavigator(data);
 
             return result;
-
-#endif
         }
 
         /// <summary>

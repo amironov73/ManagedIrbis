@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if !PORTABLE
-
 #region Using directives
 
 using System;
@@ -20,12 +18,6 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-#if WIN81
-
-using MvvmCross.Platform;
-
-#endif
 
 #endregion
 
@@ -199,18 +191,8 @@ namespace AM.Reflection
             PropertyInfo info = typeof(T).GetProperty
                 (
                     propertyName,
-
-#if WIN81
-
-                    BindingFlags.Public
-                    | BindingFlags.Instance | BindingFlags.Static
-
-#else
-
                     BindingFlags.Public | BindingFlags.NonPublic
                     | BindingFlags.Instance | BindingFlags.Static
-
-#endif
                 );
             if (ReferenceEquals(info, null))
             {
@@ -242,7 +224,7 @@ namespace AM.Reflection
             {
                 MethodInfo methodInfo = Info.GetGetMethod(true);
 
-#if NETCORE || UAP || WIN81
+#if UAP
 
                 _getter = (_Getter) methodInfo.CreateDelegate
                     (
@@ -265,7 +247,7 @@ namespace AM.Reflection
             {
                 MethodInfo methodInfo = Info.GetSetMethod(true);
 
-#if NETCORE || UAP || WIN81
+#if UAP
 
                 _setter = (_Setter) methodInfo.CreateDelegate
                     (
@@ -356,5 +338,3 @@ namespace AM.Reflection
         #endregion
     }
 }
-
-#endif

@@ -1153,8 +1153,6 @@ namespace AM.IO
             return result.ToArray();
         }
 
-#if !WIN81 && !PORTABLE
-
         /// <summary>
         /// Lock the file.
         /// </summary>
@@ -1168,7 +1166,7 @@ namespace AM.IO
                 long length
             )
         {
-#if CLASSIC || DROID
+#if CLASSIC || NETCORE || DROID
 
             stream.Lock(position, length);
 
@@ -1188,14 +1186,12 @@ namespace AM.IO
                 long length
             )
         {
-#if CLASSIC || DROID
+#if CLASSIC || NETCORE || DROID
 
             stream.Unlock(position, length);
 
 #endif
         }
-
-#endif
 
         /// <summary>
         /// Write 16-bit integer to the stream in network byte order.

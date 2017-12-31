@@ -87,8 +87,6 @@ namespace CodeJam
         {
             NotNull(path, argumentName);
 
-#if !WIN81 && !PORTABLE
-
             if (!File.Exists(path))
             {
                 throw new FileNotFoundException
@@ -98,8 +96,6 @@ namespace CodeJam
                         + path
                     );
             }
-
-#endif
         }
 
         /// <summary>
