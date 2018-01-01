@@ -24,7 +24,7 @@ using System.Security;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyCompany("Ars Magna Project")]
-[assembly: AssemblyCopyright("Copyright © Alexey Mironov, 2006-2017")]
+[assembly: AssemblyCopyright("Copyright © Alexey Mironov, 2006-2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -45,5 +45,5 @@ using System.Security;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.8.3.2300")]
-[assembly: AssemblyFileVersion("1.8.3.2300")]
+[assembly: AssemblyVersion("1.8.4.2400")]
+[assembly: AssemblyFileVersion("1.8.4.2400")]
