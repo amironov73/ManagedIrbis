@@ -93,7 +93,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("E", UniforE.GetFirstWords);
             Registry.Add("F", UniforF.GetLastWords);
             Registry.Add("G", UniforG.GetPart);
-            // "H" unknown
+            Registry.Add("H", UniforH.ExtractAngleBrackets);
             Registry.Add("I", UniforI.GetIniFileEntry);
             Registry.Add("J", UniforJ.GetTermRecordCountDB);
             Registry.Add("K", UniforK.GetMenuEntry);

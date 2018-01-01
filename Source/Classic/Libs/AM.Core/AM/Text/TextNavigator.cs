@@ -1635,6 +1635,31 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Пропустить, пока не встретится указанный символ.
+        /// Сам символ не считывается.
+        /// </summary>
+        public bool SkipTo
+            (
+                char stopChar
+            )
+        {
+            while (true)
+            {
+                if (IsEOF)
+                {
+                    return false;
+                }
+
+                char c = PeekChar();
+                if (c == stopChar)
+                {
+                    return true;
+                }
+                ReadChar();
+            }
+        }
+
+        /// <summary>
         /// Пропустить, пока не встретятся указанные символы.
         /// </summary>
         public bool SkipWhileNot

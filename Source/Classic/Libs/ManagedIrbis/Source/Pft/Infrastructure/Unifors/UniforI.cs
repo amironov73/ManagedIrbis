@@ -21,7 +21,7 @@ using JetBrains.Annotations;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Вернуть параметр из INI-файла – &uf('I
+    // Вернуть параметр из INI-файла - &uf('I')
     // Вид функции: I.
     // Назначение: Вернуть параметр из INI-файла.
     // Формат (передаваемая строка):
