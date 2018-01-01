@@ -650,6 +650,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlus7Test.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlus9Test.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlusAtTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlusBackslashTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlusDTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlusETest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlusFTest.cs" />
