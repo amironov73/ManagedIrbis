@@ -174,6 +174,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("++0", UniforPlusPlus0.FormatAll);
             Registry.Add("!", UniforBang. CleanDoubleText);
             Registry.Add("=", UniforEqual.CompareWithMask);
+            Registry.Add("[", UniforSquareBracket.CleanContextMarkup);
         }
 
         #endregion
@@ -192,10 +193,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             int bestMatch = 0;
             Action<PftContext, PftNode, string> result = null;
 
+            StringComparison comparison = StringComparison.InvariantCultureIgnoreCase;
             foreach (string key in keys)
             {
                 if (key.Length > bestMatch
-                    && expression.StartsWith(key))
+                    && expression.StartsWith(key, comparison))
                 {
                     bestMatch = key.Length;
                     result = Registry[key];

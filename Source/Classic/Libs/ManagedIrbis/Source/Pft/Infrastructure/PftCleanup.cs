@@ -39,6 +39,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// <summary>
         /// HTML markup removal.
         /// </summary>
-        Html = 4
+        Html = 4,
+
+        /// <summary>
+        /// ibatrak команды контекстного выделения
+        /// </summary>
+        ContextMarkup = 8
     }
 }

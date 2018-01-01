@@ -659,6 +659,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforQTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforRTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforSquareBracketTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforSTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforTTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforUTest.cs" />

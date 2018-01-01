@@ -649,6 +649,7 @@
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforPlusS.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforQ.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforR.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Unifors\UniforSquareBracket.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforT.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforX.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforY.cs" />

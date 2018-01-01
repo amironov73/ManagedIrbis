@@ -32,6 +32,8 @@ using Newtonsoft.Json;
 
 #endregion
 
+// ReSharper disable ConvertIfStatementToNullCoalescingExpression
+
 namespace ManagedIrbis.Pft.Infrastructure
 {
     /// <summary>
@@ -436,6 +438,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             if ((PostProcessing & PftCleanup.DoubleText) != 0)
             {
                 result = IrbisText.CleanupText(result);
+            }
+
+            if ((PostProcessing & PftCleanup.ContextMarkup) != 0)
+            {
+                result = IrbisText.CleanupMarkup(result);
             }
 
             if (ReferenceEquals(result, null))

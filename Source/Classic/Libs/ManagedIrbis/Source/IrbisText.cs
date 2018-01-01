@@ -75,6 +75,42 @@ namespace ManagedIrbis
 
         #region Public methods
 
+        /// <summary>
+        /// Cleanup the text.
+        /// </summary>
+        [CanBeNull]
+        public static string CleanupMarkup
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text)
+                || !text.Contains("[["))
+            {
+                return text;
+            }
+
+            while (true)
+            {
+                // Remove repeating area delimiters.
+                string result = Regex.Replace
+                    (
+                        text,
+                        @"\[\[(?<tag>.*?)\]\](?<meat>.*?)\[\[/\k<tag>\]\]",
+                        "${meat}"
+                    );
+                if (result == text)
+                {
+                    text = result;
+                    break;
+                }
+
+                text = result;
+            }
+
+
+            return text;
+        }
 
         /// <summary>
         /// Cleanup the text.
