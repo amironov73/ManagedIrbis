@@ -222,17 +222,21 @@ namespace ManagedIrbis.Reports
             {
                 TypeNameHandling = TypeNameHandling.Objects,
 #if ANDROID
+
                 TypeNameAssemblyFormat = json::System.Runtime
                     .Serialization.Formatters
                     .FormatterAssemblyStyle.Simple
+
 #elif NETCOREAPP2_0
 
                 // TODO fix it
                 // TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
 
 #else
+
                 TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
-#endif            
+
+#endif
             };
             IrbisReport result
                 = JsonConvert.DeserializeObject<IrbisReport>
@@ -287,18 +291,23 @@ namespace ManagedIrbis.Reports
             JsonSerializer serializer = new JsonSerializer
             {
                 TypeNameHandling = TypeNameHandling.Objects,
+
 #if ANDROID
+
                 TypeNameAssemblyFormat = json::System.Runtime
                     .Serialization.Formatters
                     .FormatterAssemblyStyle.Simple
+
 #elif NETCOREAPP2_0
 
                 // TODO fix it
                 // TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
 
 #else
+
                 TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
-#endif            
+
+#endif
             };
             IrbisReport result = obj.ToObject<IrbisReport>
                 (
@@ -327,10 +336,13 @@ namespace ManagedIrbis.Reports
                 NullValueHandling = NullValueHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore,
                 TypeNameHandling = TypeNameHandling.Objects,
+
 #if ANDROID
+
                 TypeNameAssemblyFormat = json::System.Runtime
                     .Serialization.Formatters
                     .FormatterAssemblyStyle.Simple
+
 #elif NETCOREAPP2_0
 
                 // TODO fix it
@@ -338,7 +350,8 @@ namespace ManagedIrbis.Reports
 
 #else
                 TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
-#endif            
+
+#endif
             };
             string contents = JsonConvert.SerializeObject
                 (
@@ -373,18 +386,23 @@ namespace ManagedIrbis.Reports
                 NullValueHandling = NullValueHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore,
                 TypeNameHandling = TypeNameHandling.Objects,
+
 #if ANDROID
+
                 TypeNameAssemblyFormat = json::System.Runtime
                     .Serialization.Formatters
                     .FormatterAssemblyStyle.Simple
+
 #elif NETCOREAPP2_0
 
                 // TODO fix it
                 // TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
 
 #else
+
                 TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
-#endif            
+
+#endif
             };
             JObject obj = JObject.FromObject
                 (

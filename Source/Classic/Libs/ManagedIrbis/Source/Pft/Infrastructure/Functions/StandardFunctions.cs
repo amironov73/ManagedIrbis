@@ -143,19 +143,23 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void CommandLine(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if DESKTOP
+#if DESKTOP || NETCORE
+
             context.Write(node, Environment.CommandLine);
+
 #endif
         }
 
         private static void COut(PftContext context, PftNode node, PftNode[] arguments)
         {
 #if DESKTOP || NETCORE
+
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
                 Console.Write(expression);
             }
+
 #endif
         }
 
@@ -164,11 +168,13 @@ namespace ManagedIrbis.Pft.Infrastructure
         private static void Debug(PftContext context, PftNode node, PftNode[] arguments)
         {
 #if CLASSIC || NETCORE
+
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
                 global::System.Diagnostics.Debug.WriteLine(expression);
             }
+
 #endif
         }
 

@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if CLASSIC || NETCORE
-
 #region Using directives
 
 using System;
@@ -210,18 +208,6 @@ namespace ManagedIrbis.Pft.Infrastructure
         [NotNull]
         public string GetDefaultRootDirectory()
         {
-#if NETCORE
-
-            // TODO implement properly
-
-            return Path.Combine
-                (
-                    Directory.GetCurrentDirectory(),
-                    "PftCatch"
-                );
-
-#else
-
             string result = Path.Combine
                 (
                     Path.Combine
@@ -236,8 +222,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                 );
 
             return result;
-
-#endif
         }
 
         /// <summary>
@@ -363,5 +347,3 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
     }
 }
-
-#endif

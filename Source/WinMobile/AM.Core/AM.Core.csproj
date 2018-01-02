@@ -160,6 +160,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\ListUtility.cs">
       <Link>AM\Collections\ListUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\NonEmptyStringCollection.cs">
+      <Link>AM\Collections\NonEmptyStringCollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\NonNullCollection.cs">
       <Link>AM\Collections\NonNullCollection.cs</Link>
     </Compile>

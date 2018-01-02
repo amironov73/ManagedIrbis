@@ -254,6 +254,7 @@ namespace ManagedIrbis.Biblio
             {
                 TypeNameHandling = TypeNameHandling.Objects,
 #if ANDROID
+
                 TypeNameAssemblyFormat = json::System.Runtime
                     .Serialization.Formatters
                     .FormatterAssemblyStyle.Simple
@@ -265,7 +266,8 @@ namespace ManagedIrbis.Biblio
 
 #else
                 TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
-#endif            
+
+#endif
             };
 
             BiblioDocument result = obj.ToObject<BiblioDocument>

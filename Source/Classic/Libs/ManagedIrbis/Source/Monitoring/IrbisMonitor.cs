@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if NETCORE || FW45
+#if NETCORE || FW45 || ANDROID || UAP
 
 #region Using directives
 

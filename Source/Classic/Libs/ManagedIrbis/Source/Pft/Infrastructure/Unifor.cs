@@ -194,7 +194,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             int bestMatch = 0;
             Action<PftContext, PftNode, string> result = null;
 
-            StringComparison comparison = StringComparison.InvariantCultureIgnoreCase;
+            StringComparison comparison = StringUtility.GetCaseInsensitiveComparison();
             foreach (string key in keys)
             {
                 if (key.Length > bestMatch

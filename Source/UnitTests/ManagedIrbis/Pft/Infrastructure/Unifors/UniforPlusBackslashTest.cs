@@ -7,7 +7,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         : CommonUniforTest
     {
         [TestMethod]
-        public void UniforPlushBackslash_ConvertBackslashes_1()
+        public void UniforPlusBackslash_ConvertBackslashes_1()
         {
             Execute(@"+\0c:\folder\example.txt", @"c:\\folder\\example.txt");
             Execute(@"+\1c:\\folder\\example.txt", @"c:\folder\example.txt");

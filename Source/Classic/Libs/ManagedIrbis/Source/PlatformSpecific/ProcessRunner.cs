@@ -12,7 +12,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-#if CLASSIC || NETCORE
+#if CLASSIC || NETCORE || ANDROID
 
 using System.Diagnostics;
 

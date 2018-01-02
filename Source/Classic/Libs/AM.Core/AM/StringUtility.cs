@@ -448,6 +448,23 @@ namespace AM
         }
 
         /// <summary>
+        /// Get case-insensitive string comparer.
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public static StringComparison GetCaseInsensitiveComparison()
+        {
+#if UAP
+
+            return StringComparison.OrdinalIgnoreCase;
+
+#else
+
+            return StringComparison.InvariantCultureIgnoreCase;
+
+#endif
+        }
+
+        /// <summary>
         /// Строит массив групп совпадающих символов по регулярному выражению.
         /// </summary>
         /// <param name="input">Разбираемая строка.</param>
