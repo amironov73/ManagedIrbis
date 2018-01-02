@@ -902,6 +902,80 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             context.OutputFlag = true;
         }
 
+        // ================================================================
+
+        //
+        // ibatrak
+        //
+        // &uf('+9T')
+        // Неописанная функция
+        // Выводит последовательные числа.
+        // Вид: &uf('+9TA/B')
+        // где A - начальное число, B - конечное (включая)
+        // Выводимые числа выравниваются нулями по правому краю
+        // по ширине числа A
+        // В числе A лишние символы (пробелы и не-цифры) игнорируются.
+        // Если A не удаётся интерпретировать как число,
+        // оно считается равным 0.
+        // Если слэш и число B отсутствуют, то выводится лишь A.
+        // Если слэш присутствует и B не удаётся интерпретировать
+        // как число, оно считается равным 0.
+        //
+
+        public static void PrintNumbers
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                return;
+            }
+
+            if (!expression.Contains("/"))
+            {
+                context.Write(node, expression);
+                context.OutputFlag = true;
+
+                return;
+            }
+
+            char[] separators = {'/'};
+            string[] parts = StringUtility.SplitString(expression, separators, 2);
+            string left = parts[0], right = parts[1];
+            int width = left.Length;
+            string digits = Regex.Match(left, "-?\\d+").Value;
+            long start = digits.SafeToInt64(), stop = right.SafeToInt64();
+            bool first = true;
+            while (start <= stop)
+            {
+                if (!first)
+                {
+                    context.WriteLine(node);
+                }
+
+                string text = start.ToInvariantString();
+                int length = text.Length;
+                if (width < length)
+                {
+                    text = text.Substring(length - width);
+                }
+                else if (width > length)
+                {
+                    text = text.PadLeft(width, '0');
+                }
+
+                context.Write(node, text);
+                context.OutputFlag = true;
+
+                start++;
+                first = false;
+            }
+        }
+
+
         #endregion
     }
 }

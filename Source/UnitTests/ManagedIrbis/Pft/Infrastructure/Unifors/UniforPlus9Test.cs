@@ -217,5 +217,21 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             Execute("+9S!b!", "0");
             Execute("+9S!!98A7", "0");
         }
+
+        [TestMethod]
+        public void UniforPlus9_PrintNumbers_1()
+        {
+            Execute("+9T123/130", "123\n124\n125\n126\n127\n128\n129\n130");
+            Execute("+9T123/30", "");
+            Execute("+9T3/10", "3\n4\n5\n6\n7\n8\n9\n0");
+            Execute("+9T-3/10", "-3\n-2\n-1\n00\n01\n02\n03\n04\n05\n06\n07\n08\n09\n10");
+            Execute("+9TA3A/10", "003\n004\n005\n006\n007\n008\n009\n010");
+
+            // Обработка ошибок
+            Execute("+9T", "");
+            Execute("+9Tnumber", "number");
+            Execute("+9T123", "123");
+            Execute("+9T123/", "");
+        }
     }
 }

@@ -455,6 +455,43 @@ namespace AM
         }
 
         /// <summary>
+        /// Безопасное преобразование строки в целое.
+        /// </summary>
+        public static long SafeToInt64
+            (
+                [CanBeNull] this string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return 0;
+            }
+
+            long result;
+
+#if WINMOBILE || PocketPC
+
+            try
+            {
+                result = long.Parse(text);
+            }
+            catch (Exception)
+            {
+                result = 0;
+            }
+#else
+
+            if (!TryParseInt64(text, out result))
+            {
+                result = 0;
+            }
+
+#endif
+
+            return result;
+        }
+
+        /// <summary>
         /// Преобразование числа в строку по правилам инвариантной 
         /// (не зависящей от региона) культуры.
         /// </summary>
