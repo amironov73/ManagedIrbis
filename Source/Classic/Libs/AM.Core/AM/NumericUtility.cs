@@ -332,6 +332,46 @@ namespace AM
         }
 
         /// <summary>
+        /// Безопасное преобразование строки
+        /// в число с плавающей точкой.
+        /// </summary>
+        public static double SafeToDouble
+            (
+                [CanBeNull] this string text,
+                double defaultValue
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return defaultValue;
+            }
+
+            double result;
+
+#if WINMOBILE || PocketPC
+
+            try
+            {
+                result = double.Parse(text);
+            }
+            catch (Exception)
+            {
+                result = defaultValue;
+            }
+
+#else
+
+            if (!TryParseDouble(text, out result))
+            {
+                result = defaultValue;
+            }
+
+#endif
+
+            return result;
+        }
+
+        /// <summary>
         /// Безопасное преобразование строки в целое.
         /// </summary>
         public static int SafeToInt32

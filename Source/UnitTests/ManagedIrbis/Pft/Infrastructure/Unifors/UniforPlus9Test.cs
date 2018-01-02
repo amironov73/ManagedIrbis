@@ -233,5 +233,27 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             Execute("+9T123", "123");
             Execute("+9T123/", "");
         }
+
+        [TestMethod]
+        public void UniforPlus9_FormatFileSize_1()
+        {
+            Execute("+9E0", "0");
+            Execute("+9E1", "1 b");
+            Execute("+9E12", "12 b");
+            Execute("+9E123", "123 b");
+            Execute("+9E1234", "1.234 Kb");
+            Execute("+9E12345", "12.345 Kb");
+            Execute("+9E123456", "123.456 Kb");
+            Execute("+9E1234567", "1.235 Mb");
+            Execute("+9E12345678", "12.346 Mb");
+            Execute("+9E123456789", "123.457 Mb");
+            Execute("+9E1234567890", "1.235 Gb");
+
+            // Обработка ошибок
+            Execute("+9E", "0");
+            Execute("+9EABC", "0");
+            Execute("+9E-123", "0");
+            Execute("+9E123Q", "0");
+        }
     }
 }

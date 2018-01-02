@@ -10,6 +10,7 @@
 #region Using directives
 
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -36,9 +37,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         #region Private members
 
         private static bool _CheckUrlExist
-            (
-                [NotNull] string address
-            )
+        (
+            [NotNull] string address
+        )
         {
 #if CLASSIC || DESKTOP
 
@@ -53,10 +54,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 catch (Exception exception)
                 {
                     Log.TraceException
-                        (
-                            "UniforPlus9::_CheckUrlExist",
-                            exception
-                        );
+                    (
+                        "UniforPlus9::_CheckUrlExist",
+                        exception
+                    );
                 }
             }
 
@@ -71,9 +72,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
         [CanBeNull]
         private static FileSpecification _GetFileSpecification
-            (
-                [NotNull] string expression
-            )
+        (
+            [NotNull] string expression
+        )
         {
             TextNavigator navigator = new TextNavigator(expression);
             string pathText = navigator.ReadUntil(',');
@@ -93,6 +94,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 dbName = navigator.ReadUntil(',');
                 navigator.ReadChar();
             }
+
             string fileName = navigator.GetRemainingText();
             if (string.IsNullOrEmpty(pathText)
                 || string.IsNullOrEmpty(fileName))
@@ -101,15 +103,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
 
             IrbisPath path = (IrbisPath) NumericUtility.ParseInt32
-                (
-                    pathText
-                );
+            (
+                pathText
+            );
             FileSpecification result = new FileSpecification
-                (
-                    path,
-                    dbName,
-                    fileName
-                );
+            (
+                path,
+                dbName,
+                fileName
+            );
 
             return result;
         }
@@ -139,18 +141,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Get character with given code.
         /// </summary>
         public static void GetCharacter
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             if (!string.IsNullOrEmpty(expression))
             {
                 int code;
                 if (NumericUtility.TryParseInt32(expression, out code))
                 {
-                    string output = ((char)code).ToString();
+                    string output = ((char) code).ToString();
                     context.Write(node, output);
                     context.OutputFlag = true;
                 }
@@ -172,11 +174,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Get directory name from full path.
         /// </summary>
         public static void GetDirectoryName
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -184,12 +186,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 if (!string.IsNullOrEmpty(output))
                 {
                     if (!output.EndsWith
-                          (
-                              Path.DirectorySeparatorChar.ToString()
-                          ))
+                    (
+                        Path.DirectorySeparatorChar.ToString()
+                    ))
                     {
                         output += Path.DirectorySeparatorChar;
                     }
+
                     context.Write(node, output);
                     context.OutputFlag = true;
                 }
@@ -211,11 +214,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Get drive name from full path.
         /// </summary>
         public static void GetDrive
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -244,11 +247,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Get extension from full path.
         /// </summary>
         public static void GetExtension
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -285,11 +288,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// UNIFOR('+9C'): Get file content.
         /// </summary>
         public static void GetFileContent
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -336,11 +339,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// UNIFOR('+9L'): check whether the file exist
         /// </summary>
         public static void FileExist
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -386,11 +389,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Get file name from full path.
         /// </summary>
         public static void GetFileName
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -417,11 +420,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// UNIFOR('+9A'):  Get file size.
         /// </summary>
         public static void GetFileSize
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -435,10 +438,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 catch (Exception exception)
                 {
                     Log.TraceException
-                        (
-                            "UniforPlus9::GetFileSize",
-                            exception
-                        );
+                    (
+                        "UniforPlus9::GetFileSize",
+                        exception
+                    );
                 }
 
                 string output = fileSize.ToInvariantString();
@@ -465,11 +468,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Get field repeat.
         /// </summary>
         public static void GetIndex
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             int index = context.Index;
             if (!ReferenceEquals(context.CurrentGroup, null))
@@ -503,17 +506,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Get IRBIS generation (family): 32 or 64
         /// </summary>
         public static void GetGeneration
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             context.Write
-                (
-                    node,
-                    context.Provider.GetGeneration()
-                );
+            (
+                node,
+                context.Provider.GetGeneration()
+            );
             context.OutputFlag = true;
         }
 
@@ -532,17 +535,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Get string length.
         /// </summary>
         public static void StringLength
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             string output = "0";
             if (!string.IsNullOrEmpty(expression))
             {
                 output = expression.Length.ToInvariantString();
             }
+
             if (!string.IsNullOrEmpty(output))
             {
                 context.Write(node, output);
@@ -574,11 +578,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Replace character in text.
         /// </summary>
         public static void ReplaceCharacter
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -624,11 +628,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Replace substring.
         /// </summary>
         public static void ReplaceString
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -638,6 +642,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     return;
                 }
+
                 string first = navigator.ReadUntil(firstDelimiter);
                 navigator.ReadChar();
                 if (navigator.IsEOF
@@ -645,16 +650,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     return;
                 }
+
                 char secondDelimiter = navigator.ReadChar();
                 if (navigator.IsEOF)
                 {
                     return;
                 }
+
                 string second = navigator.ReadUntil(secondDelimiter);
                 if (navigator.ReadChar() != secondDelimiter)
                 {
                     return;
                 }
+
                 string text = navigator.GetRemainingText();
                 if (string.IsNullOrEmpty(text))
                 {
@@ -686,11 +694,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Split text to word array.
         /// </summary>
         public static void SplitWords
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -702,11 +710,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     words[i] = StringUtility.ToUpperInvariant(words[i]);
                 }
+
                 string output = String.Join
-                    (
-                        Environment.NewLine,
-                        words.ToArray()
-                    );
+                (
+                    Environment.NewLine,
+                    words.ToArray()
+                );
                 context.Write(node, output);
                 context.OutputFlag = true;
             }
@@ -735,21 +744,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// 
         /// </summary>
         public static void Substring
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             if (!string.IsNullOrEmpty(expression))
             {
                 string text;
                 string[] parts = StringUtility.SplitString
-                    (
-                        expression,
-                        new[] { '#' },
-                        2
-                    );
+                (
+                    expression,
+                    new[] {'#'},
+                    2
+                );
 
                 if (parts.Length == 2)
                 {
@@ -768,6 +777,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         temp = navigator.ReadInteger();
                         NumericUtility.TryParseInt32(temp, out offset);
                     }
+
                     if (navigator.PeekChar() == '.')
                     {
                         navigator.ReadChar();
@@ -817,11 +827,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Convert text to upper case.
         /// </summary>
         public static void ToUpper
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -858,11 +868,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Если подстрока не найдена, то возвращает 0.
         /// </summary>
         public static void FindSubstring
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             if (string.IsNullOrEmpty(expression))
             {
@@ -877,20 +887,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 goto NOTFOUND;
             }
+
             string text = navigator.GetRemainingText();
             if (string.IsNullOrEmpty(text))
             {
                 goto NOTFOUND;
             }
+
             int position = text.IndexOf
-                (
-                    substring,
-                    StringComparison.CurrentCultureIgnoreCase
-                );
+            (
+                substring,
+                StringComparison.CurrentCultureIgnoreCase
+            );
             if (position < 0)
             {
                 goto NOTFOUND;
             }
+
             string output = (position + 1).ToInvariantString();
             context.Write(node, output);
             context.OutputFlag = true;
@@ -923,11 +936,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         //
 
         public static void PrintNumbers
-            (
-                [NotNull] PftContext context,
-                [CanBeNull] PftNode node,
-                [CanBeNull] string expression
-            )
+        (
+            [NotNull] PftContext context,
+            [CanBeNull] PftNode node,
+            [CanBeNull] string expression
+        )
         {
             if (string.IsNullOrEmpty(expression))
             {
@@ -975,6 +988,94 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
         }
 
+        // ================================================================
+
+        struct DecimalSuffix
+        {
+            public string Suffix { get; set; }
+            public double Value { get; set; }
+        }
+
+        static readonly DecimalSuffix[] _suffixes =
+        {
+            new DecimalSuffix{Suffix =  "b", Value = 1E0},
+            new DecimalSuffix{Suffix = "Kb", Value = 1E3},
+            new DecimalSuffix{Suffix = "Mb", Value = 1E6},
+            new DecimalSuffix{Suffix = "Gb", Value = 1E9},
+            new DecimalSuffix{Suffix = "Tb", Value = 1E12},
+            new DecimalSuffix{Suffix = "Pb", Value = 1E15},
+            new DecimalSuffix{Suffix = "Eb", Value = 1E18},
+            new DecimalSuffix{Suffix = "Zb", Value = 1E21},
+            new DecimalSuffix{Suffix = "Yb", Value = 1E24},
+        };
+
+        //
+        // ibatrak
+        //
+        // &uf('+9E')
+        // Неописанная функция
+        // Форматирует переданное число как размер файла.
+        // Вид: &uf('+9EN')
+        // где N - размер файла.
+        // Если N < 1000, выводится суффикс b,
+        // иначе, если N < 1000000, выводится суффкис Kb,
+        // и так далее.
+        //
+        public static void FormatFileSize
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            string result = "0";
+
+            if (string.IsNullOrEmpty(expression))
+            {
+                goto  DONE;
+            }
+
+            double size = expression.SafeToDouble(0.0);
+            if (size <= 0)
+            {
+                goto DONE;
+            }
+
+            for (int i = _suffixes.Length - 1; i >= 0; i--)
+            {
+                DecimalSuffix entry = _suffixes[i];
+                if (size >= entry.Value)
+                {
+                    // ReSharper disable once CompareOfFloatsByEqualityOperator
+                    if (entry.Value == 1.0)
+                    {
+                        result = string.Format
+                            (
+                                CultureInfo.InvariantCulture,
+                                "{0} {1}",
+                                size,
+                                entry.Suffix
+                            );
+                    }
+                    else
+                    {
+                        result = string.Format
+                            (
+                                CultureInfo.InvariantCulture,
+                                "{0:F3} {1}",
+                                size / entry.Value,
+                                entry.Suffix
+                            );
+                    }
+
+                    break;
+                }
+            }
+
+            DONE:
+            context.Write(node, result);
+            context.OutputFlag = true;
+        }
 
         #endregion
     }
