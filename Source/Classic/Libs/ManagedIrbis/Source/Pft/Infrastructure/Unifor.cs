@@ -128,6 +128,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+1V", UniforPlus1.SortList);
             Registry.Add("+1W", UniforPlus1.WriteGlobal);
             Registry.Add("+2", UniforPlus2.System);
+            Registry.Add("+3A", UniforPlus3.FieldsToText);
             Registry.Add("+3D", UniforPlus3.UrlDecode);
             Registry.Add("+3E", UniforPlus3.UrlEncode);
             Registry.Add("+3U", UniforPlus3.ConvertToUtf);

@@ -14,6 +14,8 @@ using AM.Text;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.ImportExport;
+
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
@@ -29,7 +31,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Декодирование строки из UTF-8 – &uf('+3W
+        // Декодирование строки из UTF-8 – &uf('+3W')
         // Вид функции: +3W.
         // Назначение: Декодирование строки из UTF-8.
         // Формат(передаваемая строка):
@@ -62,7 +64,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Кодирование строки в UTF-8 – &uf('+3U
+        // Кодирование строки в UTF-8 – &uf('+3U')
         // Вид функции: +3U.
         // Назначение: Кодирование строки в UTF-8.
         // Формат(передаваемая строка):
@@ -95,7 +97,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Перевод знака + в %2B – &uf('+3+
+        // Перевод знака + в %2B – &uf('+3+')
         // Вид функции: +3+.
         // Назначение: Перевод знака + в %2B.
         // Формат (передаваемая строка):
@@ -123,7 +125,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Декодирование данных из URL – &uf('+3D
+        // Декодирование данных из URL – &uf('+3D')
         // Вид функции: +3D.
         // Назначение: Декодирование данных из URL.
         // Присутствует в версиях ИРБИС с 2005.2.
@@ -156,7 +158,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Кодирование данных для представления в URL – &uf('+3E
+        // Кодирование данных для представления в URL – &uf('+3E')
         // Вид функции: +3E.
         // Назначение: Кодирование данных для представления в URL.
         // Присутствует в версиях ИРБИС с 2005.2.
@@ -185,6 +187,40 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         expression,
                         IrbisEncoding.Utf8
                     );
+                context.Write(node, output);
+                context.OutputFlag = true;
+            }
+        }
+
+        // ================================================================
+
+        //
+        // Кодирование данных для представления в URL – &uf('+3A')
+        // Вид функции: +3E.
+        // Назначение: Кодирование данных для представления в URL.
+        // Присутствует в версиях ИРБИС с 2005.2.
+        // Формат (передаваемая строка):
+        //  +3E<данные>
+        //
+        // Пример:
+        //
+        // &unifor('+3E', v1007)
+        //
+
+        /// <summary>
+        /// Encode the text to URL format.
+        /// </summary>
+        public static void FieldsToText
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            MarcRecord record = context.Record;
+            if (!ReferenceEquals(record, null))
+            {
+                string output = record.ToPlainText();
                 context.Write(node, output);
                 context.OutputFlag = true;
             }
