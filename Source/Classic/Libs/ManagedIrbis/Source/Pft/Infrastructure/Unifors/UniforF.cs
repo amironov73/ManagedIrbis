@@ -24,7 +24,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
     // Вернуть часть строки, начиная со следующего слова
-    // после указанного и до конца строки – &uf('F…
+    // после указанного и до конца строки – &uf('F')
     // Вид функции: F.
     // Назначение: Вернуть часть строки, начиная со следующего
     // слова после указанного и до конца строки.
@@ -57,18 +57,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             // TODO Use IrbisAlphabetTable?
 
-            MatchCollection matches = Regex.Matches
-                (
-                    text,
-                    @"\w+"
-                );
-            if (wordCount >= matches.Count)
+            // ibatrak через ISISACW.TAB делать смысла нет
+            // irbis64 ищет одиночные пробелы
+
+            int[] positions = text.GetPositions(' ');
+
+            if (wordCount >= positions.Length)
             {
-                return string.Empty;
+                return text;
             }
 
-            Match match = matches[wordCount];
-            int end = match.Index + match.Length;
+            int end = positions[wordCount];
             string result = text.Substring
                 (
                     end,
@@ -98,19 +97,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             if (!string.IsNullOrEmpty(expression))
             {
                 TextNavigator navigator = new TextNavigator(expression);
-                string countText = navigator.ReadInteger();
-                if (!string.IsNullOrEmpty(countText))
+                string countText = navigator.ReadChar().ToString();
+                int wordCount;
+                if (NumericUtility.TryParseInt32(countText, out wordCount))
                 {
-                    int wordCount;
-                    if (NumericUtility.TryParseInt32(countText, out wordCount))
+                    string text = navigator.GetRemainingText();
+                    string output = GetLastWords(text, wordCount);
+                    if (!string.IsNullOrEmpty(output))
                     {
-                        string text = navigator.GetRemainingText();
-                        string output = GetLastWords(text, wordCount);
-                        if (!string.IsNullOrEmpty(output))
-                        {
-                            context.Write(node, output);
-                            context.OutputFlag = true;
-                        }
+                        context.Write(node, output);
+                        context.OutputFlag = true;
                     }
                 }
             }

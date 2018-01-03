@@ -24,7 +24,7 @@ using ManagedIrbis.Search;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Вернуть окончание термина – &uf('L
+    // Вернуть окончание термина – &uf('L')
     // Вид функции: L.
     // Назначение: Вернуть окончание термина.
     // Формат (передаваемая строка):

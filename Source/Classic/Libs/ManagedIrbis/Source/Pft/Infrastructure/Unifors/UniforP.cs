@@ -21,7 +21,7 @@ using JetBrains.Annotations;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Выдать заданное оригинальное повторение поля – &uf('P
+    // Выдать заданное оригинальное повторение поля – &uf('P')
     // Вид функции: P.
     // Назначение: Выдать заданное оригинальное повторение поля.
     // PV<tag>^<delim>*<offset>.<length>#<occur>
@@ -60,8 +60,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     MarcRecord record = context.Record;
                     if (!ReferenceEquals(record, null))
                     {
-                        FieldSpecification specification
-                            = new FieldSpecification();
+                        // ibatrak
+                        // ИРБИС игнорирует код команды в спецификации,
+                        // все работает как v
+                        char command = expression[0];
+                        if (command != 'v' && command != 'V')
+                        {
+                            expression = "v" + expression.Substring(1);
+                        }
+
+                        FieldSpecification specification = new FieldSpecification();
                         if (specification.ParseUnifor(expression))
                         {
                             FieldReference reference = new FieldReference();
