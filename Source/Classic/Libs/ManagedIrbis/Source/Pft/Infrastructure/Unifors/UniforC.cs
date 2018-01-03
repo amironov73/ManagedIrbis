@@ -23,7 +23,7 @@ using ManagedIrbis.Identifiers;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Контроль ISSN/ISBN – &uf('C
+    // Контроль ISSN/ISBN – &uf('C')
     // Вид функции: C.
     // Назначение: Контроль ISSN/ISBN.Возвращаемое значение:
     // 0 - при положительном результате, 1 - при отрицательном.
@@ -73,7 +73,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         output = "0";
                     }
                 }
-                else if (digits.Count == 10)
+                else if (digits.Count == 10 || digits.Count == 13)
                 {
                     if (Isbn.Validate(expresion, false))
                     {

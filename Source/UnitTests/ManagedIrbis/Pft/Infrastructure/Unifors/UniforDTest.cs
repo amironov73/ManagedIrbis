@@ -49,10 +49,10 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotImplementedException))]
         public void UniforD_FormatDocumentDB_3()
         {
-            Execute("DISTU,/T=ГОЛОЦЕНОВЫЙ ВУЛКАНИЗМ СРЕДИННОГО ХРЕБТА КАМЧАТКИ/,*", "");
+            Execute("DISTU,/T=ГОЛОЦЕНОВЫЙ ВУЛКАНИЗМ СРЕДИННОГО ХРЕБТА КАМЧАТКИ/,*",
+                "^aГолоценовый вулканизм Срединного хребта Камчатки^eмонография^fМ. М. Певзнер^gРос. акад. наук, Рос. фонд фундам. исслед.");
         }
     }
 }

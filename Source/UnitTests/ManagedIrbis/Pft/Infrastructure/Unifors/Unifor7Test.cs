@@ -15,8 +15,6 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
 
             Execute("7ISTU,/T=Многозначный анализ и дифференциальные включения/,v210^c", "Физматлит");
 
-            Execute("7ISTU,/T=Многозначный анализ и дифференциальные включения/,*", "");
-
             // Обработка ошибок
             Execute("7", "");
             Execute("7,", "");
@@ -27,6 +25,13 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             Execute("7ISTU,/T=Голоценовый вулканизм$/", "");
             Execute("7ISTU,//", "");
             Execute("7ISTU,/T=Голоценовый вулканизм$/,", "");
+        }
+
+        [TestMethod]
+        public void Unifor7_FormatDocuments_2()
+        {
+            Execute("7ISTU,/T=Многозначный анализ и дифференциальные включения/,*",
+                "^aМногозначный анализ и дифференциальные включения^eмонография^fЕ. С. Половинкин\n");
         }
     }
 }

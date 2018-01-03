@@ -125,11 +125,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
+            // ibatrak
+            // После вызова этого unifor в главном контексте
+            // сбрасываются флаги постобработки
+            context.GetRootContext().PostProcessing = PftCleanup.None;
+
             if (format == "*")
             {
-                // TODO implement
-
-                // ibatrak этот параметр игнорируется
+                provider.Database = database;
+                TermLink[] links = ExtractLinks(provider, term);
+                foreach (TermLink link in links)
+                {
+                    if (PftUtility.FormatTermLink
+                        (
+                            context,
+                            node,
+                            database,
+                            link
+                        ))
+                    {
+                        context.WriteLine(node);
+                    }
+                }
 
                 return;
             }
@@ -137,11 +154,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             string previousDatabase = provider.Database;
             try
             {
-                // ibatrak
-                // После вызова этого unifor в главном контексте
-                // сбрасываются флаги пост обработки
-                context.GetRootContext().PostProcessing = PftCleanup.None;
-
                 provider.Database = database;
                 TermLink[] links = ExtractLinks(provider, term);
                 int[] found = TermLink.ToMfn(links);

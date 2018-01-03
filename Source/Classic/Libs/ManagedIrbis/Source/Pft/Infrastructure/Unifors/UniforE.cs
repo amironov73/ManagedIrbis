@@ -9,8 +9,6 @@
 
 #region Using directives
 
-using System.Text.RegularExpressions;
-
 using AM;
 using AM.Text;
 
@@ -39,10 +37,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     {
         #region Private members
 
-        //
-        // TODO Use ISISACW.TAB
-        //
-
         internal static string GetFirstWords
             (
                 [CanBeNull] string text,
@@ -57,18 +51,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             wordCount--;
 
-            MatchCollection matches = Regex.Matches
-                (
-                    text,
-                    @"\w+"
-                );
-            if (wordCount >= matches.Count)
+            // ibatrak через ISISACW.TAB делать смысла нет
+            // irbis64 ищет одиночные пробелы
+
+            int[] positions = text.GetPositions(' ');
+
+            if (wordCount >= positions.Length)
             {
                 return text;
             }
 
-            Match match = matches[wordCount];
-            int end = match.Index + match.Length;
+            int end = positions[wordCount];
             string result = text.Substring(0, end);
 
             return result;

@@ -27,8 +27,10 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
 using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
+using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
 
@@ -859,6 +861,65 @@ namespace ManagedIrbis.Pft
                 );
 
             return result;
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// Format term link for "*" method.
+        /// </summary>
+        public static bool FormatTermLink
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string database,
+                [NotNull] TermLink link
+            )
+        {
+            Code.NotNull(context, "context");
+            Code.NotNull(link, "link");
+
+            IrbisProvider provider = context.Provider;
+            string saveDatabase = provider.Database;
+            try
+            {
+                if (!string.IsNullOrEmpty(database))
+                {
+                    provider.Database = database;
+                }
+
+                MarcRecord record = provider.ReadRecord(link.Mfn);
+                if (!ReferenceEquals(record, null))
+                {
+                    RecordField field = record.Fields.GetField
+                        (
+                            link.Tag,
+                            link.Occurrence - 1
+                        );
+                    if (!ReferenceEquals(field, null))
+                    {
+                        string output = FormatField
+                            (
+                                field,
+                                context.FieldOutputMode,
+                                context.UpperMode
+                            );
+                        if (!string.IsNullOrEmpty(output))
+                        {
+                            context.Write(node, output);
+                            context.OutputFlag = true;
+
+                            return true;
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                provider.Database = saveDatabase;
+            }
+
+            return false;
         }
 
         //=================================================

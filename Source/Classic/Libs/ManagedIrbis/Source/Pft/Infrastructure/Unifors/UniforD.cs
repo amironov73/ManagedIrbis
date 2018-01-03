@@ -65,6 +65,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             TextNavigator navigator = new TextNavigator(expression);
 
+            TermLink[] links = null;
+
             string database = navigator.ReadUntil(',');
             if (string.IsNullOrEmpty(database))
             {
@@ -79,6 +81,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             int[] found;
             if (navigator.PeekChar() == '@')
             {
+                // явное указание MFN
+
                 navigator.ReadChar();
                 int mfn;
                 string mfnText = navigator.ReadInteger();
@@ -103,7 +107,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     context.Provider.Database = database;
 
-                    TermLink[] links = context.Provider.ExactSearchLinks(query);
+                    links = context.Provider.ExactSearchLinks(query);
                     found = TermLink.ToMfn(links);
                 }
                 finally
@@ -130,35 +134,55 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             if (format == "*")
             {
-                // TODO implement
-
-                throw new NotImplementedException();
+                if (!ReferenceEquals(links, null) && links.Length != 0)
+                {
+                    PftUtility.FormatTermLink
+                        (
+                            context,
+                            node,
+                            database,
+                            links[0]
+                        );
+                }
             }
             else
             {
+                // ibatrak
+                // После вызова этого unifor в главном контексте
+                // сбрасываются флаги пост обработки
+                context.GetRootContext().PostProcessing = PftCleanup.None;
+
+                // TODO some caching
+
                 PftProgram program = PftUtility.CompileProgram(format);
 
                 using (PftContextGuard guard = new PftContextGuard(context))
                 {
-                    PftContext copy = guard.ChildContext;
-                    string saveDatabase = copy.Provider.Database;
+                    PftContext nestedContext = guard.ChildContext;
+
+                    // ibatrak
+                    // формат вызывается в контексте без повторений
+                    nestedContext.Reset();
+
+                    string saveDatabase = nestedContext.Provider.Database;
                     try
                     {
-                        copy.Provider.Database = database;
-                        copy.Output = context.Output;
-                        foreach (int mfn in found)
+                        nestedContext.Provider.Database = database;
+                        nestedContext.Output = context.Output;
+                        if (found.Length != 0)
                         {
-                            MarcRecord record = copy.Provider.ReadRecord(mfn);
+                            int mfn = found[0];
+                            MarcRecord record = nestedContext.Provider.ReadRecord(mfn);
                             if (!ReferenceEquals(record, null))
                             {
-                                copy.Record = record;
-                                program.Execute(copy);
+                                nestedContext.Record = record;
+                                program.Execute(nestedContext);
                             }
                         }
                     }
                     finally
                     {
-                        copy.Provider.Database = saveDatabase;
+                        nestedContext.Provider.Database = saveDatabase;
                     }
                 }
             }
