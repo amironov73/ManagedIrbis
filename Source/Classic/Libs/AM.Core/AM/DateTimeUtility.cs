@@ -203,20 +203,20 @@ namespace AM
             return result;
         }
 
-#if CLASSIC
+#if CLASSIC || NETCORE || ANDROID || UAP
 
         // Borrowed from: https://mikearnett.wordpress.com/2011/09/13/c-convert-julian-date/
 
-        /// <summary>
-        /// Convert date to Julian calendar.
-        /// </summary>
-        public static double ToJulianDate
-            (
-                this DateTime date
-            )
-        {
-            return date.ToOADate() + 2415018.5;
-        }
+        ///// <summary>
+        ///// Convert date to Julian calendar.
+        ///// </summary>
+        //public static double ToJulianDate
+        //    (
+        //        this DateTime date
+        //    )
+        //{
+        //    return date.ToOADate() + 2415018.5;
+        //}
 
         /// <summary>
         /// Convert to Julian date.
@@ -245,29 +245,29 @@ namespace AM
                 + 1721119;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static string FromJulian
-            (
-                long julianDate,
-                string format
-            )
-        {
-            long L = julianDate + 68569;
-            long N = (long)(4 * L / 146097);
-            L = L - (long)((146097 * N + 3) / 4);
-            long I = (long)(4000 * (L + 1) / 1461001);
-            L = L - (long)(1461 * I / 4) + 31;
-            long J = (long)(80 * L / 2447);
-            int Day = (int)(L - (long)(2447 * J / 80));
-            L = (long)(J / 11);
-            int Month = (int)(J + 2 - 12 * L);
-            int Year = (int)(100 * (N - 49) + I + L);
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public static string FromJulian
+        //    (
+        //        long julianDate,
+        //        string format
+        //    )
+        //{
+        //    long L = julianDate + 68569;
+        //    long N = (long)(4 * L / 146097);
+        //    L = L - (long)((146097 * N + 3) / 4);
+        //    long I = (long)(4000 * (L + 1) / 1461001);
+        //    L = L - (long)(1461 * I / 4) + 31;
+        //    long J = (long)(80 * L / 2447);
+        //    int Day = (int)(L - (long)(2447 * J / 80));
+        //    L = (long)(J / 11);
+        //    int Month = (int)(J + 2 - 12 * L);
+        //    int Year = (int)(100 * (N - 49) + I + L);
 
-            // example format "dd/MM/yyyy"
-            return new DateTime(Year, Month, Day).ToString(format);
-        }
+        //    // example format "dd/MM/yyyy"
+        //    return new DateTime(Year, Month, Day).ToString(format);
+        //}
 
         /// <summary>
         /// 

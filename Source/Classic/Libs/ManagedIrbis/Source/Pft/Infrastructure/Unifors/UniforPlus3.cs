@@ -195,20 +195,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Кодирование данных для представления в URL – &uf('+3A')
-        // Вид функции: +3E.
-        // Назначение: Кодирование данных для представления в URL.
-        // Присутствует в версиях ИРБИС с 2005.2.
-        // Формат (передаваемая строка):
-        //  +3E<данные>
+        // ibatrak
         //
-        // Пример:
-        //
-        // &unifor('+3E', v1007)
+        // Форматирование полей записи в клиентское представление без заголовка
         //
 
         /// <summary>
-        /// Encode the text to URL format.
+        /// Encode the record to the plain text format.
         /// </summary>
         public static void FieldsToText
             (

@@ -137,7 +137,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             DateTime date;
 
-#if PocketPC
+#if WINMOBILE || PocketPC
 
             try
             {
@@ -191,7 +191,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 [NotNull] string expression
             )
         {
-#if CLASSIC
+#if CLASSIC || NETCORE || ANDROID || UAP
 
             if (expression.Length < 9)
             {
@@ -218,6 +218,65 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             return null;
 
 #endif
+        }
+
+        [NotNull]
+        private static string _FromDelphiDate
+            (
+                [NotNull] string expression
+            )
+        {
+            //
+            // ibatrak
+            //
+            // TDateTime represents a date-and-time value in the Delphi language.
+            //
+            // type TDateTime = type Double;
+            //
+            // Description
+            //
+            // Most CLX objects represent date and time values using a TDateTime value.
+            // In Delphi, TDateTime is a type that maps to a Double.
+            // In C++, the TDateTime class corresponds to the Delphi TDateTime type. 
+            // 
+            // The integral part of a Delphi TDateTime value is the number of days
+            // that have passed since 12/30/1899. The fractional part of the
+            // TDateTime value is fraction of a 24 hour day that has elapsed. 
+            // 
+            // Following are some examples of TDateTime values and their corresponding
+            // dates and times:
+            //
+            // 0      12/30/1899 12:00 am
+            // 2.75   1/1/1900 6:00 pm
+            // -1.2   12/29/1899 6:00 am
+            // 35065  1/1/1996 12:00 am
+            //
+            // To find the fractional number of days between two dates,
+            // simply subtract the two values, unless one of the TDateTime values
+            // is negative. Similarly, to increment a date and time value
+            // by a certain fractional number of days, add the fractional
+            // number to the date and time value if the TDateTime value is positive.
+            //
+            // When working with negative TDateTime values, computations
+            // must handle time portion separately. The fractional part reflects
+            // the fraction of a 24-hour day without regard to the sign
+            // of the TDateTime value. For example, 6:00 am on 12/29/1899
+            // is –1.25, not –1 + 0.25, which would be –0.75.
+            // There are no TDateTime values between –1 and 0.
+            //
+            // Note:	Delphi 1.0 calculated the date from year 1 instead
+            // of from 1899. To convert a Delphi 1.0 date to a TDateTime
+            // value in later versions of the Delphi language,
+            // subtract 693594.0 from the Delphi 1.0 date.
+            //
+
+            expression = expression.Substring(1);
+            double days = expression.SafeToDouble(0);
+            DateTime result = new DateTime(1899, 12, 30)
+                .AddDays(Math.Truncate(days))
+                .AddDays(Math.Abs(days - Math.Truncate(days)));
+
+            return result.ToString("yyyyMMdd HHmmss");
         }
 
         #endregion
@@ -303,6 +362,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 case 'j':
                 case 'J':
                     format = _ToJulianDate(expression);
+                    break;
+
+                case 'm':
+                case 'M':
+                    // ibatrak
+                    // неописанная функция, дата из числа
+                    // в днях от базовой даты 30.12.1899
+                    format = _FromDelphiDate(expression);
                     break;
 
                 default:

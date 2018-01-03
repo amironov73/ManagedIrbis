@@ -105,5 +105,17 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         {
             _Execute("3Q", "");
         }
+
+        // Дельфийская дата
+        [TestMethod]
+        public void Unifor3_PrintDate_7()
+        {
+            _Execute("3M", "18991230 000000");
+            _Execute("3M1", "18991231 000000");
+            _Execute("3M1.5", "18991231 120000");
+            _Execute("3M-1", "18991229 000000");
+            _Execute("3M-1.5", "18991229 120000");
+            _Execute("3M-1.25", "18991229 060000");
+        }
     }
 }
