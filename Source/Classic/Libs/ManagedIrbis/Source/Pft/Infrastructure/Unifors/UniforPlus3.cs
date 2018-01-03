@@ -199,6 +199,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         //
         // Форматирование полей записи в клиентское представление без заголовка
         //
+        // &uf ('+3A')
 
         /// <summary>
         /// Encode the record to the plain text format.

@@ -52,7 +52,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual("unifor", unifor.Name);
 
             Assert.IsNotNull(Unifor.Registry);
-            Assert.AreEqual(95, Unifor.Registry.Count);
+            Assert.IsTrue(Unifor.Registry.Count > 0);
             Assert.IsFalse(Unifor.ThrowOnUnknown);
             Assert.IsFalse(Unifor.ThrowOnEmpty);
         }

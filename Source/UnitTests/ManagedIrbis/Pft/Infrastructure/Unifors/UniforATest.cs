@@ -55,5 +55,12 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             _A("Av910^b#-1", "ЗИ-1");
             _A("Av910^c*4.2#1", "01");
         }
+
+        [TestMethod]
+        public void UniforA_GetFieldRepeat_2()
+        {
+            // Обработка ошибок
+            _A("Av910^", "");
+        }
     }
 }

@@ -125,27 +125,48 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
+            if (format == "*")
+            {
+                // TODO implement
+
+                // ibatrak этот параметр игнорируется
+
+                return;
+            }
+
             string previousDatabase = provider.Database;
             try
             {
+                // ibatrak
+                // После вызова этого unifor в главном контексте
+                // сбрасываются флаги пост обработки
+                context.GetRootContext().PostProcessing = PftCleanup.None;
+
                 provider.Database = database;
                 TermLink[] links = ExtractLinks(provider, term);
                 int[] found = TermLink.ToMfn(links);
                 if (found.Length != 0)
                 {
+                    // TODO some caching
+
                     PftProgram program = PftUtility.CompileProgram(format);
 
                     using (PftContextGuard guard = new PftContextGuard(context))
                     {
-                        PftContext copy = guard.ChildContext;
-                        copy.Output = context.Output;
+                        PftContext nestedContext = guard.ChildContext;
+
+                        // ibatrak
+                        // формат вызывается в контексте без повторений
+                        nestedContext.Reset();
+
+                        nestedContext.Output = context.Output;
                         foreach (int mfn in found)
                         {
-                            MarcRecord record = copy.Provider.ReadRecord(mfn);
+                            MarcRecord record = nestedContext.Provider.ReadRecord(mfn);
                             if (!ReferenceEquals(record, null))
                             {
-                                copy.Record = record;
-                                program.Execute(copy);
+                                nestedContext.Record = record;
+                                program.Execute(nestedContext);
                             }
                         }
                     }

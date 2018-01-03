@@ -639,6 +639,17 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// —брасывает контекст в исходное состо€ние:
+        /// нет повтор€ющейс€ группы, нет повтор€ющегос€ пол€.
+        /// </summary>
+        public void Reset()
+        {
+            CurrentField = null;
+            CurrentGroup = null;
+            Index = 0;
+        }
+
+        /// <summary>
         /// Set provider.
         /// </summary>
         public void SetProvider

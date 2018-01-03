@@ -138,6 +138,16 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         protected void Execute
             (
                 [CanBeNull] MarcRecord record,
+                [NotNull] string input,
+                [NotNull] string expected
+            )
+        {
+            Execute(GetRecord(), 0, input, expected);
+        }
+
+        protected void Execute
+            (
+                [CanBeNull] MarcRecord record,
                 int index,
                 [NotNull] string input,
                 [NotNull] string expected

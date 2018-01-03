@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using AM;
 using AM.Text;
 
 using JetBrains.Annotations;
@@ -57,11 +58,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             )
         {
             MarcRecord record = context.Record;
-            if (!ReferenceEquals(record, null)
-                && !string.IsNullOrEmpty(expression))
+            if (!ReferenceEquals(record, null))
             {
+                if (string.IsNullOrEmpty(expression))
+                {
+                    // ibatrak
+                    // пустое выражение означает
+                    // "количество предыдущих версий"
+
+                    string output = (record.Version - 1).ToInvariantString();
+                    context.Write(node, output);
+                    context.OutputFlag = true;
+
+                    return;
+                }
+
+
                 int mfn = record.Mfn;
-                if (mfn != 0)
+                if (mfn != 0 && record.Version > 1)
                 {
                     int version = context.Index;
 
@@ -78,7 +92,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         {
                             return;
                         }
-                        version = -int.Parse(versionText);
+
+                        version = -versionText.SafeToInt32();
                         navigator.ReadChar(); // eat the comma
                     }
                     else
@@ -92,12 +107,21 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         return;
                     }
 
+                    // ibatrak
+                    // после вызова этого unifor
+                    // в главном контексте сбрасываются флаги пост обработки
+                    context.GetRootContext().PostProcessing = PftCleanup.None;
+
                     record = context.Provider.ReadRecordVersion(mfn, version);
 
                     using (PftContextGuard guard = new PftContextGuard(context))
                     {
                         PftContext nestedContext = guard.ChildContext;
                         nestedContext.Record = record;
+
+                        // ibatrak
+                        // формат вызывается в контексте без повторений
+                        nestedContext.Reset();
 
                         // TODO some caching
 

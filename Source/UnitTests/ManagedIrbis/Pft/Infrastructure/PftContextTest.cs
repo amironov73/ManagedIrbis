@@ -9,8 +9,13 @@ using ManagedIrbis;
 using ManagedIrbis.Client;
 using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
+using ManagedIrbis.Pft.Infrastructure.Ast;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+#pragma warning disable IDE0017 // Simplify object initialization
+
+// ReSharper disable UseObjectOrCollectionInitializer
 
 namespace UnitTests.ManagedIrbis.Pft.Infrastructure
 {
@@ -75,6 +80,19 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             context.Output.Write("some text");
             context.ClearText();
             Assert.IsFalse(context.Output.HaveText);
+        }
+
+        [TestMethod]
+        public void PftContext_Reset_1()
+        {
+            PftContext context = new PftContext(null);
+            context.CurrentField = new PftField();
+            context.CurrentGroup = new PftGroup();
+            context.Index = 123;
+            context.Reset();
+            Assert.IsNull(context.CurrentField);
+            Assert.IsNull(context.CurrentGroup);
+            Assert.AreEqual(0, context.Index);
         }
     }
 }

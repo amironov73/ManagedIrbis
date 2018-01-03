@@ -26,7 +26,7 @@ using ManagedIrbis.Infrastructure;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Выполнить формат – &uf('6
+    // Выполнить формат – &uf('6')
     // Вид функции: 6.
     // Назначение: Выполнить формат.
     // Формат(передаваемая строка):
@@ -117,6 +117,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 }
             }
 
+            // ibatrak
+            // После вызова этого unifor в главном контексте
+            // сбрасываются флаги пост обработки независимо
+            // от содержимого файла
+            context.GetRootContext().PostProcessing = PftCleanup.None;
+
             string extension = Path.GetExtension(fileName);
             if (string.IsNullOrEmpty(extension))
             {
@@ -128,10 +134,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     context.Provider.Database,
                     fileName
                 );
-            string source = context.Provider.ReadFile
-                (
-                    specification
-                );
+            string source = context.Provider.ReadFile(specification);
             if (string.IsNullOrEmpty(source))
             {
                 return;
@@ -160,8 +163,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 }
             }
 
-            PftProgram program = PftUtility.CompileProgram(source);
-            program.Execute(context);
+            using (PftContextGuard guard = new PftContextGuard(context))
+            {
+                PftContext nestedContext = guard.ChildContext;
+
+                // ibatrak
+                // формат вызывается в контексте без повторений
+                nestedContext.Reset();
+
+                // TODO some caching
+
+                PftProgram program = PftUtility.CompileProgram(source);
+                program.Execute(nestedContext);
+
+                string output = nestedContext.Text;
+                context.Write(node, output);
+            }
         }
 
         #endregion
