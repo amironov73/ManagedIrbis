@@ -30,6 +30,81 @@ namespace AM.PlatformAbstraction
         #region Public methods
 
         /// <summary>
+        /// Exit.
+        /// </summary>
+        public virtual void Exit
+            (
+                int exitCode
+            )
+        {
+#if UAP
+
+            Windows.ApplicationModel.Core.CoreApplication.Exit();
+
+#else
+
+            Environment.Exit(exitCode);
+
+#endif
+        }
+
+        /// <summary>
+        /// Fail fast.
+        /// </summary>
+        public virtual void FailFast
+            (
+                [NotNull] string message
+            )
+        {
+#if PocketPC || WINMOBILE
+
+            Environment.Exit(0);
+
+#else
+
+            Environment.FailFast(message);
+
+#endif
+        }
+
+        /// <summary>
+        /// Get environment variable.
+        /// </summary>
+        [CanBeNull]
+        public virtual string GetEnvironmentVariable
+            (
+                [NotNull] string variableName
+            )
+        {
+#if PocketPC || WINMOBILE
+
+            return null;
+
+#else
+
+            return Environment.GetEnvironmentVariable(variableName);
+
+#endif
+        }
+
+        /// <summary>
+        /// Get the machine name.
+        /// </summary>
+        [NotNull]
+        public virtual string GetMachineName()
+        {
+#if WINMOBILE || PocketPC || UAP
+
+            return "MACHINE";
+
+#else
+
+            return Environment.MachineName;
+
+#endif
+        }
+
+        /// <summary>
         /// Get random number generator.
         /// </summary>
         public virtual Random GetRandomGenerator()
@@ -43,6 +118,14 @@ namespace AM.PlatformAbstraction
         public virtual DateTime Now()
         {
             return DateTime.Now;
+        }
+
+        /// <summary>
+        /// Get the operating system version.
+        /// </summary>
+        public virtual OperatingSystem OsVersion()
+        {
+            return Environment.OSVersion;
         }
 
         /// <summary>

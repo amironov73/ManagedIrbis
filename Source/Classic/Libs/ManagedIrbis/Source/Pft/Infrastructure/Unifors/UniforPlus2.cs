@@ -18,7 +18,7 @@ using JetBrains.Annotations;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Выполнить внешнее приложение – &uf('+2
+    // Выполнить внешнее приложение – &uf('+2')
     // Вид функции: +2.
     // Назначение: Выполняет внешнее приложение.
     // Всё, что после +2 – параметры командной строки.
@@ -40,7 +40,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 [CanBeNull] string expression
             )
         {
-#if CLASSIC
+#if CLASSIC || NETCORE
 
             if (!string.IsNullOrEmpty(expression))
             {

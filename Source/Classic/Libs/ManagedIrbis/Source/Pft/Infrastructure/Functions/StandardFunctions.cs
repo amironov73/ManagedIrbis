@@ -143,7 +143,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void CommandLine(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if DESKTOP || NETCORE
+#if DESKTOP || NETCORE || ANDROID
 
             context.Write(node, Environment.CommandLine);
 
@@ -152,7 +152,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void COut(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if DESKTOP || NETCORE
+#if DESKTOP || NETCORE || ANDROID
 
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
@@ -167,7 +167,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void Debug(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if CLASSIC || NETCORE
+#if CLASSIC || NETCORE || ANDROID
 
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
@@ -265,31 +265,20 @@ namespace ManagedIrbis.Pft.Infrastructure
                     + message.ToVisibleString()
                 );
 
-#if PocketPC || WINMOBILE
-
-            throw new Exception(message);
-
-#else
-
-            Environment.FailFast(message);
-
-#endif
+            context.Provider.PlatformAbstraction.FailFast(message);
         }
 
         //=================================================
 
         private static void GetEnv(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if !PocketPC && !WINMOBILE
-
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
-                string result = Environment.GetEnvironmentVariable(expression);
+                string result = context.Provider.PlatformAbstraction
+                    .GetEnvironmentVariable(expression);
                 context.Write(node, result);
             }
-
-#endif
         }
 
         //=================================================
@@ -427,15 +416,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void MachineName(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if UAP || PocketPC || WINMOBILE
-
-            context.WriteLine(node, "ManagedIrbis");
-
-#else
-
-            context.Write(node, Environment.MachineName);
-
-#endif
+            string machineName = context.Provider.PlatformAbstraction.GetMachineName();
+            context.Write(node, machineName);
         }
 
         //=================================================
@@ -504,9 +486,9 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void OsVersion(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if CLASSIC || NETCORE
-            context.Write(node, Environment.OSVersion.ToString());
-#endif
+            string result = context.Provider.PlatformAbstraction.OsVersion().ToString();
+
+            context.Write(node, result);
         }
 
         //=================================================
@@ -649,7 +631,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             context.Write(node, text);
         }
 
-
         //=================================================
 
         private static void Sort(PftContext context, PftNode node, PftNode[] arguments)
@@ -687,16 +668,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 return;
             }
 
-#if PocketPC || WINMOBILE
-
             string[] lines = StringUtility.SplitString(text, separator);
-
-#else
-
-            string[] lines = text.Split(new[] { separator }, StringSplitOptions.None);
-
-#endif
-
             string output = string.Join(Environment.NewLine, lines);
             context.Write(node, output);
         }
@@ -731,8 +703,9 @@ namespace ManagedIrbis.Pft.Infrastructure
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
-
 #if CLASSIC || DESKTOP
+
+                // TODO use PlatformAbstractionLayer
 
                 string comspec = Environment.GetEnvironmentVariable("comspec")
                     ?? "cmd.exe";
@@ -761,7 +734,6 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
 
 #endif
-
             }
         }
 
@@ -807,7 +779,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             DateTime today = context.Provider.PlatformAbstraction.Today();
 
-#if CLASSIC
+#if CLASSIC || NETCORE || ANDROID
 
             string expression = context.GetStringArgument(arguments, 0);
             string output = string.IsNullOrEmpty(expression)
@@ -835,6 +807,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
+                // TODO implement properly
+
                 context.Write(node, expression.ToLower());
             }
         }
@@ -855,12 +829,14 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void Trace(PftContext context, PftNode node, PftNode[] arguments)
         {
-#if CLASSIC
+#if CLASSIC || NETCORE || ANDROID
+
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
                 global::System.Diagnostics.Trace.WriteLine(expression);
             }
+
 #endif
         }
 

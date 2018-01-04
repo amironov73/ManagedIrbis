@@ -945,8 +945,7 @@ namespace ManagedIrbis.Pft
 
             int i = index.ComputeValue(context, array);
 
-            if (i >= 0
-                && i < array.Length)
+            if (i >= 0 && i < array.Length)
             {
                 return new[] { array[i] };
             }

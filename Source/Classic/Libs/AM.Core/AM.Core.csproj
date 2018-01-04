@@ -182,6 +182,7 @@
     <Compile Include="AM\ConsoleIO\NullConsole.cs" />
     <Compile Include="AM\ConsoleIO\SystemConsole.cs" />
     <Compile Include="AM\ConsoleUtility.cs" />
+    <Compile Include="AM\ContinuousIntegrationUtility.cs" />
     <Compile Include="AM\Data\ColumnHeaderAttribute.cs" />
     <Compile Include="AM\Data\ColumnIndexAttribute.cs" />
     <Compile Include="AM\Data\ColumnWidthAttribute.cs" />
