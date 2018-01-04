@@ -9,15 +9,20 @@
 
 #region Using directives
 
+using System;
+using System.IO;
 using System.Text;
 
 using AM;
+using AM.IO;
+using AM.Logging;
 using AM.Text;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis.Client;
 using ManagedIrbis.ImportExport;
+using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Search;
 
 #endregion
@@ -322,6 +327,166 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     string output = info.Count.ToInvariantString();
                     context.Write(node, output);
                 }
+            }
+        }
+
+        // ================================================================
+
+        //
+        // Расформатирует найденные по запросу записи  - &uf('+3S')
+        // Вид функции: +3S.
+        //
+        // Назначение: Расформатирует найденные по запросу записи.
+        // Если [количество выводимых записей]=0,
+        // то возвращает только количество найденных по запросу документов.
+        //
+        // Формат (передаваемая строка):
+        //
+        // +3S[имя базы],[количество выводимых записей],[ограничитель][формат][ограничитель],[формат или @имя файла с форматом]
+        //
+
+        public static void SearchFormat
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                return;
+            }
+
+            IrbisProvider provider = context.Provider;
+            TextNavigator navigator = new TextNavigator(expression);
+            string database = navigator.ReadUntil(',');
+            if (navigator.ReadChar() != ',')
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(database))
+            {
+                database = provider.Database;
+            }
+
+            int count = navigator.ReadUntil(',').SafeToInt32();
+            if (navigator.ReadChar() != ',')
+            {
+                return;
+            }
+
+            char separator = navigator.ReadChar();
+            if (separator == '\0')
+            {
+                return;
+            }
+
+            string searchExpression = navigator.ReadUntil(separator);
+            if (navigator.ReadChar() != separator)
+            {
+                return;
+            }
+
+            if (count != 0 && navigator.ReadChar() != ',')
+            {
+                return;
+            }
+
+            string format = navigator.GetRemainingText() ?? string.Empty;
+            format = format.Trim();
+            if (string.IsNullOrEmpty(format) && count != 0)
+            {
+                return;
+            }
+
+            if (format.StartsWith("@"))
+            {
+                string fileName = format.Substring(1);
+                string extension = Path.GetExtension(fileName);
+                if (string.IsNullOrEmpty(extension))
+                {
+                    fileName += ".pft";
+                }
+                FileSpecification specification = new FileSpecification
+                    (
+                        IrbisPath.MasterFile,
+                        database,
+                        fileName
+                    );
+                format = provider.ReadFile(specification);
+                if (string.IsNullOrEmpty(format))
+                {
+                    return;
+                }
+            }
+
+            string saveDatabase = provider.Database;
+            try
+            {
+                if (!string.IsNullOrEmpty(database))
+                {
+                    provider.Database = database;
+                }
+
+                int[] found = provider.Search(searchExpression);
+                if (count == 0)
+                {
+                    context.Write(node, found.Length.ToInvariantString());
+                    context.OutputFlag = true;
+
+                    return;
+                }
+
+                if (found.Length == 0)
+                {
+                    return;
+                }
+
+                PftProgram program = new PftProgram();
+                try
+                {
+                    // TODO some caching
+
+                    if (count != 0)
+                    {
+                        program = PftUtility.CompileProgram(format);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Log.TraceException("UniforPlus3::SearchFormat", exception);
+
+                    return;
+                }
+
+                if (count < 0)
+                {
+                    Array.Reverse(found);
+                    count = -count;
+                }
+
+                for (int i = 0; i < count; i++)
+                {
+                    using (PftContextGuard guard = new PftContextGuard(context))
+                    {
+                        PftContext nestedContext = guard.ChildContext;
+                        nestedContext.Reset();
+                        nestedContext.Output = context.Output;
+
+                        int mfn = found[i];
+                        MarcRecord record = provider.ReadRecord(mfn);
+                        if (!ReferenceEquals(record, null))
+                        {
+                            nestedContext.Record = record;
+                            program.Execute(nestedContext);
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                provider.Database = saveDatabase;
             }
         }
     }

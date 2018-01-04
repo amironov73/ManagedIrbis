@@ -97,5 +97,34 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             Execute("+3JIBIS,K=ARI", "2");
             Execute("+3JIBIS,K=", "1");
         }
+
+        [TestMethod]
+        public void UniforPlus3_SearchFormat_1()
+        {
+            Execute("+3S", "");
+            Execute("+3S,2,/K=ATLAS + K=ARIE/,v200^a/", "Докембрий, кембрийский, ордовикский и силурийский периоды\n<Die > jahreszeiten\n");
+            Execute("+3S,-2,/K=ATLAS + K=ARIE/,v200^a/", "<Die > jahreszeiten\nДокембрий, кембрийский, ордовикский и силурийский периоды\n");
+            Execute("+3S,1,/K=ATLAS + K=ARIE/,v200^a/", "Докембрий, кембрийский, ордовикский и силурийский периоды\n");
+            Execute("+3S,-1,/K=ATLAS + K=ARIE/,v200^a/", "<Die > jahreszeiten\n");
+            Execute("+3S,0,/K=ATLAS + K=ARIE/,v200^a/", "2");
+            Execute("+3S,0,/K=ATLAS + K=ARIE/,", "2");
+            Execute("+3S,0,/K=ATLAS + K=ARIE/", "2");
+            Execute("+3S,,/K=ATLAS + K=ARIE/", "2");
+
+            Execute("+3S,1,/K=ATLAS/,@breif", "");
+            Execute("+3S,1,/K=ATLAS/,@brief", "СССР. Атлас литолого-палеографических карт СССРДокембрий, кембрийский, ордовикский и силурийский периоды : карта, картографическое издание / ред.: Б. М. Келлер, Н. Н. Предтеченский, 1968, 1967. - 3 л.");
+            Execute("+3S,1,/K=ALTAS/,v200^a", "");
+
+            // Обработка ошибок
+            Execute("+3S", "");
+            Execute("+3SIBIS", "");
+            Execute("+3S,", "");
+            Execute("+3S,10", "");
+            Execute("+3S,,", "");
+            Execute("+3S,,/K", "");
+            Execute("+3S,10,/K=/", "");
+            Execute("+3S,10,/K=/,", "");
+            Execute("+3S,10,/K=ATLAS/,v200^", "");
+        }
     }
 }
