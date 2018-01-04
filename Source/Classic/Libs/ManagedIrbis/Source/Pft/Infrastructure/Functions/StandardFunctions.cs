@@ -807,9 +807,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             string expression = context.GetStringArgument(arguments, 0);
             if (!string.IsNullOrEmpty(expression))
             {
-                // TODO implement properly
-
-                context.Write(node, expression.ToLower());
+                string output = IrbisText.ToLower(expression);
+                context.Write(node, output);
             }
         }
 

@@ -83,5 +83,19 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             Execute("+3HПри<<ве>т", "При&lt;&lt;ве&gt;т");
             Execute("+3HПри\"\"ве&т", "При&quot;&quot;ве&quot;т");
         }
+
+        [TestMethod]
+        public void UniforPlus3_GetTermCount_1()
+        {
+            Execute("+3J", "");
+            Execute("+3JK=ATLAS", "");
+            Execute("+3JIBIS,K=ATLAS", "1");
+            Execute("+3J,K=ATLAS", "1");
+            Execute("+3JIBIS,K=ALTAS", "");
+            Execute("+3JIBIS,K=ARIE", "2");
+            Execute("+3JIBIS,K=AREI", "");
+            Execute("+3JIBIS,K=ARI", "2");
+            Execute("+3JIBIS,K=", "1");
+        }
     }
 }

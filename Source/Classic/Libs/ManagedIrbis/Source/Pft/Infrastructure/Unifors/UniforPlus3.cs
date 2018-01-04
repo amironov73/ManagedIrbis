@@ -16,7 +16,9 @@ using AM.Text;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
 using ManagedIrbis.ImportExport;
+using ManagedIrbis.Search;
 
 #endregion
 
@@ -224,7 +226,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
         // ================================================================
 
-        private static readonly char[] _specialChars = {'&', '"', '<', '>'};
+        private static readonly char[] _specialChars = { '&', '"', '<', '>' };
 
         //
         // ibatrak
@@ -265,6 +267,64 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
         }
 
-        #endregion
+        // ================================================================
+
+        //
+        // ibatrak
+        //
+        // Неописанная функция
+        // &unifor('+3J')
+        // Поиск термина и вывод количества ссылок
+        // Поведение в целом аналогично &unifor('J'),
+        // однако в отличие от &unifor('J') поиск идет
+        // не полному совпадению, а по вхождению искомого термина в найденный,
+        // отличается способ передачи параметра базы данных
+        //
+
+        public static void GetTermCount
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                return;
+            }
+
+            string[] parts = StringUtility.SplitString(expression, new[] { ',' }, 2);
+            if (parts.Length != 2)
+            {
+                return;
+            }
+
+            IrbisProvider provider = context.Provider;
+            string database = parts[0];
+            string key = IrbisText.ToUpper(parts[1]).ThrowIfNull();
+            if (string.IsNullOrEmpty(database))
+            {
+                database = provider.Database;
+            }
+
+            TermParameters parameters = new TermParameters
+            {
+                StartTerm = key,
+                Database = database,
+                NumberOfTerms = 10
+            };
+            TermInfo[] terms = provider.ReadTerms(parameters);
+            if (terms.Length != 0)
+            {
+                TermInfo info = terms[0];
+                if (info.Text.SafeStarts(key))
+                {
+                    string output = info.Count.ToInvariantString();
+                    context.Write(node, output);
+                }
+            }
+        }
     }
+
+    #endregion
 }
