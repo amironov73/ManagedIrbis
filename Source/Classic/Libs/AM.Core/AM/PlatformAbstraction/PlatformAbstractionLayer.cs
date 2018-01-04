@@ -125,7 +125,23 @@ namespace AM.PlatformAbstraction
         /// </summary>
         public virtual OperatingSystem OsVersion()
         {
+#if UAP
+            // TODO implement properly
+
+            Version windows10 = new Version(10, 0, 16299, 0);
+            OperatingSystem result = new OperatingSystem
+                (
+                    PlatformID.Win32NT,
+                    windows10
+                );
+
+            return result;
+
+#else
+
             return Environment.OSVersion;
+
+#endif
         }
 
         /// <summary>

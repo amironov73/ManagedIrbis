@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System.Text;
+
 using AM;
 using AM.Text;
 
@@ -216,6 +218,49 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 string output = record.ToPlainText();
                 context.Write(node, output);
+                context.OutputFlag = true;
+            }
+        }
+
+        // ================================================================
+
+        private static readonly char[] _specialChars = {'&', '"', '<', '>'};
+
+        //
+        // ibatrak
+        //
+        // Замена специальных символов HTML.
+        //
+        // Неописанная функция
+        // &unifor('+3H')
+        // Кривая реализация htmlspecialchars
+        // заменяет 
+        // & на &quot; (здесь ошибка -- надо на &amp;)
+        // " на &quot;
+        // < на &lt;
+        // > на &gt;
+        // одинарные кавычки не кодирует
+        //
+        public static void HtmlSpecialChars
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                if (expression.ContainsAnySymbol(_specialChars))
+                {
+                    StringBuilder builder = new StringBuilder(expression);
+                    builder.Replace("&", "&quot;");
+                    builder.Replace("\"", "&quot;");
+                    builder.Replace("<", "&lt;");
+                    builder.Replace(">", "&gt;");
+                    expression = builder.ToString();
+                }
+
+                context.Write(node, expression);
                 context.OutputFlag = true;
             }
         }

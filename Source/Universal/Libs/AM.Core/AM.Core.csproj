@@ -764,6 +764,7 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\Compatibility\System.cs">
       <Link>Compatibility\System.cs</Link>
     </Compile>
+    <Compile Include="Compatibility\OperatingSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\AM.Core.rd.xml" />
   </ItemGroup>

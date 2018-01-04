@@ -40,6 +40,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 [CanBeNull] string expression
             )
         {
+            // TODO some Android support?
+
 #if CLASSIC || NETCORE
 
             if (!string.IsNullOrEmpty(expression))

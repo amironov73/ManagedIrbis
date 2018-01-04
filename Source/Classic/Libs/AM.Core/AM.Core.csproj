@@ -343,6 +343,7 @@
     <Compile Include="Compatibility\ExcludeFromCodeCoverageAttribute.cs" />
     <Compile Include="Compatibility\MarshalByRefObject.cs" />
     <Compile Include="Compatibility\NotImplementedException.cs" />
+    <Compile Include="Compatibility\OperatingSystem.cs" />
     <Compile Include="Compatibility\SerializableAttribute.cs" />
     <Compile Include="Compatibility\StringSplitOptions.cs" />
     <Compile Include="Compatibility\TypeInfo.cs" />

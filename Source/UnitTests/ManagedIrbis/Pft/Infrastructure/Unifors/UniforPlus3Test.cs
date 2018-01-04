@@ -71,7 +71,17 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             record.Fields.Add(new RecordField(675, "37(470.311)(03)"));
             record.Fields.Add(new RecordField(964, "14"));
             Execute(record, 0, "+3A", "692#^B2008/2009^CO^X!NOZO^D42^E3^Z14.00^G20081218\n692#^B2007/2008^CO^AЗИ^D25^E4^F6.25^G20080107\n102#RU\n10#^a5-7110-0177-9^d300\n675#37\n675#37(470.311)(03)\n964#14\n");
+        }
 
+        [TestMethod]
+        public void UniforPlus3_HtmlSpecialChars_1()
+        {
+            Execute("+3H", "");
+            Execute("+3HHello", "Hello");
+            Execute("+3HПривет", "Привет");
+            Execute("+3HПри<ве>т", "При&lt;ве&gt;т");
+            Execute("+3HПри<<ве>т", "При&lt;&lt;ве&gt;т");
+            Execute("+3HПри\"\"ве&т", "При&quot;&quot;ве&quot;т");
         }
     }
 }
