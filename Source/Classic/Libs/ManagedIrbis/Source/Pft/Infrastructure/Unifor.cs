@@ -173,6 +173,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+E", UniforPlusE.GetFieldIndex);
             Registry.Add("+F", UniforPlusF.CleanRtf);
             Registry.Add("+I", UniforPlusI.BuildLink);
+            Registry.Add("+K", UniforPlusK.GetAuthorSign);
             Registry.Add("+N", UniforPlusN.GetFieldCount);
             Registry.Add("+R", UniforPlusR.TrimAtLastDot);
             Registry.Add("+S", UniforPlusS.DecodeTitle);

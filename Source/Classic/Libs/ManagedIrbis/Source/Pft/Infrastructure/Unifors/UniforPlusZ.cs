@@ -29,10 +29,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 string expression
             )
         {
-            //
-            // Запустить не удалось
-            //
-
             // ibatrak
             // если первый символ 0 вызывает CharToOemA,
             // если первый символ 1 вызывает OemToCharA
