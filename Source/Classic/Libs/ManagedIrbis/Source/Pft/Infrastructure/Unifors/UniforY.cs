@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* UniforO.cs --
+/* UniforY.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -24,12 +24,14 @@ using ManagedIrbis.Fields;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Возвращает данные обо всех свободных (не выданных) экземплярах по всем местах хранения – &uf('Y…
+    // Возвращает данные обо всех свободных (не выданных) экземплярах по всем местах хранения – &uf('Y')
     // Вид функции: Y.
     // Назначение: Возвращает данные обо всех свободных(не выданных) экземплярах по всем местах хранения.
     // Формат(передаваемая строка):
     // нет
+    //
     // Пример:
+    //
     // &unifor('Y')
     //
 
