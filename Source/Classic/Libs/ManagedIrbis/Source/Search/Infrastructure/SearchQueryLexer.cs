@@ -65,7 +65,7 @@ namespace ManagedIrbis.Search.Infrastructure
                 switch (c)
                 {
                     case '"':
-                        value = navigator.ReadUntil('"').ThrowIfNull();
+                        value = navigator.ReadUntil('"');
                         kind = SearchTokenKind.Term;
                         if (navigator.ReadChar() != '"')
                         {
@@ -100,6 +100,29 @@ namespace ManagedIrbis.Search.Infrastructure
                             value = value + '"' + tail;
                             saved = navigator.SavePosition();
                             tail = navigator.ReadUntil('"');
+                        }
+                        break;
+
+                    case '<':
+                        if (navigator.PeekString(2) != ".>")
+                        {
+                            throw new SearchSyntaxException();
+                        }
+
+                        navigator.ReadChar();
+                        navigator.ReadChar();
+
+                        value = navigator.ReadUntil("<.>");
+                        kind = SearchTokenKind.Term;
+                        if (navigator.ReadString(3) != "<.>")
+                        {
+                            Log.Error
+                                (
+                                    "SearchQueryLexer::Tokenize: "
+                                    + "unclosed line"
+                                );
+
+                            throw new SearchSyntaxException();
                         }
                         break;
 
@@ -138,7 +161,7 @@ namespace ManagedIrbis.Search.Infrastructure
                         else
                         {
                             value = c + navigator
-                                .ReadUntil('(', '/', '\t', ' ', ',', ')');
+                                        .ReadUntil('(', '/', '\t', ' ', ',', ')');
                             while (navigator.PeekChar() == '/')
                             {
                                 char c2 = navigator.LookAhead(2);
@@ -147,8 +170,8 @@ namespace ManagedIrbis.Search.Infrastructure
                                     break;
                                 }
                                 value = value + navigator.ReadChar()
-                                        + navigator
-                                        .ReadUntil('(', '/', '\t', ' ', ',', ')');
+                                              + navigator
+                                                  .ReadUntil('(', '/', '\t', ' ', ',', ')');
                             }
                             kind = SearchTokenKind.Term;
                         }
@@ -188,18 +211,30 @@ namespace ManagedIrbis.Search.Infrastructure
                         break;
 
                     default:
-                        value = c + navigator
-                            .ReadUntil('(', '/', '\t', ' ', ',', ')');
+                        value = c + navigator.ReadUntil('(', '/', '\t', ' ', ',', ')');
                         while (navigator.PeekChar() == '/')
                         {
-                            char c2 = navigator.LookAhead(2);
-                            if (c2 == '(' || c2 == '\0')
+                            char c2 = navigator.LookAhead(1);
+                            if (c2 == '\0' || c == ' ' || c =='\t')
                             {
+                                value += navigator.ReadChar();
                                 break;
                             }
+                            if (c2 != '(')
+                            {
+                                value = value + navigator.ReadChar()
+                                    + navigator.ReadUntil('(', '/', '\t', ' ', ',', ')');
+                                continue;
+                            }
+
                             value = value + navigator.ReadChar()
-                                    + navigator
-                                    .ReadUntil('(', '/', '\t', ' ', ',', ')');
+                                    + navigator.ReadUntil(')');
+                            if (navigator.ReadChar() != ')')
+                            {
+                                throw new SearchSyntaxException();
+                            }
+
+                            value += ')';
                         }
                         kind = SearchTokenKind.Term;
                         break;

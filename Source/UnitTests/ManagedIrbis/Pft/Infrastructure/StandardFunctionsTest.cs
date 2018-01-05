@@ -60,7 +60,10 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         {
             using (IrbisProvider provider = GetProvider())
             {
-                provider.PlatformAbstraction = new TestingPlatformAbstraction();
+                TestingPlatformAbstraction abstraction
+                    = new TestingPlatformAbstraction();
+                abstraction.Variables.Add("COMSPEC", @"c:\windows\cmd.exe");
+                provider.PlatformAbstraction = abstraction;
                 PftContext context = new PftContext(null);
                 context.SetProvider(provider);
                 PftFormatter formatter = new PftFormatter(context);
@@ -534,16 +537,13 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         [TestMethod]
         public void StandardFunctions_GetEnv_1()
         {
-            string comspec = Environment.GetEnvironmentVariable("COMSPEC")
-                ?? string.Empty;
-            _Test("getEnv('COMSPEC')", comspec);
+            _Test("getEnv('COMSPEC')", @"c:\windows\cmd.exe");
         }
 
         [TestMethod]
         public void StandardFunctions_MachineName_1()
         {
-            string machineName = Environment.MachineName;
-            _Test("machineName()", machineName);
+            _Test("machineName()", "MACHINE");
         }
 
         [TestMethod]

@@ -1055,6 +1055,64 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Считывание вплоть до указанного разделителя
+        /// (разделитель не помещается в возвращаемое значение
+        /// и не считывается).
+        /// </summary>
+        [CanBeNull]
+        public string ReadUntil
+            (
+                [NotNull] string stopString
+            )
+        {
+            Code.NotNullNorEmpty(stopString, "stopString");
+
+            if (IsEOF)
+            {
+                return null;
+            }
+
+            int savePosition = _position;
+            int length = 0;
+
+            while (true)
+            {
+                AGAIN:
+                char c = ReadChar();
+                if (c == EOF)
+                {
+                    _position = savePosition;
+
+                    return null;
+                }
+
+                length++;
+                if (length >= stopString.Length)
+                {
+                    int start = _position - stopString.Length;
+                    for (int i = 0; i < stopString.Length; i++)
+                    {
+                        if (_text[start + i] != stopString[i])
+                        {
+                            goto AGAIN;
+                        }
+                    }
+                    break;
+                }
+            }
+
+            string result = _text.Substring
+                (
+                    savePosition,
+                    _position - savePosition - stopString.Length
+                );
+            _position -= stopString.Length;
+
+            return result;
+        }
+
+
+        /// <summary>
         /// Считывание вплоть до указанного символа
         /// (не включая его).
         /// </summary>

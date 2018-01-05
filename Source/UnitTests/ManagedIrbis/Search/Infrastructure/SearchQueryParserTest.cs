@@ -52,6 +52,55 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
             _TestTokenize("\"I=M123/2017/спецвыпуск \"Мой дом\"\"", 1);
         }
 
+        [TestMethod]
+        public void SearchQueryParser_Tokenize_3()
+        {
+            _TestTokenize("<.>K=HELLO$<.>", 1);
+            _TestTokenize("<.>K=HELLO$<.> + <.>T=WORLD$<.>", 3);
+        }
+
+        [TestMethod]
+        public void SearchQueryParser_Tokenize_4()
+        {
+            _TestTokenize("K=HELLO$ (G) T=WORLD$", 3);
+            _TestTokenize("K=HELLO$ (g) T=WORLD$", 3);
+            _TestTokenize("K=HELLO$ (f) T=WORLD$", 3);
+            _TestTokenize("K=HELLO$ (F) T=WORLD$", 3);
+        }
+
+        [TestMethod]
+        public void SearchQueryParser_Tokenize_5()
+        {
+            _TestTokenize("K=HELLO/", 1);
+            _TestTokenize("K=HELLO/ ", 1);
+            _TestTokenize("K=HELLO$/(600)", 1);
+            _TestTokenize("K=HELLO/WORLD", 1);
+            _TestTokenize("K=HELLO$/(610) + T=WORLD$/(611)", 3);
+            _TestTokenize("K=HELLO/WORLD + T=WORLD/HELLO", 3);
+            _TestTokenize("K=HELLO/ + T=WORLD/", 3);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(SearchSyntaxException))]
+        public void SearchQueryParser_Tokenize_6()
+        {
+            _TestTokenize("<K=HELLO", 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(SearchSyntaxException))]
+        public void SearchQueryParser_Tokenize_7()
+        {
+            _TestTokenize("<.>K=HELLO", 0);
+        }
+
+        [TestMethod]
+        public void SearchQueryParser_Tokenize_8()
+        {
+            _TestTokenize("/HELLO", 1);
+            _TestTokenize("/HELLO/WORLD", 1);
+        }
+
         private void _TestParse
             (
                 string text,

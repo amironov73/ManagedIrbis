@@ -52,12 +52,12 @@ namespace ManagedIrbis.Search.Infrastructure
 
         #region Construction
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public SearchToken()
-        {
-        }
+        ///// <summary>
+        ///// Constructor.
+        ///// </summary>
+        //public SearchToken()
+        //{
+        //}
 
         /// <summary>
         /// Constructor.

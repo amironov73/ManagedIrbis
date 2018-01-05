@@ -9,7 +9,7 @@ namespace UnitTests.AM.Text
     public class TextNavigatorTest
     {
         [TestMethod]
-        public void TextNavigator_SkipWhitespace()
+        public void TextNavigator_SkipWhitespace_1()
         {
             const string text = " \tABC ";
             TextNavigator navigator = new TextNavigator(text);
@@ -19,7 +19,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextNavigator_ReadFrom()
+        public void TextNavigator_ReadFrom_1()
         {
             const string text1 = "'ABC'DEF";
             TextNavigator navigator = new TextNavigator(text1);
@@ -38,7 +38,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextNavigator_ReadTo_Char()
+        public void TextNavigator_ReadTo_1()
         {
             const string text1 = "'ABC'DEF";
             TextNavigator navigator = new TextNavigator(text1);
@@ -54,7 +54,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextNavigator_ReadTo_String1()
+        public void TextNavigator_ReadTo_2()
         {
             TextNavigator navigator = new TextNavigator("314abc>>>hello");
             string actual = navigator.ReadTo(">>>");
@@ -63,7 +63,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextNavigator_ReadTo_String2()
+        public void TextNavigator_ReadTo_3()
         {
             TextNavigator navigator = new TextNavigator("314abc>>hello");
             string actual = navigator.ReadTo(">>>");
@@ -72,7 +72,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextNavigator_ReadUntil1()
+        public void TextNavigator_ReadUntil_1()
         {
             const string text = "'ABC'DEF";
             TextNavigator navigator = new TextNavigator(text);
@@ -82,7 +82,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextNavigator_ReadUntil2()
+        public void TextNavigator_ReadUntil_2()
         {
             char[] openChars = { '(' };
             char[] closeChars = { ')' };
@@ -110,7 +110,39 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextNavigator_ReadWhile()
+        public void TextNavigator_ReadUntil_3()
+        {
+            TextNavigator navigator = new TextNavigator("12345<.>");
+            string actual = navigator.ReadUntil("<.>");
+            Assert.AreEqual("12345", actual);
+            Assert.AreEqual("<.>", navigator.PeekString(3));
+            Assert.AreEqual("<.>", navigator.GetRemainingText());
+
+            navigator = new TextNavigator("12345");
+            actual = navigator.ReadUntil("<.>");
+            Assert.IsNull(actual);
+
+            navigator = new TextNavigator("12345<");
+            actual = navigator.ReadUntil("<.>");
+            Assert.IsNull(actual);
+
+            navigator = new TextNavigator("12345<.");
+            actual = navigator.ReadUntil("<.>");
+            Assert.IsNull(actual);
+
+            navigator = new TextNavigator("12345<.6>");
+            actual = navigator.ReadUntil("<.>");
+            Assert.IsNull(actual);
+
+            navigator = new TextNavigator("12345<.>67890");
+            actual = navigator.ReadUntil("<.>");
+            Assert.AreEqual("12345", actual);
+            Assert.AreEqual("<.>", navigator.PeekString(3));
+            Assert.AreEqual("<.>67890", navigator.GetRemainingText());
+        }
+
+        [TestMethod]
+        public void TextNavigator_ReadWhile_1()
         {
             const string text1 = "314abc";
             TextNavigator navigator = new TextNavigator(text1);
@@ -120,7 +152,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextNavigator_SkipWhile()
+        public void TextNavigator_SkipWhile_1()
         {
             const string text1 = "314abc";
             TextNavigator navigator = new TextNavigator(text1);
@@ -131,7 +163,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextNavigator_ReadInteger()
+        public void TextNavigator_ReadInteger_1()
         {
             const string text1 = "314abc";
             TextNavigator navigator = new TextNavigator(text1);
