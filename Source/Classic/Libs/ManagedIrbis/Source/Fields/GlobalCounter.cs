@@ -101,8 +101,54 @@ namespace ManagedIrbis.Fields
         [JsonIgnore]
         public int NumericValue
         {
-            get { return Value.SafeToInt32(); }
-            set { Value = value.ToInvariantString(); }
+            get
+            {
+                string template = Template, value = Value;
+                if (string.IsNullOrEmpty(template) || string.IsNullOrEmpty(value))
+                {
+                    return value.SafeToInt32();
+                }
+                TextNavigator navigator = new TextNavigator(template);
+                string prefix = navigator.ReadUntil("*") ?? string.Empty;
+
+                if (!value.StartsWith(prefix))
+                {
+                    return value.SafeToInt32();
+                }
+
+                navigator.ReadWhile('*');
+                string suffix = navigator.GetRemainingText() ?? string.Empty;
+
+                navigator = new TextNavigator(value);
+                navigator.SkipChar(prefix.Length);
+                value = navigator.GetRemainingText() ?? string.Empty;
+                value = value.Length < suffix.Length
+                    ? string.Empty
+                    : value.Substring(0, value.Length - suffix.Length);
+
+                return value.SafeToInt32();
+            }
+            set
+            {
+                int correctValue = value < 0 ? 0 : value;
+
+                string template = Template;
+                if (string.IsNullOrEmpty(template))
+                {
+                    Value = correctValue.ToInvariantString();
+                    return;
+                }
+
+                TextNavigator navigator = new TextNavigator(template);
+                string prefix = navigator.ReadUntil("*") ?? string.Empty;
+                string stars = navigator.ReadWhile('*') ?? string.Empty;
+                int width = stars.Length;
+                string suffix = navigator.GetRemainingText();
+
+                Value = prefix
+                      + correctValue.ToInvariantString().PadLeft(width, '0')
+                      + suffix;
+            }
         }
 
         /// <summary>
@@ -156,11 +202,14 @@ namespace ManagedIrbis.Fields
         /// Increment the counter value.
         /// </summary>
         [NotNull]
-        public GlobalCounter Increment()
+        public GlobalCounter Increment
+            (
+                int delta
+            )
         {
-            int value = Value.SafeToInt32();
-            value++;
-            Value = value.ToInvariantString();
+            int value = NumericValue;
+            value += delta;
+            NumericValue = value;
 
             return this;
         }
@@ -227,27 +276,6 @@ namespace ManagedIrbis.Fields
                 .AddNonEmptyField(1, Index)
                 .AddNonEmptyField(2, Value)
                 .AddNonEmptyField(3, Template);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Returns text representation of the value.
-        /// </summary>
-        [NotNull]
-        public string ToText()
-        {
-            int value = Value.SafeToInt32();
-            string template = Template ?? string.Empty;
-            TextNavigator navigator = new TextNavigator(template);
-            string prefix = navigator.ReadUntil("*");
-            string stars = navigator.ReadWhile('*') ?? string.Empty;
-            int width = stars.Length;
-            string suffix = navigator.GetRemainingText();
-
-            string result = prefix
-                + value.ToInvariantString().PadLeft(width, '0')
-                + suffix;
 
             return result;
         }

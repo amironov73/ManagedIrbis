@@ -1498,6 +1498,22 @@ namespace AM.Text
         }
 
         /// <summary>
+        /// Пропускает указанное число символов.
+        /// </summary>
+        public bool SkipChar
+            (
+                int n
+            )
+        {
+            for (int i = 0; i < n; i++)
+            {
+                ReadChar();
+            }
+
+            return !IsEOF;
+        }
+
+        /// <summary>
         /// Пропускает один символ, если он совпадает с любым
         /// из указанных.
         /// </summary>

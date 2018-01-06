@@ -180,6 +180,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+Z", UniforPlusZ.AnsiToOem);
             Registry.Add("+@", UniforPlusAt.FormatJson);
             Registry.Add("++A", UniforPlusPlusA.GetPhrase);
+            Registry.Add("++C", UniforPlusPlusC.WorkWithGlobalCounter);
             Registry.Add("++0", UniforPlusPlus0.FormatAll);
             Registry.Add("+\\", UniforPlusBackslash.ConvertBackslashes);
             Registry.Add("!", UniforBang. CleanDoubleText);

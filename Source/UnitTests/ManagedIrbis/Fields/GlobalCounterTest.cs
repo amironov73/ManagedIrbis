@@ -19,7 +19,7 @@ namespace UnitTests.ManagedIrbis.Fields
         {
             return new MarcRecord()
                 .AddField(new RecordField(1, "01"))
-                .AddField(new RecordField(2, "11"))
+                .AddField(new RecordField(2, "СЧ000011/1"))
                 .AddField(new RecordField(3, "СЧ******/1"));
         }
 
@@ -29,7 +29,7 @@ namespace UnitTests.ManagedIrbis.Fields
             return new GlobalCounter
             {
                 Index = "01",
-                Value = "11",
+                Value = "СЧ000011/1",
                 Template = "СЧ******/1"
             };
         }
@@ -103,16 +103,26 @@ namespace UnitTests.ManagedIrbis.Fields
         }
 
         [TestMethod]
+        public void GlobalCounter_NumericValue_2()
+        {
+            GlobalCounter counter = _GetCounter();
+            Assert.AreEqual(11, counter.NumericValue);
+
+            counter.NumericValue = 123;
+            Assert.AreEqual("СЧ000123/1", counter.Value);
+        }
+
+        [TestMethod]
         public void GlobalCounter_Increment_1()
         {
             GlobalCounter counter = new GlobalCounter();
-            Assert.AreSame(counter, counter.Increment());
+            Assert.AreSame(counter, counter.Increment(1));
             Assert.AreEqual("1", counter.Value);
             Assert.AreEqual(1, counter.NumericValue);
 
             counter = _GetCounter();
-            Assert.AreSame(counter, counter.Increment());
-            Assert.AreEqual("12", counter.Value);
+            Assert.AreSame(counter, counter.Increment(1));
+            Assert.AreEqual("СЧ000012/1", counter.Value);
             Assert.AreEqual(12, counter.NumericValue);
         }
 
@@ -123,7 +133,7 @@ namespace UnitTests.ManagedIrbis.Fields
             Assert.AreEqual("<counter />", XmlUtility.SerializeShort(counter));
 
             counter = _GetCounter();
-            Assert.AreEqual("<counter index=\"01\" value=\"11\" template=\"СЧ******/1\" />", XmlUtility.SerializeShort(counter));
+            Assert.AreEqual("<counter index=\"01\" value=\"СЧ000011/1\" template=\"СЧ******/1\" />", XmlUtility.SerializeShort(counter));
         }
 
         [TestMethod]
@@ -133,7 +143,7 @@ namespace UnitTests.ManagedIrbis.Fields
             Assert.AreEqual("{}", JsonUtility.SerializeShort(counter));
 
             counter = _GetCounter();
-            Assert.AreEqual("{'index':'01','value':'11','template':'СЧ******/1'}", JsonUtility.SerializeShort(counter));
+            Assert.AreEqual("{'index':'01','value':'СЧ000011/1','template':'СЧ******/1'}", JsonUtility.SerializeShort(counter));
         }
 
         private void _TestSerialization
@@ -170,23 +180,13 @@ namespace UnitTests.ManagedIrbis.Fields
         }
 
         [TestMethod]
-        public void GlobalCounter_ToText_1()
-        {
-            GlobalCounter counter = new GlobalCounter();
-            Assert.AreEqual("0", counter.ToText());
-
-            counter = _GetCounter();
-            Assert.AreEqual("СЧ000011/1", counter.ToText());
-        }
-
-        [TestMethod]
         public void GlobalCounter_ToString_1()
         {
             GlobalCounter counter = new GlobalCounter();
             Assert.AreEqual("(null):(null)", counter.ToString());
 
             counter = _GetCounter();
-            Assert.AreEqual("01:11", counter.ToString());
+            Assert.AreEqual("01:СЧ000011/1", counter.ToString());
         }
     }
 }
