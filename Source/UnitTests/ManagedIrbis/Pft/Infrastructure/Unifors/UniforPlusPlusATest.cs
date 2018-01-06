@@ -16,6 +16,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             Execute("++AHappy New Year!", "Happy New Year!");
             Execute("++Ahappy New Year!", "Year!");
             Execute("++ADo more harm!", "");
+            Execute("++Aпо-сербски Ђурађ Бранковић Смедеревац", "Ђурађ Бранковић Смедеревац");
 
             // Обработка ошибок
             Execute("++A", "");

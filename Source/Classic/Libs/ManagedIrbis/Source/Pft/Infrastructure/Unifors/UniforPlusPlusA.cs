@@ -42,13 +42,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             if (!string.IsNullOrEmpty(expression))
             {
-                Regex regex = new Regex("[A-ZЁА-Я][a-zёа-я]{3}");
+                // Первый символ - прописная кириллическая или латинская буква,
+                // три последующих - любые кириллические или латинские буквы
+                // Кириллическими прописными считаются русские А-Я + ЂЃЉЊЌЋЏЎЈҐЁЄЇІ
+                // кириллическими строчными а-я + ђѓљњќћџўјґёєїі
+                // см. официальную таблицу кодовой страницы 1251
+                // в https://ru.wikipedia.org/wiki/Windows-1251
+                Regex regex = new Regex
+                    (
+                        @"[A-Z\u0410-\u042F\u0402\u0403\u0409\u040A\u040C"
+                      + @"\u040B\u040F\u040E\u0408\u0490\u0401\u0404\u0407"
+                      + @"\u0406][A-Za-z\u0410-\u044F\u0402\u0403\u0409"
+                      + @"\u040A\u040C\u040B\u040F\u040E\u0408\u0490\u0401"
+                      + @"\u0404\u0407\u0406\u0452\u0453\u0459\u045A\u045C"
+                      + @"\u045B\u045F\u045E\u0458\u0491\u0451\u0454\u0457"
+                      + @"\u0456]{3}");
                 Match match = regex.Match(expression);
                 if (match.Success)
                 {
-                    string output = match.Index == 0
-                        ? expression
-                        : expression.Substring(match.Index);
+                    // If match.Index == 0 FW just returns the untouched string
+                    string output = expression.Substring(match.Index);
                     context.Write(node, output);
                     context.OutputFlag = true;
                 }
