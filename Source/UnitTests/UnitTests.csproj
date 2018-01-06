@@ -265,6 +265,7 @@
     <Compile Include="ManagedIrbis\Fields\BinaryResourceTest.cs" />
     <Compile Include="ManagedIrbis\Fields\CodesInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fields\FieldFilterTest.cs" />
+    <Compile Include="ManagedIrbis\Fields\GlobalCounterTest.cs" />
     <Compile Include="ManagedIrbis\Fields\QuarterlyOrderInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fields\TitleInfoTest.cs" />
     <Compile Include="ManagedIrbis\Fields\SignatureInfoTest.cs" />

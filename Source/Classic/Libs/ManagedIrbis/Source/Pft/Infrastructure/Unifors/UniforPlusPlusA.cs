@@ -56,7 +56,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                       + @"\u040A\u040C\u040B\u040F\u040E\u0408\u0490\u0401"
                       + @"\u0404\u0407\u0406\u0452\u0453\u0459\u045A\u045C"
                       + @"\u045B\u045F\u045E\u0458\u0491\u0451\u0454\u0457"
-                      + @"\u0456]{3}");
+                      + @"\u0456]{3}"
+                    );
                 Match match = regex.Match(expression);
                 if (match.Success)
                 {
