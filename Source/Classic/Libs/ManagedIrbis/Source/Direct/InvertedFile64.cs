@@ -538,10 +538,10 @@ namespace ManagedIrbis.Direct
                         foreach (NodeItem item in currentNode.Items)
                         {
                             int compareResult = string.CompareOrdinal
-                            (
-                                item.Text,
-                                key
-                            );
+                                (
+                                    item.Text,
+                                    key
+                                );
                             if (compareResult > 0)
                             {
                                 beyond = true;
@@ -559,7 +559,7 @@ namespace ManagedIrbis.Direct
 
                         }
 
-                        if (goodItem == null)
+                        if (ReferenceEquals(goodItem, null))
                         {
                             break;
                         }
@@ -582,6 +582,12 @@ namespace ManagedIrbis.Direct
                             currentNode = goodItem.RefersToLeaf
                                 ? ReadLeaf(goodItem.LowOffset)
                                 : ReadNode(goodItem.LowOffset);
+
+                            if (currentNode.Items.Count == 0)
+                            {
+                                goodItem = null;
+                                break;
+                            }
                         }
                     }
 

@@ -134,14 +134,6 @@ namespace ManagedIrbis.Fields
 
         #endregion
 
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>

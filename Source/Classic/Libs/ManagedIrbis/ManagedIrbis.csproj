@@ -188,6 +188,7 @@
     <Compile Include="Source\Fields\CodesInfo.cs" />
     <Compile Include="Source\Fields\CollectiveInfo.cs" />
     <Compile Include="Source\Fields\CommonInfo.cs" />
+    <Compile Include="Source\Fields\CounterDatabase.cs" />
     <Compile Include="Source\Fields\ExemplarInfo.cs" />
     <Compile Include="Source\Fields\ExemplarInfoComparer.cs" />
     <Compile Include="Source\Fields\ExemplarManager.cs" />
