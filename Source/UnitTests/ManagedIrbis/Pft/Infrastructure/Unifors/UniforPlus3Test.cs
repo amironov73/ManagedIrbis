@@ -126,5 +126,25 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             Execute("+3S,10,/K=/,", "");
             Execute("+3S,10,/K=ATLAS/,v200^", "");
         }
+
+        [TestMethod]
+        public void UniforPlus3_Divide_1()
+        {
+            Execute("+3T", "0");
+            Execute("+3T123,11", "11");
+            Execute("+3T123,1.1", "111");
+            Execute("+3T12.3,1.1", "11");
+            Execute("+3T-12.3,1.1", "-11");
+            Execute("+3T12.3,-1.1", "-11");
+            Execute("+3T-12.3,-1.1", "11");
+
+            // Обработка ошибок
+            Execute("+3T12.3", "0");
+            Execute("+3T12.3,0", "");
+            Execute("+3T-12.3", "0");
+            Execute("+3TA,1", "0");
+            Execute("+3T1,A", "");
+            Execute("+3T1,", "");
+        }
     }
 }

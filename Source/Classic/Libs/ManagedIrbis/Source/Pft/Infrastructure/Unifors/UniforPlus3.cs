@@ -639,6 +639,73 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             context.Write(node, path);
             context.OutputFlag = true;
         }
+
+        // ================================================================
+
+        //
+        // ibatrak
+        //
+        // Неописанная функция
+        // &unifor ('+3T')
+        //
+        // Делит строку на 2 фрагмента по символу запятой,
+        // разбирает как double, делит, возвращает целую часть результата
+        //
+
+        /// <summary>
+        /// ibatrak Усечение имени файла для префикса TXT= полнотекстового поиска
+        /// </summary>
+        public static void Divide
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                context.Write(node, "0");
+                context.OutputFlag = true;
+
+                return;
+            }
+
+            char[] separators = { ',' };
+            string[] parts = StringUtility.SplitString(expression, separators, 2);
+            if (parts.Length == 1)
+            {
+                context.Write(node, "0");
+                context.OutputFlag = true;
+
+                return;
+            }
+
+            double dividend = parts[0].SafeToDouble(0.0);
+            double divisor;
+            if (!NumericUtility.TryParseDouble(parts[1], out divisor))
+            {
+                return;
+            }
+
+            try
+            {
+                double result = Math.Truncate(dividend / divisor);
+                if (!double.IsInfinity(result) && !double.IsNaN(result))
+                {
+                    context.Write(node, result.ToInvariantString());
+                    context.OutputFlag = true;
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException
+                    (
+                        "UniforPlus3::Divide",
+                        exception
+                    );
+            }
+        }
+
     }
 
     #endregion
