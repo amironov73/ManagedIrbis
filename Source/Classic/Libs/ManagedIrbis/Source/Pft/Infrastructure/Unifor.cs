@@ -131,6 +131,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+3A", UniforPlus3.FieldsToText);
             Registry.Add("+3D", UniforPlus3.UrlDecode);
             Registry.Add("+3E", UniforPlus3.UrlEncode);
+            Registry.Add("+3G", UniforPlus3.GetExternalDbTermRecordCount);
             Registry.Add("+3H", UniforPlus3.HtmlSpecialChars);
             Registry.Add("+3J", UniforPlus3.GetTermCount);
             Registry.Add("+3S", UniforPlus3.SearchFormat);

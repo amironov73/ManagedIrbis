@@ -12,9 +12,9 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 using AM;
-using AM.IO;
 using AM.Logging;
 using AM.Text;
 
@@ -489,6 +489,85 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 provider.Database = saveDatabase;
             }
         }
+
+        // ================================================================
+
+        //
+        // Вывод количества документов, найденных во внешней базе
+        // по команде G.
+        // (команда возвращает строку RESULT=[кол-во найденных
+        // по запросу документов]) – &uf('+3G')
+        //
+        // Вид функции: +3G.
+        //
+        // Назначение: Вывод количества документов, найденных
+        // во внешней базе по команде G.
+        // (команда возвращает строку RESULT=[кол-во найденных
+        // по запросу документов]).
+        //
+        // Формат (передаваемая строка):
+        //
+        // +3G[URL к внешнему сайту WEB ИРБИС, с запросом G]
+        //
+
+        /// <summary>
+        /// ibatrak Поиск количества терминов во внешней базе
+        /// </summary>
+        public static void GetExternalDbTermRecordCount
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                context.Write(node, "0");
+                context.OutputFlag = true;
+
+                return;
+            }
+
+            string content = string.Empty;
+            try
+            {
+#if WINMOBILE || PocketPC
+
+                // TODO implement
+
+#elif UAP
+
+                System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
+                content = client.GetStringAsync(expression).Result;
+
+#else
+
+                System.Net.WebClient client = new System.Net.WebClient();
+                content = client.DownloadString(expression);
+
+#endif
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException
+                    (
+                        "UniforPlus3::GetExternalDbTermRecordCount",
+                        exception
+                    );
+            }
+
+            Match match = Regex.Match(content, "RESULT=([0-9]+)");
+            int count = 0;
+            if (match.Success)
+            {
+                count = match.Groups[1].Value.SafeToInt32();
+            }
+
+            context.Write(node, count.ToInvariantString());
+            context.OutputFlag = true;
+        }
+
+
     }
 
     #endregion
