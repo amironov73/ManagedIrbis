@@ -42,12 +42,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
 
         static TypeMap()
         {
+#if !WINMOBILE && !PocketPC
+
             for (int i = 0; i < Map.Length; i++)
             {
                 TypeMap entry = Map[i];
 
-                ConstructorInfo constructor
-                    = entry.Type.GetConstructor(Type.EmptyTypes);
+                ConstructorInfo constructor                     = entry.Type.GetConstructor(Type.EmptyTypes);
                 if (ReferenceEquals(constructor, null))
                 {
                     throw new IrbisException();
@@ -58,6 +59,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
                     )
                     .Compile();
             }
+
+#endif
         }
 
         #endregion

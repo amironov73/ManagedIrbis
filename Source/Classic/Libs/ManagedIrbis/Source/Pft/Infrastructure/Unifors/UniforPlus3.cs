@@ -662,6 +662,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 [CanBeNull] string expression
             )
         {
+#if !WINMOBILE && !PocketPC
+
             if (string.IsNullOrEmpty(expression))
             {
                 context.Write(node, "0");
@@ -704,6 +706,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         exception
                     );
             }
+
+#endif
         }
 
     }

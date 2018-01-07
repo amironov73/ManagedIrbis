@@ -164,6 +164,12 @@ namespace AM.Reflection
                 Type enumType
             )
         {
+#if WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
+#else
+
             // ArgumentUtility.NotNull ( enumType, "enumType" );
             List<EnumMemberInfo> result = new List<EnumMemberInfo>();
             if (!enumType.Bridge().IsEnum)
@@ -221,12 +227,13 @@ namespace AM.Reflection
 
 #endif
                 int value = (int)Enum.Parse(enumType, name, false);
-                EnumMemberInfo info
-                    = new EnumMemberInfo(name, displayName, value);
+                EnumMemberInfo info = new EnumMemberInfo(name, displayName, value);
                 result.Add(info);
             }
 
             return result.ToArray();
+
+#endif
         }
 
         /// <summary>

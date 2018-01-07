@@ -270,6 +270,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             // subtract 693594.0 from the Delphi 1.0 date.
             //
 
+#if WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
+#else
+
             expression = expression.Substring(1);
             double days = expression.SafeToDouble(0);
             DateTime result = new DateTime(1899, 12, 30)
@@ -277,6 +283,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 .AddDays(Math.Abs(days - Math.Truncate(days)));
 
             return result.ToString("yyyyMMdd HHmmss");
+
+#endif
         }
 
         #endregion

@@ -392,6 +392,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\CommonInfo.cs">
       <Link>Source\Fields\CommonInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\CounterDatabase.cs">
+      <Link>Source\Fields\CounterDatabase.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ExemplarInfo.cs">
       <Link>Source\Fields\ExemplarInfo.cs</Link>
     </Compile>
@@ -409,6 +412,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\FieldFilter.cs">
       <Link>Source\Fields\FieldFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\GlobalCounter.cs">
+      <Link>Source\Fields\GlobalCounter.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\HeadingInfo.cs">
       <Link>Source\Fields\HeadingInfo.cs</Link>

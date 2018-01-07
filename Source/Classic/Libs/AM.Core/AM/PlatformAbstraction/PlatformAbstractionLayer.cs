@@ -41,6 +41,10 @@ namespace AM.PlatformAbstraction
 
             Windows.ApplicationModel.Core.CoreApplication.Exit();
 
+#elif WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
 #else
 
             Environment.Exit(exitCode);
@@ -58,7 +62,7 @@ namespace AM.PlatformAbstraction
         {
 #if PocketPC || WINMOBILE
 
-            Environment.Exit(0);
+            throw new NotImplementedException();
 
 #else
 
