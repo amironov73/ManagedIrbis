@@ -16,8 +16,6 @@ using AM.Logging;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Client;
-
 #endregion
 
 namespace ManagedIrbis.Search.Infrastructure
@@ -45,7 +43,7 @@ namespace ManagedIrbis.Search.Infrastructure
 
         public ISearchTree[] Children
         {
-            get { return new ISearchTree[0]; }
+            get { return SearchUtility.EmptyArray; }
         }
 
         public string Value { get { return Number; } }
@@ -94,7 +92,7 @@ namespace ManagedIrbis.Search.Infrastructure
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return "#" + Number;

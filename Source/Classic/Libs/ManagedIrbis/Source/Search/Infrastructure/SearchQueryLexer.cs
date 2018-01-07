@@ -32,6 +32,37 @@ namespace ManagedIrbis.Search.Infrastructure
     [MoonSharpUserData]
     public static class SearchQueryLexer
     {
+        #region Private members
+
+        static readonly char[] _stopChars =
+        {
+            '(', '/', '\t', ' ', ',', ')', '+', '*'
+        };
+
+        [CanBeNull]
+        private static string _TermTail
+            (
+                [NotNull] TextNavigator navigator
+            )
+        {
+            string result = navigator.ReadUntil(_stopChars);
+            while (navigator.PeekChar() == '/')
+            {
+                char c2 = navigator.LookAhead(1);
+                if (c2 == '(' || c2 == '\0')
+                {
+                    break;
+                }
+                result = result
+                    + navigator.ReadChar()
+                    + navigator.ReadUntil(_stopChars);
+            }
+
+            return result;
+        }
+
+        #endregion
+
         #region Public methods
 
         // =========================================================
@@ -160,19 +191,7 @@ namespace ManagedIrbis.Search.Infrastructure
                         }
                         else
                         {
-                            value = c + navigator
-                                        .ReadUntil('(', '/', '\t', ' ', ',', ')');
-                            while (navigator.PeekChar() == '/')
-                            {
-                                char c2 = navigator.LookAhead(2);
-                                if (c2 == '(' || c2 == '\0')
-                                {
-                                    break;
-                                }
-                                value = value + navigator.ReadChar()
-                                              + navigator
-                                                  .ReadUntil('(', '/', '\t', ' ', ',', ')');
-                            }
+                            value = c + _TermTail(navigator);
                             kind = SearchTokenKind.Term;
                         }
                         break;
@@ -211,31 +230,7 @@ namespace ManagedIrbis.Search.Infrastructure
                         break;
 
                     default:
-                        value = c + navigator.ReadUntil('(', '/', '\t', ' ', ',', ')');
-                        while (navigator.PeekChar() == '/')
-                        {
-                            char c2 = navigator.LookAhead(1);
-                            if (c2 == '\0' || c == ' ' || c =='\t')
-                            {
-                                value += navigator.ReadChar();
-                                break;
-                            }
-                            if (c2 != '(')
-                            {
-                                value = value + navigator.ReadChar()
-                                    + navigator.ReadUntil('(', '/', '\t', ' ', ',', ')');
-                                continue;
-                            }
-
-                            value = value + navigator.ReadChar()
-                                    + navigator.ReadUntil(')');
-                            if (navigator.ReadChar() != ')')
-                            {
-                                throw new SearchSyntaxException();
-                            }
-
-                            value += ')';
-                        }
+                        value = c + _TermTail(navigator);
                         kind = SearchTokenKind.Term;
                         break;
                 }

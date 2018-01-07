@@ -21,7 +21,7 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Search.Infrastructure;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -53,6 +53,11 @@ namespace ManagedIrbis.Search
         {
             ' ', '(', ')', '+', '*', '.', '"'
         };
+
+        /// <summary>
+        /// Empty array.
+        /// </summary>
+        internal static readonly ISearchTree[] EmptyArray = new ISearchTree[0];
 
         #endregion
 

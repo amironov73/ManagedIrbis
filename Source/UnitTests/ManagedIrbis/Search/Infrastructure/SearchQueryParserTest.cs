@@ -71,13 +71,13 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
         [TestMethod]
         public void SearchQueryParser_Tokenize_5()
         {
-            _TestTokenize("K=HELLO/", 1);
+            _TestTokenize("K=HELLO/", 2);
             _TestTokenize("K=HELLO/ ", 1);
-            _TestTokenize("K=HELLO$/(600)", 1);
+            _TestTokenize("K=HELLO$/(600)", 5);
             _TestTokenize("K=HELLO/WORLD", 1);
-            _TestTokenize("K=HELLO$/(610) + T=WORLD$/(611)", 3);
+            _TestTokenize("K=HELLO$/(610) + T=WORLD$/(611)", 11);
             _TestTokenize("K=HELLO/WORLD + T=WORLD/HELLO", 3);
-            _TestTokenize("K=HELLO/ + T=WORLD/", 3);
+            _TestTokenize("K=HELLO/ + T=WORLD/", 4);
         }
 
         [TestMethod]
@@ -128,7 +128,7 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
         }
 
         [TestMethod]
-        public void SearchQueryParser_Parse()
+        public void SearchQueryParser_Parse_1()
         {
             _TestParse("", "");
             _TestParse("\"RI=30439B4B\"", "\"RI=30439B4B\"");
@@ -148,65 +148,78 @@ namespace UnitTests.ManagedIrbis.Search.Infrastructure
 
         [TestMethod]
         [ExpectedException(typeof(SearchSyntaxException))]
-        public void SearchQueryParser_Parse_Exception1()
+        public void SearchQueryParser_Parse_2()
         {
             _TestParse2("\"RI=30439B4");
         }
 
         [TestMethod]
         [ExpectedException(typeof(SearchSyntaxException))]
-        public void SearchQueryParser_Parse_Exception2()
+        public void SearchQueryParser_Parse_3()
         {
             _TestParse2("\"K=ЭЛЕКТРООБОРУДОВАНИЕ АВТОМОБИЛЕЙ$\"/");
         }
 
         [TestMethod]
         [ExpectedException(typeof(SearchSyntaxException))]
-        public void SearchQueryParser_Parse_Exception3()
+        public void SearchQueryParser_Parse_4()
         {
             _TestParse2("(\"K=электрооборудовани$\"/()*");
         }
 
         [TestMethod]
         [ExpectedException(typeof(SearchSyntaxException))]
-        public void SearchQueryParser_Parse_Exception4()
+        public void SearchQueryParser_Parse_5()
         {
             _TestParse2("(\"K=электрооборудовани$\"/()*\"K=автомоб$\"/()");
         }
 
         [TestMethod]
         [ExpectedException(typeof(SearchSyntaxException))]
-        public void SearchQueryParser_Parse_Exception5()
+        public void SearchQueryParser_Parse_6()
         {
             _TestParse2("(\"K=ПРЕДПРИНИМАТЕЛЬСТВ$\"/())*(\"V=KN$\")*(\"G=2009$\"+\"G=201$\")*(\"K=МАЛЫЙ БИЗНЕС$\"/()+\"K=СРЕДНИЙ БИЗНЕС$\"/()");
         }
 
         [TestMethod]
         [ExpectedException(typeof(SearchSyntaxException))]
-        public void SearchQueryParser_Parse_Exception6()
+        public void SearchQueryParser_Parse_7()
         {
             _TestParse2("(\"K=ПРЕДПРИНИМАТЕЛЬСТВ$\"/(*))*(\"V=KN$\")*(\"G=2009$\"+\"G=201$\")*(\"K=МАЛЫЙ БИЗНЕС$\"/()+\"K=СРЕДНИЙ БИЗНЕС$\"/()");
         }
 
         [TestMethod]
         [ExpectedException(typeof(SearchSyntaxException))]
-        public void SearchQueryParser_Parse_Exception7()
+        public void SearchQueryParser_Parse_8()
         {
             _TestParse2("(\"K=ПРЕДПРИНИМАТЕЛЬСТВ$\"/1))*(\"V=KN$\")*(\"G=2009$\"+\"G=201$\")*(\"K=МАЛЫЙ БИЗНЕС$\"/()+\"K=СРЕДНИЙ БИЗНЕС$\"/()");
         }
 
         [TestMethod]
         [ExpectedException(typeof(SearchSyntaxException))]
-        public void SearchQueryParser_Parse_Exception8()
+        public void SearchQueryParser_Parse_9()
         {
             _TestParse2("*");
         }
 
         [TestMethod]
         [ExpectedException(typeof(SearchSyntaxException))]
-        public void SearchQueryParser_Parse_Exception9()
+        public void SearchQueryParser_Parse_10()
         {
             _TestParse2("(K=(");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(SearchSyntaxException))]
+        public void SearchQueryParse_Parse_11()
+        {
+            _TestParse2("K=A + ");
+        }
+
+        [TestMethod]
+        public void SearchQueryParse_Parse_12()
+        {
+            _TestParse2("K=A + #1");
         }
 
         private void _TestTerms
