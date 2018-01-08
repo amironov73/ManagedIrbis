@@ -183,6 +183,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+N", UniforPlusN.GetFieldCount);
             Registry.Add("+R", UniforPlusR.TrimAtLastDot);
             Registry.Add("+S", UniforPlusS.DecodeTitle);
+            Registry.Add("+U", UniforPlusU.RepeatString);
             Registry.Add("+V", UniforPlusV.Substring);
             Registry.Add("+Z", UniforPlusZ.AnsiToOem);
             Registry.Add("+@", UniforPlusAt.FormatJson);

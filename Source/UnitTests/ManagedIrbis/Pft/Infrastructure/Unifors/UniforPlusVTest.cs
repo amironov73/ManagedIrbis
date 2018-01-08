@@ -1,10 +1,4 @@
-﻿using System.IO;
-
-using AM;
-
-using ManagedIrbis.Pft.Infrastructure.Ast;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
 {
@@ -25,6 +19,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             Execute("+V-10#Hello, world!", "");
             Execute("+VHello, world!", "");
             Execute("+V#1", "");
+            Execute("+VAA#Hello", "");
             Execute("+V1#", "");
         }
     }
