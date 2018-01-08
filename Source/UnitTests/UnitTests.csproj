@@ -661,6 +661,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlusPlusCTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlusRTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlusSTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlusVTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPlusZTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforPTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Unifors\UniforQTest.cs" />
