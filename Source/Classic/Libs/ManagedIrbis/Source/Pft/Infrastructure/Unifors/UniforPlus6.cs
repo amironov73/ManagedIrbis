@@ -16,7 +16,7 @@ using JetBrains.Annotations;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Выдать статус записи – &uf('+6
+    // Выдать статус записи – &uf('+6')
     // Вид функции: +6.
     // Назначение: Выдать статус записи.
     // Если запись логически удаленная, возвращается 0,

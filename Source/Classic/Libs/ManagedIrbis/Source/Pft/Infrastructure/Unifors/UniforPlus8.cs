@@ -20,7 +20,7 @@ using ManagedIrbis.PlatformSpecific;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Вызвать функцию из внешней DLL – &uf('+8
+    // Вызвать функцию из внешней DLL – &uf('+8')
     // Вид функции: +8.
     // Назначение: Вызвать функцию из внешней DLL.
     // Присутствует в версиях ИРБИС с 2006.1.
@@ -47,8 +47,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     //
     // В вызываемую функцию передается заглавие:
     // &unifor('+8test_dll,test_function1,', v200^a)
+    //
     // Передаются повторения 910 поля:
     // (&unifor('+8test_dll,test_function2,', v910))
+    //
     // Передается вся текущая запись:
     // (&unifor('+8test_dll,test_function2,',&unifor('+0')))
     //

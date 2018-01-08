@@ -12,8 +12,6 @@
 using System;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
 
 using AM;
@@ -43,7 +41,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
 #if CLASSIC || DESKTOP
 
-            using (WebClient client = new WebClient())
+            using (System.Net.WebClient client = new System.Net.WebClient())
             {
                 try
                 {
@@ -54,27 +52,42 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 catch (Exception exception)
                 {
                     Log.TraceException
-                    (
-                        "UniforPlus9::_CheckUrlExist",
-                        exception
-                    );
+                        (
+                            "UniforPlus9::_CheckUrlExist",
+                            exception
+                        );
+                }
+            }
+#elif UAP
+
+            using (System.Net.Http.HttpClient client = new System.Net.Http.HttpClient())
+            {
+                try
+                {
+                    string text = client.GetStringAsync(address).Result;
+
+                    return !ReferenceEquals(text, null);
+                }
+                catch (Exception exception)
+                {
+                    Log.TraceException
+                        (
+                            "UniforPlus9::_CheckUrlExist",
+                            exception
+                        );
                 }
             }
 
-            return false;
-
-#else
-
-            return false;
-
 #endif
+
+            return false;
         }
 
         [CanBeNull]
         private static FileSpecification _GetFileSpecification
-        (
-            [NotNull] string expression
-        )
+            (
+                [NotNull] string expression
+            )
         {
             TextNavigator navigator = new TextNavigator(expression);
             string pathText = navigator.ReadUntil(',');
@@ -102,7 +115,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return null;
             }
 
-            IrbisPath path = (IrbisPath) NumericUtility.ParseInt32
+            IrbisPath path = (IrbisPath)NumericUtility.ParseInt32
             (
                 pathText
             );
@@ -121,19 +134,25 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         #region Public methods
 
         //
-        // Вернуть ANSI-символ с заданным кодом – &uf('+9F
+        // Вернуть ANSI-символ с заданным кодом – &uf('+9F')
         // Вид функции: +9F.
         // Назначение: Вернуть ANSI-символ с заданным кодом.
         // Присутствует в версиях ИРБИС с 2008.1.
         // Формат (передаваемая строка):
         // +9F<код>
+        //
         // Примеры:
+        //
         // Такой форматный выход может пригодиться, например,
         // когда надо вывести в литерале символ, совпадающий
         // с ограничителями литерала.
+        //
         // Для формата
+        //
         // '11111',&Uf('+9F39'),'22222'
+        //
         // результат расформатирования будет
+        //
         // 11111'22222
         //
 
@@ -141,18 +160,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Get character with given code.
         /// </summary>
         public static void GetCharacter
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             if (!string.IsNullOrEmpty(expression))
             {
                 int code;
                 if (NumericUtility.TryParseInt32(expression, out code))
                 {
-                    string output = ((char) code).ToString();
+                    string output = ((char)code).ToString();
                     context.Write(node, output);
                     context.OutputFlag = true;
                 }
@@ -162,7 +181,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Вернуть путь из заданного полного пути/имени – &uf('+92
+        // Вернуть путь из заданного полного пути/имени – &uf('+92')
         // Вид функции: +92.
         // Назначение: Вернуть путь из заданного полного пути/имени.
         // Присутствует в версиях ИРБИС с 2006.1.
@@ -174,11 +193,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Get directory name from full path.
         /// </summary>
         public static void GetDirectoryName
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -186,9 +205,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 if (!string.IsNullOrEmpty(output))
                 {
                     if (!output.EndsWith
-                    (
-                        Path.DirectorySeparatorChar.ToString()
-                    ))
+                        (
+                            Path.DirectorySeparatorChar.ToString()
+                        ))
                     {
                         output += Path.DirectorySeparatorChar;
                     }
@@ -202,7 +221,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Вернуть имя диска из заданного полного пути/имени – &uf('+94
+        // Вернуть имя диска из заданного полного пути/имени – &uf('+94')
         // Вид функции: +94.
         // Назначение: Вернуть имя диска из заданного полного пути/имени.
         // Присутствует в версиях ИРБИС с 2006.1.
@@ -214,11 +233,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Get drive name from full path.
         /// </summary>
         public static void GetDrive
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -235,7 +254,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Вернуть расширение из заданного полного пути/имени – &uf('+93
+        // Вернуть расширение из заданного полного пути/имени – &uf('+93')
         // Вид функции: +93.
         // Назначение: Вернуть расширение из заданного полного пути/имени.
         // Присутствует в версиях ИРБИС с 2006.1.
@@ -247,11 +266,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Get extension from full path.
         /// </summary>
         public static void GetExtension
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -267,7 +286,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Вставить данные из заданного текстового файла – &uf('+9C
+        // Вставить данные из заданного текстового файла – &uf('+9C')
         // Вид функции: +9C.
         // Назначение: Вставить данные из заданного текстового файла.
         // Формат (передаваемая строка):
@@ -288,11 +307,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// UNIFOR('+9C'): Get file content.
         /// </summary>
         public static void GetFileContent
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -314,7 +333,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Проверить наличие файла/корректность URL – &uf('+9L
+        // Проверить наличие файла/корректность URL – &uf('+9L')
         // Вид функции: +9L.
         // Назначение: Проверить наличие файла/корректность URL.
         // Присутствует в версиях ИРБИС с 2013.1.
@@ -339,11 +358,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// UNIFOR('+9L'): check whether the file exist
         /// </summary>
         public static void FileExist
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -377,7 +396,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Вернуть имя файла из заданного полного пути/имени – &uf('+91
+        // Вернуть имя файла из заданного полного пути/имени – &uf('+91')
         // Вид функции: +91.
         // Назначение: Вернуть имя файла из заданного полного пути/имени.
         // Присутствует в версиях ИРБИС с 2006.1.
@@ -389,11 +408,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Get file name from full path.
         /// </summary>
         public static void GetFileName
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -409,7 +428,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Вернуть размер файла в байтах. – &uf('+9A
+        // Вернуть размер файла в байтах. – &uf('+9A')
         // Вид функции: +9A.
         // Назначение: Вернуть размер файла в байтах.
         // Формат (передаваемая строка):
@@ -420,11 +439,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// UNIFOR('+9A'):  Get file size.
         /// </summary>
         public static void GetFileSize
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -456,7 +475,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Вернуть номер текущего повторения в повторяющейся группе – &uf('+90
+        // Вернуть номер текущего повторения в повторяющейся группе – &uf('+90')
         // Вид функции: +90.
         // Назначение: Вернуть номер текущего повторения в повторяющейся группе.
         // Присутствует в версиях ИРБИС с 2006.1.
@@ -468,11 +487,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Get field repeat.
         /// </summary>
         public static void GetIndex
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             int index = context.Index;
             if (!ReferenceEquals(context.CurrentGroup, null))
@@ -488,7 +507,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Вернуть номер поколения ИРБИС – &uf('+9V
+        // Вернуть номер поколения ИРБИС – &uf('+9V')
         // Вид функции: +9V.
         // Назначение: Возвращает поколение системы, в которой
         // осуществляется расформатирование. Может быть полезен при
@@ -506,24 +525,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Get IRBIS generation (family): 32 or 64
         /// </summary>
         public static void GetGeneration
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             context.Write
-            (
-                node,
-                context.Provider.GetGeneration()
-            );
+                (
+                    node,
+                    context.Provider.GetGeneration()
+                );
             context.OutputFlag = true;
         }
 
         // ================================================================
 
         //
-        // Вернуть длину исходной строки – &uf('+95
+        // Вернуть длину исходной строки – &uf('+95')
         // Вид функции: +95.
         // Назначение: Вернуть длину исходной строки.
         // Присутствует в версиях ИРБИС с 2006.1.
@@ -535,11 +554,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Get string length.
         /// </summary>
         public static void StringLength
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             string output = "0";
             if (!string.IsNullOrEmpty(expression))
@@ -557,7 +576,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Заменить в заданной строке один символ на другой – &uf('+98
+        // Заменить в заданной строке один символ на другой – &uf('+98')
         // Вид функции: +98.
         // Назначение: Заменить в заданной строке один символ
         // на другой (регистр учитывается).
@@ -578,11 +597,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Replace character in text.
         /// </summary>
         public static void ReplaceCharacter
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -606,7 +625,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
         //
         // Заменить в исходных данных некоторую заданную последовательность
-        // символов другой заданной последовательностью символов – &uf('+9I
+        // символов другой заданной последовательностью символов – &uf('+9I')
         // Вид функции: +9I.
         // Назначение: Заменить в исходных данных некоторую заданную
         // последовательность символов другой заданной
@@ -628,11 +647,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Replace substring.
         /// </summary>
         public static void ReplaceString
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -670,7 +689,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 }
 
                 string output = text.Replace(first, second);
-                if (!String.IsNullOrEmpty(output))
+                if (!string.IsNullOrEmpty(output))
                 {
                     context.Write(node, output);
                     context.OutputFlag = true;
@@ -681,7 +700,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Преобразовать заданную строку в список слов – &uf('+9G
+        // Преобразовать заданную строку в список слов – &uf('+9G')
         // Вид функции: +9G.
         // Назначение: Преобразовать заданную строку в список слов.
         // Присутствует в версиях ИРБИС с 2008.1.
@@ -694,37 +713,28 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Split text to word array.
         /// </summary>
         public static void SplitWords
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             if (!string.IsNullOrEmpty(expression))
             {
-                IrbisAlphabetTable table = context.Provider
-                    .GetAlphabetTable();
-
-                string[] words = table.SplitWords(expression);
+                string[] words = PftUtility.ExtractWords(expression);
                 for (int i = 0; i < words.Length; i++)
                 {
-                    words[i] = StringUtility.ToUpperInvariant(words[i]);
+                    string word = StringUtility.ToUpperInvariant(words[i]);
+                    context.WriteLine(node, word);
+                    context.OutputFlag = true;
                 }
-
-                string output = String.Join
-                (
-                    Environment.NewLine,
-                    words.ToArray()
-                );
-                context.Write(node, output);
-                context.OutputFlag = true;
             }
         }
 
         // ================================================================
 
         //
-        // Вернуть часть строки – &uf('+96
+        // Вернуть часть строки – &uf('+96')
         // Вид функции: +96.
         // Назначение: Вернуть часть строки.
         // Присутствует в версиях ИРБИС с 2006.1.
@@ -734,31 +744,33 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // A – направление: 0 – с начала строки; 1 – с конца;
         // SSS – смещение;
         // NNN – кол-во символов.
+        //
         // Примеры:
+        //
         // &uf('+960*0.4#'v100)
         // &uf('+960*5.4#'v100)
         // &uf('+961*0.4#'v100)
         //
 
         /// <summary>
-        /// 
+        /// Extract substring.
         /// </summary>
         public static void Substring
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             if (!string.IsNullOrEmpty(expression))
             {
                 string text;
                 string[] parts = StringUtility.SplitString
-                (
-                    expression,
-                    new[] {'#'},
-                    2
-                );
+                    (
+                        expression,
+                        new[] { '#' },
+                        2
+                    );
 
                 if (parts.Length == 2)
                 {
@@ -815,7 +827,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Вернуть заданную строку в верхнем регистре – &uf('+97
+        // Вернуть заданную строку в верхнем регистре – &uf('+97')
         // Вид функции: +97.
         // Назначение: Вернуть заданную строку в верхнем регистре.
         // Присутствует в версиях ИРБИС с 2006.1.
@@ -827,11 +839,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Convert text to upper case.
         /// </summary>
         public static void ToUpper
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             if (!string.IsNullOrEmpty(expression))
             {
@@ -845,7 +857,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // ================================================================
 
         //
-        // Найти подстроку – &uf('+9S
+        // Найти подстроку – &uf('+9S')
         // Вид функции: +9S.
         // Назначение: Возвращает позицию первого символа найденного
         // вхождения подстроки в исходную строку. Считается, что
@@ -868,11 +880,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// Если подстрока не найдена, то возвращает 0.
         /// </summary>
         public static void FindSubstring
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             if (string.IsNullOrEmpty(expression))
             {
@@ -936,11 +948,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         //
 
         public static void PrintNumbers
-        (
-            [NotNull] PftContext context,
-            [CanBeNull] PftNode node,
-            [CanBeNull] string expression
-        )
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
         {
             if (string.IsNullOrEmpty(expression))
             {
@@ -955,7 +967,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            char[] separators = {'/'};
+            char[] separators = { '/' };
             string[] parts = StringUtility.SplitString(expression, separators, 2);
             string left = parts[0], right = parts[1];
             int width = left.Length;
@@ -1021,6 +1033,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // иначе, если N < 1000000, выводится суффкис Kb,
         // и так далее.
         //
+
         public static void FormatFileSize
             (
                 [NotNull] PftContext context,
@@ -1030,9 +1043,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             string result = "0";
 
+            // irbis64 использует int32, все что больше становится 0
+
             if (string.IsNullOrEmpty(expression))
             {
-                goto  DONE;
+                goto DONE;
             }
 
             double size = expression.SafeToDouble(0.0);
@@ -1075,6 +1090,51 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             DONE:
             context.Write(node, result);
             context.OutputFlag = true;
+        }
+
+        // ================================================================
+
+        // Удалить заданный файл – &uf('+9K')
+        // Вид функции: +9K.
+        //
+        // Назначение: Удалить заданный файл. Если имя файла задано
+        // в виде маски, то удаляться будут все соответствующие
+        // маске файлы.
+        //
+        // Присутствует в версиях ИРБИС с 2010.1.
+        //
+        // Формат (передаваемая строка):
+        //
+        // +9K<полный путь и имя файла>
+        //
+
+        public static void DeleteFiles
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                return;
+            }
+
+            string directoryName = Path.GetDirectoryName(expression);
+            if (string.IsNullOrEmpty(directoryName))
+            {
+                return;
+            }
+
+            string[] files = Directory.GetFiles
+                (
+                    directoryName,
+                    Path.GetFileName(expression)
+                );
+            foreach (string oneFile in files)
+            {
+                File.Delete(oneFile);
+            }
         }
 
         #endregion

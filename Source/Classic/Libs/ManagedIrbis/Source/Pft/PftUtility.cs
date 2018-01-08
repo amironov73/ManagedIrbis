@@ -22,6 +22,7 @@ using AM;
 using AM.Collections;
 using AM.ConsoleIO;
 using AM.Logging;
+using AM.Text;
 
 using CodeJam;
 
@@ -634,6 +635,51 @@ namespace ManagedIrbis.Pft
                 }
 
 #endif
+            }
+
+            return result.ToArray();
+        }
+
+        //=================================================
+
+        /// <summary>
+        /// Извлекает все слова на латинице и кириллице.
+        /// </summary>
+        public static string[] ExtractWords
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return StringUtility.EmptyArray;
+            }
+
+            List<string> result = new List<string>();
+            TextNavigator navigator = new TextNavigator(text);
+            StringBuilder builder = new StringBuilder();
+            char c;
+            while ((c = navigator.ReadChar()) != '\0')
+            {
+                if (c >= 0x0041 && c < 0x005B
+                    || c >= 0x0061 && c < 0x007B
+                    || c >= 0x0400 && c < 0x0460)
+                {
+                    builder.Append(c);
+                }
+                else
+                {
+                    if (builder.Length != 0)
+                    {
+                        result.Add(builder.ToString());
+                        builder.Clear();
+                    }
+                }
+            }
+
+            if (builder.Length != 0)
+            {
+                result.Add(builder.ToString());
             }
 
             return result.ToArray();

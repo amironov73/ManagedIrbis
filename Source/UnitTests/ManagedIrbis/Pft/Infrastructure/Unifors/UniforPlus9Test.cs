@@ -168,7 +168,9 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         [TestMethod]
         public void UniforPlus9_SplitWords_1()
         {
-            Execute(@"+9GC:\Windows\System32\esent.dll", "C\nWINDOWS\nSYSTEM\nESENT\nDLL");
+            Execute(@"+9GC:\Windows\System32\esent.dll", "C\nWINDOWS\nSYSTEM\nESENT\nDLL\n");
+            Execute(@"+9GЂорђе Балашевић", "ЂОРЂЕ\nБАЛАШЕВИЋ\n");
+            Execute(@"+9G123,456", "");
 
             // Обработка ошибок
             Execute("+9G", "");
