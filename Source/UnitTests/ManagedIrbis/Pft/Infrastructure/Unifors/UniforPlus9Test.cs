@@ -257,5 +257,20 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             Execute("+9E-123", "0");
             Execute("+9E123Q", "0");
         }
+
+        [TestMethod]
+        public void UniforPlus9_ReadFileAsBinaryResource_1()
+        {
+            string fileName = Path.Combine
+                (
+                    TestDataPath,
+                    "EMPTY.MST"
+                );
+            Execute("+9J"+fileName, "^aMST^b%00%00%00%00%00%00%00%01%00%00%00%24%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00");
+
+            // Обработка ошибок
+            Execute("+9J", "");
+            Execute("+9JC:\\nosuchfile", "");
+        }
     }
 }

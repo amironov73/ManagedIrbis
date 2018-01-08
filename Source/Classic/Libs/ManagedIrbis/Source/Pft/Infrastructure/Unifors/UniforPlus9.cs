@@ -12,6 +12,7 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 
 using AM;
@@ -133,6 +134,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         #endregion
 
         #region Public methods
+
+        // ================================================================
 
         //
         // Вернуть ANSI-символ с заданным кодом – &uf('+9F')
@@ -1174,18 +1177,16 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-
-            int occ = parts[0].SafeToInt32();
+            int occurrence = parts[0].SafeToInt32();
             string path = parts[1];
             MarcRecord record = context.Record;
-            if (!ReferenceEquals(record, null)
-                && occ > 0)
+            if (!ReferenceEquals(record, null) && occurrence > 0)
             {
                 // TODO implement
                 // var tag = Irbis64Config.IniParam("MAIN", "TAGINTERNALRESOURCE", "953").SafeParseInt32();
                 int tag = 953;
 
-                RecordField field = record.Fields.GetField(tag, occ - 1);
+                RecordField field = record.Fields.GetField(tag, occurrence - 1);
                 if (!ReferenceEquals(field, null))
                 {
                     BinaryResource resource = BinaryResource.Parse(field);
@@ -1204,6 +1205,80 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     }
                 }
             }
+        }
+
+        // ================================================================
+
+        //
+        // Представить заданный двоичный файл в кодированном виде – &uf('+9J')
+        // Вид функции: +9J.
+        //
+        // Назначение: Представить заданный двоичный файл в виде:
+        // ^A<тип_файла>^B<данные файла перекодированные на основе URLEncode>.
+        //
+        // Присутствует в версиях ИРБИС с 2010.1.
+        //
+        // Формат (передаваемая строка):
+        // 
+        // +9J<полный путь и имя файла>
+        //
+        // Имя файла может задаваться в виде маски, в этом случае использоваться
+        // будет первый найденный соответствующей маске файл.
+        //
+
+        /// <summary>
+        /// Чтение файла как двоичного ресурса.
+        /// </summary>
+        public static void ReadFileAsBinaryResource
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                return;
+            }
+
+            string path = Path.GetDirectoryName(expression);
+            if (string.IsNullOrEmpty(path))
+            {
+                return;
+            }
+            string name = Path.GetFileName(expression);
+            string[] files = Directory.GetFiles(path, name);
+            if (files.Length == 0)
+            {
+                return;
+            }
+            string file = files[0];
+            string format = Path.GetExtension(file).TrimStart('.');
+            byte[] content;
+            try
+            {
+                content = File.ReadAllBytes(file);
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException
+                    (
+                        "UniforPlus9::ReadFileAsBinaryResource",
+                        exception
+                    );
+
+                return;
+            }
+
+            BinaryResource resource = new BinaryResource
+            {
+                Kind = format
+            };
+            resource.Resource = resource.Encode(content);
+            RecordField field = resource.ToField();
+            string output = field.ToText();
+            context.Write(node, output);
+            context.OutputFlag = true;
         }
 
         #endregion
