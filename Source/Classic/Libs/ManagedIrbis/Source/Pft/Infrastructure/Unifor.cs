@@ -164,6 +164,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+98", UniforPlus9.ReplaceCharacter);
             Registry.Add("+9A", UniforPlus9.GetFileSize);
             Registry.Add("+9C", UniforPlus9.GetFileContent);
+            Registry.Add("+9D", UniforPlus9.SaveBinaryResource);
             Registry.Add("+9E", UniforPlus9.FormatFileSize);
             Registry.Add("+9F", UniforPlus9.GetCharacter);
             Registry.Add("+9G", UniforPlus9.SplitWords);

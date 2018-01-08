@@ -20,6 +20,7 @@ using AM.Text;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Fields;
 using ManagedIrbis.Infrastructure;
 
 #endregion
@@ -1094,6 +1095,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
         // ================================================================
 
+        //
         // Удалить заданный файл – &uf('+9K')
         // Вид функции: +9K.
         //
@@ -1134,6 +1136,73 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             foreach (string oneFile in files)
             {
                 File.Delete(oneFile);
+            }
+        }
+
+        // ================================================================
+
+        //
+        // Сохранить заданный внутренний двоичный объект в заданном файле - &uf('+9D')
+        // Вид функции: +9D.
+        //
+        // Назначение: Сохранить заданный внутренний двоичный объект в заданном файле.
+        //
+        // Присутствует в версиях ИРБИС с 2006.2.
+        //
+        // Формат (передаваемая строка):
+        //
+        // +9DNN#<полный путь>
+        // где NN – номер внутреннего двоичного объекта.
+        //
+
+        public static void SaveBinaryResource
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                return;
+            }
+
+            char[] separators = {'#'};
+            string[] parts = StringUtility.SplitString(expression, separators, 2);
+            if (parts.Length != 2)
+            {
+                return;
+            }
+
+
+            int occ = parts[0].SafeToInt32();
+            string path = parts[1];
+            MarcRecord record = context.Record;
+            if (!ReferenceEquals(record, null)
+                && occ > 0)
+            {
+                // TODO implement
+                // var tag = Irbis64Config.IniParam("MAIN", "TAGINTERNALRESOURCE", "953").SafeParseInt32();
+                int tag = 953;
+
+                RecordField field = record.Fields.GetField(tag, occ - 1);
+                if (!ReferenceEquals(field, null))
+                {
+                    BinaryResource resource = BinaryResource.Parse(field);
+                    string format = resource.Kind;
+                    string content = resource.Resource;
+                    if (!ReferenceEquals(content, null))
+                    {
+                        if (!string.IsNullOrEmpty(format)
+                            && string.IsNullOrEmpty(Path.GetExtension(path)))
+                        {
+                            path += "." + format;
+                        }
+
+                        byte[] bytes = resource.Decode();
+                        File.WriteAllBytes(path, bytes);
+                    }
+                }
             }
         }
 
