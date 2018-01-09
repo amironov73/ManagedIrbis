@@ -659,6 +659,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\CommandKind.cs">
       <Link>Source\Infrastructure\CommandKind.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\EfficientRecordSerializer.cs">
+      <Link>Source\Infrastructure\EfficientRecordSerializer.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\AbstractCommand.cs">
       <Link>Source\Infrastructure\Commands\AbstractCommand.cs</Link>
     </Compile>
@@ -1645,6 +1648,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusPlusC.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusPlusC.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusP.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusP.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusR.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusR.cs</Link>
