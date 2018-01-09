@@ -272,5 +272,20 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             Execute("+9J", "");
             Execute("+9JC:\\nosuchfile", "");
         }
+
+        [TestMethod]
+        public void UniforPlus9_ConcatenateStrings_1()
+        {
+            Execute("+9H!Hello, !world!", "Hello, world!");
+            Execute("+9H!Hello, !", "");
+            Execute("+9H!!Hello!", "Hello!");
+            Execute("+9H!!!", "!");
+            Execute("+9H!!", "");
+
+            // Обработка ошибок
+            Execute("+9H", "");
+            Execute("+9H!", "");
+            Execute("+9HHello", "");
+        }
     }
 }

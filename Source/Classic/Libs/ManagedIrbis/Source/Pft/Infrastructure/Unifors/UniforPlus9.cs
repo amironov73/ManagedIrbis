@@ -1281,6 +1281,54 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             context.OutputFlag = true;
         }
 
+        // ================================================================
+
+        //
+        // ibatrak
+        //
+        // Неописанная функция unifor('+9H')
+        // Параметры
+        // +9H!строка А!строка Б
+        // символ ! - разделитель
+        // Если строка Б не пустая возвращает конкатенацию строк А и Б
+        // иначе пустую строку
+        //
+
+        /// <summary>
+        /// Условная конкатенация строк.
+        /// </summary>
+        public static void ConcatenateStrings
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression)
+                || expression.Length < 3)
+            {
+                return;
+            }
+
+            char separator = expression[0];
+            int position = expression.IndexOf(separator, 1);
+            if (position < 0)
+            {
+                return;
+            }
+
+            string first = expression.Substring(1, position - 1);
+            string second = expression.Substring(position + 1);
+            if (string.IsNullOrEmpty(second))
+            {
+                return;
+            }
+
+            string output = first + second;
+            context.Write(node, output);
+            context.OutputFlag = true;
+        }
+
         #endregion
     }
 }
