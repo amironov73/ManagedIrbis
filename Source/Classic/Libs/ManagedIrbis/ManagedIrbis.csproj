@@ -177,6 +177,7 @@
     <Compile Include="Source\Biblio\TermComparer.cs" />
     <Compile Include="Source\BibTex\BibTex.cs" />
     <Compile Include="Source\Client\ConnectedFormatter.cs" />
+    <Compile Include="Source\Infrastructure\EfficientRecordSerializer.cs" />
     <Compile Include="Source\FastFields.cs" />
     <Compile Include="Source\FieldDifference.cs" />
     <Compile Include="Source\FieldState.cs" />
