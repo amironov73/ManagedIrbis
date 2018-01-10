@@ -1329,6 +1329,55 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             context.OutputFlag = true;
         }
 
+        // ================================================================
+
+        //
+        // Групповая установка глобальных переменных – &uf('+99')
+        // Вид функции: +99.
+        //
+        // Назначение: Групповая установка глобальных переменных.
+        // Применяется для ИРБИС-Навигатора.
+        // Исходная строка закодирована с помощью URL-кодировки.
+        // После раскодировки рассматривается как список строк
+        // (аналогично TStringList.Text в Delphi).
+        // Каждая строка этого списка имеет структуру:
+        // NNN#<значение_глобальной_переменной_NNN>.
+        //
+        // Присутствует в версиях ИРБИС с 2006.1.
+        //
+        // Формат (передаваемая строка):
+        //
+        // +99
+        //
+
+        public static void AssignGlobals
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (!string.IsNullOrEmpty(expression))
+            {
+                PftGlobalManager globals = context.Globals;
+                globals.Clear(); // ???
+                string decoded = StringUtility
+                    .UrlDecode(expression, IrbisEncoding.Utf8)
+                    .ThrowIfNull();
+                string[] lines = decoded.SplitLines();
+                foreach (string line in lines)
+                {
+                    if (string.IsNullOrEmpty(line))
+                    {
+                        continue;
+                    }
+
+                    RecordField field = RecordField.Parse(line).ThrowIfNull();
+                    globals.Append(field.Tag, field.ToText());
+                }
+            }
+        }
+
         #endregion
     }
 }

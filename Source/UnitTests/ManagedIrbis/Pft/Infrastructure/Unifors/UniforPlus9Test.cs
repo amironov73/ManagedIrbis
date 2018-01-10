@@ -1,7 +1,11 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
+using System.Text;
 
 using AM;
-
+using AM.Text;
+using ManagedIrbis;
+using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -286,6 +290,53 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             Execute("+9H", "");
             Execute("+9H!", "");
             Execute("+9HHello", "");
+        }
+
+        [TestMethod]
+        public void UniforPlus9_AssignGlobals_1()
+        {
+            RecordField[] globals =
+            {
+                new RecordField(100, "Field100"),
+                new RecordField(200, "^aFirst"),
+                new RecordField(200, "^aSecond"),
+                new RecordField(300, "Field300"),
+            };
+            StringBuilder builder = new StringBuilder();
+            foreach (RecordField field in globals)
+            {
+                builder.AppendLine
+                    (
+                        string.Format
+                            (
+                                CultureInfo.InvariantCulture,
+                                "{0}#{1}",
+                                field.Tag,
+                                field.ToText()
+                            )
+                    );
+            }
+            string encoded = StringUtility.UrlEncode
+                (
+                    builder.ToString(),
+                    IrbisEncoding.Utf8
+                );
+
+            PftContext context = new PftContext(null);
+            Unifor unifor = new Unifor();
+            unifor.Execute(context, null, "+99" + encoded);
+
+            RecordField[] fields = context.Globals.Get(100);
+            Assert.AreEqual(1, fields.Length);
+
+            fields = context.Globals.Get(200);
+            Assert.AreEqual(2, fields.Length);
+
+            fields = context.Globals.Get(300);
+            Assert.AreEqual(1, fields.Length);
+
+            fields = context.Globals.Get(400);
+            Assert.AreEqual(0, fields.Length);
         }
     }
 }

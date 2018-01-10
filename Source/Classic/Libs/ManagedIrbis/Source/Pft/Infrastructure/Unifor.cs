@@ -162,6 +162,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+96", UniforPlus9.Substring);
             Registry.Add("+97", UniforPlus9.ToUpper);
             Registry.Add("+98", UniforPlus9.ReplaceCharacter);
+            Registry.Add("+99", UniforPlus9.AssignGlobals);
             Registry.Add("+9A", UniforPlus9.GetFileSize);
             Registry.Add("+9C", UniforPlus9.GetFileContent);
             Registry.Add("+9D", UniforPlus9.SaveBinaryResource);
