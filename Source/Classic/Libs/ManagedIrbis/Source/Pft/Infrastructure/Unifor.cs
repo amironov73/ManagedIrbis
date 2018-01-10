@@ -180,6 +180,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+D", UniforPlusD.GetDatabaseName);
             Registry.Add("+E", UniforPlusE.GetFieldIndex);
             Registry.Add("+F", UniforPlusF.CleanRtf);
+            Registry.Add("+H", UniforPlusH.Take3Of4);
             Registry.Add("+I", UniforPlusI.BuildLink);
             Registry.Add("+K", UniforPlusK.GetAuthorSign);
             Registry.Add("+N", UniforPlusN.GetFieldCount);
