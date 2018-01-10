@@ -9,8 +9,6 @@
 
 #region Using directives
 
-using AM;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -20,7 +18,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Вернуть заданную строку в нижнем регистре – &uf('Q
+    // Вернуть заданную строку в нижнем регистре – &uf('Q')
     // Вид функции: Q.
     // Назначение: Вернуть заданную строку в нижнем регистре.
     // Формат (передаваемая строка):
@@ -53,7 +51,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             if (!string.IsNullOrEmpty(expression))
             {
 
-                string output = StringUtility.ToLowerInvariant(expression);
+                string output = IrbisText.ToLower(expression);
 
                 context.Write(node, output);
                 context.OutputFlag = true;

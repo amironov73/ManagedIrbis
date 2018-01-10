@@ -1,10 +1,4 @@
-﻿using System.IO;
-
-using AM;
-
-using ManagedIrbis.Pft.Infrastructure.Ast;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
 {

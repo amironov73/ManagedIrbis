@@ -21,7 +21,7 @@ using JetBrains.Annotations;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Размножение экземпляров – &uf('Z
+    // Размножение экземпляров – &uf('Z')
     // Вид функции: Z.
     // Назначение: Размножение экземпляров.
     // Функция ничего не возвращает.

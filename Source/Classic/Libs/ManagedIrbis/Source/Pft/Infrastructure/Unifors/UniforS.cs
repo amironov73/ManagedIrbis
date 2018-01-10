@@ -95,7 +95,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 int delta;
                 if (NumericUtility.TryParseInt32(text, out delta))
                 {
-                    context.UniversalCounter += delta;
+                    //ibatrak при значении 0 - сбросить счетчик
+                    if (delta == 0)
+                    {
+                        context.UniversalCounter = 0;
+                    }
+                    else
+                    {
+                        context.UniversalCounter += delta;
+                    }
                 }
                 char c = navigator.ReadChar();
                 if (c == 'A' || c == 'a')

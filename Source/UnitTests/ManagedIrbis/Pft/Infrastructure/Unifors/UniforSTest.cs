@@ -50,6 +50,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         [TestMethod]
         public void UniforS_Add_1()
         {
+            _S("S0", 10, 0);
             _S("S1", 10, 11);
             _S("S9", 10, 19);
         }
