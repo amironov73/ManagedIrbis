@@ -16,12 +16,14 @@ using JetBrains.Annotations;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Выдать имя базы данных – &uf('+D
+    // Выдать имя базы данных – &uf('+D')
     // Вид функции: +D.
     // Назначение: Возвращает имя текущей базы данных.
     // Формат (передаваемая строка):
     // +D
+    //
     // Примеры:
+    //
     // &unifor('+D')
     //
 

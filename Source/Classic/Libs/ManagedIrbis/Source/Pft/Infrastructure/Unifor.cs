@@ -176,6 +176,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+9S", UniforPlus9.FindSubstring);
             Registry.Add("+9T", UniforPlus9.PrintNumbers);
             Registry.Add("+9V", UniforPlus9.GetGeneration);
+            Registry.Add("+C", UniforPlusC.Increment);
             Registry.Add("+D", UniforPlusD.GetDatabaseName);
             Registry.Add("+E", UniforPlusE.GetFieldIndex);
             Registry.Add("+F", UniforPlusF.CleanRtf);
