@@ -21,8 +21,10 @@ using AM.Text;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
 using ManagedIrbis.Fields;
 using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Search;
 
 #endregion
 
@@ -1170,7 +1172,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            char[] separators = {'#'};
+            char[] separators = { '#' };
             string[] parts = StringUtility.SplitString(expression, separators, 2);
             if (parts.Length != 2)
             {
@@ -1376,6 +1378,95 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     globals.Append(field.Tag, field.ToText());
                 }
             }
+        }
+
+        // ================================================================
+
+        // ibatrak
+        private static void _ShowTerm
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression,
+                bool reverseOrder
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                return;
+            }
+
+            char[] separators = { ',' };
+            string[] parts = StringUtility.SplitString(expression, separators, 2);
+            if (parts.Length != 2)
+            {
+                return;
+            }
+
+            IrbisProvider provider = context.Provider;
+            string database = parts[0];
+            string startTerm = IrbisText.ToUpper(parts[1]);
+            if (string.IsNullOrEmpty(database))
+            {
+                database = provider.Database;
+            }
+
+            TermParameters parameters = new TermParameters
+            {
+                Database = database,
+                NumberOfTerms = 2,
+                StartTerm = startTerm,
+                ReverseOrder = reverseOrder
+            };
+            TermInfo[] terms = provider.ReadTerms(parameters);
+            if (terms.Length != 0)
+            {
+                string output;
+
+                // если найдено точное совпадение термина, вернем следующий термин
+                // при поиске в обратном направлении всегда возвращается предыдущий термин 
+                if (terms.Length == 2 && (terms[0].Text == startTerm || reverseOrder))
+                {
+                    output = terms[1].Text;
+                }
+                else
+                {
+                    // не найдено, вернем первый найденный термин
+                    output = terms[0].Text;
+                }
+
+                if (!string.IsNullOrEmpty(output))
+                {
+                    context.Write(node, output);
+                    context.OutputFlag = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Search for next term.
+        /// </summary>
+        public static void NextTerm
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            _ShowTerm(context, node, expression, false);
+        }
+
+        /// <summary>
+        /// Search for next term.
+        /// </summary>
+        public static void PreviousTerm
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            _ShowTerm(context, node, expression, true);
         }
 
         #endregion

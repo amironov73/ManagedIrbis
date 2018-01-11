@@ -338,5 +338,29 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             fields = context.Globals.Get(400);
             Assert.AreEqual(0, fields.Length);
         }
+
+        [TestMethod]
+        public void UniforPlus9_NextTerm_1()
+        {
+            Execute("+9NISTU,K=ALG", "K=ALGEBRAS");
+            Execute("+9NISTU,K=ANALYTICAL", "K=ALGEBRAS");
+            Execute("+9NISTU,K=ALGEBRAS", "K=ALMA");
+            Execute("+9NISTU,A=ЯЯЯ", "AF=-S2");
+
+            // Обработка ошибок
+            Execute("+9N", "");
+        }
+
+        //[TestMethod]
+        //public void UniforPlus9_PreviousTerm_1()
+        //{
+        //    Execute("+9PISTU,K=ALMA", "K=ALGEBRAS");
+        //    Execute("+9PISTU,K=ALGEBRAS", "K=ANALYTICAL");
+        //    Execute("+9PISTU,K=ALMA", "K=ALGEBRAS");
+        //    Execute("+9PISTU,K=AAA", "");
+
+        //    // Обработка ошибок
+        //    Execute("+9P", "");
+        //}
     }
 }

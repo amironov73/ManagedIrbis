@@ -164,6 +164,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+98", UniforPlus9.ReplaceCharacter);
             Registry.Add("+99", UniforPlus9.AssignGlobals);
             Registry.Add("+9A", UniforPlus9.GetFileSize);
+            // ibatrak (неописанный клон функции +98)
+            Registry.Add("+9B", UniforPlus9.ReplaceCharacter);
             Registry.Add("+9C", UniforPlus9.GetFileContent);
             Registry.Add("+9D", UniforPlus9.SaveBinaryResource);
             Registry.Add("+9E", UniforPlus9.FormatFileSize);
@@ -174,6 +176,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+9J", UniforPlus9.ReadFileAsBinaryResource);
             Registry.Add("+9K", UniforPlus9.DeleteFiles);
             Registry.Add("+9L", UniforPlus9.FileExist);
+            Registry.Add("+9N", UniforPlus9.NextTerm);
+            Registry.Add("+9P", UniforPlus9.PreviousTerm);
             Registry.Add("+9S", UniforPlus9.FindSubstring);
             Registry.Add("+9T", UniforPlus9.PrintNumbers);
             Registry.Add("+9V", UniforPlus9.GetGeneration);
