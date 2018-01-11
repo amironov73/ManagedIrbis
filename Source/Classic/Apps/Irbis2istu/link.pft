@@ -1,0 +1,8 @@
+﻿(if p(v951^i)
+then
+  if not v951^h:'02'
+  then
+    v951^i,
+    break,
+  fi,
+fi)
