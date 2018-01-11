@@ -10,6 +10,7 @@
 #region Using directives
 
 using AM;
+using AM.Text;
 
 using JetBrains.Annotations;
 
@@ -45,8 +46,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            char[] separators = {'#'};
-            string[] parts = StringUtility.SplitString(expression, separators, 2);
+            string[] parts = StringUtility.SplitString
+                (
+                    expression,
+                    CommonSeparators.NumberSign,
+                    2
+                );
             if (parts.Length != 2
                || string.IsNullOrEmpty(parts[1]))
             {

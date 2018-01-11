@@ -144,7 +144,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         {
             Execute("+98ABHere is A letter, here is another A letter", "Here is B letter, here is another B letter");
             Execute("+98АЯА последняя буква в алфавите", "Я последняя буква в алфавите");
-            Execute("+9BAB ", "");
+            Execute("+9BAB ", " ");
 
             // Обработка ошибок
             Execute("+9B", "");
@@ -157,7 +157,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         {
             Execute("+9I!A!/B/Here is A letter, here is another A letter", "Here is B letter, here is another B letter");
             Execute("+9I!А!/Я/А последняя буква в алфавите", "Я последняя буква в алфавите");
-            Execute("+9B!A!/B/ ", "");
+            Execute("+9I!A!/B/ ", " ");
 
             // Обработка ошибок
             Execute("+9I", "");
@@ -343,7 +343,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         public void UniforPlus9_NextTerm_1()
         {
             Execute("+9NISTU,K=ALG", "K=ALGEBRAS");
-            Execute("+9NISTU,K=ANALYTICAL", "K=ALGEBRAS");
+            Execute("+9NISTU,K=ANALYTICAL", "K=ANNALES");
             Execute("+9NISTU,K=ALGEBRAS", "K=ALMA");
             Execute("+9NISTU,A=ЯЯЯ", "AF=-S2");
 

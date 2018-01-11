@@ -12,7 +12,6 @@
 using System;
 using System.Globalization;
 using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
 
 using AM;
@@ -774,7 +773,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 string[] parts = StringUtility.SplitString
                     (
                         expression,
-                        new[] { '#' },
+                        CommonSeparators.NumberSign,
                         2
                     );
 
@@ -973,8 +972,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            char[] separators = { '/' };
-            string[] parts = StringUtility.SplitString(expression, separators, 2);
+            string[] parts = StringUtility.SplitString
+                (
+                    expression,
+                    CommonSeparators.Slash,
+                    2
+                );
             string left = parts[0], right = parts[1];
             int width = left.Length;
             string digits = Regex.Match(left, "-?\\d+").Value;
@@ -1172,8 +1175,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            char[] separators = { '#' };
-            string[] parts = StringUtility.SplitString(expression, separators, 2);
+            string[] parts = StringUtility.SplitString
+                (
+                    expression,
+                    CommonSeparators.NumberSign,
+                    2
+                );
             if (parts.Length != 2)
             {
                 return;
@@ -1396,8 +1403,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            char[] separators = { ',' };
-            string[] parts = StringUtility.SplitString(expression, separators, 2);
+            string[] parts = StringUtility.SplitString
+                (
+                    expression,
+                    CommonSeparators.Comma,
+                    2
+                );
             if (parts.Length != 2)
             {
                 return;

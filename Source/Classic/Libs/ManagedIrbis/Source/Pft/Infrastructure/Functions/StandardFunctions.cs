@@ -43,7 +43,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 string[] parts = StringUtility.SplitString
                     (
                         expression,
-                        new[] {'#'},
+                        CommonSeparators.NumberSign,
                         2
                     );
                 if (parts.Length == 2)
@@ -192,7 +192,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 string[] parts = StringUtility.SplitString
                     (
                         expression,
-                        new[] { '#' },
+                        CommonSeparators.NumberSign,
                         2
                     );
                 string tag = parts[0];

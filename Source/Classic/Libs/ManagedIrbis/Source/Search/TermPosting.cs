@@ -18,7 +18,7 @@ using System.Xml.Serialization;
 using AM;
 using AM.IO;
 using AM.Runtime;
-
+using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -94,12 +94,6 @@ namespace ManagedIrbis.Search
 
         #endregion
 
-        #region Private members
-
-        private static readonly char[] _separators = { '#' };
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -136,18 +130,12 @@ namespace ManagedIrbis.Search
                     break;
                 }
 
-#if !WINMOBILE && !PocketPC
-
-                string[] parts = line.Split(_separators, 5);
-
-#else
-
-                // TODO Implement properly
-
-                string[] parts = line.Split(_separators);
-
-#endif
-
+                string[] parts = StringUtility.SplitString
+                    (
+                        line,
+                        CommonSeparators.NumberSign,
+                        5
+                    );
                 if (parts.Length < 4)
                 {
                     break;

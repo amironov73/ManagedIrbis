@@ -11,6 +11,7 @@
 
 using AM;
 using AM.IO;
+using AM.Text;
 
 using CodeJam;
 
@@ -53,7 +54,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 string[] parts = StringUtility.SplitString
                     (
                         expression,
-                        new[] {','},
+                        CommonSeparators.Comma,
                         3
                     );
 

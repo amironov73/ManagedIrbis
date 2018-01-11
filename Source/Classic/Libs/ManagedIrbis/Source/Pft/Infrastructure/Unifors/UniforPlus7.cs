@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 
 using AM;
+using AM.Text;
 
 using JetBrains.Annotations;
 
@@ -27,8 +28,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     static class UniforPlus7
     {
         #region Private members
-
-        private static readonly char[] _numberSign = { '#' };
 
         private static bool _Contains
             (
@@ -79,7 +78,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 string[] parts = StringUtility.SplitString
                     (
                         expression,
-                        _numberSign,
+                        CommonSeparators.NumberSign,
                         2
                     );
 
@@ -244,7 +243,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 string[] parts = StringUtility.SplitString
                     (
                         expression,
-                        _numberSign,
+                        CommonSeparators.NumberSign,
                         2
                     );
 
@@ -480,7 +479,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 string[] parts = StringUtility.SplitString
                     (
                         expression,
-                        _numberSign,
+                        CommonSeparators.NumberSign,
                         2
                     );
 

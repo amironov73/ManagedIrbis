@@ -60,7 +60,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 string[] parts = StringUtility.SplitString
                     (
                         expression,
-                        new[] {','},
+                        CommonSeparators.Comma,
                         2
                     );
                 if (parts.Length == 2)

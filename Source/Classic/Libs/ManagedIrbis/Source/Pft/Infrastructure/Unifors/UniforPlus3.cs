@@ -209,6 +209,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // Форматирование полей записи в клиентское представление без заголовка
         //
         // &uf ('+3A')
+        //
 
         /// <summary>
         /// Encode the record to the plain text format.
@@ -248,6 +249,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // > на &gt;
         // одинарные кавычки не кодирует
         //
+
         public static void HtmlSpecialChars
             (
                 [NotNull] PftContext context,
@@ -298,7 +300,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            string[] parts = StringUtility.SplitString(expression, new[] { ',' }, 2);
+            string[] parts = StringUtility.SplitString
+                (
+                    expression,
+                    CommonSeparators.Comma,
+                    2
+                );
             if (parts.Length != 2)
             {
                 return;
@@ -672,8 +679,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            char[] separators = { ',' };
-            string[] parts = StringUtility.SplitString(expression, separators, 2);
+            string[] parts = StringUtility.SplitString
+                (
+                    expression,
+                    CommonSeparators.Comma,
+                    2
+                );
             if (parts.Length == 1)
             {
                 context.Write(node, "0");

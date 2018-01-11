@@ -27,6 +27,7 @@ using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Client;
 using ManagedIrbis.Search;
 using MoonSharp.Interpreter;
@@ -67,7 +68,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            string[] parts = expression.Split(new [] { ',' }, 2);
+            string[] parts = StringUtility.SplitString
+                (
+                    expression,
+                    CommonSeparators.Comma,
+                    2
+                );
             if (parts.Length != 2)
             {
                 return;

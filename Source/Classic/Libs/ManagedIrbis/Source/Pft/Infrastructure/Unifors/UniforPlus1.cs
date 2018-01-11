@@ -16,6 +16,7 @@ using System.Text;
 
 using AM;
 using AM.Collections;
+using AM.Text;
 
 using JetBrains.Annotations;
 
@@ -33,10 +34,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     static class UniforPlus1
     {
         #region Private members
-
-        private static readonly char[] _comma = { ',' };
-        private static readonly char[] _numberSign = { '#' };
-        private static readonly char[] _verticalLine = { '|' };
 
         // ================================================================
 
@@ -114,7 +111,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             string[] parts = StringUtility.SplitString
                 (
                     expression,
-                    _comma,
+                    CommonSeparators.Comma,
                     2
                 );
 
@@ -179,7 +176,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             string[] parts = StringUtility.SplitString
                 (
                     expression,
-                    _numberSign,
+                    CommonSeparators.NumberSign,
                     2
                 );
             if (parts.Length != 2)
@@ -189,7 +186,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             string[] subs = StringUtility.SplitString
                 (
                     parts[0],
-                    _comma,
+                    CommonSeparators.Comma,
                     2
                 );
             int firstIndex;
@@ -205,7 +202,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             subs = StringUtility.SplitString
                 (
                     parts[1],
-                    _comma,
+                    CommonSeparators.Comma,
                     2
                 );
             int secondIndex;
@@ -377,7 +374,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             string[] parts = StringUtility.SplitString
                 (
                     expression,
-                    _verticalLine,
+                    CommonSeparators.VerticalLine,
                     2
                 );
             if (parts.Length != 2)
@@ -459,7 +456,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             string[] parts = StringUtility.SplitString
                 (
                     expression,
-                    _verticalLine,
+                    CommonSeparators.VerticalLine,
                     2
                 );
             if (parts.Length != 2)
@@ -915,7 +912,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             string[] parts = StringUtility.SplitString
                     (
                         expression,
-                        _numberSign,
+                        CommonSeparators.NumberSign,
                         2
                     );
 
@@ -929,7 +926,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             parts = StringUtility.SplitString
                 (
                     indexText,
-                    _comma,
+                    CommonSeparators.Comma,
                     2
                 );
             indexText = parts[0];
