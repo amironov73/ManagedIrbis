@@ -72,8 +72,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 output.Append(text);
                 count--;
             }
-            context.Write(node, output.ToString());
-            context.OutputFlag = true;
+            context.WriteAndSetFlag(node, output.ToString());
         }
 
         #endregion

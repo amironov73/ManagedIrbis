@@ -271,11 +271,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         if (!ReferenceEquals(field, null))
                         {
                             string output = field.ToText();
-                            if (!string.IsNullOrEmpty(output))
-                            {
-                                context.Write(node, output);
-                                context.OutputFlag = true;
-                            }
+                            context.WriteAndSetFlag(node, output);
                         }
                     }
                     else
@@ -291,11 +287,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                             first = false;
                             output.Append(field.ToText());
                         }
-                        if (output.Length != 0)
-                        {
-                            context.Write(node, output.ToString());
-                            context.OutputFlag = true;
-                        }
+                        context.WriteAndSetFlag(node, output.ToString());
                     }
                 }
             }

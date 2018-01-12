@@ -47,9 +47,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             if (!string.IsNullOrEmpty(expression))
             {
-                string clear = expression.Replace("\"", string.Empty);
-                context.Write(node, clear);
-                context.OutputFlag = true;
+                string output = expression.Replace("\"", string.Empty);
+                context.WriteAndSetFlag(node, output);
             }
         }
 

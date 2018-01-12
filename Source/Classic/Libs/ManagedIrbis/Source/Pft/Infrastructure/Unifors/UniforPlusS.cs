@@ -127,8 +127,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                             "[<](?<first>.+?)(?:[=](?<second>.+?))?[>]",
                             evaluator
                         );
-                    context.Write(node, output);
-                    context.OutputFlag = true;
+                    context.WriteAndSetFlag(node, output);
                 }
             }
         }

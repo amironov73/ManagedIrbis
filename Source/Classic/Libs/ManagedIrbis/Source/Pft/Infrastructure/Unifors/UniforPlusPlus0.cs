@@ -64,8 +64,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     }
                     output.AppendLine();
                 }
-                context.Write(node, output.ToString());
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, output.ToString());
             }
         }
 

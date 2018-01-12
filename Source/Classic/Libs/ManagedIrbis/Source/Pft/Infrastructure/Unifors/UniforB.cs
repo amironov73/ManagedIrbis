@@ -145,11 +145,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 }
             }
 
-            if (output.Length != 0)
-            {
-                context.Write(node, output.ToString());
-                context.OutputFlag = true;
-            }
+            context.WriteAndSetFlag(node, output.ToString());
         }
 
         #endregion

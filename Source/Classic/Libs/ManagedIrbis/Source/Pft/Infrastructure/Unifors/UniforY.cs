@@ -115,11 +115,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             if (!ReferenceEquals(context.Record, null))
             {
                 string output = FreeExemplars(context.Record);
-                if (!string.IsNullOrEmpty(output))
-                {
-                    context.Write(node, output);
-                    context.OutputFlag = true;
-                }
+                context.WriteAndSetFlag(node, output);
             }
         }
 

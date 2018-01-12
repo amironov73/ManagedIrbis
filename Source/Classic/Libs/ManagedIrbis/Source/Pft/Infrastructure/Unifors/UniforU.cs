@@ -85,8 +85,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 [NotNull] string cumulated
             )
         {
-            NumberRangeCollection collection
-                = NumberRangeCollection.Parse(cumulated);
+            NumberRangeCollection collection = NumberRangeCollection.Parse(cumulated);
             NumberText number = new NumberText(issue);
             bool result = collection.Contains(number);
 
@@ -104,13 +103,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             try
             {
-                NumberRangeCollection collection
-                    = NumberRangeCollection.Parse(issues);
+                NumberRangeCollection collection = NumberRangeCollection.Parse(issues);
                 List<NumberText> numbers = collection
                     .Distinct()
                     .ToList();
-                NumberRangeCollection result
-                    = NumberRangeCollection.Cumulate(numbers);
+                NumberRangeCollection result = NumberRangeCollection.Cumulate(numbers);
 
                 return result.ToString();
             }
@@ -139,11 +136,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             if (!string.IsNullOrEmpty(expression))
             {
                 string output = Cumulate(expression);
-                if (!string.IsNullOrEmpty(output))
-                {
-                    context.Write(node, output);
-                    context.OutputFlag = true;
-                }
+                context.WriteAndSetFlag(node, output);
             }
         }
 
@@ -156,8 +149,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 [NotNull] string issues
             )
         {
-            NumberRangeCollection collection
-                = NumberRangeCollection.Parse(issues);
+            NumberRangeCollection collection = NumberRangeCollection.Parse(issues);
             StringBuilder result = new StringBuilder();
             bool first = true;
             foreach (NumberText number in collection)
@@ -186,11 +178,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             if (!string.IsNullOrEmpty(expression))
             {
                 string output = Decumulate(expression);
-                if (!string.IsNullOrEmpty(output))
-                {
-                    context.Write(node, output);
-                    context.OutputFlag = true;
-                }
+                context.WriteAndSetFlag(node, output);
             }
         }
 

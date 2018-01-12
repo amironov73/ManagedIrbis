@@ -312,8 +312,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     {
                         context.WriteLine(node);
                     }
-                    context.Write(node, item);
-                    context.OutputFlag = true;
+                    context.WriteAndSetFlag(node, item);
                     flag = false;
                 }
             }
@@ -415,9 +414,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     context.WriteLine(node);
                 }
 
-                var value = menu.GetStringSensitive(line);
-                context.Write(node, value);
-                context.OutputFlag = true;
+                string value = menu.GetStringSensitive(line);
+                context.WriteAndSetFlag(node, value);
 
                 first = false;
             }
@@ -497,7 +495,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            var first = true;
+            bool first = true;
             foreach (string line in lines)
             {
                 if (!first)
@@ -505,9 +503,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     context.WriteLine(node);
                 }
 
-                var value = menu.GetStringSensitive(line);
-                context.Write(node, value);
-                context.OutputFlag = true;
+                string output = menu.GetStringSensitive(line);
+                context.WriteAndSetFlag(node, output);
 
                 first = false;
             }
@@ -674,8 +671,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     {
                         context.WriteLine(node);
                     }
-                    context.Write(node, item);
-                    context.OutputFlag = true;
+                    context.WriteAndSetFlag(node, item);
                     flag = false;
                 }
             }
@@ -726,8 +722,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     context.WriteLine(node);
                 }
-                context.Write(node, line);
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, line);
                 flag = true;
             }
         }
@@ -866,8 +861,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     {
                         context.WriteLine(node);
                     }
-                    context.Write(node, item);
-                    context.OutputFlag = true;
+                    context.WriteAndSetFlag(node, item);
                     flag = false;
                 }
             }

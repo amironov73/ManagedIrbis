@@ -42,8 +42,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             )
         {
             string output = context.Provider.Database;
-            context.Write(node, output);
-            context.OutputFlag = true;
+            context.WriteAndSetFlag(node, output);
         }
 
         #endregion

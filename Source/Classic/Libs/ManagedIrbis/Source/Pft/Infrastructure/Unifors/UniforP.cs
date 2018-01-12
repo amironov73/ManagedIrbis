@@ -107,8 +107,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
                             if (!String.IsNullOrEmpty(result))
                             {
-                                context.Write(node, result);
-                                context.OutputFlag = true;
+                                context.WriteAndSetFlag(node, result);
                                 context.VMonitor = true;
                             }
                         }

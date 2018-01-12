@@ -75,10 +75,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         reference.Apply(specification);
 
                         string result = reference.Format(record);
-                        if (!String.IsNullOrEmpty(result))
+                        if (!string.IsNullOrEmpty(result))
                         {
-                            context.Write(node, result);
-                            context.OutputFlag = true;
+                            context.WriteAndSetFlag(node, result);
                             context.VMonitor = true;
                         }
                     }

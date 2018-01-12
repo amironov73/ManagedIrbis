@@ -60,8 +60,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         break;
                 }
 
-                context.Write(node, text);
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, text);
             }
         }
     }

@@ -87,8 +87,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         recordSize
                     );
 
-                context.Write(node, builder.ToString());
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, builder.ToString());
             }
         }
 

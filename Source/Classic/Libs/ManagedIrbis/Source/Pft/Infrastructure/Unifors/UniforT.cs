@@ -14,8 +14,6 @@ using System.Text;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
@@ -40,7 +38,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     {
         #region Private members
 
-        private static Dictionary<char, string> _transliterator
+        private static readonly Dictionary<char, string> _transliterator
             = new Dictionary<char, string>
             {
                 {'а', "a"},  {'б', "b"},    {'в', "v"},  {'г', "g"},  {'д', "d"},
@@ -95,8 +93,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     }
                 }
 
-                context.Write(node, result.ToString());
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, result.ToString());
             }
         }
 

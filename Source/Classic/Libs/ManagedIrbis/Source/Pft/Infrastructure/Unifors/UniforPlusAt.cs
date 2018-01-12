@@ -185,8 +185,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             builder.AppendLine();
 
             string output = builder + obj.ToString(Formatting.Indented);
-            context.Write(node, output);
-            context.OutputFlag = true;
+            context.WriteAndSetFlag(node, output);
 
 #endif
         }

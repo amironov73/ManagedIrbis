@@ -91,8 +91,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     firstPart,
                     title
                 );
-            context.Write(node, output);
-            context.OutputFlag = true;
+            context.WriteAndSetFlag(node, output);
         }
 
         #endregion

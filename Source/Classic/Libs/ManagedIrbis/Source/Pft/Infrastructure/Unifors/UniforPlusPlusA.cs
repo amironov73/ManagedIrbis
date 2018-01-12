@@ -63,8 +63,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     // If match.Index == 0 FW just returns the untouched string
                     string output = expression.Substring(match.Index);
-                    context.Write(node, output);
-                    context.OutputFlag = true;
+                    context.WriteAndSetFlag(node, output);
                 }
             }
         }

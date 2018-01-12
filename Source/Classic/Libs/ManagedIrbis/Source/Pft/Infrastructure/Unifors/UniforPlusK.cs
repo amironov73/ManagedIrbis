@@ -80,8 +80,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 // Немного магии от разработчиков ИРБИС
                 if (text.StartsWith("Ы") || text.StartsWith("ы"))
                 {
-                    context.Write(node, "Ы");
-                    context.OutputFlag = true;
+                    context.WriteAndSetFlag(node, "Ы");
 
                     return;
                 }
@@ -125,11 +124,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         output = entry.Code;
                     }
 
-                    if (!string.IsNullOrEmpty(output))
-                    {
-                        context.Write(node, output);
-                        context.OutputFlag = true;
-                    }
+                    context.WriteAndSetFlag(node, output);
                 }
             }
         }

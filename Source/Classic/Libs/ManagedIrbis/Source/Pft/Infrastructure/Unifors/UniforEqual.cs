@@ -76,14 +76,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            string text = navigator.GetRemainingText()
-                ?? string.Empty;
+            string text = navigator.GetRemainingText() ?? string.Empty;
 
             PftMask mask = new PftMask(maskSpecifiaction);
             bool result = mask.Match(text);
             string output = result ? "1" : "0";
-            context.Write(node, output);
-            context.OutputFlag = true;
+            context.WriteAndSetFlag(node, output);
         }
 
         #endregion

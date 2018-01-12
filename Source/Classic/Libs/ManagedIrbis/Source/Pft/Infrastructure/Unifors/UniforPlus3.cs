@@ -65,8 +65,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         IrbisEncoding.Utf8,
                         IrbisEncoding.Ansi
                     );
-                context.Write(node, output);
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, output);
             }
         }
 
@@ -98,8 +97,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         IrbisEncoding.Ansi,
                         IrbisEncoding.Utf8
                     );
-                context.Write(node, output);
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, output);
             }
         }
 
@@ -125,9 +123,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             if (!string.IsNullOrEmpty(expression))
             {
-                string clear = expression.Replace("+", "%2B");
-                context.Write(node, clear);
-                context.OutputFlag = true;
+                string output = expression.Replace("+", "%2B");
+                context.WriteAndSetFlag(node, output);
             }
         }
 
@@ -159,8 +156,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         expression,
                         IrbisEncoding.Utf8
                     );
-                context.Write(node, output);
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, output);
             }
         }
 
@@ -196,8 +192,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         expression,
                         IrbisEncoding.Utf8
                     );
-                context.Write(node, output);
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, output);
             }
         }
 
@@ -225,8 +220,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             if (!ReferenceEquals(record, null))
             {
                 string output = record.ToPlainText();
-                context.Write(node, output);
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, output);
             }
         }
 
@@ -269,8 +263,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     expression = builder.ToString();
                 }
 
-                context.Write(node, expression);
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, expression);
             }
         }
 
@@ -439,8 +432,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 int[] found = provider.Search(searchExpression);
                 if (count == 0)
                 {
-                    context.Write(node, found.Length.ToInvariantString());
-                    context.OutputFlag = true;
+                    context.WriteAndSetFlag(node, found.Length.ToInvariantString());
 
                     return;
                 }
@@ -529,8 +521,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             if (string.IsNullOrEmpty(expression))
             {
-                context.Write(node, "0");
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, "0");
 
                 return;
             }
@@ -570,8 +561,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 count = match.Groups[1].Value.SafeToInt32();
             }
 
-            context.Write(node, count.ToInvariantString());
-            context.OutputFlag = true;
+            context.WriteAndSetFlag(node, count.ToInvariantString());
         }
 
         // ================================================================
@@ -643,8 +633,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 }
             }
 
-            context.Write(node, path);
-            context.OutputFlag = true;
+            context.WriteAndSetFlag(node, path);
         }
 
         // ================================================================
@@ -673,8 +662,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             if (string.IsNullOrEmpty(expression))
             {
-                context.Write(node, "0");
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, "0");
 
                 return;
             }
@@ -687,8 +675,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 );
             if (parts.Length == 1)
             {
-                context.Write(node, "0");
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, "0");
 
                 return;
             }
@@ -705,8 +692,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 double result = Math.Truncate(dividend / divisor);
                 if (!double.IsInfinity(result) && !double.IsNaN(result))
                 {
-                    context.Write(node, result.ToInvariantString());
-                    context.OutputFlag = true;
+                    context.WriteAndSetFlag(node, result.ToInvariantString());
                 }
             }
             catch (Exception exception)

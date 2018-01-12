@@ -680,17 +680,15 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Write text.
         /// </summary>
         [NotNull]
-        [StringFormatMethod("format")]
         public PftContext Write
             (
                 [CanBeNull] PftNode node,
-                [CanBeNull] string format,
-                params object[] arg
+                [CanBeNull] string output
             )
         {
-            if (!string.IsNullOrEmpty(format))
+            if (!string.IsNullOrEmpty(output))
             {
-                Output.Write(format, arg);
+                Output.Write(output);
             }
             EatNextNewLine = false;
 
@@ -698,40 +696,21 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Write text.
+        /// Write and set <see cref="OutputFlag"/>.
         /// </summary>
         [NotNull]
-        public PftContext Write
+        public PftContext WriteAndSetFlag
             (
                 [CanBeNull] PftNode node,
-                [CanBeNull] string value
+                [CanBeNull] string output
             )
         {
-            if (!string.IsNullOrEmpty(value))
+            if (!string.IsNullOrEmpty(output))
             {
-                Output.Write(value);
+                Output.Write(output);
+                OutputFlag = true;
             }
             EatNextNewLine = false;
-
-            return this;
-        }
-
-        /// <summary>
-        /// Write line.
-        /// </summary>
-        [NotNull]
-        [StringFormatMethod("format")]
-        public PftContext WriteLine
-            (
-                [CanBeNull] PftNode node,
-                [CanBeNull] string format,
-                params object[] arg
-            )
-        {
-            if (!string.IsNullOrEmpty(format))
-            {
-                Output.WriteLine(format, arg);
-            }
 
             return this;
         }

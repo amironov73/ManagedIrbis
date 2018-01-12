@@ -103,11 +103,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     string text = navigator.GetRemainingText();
                     string output = GetLastWords(text, wordCount);
-                    if (!string.IsNullOrEmpty(output))
-                    {
-                        context.Write(node, output);
-                        context.OutputFlag = true;
-                    }
+                    context.WriteAndSetFlag(node, output);
                 }
             }
         }

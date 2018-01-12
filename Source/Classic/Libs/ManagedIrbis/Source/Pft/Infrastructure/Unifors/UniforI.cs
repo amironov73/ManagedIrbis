@@ -80,11 +80,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                                     defaultValue
                                 );
                         }
-                        if (!string.IsNullOrEmpty(result))
-                        {
-                            context.Write(node, result);
-                            context.OutputFlag = true;
-                        }
+
+                        context.WriteAndSetFlag(node, result);
                     }
                 }
             }

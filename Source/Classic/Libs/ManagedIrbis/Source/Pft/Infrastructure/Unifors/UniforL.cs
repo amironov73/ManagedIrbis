@@ -96,11 +96,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
 
             string result = firstTerm.Substring(expression.Length);
-            if (!string.IsNullOrEmpty(result))
-            {
-                context.Write(node, result);
-                context.OutputFlag = true;
-            }
+            context.WriteAndSetFlag(node, result);
         }
 
         #endregion

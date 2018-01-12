@@ -128,8 +128,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             )
         {
             string output = context.UniversalCounter.ToInvariantString();
-            context.Write(node, output);
-            context.OutputFlag = true;
+            context.WriteAndSetFlag(node, output);
         }
 
         /// <summary>
@@ -160,11 +159,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             //
 
             string output = ToRoman(context.UniversalCounter);
-            if (!string.IsNullOrEmpty(output))
-            {
-                context.Write(node, output);
-                context.OutputFlag = true;
-            }
+            context.WriteAndSetFlag(node, output);
         }
 
         #endregion

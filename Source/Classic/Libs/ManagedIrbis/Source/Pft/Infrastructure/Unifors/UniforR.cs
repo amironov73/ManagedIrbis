@@ -69,8 +69,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 .Next(maxValue);
             string format = new string('0', length);
             string output = result.ToString(format, CultureInfo.InvariantCulture);
-            context.Write(node, output);
-            context.OutputFlag = true;
+            context.WriteAndSetFlag(node, output);
         }
 
         #endregion

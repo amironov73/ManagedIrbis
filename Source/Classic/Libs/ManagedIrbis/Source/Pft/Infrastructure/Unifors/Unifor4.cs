@@ -67,8 +67,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     // "количество предыдущих версий"
 
                     string output = (record.Version - 1).ToInvariantString();
-                    context.Write(node, output);
-                    context.OutputFlag = true;
+                    context.WriteAndSetFlag(node, output);
 
                     return;
                 }

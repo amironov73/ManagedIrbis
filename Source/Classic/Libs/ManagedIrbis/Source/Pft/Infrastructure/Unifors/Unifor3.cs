@@ -387,8 +387,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             if (!string.IsNullOrEmpty(format))
             {
                 string output = string.Format(format, now);
-                context.Write(node, output);
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, output);
             }
         }
 

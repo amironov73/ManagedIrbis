@@ -74,8 +74,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 }
                 if (!text.Contains("\\"))
                 {
-                    context.Write(node, text);
-                    context.OutputFlag = true;
+                    context.WriteAndSetFlag(node, text);
 
                     return;
                 }
@@ -114,8 +113,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
                 if (!ok)
                 {
-                    context.Write(node, text);
-                    context.OutputFlag = true;
+                    context.WriteAndSetFlag(node, text);
 
                     return;
                 }
@@ -153,8 +151,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     }
                 }
 
-                context.Write(node, result.ToString());
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, result.ToString());
             }
         }
 

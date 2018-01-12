@@ -425,10 +425,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 if (index <= fields.Length)
                 {
                     context.OutputFlag = true;
-                    //if (!ReferenceEquals(context._vMonitor, null))
-                    //{
-                    //    context._vMonitor.Output = true;
-                    //}
                 }
             }
             else if (Field.Command == 'v')
@@ -452,10 +448,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     if (HaveRepeat(record, tag.SafeToInt32(), SubField.NoCode, index))
                     {
                         context.OutputFlag = true;
-                        //if (!ReferenceEquals(context._vMonitor, null))
-                        //{
-                        //    context._vMonitor.Output = true;
-                        //}                    
                     }
                 }
             }

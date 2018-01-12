@@ -9,34 +9,13 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Logging;
-using AM.Runtime;
 using AM.Text;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis.Client;
 using ManagedIrbis.Fields;
-using ManagedIrbis.Mapping;
-
-using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -256,11 +235,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 output = counter.Value;
             }
 
-            if (!string.IsNullOrEmpty(output))
-            {
-                context.Write(node, output);
-                context.OutputFlag = true;
-            }
+            context.WriteAndSetFlag(node, output);
         }
 
         #endregion

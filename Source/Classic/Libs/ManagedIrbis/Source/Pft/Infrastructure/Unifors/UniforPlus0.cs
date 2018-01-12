@@ -66,8 +66,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         "0#{0}", record.Version
                     ));
                 output.Append(record.ToPlainText());
-                context.Write(node, output.ToString());
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, output.ToString());
             }
         }
 

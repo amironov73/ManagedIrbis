@@ -52,11 +52,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 if (position >= 0)
                 {
                     string output = expression.Substring(0, position);
-                    if (!string.IsNullOrEmpty(output))
-                    {
-                        context.Write(node, output);
-                        context.OutputFlag = true;
-                    }
+                    context.WriteAndSetFlag(node, output);
                 }
             }
         }

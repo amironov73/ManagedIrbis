@@ -199,8 +199,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
             if (!string.IsNullOrEmpty(output))
             {
-                context.Write(node, output);
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, output);
                 context.VMonitor = true;
             }
         }

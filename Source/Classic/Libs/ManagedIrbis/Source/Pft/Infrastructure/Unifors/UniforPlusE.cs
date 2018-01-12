@@ -77,8 +77,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     int index = record.Fields.IndexOf(field) + 1;
                     string output = index.ToInvariantString();
-                    context.Write(node, output);
-                    context.OutputFlag = true;
+                    context.WriteAndSetFlag(node, output);
                 }
             }
         }

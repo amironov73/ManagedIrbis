@@ -68,8 +68,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             try
             {
                 string output = encoding.GetString(list.ToArray());
-                context.Write(node, output);
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, output);
             }
             catch (Exception exception)
             {

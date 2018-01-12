@@ -53,8 +53,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
                 string output = IrbisText.ToLower(expression);
 
-                context.Write(node, output);
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, output);
             }
         }
 

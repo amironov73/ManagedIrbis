@@ -70,8 +70,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
                     if (chunk.LastChar() == '>')
                     {
-                        context.Write(node, chunk);
-                        context.OutputFlag = true;
+                        context.WriteAndSetFlag(node, chunk);
                     }
                 }
             }

@@ -952,8 +952,7 @@ namespace ManagedIrbis.Pft
                             );
                         if (!string.IsNullOrEmpty(output))
                         {
-                            context.Write(node, output);
-                            context.OutputFlag = true;
+                            context.WriteAndSetFlag(node, output);
 
                             return true;
                         }

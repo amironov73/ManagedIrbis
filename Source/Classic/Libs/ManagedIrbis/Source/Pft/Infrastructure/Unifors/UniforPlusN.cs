@@ -54,8 +54,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
 
             string output = count.ToInvariantString();
-            context.Write(node, output);
-            context.OutputFlag = true;
+            context.WriteAndSetFlag(node, output);
         }
 
         #endregion

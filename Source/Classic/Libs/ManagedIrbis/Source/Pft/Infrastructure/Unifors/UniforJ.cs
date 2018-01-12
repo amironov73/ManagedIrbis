@@ -67,15 +67,13 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
 
             string saveDatabase = context.Provider.Database;
-
             try
             {
                 context.Provider.Database = database;
 
                 int[] found = context.Provider.Search(term);
                 string output = found.Length.ToInvariantString();
-                context.Write(node, output);
-                context.OutputFlag = true;
+                context.WriteAndSetFlag(node, output);
             }
             finally
             {

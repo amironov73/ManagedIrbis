@@ -62,30 +62,26 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 width = 10;
             }
 
-            string result = (context.Provider.GetMaxMfn() + 1)
+            string output = (context.Provider.GetMaxMfn() + 1)
                 .ToInvariantString();
-            int length = result.Length;
+            int length = output.Length;
             if (width < length)
             {
                 if (width <= 0)
                 {
-                    result = string.Empty;
+                    output = string.Empty;
                 }
                 else
                 {
-                    result = result.Substring(0, width);
+                    output = output.Substring(0, width);
                 }
             }
             else if (width > length)
             {
-                result = result.PadLeft(width, '0');
+                output = output.PadLeft(width, '0');
             }
 
-            if (!string.IsNullOrEmpty(result))
-            {
-                context.Write(node, result);
-                context.OutputFlag = true;
-            }
+            context.WriteAndSetFlag(node, output);
         }
 
         #endregion

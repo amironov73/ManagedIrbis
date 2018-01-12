@@ -265,8 +265,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     {
                         text = IrbisText.ToUpper(text);
                     }
-                    context.Write(this, text);
-                    context.OutputFlag = true;
+                    context.WriteAndSetFlag(this, text);
                 }
             }
 
