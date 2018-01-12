@@ -1038,7 +1038,7 @@
   <ItemGroup>
     <None Include="ArsMagna.private.snk" />
     <None Include="packages.config" />
-    <None Include="Source\Biblio\Docs\Библиографические списки в ManagedIrbis.docx" />
+    <None Include="Source\Biblio\Docs\Bibliographic lists in ManagedIrbis.docx" />
     <None Include="Source\Gbl\GBL protocol.docx" />
     <Compile Include="Source\Pft\Infrastructure\PftParser.Parallel.cs" />
     <None Include="Source\Reports\Docs\ReportBands.cd" />

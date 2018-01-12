@@ -322,7 +322,7 @@ namespace Irbis2istu
                     }
 
                     _database
-                        .SetCommand("insert into [FlagTable] default values;")
+                        .SetCommand("insert into [FlagTable] default values")
                         .ExecuteNonQuery();
 
                     _stopwatch.Stop();

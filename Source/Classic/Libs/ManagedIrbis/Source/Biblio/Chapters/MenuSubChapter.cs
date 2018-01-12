@@ -320,7 +320,7 @@ namespace ManagedIrbis.Biblio
 
                     ReportBand band = new ParagraphBand
                         (
-                            number.ToInvariantString() + ".\\nbsp\\nbsp "
+                            number.ToInvariantString() + ".\\~\\~"
                         );
                     report.Body.Add(band);
 
@@ -330,10 +330,25 @@ namespace ManagedIrbis.Biblio
                             //RichText.Encode2(description, UnicodeRange.Russian)
                             RichText.Encode3(description, UnicodeRange.Russian, "\\f2")
                         ));
+
+                    MarcRecord record = item.Record;
+                    if (!ReferenceEquals(record, null))
+                    {
+                        RecordCollection sameBooks = record.UserData as RecordCollection;
+                        if (!ReferenceEquals(sameBooks, null))
+                        {
+                            foreach (MarcRecord book in sameBooks)
+                            {
+                                string text = "То же: MFN " + book.Mfn + "\\par\\pard";
+                                band = new ParagraphBand("\\~\\~\\~");
+                                report.Body.Add(band);
+                                band.Cells.Add(new SimpleTextCell(text));
+                            }
+                        }
+                    }
                 }
 
                 log.WriteLine(" done");
-
             }
 
             RenderDuplicates(context);

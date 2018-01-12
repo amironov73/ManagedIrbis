@@ -2004,30 +2004,30 @@ namespace ManagedIrbis
 
         // ==========================================================
 
-        /// <summary>
-        /// Удаляем подполе.
-        /// </summary>
-        /// <remarks>Удаляет все повторения подполей
-        /// с указанным кодом.
-        /// </remarks>
-        [NotNull]
-        public static RecordField RemoveSubField
-            (
-                [NotNull] this RecordField field,
-                char code
-            )
-        {
-            SubField[] found = field.SubFields
-                .FindAll(_ => char.ToLowerInvariant(_.Code) == code)
-                .ToArray();
+        ///// <summary>
+        ///// Удаляем подполе.
+        ///// </summary>
+        ///// <remarks>Удаляет все повторения подполей
+        ///// с указанным кодом.
+        ///// </remarks>
+        //[NotNull]
+        //public static RecordField RemoveSubField
+        //    (
+        //        [NotNull] this RecordField field,
+        //        char code
+        //    )
+        //{
+        //    SubField[] found = field.SubFields
+        //        .FindAll(_ => char.ToLowerInvariant(_.Code) == code)
+        //        .ToArray();
 
-            foreach (SubField subField in found)
-            {
-                field.SubFields.Remove(subField);
-            }
+        //    foreach (SubField subField in found)
+        //    {
+        //        field.SubFields.Remove(subField);
+        //    }
 
-            return field;
-        }
+        //    return field;
+        //}
 
         // ==========================================================
 

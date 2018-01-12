@@ -188,6 +188,37 @@ namespace ManagedIrbis.Biblio
             return result;
         }
 
+        private void _RemoveSubField
+            (
+                [NotNull] MarcRecord record,
+                int tag,
+                char code
+            )
+        {
+            RecordField[] fields = record.Fields.GetField(tag);
+            foreach (RecordField field in fields)
+            {
+                field.RemoveSubField(code);
+            }
+        }
+
+        private void _BeautifyRecord
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            // Украшаем запись согласно вкусам библиографов
+
+            string worksheet = record.FM(920);
+            if (!worksheet.SameString("ASP"))
+            {
+                return;
+            }
+
+            _RemoveSubField(record, 463, '7');
+            _RemoveSubField(record, 963, 'e');
+        }
+
         private static readonly Regex _regex463 = new Regex(@"^№.*\((?<date>.*?)\)$");
 
         private void _Fix463
@@ -235,6 +266,51 @@ namespace ManagedIrbis.Biblio
             }
 
             subField.Value = date;
+        }
+
+
+        private void _GatherSame
+            (
+                [NotNull] BiblioContext context
+            )
+        {
+            //
+            // Собираем вместе записи с одинаковым полем 2025
+            //
+
+            RecordCollection records = Records;
+            if (ReferenceEquals(records, null))
+            {
+                return;
+            }
+
+            MarcRecord[] allMarked = records.Where(r => r.HaveField(2025)).ToArray();
+            var grouped = allMarked.GroupBy(r => r.FM(2025));
+            List<MarcRecord> toRemove = new List<MarcRecord>();
+            foreach (var oneGroup in grouped)
+            {
+                MarcRecord[] array = oneGroup.ToArray();
+                if (array.Length == 1)
+                {
+                    continue;
+                }
+
+                MarcRecord firstRecord = array[0];
+                RecordCollection same = new RecordCollection();
+                for (int i = 1; i < array.Length; i++)
+                {
+                    same.Add(array[i]);
+                    toRemove.Add(array[i]);
+                }
+
+                firstRecord.UserData = same;
+            }
+
+            foreach (MarcRecord recordToRemove in toRemove)
+            {
+                records.Remove(recordToRemove);
+                context.Records.Remove(recordToRemove);
+            }
         }
 
         #endregion
@@ -287,11 +363,14 @@ namespace ManagedIrbis.Biblio
                         record = provider.ReadRecord(found[i]);
                         if (!ReferenceEquals(record, null))
                         {
+                            _BeautifyRecord(record);
                             _Fix463(record);
                         }
                         records.Add(record);
                         context.Records.Add(record);
                     }
+
+                    _GatherSame(context);
 
                     //// Пробуем не загружать записи,
                     //// а предоставить заглушки
