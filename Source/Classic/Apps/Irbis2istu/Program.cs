@@ -321,6 +321,10 @@ namespace Irbis2istu
                         ProcessRecord(record);
                     }
 
+                    _database
+                        .SetCommand("insert into [FlagTable] default values;")
+                        .ExecuteNonQuery();
+
                     _stopwatch.Stop();
                     TimeSpan elapsed = _stopwatch.Elapsed;
                     Console.WriteLine

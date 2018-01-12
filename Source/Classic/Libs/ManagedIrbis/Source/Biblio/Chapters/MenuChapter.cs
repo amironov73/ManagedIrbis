@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 using AM;
 using AM.Text.Output;
@@ -169,7 +170,7 @@ namespace ManagedIrbis.Biblio
                 }
                 Type type = Type.GetType(className, true)
                     .ThrowIfNull("Type.GetType");
-                result = (MenuSubChapter) Activator.CreateInstance(type);
+                result = (MenuSubChapter)Activator.CreateInstance(type);
             }
             result.Key = key;
             result.MainChapter = this;
@@ -185,6 +186,55 @@ namespace ManagedIrbis.Biblio
             }
 
             return result;
+        }
+
+        private static readonly Regex _regex463 = new Regex(@"^№.*\((?<date>.*?)\)$");
+
+        private void _Fix463
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            //
+            // Переделываем даты у газет, как нравится библиографам
+            // из "№ 11 (5 мая)" в просто "5 мая".
+            //
+            // Всё, что не походит под шаблон, оставляем как есть.
+            // Пусть библиографы правят сами, ручками
+            //
+
+            RecordField field = record.Fields.GetFirstField(463);
+            if (ReferenceEquals(field, null))
+            {
+                return;
+            }
+
+            SubField subField = field.SubFields.GetFirstSubField('h');
+            if (ReferenceEquals(subField, null))
+            {
+                return;
+            }
+
+            string value = subField.Value;
+            if (string.IsNullOrEmpty(value))
+            {
+                return;
+            }
+
+            Match match = _regex463.Match(value);
+            if (!match.Success)
+            {
+                return;
+            }
+
+            string date = match.Groups["date"].Value;
+            if (string.IsNullOrEmpty(date)
+                || !date.Contains(" "))
+            {
+                return;
+            }
+
+            subField.Value = date;
         }
 
         #endregion
@@ -235,6 +285,10 @@ namespace ManagedIrbis.Biblio
                     {
                         log.Write(".");
                         record = provider.ReadRecord(found[i]);
+                        if (!ReferenceEquals(record, null))
+                        {
+                            _Fix463(record);
+                        }
                         records.Add(record);
                         context.Records.Add(record);
                     }
@@ -473,3 +527,4 @@ namespace ManagedIrbis.Biblio
         #endregion
     }
 }
+

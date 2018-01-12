@@ -320,7 +320,7 @@ namespace ManagedIrbis.Biblio
 
                     ReportBand band = new ParagraphBand
                         (
-                            number.ToInvariantString() + ") "
+                            number.ToInvariantString() + ".\\nbsp\\nbsp "
                         );
                     report.Body.Add(band);
 
