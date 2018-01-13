@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -72,6 +72,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
+  <!-- BEGIN -->
   <ItemGroup>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ActionUtility.cs">
       <Link>AM\ActionUtility.cs</Link>
@@ -94,14 +95,14 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Caching\AbstractCache.cs">
       <Link>AM\Caching\AbstractCache.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Caching\CacheItem.cs">
-      <Link>AM\Caching\CacheItem.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Caching\FileCache.cs">
       <Link>AM\Caching\FileCache.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Caching\MemoryCache.cs">
       <Link>AM\Caching\MemoryCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Caching\CacheItem.cs">
+      <Link>AM\Caching\CacheItem.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\CancelableEventArgs.cs">
       <Link>AM\CancelableEventArgs.cs</Link>
@@ -118,6 +119,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\BitArrayUtility.cs">
       <Link>AM\Collections\BitArrayUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\BlockingQueue.cs">
+      <Link>AM\Collections\BlockingQueue.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\CaseInsensitiveDictionary.cs">
       <Link>AM\Collections\CaseInsensitiveDictionary.cs</Link>
     </Compile>
@@ -126,6 +130,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\CloneableCollection.cs">
       <Link>AM\Collections\CloneableCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\CloneableDictionary.cs">
+      <Link>AM\Collections\CloneableDictionary.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\DictionaryCounterDouble.cs">
       <Link>AM\Collections\DictionaryCounterDouble.cs</Link>
@@ -172,8 +179,14 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\Quartet.cs">
       <Link>AM\Collections\Quartet.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\Set.cs">
+      <Link>AM\Collections\Set.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\StringDictionary.cs">
       <Link>AM\Collections\StringDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\TreeNode.cs">
+      <Link>AM\Collections\TreeNode.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Collections\Triplet.cs">
       <Link>AM\Collections\Triplet.cs</Link>
@@ -202,8 +215,11 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ComparableObject.cs">
       <Link>AM\ComparableObject.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Configuration\ConfigurationUtility.cs">
-      <Link>AM\Configuration\ConfigurationUtility.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ComponentModel\NotifyProperty.cs">
+      <Link>AM\ComponentModel\NotifyProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ComponentModel\PropertyChangedUtility.cs">
+      <Link>AM\ComponentModel\PropertyChangedUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConsoleIO\ConsoleInput.cs">
       <Link>AM\ConsoleIO\ConsoleInput.cs</Link>
@@ -223,14 +239,44 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConsoleUtility.cs">
       <Link>AM\ConsoleUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConversionUtility.cs">
-      <Link>AM\ConversionUtility.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ContinuousIntegrationUtility.cs">
+      <Link>AM\ContinuousIntegrationUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\DateTimeUtility.cs">
-      <Link>AM\DateTimeUtility.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Data\ColumnHeaderAttribute.cs">
+      <Link>AM\Data\ColumnHeaderAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Data\ColumnIndexAttribute.cs">
+      <Link>AM\Data\ColumnIndexAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Data\ColumnWidthAttribute.cs">
+      <Link>AM\Data\ColumnWidthAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Data\DataColumnInfo.cs">
+      <Link>AM\Data\DataColumnInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Data\DataSetInfo.cs">
+      <Link>AM\Data\DataSetInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Data\DataTableInfo.cs">
+      <Link>AM\Data\DataTableInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Data\HiddenColumnAttribute.cs">
+      <Link>AM\Data\HiddenColumnAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Data\SortIndexAttribute.cs">
+      <Link>AM\Data\SortIndexAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\DelegateUtility.cs">
       <Link>AM\DelegateUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Delimiters.cs">
+      <Link>AM\Delimiters.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Diagnostics\ConsoleProcessRunner.cs">
+      <Link>AM\Diagnostics\ConsoleProcessRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Diagnostics\ConsoleTraceListener.cs">
+      <Link>AM\Diagnostics\ConsoleTraceListener.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\DisposableObject.cs">
       <Link>AM\DisposableObject.cs</Link>
@@ -244,11 +290,8 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\EmptyArray.cs">
       <Link>AM\EmptyArray.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\EnvironmentUtility.cs">
-      <Link>AM\EnvironmentUtility.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\EventUtility.cs">
-      <Link>AM\EventUtility.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Equatable.cs">
+      <Link>AM\Equatable.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ExceptionEventArgs.cs">
       <Link>AM\ExceptionEventArgs.cs</Link>
@@ -256,32 +299,26 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ExceptionEventArgsT.cs">
       <Link>AM\ExceptionEventArgsT.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ExceptionUtility.cs">
+      <Link>AM\ExceptionUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\FunctionalUtility.cs">
+      <Link>AM\FunctionalUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\FuncUtility.cs">
       <Link>AM\FuncUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\BuiltinCultures.cs">
-      <Link>AM\Globalization\BuiltinCultures.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Gender.cs">
+      <Link>AM\Gender.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\CultureCode.cs">
-      <Link>AM\Globalization\CultureCode.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\CultureSaver.cs">
-      <Link>AM\Globalization\CultureSaver.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\RussianStringComparer.cs">
-      <Link>AM\Globalization\RussianStringComparer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\UICultureSaver.cs">
-      <Link>AM\Globalization\UICultureSaver.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\GenderUtility.cs">
+      <Link>AM\GenderUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IAttachmentContainer.cs">
       <Link>AM\IAttachmentContainer.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\InquiryEventArgs.cs">
       <Link>AM\InquiryEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IOC\ServiceRepository.cs">
-      <Link>AM\IOC\ServiceRepository.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\BinaryReaderUtility.cs">
       <Link>AM\IO\BinaryReaderUtility.cs</Link>
@@ -304,8 +341,8 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\DumpUtility.cs">
       <Link>AM\IO\DumpUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\FileUtility.cs">
-      <Link>AM\IO\FileUtility.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\DynamicStream.cs">
+      <Link>AM\IO\DynamicStream.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\IConsoleOutputReceiver.cs">
       <Link>AM\IO\IConsoleOutputReceiver.cs</Link>
@@ -315,6 +352,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\InsistentFile.cs">
       <Link>AM\IO\InsistentFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\InterceptorStream.cs">
+      <Link>AM\IO\InterceptorStream.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\MultiStream.cs">
       <Link>AM\IO\MultiStream.cs</Link>
@@ -334,17 +374,11 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\NotifyStream.cs">
       <Link>AM\IO\NotifyStream.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\PathUtility.cs">
-      <Link>AM\IO\PathUtility.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\SafeSaveStream.cs">
       <Link>AM\IO\SafeSaveStream.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\StreamPacker.cs">
       <Link>AM\IO\StreamPacker.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\StreamUtility.cs">
-      <Link>AM\IO\StreamUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\TextReaderUtility.cs">
       <Link>AM\IO\TextReaderUtility.cs</Link>
@@ -363,6 +397,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IVerifiable.cs">
       <Link>AM\IVerifiable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Json\JsonUtility.cs">
+      <Link>AM\Json\JsonUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\ConsoleLogger.cs">
       <Link>AM\Logging\ConsoleLogger.cs</Link>
@@ -388,20 +425,26 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Logging\TraceLogger.cs">
       <Link>AM\Logging\TraceLogger.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Mathematics\MathUtility.cs">
+      <Link>AM\Mathematics\MathUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\MessageEventArgs.cs">
       <Link>AM\MessageEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\MessageEventHandler.cs">
       <Link>AM\MessageEventHandler.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Net\SocketUtility.cs">
-      <Link>AM\Net\SocketUtility.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Net\AsyncSocket.cs">
+      <Link>AM\Net\AsyncSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Net\AsyncSocketResult.cs">
+      <Link>AM\Net\AsyncSocketResult.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\NonNullValue.cs">
       <Link>AM\NonNullValue.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\NumericUtility.cs">
-      <Link>AM\NumericUtility.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\NumberOrString.cs">
+      <Link>AM\NumberOrString.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ObjectDumper.cs">
       <Link>AM\ObjectDumper.cs</Link>
@@ -421,14 +464,14 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\PlatformAbstraction\PlatformAbstractionLayer.cs">
       <Link>AM\PlatformAbstraction\PlatformAbstractionLayer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ProcessorArchitecture.cs">
-      <Link>AM\ProcessorArchitecture.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\PlatformAbstraction\TestingPlatformAbstraction.cs">
+      <Link>AM\PlatformAbstraction\TestingPlatformAbstraction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\PredicateBuilder.cs">
+      <Link>AM\PredicateBuilder.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ReadOnlyException.cs">
       <Link>AM\ReadOnlyException.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reference.cs">
-      <Link>AM\Reference.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\AssemblyUtility.cs">
       <Link>AM\Reflection\AssemblyUtility.cs</Link>
@@ -445,29 +488,17 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\PropertyOrField.cs">
       <Link>AM\Reflection\PropertyOrField.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\PublicKeyTokens.cs">
-      <Link>AM\Reflection\PublicKeyTokens.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\ReflectionUtility.cs">
       <Link>AM\Reflection\ReflectionUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\TaggedClassAttribute.cs">
-      <Link>AM\Reflection\TaggedClassAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\TaggedClassCollector.cs">
-      <Link>AM\Reflection\TaggedClassCollector.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\RetryManager.cs">
-      <Link>AM\RetryManager.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Resources\LocalizationManager.cs">
+      <Link>AM\Resources\LocalizationManager.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Runtime\HandmadeSerializer.cs">
       <Link>AM\Runtime\HandmadeSerializer.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Runtime\IHandmadeSerializable.cs">
       <Link>AM\Runtime\IHandmadeSerializable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Runtime\InteropUtility.cs">
-      <Link>AM\Runtime\InteropUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Runtime\ITreeSerialize.cs">
       <Link>AM\Runtime\ITreeSerialize.cs</Link>
@@ -481,29 +512,20 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Runtime\PrefixLength.cs">
       <Link>AM\Runtime\PrefixLength.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Runtime\RuntimeUtility.cs">
-      <Link>AM\Runtime\RuntimeUtility.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Runtime\SerializationUtility.cs">
       <Link>AM\Runtime\SerializationUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Sequence.cs">
-      <Link>AM\Sequence.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Runtime\Singleton.cs">
+      <Link>AM\Runtime\Singleton.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\StringUtility.cs">
-      <Link>AM\StringUtility.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IOC\ServiceRepository.cs">
+      <Link>AM\IOC\ServiceRepository.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\CharacterClass.cs">
-      <Link>AM\Text\CharacterClass.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\CharacterClassifier.cs">
-      <Link>AM\Text\CharacterClassifier.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\SubArray.cs">
+      <Link>AM\SubArray.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\CommonSeparators.cs">
       <Link>AM\Text\CommonSeparators.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\EncodingUtility.cs">
-      <Link>AM\Text\EncodingUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\HtmlText.cs">
       <Link>AM\Text\HtmlText.cs</Link>
@@ -523,44 +545,17 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\NewLine.cs">
       <Link>AM\Text\NewLine.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\NumberText.cs">
-      <Link>AM\Text\NumberText.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Output\AbstractOutput.cs">
-      <Link>AM\Text\Output\AbstractOutput.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Output\ConsoleOutput.cs">
-      <Link>AM\Text\Output\ConsoleOutput.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Output\DummyOutput.cs">
-      <Link>AM\Text\Output\DummyOutput.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Output\FileOutput.cs">
-      <Link>AM\Text\Output\FileOutput.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Output\NullOutput.cs">
-      <Link>AM\Text\Output\NullOutput.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Output\OutputWriter.cs">
       <Link>AM\Text\Output\OutputWriter.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Output\StreamOutput.cs">
       <Link>AM\Text\Output\StreamOutput.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Output\TeeOutput.cs">
-      <Link>AM\Text\Output\TeeOutput.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Output\TextOutput.cs">
       <Link>AM\Text\Output\TextOutput.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Output\TimestampedOutput.cs">
       <Link>AM\Text\Output\TimestampedOutput.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Ranges\NumberRange.cs">
-      <Link>AM\Text\Ranges\NumberRange.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Ranges\NumberRangeCollection.cs">
-      <Link>AM\Text\Ranges\NumberRangeCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\RichText.cs">
       <Link>AM\Text\RichText.cs</Link>
@@ -569,7 +564,7 @@
       <Link>AM\Text\RichTextStripper.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\RussianFormat.cs">
-      <Link>AM\Runtime\RussianFormat.cs</Link>
+      <Link>AM\Text\RussianFormat.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\SourceCodeUtility.cs">
       <Link>AM\Text\SourceCodeUtility.cs</Link>
@@ -598,14 +593,41 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\TextUtility.cs">
       <Link>AM\Text\TextUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\TextWithEncoding.cs">
-      <Link>AM\Text\TextWithEncoding.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Tokenizer\StringTokenizer.cs">
       <Link>AM\Text\Tokenizer\StringTokenizer.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Tokenizer\Token.cs">
       <Link>AM\Text\Tokenizer\Token.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Sequence.cs">
+      <Link>AM\Sequence.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\NumberText.cs">
+      <Link>AM\Text\NumberText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Output\AbstractOutput.cs">
+      <Link>AM\Text\Output\AbstractOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Output\ConsoleOutput.cs">
+      <Link>AM\Text\Output\ConsoleOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Output\DummyOutput.cs">
+      <Link>AM\Text\Output\DummyOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Output\FileOutput.cs">
+      <Link>AM\Text\Output\FileOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Output\NullOutput.cs">
+      <Link>AM\Text\Output\NullOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Output\TeeOutput.cs">
+      <Link>AM\Text\Output\TeeOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Ranges\NumberRange.cs">
+      <Link>AM\Text\Ranges\NumberRange.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Ranges\NumberRangeCollection.cs">
+      <Link>AM\Text\Ranges\NumberRangeCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Tokenizer\TokenizerException.cs">
       <Link>AM\Text\Tokenizer\TokenizerException.cs</Link>
@@ -622,6 +644,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\Transliterator.cs">
       <Link>AM\Text\Transliterator.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\UnicodeCharacter.cs">
+      <Link>AM\Text\UnicodeCharacter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\UnicodeRange.cs">
       <Link>AM\Text\UnicodeRange.cs</Link>
     </Compile>
@@ -631,11 +656,47 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\BusyState.cs">
       <Link>AM\Threading\BusyState.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\ScopedLock.cs">
+      <Link>AM\Threading\ScopedLock.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\ScopedLockFactory.cs">
+      <Link>AM\Threading\ScopedLockFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\StateGuard.cs">
       <Link>AM\Threading\StateGuard.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\StateHolder.cs">
       <Link>AM\Threading\StateHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\BatchParallelProcessor.cs">
+      <Link>AM\Threading\Tasks\BatchParallelProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\IThrottle.cs">
+      <Link>AM\Threading\Tasks\IThrottle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\ParallelProcessor.cs">
+      <Link>AM\Threading\Tasks\ParallelProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\ProcessorBase.cs">
+      <Link>AM\Threading\Tasks\ProcessorBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\TaskFactoryUtility.cs">
+      <Link>AM\Threading\Tasks\TaskFactoryUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\TaskProcessor.cs">
+      <Link>AM\Threading\Tasks\TaskProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\TaskUtility.cs">
+      <Link>AM\Threading\Tasks\TaskUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\Tasks\Throttle.cs">
+      <Link>AM\Threading\Tasks\Throttle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\ThreadMethod.cs">
+      <Link>AM\Threading\ThreadMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\ThreadRunner.cs">
+      <Link>AM\Threading\ThreadRunner.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Threading\ThreadUtility.cs">
       <Link>AM\Threading\ThreadUtility.cs</Link>
@@ -646,8 +707,35 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\TriState.cs">
       <Link>AM\TriState.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\AM\TypeUtility.cs">
-      <Link>AM\TypeUtility.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\AssemblyFileVersionAttribute.cs">
+      <Link>Compatibility\AssemblyFileVersionAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\BufferedStream.cs">
+      <Link>Compatibility\BufferedStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\Diagnostics.cs">
+      <Link>Compatibility\Diagnostics.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\ExcludeFromCodeCoverageAttribute.cs">
+      <Link>Compatibility\ExcludeFromCodeCoverageAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\MarshalByRefObject.cs">
+      <Link>Compatibility\MarshalByRefObject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\NotImplementedException.cs">
+      <Link>Compatibility\NotImplementedException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\OperatingSystem.cs">
+      <Link>Compatibility\OperatingSystem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\SerializableAttribute.cs">
+      <Link>Compatibility\SerializableAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\StringSplitOptions.cs">
+      <Link>Compatibility\StringSplitOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\TypeInfo.cs">
+      <Link>Compatibility\TypeInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\UniversalComparer.cs">
       <Link>AM\UniversalComparer.cs</Link>
@@ -670,51 +758,129 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\CodeJam\CodeExceptions.cs">
       <Link>CodeJam\CodeExceptions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\AssemblyFileVersionAttribute.cs">
-      <Link>Compability\AssemblyFileVersionAttribute.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Configuration\ConfigurationUtility.cs">
+      <Link>AM\Configuration\ConfigurationUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\BLToolkit4.cs">
-      <Link>Compability\BLToolkit4.cs</Link>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ConversionUtility.cs">
+      <Link>AM\ConversionUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Diagnostics\ProcessUtility.cs">
+      <Link>AM\Diagnostics\ProcessUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\EnvironmentUtility.cs">
+      <Link>AM\EnvironmentUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\EventUtility.cs">
+      <Link>AM\EventUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\BuiltinCultures.cs">
+      <Link>AM\Globalization\BuiltinCultures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\CultureCode.cs">
+      <Link>AM\Globalization\CultureCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\CultureSaver.cs">
+      <Link>AM\Globalization\CultureSaver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\RussianStringComparer.cs">
+      <Link>AM\Globalization\RussianStringComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Globalization\UICultureSaver.cs">
+      <Link>AM\Globalization\UICultureSaver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\FileUtility.cs">
+      <Link>AM\IO\FileUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\PathUtility.cs">
+      <Link>AM\IO\PathUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\StreamUtility.cs">
+      <Link>AM\IO\StreamUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Net\SocketUtility.cs">
+      <Link>AM\Net\SocketUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\ProcessorArchitecture.cs">
+      <Link>AM\ProcessorArchitecture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reference.cs">
+      <Link>AM\Reference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\PublicKeyTokens.cs">
+      <Link>AM\Reflection\PublicKeyTokens.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\TaggedClassAttribute.cs">
+      <Link>AM\Reflection\TaggedClassAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Reflection\TaggedClassCollector.cs">
+      <Link>AM\Reflection\TaggedClassCollector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Resources\ResourceUtility.cs">
+      <Link>AM\Resources\ResourceUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Runtime\InteropUtility.cs">
+      <Link>AM\Runtime\InteropUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Runtime\RuntimeUtility.cs">
+      <Link>AM\Runtime\RuntimeUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\StringUtility.cs">
+      <Link>AM\StringUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\CharacterClass.cs">
+      <Link>AM\Text\CharacterClass.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\CharacterClassifier.cs">
+      <Link>AM\Text\CharacterClassifier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\DateTimeUtility.cs">
+      <Link>AM\DateTimeUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\NumericUtility.cs">
+      <Link>AM\NumericUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\EncodingUtility.cs">
+      <Link>AM\Text\EncodingUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Text\TextWithEncoding.cs">
+      <Link>AM\Text\TextWithEncoding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\TypeUtility.cs">
+      <Link>AM\TypeUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Xml\XmlNamespaces.cs">
+      <Link>AM\Xml\XmlNamespaces.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Xml\XmlUtility.cs">
+      <Link>AM\Xml\XmlUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\ComponentModel.cs">
-      <Link>Compability\ComponentModel.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\Diagnostics.cs">
-      <Link>Compability\Diagnostics.cs</Link>
+      <Link>Compatibility\ComponentModel.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\DummyClass.cs">
-      <Link>Compability\DummyClass.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\ExcludeFromCodeCoverageAttribute.cs">
-      <Link>Compability\ExcludeFromCodeCoverageAttribute.cs</Link>
+      <Link>Compatibility\DummyClass.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\JetBrains.cs">
-      <Link>Compability\JetBrains.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\JetBrains2.cs">
-      <Link>Compability\JetBrains2.cs</Link>
+      <Link>Compatibility\JetBrains.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\MoonSharp.cs">
-      <Link>Compability\MoonSharp.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\Newtonsoft.cs">
-      <Link>Compability\Newtonsoft.cs</Link>
+      <Link>Compatibility\MoonSharp.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\StringBuilderCompability.cs">
-      <Link>Compability\StringBuilderCompability.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\StringSplitOptions.cs">
-      <Link>Compability\StringSplitOptions.cs</Link>
+      <Link>Compatibility\StringBuilderCompability.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\System.cs">
-      <Link>Compability\System.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\Tasks.cs">
-      <Link>Compability\Tasks.cs</Link>
+      <Link>Compatibility\System.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\Xml.cs">
-      <Link>Compability\Xml.cs</Link>
+      <Link>Compatibility\Xml.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\RetryManager.cs">
+      <Link>AM\RetryManager.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!-- END -->
+  <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

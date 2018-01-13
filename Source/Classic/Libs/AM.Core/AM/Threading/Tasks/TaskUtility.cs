@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if !WINMOBILE
+
 #region Using directives
 
 using System;
@@ -203,3 +205,5 @@ namespace AM.Threading.Tasks
         #endregion
     }
 }
+
+#endif
