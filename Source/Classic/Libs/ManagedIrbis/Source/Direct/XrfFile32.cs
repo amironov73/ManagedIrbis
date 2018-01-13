@@ -28,7 +28,7 @@ namespace ManagedIrbis.Direct
     /// Файл перекрестных ссылок XRF представляет собой
     /// таблицу ссылок на записи файла документов.
     /// Первая ссылка соответствует записи файла документов
-    /// с номером 1, вторая – 2  и тд.
+    /// с номером 1, вторая – 2  и т.д.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -98,7 +98,7 @@ namespace ManagedIrbis.Direct
                 int blockNumber = (mfn - 1) / XrfBlockCapacity;
                 long blockOffset = (mfn - 1) % XrfBlockCapacity * 4;
                 long result = blockNumber * XrfBlockSize + blockOffset + 4;
-                
+
                 return result;
             }
         }

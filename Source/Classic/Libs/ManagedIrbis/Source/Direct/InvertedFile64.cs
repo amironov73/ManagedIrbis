@@ -119,10 +119,8 @@ namespace ManagedIrbis.Direct
 
             Ifp = DirectUtility.OpenFile(fileName, mode);
             IfpControlRecord = IfpControlRecord64.Read(Ifp);
-            L01 = DirectUtility
-                .OpenFile ( Path.ChangeExtension(fileName, ".l01"), mode );
-            N01 = DirectUtility
-                .OpenFile(Path.ChangeExtension(fileName, ".n01"), mode);
+            L01 = DirectUtility.OpenFile(Path.ChangeExtension(fileName, ".l01"), mode);
+            N01 = DirectUtility.OpenFile(Path.ChangeExtension(fileName, ".n01"), mode);
         }
 
         #endregion
@@ -138,8 +136,7 @@ namespace ManagedIrbis.Direct
                 int nodeNumber
             )
         {
-            long result
-                = unchecked(((long)nodeNumber - 1) * NodeLength);
+            long result = (nodeNumber - 1) * (long)NodeLength;
 
             return result;
         }
