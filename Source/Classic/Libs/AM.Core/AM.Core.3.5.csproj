@@ -9,29 +9,29 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AM.Core</RootNamespace>
     <AssemblyName>AM.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\For4.0\bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4</DefineConstants>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW35</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For4.0\bin\Debug\AM.Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\AM.Core.xml</DocumentationFile>
     <LangVersion>3</LangVersion>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\For4.0\bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4</DefineConstants>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW35</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For4.0\bin\Release\AM.Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\AM.Core.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>
@@ -43,17 +43,18 @@
     <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+      <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net35-client\MoonSharp.Interpreter.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net35\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
+    <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\TaskParallelLibrary.1.0.2856.0\lib\Net35\System.Threading.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
@@ -132,6 +133,7 @@
     <Compile Include="AM\ConsoleIO\NullConsole.cs" />
     <Compile Include="AM\ConsoleIO\SystemConsole.cs" />
     <Compile Include="AM\ConsoleUtility.cs" />
+    <Compile Include="AM\ContinuousIntegrationUtility.cs" />
     <Compile Include="AM\Data\ColumnHeaderAttribute.cs" />
     <Compile Include="AM\Data\ColumnIndexAttribute.cs" />
     <Compile Include="AM\Data\ColumnWidthAttribute.cs" />
@@ -226,6 +228,7 @@
     <Compile Include="AM\Runtime\Singleton.cs" />
     <Compile Include="AM\IOC\ServiceRepository.cs" />
     <Compile Include="AM\SubArray.cs" />
+    <Compile Include="AM\Text\CommonSeparators.cs" />
     <Compile Include="AM\Text\HtmlText.cs" />
     <Compile Include="AM\Text\Hyphenation\EnglishHyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\Hyphenator.cs" />
@@ -292,6 +295,7 @@
     <Compile Include="Compatibility\ExcludeFromCodeCoverageAttribute.cs" />
     <Compile Include="Compatibility\MarshalByRefObject.cs" />
     <Compile Include="Compatibility\NotImplementedException.cs" />
+    <Compile Include="Compatibility\OperatingSystem.cs" />
     <Compile Include="Compatibility\SerializableAttribute.cs" />
     <Compile Include="Compatibility\StringSplitOptions.cs" />
     <Compile Include="Compatibility\TypeInfo.cs" />
@@ -335,7 +339,6 @@
     <Compile Include="AM\Xml\XmlNamespaces.cs" />
     <Compile Include="AM\Xml\XmlUtility.cs" />
     <Compile Include="Compatibility\ComponentModel.cs" />
-    <Compile Include="Compatibility\Data.cs" />
     <Compile Include="Compatibility\DummyClass.cs" />
     <Compile Include="Compatibility\JetBrains.cs" />
     <Compile Include="Compatibility\MoonSharp.cs" />
