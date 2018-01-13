@@ -913,7 +913,7 @@ namespace System
 
 #endif
 
-#if ANDROID || UAP
+#if UAP
 
 namespace System
 {
@@ -928,6 +928,46 @@ namespace System
         /// of the current instance.
         /// </summary>
         object Clone ();
+    }
+
+    /// <summary>
+    /// Represents a method that converts an object from one type to another type.
+    /// </summary>
+    public delegate TOutput Converter<in TInput, out TOutput>
+        (
+            TInput input
+        );
+
+    public enum ConsoleSpecialKey
+    {
+        // We realize this is incomplete, and may add values in the future.
+        ControlC = 0,
+        ControlBreak = 1,
+    }
+
+    public sealed class ConsoleCancelEventArgs : EventArgs
+    {
+        private ConsoleSpecialKey _type;
+        private bool _cancel;  // Whether to cancel the CancelKeyPress event
+ 
+        internal ConsoleCancelEventArgs(ConsoleSpecialKey type)
+        {
+            _type = type;
+            _cancel = false;
+        }
+ 
+        // Whether to cancel the break event.  By setting this to true, the
+        // Control-C will not kill the process.
+        public bool Cancel {
+            get { return _cancel; }
+            set {
+                _cancel = value;
+            }
+        }
+ 
+        public ConsoleSpecialKey SpecialKey {
+            get { return _type; }
+        }
     }
 }
 

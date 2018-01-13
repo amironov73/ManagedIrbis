@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if !UAP
+
 #region Using directives
 
 using System.Diagnostics;
@@ -284,3 +286,5 @@ namespace AM.Diagnostics
         #endregion
     }
 }
+
+#endif

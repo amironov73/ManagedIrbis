@@ -64,7 +64,7 @@ namespace AM.Threading
         /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
-#if NETCORE
+#if UAP
 
             _semaphore.Dispose();
 

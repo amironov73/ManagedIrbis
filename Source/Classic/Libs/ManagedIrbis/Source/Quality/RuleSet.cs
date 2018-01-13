@@ -199,6 +199,12 @@ namespace ManagedIrbis.Quality
         {
             Code.NotNull(assembly, "assembly");
 
+#if UAP
+
+            throw new NotImplementedException();
+
+#else
+
             Type[] types = assembly
                 .GetTypes()
                 .Where(t => t.IsPublic)
@@ -209,6 +215,8 @@ namespace ManagedIrbis.Quality
             {
                 RegisterRule(ruleType);
             }
+
+#endif
         }
 
         /// <summary>
@@ -216,7 +224,15 @@ namespace ManagedIrbis.Quality
         /// </summary>
         public static void RegisterBuiltinRules ()
         {
+#if UAP
+
+            // TODO Implement
+
+#else
+
             RegisterAssembly(Assembly.GetExecutingAssembly());
+
+#endif
         }
 
 #endif

@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !NETCORE
+#if !NETCORE && !UAP
 
 #region Using directives
 

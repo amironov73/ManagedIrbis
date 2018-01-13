@@ -81,7 +81,7 @@ namespace ManagedIrbis.Server
         /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
-#if NETCORE
+#if UAP
 
             Client.Dispose();
 

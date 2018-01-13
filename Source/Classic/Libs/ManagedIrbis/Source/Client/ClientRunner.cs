@@ -106,6 +106,8 @@ namespace ManagedIrbis.Client
 
         private string _copyIniPath;
 
+#if !UAP
+
         private void _ProcessExited
             (
                 object sender,
@@ -117,6 +119,8 @@ namespace ManagedIrbis.Client
             File.Delete(_copyIniPath);
             process.Dispose();
         }
+
+#endif
 
         #endregion
 
@@ -130,6 +134,12 @@ namespace ManagedIrbis.Client
                 bool wait
             )
         {
+#if UAP
+
+            throw new NotImplementedException();
+
+#else
+
             if (!Directory.Exists(WorkingDirectory))
             {
                 throw new IrbisException("Working directory not exists");
@@ -208,6 +218,8 @@ namespace ManagedIrbis.Client
             {
                 process.WaitForExit();
             }
+
+#endif
         }
 
         #endregion

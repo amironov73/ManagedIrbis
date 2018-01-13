@@ -1,4 +1,4 @@
-﻿#if UAP
+﻿#if NOTDEF
 
 //using System.Runtime.Remoting;
 using System.Threading;

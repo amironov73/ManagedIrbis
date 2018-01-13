@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
 #region Using directives
 

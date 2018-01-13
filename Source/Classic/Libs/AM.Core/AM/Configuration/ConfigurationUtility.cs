@@ -26,7 +26,7 @@ using MoonSharp.Interpreter;
 
 using CM = OpenNETCF.Configuration.ConfigurationSettings;
 
-#else
+#elif !DROID && !ANDROID && !UAP
 
 using CM = System.Configuration.ConfigurationManager;
 
@@ -65,11 +65,21 @@ namespace AM.Configuration
         {
             get
             {
+#if UAP
+
+                // TODO Implement properly
+
+                return "config";
+
+#else
+
                 return string.Concat
                     (
                         RuntimeUtility.ExecutableFileName,
                         ".config"
                     );
+
+#endif
             }
         }
 
@@ -82,6 +92,8 @@ namespace AM.Configuration
                 [NotNull] params string[] candidates
             )
         {
+#if !DROID && !ANDROID && !UAP
+
             foreach (string candidate in candidates.NonEmptyLines())
             {
                 string setting = CM.AppSettings[candidate];
@@ -90,6 +102,8 @@ namespace AM.Configuration
                     return setting;
                 }
             }
+
+#endif
 
             return null;
         }
@@ -103,6 +117,11 @@ namespace AM.Configuration
                 bool defaultValue
             )
         {
+#if DROID || ANDROID || UAP
+
+            return defaultValue;
+#else
+
             bool result = defaultValue;
             string s = CM.AppSettings[key];
             if (!string.IsNullOrEmpty(s))
@@ -111,6 +130,8 @@ namespace AM.Configuration
             }
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -122,6 +143,11 @@ namespace AM.Configuration
                 short defaultValue
             )
         {
+#if DROID || ANDROID || UAP
+
+            return defaultValue;
+#else
+
             short result;
             string s = CM.AppSettings[key];
 
@@ -131,6 +157,8 @@ namespace AM.Configuration
             }
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -143,6 +171,11 @@ namespace AM.Configuration
                 ushort defaultValue
             )
         {
+#if DROID || ANDROID || UAP
+
+            return defaultValue;
+#else
+
             ushort result;
             string s = CM.AppSettings[key];
 
@@ -152,6 +185,8 @@ namespace AM.Configuration
             }
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -164,6 +199,11 @@ namespace AM.Configuration
                 int defaultValue
             )
         {
+#if DROID || ANDROID || UAP
+
+            return defaultValue;
+#else
+
             int result;
             string s = CM.AppSettings[key];
 
@@ -173,6 +213,8 @@ namespace AM.Configuration
             }
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -186,6 +228,11 @@ namespace AM.Configuration
                 uint defaultValue
             )
         {
+#if DROID || ANDROID || UAP
+
+            return defaultValue;
+#else
+
             uint result;
             string s = CM.AppSettings[key];
 
@@ -195,6 +242,8 @@ namespace AM.Configuration
             }
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -207,6 +256,11 @@ namespace AM.Configuration
                 long defaultValue
             )
         {
+#if DROID || ANDROID || UAP
+
+            return defaultValue;
+#else
+
             long result;
             string s = CM.AppSettings[key];
 
@@ -216,6 +270,8 @@ namespace AM.Configuration
             }
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -229,6 +285,11 @@ namespace AM.Configuration
                 ulong defaultValue
             )
         {
+#if DROID || ANDROID || UAP
+
+            return defaultValue;
+#else
+
             ulong result;
             string s = CM.AppSettings[key];
 
@@ -238,6 +299,8 @@ namespace AM.Configuration
             }
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -249,6 +312,11 @@ namespace AM.Configuration
                 float defaultValue
             )
         {
+#if DROID || ANDROID || UAP
+
+            return defaultValue;
+#else
+
             float result;
             string s = CM.AppSettings[key];
 
@@ -258,6 +326,8 @@ namespace AM.Configuration
             }
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -269,6 +339,11 @@ namespace AM.Configuration
                 double defaultValue
             )
         {
+#if DROID || ANDROID || UAP
+
+            return defaultValue;
+#else
+
             double result;
             string s = CM.AppSettings[key];
 
@@ -278,6 +353,8 @@ namespace AM.Configuration
             }
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -289,6 +366,11 @@ namespace AM.Configuration
                 decimal defaultValue
             )
         {
+#if DROID || ANDROID || UAP
+
+            return defaultValue;
+#else
+
             decimal result;
             string s = CM.AppSettings[key];
 
@@ -298,6 +380,8 @@ namespace AM.Configuration
             }
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -312,6 +396,11 @@ namespace AM.Configuration
         {
             Code.NotNullNorEmpty(key, "key");
 
+#if DROID || ANDROID || UAP
+
+            return defaultValue;
+#else
+
             string result = defaultValue;
             string s = CM.AppSettings[key];
 
@@ -321,6 +410,8 @@ namespace AM.Configuration
             }
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -376,6 +467,11 @@ namespace AM.Configuration
                 DateTime defaultValue
             )
         {
+#if DROID || ANDROID || UAP
+
+            return defaultValue;
+#else
+
             string s = CM.AppSettings[key];
 
             if (!string.IsNullOrEmpty(s))
@@ -388,6 +484,8 @@ namespace AM.Configuration
             }
 
             return defaultValue;
+
+#endif
         }
 
         #endregion

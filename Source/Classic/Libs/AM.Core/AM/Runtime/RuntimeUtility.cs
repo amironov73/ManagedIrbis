@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if CLASSIC || DROID || NETCORE || WINMOBILE
+#if CLASSIC || ANDROID || DROID || NETCORE || WINMOBILE
 
 #region Using directives
 

@@ -2,6 +2,17 @@
 
 namespace System
 {
+    public enum PlatformID
+    {
+        Win32S        = 0,
+        Win32Windows  = 1,
+        Win32NT       = 2,
+        WinCE         = 3,      
+        Unix          = 4,
+        Xbox          = 5,
+        MacOSX        = 6
+    }
+
     /// <summary>
     /// Operating system.
     /// </summary>
@@ -23,7 +34,7 @@ namespace System
         internal OperatingSystem(PlatformID platform, Version version, string servicePack)
         { 
             _platform = platform;
-            _version = (Version) version.Clone();
+            _version = (Version) version;
             _servicePack = servicePack;
         }
 

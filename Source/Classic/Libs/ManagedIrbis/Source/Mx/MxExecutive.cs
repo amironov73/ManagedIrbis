@@ -330,7 +330,7 @@ namespace ManagedIrbis.Mx
             return true;
         }
 
-#if !ANDROID
+#if !ANDROID && !UAP
 
         /// <summary>
         /// REPL

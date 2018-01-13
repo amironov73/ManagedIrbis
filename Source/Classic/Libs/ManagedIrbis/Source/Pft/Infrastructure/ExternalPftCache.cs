@@ -208,6 +208,14 @@ namespace ManagedIrbis.Pft.Infrastructure
         [NotNull]
         public string GetDefaultRootDirectory()
         {
+#if UAP
+
+            // TODO Implement properly
+
+            return ".";
+
+#else
+
             string result = Path.Combine
                 (
                     Path.Combine
@@ -222,6 +230,8 @@ namespace ManagedIrbis.Pft.Infrastructure
                 );
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -255,12 +265,13 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                 return result;
 
+            }
+
 #else
 
                 return null;
 
 #endif
-            }
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -57,7 +57,23 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
   </ItemGroup>
+  <!-- BEGIN -->
   <ItemGroup>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\AsyncExtensions.cs">
+      <Link>Source\AsyncExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Authentication\AbstractAuthenticator.cs">
+      <Link>Source\Authentication\AbstractAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Authentication\AuthenticationResult.cs">
+      <Link>Source\Authentication\AuthenticationResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Authentication\IrbisCredentials.cs">
+      <Link>Source\Authentication\IrbisCredentials.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Authentication\UserContext.cs">
+      <Link>Source\Authentication\UserContext.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchAccessor.cs">
       <Link>Source\Batch\BatchAccessor.cs</Link>
     </Compile>
@@ -76,6 +92,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchSearcher.cs">
       <Link>Source\Batch\BatchSearcher.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ConnectionFactory.cs">
+      <Link>Source\ConnectionFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Batch\ParallelRecordFormatter.cs">
       <Link>Source\Batch\ParallelRecordFormatter.cs</Link>
     </Compile>
@@ -85,35 +104,14 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioContext.cs">
       <Link>Source\Biblio\BiblioContext.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioDocument.cs">
-      <Link>Source\Biblio\BiblioDocument.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioFilter.cs">
-      <Link>Source\Biblio\BiblioFilter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioItem.cs">
-      <Link>Source\Biblio\BiblioItem.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioProcessor.cs">
-      <Link>Source\Biblio\BiblioProcessor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioTerm.cs">
-      <Link>Source\Biblio\BiblioTerm.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioUtility.cs">
       <Link>Source\Biblio\BiblioUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\BiblioChapter.cs">
-      <Link>Source\Biblio\Chapters\BiblioChapter.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithErrors.cs">
+      <Link>Source\Biblio\Chapters\ChapterWithErrors.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterCollection.cs">
-      <Link>Source\Biblio\Chapters\ChapterCollection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithRecords.cs">
-      <Link>Source\Biblio\Chapters\ChapterWithRecords.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithText.cs">
-      <Link>Source\Biblio\Chapters\ChapterWithText.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithStatistics.cs">
+      <Link>Source\Biblio\Chapters\ChapterWithStatistics.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\CumulatingSubChapter.cs">
       <Link>Source\Biblio\Chapters\CumulatingSubChapter.cs</Link>
@@ -127,6 +125,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\MenuSubChapter.cs">
       <Link>Source\Biblio\Chapters\MenuSubChapter.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\SimpleChapter.cs">
+      <Link>Source\Biblio\Chapters\SimpleChapter.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\BiblioDictionary.cs">
       <Link>Source\Biblio\Dictionaries\BiblioDictionary.cs</Link>
     </Compile>
@@ -135,6 +136,36 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Dictionaries\TermCollection.cs">
       <Link>Source\Biblio\Dictionaries\TermCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioFilter.cs">
+      <Link>Source\Biblio\BiblioFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioItem.cs">
+      <Link>Source\Biblio\BiblioItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioTerm.cs">
+      <Link>Source\Biblio\BiblioTerm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\BiblioChapter.cs">
+      <Link>Source\Biblio\Chapters\BiblioChapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioDocument.cs">
+      <Link>Source\Biblio\BiblioDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\BiblioProcessor.cs">
+      <Link>Source\Biblio\BiblioProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterCollection.cs">
+      <Link>Source\Biblio\Chapters\ChapterCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithDictionary.cs">
+      <Link>Source\Biblio\Chapters\ChapterWithDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithRecords.cs">
+      <Link>Source\Biblio\Chapters\ChapterWithRecords.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\ChapterWithText.cs">
+      <Link>Source\Biblio\Chapters\ChapterWithText.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\ItemCollection.cs">
       <Link>Source\Biblio\ItemCollection.cs</Link>
@@ -148,167 +179,14 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\TermComparer.cs">
       <Link>Source\Biblio\TermComparer.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Caching\IrbisCache.cs">
-      <Link>Source\Caching\IrbisCache.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Caching\MenuCache.cs">
-      <Link>Source\Caching\MenuCache.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Caching\RecordCache.cs">
-      <Link>Source\Caching\RecordCache.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Caching\TextCache.cs">
-      <Link>Source\Caching\TextCache.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ClientInfo.cs">
-      <Link>Source\ClientInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\CatalogDelta.cs">
-      <Link>Source\Client\CatalogDelta.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\CatalogState.cs">
-      <Link>Source\Client\CatalogState.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\IrbisProvider.cs">
-      <Link>Source\Client\IrbisProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ConnectionAlias.cs">
-      <Link>Source\Client\ConnectionAlias.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\AliasManager.cs">
-      <Link>Source\Client\AliasManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ConnectedClient.cs">
-      <Link>Source\Client\ConnectedClient.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\BibTex\BibTex.cs">
+      <Link>Source\BibTex\BibTex.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ConnectedFormatter.cs">
       <Link>Source\Client\ConnectedFormatter.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\LocalCatalogerIniFile.cs">
-      <Link>Source\Client\LocalCatalogerIniFile.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\LocalProvider.cs">
-      <Link>Source\Client\LocalProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\NullProvider.cs">
-      <Link>Source\Client\NullProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ProviderManager.cs">
-      <Link>Source\Client\ProviderManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\RecordState.cs">
-      <Link>Source\Client\RecordState.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\RecordStateComparer.cs">
-      <Link>Source\Client\RecordStateComparer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\RemoteCatalogerIniFile.cs">
-      <Link>Source\Client\RemoteCatalogerIniFile.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\SemiConnectedClient.cs">
-      <Link>Source\Client\SemiConnectedClient.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ConnectionElement.cs">
-      <Link>Source\ConnectionElement.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ConnectionFactory.cs">
-      <Link>Source\ConnectionFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ConnectionSettings.cs">
-      <Link>Source\ConnectionSettings.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\CopyRecordManager.cs">
-      <Link>Source\CopyRecordManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\DatabaseInfo.cs">
-      <Link>Source\DatabaseInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectAccess32.cs">
-      <Link>Source\Direct\DirectAccess32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectAccess64.cs">
-      <Link>Source\Direct\DirectAccess64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectAccessMode.cs">
-      <Link>Source\Direct\DirectAccessMode.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectUtility.cs">
-      <Link>Source\Direct\DirectUtility.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\IfpControlRecord64.cs">
-      <Link>Source\Direct\IfpControlRecord64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\IfpRecord.cs">
-      <Link>Source\Direct\IfpRecord.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\InvertedFile32.cs">
-      <Link>Source\Direct\InvertedFile32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\InvertedFile64.cs">
-      <Link>Source\Direct\InvertedFile64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstControlRecord32.cs">
-      <Link>Source\Direct\MstControlRecord32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstControlRecord64.cs">
-      <Link>Source\Direct\MstControlRecord64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstDictionaryEntry32.cs">
-      <Link>Source\Direct\MstDictionaryEntry32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstDictionaryEntry64.cs">
-      <Link>Source\Direct\MstDictionaryEntry64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstFile32.cs">
-      <Link>Source\Direct\MstFile32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstFile64.cs">
-      <Link>Source\Direct\MstFile64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstRecord32.cs">
-      <Link>Source\Direct\MstRecord32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstRecord64.cs">
-      <Link>Source\Direct\MstRecord64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstRecordLeader32.cs">
-      <Link>Source\Direct\MstRecordLeader32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstRecordLeader64.cs">
-      <Link>Source\Direct\MstRecordLeader64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\NodeItem.cs">
-      <Link>Source\Direct\NodeItem.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\NodeLeader.cs">
-      <Link>Source\Direct\NodeLeader.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\NodeRecord.cs">
-      <Link>Source\Direct\NodeRecord.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\XrfFile32.cs">
-      <Link>Source\Direct\XrfFile32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\XrfFile64.cs">
-      <Link>Source\Direct\XrfFile64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\XrfRecord32.cs">
-      <Link>Source\Direct\XrfRecord32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\XrfRecord64.cs">
-      <Link>Source\Direct\XrfRecord64.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\EmbeddedField.cs">
-      <Link>Source\EmbeddedField.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FieldComparer.cs">
-      <Link>Source\FieldComparer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FieldIndicator.cs">
-      <Link>Source\FieldIndicator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FieldReference.cs">
-      <Link>Source\FieldReference.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\EfficientRecordSerializer.cs">
+      <Link>Source\Infrastructure\EfficientRecordSerializer.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FastFields.cs">
       <Link>Source\FastFields.cs</Link>
@@ -318,6 +196,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FieldState.cs">
       <Link>Source\FieldState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\ArrivalsInfo.cs">
+      <Link>Source\Fields\ArrivalsInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\AuthorInfo.cs">
       <Link>Source\Fields\AuthorInfo.cs</Link>
@@ -379,6 +260,12 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\LanguageInfo.cs">
       <Link>Source\Fields\LanguageInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\ManagementInfo.cs">
+      <Link>Source\Fields\ManagementInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\NumberOfTitlesInfo.cs">
+      <Link>Source\Fields\NumberOfTitlesInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\PartInfo.cs">
       <Link>Source\Fields\PartInfo.cs</Link>
     </Compile>
@@ -391,11 +278,20 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\QuarterlyOrderInfo.cs">
       <Link>Source\Fields\QuarterlyOrderInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\ReplacementInfo.cs">
+      <Link>Source\Fields\ReplacementInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\ResourceView.cs">
       <Link>Source\Fields\ResourceView.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\RevisionInfo.cs">
       <Link>Source\Fields\RevisionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\SenderInfo.cs">
+      <Link>Source\Fields\SenderInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\SignatureInfo.cs">
+      <Link>Source\Fields\SignatureInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\SourceInfo.cs">
       <Link>Source\Fields\SourceInfo.cs</Link>
@@ -406,71 +302,11 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\TitleInfo.cs">
       <Link>Source\Fields\TitleInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FieldTag.cs">
-      <Link>Source\FieldTag.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FieldValue.cs">
-      <Link>Source\FieldValue.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Flc\FlcConstants.cs">
-      <Link>Source\Flc\FlcConstants.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Flc\FlcProcessor.cs">
-      <Link>Source\Flc\FlcProcessor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Flc\FlcResult.cs">
-      <Link>Source\Flc\FlcResult.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Flc\FlcStatus.cs">
-      <Link>Source\Flc\FlcStatus.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fst\FstFile.cs">
-      <Link>Source\Fst\FstFile.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fst\FstIndexMethod.cs">
-      <Link>Source\Fst\FstIndexMethod.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fst\FstLine.cs">
-      <Link>Source\Fst\FstLine.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\UserInfo.cs">
+      <Link>Source\Fields\UserInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fst\FstTerm.cs">
       <Link>Source\Fst\FstTerm.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fst\FstProcessor.cs">
-      <Link>Source\Fst\FstProcessor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblBuilder.cs">
-      <Link>Source\Gbl\GblBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblCode.cs">
-      <Link>Source\Gbl\GblCode.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblEventArgs.cs">
-      <Link>Source\Gbl\GblEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblExecutive.cs">
-      <Link>Source\Gbl\GblExecutive.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblFile.cs">
-      <Link>Source\Gbl\GblFile.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblParameter.cs">
-      <Link>Source\Gbl\GblParameter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblResult.cs">
-      <Link>Source\Gbl\GblResult.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblSettings.cs">
-      <Link>Source\Gbl\GblSettings.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblStatement.cs">
-      <Link>Source\Gbl\GblStatement.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblUtility.cs">
-      <Link>Source\Gbl\GblUtility.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GlobalCorrector.cs">
-      <Link>Source\Gbl\GlobalCorrector.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblAdd.cs">
       <Link>Source\Gbl\Infrastructure\Ast\GblAdd.cs</Link>
@@ -529,8 +365,314 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\GblNodeCollection.cs">
       <Link>Source\Gbl\Infrastructure\GblNodeCollection.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\ProtocolLine.cs">
-      <Link>Source\Gbl\ProtocolLine.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\RepeatKind.cs">
+      <Link>Source\Gbl\Infrastructure\RepeatKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\RepeatSpecification.cs">
+      <Link>Source\Gbl\Infrastructure\RepeatSpecification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfActualIf.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfActualIf.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfAutoAsk.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfAutoAsk.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfClearDb.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfClearDb.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfCloseDb.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfCloseDb.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfCopyDb.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfCopyDb.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfCopyMf.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfCopyMf.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfDeleteDb.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfDeleteDb.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfDiagnosIf.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfDiagnosIf.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfDiagnosMf.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfDiagnosMf.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfExit.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfExit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfExportDb.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfExportDb.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfGlobal.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfGlobal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfImportDb.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfImportDb.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfLoadIf0.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfLoadIf0.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfLoadIf1.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfLoadIf1.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfLoadIf2.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfLoadIf2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfLoadIfComplete.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfLoadIfComplete.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfLockDb.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfLockDb.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfNewDb.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfNewDb.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfOpenDb.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfOpenDb.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfOperandSep.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfOperandSep.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfPrint.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfPrint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfReorgIf.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfReorgIf.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfReorgMf.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfReorgMf.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfRestoreMf.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfRestoreMf.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfSearch.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfSearch.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfSilence.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfSilence.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfStat.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfStat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfStatF.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfStatF.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfUnlockDb.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfUnlockDb.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfUnlockRecord.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfUnlockRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\Ast\IbfUnLockRecordAll.cs">
+      <Link>Source\Ibf\Infrastructure\Ast\IbfUnLockRecordAll.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\IbfContext.cs">
+      <Link>Source\Ibf\Infrastructure\IbfContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\IbfExitException.cs">
+      <Link>Source\Ibf\Infrastructure\IbfExitException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Ibf\Infrastructure\IbfNode.cs">
+      <Link>Source\Ibf\Infrastructure\IbfNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IIrbisConnection.cs">
+      <Link>Source\IIrbisConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\CommandKind.cs">
+      <Link>Source\Infrastructure\CommandKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\ResponseBuilder.cs">
+      <Link>Source\Infrastructure\ResponseBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\TestingSocket.cs">
+      <Link>Source\Infrastructure\Sockets\TestingSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Monitoring\BlockedRecord.cs">
+      <Link>Source\Monitoring\BlockedRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\CompilerProxy.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\CompilerProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\IndexInfo.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\IndexInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\IndexDictionary.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\IndexDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\RemoteFormatter.cs">
+      <Link>Source\Pft\Infrastructure\Compiler\RemoteFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\ExternalPftCache.cs">
+      <Link>Source\Pft\Infrastructure\ExternalPftCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Caching\IrbisCache.cs">
+      <Link>Source\Caching\IrbisCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Caching\MenuCache.cs">
+      <Link>Source\Caching\MenuCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Caching\RecordCache.cs">
+      <Link>Source\Caching\RecordCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Caching\TextCache.cs">
+      <Link>Source\Caching\TextCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\AbstractIniSection.cs">
+      <Link>Source\Client\AbstractIniSection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\CatalogDelta.cs">
+      <Link>Source\Client\CatalogDelta.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\CatalogState.cs">
+      <Link>Source\Client\CatalogState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ClientLM.cs">
+      <Link>Source\Client\ClientLM.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ClientRunner.cs">
+      <Link>Source\Client\ClientRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ContextIniSection.cs">
+      <Link>Source\Client\ContextIniSection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\DesktopIniSection.cs">
+      <Link>Source\Client\DesktopIniSection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\DisplayIniSection.cs">
+      <Link>Source\Client\DisplayIniSection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\EntryIniSection.cs">
+      <Link>Source\Client\EntryIniSection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\IrbisProvider.cs">
+      <Link>Source\Client\IrbisProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ConnectionAlias.cs">
+      <Link>Source\Client\ConnectionAlias.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\AliasManager.cs">
+      <Link>Source\Client\AliasManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ConnectedClient.cs">
+      <Link>Source\Client\ConnectedClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\IrbisProviderAsyncExtensions.cs">
+      <Link>Source\Client\IrbisProviderAsyncExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\LocalCatalogerIniFile.cs">
+      <Link>Source\Client\LocalCatalogerIniFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\LocalProvider.cs">
+      <Link>Source\Client\LocalProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\MessageFile.cs">
+      <Link>Source\Client\MessageFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\NullProvider.cs">
+      <Link>Source\Client\NullProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ProviderManager.cs">
+      <Link>Source\Client\ProviderManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\RecordStateComparer.cs">
+      <Link>Source\Client\RecordStateComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\RemoteCatalogerIniFile.cs">
+      <Link>Source\Client\RemoteCatalogerIniFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\SemiConnectedClient.cs">
+      <Link>Source\Client\SemiConnectedClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ConnectionElement.cs">
+      <Link>Source\ConnectionElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ConnectionSettings.cs">
+      <Link>Source\ConnectionSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\CopyRecordManager.cs">
+      <Link>Source\CopyRecordManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectAccessMode.cs">
+      <Link>Source\Direct\DirectAccessMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectAccess32.cs">
+      <Link>Source\Direct\DirectAccess32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectAccess64.cs">
+      <Link>Source\Direct\DirectAccess64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\DirectUtility.cs">
+      <Link>Source\Direct\DirectUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\IfpControlRecord64.cs">
+      <Link>Source\Direct\IfpControlRecord64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\InvertedFile32.cs">
+      <Link>Source\Direct\InvertedFile32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\InvertedFile64.cs">
+      <Link>Source\Direct\InvertedFile64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\IrbisSystemEvent.cs">
+      <Link>Source\Direct\IrbisSystemEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstControlRecord32.cs">
+      <Link>Source\Direct\MstControlRecord32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstControlRecord64.cs">
+      <Link>Source\Direct\MstControlRecord64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstDictionaryEntry32.cs">
+      <Link>Source\Direct\MstDictionaryEntry32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstDictionaryEntry64.cs">
+      <Link>Source\Direct\MstDictionaryEntry64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstFile32.cs">
+      <Link>Source\Direct\MstFile32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstFile64.cs">
+      <Link>Source\Direct\MstFile64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstRecord32.cs">
+      <Link>Source\Direct\MstRecord32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstRecord64.cs">
+      <Link>Source\Direct\MstRecord64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstRecordLeader32.cs">
+      <Link>Source\Direct\MstRecordLeader32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstRecordLeader64.cs">
+      <Link>Source\Direct\MstRecordLeader64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\XrfFile32.cs">
+      <Link>Source\Direct\XrfFile32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\XrfFile64.cs">
+      <Link>Source\Direct\XrfFile64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\XrfRecord32.cs">
+      <Link>Source\Direct\XrfRecord32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\XrfRecord64.cs">
+      <Link>Source\Direct\XrfRecord64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Extensibility\ExtensionManager.cs">
+      <Link>Source\Extensibility\ExtensionManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Extensibility\ExtensionInfo.cs">
+      <Link>Source\Extensibility\ExtensionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Extensibility\IrbisExtension.cs">
+      <Link>Source\Extensibility\IrbisExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fst\FstProcessor.cs">
+      <Link>Source\Fst\FstProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fst\LocalFstProcessor.cs">
+      <Link>Source\Fst\LocalFstProcessor.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\CodeDigit.cs">
       <Link>Source\Identifiers\CodeDigit.cs</Link>
@@ -541,77 +683,23 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Ean8.cs">
       <Link>Source\Identifiers\Ean8.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isbn.cs">
-      <Link>Source\Identifiers\Isbn.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Ismn.cs">
-      <Link>Source\Identifiers\Ismn.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Issn.cs">
-      <Link>Source\Identifiers\Issn.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Upc12.cs">
       <Link>Source\Identifiers\Upc12.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IIrbisConnection.cs">
-      <Link>Source\IIrbisConnection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IlfFile.cs">
-      <Link>Source\IlfFile.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\IrbisJson.cs">
-      <Link>Source\ImportExport\IrbisJson.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\IsisText.cs">
-      <Link>Source\ImportExport\IsisText.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\Iso2709.cs">
-      <Link>Source\ImportExport\Iso2709.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\IsoMarker.cs">
       <Link>Source\ImportExport\IsoMarker.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\IsoReader.cs">
-      <Link>Source\ImportExport\IsoReader.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\IsoRecordHeader.cs">
       <Link>Source\ImportExport\IsoRecordHeader.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\PlainText.cs">
-      <Link>Source\ImportExport\PlainText.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\ProtocolText.cs">
-      <Link>Source\ImportExport\ProtocolText.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\MarcXml.cs">
+      <Link>Source\ImportExport\MarcXml.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\AbstractEngine.cs">
       <Link>Source\Infrastructure\AbstractEngine.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\ClientQuery.cs">
-      <Link>Source\Infrastructure\ClientQuery.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\CommandCode.cs">
-      <Link>Source\Infrastructure\CommandCode.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\CommandFactory.cs">
-      <Link>Source\Infrastructure\CommandFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\CommandKind.cs">
-      <Link>Source\Infrastructure\CommandKind.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\EfficientRecordSerializer.cs">
-      <Link>Source\Infrastructure\EfficientRecordSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\AbstractCommand.cs">
-      <Link>Source\Infrastructure\Commands\AbstractCommand.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ActualizeRecordCommand.cs">
       <Link>Source\Infrastructure\Commands\ActualizeRecordCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ConnectCommand.cs">
-      <Link>Source\Infrastructure\Commands\ConnectCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\CreateDatabaseCommand.cs">
-      <Link>Source\Infrastructure\Commands\CreateDatabaseCommand.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\CreateDictionaryCommand.cs">
       <Link>Source\Infrastructure\Commands\CreateDictionaryCommand.cs</Link>
@@ -619,29 +707,11 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\DatabaseInfoCommand.cs">
       <Link>Source\Infrastructure\Commands\DatabaseInfoCommand.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\DatabaseStatCommand.cs">
-      <Link>Source\Infrastructure\Commands\DatabaseStatCommand.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\DeleteDatabaseCommand.cs">
       <Link>Source\Infrastructure\Commands\DeleteDatabaseCommand.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\DisconnectCommand.cs">
       <Link>Source\Infrastructure\Commands\DisconnectCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\DynamicCommand.cs">
-      <Link>Source\Infrastructure\Commands\DynamicCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\FormatCommand.cs">
-      <Link>Source\Infrastructure\Commands\FormatCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\GblCommand.cs">
-      <Link>Source\Infrastructure\Commands\GblCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\GblVirtualCommand.cs">
-      <Link>Source\Infrastructure\Commands\GblVirtualCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ListFilesCommand.cs">
-      <Link>Source\Infrastructure\Commands\ListFilesCommand.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ListProcessesCommand.cs">
       <Link>Source\Infrastructure\Commands\ListProcessesCommand.cs</Link>
@@ -655,26 +725,8 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\NopCommand.cs">
       <Link>Source\Infrastructure\Commands\NopCommand.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\PrintTableCommand.cs">
-      <Link>Source\Infrastructure\Commands\PrintTableCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadBinaryFileCommand.cs">
-      <Link>Source\Infrastructure\Commands\ReadBinaryFileCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadFileCommand.cs">
-      <Link>Source\Infrastructure\Commands\ReadFileCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadPostingsCommand.cs">
-      <Link>Source\Infrastructure\Commands\ReadPostingsCommand.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadRawRecordCommand.cs">
       <Link>Source\Infrastructure\Commands\ReadRawRecordCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadRecordCommand.cs">
-      <Link>Source\Infrastructure\Commands\ReadRecordCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadTermsCommand.cs">
-      <Link>Source\Infrastructure\Commands\ReadTermsCommand.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReloadDictionaryCommand.cs">
       <Link>Source\Infrastructure\Commands\ReloadDictionaryCommand.cs</Link>
@@ -685,14 +737,8 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\RestartServerCommand.cs">
       <Link>Source\Infrastructure\Commands\RestartServerCommand.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\SearchCommand.cs">
-      <Link>Source\Infrastructure\Commands\SearchCommand.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\SearchRawCommand.cs">
       <Link>Source\Infrastructure\Commands\SearchRawCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\SearchReadCommand.cs">
-      <Link>Source\Infrastructure\Commands\SearchReadCommand.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ServerStatCommand.cs">
       <Link>Source\Infrastructure\Commands\ServerStatCommand.cs</Link>
@@ -703,12 +749,6 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\TruncateDatabaseCommand.cs">
       <Link>Source\Infrastructure\Commands\TruncateDatabaseCommand.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\UniversalCommand.cs">
-      <Link>Source\Infrastructure\Commands\UniversalCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\UniversalTextCommand.cs">
-      <Link>Source\Infrastructure\Commands\UniversalTextCommand.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\UnlockDatabaseCommand.cs">
       <Link>Source\Infrastructure\Commands\UnlockDatabaseCommand.cs</Link>
     </Compile>
@@ -718,59 +758,17 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\UpdateIniFileCommand.cs">
       <Link>Source\Infrastructure\Commands\UpdateIniFileCommand.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\UpdateUserListCommand.cs">
-      <Link>Source\Infrastructure\Commands\UpdateUserListCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\WriteFileCommand.cs">
-      <Link>Source\Infrastructure\Commands\WriteFileCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\WriteRecordCommand.cs">
-      <Link>Source\Infrastructure\Commands\WriteRecordCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\WriteRecordsCommand.cs">
-      <Link>Source\Infrastructure\Commands\WriteRecordsCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\ConnectionFactory.cs">
-      <Link>Source\Infrastructure\ConnectionFactory.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\ExecutionContext.cs">
       <Link>Source\Infrastructure\ExecutionContext.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\ExecutionEventArgs.cs">
       <Link>Source\Infrastructure\ExecutionEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\FileSpecification.cs">
-      <Link>Source\Infrastructure\FileSpecification.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\IOutputService.cs">
+      <Link>Source\Infrastructure\IOutputService.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\IrbisNetworkException.cs">
-      <Link>Source\Infrastructure\IrbisNetworkException.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\IrbisNetworkUtility.cs">
-      <Link>Source\Infrastructure\IrbisNetworkUtility.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\IrbisReturnCode.cs">
-      <Link>Source\Infrastructure\IrbisReturnCode.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\NetworkDebugger.cs">
-      <Link>Source\Infrastructure\NetworkDebugger.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\PacketInterpreter.cs">
-      <Link>Source\Infrastructure\PacketInterpreter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\ResponseBuilder.cs">
-      <Link>Source\Infrastructure\ResponseBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\ServerResponse.cs">
-      <Link>Source\Infrastructure\ServerResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\AbstractClientSocket.cs">
-      <Link>Source\Infrastructure\Sockets\AbstractClientSocket.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\AsyncClientSocket.cs">
-      <Link>Source\Infrastructure\Sockets\AsyncClientSocket.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\AsyncSocketAdapter.cs">
-      <Link>Source\Infrastructure\Sockets\AsyncSocketAdapter.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\SharpRunner.cs">
+      <Link>Source\Infrastructure\SharpRunner.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\BrokenSocket.cs">
       <Link>Source\Infrastructure\Sockets\BrokenSocket.cs</Link>
@@ -778,29 +776,143 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\ClientSocketUtility.cs">
       <Link>Source\Infrastructure\Sockets\ClientSocketUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\FakeClientSocket.cs">
-      <Link>Source\Infrastructure\Sockets\FakeClientSocket.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\HttpClientSocket.cs">
-      <Link>Source\Infrastructure\Sockets\HttpClientSocket.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\LoggingClientSocket.cs">
-      <Link>Source\Infrastructure\Sockets\LoggingClientSocket.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\RetryClientSocket.cs">
-      <Link>Source\Infrastructure\Sockets\RetryClientSocket.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SimpleClientSocket.cs">
-      <Link>Source\Infrastructure\Sockets\SimpleClientSocket.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SlowSocket.cs">
       <Link>Source\Infrastructure\Sockets\SlowSocket.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SmartClientSocket.cs">
-      <Link>Source\Infrastructure\Sockets\SmartClientSocket.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\StandardEngine.cs">
       <Link>Source\Infrastructure\StandardEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Flc\FlcConstants.cs">
+      <Link>Source\Flc\FlcConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Flc\FlcProcessor.cs">
+      <Link>Source\Flc\FlcProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Flc\FlcResult.cs">
+      <Link>Source\Flc\FlcResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Flc\FlcStatus.cs">
+      <Link>Source\Flc\FlcStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fst\FstFile.cs">
+      <Link>Source\Fst\FstFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fst\FstIndexMethod.cs">
+      <Link>Source\Fst\FstIndexMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fst\FstLine.cs">
+      <Link>Source\Fst\FstLine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblBuilder.cs">
+      <Link>Source\Gbl\GblBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblCode.cs">
+      <Link>Source\Gbl\GblCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblEventArgs.cs">
+      <Link>Source\Gbl\GblEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblExecutive.cs">
+      <Link>Source\Gbl\GblExecutive.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblFile.cs">
+      <Link>Source\Gbl\GblFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblSettings.cs">
+      <Link>Source\Gbl\GblSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblResult.cs">
+      <Link>Source\Gbl\GblResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblStatement.cs">
+      <Link>Source\Gbl\GblStatement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblParameter.cs">
+      <Link>Source\Gbl\GblParameter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GblUtility.cs">
+      <Link>Source\Gbl\GblUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\GlobalCorrector.cs">
+      <Link>Source\Gbl\GlobalCorrector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\ProtocolLine.cs">
+      <Link>Source\Gbl\ProtocolLine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\CrossRefApi.cs">
+      <Link>Source\Identifiers\CrossRefApi.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Ismn.cs">
+      <Link>Source\Identifiers\Ismn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isni.cs">
+      <Link>Source\Identifiers\Isni.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\JournalSeekApi.cs">
+      <Link>Source\Identifiers\JournalSeekApi.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Orcid.cs">
+      <Link>Source\Identifiers\Orcid.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\WikipediaApi.cs">
+      <Link>Source\Identifiers\WikipediaApi.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\WorldCatApi.cs">
+      <Link>Source\Identifiers\WorldCatApi.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\IfpRecord.cs">
+      <Link>Source\Direct\IfpRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\NodeItem.cs">
+      <Link>Source\Direct\NodeItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\NodeLeader.cs">
+      <Link>Source\Direct\NodeLeader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\NodeRecord.cs">
+      <Link>Source\Direct\NodeRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Doi.cs">
+      <Link>Source\Identifiers\Doi.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\EmbeddedField.cs">
+      <Link>Source\EmbeddedField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FieldIndicator.cs">
+      <Link>Source\FieldIndicator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FieldReference.cs">
+      <Link>Source\FieldReference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FieldTag.cs">
+      <Link>Source\FieldTag.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FieldValue.cs">
+      <Link>Source\FieldValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IlfFile.cs">
+      <Link>Source\IlfFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\IrbisJson.cs">
+      <Link>Source\ImportExport\IrbisJson.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\IsisText.cs">
+      <Link>Source\ImportExport\IsisText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\PlainText.cs">
+      <Link>Source\ImportExport\PlainText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\ProtocolText.cs">
+      <Link>Source\ImportExport\ProtocolText.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\Iso2709.cs">
+      <Link>Source\ImportExport\Iso2709.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\IsoReader.cs">
+      <Link>Source\ImportExport\IsoReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\StandardOutputService.cs">
+      <Link>Source\Infrastructure\StandardOutputService.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Statistics\ConnectionStatistics.cs">
       <Link>Source\Infrastructure\Statistics\ConnectionStatistics.cs</Link>
@@ -811,6 +923,21 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Statistics\IConnectionStatisticsService.cs">
       <Link>Source\Infrastructure\Statistics\IConnectionStatisticsService.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Transactions\IrbisTransactionAction.cs">
+      <Link>Source\Infrastructure\Transactions\IrbisTransactionAction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Transactions\IrbisTransactionContext.cs">
+      <Link>Source\Infrastructure\Transactions\IrbisTransactionContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Transactions\IrbisTransactionEventArgs.cs">
+      <Link>Source\Infrastructure\Transactions\IrbisTransactionEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Transactions\IrbisTransactionItem.cs">
+      <Link>Source\Infrastructure\Transactions\IrbisTransactionItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Transactions\IrbisTransactionManager.cs">
+      <Link>Source\Infrastructure\Transactions\IrbisTransactionManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Input\InputLine.cs">
       <Link>Source\Input\InputLine.cs</Link>
     </Compile>
@@ -820,44 +947,17 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisAlphabetTable.cs">
       <Link>Source\IrbisAlphabetTable.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ClientInfo.cs">
+      <Link>Source\ClientInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisCatalog.cs">
       <Link>Source\IrbisCatalog.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisConnection.cs">
-      <Link>Source\IrbisConnection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisConnectionUtility.cs">
-      <Link>Source\IrbisConnectionUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisConstants.cs">
       <Link>Source\IrbisConstants.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisDate.cs">
-      <Link>Source\IrbisDate.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisEditMask.cs">
-      <Link>Source\IrbisEditMask.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisEncoding.cs">
-      <Link>Source\IrbisEncoding.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisException.cs">
-      <Link>Source\IrbisException.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisFormat.cs">
-      <Link>Source\IrbisFormat.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisOpt.cs">
-      <Link>Source\IrbisOpt.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisPath.cs">
-      <Link>Source\IrbisPath.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisProcessInfo.cs">
-      <Link>Source\IrbisProcessInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisSearchQuery.cs">
-      <Link>Source\IrbisSearchQuery.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisLink.cs">
+      <Link>Source\IrbisLink.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisStopWords.cs">
       <Link>Source\IrbisStopWords.cs</Link>
@@ -868,17 +968,47 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisTreeFile.cs">
       <Link>Source\IrbisTreeFile.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisUpperCaseTable.cs">
-      <Link>Source\IrbisUpperCaseTable.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\CommandFactory.cs">
+      <Link>Source\Infrastructure\CommandFactory.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisUtility.cs">
-      <Link>Source\IrbisUtility.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\DatabaseStatCommand.cs">
+      <Link>Source\Infrastructure\Commands\DatabaseStatCommand.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisVersion.cs">
-      <Link>Source\IrbisVersion.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\DynamicCommand.cs">
+      <Link>Source\Infrastructure\Commands\DynamicCommand.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisWorkstation.cs">
-      <Link>Source\IrbisWorkstation.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\GblCommand.cs">
+      <Link>Source\Infrastructure\Commands\GblCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\GblVirtualCommand.cs">
+      <Link>Source\Infrastructure\Commands\GblVirtualCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\PrintTableCommand.cs">
+      <Link>Source\Infrastructure\Commands\PrintTableCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\SearchReadCommand.cs">
+      <Link>Source\Infrastructure\Commands\SearchReadCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\UpdateUserListCommand.cs">
+      <Link>Source\Infrastructure\Commands\UpdateUserListCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\ConnectionFactory.cs">
+      <Link>Source\Infrastructure\ConnectionFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\FakeClientSocket.cs">
+      <Link>Source\Infrastructure\Sockets\FakeClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\LoggingClientSocket.cs">
+      <Link>Source\Infrastructure\Sockets\LoggingClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\HttpClientSocket.cs">
+      <Link>Source\Infrastructure\Sockets\HttpClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\RetryClientSocket.cs">
+      <Link>Source\Infrastructure\Sockets\RetryClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SmartClientSocket.cs">
+      <Link>Source\Infrastructure\Sockets\SmartClientSocket.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\LanguageFile.cs">
       <Link>Source\LanguageFile.cs</Link>
@@ -886,86 +1016,14 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\LocalCatalogManager.cs">
       <Link>Source\LocalCatalogManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Magazines\MagazineArticleInfo.cs">
-      <Link>Source\Magazines\MagazineArticleInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Magazines\MagazineCumulation.cs">
-      <Link>Source\Magazines\MagazineCumulation.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\LocalizationManager.cs">
+      <Link>Source\LocalizationManager.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Magazines\MagazineInfo.cs">
       <Link>Source\Magazines\MagazineInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Magazines\MagazineIssueInfo.cs">
-      <Link>Source\Magazines\MagazineIssueInfo.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Magazines\MagazineManager.cs">
       <Link>Source\Magazines\MagazineManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mapping\FieldAttribute.cs">
-      <Link>Source\Mapping\FieldAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mapping\SubFieldAttribute.cs">
-      <Link>Source\Mapping\SubFieldAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mapping\SubFieldInfo.cs">
-      <Link>Source\Mapping\SubFieldInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mapping\SubFieldMapper.cs">
-      <Link>Source\Mapping\SubFieldMapper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\MarcRecord.cs">
-      <Link>Source\MarcRecord.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\MarcRecordUtility.cs">
-      <Link>Source\MarcRecordUtility.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\MarcBibliographicalIndex.cs">
-      <Link>Source\Marc\MarcBibliographicalIndex.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\MarcBibliographicalLevel.cs">
-      <Link>Source\Marc\MarcBibliographicalLevel.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\MarcCatalogingRules.cs">
-      <Link>Source\Marc\MarcCatalogingRules.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\MarcRecordStatus.cs">
-      <Link>Source\Marc\MarcRecordStatus.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\MarcRecordType.cs">
-      <Link>Source\Marc\MarcRecordType.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\MarcRelatedRecord.cs">
-      <Link>Source\Marc\MarcRelatedRecord.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\Example.cs">
-      <Link>Source\Marc\Schema\Example.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\FieldSchema.cs">
-      <Link>Source\Marc\Schema\FieldSchema.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\IndicatorSchema.cs">
-      <Link>Source\Marc\Schema\IndicatorSchema.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\MarcSchema.cs">
-      <Link>Source\Marc\Schema\MarcSchema.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\Option.cs">
-      <Link>Source\Marc\Schema\Option.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\RelatedField.cs">
-      <Link>Source\Marc\Schema\RelatedField.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\SchemaUtility.cs">
-      <Link>Source\Marc\Schema\SchemaUtility.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\SubFieldSchema.cs">
-      <Link>Source\Marc\Schema\SubFieldSchema.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Menus\MenuSpecification.cs">
-      <Link>Source\Menus\MenuSpecification.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Menus\MenuUtility.cs">
-      <Link>Source\Menus\MenuUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Menus\MenuConverter.cs">
       <Link>Source\Menus\MenuConverter.cs</Link>
@@ -973,23 +1031,11 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Menus\MenuEntry.cs">
       <Link>Source\Menus\MenuEntry.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Menus\MenuFile.cs">
-      <Link>Source\Menus\MenuFile.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Menus\MenuSort.cs">
       <Link>Source\Menus\MenuSort.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\AbstractMetadataFormat.cs">
-      <Link>Source\Metadata\AbstractMetadataFormat.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\MarcMetadataFormat.cs">
-      <Link>Source\Metadata\MarcMetadataFormat.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\RusMarcMetadataFormat.cs">
-      <Link>Source\Metadata\RusMarcMetadataFormat.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Monitoring\BlockedRecord.cs">
-      <Link>Source\Monitoring\BlockedRecord.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Menus\MenuSpecification.cs">
+      <Link>Source\Menus\MenuSpecification.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Monitoring\DatabaseData.cs">
       <Link>Source\Monitoring\DatabaseData.cs</Link>
@@ -1009,17 +1055,14 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Monitoring\TextMonitoringSink.cs">
       <Link>Source\Monitoring\TextMonitoringSink.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Morphology\IrbisMorphologyProvider.cs">
-      <Link>Source\Morphology\IrbisMorphologyProvider.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Morphology\SynonymEngine.cs">
+      <Link>Source\Morphology\SynonymEngine.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Morphology\MorphologyEngine.cs">
-      <Link>Source\Morphology\MorphologyEngine.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Morphology\SynonymEntry.cs">
+      <Link>Source\Morphology\SynonymEntry.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Morphology\MorphologyEntry.cs">
-      <Link>Source\Morphology\MorphologyEntry.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Morphology\MorphologyProvider.cs">
-      <Link>Source\Morphology\MorphologyProvider.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Morphology\WordShortener.cs">
+      <Link>Source\Morphology\WordShortener.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\AliasCommand.cs">
       <Link>Source\Mx\Commands\AliasCommand.cs</Link>
@@ -1078,8 +1121,8 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\MxUtility.cs">
       <Link>Source\Mx\MxUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ParFile.cs">
-      <Link>Source\ParFile.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Opds\OpdsCatalog.cs">
+      <Link>Source\Opds\OpdsCatalog.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftA.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftA.cs</Link>
@@ -1162,9 +1205,6 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftFalse.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftFalse.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftField.cs">
-      <Link>Source\Pft\Infrastructure\Ast\PftField.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftFieldAssignment.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftFieldAssignment.cs</Link>
     </Compile>
@@ -1189,15 +1229,6 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftFunctionCall.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftFunctionCall.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftG.cs">
-      <Link>Source\Pft\Infrastructure\Ast\PftG.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftGroup.cs">
-      <Link>Source\Pft\Infrastructure\Ast\PftGroup.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftHash.cs">
-      <Link>Source\Pft\Infrastructure\Ast\PftHash.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftHave.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftHave.cs</Link>
     </Compile>
@@ -1213,17 +1244,8 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftLocal.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftLocal.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftMfn.cs">
-      <Link>Source\Pft\Infrastructure\Ast\PftMfn.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftMinus.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftMinus.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftMode.cs">
-      <Link>Source\Pft\Infrastructure\Ast\PftMode.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftN.cs">
-      <Link>Source\Pft\Infrastructure\Ast\PftN.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftNested.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftNested.cs</Link>
@@ -1240,9 +1262,6 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftNumericLiteral.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftNumericLiteral.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftOrphan.cs">
-      <Link>Source\Pft\Infrastructure\Ast\PftOrphan.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftP.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftP.cs</Link>
     </Compile>
@@ -1258,9 +1277,6 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftParallelWith.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftParallelWith.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftPercent.cs">
-      <Link>Source\Pft\Infrastructure\Ast\PftPercent.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftPow.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftPow.cs</Link>
     </Compile>
@@ -1270,17 +1286,11 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftRef.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftRef.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftRepeatableLiteral.cs">
-      <Link>Source\Pft\Infrastructure\Ast\PftRepeatableLiteral.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftRound.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftRound.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftRsum.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftRsum.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftS.cs">
-      <Link>Source\Pft\Infrastructure\Ast\PftS.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftSemicolon.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftSemicolon.cs</Link>
@@ -1288,23 +1298,56 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftSign.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftSign.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftSlash.cs">
-      <Link>Source\Pft\Infrastructure\Ast\PftSlash.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftTrue.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftTrue.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftTrunc.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftTrunc.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftV.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftV.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftG.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftG.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftGroup.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftGroup.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftHash.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftHash.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftMfn.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftMfn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftMode.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftN.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftN.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftOrphan.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftOrphan.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftPercent.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftPercent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftField.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftRepeatableLiteral.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftRepeatableLiteral.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftS.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftS.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftSlash.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftSlash.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftUnconditionalLiteral.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftUnconditionalLiteral.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftUnifor.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftUnifor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftV.cs">
-      <Link>Source\Pft\Infrastructure\Ast\PftV.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftVal.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftVal.cs</Link>
@@ -1332,12 +1375,6 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\FieldInfo.cs">
       <Link>Source\Pft\Infrastructure\Compiler\FieldInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\IndexDictionary.cs">
-      <Link>Source\Pft\Infrastructure\Compiler\IndexDictionary.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\IndexInfo.cs">
-      <Link>Source\Pft\Infrastructure\Compiler\IndexInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\NodeDictionary.cs">
       <Link>Source\Pft\Infrastructure\Compiler\NodeDictionary.cs</Link>
@@ -1384,15 +1421,6 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\OuterObject.cs">
       <Link>Source\Pft\Infrastructure\Functions\OuterObject.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\PftFunction.cs">
-      <Link>Source\Pft\Infrastructure\Functions\PftFunction.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\PftFunctionManager.cs">
-      <Link>Source\Pft\Infrastructure\Functions\PftFunctionManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\StandardFunctions.cs">
-      <Link>Source\Pft\Infrastructure\Functions\StandardFunctions.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\StandardFunctions.Files.cs">
       <Link>Source\Pft\Infrastructure\Functions\StandardFunctions.Files.cs</Link>
     </Compile>
@@ -1402,11 +1430,11 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\IFormatExit.cs">
       <Link>Source\Pft\Infrastructure\IFormatExit.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\IndexSpecification.cs">
-      <Link>Source\Pft\Infrastructure\IndexSpecification.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\IndexKind.cs">
       <Link>Source\Pft\Infrastructure\IndexKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\IndexSpecification.cs">
+      <Link>Source\Pft\Infrastructure\IndexSpecification.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftBreakException.cs">
       <Link>Source\Pft\Infrastructure\PftBreakException.cs</Link>
@@ -1417,23 +1445,20 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftConfig.cs">
       <Link>Source\Pft\Infrastructure\PftConfig.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftContext.cs">
-      <Link>Source\Pft\Infrastructure\PftContext.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftContextGuard.cs">
       <Link>Source\Pft\Infrastructure\PftContextGuard.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftContextSaver.cs">
       <Link>Source\Pft\Infrastructure\PftContextSaver.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftDebugEventArgs.cs">
-      <Link>Source\Pft\Infrastructure\PftDebugEventArgs.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftExitException.cs">
       <Link>Source\Pft\Infrastructure\PftExitException.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftFieldOutputMode.cs">
-      <Link>Source\Pft\Infrastructure\PftFieldOutputMode.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\PftFunction.cs">
+      <Link>Source\Pft\Infrastructure\Functions\PftFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\PftFunctionManager.cs">
+      <Link>Source\Pft\Infrastructure\Functions\PftFunctionManager.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftGlobal.cs">
       <Link>Source\Pft\Infrastructure\PftGlobal.cs</Link>
@@ -1453,62 +1478,20 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftNode.cs">
       <Link>Source\Pft\Infrastructure\PftNode.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftContext.cs">
+      <Link>Source\Pft\Infrastructure\PftContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftDebugEventArgs.cs">
+      <Link>Source\Pft\Infrastructure\PftDebugEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftFieldOutputMode.cs">
+      <Link>Source\Pft\Infrastructure\PftFieldOutputMode.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftNodeCollection.cs">
       <Link>Source\Pft\Infrastructure\PftNodeCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftNodeKind.cs">
       <Link>Source\Pft\Infrastructure\PftNodeKind.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftOutput.cs">
-      <Link>Source\Pft\Infrastructure\PftOutput.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Arith.cs">
-      <Link>Source\Pft\Infrastructure\PftParser.Arith.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Boolean.cs">
-      <Link>Source\Pft\Infrastructure\PftParser.Boolean.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.cs">
-      <Link>Source\Pft\Infrastructure\PftParser.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Field.cs">
-      <Link>Source\Pft\Infrastructure\PftParser.Field.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Infrastructure.cs">
-      <Link>Source\Pft\Infrastructure\PftParser.Infrastructure.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Parallel.cs">
-      <Link>Source\Pft\Infrastructure\PftParser.Parallel.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Tables.cs">
-      <Link>Source\Pft\Infrastructure\PftParser.Tables.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftProcedure.cs">
-      <Link>Source\Pft\Infrastructure\PftProcedure.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftProcedureManager.cs">
-      <Link>Source\Pft\Infrastructure\PftProcedureManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftProgram.cs">
-      <Link>Source\Pft\Infrastructure\PftProgram.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftToken.cs">
-      <Link>Source\Pft\Infrastructure\PftToken.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftTokenKind.cs">
-      <Link>Source\Pft\Infrastructure\PftTokenKind.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftTokenList.cs">
-      <Link>Source\Pft\Infrastructure\PftTokenList.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftVariable.cs">
-      <Link>Source\Pft\Infrastructure\PftVariable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftVariableManager.cs">
-      <Link>Source\Pft\Infrastructure\PftVariableManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\ProgramCache.cs">
-      <Link>Source\Pft\Infrastructure\ProgramCache.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Serialization\PftSerializationException.cs">
       <Link>Source\Pft\Infrastructure\Serialization\PftSerializationException.cs</Link>
@@ -1522,15 +1505,6 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Serialization\TypeMap.cs">
       <Link>Source\Pft\Infrastructure\Serialization\TypeMap.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Testing\PftTest.cs">
-      <Link>Source\Pft\Infrastructure\Testing\PftTest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Testing\PftTester.cs">
-      <Link>Source\Pft\Infrastructure\Testing\PftTester.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Testing\PftTestResult.cs">
-      <Link>Source\Pft\Infrastructure\Testing\PftTestResult.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Text\HtmlDriver.cs">
       <Link>Source\Pft\Infrastructure\Text\HtmlDriver.cs</Link>
     </Compile>
@@ -1543,29 +1517,11 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Text\TextDriver.cs">
       <Link>Source\Pft\Infrastructure\Text\TextDriver.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Umarci.cs">
-      <Link>Source\Pft\Infrastructure\Umarci.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifor.cs">
-      <Link>Source\Pft\Infrastructure\Unifor.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor0.cs">
       <Link>Source\Pft\Infrastructure\Unifors\Unifor0.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor1.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\Unifor1.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor2.cs">
       <Link>Source\Pft\Infrastructure\Unifors\Unifor2.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor3.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\Unifor3.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor4.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\Unifor4.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor6.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\Unifor6.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor7.cs">
       <Link>Source\Pft\Infrastructure\Unifors\Unifor7.cs</Link>
@@ -1585,12 +1541,6 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforC.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforC.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforD.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\UniforD.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforE.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\UniforE.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforEqual.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforEqual.cs</Link>
     </Compile>
@@ -1606,20 +1556,11 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforI.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforI.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforJ.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\UniforJ.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforK.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforK.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforL.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforL.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforM.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\UniforM.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforO.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\UniforO.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforP.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforP.cs</Link>
@@ -1630,12 +1571,6 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus1.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlus1.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus2.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus2.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus3.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus3.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus4.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlus4.cs</Link>
     </Compile>
@@ -1645,23 +1580,11 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus6.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlus6.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus7.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus7.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus8.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus8.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus9.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus9.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusAt.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusAt.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusB.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusB.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusBackslash.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusBackslash.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusB.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusB.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusC.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusC.cs</Link>
@@ -1687,6 +1610,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusN.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusN.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusP.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusP.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusPlus0.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusPlus0.cs</Link>
     </Compile>
@@ -1695,9 +1621,6 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusPlusC.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusPlusC.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusP.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusP.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusR.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusR.cs</Link>
@@ -1720,17 +1643,11 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforR.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforR.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforS.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\UniforS.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforSquareBracket.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforSquareBracket.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforT.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforT.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforU.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\UniforU.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforX.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforX.cs</Link>
@@ -1740,9 +1657,6 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforZ.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforZ.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\VirtualChildren.cs">
-      <Link>Source\Pft\Infrastructure\VirtualChildren.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Walking\PftVisitor.cs">
       <Link>Source\Pft\Infrastructure\Walking\PftVisitor.cs</Link>
@@ -1754,13 +1668,130 @@
       <Link>Source\Pft\Infrastructure\Walking\VisitorContext.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\IPftFormatter.cs">
-      <Link>Source\Pft\PftFormatter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftException.cs">
-      <Link>Source\Pft\PftException.cs</Link>
+      <Link>Source\Pft\IPftFormatter.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftFormatter.cs">
       <Link>Source\Pft\PftFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Arith.cs">
+      <Link>Source\Pft\Infrastructure\PftParser.Arith.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Boolean.cs">
+      <Link>Source\Pft\Infrastructure\PftParser.Boolean.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Field.cs">
+      <Link>Source\Pft\Infrastructure\PftParser.Field.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Infrastructure.cs">
+      <Link>Source\Pft\Infrastructure\PftParser.Infrastructure.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Tables.cs">
+      <Link>Source\Pft\Infrastructure\PftParser.Tables.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftProcedure.cs">
+      <Link>Source\Pft\Infrastructure\PftProcedure.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftProcedureManager.cs">
+      <Link>Source\Pft\Infrastructure\PftProcedureManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftProgram.cs">
+      <Link>Source\Pft\Infrastructure\PftProgram.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftOutput.cs">
+      <Link>Source\Pft\Infrastructure\PftOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.cs">
+      <Link>Source\Pft\Infrastructure\PftParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftVariableManager.cs">
+      <Link>Source\Pft\Infrastructure\PftVariableManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Functions\StandardFunctions.cs">
+      <Link>Source\Pft\Infrastructure\Functions\StandardFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Testing\PftTest.cs">
+      <Link>Source\Pft\Infrastructure\Testing\PftTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Testing\PftTester.cs">
+      <Link>Source\Pft\Infrastructure\Testing\PftTester.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftToken.cs">
+      <Link>Source\Pft\Infrastructure\PftToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftTokenKind.cs">
+      <Link>Source\Pft\Infrastructure\PftTokenKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftTokenList.cs">
+      <Link>Source\Pft\Infrastructure\PftTokenList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftVariable.cs">
+      <Link>Source\Pft\Infrastructure\PftVariable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Testing\PftTestResult.cs">
+      <Link>Source\Pft\Infrastructure\Testing\PftTestResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Umarci.cs">
+      <Link>Source\Pft\Infrastructure\Umarci.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifor.cs">
+      <Link>Source\Pft\Infrastructure\Unifor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor1.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\Unifor1.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor3.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\Unifor3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor4.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\Unifor4.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor6.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\Unifor6.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforD.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforD.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforE.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforE.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforJ.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforJ.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforM.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforM.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforO.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus2.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus3.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus7.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus7.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus8.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus8.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlus9.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlus9.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusAt.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusAt.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforS.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforS.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforU.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforU.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\VirtualChildren.cs">
+      <Link>Source\Pft\Infrastructure\VirtualChildren.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftException.cs">
+      <Link>Source\Pft\PftException.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftHtmlFormatter.cs">
       <Link>Source\Pft\PftHtmlFormatter.cs</Link>
@@ -1779,6 +1810,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\PftUtility.cs">
       <Link>Source\Pft\PftUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\ProgramCache.cs">
+      <Link>Source\Pft\Infrastructure\ProgramCache.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\PlatformSpecific\CdeclPluginFunction.cs">
       <Link>Source\PlatformSpecific\CdeclPluginFunction.cs</Link>
@@ -1807,26 +1841,8 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\PlatformSpecific\WinapiPluginFunction.cs">
       <Link>Source\PlatformSpecific\WinapiPluginFunction.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pooling\IrbisConnectionPool.cs">
-      <Link>Source\Pooling\IrbisConnectionPool.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pooling\IrbisPoolGuard.cs">
-      <Link>Source\Pooling\IrbisPoolGuard.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pooling\PoolUtility.cs">
-      <Link>Source\Pooling\PoolUtility.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Quality\DefectList.cs">
-      <Link>Source\Quality\DefectList.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Quality\FieldDefect.cs">
-      <Link>Source\Quality\FieldDefect.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Quality\QualityRule.cs">
       <Link>Source\Quality\QualityRule.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Quality\RecordReport.cs">
-      <Link>Source\Quality\RecordReport.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Quality\RuleContext.cs">
       <Link>Source\Quality\RuleContext.cs</Link>
@@ -1894,44 +1910,8 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Quality\Rules\Require920.cs">
       <Link>Source\Quality\Rules\Require920.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Quality\RuleUtility.cs">
-      <Link>Source\Quality\RuleUtility.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\RawRecord.cs">
       <Link>Source\RawRecord.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\ChairInfo.cs">
-      <Link>Source\Readers\ChairInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\DebtorInfo.cs">
-      <Link>Source\Readers\DebtorInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\DebtorManager.cs">
-      <Link>Source\Readers\DebtorManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\IriProfile.cs">
-      <Link>Source\Readers\IriProfile.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\ReaderAddress.cs">
-      <Link>Source\Readers\ReaderAddress.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\ReaderInfo.cs">
-      <Link>Source\Readers\ReaderInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\ReaderManager.cs">
-      <Link>Source\Readers\ReaderManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\ReaderRegistration.cs">
-      <Link>Source\Readers\ReaderRegistration.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\ReaderUtility.cs">
-      <Link>Source\Readers\ReaderUtility.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\VisitInfo.cs">
-      <Link>Source\Readers\VisitInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\VisitInfoUtility.cs">
-      <Link>Source\Readers\VisitInfoUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\RecordComparator.cs">
       <Link>Source\RecordComparator.cs</Link>
@@ -1942,23 +1922,14 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\RecordDifferenceResult.cs">
       <Link>Source\RecordDifferenceResult.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\RecordField.cs">
-      <Link>Source\RecordField.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\RecordState.cs">
+      <Link>Source\Client\RecordState.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\RecordFieldCollection.cs">
-      <Link>Source\RecordFieldCollection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\RecordFieldUtility.cs">
-      <Link>Source\RecordFieldUtility.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FieldComparer.cs">
+      <Link>Source\FieldComparer.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\RecordGuard.cs">
       <Link>Source\RecordGuard.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\RecordReference.cs">
-      <Link>Source\RecordReference.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\RecordStatus.cs">
-      <Link>Source\RecordStatus.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\BandCollection.cs">
       <Link>Source\Reports\Bands\BandCollection.cs</Link>
@@ -1993,12 +1964,6 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\ParagraphBand.cs">
       <Link>Source\Reports\Bands\ParagraphBand.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\ReportBand.cs">
-      <Link>Source\Reports\Bands\ReportBand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\SectionBand.cs">
-      <Link>Source\Reports\Bands\SectionBand.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\SortBand.cs">
       <Link>Source\Reports\Bands\SortBand.cs</Link>
     </Compile>
@@ -2010,6 +1975,12 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\CellCollection.cs">
       <Link>Source\Reports\Cells\CellCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\SectionBand.cs">
+      <Link>Source\Reports\Bands\SectionBand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\DataCell.cs">
+      <Link>Source\Reports\Cells\DataCell.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\DynamicCell.cs">
       <Link>Source\Reports\Cells\DynamicCell.cs</Link>
@@ -2035,9 +2006,6 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\SimpleTextCell.cs">
       <Link>Source\Reports\Cells\SimpleTextCell.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\TextCell.cs">
-      <Link>Source\Reports\Cells\TextCell.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\TotalCell.cs">
       <Link>Source\Reports\Cells\TotalCell.cs</Link>
     </Compile>
@@ -2052,6 +2020,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Drivers\DriverCapability.cs">
       <Link>Source\Reports\Drivers\DriverCapability.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Drivers\DriverManager.cs">
+      <Link>Source\Reports\Drivers\DriverManager.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Drivers\HtmlDriver.cs">
       <Link>Source\Reports\Drivers\HtmlDriver.cs</Link>
@@ -2077,11 +2048,11 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\IAttributable.cs">
       <Link>Source\Reports\IAttributable.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\IrbisReport.cs">
-      <Link>Source\Reports\IrbisReport.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\IReportRenderer.cs">
       <Link>Source\Reports\IReportRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\IrbisReport.cs">
+      <Link>Source\Reports\IrbisReport.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\RecordFilter.cs">
       <Link>Source\Reports\RecordFilter.cs</Link>
@@ -2101,14 +2072,23 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportContext.cs">
       <Link>Source\Reports\ReportContext.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Cells\TextCell.cs">
+      <Link>Source\Reports\Cells\TextCell.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportRenderingEventArgs.cs">
+      <Link>Source\Reports\ReportRenderingEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportEventArgs.cs">
       <Link>Source\Reports\ReportEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportOutput.cs">
       <Link>Source\Reports\ReportOutput.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportRenderingEventArgs.cs">
-      <Link>Source\Reports\ReportRenderingEventArgs.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportRunner.cs">
+      <Link>Source\Reports\ReportRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportSettings.cs">
+      <Link>Source\Reports\ReportSettings.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\ReportUtility.cs">
       <Link>Source\Reports\ReportUtility.cs</Link>
@@ -2128,26 +2108,26 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Testing\ReportTestResult.cs">
       <Link>Source\Reports\Testing\ReportTestResult.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Requests\BookRequest.cs">
-      <Link>Source\Requests\BookRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Requests\RequestManager.cs">
-      <Link>Source\Requests\RequestManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Requests\RequestPrefixes.cs">
-      <Link>Source\Requests\RequestPrefixes.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Requests\RequestRefusals.cs">
-      <Link>Source\Requests\RequestRefusals.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Requests\RequestStatus.cs">
       <Link>Source\Requests\RequestStatus.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\DictionaryType.cs">
-      <Link>Source\Search\DictionaryType.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reservations\ReservationClaim.cs">
+      <Link>Source\Reservations\ReservationClaim.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\FoundItem.cs">
-      <Link>Source\Search\FoundItem.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reservations\ReservationInfo.cs">
+      <Link>Source\Reservations\ReservationInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reservations\ReservationManager.cs">
+      <Link>Source\Reservations\ReservationManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reservations\ReservationStatus.cs">
+      <Link>Source\Reservations\ReservationStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reservations\HistoryInfo.cs">
+      <Link>Source\Reservations\HistoryInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reservations\ReservationUtility.cs">
+      <Link>Source\Reservations\ReservationUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\FoundLine.cs">
       <Link>Source\Search\FoundLine.cs</Link>
@@ -2161,8 +2141,14 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchContext.cs">
       <Link>Source\Search\Infrastructure\SearchContext.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchLevel0.cs">
-      <Link>Source\Search\Infrastructure\SearchLevel0.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchQueryLexer.cs">
+      <Link>Source\Search\Infrastructure\SearchQueryLexer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchQueryUtility.cs">
+      <Link>Source\Search\Infrastructure\SearchQueryUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchTerm.cs">
+      <Link>Source\Search\Infrastructure\SearchTerm.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchLevel1.cs">
       <Link>Source\Search\Infrastructure\SearchLevel1.cs</Link>
@@ -2185,23 +2171,11 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchLevel7.cs">
       <Link>Source\Search\Infrastructure\SearchLevel7.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchProgram.cs">
-      <Link>Source\Search\Infrastructure\SearchProgram.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchQueryLexer.cs">
-      <Link>Source\Search\Infrastructure\SearchQueryLexer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchQueryParser.cs">
-      <Link>Source\Search\Infrastructure\SearchQueryParser.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchQueryUtility.cs">
-      <Link>Source\Search\Infrastructure\SearchQueryUtility.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchReference.cs">
       <Link>Source\Search\Infrastructure\SearchReference.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchTerm.cs">
-      <Link>Source\Search\Infrastructure\SearchTerm.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchProgram.cs">
+      <Link>Source\Search\Infrastructure\SearchProgram.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchToken.cs">
       <Link>Source\Search\Infrastructure\SearchToken.cs</Link>
@@ -2211,6 +2185,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchTokenList.cs">
       <Link>Source\Search\Infrastructure\SearchTokenList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchLevel0.cs">
+      <Link>Source\Search\Infrastructure\SearchLevel0.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\TermLinkComparer.cs">
       <Link>Source\Search\Infrastructure\TermLinkComparer.cs</Link>
@@ -2224,20 +2201,17 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\SearchException.cs">
       <Link>Source\Search\SearchException.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\SearchLogicType.cs">
-      <Link>Source\Search\SearchLogicType.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\SearchManager.cs">
       <Link>Source\Search\SearchManager.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\SearchParameters.cs">
       <Link>Source\Search\SearchParameters.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Infrastructure\SearchQueryParser.cs">
+      <Link>Source\Search\Infrastructure\SearchQueryParser.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\SearchResult.cs">
       <Link>Source\Search\SearchResult.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\SearchScenario.cs">
-      <Link>Source\Search\SearchScenario.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\SearchSyntaxException.cs">
       <Link>Source\Search\SearchSyntaxException.cs</Link>
@@ -2245,32 +2219,458 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\SearchUtility.cs">
       <Link>Source\Search\SearchUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\TermInfo.cs">
-      <Link>Source\Search\TermInfo.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\TermInfoEx.cs">
       <Link>Source\Search\TermInfoEx.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\TermLink.cs">
-      <Link>Source\Search\TermLink.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\TermParameters.cs">
       <Link>Source\Search\TermParameters.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\TermPosting.cs">
-      <Link>Source\Search\TermPosting.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ServerStat.cs">
       <Link>Source\ServerStat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ConnectCommand.cs">
+      <Link>Source\Server\Commands\ConnectCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\DisconnectCommand.cs">
+      <Link>Source\Server\Commands\DisconnectCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ReadFileCommand.cs">
+      <Link>Source\Server\Commands\ReadFileCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ReadRecordCommand.cs">
+      <Link>Source\Server\Commands\ReadRecordCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\SearchCommand.cs">
+      <Link>Source\Server\Commands\SearchCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ServerCommand.cs">
+      <Link>Source\Server\Commands\ServerCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\WriteRecordCommand.cs">
+      <Link>Source\Server\Commands\WriteRecordCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\IrbisServerSocket.cs">
+      <Link>Source\Server\IrbisServerSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\IrbisServerWorker.cs">
+      <Link>Source\Server\IrbisServerWorker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerConfiguration.cs">
+      <Link>Source\Server\ServerConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerContext.cs">
+      <Link>Source\Server\ServerContext.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerIniFile.cs">
       <Link>Source\Server\ServerIniFile.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\StandardDatabases.cs">
-      <Link>Source\StandardDatabases.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\IrbisServerEngine.cs">
+      <Link>Source\Server\IrbisServerEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerUtility.cs">
+      <Link>Source\Server\ServerUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\StatDefinition.cs">
       <Link>Source\StatDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Statistics\IrbisPing.cs">
+      <Link>Source\Statistics\IrbisPing.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Statistics\PingData.cs">
+      <Link>Source\Statistics\PingData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Statistics\PingStatistics.cs">
+      <Link>Source\Statistics\PingStatistics.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\TableDefinition.cs">
+      <Link>Source\TableDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reports\Bands\ReportBand.cs">
+      <Link>Source\Reports\Bands\ReportBand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Tables\AcquisitionTable.cs">
+      <Link>Source\Tables\AcquisitionTable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Tables\HdrFile.cs">
+      <Link>Source\Tables\HdrFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Tables\KeyDefinition.cs">
+      <Link>Source\Tables\KeyDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Tables\SelTabPar64.cs">
+      <Link>Source\Tables\SelTabPar64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Tables\SrwFile.cs">
+      <Link>Source\Tables\SrwFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Tables\TbuFile.cs">
+      <Link>Source\Tables\TbuFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\UserInfo.cs">
+      <Link>Source\UserInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisUtility.cs">
+      <Link>Source\IrbisUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\Example.cs">
+      <Link>Source\Marc\Schema\Example.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\FieldSchema.cs">
+      <Link>Source\Marc\Schema\FieldSchema.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\IndicatorSchema.cs">
+      <Link>Source\Marc\Schema\IndicatorSchema.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\MarcSchema.cs">
+      <Link>Source\Marc\Schema\MarcSchema.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\Option.cs">
+      <Link>Source\Marc\Schema\Option.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\RelatedField.cs">
+      <Link>Source\Marc\Schema\RelatedField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\SchemaUtility.cs">
+      <Link>Source\Marc\Schema\SchemaUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\Schema\SubFieldSchema.cs">
+      <Link>Source\Marc\Schema\SubFieldSchema.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Menus\MenuFile.cs">
+      <Link>Source\Menus\MenuFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Menus\MenuUtility.cs">
+      <Link>Source\Menus\MenuUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\AbstractCommand.cs">
+      <Link>Source\Infrastructure\Commands\AbstractCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ConnectCommand.cs">
+      <Link>Source\Infrastructure\Commands\ConnectCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\CreateDatabaseCommand.cs">
+      <Link>Source\Infrastructure\Commands\CreateDatabaseCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\FormatCommand.cs">
+      <Link>Source\Infrastructure\Commands\FormatCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ListFilesCommand.cs">
+      <Link>Source\Infrastructure\Commands\ListFilesCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadBinaryFileCommand.cs">
+      <Link>Source\Infrastructure\Commands\ReadBinaryFileCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadFileCommand.cs">
+      <Link>Source\Infrastructure\Commands\ReadFileCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadPostingsCommand.cs">
+      <Link>Source\Infrastructure\Commands\ReadPostingsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadRecordCommand.cs">
+      <Link>Source\Infrastructure\Commands\ReadRecordCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\ReadTermsCommand.cs">
+      <Link>Source\Infrastructure\Commands\ReadTermsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\SearchCommand.cs">
+      <Link>Source\Infrastructure\Commands\SearchCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\UniversalCommand.cs">
+      <Link>Source\Infrastructure\Commands\UniversalCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\UniversalTextCommand.cs">
+      <Link>Source\Infrastructure\Commands\UniversalTextCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\WriteFileCommand.cs">
+      <Link>Source\Infrastructure\Commands\WriteFileCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\WriteRecordCommand.cs">
+      <Link>Source\Infrastructure\Commands\WriteRecordCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\WriteRecordsCommand.cs">
+      <Link>Source\Infrastructure\Commands\WriteRecordsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\AbstractClientSocket.cs">
+      <Link>Source\Infrastructure\Sockets\AbstractClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\CommandCode.cs">
+      <Link>Source\Infrastructure\CommandCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\ClientQuery.cs">
+      <Link>Source\Infrastructure\ClientQuery.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\DatabaseInfo.cs">
+      <Link>Source\DatabaseInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisDate.cs">
+      <Link>Source\IrbisDate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisEditMask.cs">
+      <Link>Source\IrbisEditMask.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisEncoding.cs">
+      <Link>Source\IrbisEncoding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisException.cs">
+      <Link>Source\IrbisException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisFormat.cs">
+      <Link>Source\IrbisFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isbn.cs">
+      <Link>Source\Identifiers\Isbn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Issn.cs">
+      <Link>Source\Identifiers\Issn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\FileSpecification.cs">
+      <Link>Source\Infrastructure\FileSpecification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\NetworkDebugger.cs">
+      <Link>Source\Infrastructure\NetworkDebugger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\IrbisNetworkException.cs">
+      <Link>Source\Infrastructure\IrbisNetworkException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\IrbisNetworkUtility.cs">
+      <Link>Source\Infrastructure\IrbisNetworkUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\ServerResponse.cs">
+      <Link>Source\Infrastructure\ServerResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\PacketInterpreter.cs">
+      <Link>Source\Infrastructure\PacketInterpreter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SimpleClientSocket.cs">
+      <Link>Source\Infrastructure\Sockets\SimpleClientSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pooling\IrbisConnectionPool.cs">
+      <Link>Source\Pooling\IrbisConnectionPool.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pooling\IrbisPoolGuard.cs">
+      <Link>Source\Pooling\IrbisPoolGuard.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pooling\PoolUtility.cs">
+      <Link>Source\Pooling\PoolUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Quality\RuleUtility.cs">
+      <Link>Source\Quality\RuleUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\DictionaryType.cs">
+      <Link>Source\Search\DictionaryType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\FoundItem.cs">
+      <Link>Source\Search\FoundItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\SearchLogicType.cs">
+      <Link>Source\Search\SearchLogicType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\SearchScenario.cs">
+      <Link>Source\Search\SearchScenario.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\TermInfo.cs">
+      <Link>Source\Search\TermInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\TermPosting.cs">
+      <Link>Source\Search\TermPosting.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\StandardDatabases.cs">
+      <Link>Source\StandardDatabases.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Testing\AbstractTest.cs">
+      <Link>Source\Testing\AbstractTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Testing\TestClassAttribute.cs">
+      <Link>Source\Testing\TestClassAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Testing\TestMethodAttribute.cs">
+      <Link>Source\Testing\TestMethodAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Testing\TestContext.cs">
+      <Link>Source\Testing\TestContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Testing\TestRunner.cs">
+      <Link>Source\Testing\TestRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Transform\RecordTransformContext.cs">
+      <Link>Source\Transform\RecordTransformContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\EditContext.cs">
+      <Link>Source\Worksheet\EditContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\EditMode.cs">
+      <Link>Source\Worksheet\EditMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisOpt.cs">
+      <Link>Source\IrbisOpt.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ParFile.cs">
+      <Link>Source\ParFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisPath.cs">
+      <Link>Source\IrbisPath.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisProcessInfo.cs">
+      <Link>Source\IrbisProcessInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisSearchQuery.cs">
+      <Link>Source\IrbisSearchQuery.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\MarcRecord.cs">
+      <Link>Source\MarcRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\MarcRecordUtility.cs">
+      <Link>Source\MarcRecordUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\IrbisReturnCode.cs">
+      <Link>Source\Infrastructure\IrbisReturnCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisUpperCaseTable.cs">
+      <Link>Source\IrbisUpperCaseTable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisVersion.cs">
+      <Link>Source\IrbisVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisWorkstation.cs">
+      <Link>Source\IrbisWorkstation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Magazines\MagazineArticleInfo.cs">
+      <Link>Source\Magazines\MagazineArticleInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Magazines\MagazineCumulation.cs">
+      <Link>Source\Magazines\MagazineCumulation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Magazines\MagazineIssueInfo.cs">
+      <Link>Source\Magazines\MagazineIssueInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisConnection.cs">
+      <Link>Source\IrbisConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisConnectionUtility.cs">
+      <Link>Source\IrbisConnectionUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mapping\FieldAttribute.cs">
+      <Link>Source\Mapping\FieldAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mapping\SubFieldAttribute.cs">
+      <Link>Source\Mapping\SubFieldAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mapping\SubFieldInfo.cs">
+      <Link>Source\Mapping\SubFieldInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mapping\SubFieldMapper.cs">
+      <Link>Source\Mapping\SubFieldMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\MarcBibliographicalIndex.cs">
+      <Link>Source\Marc\MarcBibliographicalIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\MarcBibliographicalLevel.cs">
+      <Link>Source\Marc\MarcBibliographicalLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\MarcCatalogingRules.cs">
+      <Link>Source\Marc\MarcCatalogingRules.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\MarcRecordStatus.cs">
+      <Link>Source\Marc\MarcRecordStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\MarcRecordType.cs">
+      <Link>Source\Marc\MarcRecordType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Marc\MarcRelatedRecord.cs">
+      <Link>Source\Marc\MarcRelatedRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\AbstractMetadataFormat.cs">
+      <Link>Source\Metadata\AbstractMetadataFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\MarcMetadataFormat.cs">
+      <Link>Source\Metadata\MarcMetadataFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\RusMarcMetadataFormat.cs">
+      <Link>Source\Metadata\RusMarcMetadataFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Morphology\IrbisMorphologyProvider.cs">
+      <Link>Source\Morphology\IrbisMorphologyProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Morphology\MorphologyEngine.cs">
+      <Link>Source\Morphology\MorphologyEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Morphology\MorphologyEntry.cs">
+      <Link>Source\Morphology\MorphologyEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Morphology\MorphologyProvider.cs">
+      <Link>Source\Morphology\MorphologyProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Quality\DefectList.cs">
+      <Link>Source\Quality\DefectList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Quality\FieldDefect.cs">
+      <Link>Source\Quality\FieldDefect.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Quality\RecordReport.cs">
+      <Link>Source\Quality\RecordReport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\ChairInfo.cs">
+      <Link>Source\Readers\ChairInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\DebtorInfo.cs">
+      <Link>Source\Readers\DebtorInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\DebtorManager.cs">
+      <Link>Source\Readers\DebtorManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\IriProfile.cs">
+      <Link>Source\Readers\IriProfile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\ReaderAddress.cs">
+      <Link>Source\Readers\ReaderAddress.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\ReaderInfo.cs">
+      <Link>Source\Readers\ReaderInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\ReaderManager.cs">
+      <Link>Source\Readers\ReaderManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\ReaderRegistration.cs">
+      <Link>Source\Readers\ReaderRegistration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\ReaderUtility.cs">
+      <Link>Source\Readers\ReaderUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\VisitInfo.cs">
+      <Link>Source\Readers\VisitInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\VisitInfoUtility.cs">
+      <Link>Source\Readers\VisitInfoUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\RecordField.cs">
+      <Link>Source\RecordField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\RecordFieldCollection.cs">
+      <Link>Source\RecordFieldCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\RecordFieldUtility.cs">
+      <Link>Source\RecordFieldUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\RecordReference.cs">
+      <Link>Source\RecordReference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\RecordStatus.cs">
+      <Link>Source\RecordStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Requests\BookRequest.cs">
+      <Link>Source\Requests\BookRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Requests\RequestManager.cs">
+      <Link>Source\Requests\RequestManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Requests\RequestPrefixes.cs">
+      <Link>Source\Requests\RequestPrefixes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Requests\RequestRefusals.cs">
+      <Link>Source\Requests\RequestRefusals.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Scripting\IrbisScript.cs">
+      <Link>Source\Scripting\IrbisScript.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\SubField.cs">
       <Link>Source\SubField.cs</Link>
@@ -2281,11 +2681,11 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\SubFieldCollection.cs">
       <Link>Source\SubFieldCollection.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\SubFieldUtility.cs">
-      <Link>Source\SubFieldUtility.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\SubFieldValue.cs">
       <Link>Source\SubFieldValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\SubFieldUtility.cs">
+      <Link>Source\SubFieldUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Systematization\BbkException.cs">
       <Link>Source\Systematization\BbkException.cs</Link>
@@ -2299,32 +2699,8 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Systematization\UdkException.cs">
       <Link>Source\Systematization\UdkException.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\TableDefinition.cs">
-      <Link>Source\TableDefinition.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Testing\AbstractTest.cs">
-      <Link>Source\Testing\AbstractTest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Testing\TestClassAttribute.cs">
-      <Link>Source\Testing\TestClassAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Testing\TestContext.cs">
-      <Link>Source\Testing\TestContext.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Testing\TestMethodAttribute.cs">
-      <Link>Source\Testing\TestMethodAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Testing\TestRunner.cs">
-      <Link>Source\Testing\TestRunner.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\UserInfo.cs">
-      <Link>Source\UserInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\EditContext.cs">
-      <Link>Source\Worksheet\EditContext.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\EditMode.cs">
-      <Link>Source\Worksheet\EditMode.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\TermLink.cs">
+      <Link>Source\Search\TermLink.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\FieldEditorRepository.cs">
       <Link>Source\Worksheet\FieldEditorRepository.cs</Link>
@@ -2347,6 +2723,12 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Worksheet\WssFile.cs">
       <Link>Source\Worksheet\WssFile.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\PftParser.Parallel.cs">
+      <Link>Source\Pft\Infrastructure\PftParser.Parallel.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!-- END -->
+  <ItemGroup>
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

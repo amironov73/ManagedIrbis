@@ -92,13 +92,28 @@ namespace TransProject
                         XAttribute include = compile.Attribute("Include");
                         if (!ReferenceEquals(include, null))
                         {
-                            include.Value = _prefix + include.Value;
-                            line = new string(' ', indent) + xdoc;
+                            string path = include.Value;
+                            XElement link = new XElement("Link", path);
+                            compile.Add(link);
+                            include.Value = _prefix + path;
+
+                            string output = xdoc.ToString();
+                            string[] lines = output.Split('\r', '\n');
+                            foreach (string s in lines)
+                            {
+                                if (!string.IsNullOrEmpty(s))
+                                {
+                                    line = new string(' ', indent) + s;
+                                    result.Add(line);
+                                }
+                            }
                         }
                     }
                 }
-
-                result.Add(line);
+                else
+                {
+                    result.Add(line);
+                }
             }
 
             for (int i = end + 1; i < target.Length; i++)

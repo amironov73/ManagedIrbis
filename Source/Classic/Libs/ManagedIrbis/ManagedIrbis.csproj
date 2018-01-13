@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\..\Common\AssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
@@ -931,7 +932,6 @@
     <Compile Include="Source\Morphology\MorphologyEngine.cs" />
     <Compile Include="Source\Morphology\MorphologyEntry.cs" />
     <Compile Include="Source\Morphology\MorphologyProvider.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Quality\DefectList.cs" />
     <Compile Include="Source\Quality\FieldDefect.cs" />
     <Compile Include="Source\Quality\RecordReport.cs" />
