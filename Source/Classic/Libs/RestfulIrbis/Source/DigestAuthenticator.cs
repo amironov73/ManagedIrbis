@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !PORTABLE
+#if !UAP
 
 #region Using directives
 

@@ -168,6 +168,9 @@
   </ItemGroup>
   <!-- END -->
   <ItemGroup>
+    <Compile Include="..\..\..\Classic\Common\AssemblyInfo.cs">
+      <Link>AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\AM.AOT.rd.xml" />
   </ItemGroup>

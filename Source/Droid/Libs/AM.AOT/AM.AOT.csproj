@@ -119,6 +119,9 @@
   </ItemGroup>
   <!-- END -->
   <ItemGroup>
+    <Compile Include="..\..\..\Classic\Common\AssemblyInfo.cs">
+      <Link>AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
