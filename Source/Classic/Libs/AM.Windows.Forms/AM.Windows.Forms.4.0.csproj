@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -58,8 +58,6 @@
       <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
@@ -88,6 +86,17 @@
     <Compile Include="..\..\Common\AssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <!-- BEGIN -->
+  <ItemGroup>
+    <Compile Include="..\..\Common\AssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <!-- BEGIN -->
+  <ItemGroup>
     <Compile Include="AM\Windows\Forms\ApplicationUtility.cs" />
     <Compile Include="AM\Windows\Forms\AttachmentBox.cs">
       <SubType>Form</SubType>
@@ -277,47 +286,8 @@
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripRadioButton.cs" />
     <Compile Include="AM\Windows\Forms\ToolStrip\ToolStripTrackBar.cs" />
     <Compile Include="AM\Windows\Forms\WindowPlacement.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <Choose>
-    <When Condition=" '$(TargetFrameworkVersion)'=='v3.5' ">
-      <ItemGroup>
-        <Compile Include="Properties\35\Resources.Designer.cs">
-          <AutoGen>True</AutoGen>
-          <DesignTime>True</DesignTime>
-          <DependentUpon>Resources.resx</DependentUpon>
-        </Compile>
-        <EmbeddedResource Include="Properties\35\Resources.resx">
-          <Generator>ResXFileCodeGenerator</Generator>
-          <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
-      </ItemGroup>
-    </When>
-    <Otherwise>
-      <ItemGroup>
-        <Compile Include="Properties\Resources.Designer.cs">
-          <AutoGen>True</AutoGen>
-          <DesignTime>True</DesignTime>
-          <DependentUpon>Resources.resx</DependentUpon>
-        </Compile>
-        <EmbeddedResource Include="Properties\Resources.resx">
-          <Generator>ResXFileCodeGenerator</Generator>
-          <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-          <SubType>Designer</SubType>
-        </EmbeddedResource>
-      </ItemGroup>
-    </Otherwise>
-  </Choose>
   <ItemGroup>
-    <Content Include="BlueBook.ico" />
-    <EmbeddedResource Include="Properties\Resources.ru.resx" />
-    <None Include="app.config" />
-    <None Include="Images\arrowUp.png" />
-    <None Include="Images\arrowDown.png" />
-    <None Include="Images\upArrow.png" />
-    <None Include="Images\rightArrow.png" />
-    <None Include="Images\leftArrow.png" />
-    <None Include="Images\downArrow.png" />
     <EmbeddedResource Include="AM\Windows\Forms\AttachmentBox.resx">
       <DependentUpon>AttachmentBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -378,24 +348,12 @@
       <DependentUpon>RichTextEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Images\drive.bmp" />
-    <None Include="Images\cddrive.bmp" />
-    <None Include="Images\35floppy.bmp" />
     <EmbeddedResource Include="Images\HatchComboBox.bmp" />
     <EmbeddedResource Include="Images\FontComboBox.bmp" />
     <EmbeddedResource Include="Images\ColorComboBox.bmp" />
     <EmbeddedResource Include="Images\ProgressCircle.bmp" />
     <EmbeddedResource Include="Images\BusyStripe.bmp" />
     <EmbeddedResource Include="Images\Clocks.bmp" />
-    <None Include="Images\Gear2.png" />
-    <None Include="Images\Gear1.png" />
-    <None Include="Images\Gear0.png" />
-    <None Include="Images\Star2.png" />
-    <None Include="Images\Star1.png" />
-    <None Include="Images\Star0.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ArsMagna.private.snk" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AM\Windows\Forms\BrowserForm.resx">
@@ -427,6 +385,27 @@
     <EmbeddedResource Include="AM\Windows\Forms\ToolStrip\ToolStripCustomizationForm.resx">
       <DependentUpon>ToolStripCustomizationForm.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <!-- END -->
+  <ItemGroup>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BlueBook.ico" />
+    <EmbeddedResource Include="Properties\Resources.ru.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ArsMagna.private.snk" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.4.0.csproj">
