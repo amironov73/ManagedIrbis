@@ -14,4 +14,10 @@ Utils\TransProject.exe "Source\Classic\Libs\ManagedIrbis\ManagedIrbis.csproj" "S
 Utils\TransProject.exe "Source\Classic\Libs\ManagedIrbis\ManagedIrbis.csproj" "Source\Universal\Libs\ManagedIrbis\ManagedIrbis.csproj"  ..\..\..\Classic\Libs\ManagedIrbis\
 Utils\TransProject.exe "Source\Classic\Libs\ManagedIrbis\ManagedIrbis.csproj" "Source\WinMobile\ManagedIrbis\ManagedIrbis.csproj"       ..\..\Classic\Libs\ManagedIrbis\
 
+Utils\TransProject.exe "Source\Classic\Libs\AM.AOT\AM.AOT.csproj"             "Source\Classic\Libs\AM.AOT\AM.AOT.3.5.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\AM.AOT\AM.AOT.csproj"             "Source\Classic\Libs\AM.AOT\AM.AOT.4.0.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\AM.AOT\AM.AOT.csproj"             "Source\Classic\Libs\AM.AOT\AM.AOT.4.6.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\AM.AOT\AM.AOT.csproj"             "Source\Droid\Libs\AM.AOT\AM.AOT.csproj"                  ..\..\..\Classic\Libs\AM.AOT\
+Utils\TransProject.exe "Source\Classic\Libs\AM.AOT\AM.AOT.csproj"             "Source\Universal\Libs\AM.AOT\AM.AOT.csproj"              ..\..\..\Classic\Libs\AM.AOT\
+rem Utils\TransProject.exe "Source\Classic\Libs\AM.AOT\AM.AOT.csproj"             "Source\WinMobile\AM.AOT\AM.AOT.csproj"                   ..\..\Classic\Libs\AM.AOT\
 
