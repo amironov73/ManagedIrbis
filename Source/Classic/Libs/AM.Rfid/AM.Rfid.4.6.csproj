@@ -1,46 +1,53 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AD2A34BD-2E69-48BB-B738-863D70B3E65F}</ProjectGuid>
+    <ProjectGuid>{51481C63-5D59-4AE1-927A-C94276B63C72}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AM.Ocr</RootNamespace>
-    <AssemblyName>AM.Ocr</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>AM.Rfid</RootNamespace>
+    <AssemblyName>AM.Rfid</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
+    <OutputPath>..\..\..\For4.6\bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW45;FW46</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>..\..\..\For4.6\bin\Debug\AM.Rfid.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
+    <OutputPath>..\..\..\For4.6\bin\Release\</OutputPath>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45;FW46</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>..\..\..\For4.6\bin\Release\AM.Rfid.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
+    <OutputPath>..\..\..\For4.6\bin\x86\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW45;FW46</DefineConstants>
+    <DocumentationFile>..\..\..\For4.6\bin\Debug\AM.Rfid.xml</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
+    <OutputPath>..\..\..\For4.6\bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45;FW46</DefineConstants>
+    <DocumentationFile>..\..\..\For4.6\bin\Release\AM.Rfid.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -65,26 +72,41 @@
       <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Leadtools">
-      <HintPath>..\..\..\ThirdParty\LeadTools\net40\Leadtools.dll</HintPath>
+    <Reference Include="OBIDISC4NET, Version=4.5.0.0, Culture=neutral, PublicKeyToken=900ed37a7058e4f2, processorArchitecture=x86">
+      <HintPath>..\..\..\ThirdParty\IDLogic\NET4\x86\OBIDISC4NET.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Leadtools.Codecs">
-      <HintPath>..\..\..\ThirdParty\LeadTools\net40\Leadtools.Codecs.dll</HintPath>
+    <Reference Include="pcsc-sharp, Version=3.5.1.0, Culture=neutral, PublicKeyToken=6d1a05bf134decdf, processorArchitecture=MSIL">
+      <HintPath>..\..\..\ThirdParty\PCSC\net40\pcsc-sharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Leadtools.Forms.DocumentWriters">
-      <HintPath>..\..\..\ThirdParty\LeadTools\net40\Leadtools.Forms.DocumentWriters.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Leadtools.Forms.Ocr">
-      <HintPath>..\..\..\ThirdParty\LeadTools\net40\Leadtools.Forms.Ocr.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Leadtools.Forms.Ocr.Professional">
-      <HintPath>..\..\..\ThirdParty\LeadTools\net40\Leadtools.Forms.Ocr.Professional.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\FeCom.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\FedmIscCoreVC100.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\FedmIscMyAxxessVC100.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\fefu.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\FeIsc.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\fetcl.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\fetcp.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\feusb.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\ThirdParty\IDLogic\NET4\x86\OBIDISC4NETnative.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
@@ -95,7 +117,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -106,25 +127,30 @@
   </ItemGroup>
   <!-- BEGIN -->
   <ItemGroup>
-    <Folder Include="AM\Ocr\" />
+    <Compile Include="AM\Rfid\RfidCapabilities.cs" />
+    <Compile Include="AM\Rfid\RfidCardmanDriver.cs" />
+    <Compile Include="AM\Rfid\RfidDriver.cs" />
+    <Compile Include="AM\Rfid\RfidException.cs" />
+    <Compile Include="AM\Rfid\RfidFactory.cs" />
+    <Compile Include="AM\Rfid\RfidFeigDriver.cs" />
+    <Compile Include="AM\Rfid\RfidFeigNxpDriver.cs" />
+    <Compile Include="AM\Rfid\RfidSystemInfo.cs" />
+    <Compile Include="AM\Rfid\FeigSystemInformation.cs" />
+    <Compile Include="AM\Rfid\RfidTagList.cs" />
   </ItemGroup>
   <!-- END -->
   <ItemGroup>
-    <None Include="ArsMagna.private.snk" />
-    <None Include="packages.config" />
+    <Content Include="BlueBook.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AM.Core\AM.Core.csproj">
+    <ProjectReference Include="..\AM.Core\AM.Core.4.6.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
       <Name>AM.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AM.Drawing\AM.Drawing.csproj">
-      <Project>{f64c8161-d6e3-4d78-88db-c1787f4fe981}</Project>
-      <Name>AM.Drawing</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BlueBook.ico" />
+    <None Include="ArsMagna.private.snk" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -51,3 +51,18 @@ Utils\TransProject.exe "Source\Classic\Libs\IrbisUI\IrbisUI.csproj" "Source\Clas
 Utils\TransProject.exe "Source\Classic\Libs\IrbisUI\IrbisUI.csproj" "Source\Classic\Libs\IrbisUI\IrbisUI.4.6.csproj"
 Utils\TransProject.exe "Source\Classic\Libs\IrbisUI\IrbisUI.csproj" "Source\Classic\Libs\IrbisUI\IrbisUI.4.7.csproj"
 
+Utils\TransProject.exe "Source\Classic\Libs\IrbisInterop\IrbisInterop.csproj" "Source\Classic\Libs\IrbisInterop\IrbisInterop.3.5.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\IrbisInterop\IrbisInterop.csproj" "Source\Classic\Libs\IrbisInterop\IrbisInterop.4.0.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\IrbisInterop\IrbisInterop.csproj" "Source\Classic\Libs\IrbisInterop\IrbisInterop.4.6.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\IrbisInterop\IrbisInterop.csproj" "Source\Classic\Libs\IrbisInterop\IrbisInterop.4.7.csproj"
+
+Utils\TransProject.exe "Source\Classic\Libs\AM.Ocr\AM.Ocr.csproj" "Source\Classic\Libs\AM.Ocr\AM.Ocr.3.5.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\AM.Ocr\AM.Ocr.csproj" "Source\Classic\Libs\AM.Ocr\AM.Ocr.4.0.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\AM.Ocr\AM.Ocr.csproj" "Source\Classic\Libs\AM.Ocr\AM.Ocr.4.6.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\AM.Ocr\AM.Ocr.csproj" "Source\Classic\Libs\AM.Ocr\AM.Ocr.4.7.csproj"
+
+Utils\TransProject.exe "Source\Classic\Libs\AM.Rfid\AM.Rfid.csproj" "Source\Classic\Libs\AM.Rfid\AM.Rfid.3.5.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\AM.Rfid\AM.Rfid.csproj" "Source\Classic\Libs\AM.Rfid\AM.Rfid.4.0.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\AM.Rfid\AM.Rfid.csproj" "Source\Classic\Libs\AM.Rfid\AM.Rfid.4.6.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\AM.Rfid\AM.Rfid.csproj" "Source\Classic\Libs\AM.Rfid\AM.Rfid.4.7.csproj"
+
