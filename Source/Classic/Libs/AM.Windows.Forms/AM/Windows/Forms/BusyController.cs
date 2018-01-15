@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if FW4
-
 #region Using directives
 
 using System;
@@ -287,7 +285,13 @@ namespace AM.Windows.Forms
         /// <summary>
         /// Run the specified action.
         /// </summary>
-        public async Task<bool> RunAsync
+        public
+#if FW35
+            bool
+#else
+            async Task<bool>
+#endif
+             RunAsync
             (
                 [NotNull] Action action
             )
@@ -303,7 +307,15 @@ namespace AM.Windows.Forms
                 {
                     UpdateControlState(false);
 
+                    #if FW35
+
+                    PseudoAsync.Run(action);
+
+                    #else
+
                     await state.RunAsync(action);
+
+                    #endif
 
                     result = true;
                 }
@@ -379,5 +391,3 @@ namespace AM.Windows.Forms
         #endregion
     }
 }
-
-#endif

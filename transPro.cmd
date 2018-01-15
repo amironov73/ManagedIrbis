@@ -41,3 +41,13 @@ Utils\TransProject.exe "Source\Classic\Libs\AM.Windows.Forms\AM.Windows.Forms.cs
 Utils\TransProject.exe "Source\Classic\Libs\AM.Windows.Forms\AM.Windows.Forms.csproj" "Source\Classic\Libs\AM.Windows.Forms\AM.Windows.Forms.4.6.csproj"
 Utils\TransProject.exe "Source\Classic\Libs\AM.Windows.Forms\AM.Windows.Forms.csproj" "Source\Classic\Libs\AM.Windows.Forms\AM.Windows.Forms.4.7.csproj"
 
+Utils\TransProject.exe "Source\Classic\Libs\AM.Win32\AM.Win32.csproj" "Source\Classic\Libs\AM.Win32\AM.Win32.3.5.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\AM.Win32\AM.Win32.csproj" "Source\Classic\Libs\AM.Win32\AM.Win32.4.0.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\AM.Win32\AM.Win32.csproj" "Source\Classic\Libs\AM.Win32\AM.Win32.4.6.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\AM.Win32\AM.Win32.csproj" "Source\Classic\Libs\AM.Win32\AM.Win32.4.7.csproj"
+
+Utils\TransProject.exe "Source\Classic\Libs\IrbisUI\IrbisUI.csproj" "Source\Classic\Libs\IrbisUI\IrbisUI.3.5.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\IrbisUI\IrbisUI.csproj" "Source\Classic\Libs\IrbisUI\IrbisUI.4.0.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\IrbisUI\IrbisUI.csproj" "Source\Classic\Libs\IrbisUI\IrbisUI.4.6.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\IrbisUI\IrbisUI.csproj" "Source\Classic\Libs\IrbisUI\IrbisUI.4.7.csproj"
+

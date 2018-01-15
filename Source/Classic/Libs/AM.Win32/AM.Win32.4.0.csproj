@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -146,6 +146,10 @@
     <Compile Include="..\..\Common\AssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <!-- BEGIN -->
+  <ItemGroup>
     <Compile Include="AM\Services\ConsoleWindowsService.cs" />
     <Compile Include="AM\Services\IWindowsServiceTask.cs" />
     <Compile Include="AM\Win32\ACCEL.cs" />
@@ -415,7 +419,6 @@
     <Compile Include="AM\Windows\Forms\TextBoxControlHost.cs" />
     <Compile Include="AM\Windows\Forms\TextBoxPlus.cs" />
     <Compile Include="AM\Windows\Forms\Win32FormUtility.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -432,9 +435,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.ru.resx" />
   </ItemGroup>
+  <!-- END -->
   <ItemGroup>
     <Content Include="BlueBook.ico" />
-    <EmbeddedResource Include="Images\StringGrid.bmp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

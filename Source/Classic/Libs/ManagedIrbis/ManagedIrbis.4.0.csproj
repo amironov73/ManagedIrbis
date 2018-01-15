@@ -987,12 +987,9 @@
   <ItemGroup>
     <None Include="ArsMagna.private.snk" />
     <None Include="packages.config" />
-    <None Include="Source\Biblio\Docs\Библиографические списки в ManagedIrbis.docx" />
     <None Include="Source\Gbl\GBL protocol.docx" />
-    <Compile Include="Source\Pft\Infrastructure\PftParser.Parallel.cs" />
     <None Include="Source\Reports\Docs\ReportBands.cd" />
     <None Include="Source\Reports\Docs\ReportCells.cd" />
-    <None Include="Source\Reports\Docs\Отчёты в ManagedIrbis.docx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.4.0.csproj">
