@@ -265,7 +265,7 @@ namespace ManagedIrbis.Biblio
                 return;
             }
 
-            subField.Value = date;
+            subField.Value = date.Replace(" ", "\\~");
         }
 
 

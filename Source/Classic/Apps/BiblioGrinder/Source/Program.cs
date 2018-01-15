@@ -90,9 +90,23 @@ namespace BiblioGrinder
                     outputText = Regex.Replace
                         (
                             outputText,
-                            @"\s-\sIS[BS]N\s[0-9-]*\.",
+                            @"\s(-|–|\\u8211.)\sIS[BS]N\s[0-9-]*\.",
                             string.Empty
                         );
+                    outputText = outputText
+                        .Replace(" - ", " \\u8211? ")
+                        .Replace("}- ", "}\\u8211? ")
+                        .Replace(" -}", " \\u8211?}")
+                        .Replace(" \"", " «")
+                        .Replace("}\"", "}«")
+                        .Replace("\" ", "» ")
+                        .Replace("\",", "»,")
+                        .Replace("\".", "».")
+                        .Replace("\"{", "»{")
+                        .Replace("\\u8470? ", "\u8470?\\~")
+                        .Replace("...", "\\'85")
+                        .Replace("С. ", "С.\\~")
+                        ;
 
                     File.WriteAllText
                         (

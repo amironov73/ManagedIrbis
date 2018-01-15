@@ -155,6 +155,19 @@ namespace ManagedIrbis.Biblio
                 .ThrowIfNull("MainChapter.Format");
         }
 
+        [NotNull]
+        private static string Enhance
+            (
+                [NotNull] string text
+            )
+        {
+            string result = text
+                .Replace(". - ", ". – ")
+                .Replace("№", "\\'B9");
+
+            return result;
+        }
+
         #endregion
 
         #region Public methods
@@ -186,8 +199,7 @@ namespace ManagedIrbis.Biblio
                     MenuChapter mainChapter = MainChapter
                         .ThrowIfNull("MainChapter");
 
-                    using (IPftFormatter formatter
-                        = processor.AcquireFormatter(context))
+                    using (IPftFormatter formatter = processor.AcquireFormatter(context))
                     {
                         string descriptionFormat = GetDescriptionFormat();
                         descriptionFormat = processor.GetText
@@ -211,8 +223,7 @@ namespace ManagedIrbis.Biblio
 
                             // TODO handle string.IsNullOrEmpty(description)
 
-                            description
-                                = BiblioUtility.AddTrailingDot(description);
+                            description = BiblioUtility.AddTrailingDot(description);
 
                             BiblioItem item = new BiblioItem
                             {
@@ -240,6 +251,7 @@ namespace ManagedIrbis.Biblio
                         {
                             log.Write(".");
                             BiblioItem item = Items[i];
+                            record = item.Record;
                             //string order = formatted[i].TrimEnd('\u001F');
                             string order = formatter.FormatRecord(record)
                                 .TrimEnd('\u001F');
@@ -315,8 +327,9 @@ namespace ManagedIrbis.Biblio
                     log.Write(".");
                     BiblioItem item = Items[i];
                     int number = item.Number;
-                    string description = item.Description
-                        .ThrowIfNull("item.Description");
+                    string description = item.Description.ThrowIfNull("item.Description");
+
+                    description = Enhance(description);
 
                     ReportBand band = new ParagraphBand
                         (
@@ -327,9 +340,14 @@ namespace ManagedIrbis.Biblio
                     band.Cells.Add(new SimpleTextCell
                         (
                             // TODO implement properly!!!
+                            //RichText.Encode(description, UnicodeRange.Russian)
                             //RichText.Encode2(description, UnicodeRange.Russian)
                             RichText.Encode3(description, UnicodeRange.Russian, "\\f2")
                         ));
+
+                    //// Для отладки: проверить упорядочение
+                    //band = new ParagraphBand(item.Order);
+                    //report.Body.Add(band);
 
                     MarcRecord record = item.Record;
                     if (!ReferenceEquals(record, null))

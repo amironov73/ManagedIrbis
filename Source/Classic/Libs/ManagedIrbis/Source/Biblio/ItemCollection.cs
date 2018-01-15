@@ -92,12 +92,69 @@ namespace ManagedIrbis.Biblio
             return result.ToString();
         }
 
+        private static bool _IsOfficial
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            // Официальные документы имеют характер n или 67
+
+            string[] character =
+            {
+                record.FM(900, 'c'),
+                record.FM(900, '2'),
+                record.FM(900, '3'),
+                record.FM(900, '4'),
+                record.FM(900, '5'),
+                record.FM(900, '6')
+            };
+
+            return character.Contains("n")
+                   || character.Contains("N")
+                   || character.Contains("67");
+        }
+
+        private static bool _IsForeign
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            // У иностранных книг язык не rus
+
+            string language = record.FM(101);
+
+            return !language.SameString("rus");
+        }
+
         private static int _Comparison
             (
                 BiblioItem x,
                 BiblioItem y
             )
         {
+            MarcRecord xrec = x.Record;
+            MarcRecord yrec = y.Record;
+            if (!ReferenceEquals(xrec, null) && !ReferenceEquals(yrec, null))
+            {
+                // Поднимаем официальные документы
+
+                bool xup = _IsOfficial(xrec);
+                bool yup = _IsOfficial(yrec);
+                if (xup != yup)
+                {
+                    return xup ? -1 : 1;
+                }
+
+                // Опускаем иностранные документы
+
+                bool xdown = _IsForeign(xrec);
+                bool ydown = _IsForeign(yrec);
+                if (xdown != ydown)
+                {
+                    return xdown ? 1 : -1;
+                }
+            }
+
             return NumberText.Compare
                 (
                     x.Order,
