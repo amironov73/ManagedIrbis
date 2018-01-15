@@ -232,6 +232,16 @@ namespace ManagedIrbis.Biblio
                                 Description = description
                             };
                             Items.Add(item);
+
+                            RecordCollection same = record.UserData as RecordCollection;
+                            if (!ReferenceEquals(same, null))
+                            {
+                                foreach (MarcRecord oneRecord in same)
+                                {
+                                    oneRecord.Description = formatter.FormatRecord(oneRecord)
+                                        .TrimEnd('\u001F');
+                                }
+                            }
                         }
 
                         log.WriteLine(" done");
@@ -357,10 +367,10 @@ namespace ManagedIrbis.Biblio
                         {
                             foreach (MarcRecord book in sameBooks)
                             {
-                                string text = "То же: MFN " + book.Mfn + "\\par\\pard";
-                                band = new ParagraphBand("\\~\\~\\~");
+                                string text = book.Description;
+                                band = new ParagraphBand(text);
                                 report.Body.Add(band);
-                                band.Cells.Add(new SimpleTextCell(text));
+                                //band.Cells.Add(new SimpleTextCell(text));
                             }
                         }
                     }

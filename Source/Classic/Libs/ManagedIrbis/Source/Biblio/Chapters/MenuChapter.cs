@@ -268,6 +268,36 @@ namespace ManagedIrbis.Biblio
             subField.Value = date.Replace(" ", "\\~");
         }
 
+        private static int _GetYear
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            string result = record.FM(210, 'd');
+            if (string.IsNullOrEmpty(result))
+            {
+                result = record.FM(461, 'h');
+            }
+            if (string.IsNullOrEmpty(result))
+            {
+                result = record.FM(461, 'z');
+            }
+            if (string.IsNullOrEmpty(result))
+            {
+                result = record.FM(934);
+            }
+            if (string.IsNullOrEmpty(result))
+            {
+                return 0;
+            }
+
+            Match match = Regex.Match(result, @"\d{4}");
+            if (match.Success)
+            {
+                result = match.Value;
+            }
+            return result.SafeToInt32();
+        }
 
         private void _GatherSame
             (
@@ -295,12 +325,29 @@ namespace ManagedIrbis.Biblio
                     continue;
                 }
 
+                foreach (MarcRecord record in array)
+                {
+                    record.UserData = _GetYear(record);
+                }
+
+                array = array.OrderBy(r => (int) r.UserData).ToArray();
+
                 MarcRecord firstRecord = array[0];
                 RecordCollection same = new RecordCollection();
                 for (int i = 1; i < array.Length; i++)
                 {
-                    same.Add(array[i]);
-                    toRemove.Add(array[i]);
+                    MarcRecord record = array[i];
+                    record.RemoveField(200);
+                    record.RemoveField(922);
+                    record.RemoveField(925);
+                    record.RemoveField(700);
+                    record.RemoveField(701);
+                    record.RemoveField(702);
+
+                    record.Fields.Add(new RecordField(200).AddSubField('a', "То же"));
+
+                    same.Add(record);
+                    toRemove.Add(record);
                 }
 
                 firstRecord.UserData = same;

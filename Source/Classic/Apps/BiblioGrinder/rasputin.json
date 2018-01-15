@@ -69,7 +69,7 @@
 
       // Выражение для отбора записей
       //"search": "'DBWEB=RASP1 + DBWEB=RASP'",
-      "search": "'DBWEB=RASP1 * (\"VGRASP= 2. 2$\"  + \"VGRASP= 1. 3$\")'",
+      "search": "'DBWEB=RASP1 * (\"VGRASP= 2. 2$\"  + \"VGRASP= 1.$\")'",
 
       // Формат библиографического описания для записи
       "format": "*rasputin.pft",
