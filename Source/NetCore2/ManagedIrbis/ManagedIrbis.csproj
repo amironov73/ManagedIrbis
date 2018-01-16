@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -17,9 +17,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../AM.Core/AM.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="../../Classic/Common/**/*.cs" />
     <Compile Include="../../Classic/Libs/ManagedIrbis/**/*.cs" />
-    <ProjectReference Include="..\AM.Core\AM.Core.csproj" />
+    <Compile Remove="../../Classic/Libs/ManagedIrbis/obj/**/*.*" />
   </ItemGroup>
 
   <ItemGroup>

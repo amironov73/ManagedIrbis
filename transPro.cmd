@@ -66,3 +66,7 @@ Utils\TransProject.exe "Source\Classic\Libs\AM.Rfid\AM.Rfid.csproj" "Source\Clas
 Utils\TransProject.exe "Source\Classic\Libs\AM.Rfid\AM.Rfid.csproj" "Source\Classic\Libs\AM.Rfid\AM.Rfid.4.6.csproj"
 Utils\TransProject.exe "Source\Classic\Libs\AM.Rfid\AM.Rfid.csproj" "Source\Classic\Libs\AM.Rfid\AM.Rfid.4.7.csproj"
 
+Utils\TransProject.exe "Source\Classic\Libs\AM.UI\AM.UI.csproj" "Source\Classic\Libs\AM.UI\AM.UI.4.0.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\AM.UI\AM.UI.csproj" "Source\Classic\Libs\AM.UI\AM.UI.4.6.csproj"
+Utils\TransProject.exe "Source\Classic\Libs\AM.UI\AM.UI.csproj" "Source\Classic\Libs\AM.UI\AM.UI.4.7.csproj"
+

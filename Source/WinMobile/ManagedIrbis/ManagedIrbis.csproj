@@ -198,6 +198,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\ConnectedFormatter.cs">
       <Link>Source\Client\ConnectedFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\BookInfo.cs">
+      <Link>Source\Fields\BookInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\EfficientRecordSerializer.cs">
       <Link>Source\Infrastructure\EfficientRecordSerializer.cs</Link>
     </Compile>

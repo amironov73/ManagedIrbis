@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
@@ -23,17 +22,14 @@
 
   <ItemGroup>
     <Compile Include="../../Classic/Common/**/*.cs" />
-    <Compile Include="../../Classic/Libs/RestfulIrbis/**/*.cs" />
-    <Compile Remove="../../Classic/Libs/RestfulIrbis/obj/**/*.*" />
+    <Compile Include="../../Classic/Libs/IrbisInterop/**/*.cs" />
+    <Compile Remove="../../Classic/Libs/IrbisInterop/obj/**/*.*" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
     <PackageReference Include="MoonSharp" Version="2.0.0" />
-    <PackageReference Include="Nancy" Version="2.0.0-clinteastwood" />
-    <PackageReference Include="Nancy.Serialization.JsonNet" Version="2.0.0-clinteastwood" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="RestSharp" Version="106.2.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
   </ItemGroup>
 

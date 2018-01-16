@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\AM.UI.xml</DocumentationFile>
@@ -26,7 +26,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CLASSIC;DESKTOP</DefineConstants>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\AM.UI.xml</DocumentationFile>
@@ -240,6 +240,7 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
+  <!-- BEGIN -->
   <ItemGroup>
     <Compile Include="..\..\Common\AssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
@@ -259,6 +260,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
+  <!-- END -->
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>

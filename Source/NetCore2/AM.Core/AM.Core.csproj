@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -19,10 +19,7 @@
   <ItemGroup>
     <Compile Include="../../Classic/Common/**/*.cs" />
     <Compile Include="../../Classic/Libs/AM.Core/**/*.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="..\..\Classic\Libs\AM.Core\Compatibility\Data.cs" />
+    <Compile Remove="../../Classic/Libs/AM.Core/obj/**/*.*" />
   </ItemGroup>
 
   <ItemGroup>

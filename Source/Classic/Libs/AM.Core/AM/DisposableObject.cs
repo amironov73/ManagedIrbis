@@ -80,7 +80,7 @@ namespace AM
                 bool disposeByReflection
             )
         {
-#if CLASSIC || NETCORE || DROID
+#if CLASSIC || DROID
 
             DisposeByReflection = disposeByReflection;
             if (!disposeByReflection)
@@ -137,7 +137,7 @@ namespace AM
             return true;
         }
 
-#if CLASSIC || NETCORE || DROID
+#if CLASSIC || DROID
 
         private void _ProcessValue
             (
@@ -314,7 +314,7 @@ namespace AM
         /// </summary>
         private void DisposeFields()
         {
-#if CLASSIC || NETCORE || DROID
+#if CLASSIC || DROID
 
             if (!DisposeByReflection)
             {

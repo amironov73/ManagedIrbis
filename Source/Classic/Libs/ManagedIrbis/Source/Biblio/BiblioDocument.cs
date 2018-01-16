@@ -259,7 +259,7 @@ namespace ManagedIrbis.Biblio
                     .Serialization.Formatters
                     .FormatterAssemblyStyle.Simple
 
-#elif NETCOREAPP2_0
+#elif NETCORE
 
                 // TODO fix it
                 // TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple
