@@ -308,18 +308,18 @@ namespace ManagedIrbis.Biblio
                     result = File.ReadAllText(fileName, IrbisEncoding.Ansi);
 #endif
                 }
-                else if (path.StartsWith("@"))
-                {
-                    fileName = path.Substring(1);
-                    FileSpecification specification
-                        = new FileSpecification
-                            (
-                                IrbisPath.MasterFile,
-                                provider.Database,
-                                fileName
-                            );
-                    result = provider.ReadFile(specification);
-                }
+                //else if (path.StartsWith("@"))
+                //{
+                //    fileName = path.Substring(1);
+                //    FileSpecification specification
+                //        = new FileSpecification
+                //            (
+                //                IrbisPath.MasterFile,
+                //                provider.Database,
+                //                fileName
+                //            );
+                //    result = provider.ReadFile(specification);
+                //}
                 else
                 {
                     result = path;

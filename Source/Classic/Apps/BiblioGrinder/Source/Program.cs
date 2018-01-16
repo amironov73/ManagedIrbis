@@ -93,6 +93,12 @@ namespace BiblioGrinder
                             @"\s(-|–|\\u8211.)\sIS[BS]N\s[0-9-]*\.",
                             string.Empty
                         );
+                    outputText = Regex.Replace
+                        (
+                            outputText,
+                            @"([А-Я]\.)\s([А-Я])",
+                            "$1\\~$2"
+                        );
                     outputText = outputText
                         .Replace(" - ", " \\u8211? ")
                         .Replace("}- ", "}\\u8211? ")
@@ -103,9 +109,13 @@ namespace BiblioGrinder
                         .Replace("\",", "»,")
                         .Replace("\".", "».")
                         .Replace("\"{", "»{")
+                        .Replace("\")", "»)")
+                        .Replace("\"]", "»]")
+                        .Replace("\"\\", "»\\")
                         .Replace("\\u8470? ", "\u8470?\\~")
                         .Replace("...", "\\'85")
                         .Replace("С. ", "С.\\~")
+                        //.Replace("  ", " ")
                         ;
 
                     File.WriteAllText

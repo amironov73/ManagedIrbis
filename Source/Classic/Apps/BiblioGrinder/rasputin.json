@@ -69,10 +69,12 @@
 
       // Выражение для отбора записей
       //"search": "'DBWEB=RASP1 + DBWEB=RASP'",
-      "search": "'DBWEB=RASP1 * (\"VGRASP= 2. 2$\"  + \"VGRASP= 1.$\")'",
+      "search": "'DBWEB=RASP$ * (\"VGRASP= 2. 2$\"  + \"VGRASP= 1.$\")'",
+      //"search": "'DBWEB=RASP1 * (\"VGRASP= 2. 2$\"  + \"VGRASP= 1.$\")'",
 
       // Формат библиографического описания для записи
-      "format": "*rasputin.pft",
+      //"format": "*rasputin.pft",
+      "format": "@rasputin",
 
       // Сортировка описаний внутри главы
       "orderBy": "*order.pft",
@@ -93,15 +95,18 @@
       "menuSettings": [
         {
           "name": "1",
-          "format": "*rasputin_section1.pft"
+          //"format": "*rasputin_section1.pft"
+          "format": "@rasputin_section1"
         },
         {
           // Кумулирующая группа
           // Собрания сочинений
           "name": "1. 1. 1",
           "type": "CumulatingSubChapter",
-          "general": "*rasputin_section111.pft",
-          "format": "*rasputin_specification.pft",
+          //"general": "*rasputin_section111.pft",
+          "general": "@rasputin_section111",
+          //"format": "*rasputin_specification.pft",
+          "format": "@rasputin_specification",
           "order": "*order_years.pft"
         }//,
         //{

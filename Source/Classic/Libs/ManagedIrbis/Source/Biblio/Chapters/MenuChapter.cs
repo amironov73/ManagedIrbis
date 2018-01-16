@@ -215,11 +215,49 @@ namespace ManagedIrbis.Biblio
                 return;
             }
 
+            // Подзаголовочные сведения журналов
             _RemoveSubField(record, 463, '7');
             _RemoveSubField(record, 963, 'e');
+
+            // Сведения об автографах
+            record.RemoveField(391);
+
+            // Из аннотаций убирать первое повторение,
+            // если их больше одного
+            RecordField[] annotations = record.Fields.GetField(331);
+            if (annotations.Length > 1)
+            {
+                record.Fields.Remove(annotations[0]);
+            }
         }
 
         private static readonly Regex _regex463 = new Regex(@"^№.*\((?<date>.*?)\)$");
+
+        private void _FixDate
+            (
+                [CanBeNull] SubField subField
+            )
+        {
+            if (!ReferenceEquals(subField, null))
+            {
+                string value = subField.Value;
+                if (!string.IsNullOrEmpty(value))
+                {
+
+                    Match match = _regex463.Match(value);
+                    if (match.Success)
+                    {
+
+                        string date = match.Groups["date"].Value;
+                        if (!string.IsNullOrEmpty(date)
+                            && date.Contains(" "))
+                        {
+                            subField.Value = date.Replace(" ", "\\~");
+                        }
+                    }
+                }
+            }
+        }
 
         private void _Fix463
             (
@@ -234,38 +272,15 @@ namespace ManagedIrbis.Biblio
             // Пусть библиографы правят сами, ручками
             //
 
-            RecordField field = record.Fields.GetFirstField(463);
-            if (ReferenceEquals(field, null))
+            RecordField[] fields = record.Fields.GetField(463);
+            foreach (RecordField field in fields)
             {
-                return;
-            }
+                SubField subField = field.SubFields.GetFirstSubField('h');
+                _FixDate(subField);
 
-            SubField subField = field.SubFields.GetFirstSubField('h');
-            if (ReferenceEquals(subField, null))
-            {
-                return;
+                subField = field.SubFields.GetFirstSubField('v');
+                _FixDate(subField);
             }
-
-            string value = subField.Value;
-            if (string.IsNullOrEmpty(value))
-            {
-                return;
-            }
-
-            Match match = _regex463.Match(value);
-            if (!match.Success)
-            {
-                return;
-            }
-
-            string date = match.Groups["date"].Value;
-            if (string.IsNullOrEmpty(date)
-                || !date.Contains(" "))
-            {
-                return;
-            }
-
-            subField.Value = date.Replace(" ", "\\~");
         }
 
         private static int _GetYear
@@ -441,8 +456,7 @@ namespace ManagedIrbis.Biblio
                         = new Dictionary<string, MenuSubChapter>();
                     Action<BiblioChapter> action = chapter =>
                     {
-                        MenuSubChapter subChapter
-                            = chapter as MenuSubChapter;
+                        MenuSubChapter subChapter = chapter as MenuSubChapter;
                         if (!ReferenceEquals(subChapter, null))
                         {
                             string key = subChapter.Key
