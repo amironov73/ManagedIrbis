@@ -89,7 +89,8 @@
       "titleFormat": "v1, '. ', v2",
 
       // Только листья могут содержать записи
-      "leafOnly": true,
+      //"leafOnly": true,
+      "leafOnly": false,
 
       // Специальные настройки для отдельных разделов
       "menuSettings": [
