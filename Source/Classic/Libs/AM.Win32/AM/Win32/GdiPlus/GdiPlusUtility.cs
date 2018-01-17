@@ -13,39 +13,39 @@ using System.Text;
 
 namespace AM.Win32
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	public static class GdiPlusUtility
-	{
-		#region Private members
-		#endregion
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class GdiPlusUtility
+    {
+        #region Private members
+        #endregion
 
-		#region Public methods
+        #region Public methods
 
-		/// <summary>
-		/// Gets the bitmap from GDI plus.
-		/// </summary>
-		/// <param name="gdiPlusBitmap">The GDI plus bitmap.</param>
-		/// <returns></returns>
-		public static Bitmap GetBitmapFromGdiPlus ( IntPtr gdiPlusBitmap )
-		{
-			MethodInfo method = typeof ( Bitmap ).GetMethod
-				(
-					"FromGDIplus",
-					BindingFlags.Static|BindingFlags.NonPublic,
-					null,
-					new Type[] { typeof(IntPtr)}, 
-					null
-				);
-			Bitmap result =  (Bitmap) method.Invoke 
-				( 
-				null, 
-				new object[] {gdiPlusBitmap} 
-				);
-			return result;
-		}
+        /// <summary>
+        /// Gets the bitmap from GDI plus.
+        /// </summary>
+        /// <param name="gdiPlusBitmap">The GDI plus bitmap.</param>
+        /// <returns></returns>
+        public static Bitmap GetBitmapFromGdiPlus(IntPtr gdiPlusBitmap)
+        {
+            MethodInfo method = typeof(Bitmap).GetMethod
+                (
+                    "FromGDIplus",
+                    BindingFlags.Static | BindingFlags.NonPublic,
+                    null,
+                    new Type[] { typeof(IntPtr) },
+                    null
+                );
+            Bitmap result = (Bitmap)method.Invoke
+                (
+                null,
+                new object[] { gdiPlusBitmap }
+                );
+            return result;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

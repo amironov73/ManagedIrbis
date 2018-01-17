@@ -7,6 +7,8 @@
  * Status: poor
  */
 
+#if !NETCORE
+
 #region Using directives
 
 using System.Configuration.Install;
@@ -82,3 +84,5 @@ namespace AM.Win32
         #endregion
     }
 }
+
+#endif
