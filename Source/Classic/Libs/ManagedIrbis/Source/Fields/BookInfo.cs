@@ -199,18 +199,23 @@ namespace ManagedIrbis.Fields
         {
             get
             {
-                string result = Record.FM(210, 'd');
+                MarcRecord record = Record;
+                string result = record.FM(210, 'd');
                 if (string.IsNullOrEmpty(result))
                 {
-                    result = Record.FM(461, 'h');
+                    result = record.FM(461, 'h');
                 }
                 if (string.IsNullOrEmpty(result))
                 {
-                    result = Record.FM(461, 'z');
+                    result = record.FM(461, 'z');
                 }
                 if (string.IsNullOrEmpty(result))
                 {
-                    result = Record.FM(934);
+                    result = record.FM(463, 'j');
+                }
+                if (string.IsNullOrEmpty(result))
+                {
+                    result = record.FM(934);
                 }
                 if (string.IsNullOrEmpty(result))
                 {

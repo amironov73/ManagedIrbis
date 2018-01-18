@@ -219,15 +219,17 @@ namespace ManagedIrbis.Biblio
             _RemoveSubField(record, 463, '7');
             _RemoveSubField(record, 963, 'e');
 
+            // Издательство в статьях
+            _RemoveSubField(record, 463, 'g');
+
             // Сведения об автографах
             record.RemoveField(391);
 
-            // Из аннотаций убирать первое повторение,
-            // если их больше одного
+            // Из аннотаций брать только первое повторение
             RecordField[] annotations = record.Fields.GetField(331);
-            if (annotations.Length > 1)
+            for (int i = 1; i < annotations.Length; i++)
             {
-                record.Fields.Remove(annotations[0]);
+                record.Fields.Remove(annotations[i]);
             }
         }
 
@@ -296,6 +298,10 @@ namespace ManagedIrbis.Biblio
             if (string.IsNullOrEmpty(result))
             {
                 result = record.FM(461, 'z');
+            }
+            if (string.IsNullOrEmpty(result))
+            {
+                result = record.FM(463, 'j');
             }
             if (string.IsNullOrEmpty(result))
             {
