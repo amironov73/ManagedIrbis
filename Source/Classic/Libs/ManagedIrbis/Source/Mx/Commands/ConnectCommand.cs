@@ -25,7 +25,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Client;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -62,11 +62,27 @@ namespace ManagedIrbis.Mx.Commands
 
         #region Public methods
 
+        /// <summary>
+        /// Initialize the provider.
+        /// </summary>
+        [NotNull]
+        public static IrbisProvider InitializeProvider
+            (
+                [NotNull] string argument
+            )
+        {
+            Code.NotNull(argument, "argument");
+
+            IrbisProvider result = ProviderManager.GetAndConfigureProvider(argument);
+
+            return result;
+        }
+
         #endregion
 
         #region MxCommand members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="MxCommand.Execute" />
         public override bool Execute
             (
                 MxExecutive executive,
@@ -78,18 +94,21 @@ namespace ManagedIrbis.Mx.Commands
             if (arguments.Length != 0)
             {
                 string argument = arguments[0].Text;
-                if (!string.IsNullOrEmpty(argument))
+                executive.Client.Dispose();
+                if (string.IsNullOrEmpty(argument))
                 {
-                    executive.Client.Disconnect();
-                    executive.Client.ParseConnectionString(argument);
-                    executive.Client.Connect();
-                    executive.WriteLine
-                        (
-                            3,
-                            "Connected, current database: {0}",
-                            executive.Client.Database
-                        );
+                    executive.Client = ProviderManager.GetPreconfiguredProvider();
                 }
+                else
+                {
+                    executive.Client = InitializeProvider(argument);
+                }
+                executive.WriteLine
+                    (
+                        3,
+                        "Connected, current database: {0}",
+                        executive.Client.Database
+                    );
             }
 
             OnAfterExecute();

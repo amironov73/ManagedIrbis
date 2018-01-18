@@ -25,6 +25,7 @@ using AM.IO;
 using AM.Logging;
 using AM.Runtime;
 using AM.Text;
+using AM.Text.Output;
 
 using CodeJam;
 
@@ -53,7 +54,7 @@ namespace ManagedIrbis.Mx
         /// Client.
         /// </summary>
         [NotNull]
-        public ConnectedClient Client { get; private set; }
+        public IrbisProvider Client { get; internal set; }
 
         /// <summary>
         /// Commands.
@@ -65,7 +66,13 @@ namespace ManagedIrbis.Mx
         /// Format.
         /// </summary>
         [CanBeNull]
-        public string Format { get; set; }
+        public string DescriptionFormat { get; set; }
+
+        /// <summary>
+        /// Order expression.
+        /// </summary>
+        [CanBeNull]
+        public string OrderFormat { get; set; }
 
         /// <summary>
         /// Search limit.
@@ -120,9 +127,9 @@ namespace ManagedIrbis.Mx
         public MxExecutive()
         {
             VerbosityLevel = 3;
-            Format = "@brief";
+            DescriptionFormat = "@brief";
 
-            Client = new ConnectedClient();
+            Client = new NullProvider();
             Commands = new NonNullCollection<MxCommand>();
             Records = new NonNullCollection<MxRecord>();
 
@@ -193,11 +200,11 @@ namespace ManagedIrbis.Mx
                 return true;
             }
 
-            string[] parts = line.Split
+            string[] parts = StringUtility.SplitString
                 (
-                    new[] {' ', '\t'},
-                    2,
-                    StringSplitOptions.RemoveEmptyEntries
+                    line,
+                    CommonSeparators.SpaceOrTab,
+                    2
                 );
             string commandName = parts[0];
             string commandArgument = null;
@@ -330,7 +337,7 @@ namespace ManagedIrbis.Mx
             return true;
         }
 
-#if !ANDROID && !UAP
+//#if !ANDROID && !UAP
 
         /// <summary>
         /// REPL
@@ -345,12 +352,12 @@ namespace ManagedIrbis.Mx
 
             while (!StopFlag)
             {
-                string line = Console.ReadLine();
+                string line = ConsoleInput.ReadLine();
                 ExecuteLine(line);
             }
         }
 
-#endif
+//#endif
 
         /// <summary>
         /// Write to console.

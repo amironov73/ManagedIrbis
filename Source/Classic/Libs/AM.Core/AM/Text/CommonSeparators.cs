@@ -45,6 +45,11 @@ namespace AM.Text
         public static readonly char[] Dot = { '.' };
 
         /// <summary>
+        /// Newline.
+        /// </summary>
+        public static readonly char[] NewLine = { '\r', '\n' };
+
+        /// <summary>
         /// Number sign.
         /// </summary>
         public static readonly char[] NumberSign = { '#' };
@@ -58,6 +63,21 @@ namespace AM.Text
         /// Slash.
         /// </summary>
         public static readonly char[] Slash = { '/' };
+
+        /// <summary>
+        /// Space.
+        /// </summary>
+        public static readonly char[] Space = { ' ' };
+
+        /// <summary>
+        /// Space or tabulation.
+        /// </summary>
+        public static readonly char[] SpaceOrTab = { ' ', '\t' };
+
+        /// <summary>
+        /// Tabulation.
+        /// </summary>
+        public static readonly char[] Tab = { '\t' };
 
         /// <summary>
         /// Vertical line.

@@ -83,7 +83,7 @@ namespace ManagedIrbis.Mx.Commands
             }
             if (!string.IsNullOrEmpty(argument))
             {
-                executive.Format = argument;
+                executive.DescriptionFormat = argument;
 
                 if (executive.Client.Connected
                     && executive.Records.Count != 0)
@@ -93,7 +93,7 @@ namespace ManagedIrbis.Mx.Commands
                     string[] formatted = executive.Client.FormatRecords
                         (
                             mfns,
-                            executive.Format
+                            executive.DescriptionFormat
                         );
                     for (int i = 0; i < mfns.Length; i++)
                     {
@@ -103,7 +103,7 @@ namespace ManagedIrbis.Mx.Commands
             }
             else
             {
-                executive.WriteLine("Format is: {0}", executive.Format);
+                executive.WriteLine("Format is: {0}", executive.DescriptionFormat);
             }
 
             OnAfterExecute();

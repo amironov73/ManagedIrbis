@@ -66,7 +66,7 @@ namespace ManagedIrbis.Mx.Commands
 
         #region MxCommand members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="MxCommand.Execute" />
         public override bool Execute
             (
                 MxExecutive executive,
@@ -75,7 +75,13 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            executive.WriteLine("Sort");
+            string argument = null;
+            if (arguments.Length != 0)
+            {
+                argument = arguments[0].Text;
+            }
+
+            executive.OrderFormat = argument;
 
             OnAfterExecute();
 

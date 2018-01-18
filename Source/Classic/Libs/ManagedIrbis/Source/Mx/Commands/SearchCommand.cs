@@ -66,7 +66,7 @@ namespace ManagedIrbis.Mx.Commands
 
         #region MxCommand members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="MxCommand.Execute" />
         public override bool Execute
             (
                 MxExecutive executive,
@@ -78,6 +78,7 @@ namespace ManagedIrbis.Mx.Commands
             if (!executive.Client.Connected)
             {
                 executive.WriteLine("Not connected");
+
                 return false;
             }
 
@@ -109,15 +110,15 @@ namespace ManagedIrbis.Mx.Commands
                         }
                     }
                     executive.Records.Clear();
-                    string[] formatted = new string[found.Length];
-                    if (!string.IsNullOrEmpty(executive.Format))
-                    {
-                        formatted = executive.Client.FormatRecords
-                            (
-                                found,
-                                executive.Format
-                            );
-                    }
+                    //string[] formatted = new string[found.Length];
+                    //if (!string.IsNullOrEmpty(executive.Format))
+                    //{
+                    //    formatted = executive.Client.FormatRecords
+                    //        (
+                    //            found,
+                    //            executive.Format
+                    //        );
+                    //}
                     for (int i = 0; i < found.Length; i++)
                     {
                         int mfn = found[i];
@@ -125,7 +126,7 @@ namespace ManagedIrbis.Mx.Commands
                         {
                             Database = executive.Client.Database,
                             Mfn = mfn,
-                            Description = formatted[i]
+                            //Description = formatted[i]
                         };
                         executive.Records.Add(record);
                     }

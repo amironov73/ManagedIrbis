@@ -66,7 +66,7 @@ namespace ManagedIrbis.Mx.Commands
 
         #region MxCommand members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="MxCommand.Execute" />
         public override bool Execute
             (
                 MxExecutive executive,
@@ -75,13 +75,37 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            if (executive.Records.Count == 0)
+            MxRecord[] records = executive.Records.ToArray();
+
+            if (records.Length == 0)
             {
                 executive.WriteLine("No records");
             }
             else
             {
-                foreach (MxRecord record in executive.Records)
+                if (!string.IsNullOrEmpty(executive.OrderFormat))
+                {
+                    int[] mfns = records.Select(r => r.Mfn).ToArray();
+                    string[] order = executive.Client.FormatRecords(mfns, executive.OrderFormat);
+                    for (int i = 0; i < order.Length; i++)
+                    {
+                        records[i].Order = order[i];
+                    }
+
+                    records = records.OrderBy(r => r.Order).ToArray();
+                }
+
+                if (!string.IsNullOrEmpty(executive.DescriptionFormat))
+                {
+                    int[] mfns = records.Select(r => r.Mfn).ToArray();
+                    string[] formatted = executive.Client.FormatRecords(mfns, executive.DescriptionFormat);
+                    for (int i = 0; i < formatted.Length; i++)
+                    {
+                        records[i].Order = formatted[i];
+                    }
+                }
+
+                foreach (MxRecord record in records)
                 {
                     if (string.IsNullOrEmpty(record.Description))
                     {

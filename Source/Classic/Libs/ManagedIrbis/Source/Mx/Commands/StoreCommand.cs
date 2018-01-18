@@ -66,7 +66,7 @@ namespace ManagedIrbis.Mx.Commands
 
         #region MxCommand members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="MxCommand.Execute" />
         public override bool Execute
             (
                 MxExecutive executive,
@@ -75,13 +75,27 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            if (!executive.Client.Connected)
+            //if (!executive.Client.Connected)
+            //{
+            //    executive.WriteLine("Not connected");
+            //    return false;
+            //}
+
+            //executive.WriteLine("Store");
+
+            string fileName = "output.txt";
+            if (arguments.Length != 0)
             {
-                executive.WriteLine("Not connected");
-                return false;
+                fileName = arguments[0].Text;
             }
 
-            executive.WriteLine("Store");
+            using (StreamWriter writer = File.CreateText(fileName))
+            {
+                foreach (MxRecord record in executive.Records)
+                {
+                    writer.WriteLine(record.Mfn.ToInvariantString());
+                }
+            }
 
             OnAfterExecute();
 

@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
+using AM.ConsoleIO;
 using AM.IO;
 using AM.Runtime;
 
@@ -66,7 +67,7 @@ namespace ManagedIrbis.Mx.Commands
 
         #region MxCommand members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="MxCommand.Execute" />
         public override bool Execute
             (
                 MxExecutive executive,
@@ -75,7 +76,7 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            executive.Client.Disconnect();
+            executive.Client.Dispose();
             executive.WriteLine
                 (
                     3,
@@ -94,3 +95,4 @@ namespace ManagedIrbis.Mx.Commands
         #endregion
     }
 }
+
