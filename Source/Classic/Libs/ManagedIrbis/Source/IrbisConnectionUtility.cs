@@ -28,7 +28,7 @@ using AM.IO;
 using AM.Logging;
 using AM.Text;
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
 using AM.Configuration;
 
@@ -441,7 +441,7 @@ namespace ManagedIrbis
             return result;
         }
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
         // ========================================================
 

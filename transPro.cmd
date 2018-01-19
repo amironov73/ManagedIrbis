@@ -70,3 +70,7 @@ Utils\TransProject.exe "Source\Classic\Libs\AM.UI\AM.UI.csproj" "Source\Classic\
 Utils\TransProject.exe "Source\Classic\Libs\AM.UI\AM.UI.csproj" "Source\Classic\Libs\AM.UI\AM.UI.4.6.csproj"
 Utils\TransProject.exe "Source\Classic\Libs\AM.UI\AM.UI.csproj" "Source\Classic\Libs\AM.UI\AM.UI.4.7.csproj"
 
+Utils\TransProject.exe "Source\Classic\Apps\mx64\mx64.csproj" "Source\Classic\Apps\mx64\mx64.3.5.csproj"
+Utils\TransProject.exe "Source\Classic\Apps\mx64\mx64.csproj" "Source\Classic\Apps\mx64\mx64.4.0.csproj"
+Utils\TransProject.exe "Source\Classic\Apps\mx64\mx64.csproj" "Source\Classic\Apps\mx64\mx64.4.6.csproj"
+Utils\TransProject.exe "Source\Classic\Apps\mx64\mx64.csproj" "Source\Classic\Apps\mx64\mx64.4.7.csproj"

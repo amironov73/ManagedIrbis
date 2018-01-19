@@ -23,6 +23,7 @@
   <ItemGroup>
     <Compile Include="../../Classic/Common/**/*.cs" />
     <Compile Include="../../Classic/Libs/ManagedIrbis/**/*.cs" />
+    <Compile Remove="../../Classic/Libs/ManagedIrbis/Source/Pft/Infrastructure/Text/_Template.cs" />
     <Compile Remove="../../Classic/Libs/ManagedIrbis/obj/**/*.*" />
   </ItemGroup>
 
@@ -30,7 +31,7 @@
     <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
     <PackageReference Include="MoonSharp" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0-preview1-25914-04" />
     <PackageReference Include="YamlDotNet.Signed" Version="4.2.3" />
   </ItemGroup>
 
