@@ -341,14 +341,12 @@ namespace ManagedIrbis.Mx
             return true;
         }
 
-//#if !ANDROID && !UAP
-
         /// <summary>
         /// REPL
         /// </summary>
         public void Repl()
         {
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !UAP
 
             Console.CancelKeyPress += _CancelKeyPress;
             Console.Title = string.Format
@@ -364,8 +362,6 @@ namespace ManagedIrbis.Mx
                 ExecuteLine(line);
             }
         }
-
-//#endif
 
         /// <summary>
         /// Write to console.

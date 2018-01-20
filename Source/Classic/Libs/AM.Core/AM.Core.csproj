@@ -342,6 +342,7 @@
     <Compile Include="Compatibility\MoonSharp.cs" />
     <Compile Include="Compatibility\Newtonsoft.cs" />
     <Compile Include="Compatibility\StringBuilderCompability.cs" />
+    <Compile Include="Compatibility\SerializableAttribute.cs" />
     <Compile Include="Compatibility\System.cs" />
     <Compile Include="Compatibility\Tasks.cs" />
     <Compile Include="Compatibility\Threading.cs" />

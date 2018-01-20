@@ -7,22 +7,22 @@
  * Status: poor
  */
 
-#if WINMOBILE || PocketPC
+#if UAP
 
 using System;
 
-//namespace System
-//{
-    //public sealed class SerializableAttribute
-    //    : Attribute
-    //{
-    //}
+namespace System
+{
+    public sealed class SerializableAttribute
+        : Attribute
+    {
+    }
 
-    //public sealed class NonSerializedAttribute
-    //    : Attribute
-    //{
-        
-    //}
-//}
+    public sealed class NonSerializedAttribute
+        : Attribute
+    {
+
+    }
+}
 
 #endif
