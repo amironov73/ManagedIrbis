@@ -713,9 +713,6 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\Compatibility\OperatingSystem.cs">
       <Link>Compatibility\OperatingSystem.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\AM.Core\Compatibility\SerializableAttribute.cs">
-      <Link>Compatibility\SerializableAttribute.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\Compatibility\StringSplitOptions.cs">
       <Link>Compatibility\StringSplitOptions.cs</Link>
     </Compile>
@@ -848,14 +845,26 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\Compatibility\JetBrains.cs">
       <Link>Compatibility\JetBrains.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\Compatibility\JetBrains2.cs">
+      <Link>Compatibility\JetBrains2.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\Compatibility\MoonSharp.cs">
       <Link>Compatibility\MoonSharp.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\Compatibility\Newtonsoft.cs">
+      <Link>Compatibility\Newtonsoft.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\Compatibility\StringBuilderCompability.cs">
       <Link>Compatibility\StringBuilderCompability.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\Compatibility\System.cs">
       <Link>Compatibility\System.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\Compatibility\Tasks.cs">
+      <Link>Compatibility\Tasks.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\Compatibility\Threading.cs">
+      <Link>Compatibility\Threading.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\Compatibility\Xml.cs">
       <Link>Compatibility\Xml.cs</Link>

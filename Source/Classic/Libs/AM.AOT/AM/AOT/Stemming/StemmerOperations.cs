@@ -479,7 +479,16 @@ namespace AM.AOT.Stemming
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < start; i++)
             {
+#if WINMOBILE || PocketPC
+
+                string tmp = s[i].ToString();
+                sb.Insert(sb.Length, tmp);
+
+#else
+
                 sb.Insert(sb.Length, s[i]);
+
+#endif
             }
             //           for (int i = 1; i < end - start + 1; i++)
             //           {
@@ -487,7 +496,16 @@ namespace AM.AOT.Stemming
             //           }
             for (int i = end; i < s.Length; i++)
             {
+#if WINMOBILE || PocketPC
+
+                string tmp = s[i].ToString();
+                sb.Insert(sb.Length, tmp);
+
+#else
+
                 sb.Insert(sb.Length, s[i]);
+
+#endif
             }
 
             return sb;

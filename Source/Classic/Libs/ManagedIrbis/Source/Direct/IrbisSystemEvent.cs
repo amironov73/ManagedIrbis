@@ -89,6 +89,12 @@ namespace ManagedIrbis.Direct
         {
             bool created;
 
+#if WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
+#else
+
             StartedEvent = new EventWaitHandle
                 (
                     false, 
@@ -112,6 +118,8 @@ namespace ManagedIrbis.Direct
                     EventResetMode.ManualReset,
                     StopName
                 );
+
+#endif
         }
 
         /// <summary>
@@ -140,7 +148,15 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public bool CheckOtherServerRunning()
         {
+#if WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
+#else
+
             return !StartedEvent.WaitOne(1);
+
+#endif
         }
 
         /// <summary>
@@ -148,7 +164,15 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public bool CheckStopRequested()
         {
+#if WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
+#else
+
             return StopEvent.WaitOne(1);
+
+#endif
         }
 
         /// <summary>
@@ -181,7 +205,7 @@ namespace ManagedIrbis.Direct
 
             GC.SuppressFinalize(this);
 
-#if !FW35
+#if !FW35 && !WINMOBILE && !PocketPC
 
             // ReSharper disable ConditionIsAlwaysTrueOrFalse
 

@@ -119,6 +119,8 @@ namespace ManagedIrbis.Scripting
         /// </summary>
         private void _Initialize()
         {
+#if !WINMOBILE && !PocketPC
+
             RegisterIrbisTypes();
             Engine = new Script(CoreModules.Preset_Complete);
 
@@ -140,6 +142,8 @@ namespace ManagedIrbis.Scripting
             }
 
             SetRecord(null);
+
+#endif
         }
 
 #endregion
@@ -157,6 +161,12 @@ namespace ManagedIrbis.Scripting
             )
         {
             Code.NotNullNorEmpty(name, "name");
+
+#if WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
+#else
 
             DynValue function = Engine.Globals.Get(name);
             if (function.Type != DataType.Function)
@@ -178,6 +188,8 @@ namespace ManagedIrbis.Scripting
                 );
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -192,12 +204,20 @@ namespace ManagedIrbis.Scripting
         {
             Code.NotNullNorEmpty(filename, "filename");
 
+#if WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
+#else
+
             DynValue result = Engine.DoFile
                 (
                     filename
                 );
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -209,12 +229,20 @@ namespace ManagedIrbis.Scripting
                 [CanBeNull] string code
             )
         {
+#if WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
+#else
+
             if (string.IsNullOrEmpty(code))
             {
                 return DynValue.Nil;
             }
 
             return Engine.DoString(code);
+
+#endif
         }
 
         /// <summary>
@@ -226,7 +254,15 @@ namespace ManagedIrbis.Scripting
                 [NotNull] string name
             )
         {
+#if WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
+#else
+
             return Engine.Globals.Get(name);
+
+#endif
         }
 
         /// <summary>
@@ -235,6 +271,8 @@ namespace ManagedIrbis.Scripting
         /// </summary>
         public static void RegisterIrbisTypes()
         {
+#if !WINMOBILE && !PocketPC
+
             if (!_typesRegistered)
             {
                 // Not supported in .NET Core
@@ -244,6 +282,8 @@ namespace ManagedIrbis.Scripting
                 UserData.RegisterType<Version>();
                 _typesRegistered = true;
             }
+
+#endif
         }
 
 
@@ -259,6 +299,8 @@ namespace ManagedIrbis.Scripting
         {
             Code.NotNullNorEmpty(name, "name");
 
+#if !WINMOBILE && !PocketPC
+
             Engine.Globals.Set
                 (
                     name,
@@ -268,6 +310,8 @@ namespace ManagedIrbis.Scripting
                         value
                     )
                 );
+
+#endif
 
             return this;
         }
@@ -291,7 +335,7 @@ namespace ManagedIrbis.Scripting
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
             if (_ownClient)

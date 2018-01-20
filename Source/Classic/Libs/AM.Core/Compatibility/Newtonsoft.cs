@@ -73,12 +73,15 @@ namespace Newtonsoft.Json
 
     namespace Linq
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public class DummyClass123
-        {
-        }
+       public class JObject {}
+
+       public class JArray {}
+
+       public class JProperty 
+       {
+           public string Name;
+           public string Value;
+       }
     }
 }
 

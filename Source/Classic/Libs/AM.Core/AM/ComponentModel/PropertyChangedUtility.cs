@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !NETCORE && !UAP
+#if !WIMOBILE && !PocketPC && !UAP
 
 #region Using directives
 
@@ -108,3 +108,4 @@ namespace AM.ComponentModel
 }
 
 #endif
+

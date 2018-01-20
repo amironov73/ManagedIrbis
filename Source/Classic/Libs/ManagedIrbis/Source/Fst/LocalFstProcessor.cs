@@ -13,6 +13,8 @@ using System;
 using System.IO;
 using System.Linq;
 
+using AM.IO;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -85,7 +87,7 @@ namespace ManagedIrbis.Fst
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            string content = File.ReadAllText
+            string content = FileUtility.ReadAllText
                 (
                     fileName,
                     IrbisEncoding.Ansi

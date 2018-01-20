@@ -1,0 +1,143 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{35154433-B10E-48E9-88E5-1CC26EFB982D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AM.AOT</RootNamespace>
+    <AssemblyName>AM.AOT</AssemblyName>
+    <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PlatformFamilyName>PocketPC</PlatformFamilyName>
+    <PlatformID>4118C335-430C-497f-BE48-11C3316B135E</PlatformID>
+    <OSVersion>5.1</OSVersion>
+    <DeployDirSuffix>AM.AOT</DeployDirSuffix>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <NativePlatformName>Windows Mobile 5.0 Pocket PC SDK</NativePlatformName>
+    <FormFactorID>
+    </FormFactorID>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.WindowsMobile, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Microsoft.WindowsMobile.Configuration, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <!-- BEGIN -->
+  <ItemGroup>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Distributional\ModelName.cs">
+      <Link>AM\AOT\Distributional\ModelName.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Distributional\RusVectoresClient.cs">
+      <Link>AM\AOT\Distributional\RusVectoresClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Distributional\WordInfo.cs">
+      <Link>AM\AOT\Distributional\WordInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Spelling\AffixEntry.cs">
+      <Link>AM\AOT\Spelling\AffixEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Spelling\AffixRule.cs">
+      <Link>AM\AOT\Spelling\AffixRule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Spelling\AffixUtility.cs">
+      <Link>AM\AOT\Spelling\AffixUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\Among.cs">
+      <Link>AM\AOT\Stemming\Among.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\EnglishStemmer.cs">
+      <Link>AM\AOT\Stemming\EnglishStemmer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\FrenchStemmer.cs">
+      <Link>AM\AOT\Stemming\FrenchStemmer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\GermanStemmer.cs">
+      <Link>AM\AOT\Stemming\GermanStemmer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\IStemmer.cs">
+      <Link>AM\AOT\Stemming\IStemmer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\ItalianStemmer.cs">
+      <Link>AM\AOT\Stemming\ItalianStemmer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\MystemAnalysis.cs">
+      <Link>AM\AOT\Stemming\MystemAnalysis.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\MystemResult.cs">
+      <Link>AM\AOT\Stemming\MystemResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\MystemRunner.cs">
+      <Link>AM\AOT\Stemming\MystemRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\PortugalStemmer.cs">
+      <Link>AM\AOT\Stemming\PortugalStemmer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\RussianStemmer.cs">
+      <Link>AM\AOT\Stemming\RussianStemmer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\SpanishStemmer.cs">
+      <Link>AM\AOT\Stemming\SpanishStemmer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.AOT\AM\AOT\Stemming\StemmerOperations.cs">
+      <Link>AM\AOT\Stemming\StemmerOperations.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <!-- END -->
+  <ItemGroup>
+    <ProjectReference Include="..\AM.Core\AM.Core.csproj">
+      <Project>{5EB159AC-C548-4B35-AE16-A173983F5A98}</Project>
+      <Name>AM.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}">
+        <HostingProcess disable="1" />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

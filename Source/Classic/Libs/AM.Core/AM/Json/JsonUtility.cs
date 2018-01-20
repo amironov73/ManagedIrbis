@@ -60,6 +60,8 @@ namespace AM.Json
             Code.NotNullNorEmpty(nameSpace, "nameSpace");
             Code.NotNullNorEmpty(assembly, "assembly");
 
+#if !WINMOBILE && !PocketPC
+
             IEnumerable<JValue> values = obj
                 .SelectTokens("$..$type")
                 .OfType<JValue>();
@@ -76,6 +78,8 @@ namespace AM.Json
                     value.Value = typeName;
                 }
             }
+
+#endif
         }
 
         /// <summary>
@@ -90,6 +94,8 @@ namespace AM.Json
             Code.NotNull(obj, "obj");
             Code.NotNull(resolver, "resolver");
 
+#if !WINMOBILE && !PocketPC
+
             JValue[] values = obj
                 .SelectTokens("$..$include")
                 .OfType<JValue>()
@@ -100,6 +106,8 @@ namespace AM.Json
                 JProperty property = (JProperty) value.Parent;
                 resolver(property);
             }
+
+#endif
         }
 
         /// <summary>
@@ -112,6 +120,8 @@ namespace AM.Json
         {
             Code.NotNull(obj, "obj");
 
+#if !WINMOBILE && !PocketPC
+
             JToken[] tokens = obj
                 .SelectTokens("$..$include")
                 .ToArray();
@@ -121,6 +131,8 @@ namespace AM.Json
                 JProperty property = (JProperty)token.Parent;
                 Resolve(property);
             }
+
+#endif
         }
 
         /// <summary>
@@ -154,10 +166,18 @@ namespace AM.Json
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
+#else
+
             string text = File.ReadAllText(fileName);
             JArray result = JArray.Parse(text);
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -172,10 +192,18 @@ namespace AM.Json
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
+#else
+
             string text = File.ReadAllText(fileName);
             JObject result = JObject.Parse(text);
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -190,10 +218,18 @@ namespace AM.Json
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
+#else
+
             string text = File.ReadAllText(fileName);
             T result = JsonConvert.DeserializeObject<T>(text);
 
             return result;
+
+#endif
         }
 
         /// <summary>
@@ -209,8 +245,12 @@ namespace AM.Json
             Code.NotNull(array, "array");
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if !WINMOBILE && !PocketPC
+
             string text = array.ToString(Formatting.Indented);
             File.WriteAllText(fileName, text);
+
+#endif
         }
 
         /// <summary>
@@ -225,8 +265,12 @@ namespace AM.Json
             Code.NotNull(obj, "obj");
             Code.NotNullNorEmpty(fileName, "fileName");
 
+#if !WINMOBILE && !PocketPC
+
             string text = obj.ToString(Formatting.Indented);
             File.WriteAllText(fileName, text);
+
+#endif
         }
 
         /// <summary>
@@ -238,9 +282,13 @@ namespace AM.Json
                 [NotNull] string fileName
             )
         {
+#if !WINMOBILE && !PocketPC
+
             JObject json = JObject.FromObject(obj);
 
             SaveObjectToFile(json, fileName);
+
+#endif
         }
 
         /// <summary>
@@ -255,6 +303,8 @@ namespace AM.Json
             Code.NotNull(property, "property");
             Code.NotNull(newName, "newName");
 
+#if !WINMOBILE && !PocketPC
+
             // TODO use path for searching
 
             string fileName = property.Value.ToString();
@@ -262,6 +312,8 @@ namespace AM.Json
             JObject value = JObject.Parse(text);
             JProperty newProperty = new JProperty(newName, value);
             property.Replace(newProperty);
+
+#endif
         }
 
         /// <summary>
@@ -274,6 +326,8 @@ namespace AM.Json
         {
             Code.NotNull(property, "property");
 
+#if !WINMOBILE && !PocketPC
+
             // TODO use path for searching
 
             JObject obj = (JObject) property.Value;
@@ -283,6 +337,8 @@ namespace AM.Json
             JObject value = JObject.Parse(text);
             JProperty newProperty = new JProperty(newName, value);
             property.Replace(newProperty);
+
+#endif
         }
 
             /// <summary>
@@ -295,6 +351,12 @@ namespace AM.Json
             )
         {
             Code.NotNull(obj, "obj");
+
+#if WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
+#else
 
             JsonSerializer serializer = new JsonSerializer
             {
@@ -309,6 +371,8 @@ namespace AM.Json
             serializer.Serialize(jsonWriter, obj);
 
             return textWriter.ToString();
+
+#endif
         }
 
         #endregion

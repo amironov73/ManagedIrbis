@@ -32,7 +32,15 @@ namespace AM
         /// </summary>
         public static bool DetectAppVeyor()
         {
+#if WINMOBILE || PocketPC
+
+            return false;
+
+#else
+
             return Environment.GetEnvironmentVariable("APPVEYOR") == "True";
+
+#endif
         }
 
         /// <summary>
@@ -40,7 +48,15 @@ namespace AM
         /// </summary>
         public static bool DetectCI()
         {
+#if WINMOBILE || PocketPC
+
+            return false;
+
+#else
+
             return Environment.GetEnvironmentVariable("CI") == "True";
+
+#endif
         }
 
         /// <summary>
@@ -48,7 +64,15 @@ namespace AM
         /// </summary>
         public static bool DetectTravis()
         {
+#if WINMOBILE || PocketPC
+
+            return false;
+
+#else
+
             return Environment.GetEnvironmentVariable("TRAVIS") == "True";
+
+#endif
         }
 
         #endregion

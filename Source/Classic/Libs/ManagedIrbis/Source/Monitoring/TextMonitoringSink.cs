@@ -72,6 +72,12 @@ namespace ManagedIrbis.Monitoring
         {
             Code.NotNull(data, "data");
 
+#if WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
+#else
+
             try
             {
                 // TODO implement properly
@@ -95,6 +101,8 @@ namespace ManagedIrbis.Monitoring
             }
 
             return true;
+
+#endif
         }
 
         #endregion

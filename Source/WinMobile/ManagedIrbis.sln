@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Core", "AM.Core\AM.Core.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedIrbis", "ManagedIrbis\ManagedIrbis.csproj", "{2A9B1508-57AB-493D-B478-A78F9AFAD27B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.AOT", "AM.AOT\AM.AOT.csproj", "{35154433-B10E-48E9-88E5-1CC26EFB982D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{2A9B1508-57AB-493D-B478-A78F9AFAD27B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A9B1508-57AB-493D-B478-A78F9AFAD27B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A9B1508-57AB-493D-B478-A78F9AFAD27B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35154433-B10E-48E9-88E5-1CC26EFB982D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35154433-B10E-48E9-88E5-1CC26EFB982D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35154433-B10E-48E9-88E5-1CC26EFB982D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35154433-B10E-48E9-88E5-1CC26EFB982D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -38,12 +38,16 @@ namespace AM
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+#if !WINMOBILE && !PocketPC
     [JsonConverter(typeof(NosConverter))]
+#endif
     public struct NumberOrString
         : IHandmadeSerializable,
         IXmlSerializable
     {
         #region Inner classes
+
+#if !WINMOBILE && !PocketPC
 
         class NosConverter
             : JsonConverter
@@ -86,6 +90,8 @@ namespace AM
                 return objectType == typeof(NumberOrString);
             }
         }
+
+#endif
 
         #endregion
 

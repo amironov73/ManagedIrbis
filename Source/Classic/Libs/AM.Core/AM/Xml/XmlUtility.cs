@@ -330,10 +330,18 @@ namespace AM.Xml
                 string name
             )
         {
+#if WINMOBILE || PocketPC
+
+            throw new NotImplementedException();
+
+#else
+
             string value = reader.GetAttribute(name);
             return string.IsNullOrEmpty(value)
                        ? default(T)
                        : (T)Enum.Parse(typeof(T), value);
+
+#endif
         }
 
         /// <summary>

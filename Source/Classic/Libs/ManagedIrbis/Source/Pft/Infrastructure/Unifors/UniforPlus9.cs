@@ -15,6 +15,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 
 using AM;
+using AM.IO;
 using AM.Logging;
 using AM.Text;
 
@@ -1156,7 +1157,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         }
 
                         byte[] bytes = resource.Decode();
-                        File.WriteAllBytes(path, bytes);
+                        FileUtility.WriteAllBytes(path, bytes);
                     }
                 }
             }
@@ -1212,7 +1213,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             byte[] content;
             try
             {
-                content = File.ReadAllBytes(file);
+                content = FileUtility.ReadAllBytes(file);
             }
             catch (Exception exception)
             {

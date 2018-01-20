@@ -106,7 +106,7 @@ namespace ManagedIrbis.Server
                         extension,
                         pathArray
                     );
-                string fileContent = File.ReadAllText
+                string fileContent = FileUtility.ReadAllText
                     (
                         fullPath,
                         IrbisEncoding.Ansi

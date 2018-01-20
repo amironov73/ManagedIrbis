@@ -7,22 +7,22 @@
  * Status: poor
  */
 
-#if !CLASSIC && !NETCORE && !ANDROID
+#if WINMOBILE || PocketPC
 
 using System;
 
-namespace System
-{
-    public sealed class SerializableAttribute
-        : Attribute
-    {
-    }
+//namespace System
+//{
+    //public sealed class SerializableAttribute
+    //    : Attribute
+    //{
+    //}
 
-    public sealed class NonSerializedAttribute
-        : Attribute
-    {
+    //public sealed class NonSerializedAttribute
+    //    : Attribute
+    //{
         
-    }
-}
+    //}
+//}
 
 #endif

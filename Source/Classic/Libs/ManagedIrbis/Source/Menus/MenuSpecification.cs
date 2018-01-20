@@ -161,7 +161,7 @@ namespace ManagedIrbis.Menus
                     {
                         string sortText = navigator.GetRemainingText();
                         int sortMode;
-                        int.TryParse(sortText, out sortMode);
+                        NumericUtility.TryParseInt32(sortText, out sortMode);
                         result.SortMode = sortMode;
                     }
                 }

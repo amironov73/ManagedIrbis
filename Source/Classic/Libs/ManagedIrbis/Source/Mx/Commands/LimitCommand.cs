@@ -81,7 +81,7 @@ namespace ManagedIrbis.Mx.Commands
                 if (!string.IsNullOrEmpty(argument))
                 {
                     int newLimit;
-                    if (!int.TryParse(argument, out newLimit))
+                    if (!NumericUtility.TryParseInt32(argument, out newLimit))
                     {
                         executive.WriteLine("format error");
                     }

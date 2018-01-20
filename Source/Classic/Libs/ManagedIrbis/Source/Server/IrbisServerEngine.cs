@@ -145,10 +145,21 @@ namespace ManagedIrbis.Server
 
             while (true)
             {
+#if WINMOBILE || PocketPC
+
+                if (StopSignal.WaitOne(0, false))
+                {
+                    break;
+                }
+
+#else
+
                 if (StopSignal.WaitOne(0))
                 {
                     break;
                 }
+
+#endif
 
 #if DESKTOP
 

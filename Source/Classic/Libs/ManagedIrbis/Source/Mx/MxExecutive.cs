@@ -141,6 +141,8 @@ namespace ManagedIrbis.Mx
 
         #region Private members
 
+#if !WINMOBILE && !PocketPC
+
         private void _CancelKeyPress
             (
                 object sender,
@@ -149,6 +151,8 @@ namespace ManagedIrbis.Mx
         {
             StopFlag = true;
         }
+
+#endif
 
         private void _CreateStandardCommands()
         {
@@ -305,7 +309,7 @@ namespace ManagedIrbis.Mx
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            string text = File.ReadAllText(fileName, IrbisEncoding.Utf8);
+            string text = FileUtility.ReadAllText(fileName, IrbisEncoding.Utf8);
             bool result = ExecuteLine(text);
 
             return result;
@@ -344,11 +348,15 @@ namespace ManagedIrbis.Mx
         /// </summary>
         public void Repl()
         {
+#if !WINMOBILE && !PocketPC
+
             Console.CancelKeyPress += _CancelKeyPress;
             Console.Title = string.Format
                 (
                     "mx64 v{0}", Version
                 );
+
+#endif
 
             while (!StopFlag)
             {

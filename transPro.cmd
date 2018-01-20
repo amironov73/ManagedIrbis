@@ -22,7 +22,7 @@ Utils\TransProject.exe "Source\Classic\Libs\AM.AOT\AM.AOT.csproj"             "S
 Utils\TransProject.exe "Source\Classic\Libs\AM.AOT\AM.AOT.csproj"             "Source\Classic\Libs\AM.AOT\AM.AOT.4.7.csproj"
 Utils\TransProject.exe "Source\Classic\Libs\AM.AOT\AM.AOT.csproj"             "Source\Droid\Libs\AM.AOT\AM.AOT.csproj"                   ..\..\..\Classic\Libs\AM.AOT\
 Utils\TransProject.exe "Source\Classic\Libs\AM.AOT\AM.AOT.csproj"             "Source\Universal\Libs\AM.AOT\AM.AOT.csproj"               ..\..\..\Classic\Libs\AM.AOT\
-rem Utils\TransProject.exe "Source\Classic\Libs\AM.AOT\AM.AOT.csproj"             "Source\WinMobile\AM.AOT\AM.AOT.csproj"                   ..\..\Classic\Libs\AM.AOT\
+Utils\TransProject.exe "Source\Classic\Libs\AM.AOT\AM.AOT.csproj"             "Source\WinMobile\AM.AOT\AM.AOT.csproj"                   ..\..\Classic\Libs\AM.AOT\
 
 Utils\TransProject.exe "Source\Classic\Libs\RestfulIrbis\RestfulIrbis.csproj" "Source\Classic\Libs\RestfulIrbis\RestfulIrbis.3.5.csproj"
 Utils\TransProject.exe "Source\Classic\Libs\RestfulIrbis\RestfulIrbis.csproj" "Source\Classic\Libs\RestfulIrbis\RestfulIrbis.4.0.csproj"

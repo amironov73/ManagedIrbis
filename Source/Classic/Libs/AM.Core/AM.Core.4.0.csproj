@@ -295,7 +295,6 @@
     <Compile Include="Compatibility\MarshalByRefObject.cs" />
     <Compile Include="Compatibility\NotImplementedException.cs" />
     <Compile Include="Compatibility\OperatingSystem.cs" />
-    <Compile Include="Compatibility\SerializableAttribute.cs" />
     <Compile Include="Compatibility\StringSplitOptions.cs" />
     <Compile Include="Compatibility\TypeInfo.cs" />
     <Compile Include="AM\UniversalComparer.cs" />
@@ -340,9 +339,13 @@
     <Compile Include="Compatibility\ComponentModel.cs" />
     <Compile Include="Compatibility\DummyClass.cs" />
     <Compile Include="Compatibility\JetBrains.cs" />
+    <Compile Include="Compatibility\JetBrains2.cs" />
     <Compile Include="Compatibility\MoonSharp.cs" />
+    <Compile Include="Compatibility\Newtonsoft.cs" />
     <Compile Include="Compatibility\StringBuilderCompability.cs" />
     <Compile Include="Compatibility\System.cs" />
+    <Compile Include="Compatibility\Tasks.cs" />
+    <Compile Include="Compatibility\Threading.cs" />
     <Compile Include="Compatibility\Xml.cs" />
     <Compile Include="AM\RetryManager.cs" />
   </ItemGroup>

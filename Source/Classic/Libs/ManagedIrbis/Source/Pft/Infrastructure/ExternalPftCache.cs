@@ -15,6 +15,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 
+using AM.IO;
 using AM.Reflection;
 
 using CodeJam;
@@ -112,7 +113,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             lock (_hasp)
             {
                 string path = ComputePath(scriptText) + DLL;
-                File.WriteAllBytes(path, image);
+                FileUtility.WriteAllBytes(path, image);
             }
         }
 
@@ -131,7 +132,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             lock (_hasp)
             {
                 string path = ComputePath(scriptText) + AST;
-                File.WriteAllBytes(path, image);
+                FileUtility.WriteAllBytes(path, image);
             }
         }
 
@@ -145,8 +146,10 @@ namespace ManagedIrbis.Pft.Infrastructure
                 string[] files = Directory.GetFiles
                     (
                         RootDirectory,
-                        "*.*",
-                        SearchOption.AllDirectories
+                        "*.*"
+#if !WINMOBILE && !PocketPC
+                        , SearchOption.AllDirectories
+#endif
                     );
 
                 foreach (string file in files)

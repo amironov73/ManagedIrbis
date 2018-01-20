@@ -368,10 +368,6 @@ namespace AM.IO
 
             return FileHelper.ReadAllLines(fileName, encoding);
 
-#elif SILVERLIGHT
-
-            throw new NotImplementedException();
-
 #else
 
             return File.ReadAllLines(fileName, encoding);
@@ -427,7 +423,7 @@ namespace AM.IO
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+#if !WINMOBILE && !PocketPC
 
             if (File.Exists(fileName))
             {
