@@ -222,6 +222,7 @@ namespace ManagedIrbis.Client
                     break;
 
                 case IrbisPath.MasterFile:
+                case IrbisPath.InternalResource: // ???
                     result = Path.Combine
                         (
                             Path.Combine

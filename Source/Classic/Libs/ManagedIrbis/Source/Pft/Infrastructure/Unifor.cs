@@ -84,7 +84,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             // "5" unknown
             Registry.Add("6", Unifor6.ExecuteNestedFormat);
             Registry.Add("7", Unifor7.FormatDocuments);
-            // "8" unknown
+            Registry.Add("8", Unifor8.FormatWithFst);
             Registry.Add("9", Unifor9.RemoveDoubleQuotes);
             Registry.Add("A", UniforA.GetFieldRepeat);
             Registry.Add("B", UniforB.Convolution);
