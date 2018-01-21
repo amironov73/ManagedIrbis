@@ -552,6 +552,15 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Monitoring\BlockedRecord.cs">
       <Link>Source\Monitoring\BlockedRecord.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\ClsCommand.cs">
+      <Link>Source\Mx\Commands\ClsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\DbCommand.cs">
+      <Link>Source\Mx\Commands\DbCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\DirCommand.cs">
+      <Link>Source\Mx\Commands\DirCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\InfoCommand.cs">
       <Link>Source\Mx\Commands\InfoCommand.cs</Link>
     </Compile>
@@ -560,6 +569,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\PingCommand.cs">
       <Link>Source\Mx\Commands\PingCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\TypeCommand.cs">
+      <Link>Source\Mx\Commands\TypeCommand.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\CompilerProxy.cs">
       <Link>Source\Pft\Infrastructure\Compiler\CompilerProxy.cs</Link>

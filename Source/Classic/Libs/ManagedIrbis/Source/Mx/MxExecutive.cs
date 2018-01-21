@@ -161,9 +161,12 @@ namespace ManagedIrbis.Mx
                     new MxCommand[]
                     {
                         new AliasCommand(),
+                        new ClsCommand(),
                         new ConnectCommand(),
                         new CsCommand(),
                         new CsFileCommand(),
+                        new DbCommand(),
+                        new DirCommand(),
                         new DisconnectCommand(),
                         new ExitCommand(),
                         new FormatCommand(),
@@ -176,6 +179,7 @@ namespace ManagedIrbis.Mx
                         new SearchCommand(),
                         new SortCommand(),
                         new StoreCommand(),
+                        new TypeCommand(),
                     }
                 );
         }

@@ -230,9 +230,13 @@
     <Compile Include="Source\Infrastructure\ResponseBuilder.cs" />
     <Compile Include="Source\Infrastructure\Sockets\TestingSocket.cs" />
     <Compile Include="Source\Monitoring\BlockedRecord.cs" />
+    <Compile Include="Source\Mx\Commands\ClsCommand.cs" />
+    <Compile Include="Source\Mx\Commands\DbCommand.cs" />
+    <Compile Include="Source\Mx\Commands\DirCommand.cs" />
     <Compile Include="Source\Mx\Commands\InfoCommand.cs" />
     <Compile Include="Source\Mx\Commands\ListCommand.cs" />
     <Compile Include="Source\Mx\Commands\PingCommand.cs" />
+    <Compile Include="Source\Mx\Commands\TypeCommand.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\CompilerProxy.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexInfo.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexDictionary.cs" />
