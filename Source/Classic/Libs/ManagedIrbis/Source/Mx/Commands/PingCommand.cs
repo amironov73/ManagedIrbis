@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* .cs -- 
+/* PingCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -37,7 +37,7 @@ namespace ManagedIrbis.Mx.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class Template
+    public sealed class PingCommand
         : MxCommand
     {
         #region Properties
@@ -49,8 +49,8 @@ namespace ManagedIrbis.Mx.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public Template()
-            : base("")
+        public PingCommand()
+            : base("ping")
         {
         }
 
@@ -61,6 +61,39 @@ namespace ManagedIrbis.Mx.Commands
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Do one ping operation.
+        /// </summary>
+        public long DoPing
+            (
+                int number,
+                [NotNull] MxExecutive executive
+            )
+        {
+            Code.NotNull(executive, "executive");
+
+            long result = 0;
+
+            try
+            {
+
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                executive.Client.NoOp();
+                stopwatch.Stop();
+
+                result = stopwatch.ElapsedMilliseconds;
+
+                executive.WriteLine("{0}: {1} ms", number, result);
+            }
+            catch
+            {
+                executive.WriteLine("ERROR");
+            }
+
+            return result;
+        }
 
         #endregion
 
@@ -81,7 +114,22 @@ namespace ManagedIrbis.Mx.Commands
                 return false;
             }
 
-            executive.WriteLine("Connect");
+            long sum = 0;
+            int ntries = 4;
+            if (arguments.Length != 0)
+            {
+                int n = arguments[0].Text.SafeToInt32();
+                if (n > 1)
+                {
+                    ntries = n;
+                }
+            }
+            for (int i = 0; i < ntries; i++)
+            {
+                sum += DoPing(i + 1, executive);
+            }
+
+            executive.WriteLine("average = {0}", sum / ntries);
 
             OnAfterExecute();
 

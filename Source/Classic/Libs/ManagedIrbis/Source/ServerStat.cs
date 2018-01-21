@@ -10,6 +10,7 @@
 #region Using directives
 
 using System.Collections.Generic;
+using System.Text;
 using System.Xml.Serialization;
 
 using JetBrains.Annotations;
@@ -109,6 +110,30 @@ namespace ManagedIrbis
             return result;
         }
 
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.AppendFormat("Command executed: {0}", TotalCommandCount);
+            result.AppendLine();
+            result.AppendFormat("Running clients: {0}", ClientCount);
+            result.AppendLine();
+            if (!ReferenceEquals(RunningClients, null))
+            {
+                foreach (ClientInfo client in RunningClients)
+                {
+                    result.AppendLine(client.ToString());
+                }
+
+            }
+
+            return result.ToString();
+        }
 
         #endregion
     }

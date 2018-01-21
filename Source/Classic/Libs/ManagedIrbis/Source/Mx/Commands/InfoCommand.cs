@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* .cs -- 
+/* InfoCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -25,7 +25,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Client;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -37,7 +37,7 @@ namespace ManagedIrbis.Mx.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class Template
+    public sealed class InfoCommand
         : MxCommand
     {
         #region Properties
@@ -49,8 +49,8 @@ namespace ManagedIrbis.Mx.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public Template()
-            : base("")
+        public InfoCommand()
+            : base("info")
         {
         }
 
@@ -81,7 +81,13 @@ namespace ManagedIrbis.Mx.Commands
                 return false;
             }
 
-            executive.WriteLine("Connect");
+            ConnectedClient connected = executive.Client as ConnectedClient;
+            if (!ReferenceEquals(connected, null))
+            {
+                IIrbisConnection connection = connected.Connection;
+                ServerStat serverStat = connection.GetServerStat();
+                executive.WriteLine(serverStat.ToString());
+            }
 
             OnAfterExecute();
 

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* .cs -- 
+/* ListCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -37,7 +37,7 @@ namespace ManagedIrbis.Mx.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class Template
+    public sealed class ListCommand
         : MxCommand
     {
         #region Properties
@@ -49,8 +49,8 @@ namespace ManagedIrbis.Mx.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public Template()
-            : base("")
+        public ListCommand()
+            : base("list")
         {
         }
 
@@ -75,13 +75,19 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            if (!executive.Client.Connected)
-            {
-                executive.WriteLine("Not connected");
-                return false;
-            }
+            MxRecord[] records = executive.Records.ToArray();
 
-            executive.WriteLine("Connect");
+            if (records.Length == 0)
+            {
+                executive.WriteLine("No records");
+            }
+            else
+            {
+                foreach (MxRecord record in records)
+                {
+                    executive.WriteLine("{0}", record.Mfn);
+                }
+            }
 
             OnAfterExecute();
 

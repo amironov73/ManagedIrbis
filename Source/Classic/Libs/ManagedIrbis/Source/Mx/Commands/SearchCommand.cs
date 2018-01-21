@@ -110,15 +110,6 @@ namespace ManagedIrbis.Mx.Commands
                         }
                     }
                     executive.Records.Clear();
-                    //string[] formatted = new string[found.Length];
-                    //if (!string.IsNullOrEmpty(executive.Format))
-                    //{
-                    //    formatted = executive.Client.FormatRecords
-                    //        (
-                    //            found,
-                    //            executive.Format
-                    //        );
-                    //}
                     for (int i = 0; i < found.Length; i++)
                     {
                         int mfn = found[i];
@@ -126,7 +117,6 @@ namespace ManagedIrbis.Mx.Commands
                         {
                             Database = executive.Client.Database,
                             Mfn = mfn,
-                            //Description = formatted[i]
                         };
                         executive.Records.Add(record);
                     }
