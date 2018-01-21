@@ -574,6 +574,7 @@
     <Compile Include="Source\Pft\Infrastructure\Unifors\Unifor0.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\Unifor2.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\Unifor7.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Unifors\Unifor8.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\Unifor9.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforA.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\UniforB.cs" />

@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -241,37 +242,46 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 // после вызова этого unifor в главном контексте сбрасываются флаги постобработки
                 context.GetRootContext().PostProcessing = PftCleanup.None;
 
-                // формат вызывается в контексте без повторений
-                // делаем аналогично RepGroup
-                // создаем копию контекста со ссылкой на тот же буфер
-                // в копии сбрасываем состояние повторяющейся группы и работаем через него
-                // текстовый буфер восстанавливаем, так как он один и тот же
-                using (PftContextGuard guard = new PftContextGuard(context))
+                StringBuilder builder = new StringBuilder();
+                List<string> seen = new List<string>();
+                for (int i = 0; i < formatLines.Count; i++)
                 {
-                    PftContext nestedContext = guard.ChildContext;
-                    nestedContext.Record = record;
-                    nestedContext.Reset();
-
-                    StringBuilder builder = new StringBuilder();
-                    for (int i = 0; i < formatLines.Count; i++)
+                    using (PftContextGuard guard = new PftContextGuard(context))
                     {
+                        // формат вызывается в контексте без повторений
+                        // делаем аналогично RepGroup
+                        // создаем копию контекста со ссылкой на тот же буфер
+                        // в копии сбрасываем состояние повторяющейся группы и работаем через него
+                        // текстовый буфер восстанавливаем, так как он один и тот же
+                        PftContext nestedContext = guard.ChildContext;
+                        nestedContext.Record = record;
+                        nestedContext.Reset();
                         string format = formatLines[i];
                         PftProgram program = PftUtility.CompileProgram(format);
                         program.Execute(nestedContext);
                         string formatted = nestedContext.Text;
-                        if (string.IsNullOrEmpty(formatted)
-                            || formatted == "%"
-                            || formatted == "\r"
-                            || formatted == "%\r")
+                        formatted = formatted.Trim(CommonSeparators.NewLineAndPercent);
+                        string[] subLines = StringUtility.SplitString
+                            (
+                                formatted,
+                                CommonSeparators.NewLineAndPercent,
+                                StringSplitOptions.RemoveEmptyEntries
+                            );
+                        foreach (string subLine in subLines)
                         {
-                            continue;
-                        }
-                        builder.AppendLine();
-                        builder.Append(formatted);
-                    }
+                            if (seen.Contains(subLine))
+                            {
+                                continue;
+                            }
 
-                    context.WriteAndSetFlag(node, builder.ToString());
+                            builder.AppendLine();
+                            seen.Add(subLine);
+                            builder.Append(subLine);
+                        }
+                    }
                 }
+
+                context.WriteAndSetFlag(node, builder.ToString());
 
             }
             finally

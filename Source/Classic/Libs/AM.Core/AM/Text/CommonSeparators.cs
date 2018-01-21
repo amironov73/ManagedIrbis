@@ -50,6 +50,11 @@ namespace AM.Text
         public static readonly char[] NewLine = { '\r', '\n' };
 
         /// <summary>
+        /// Newline and percent sign.
+        /// </summary>
+        public static readonly char[] NewLineAndPercent = { '\r', '\n', '%' };
+
+        /// <summary>
         /// Number sign.
         /// </summary>
         public static readonly char[] NumberSign = { '#' };
