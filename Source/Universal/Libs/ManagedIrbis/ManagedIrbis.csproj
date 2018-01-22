@@ -561,17 +561,32 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\DirCommand.cs">
       <Link>Source\Mx\Commands\DirCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\ExportCommand.cs">
+      <Link>Source\Mx\Commands\ExportCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\HistoryCommand.cs">
+      <Link>Source\Mx\Commands\HistoryCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\InfoCommand.cs">
       <Link>Source\Mx\Commands\InfoCommand.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\ListCommand.cs">
       <Link>Source\Mx\Commands\ListCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\ListUsersCommand.cs">
+      <Link>Source\Mx\Commands\ListUsersCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\PingCommand.cs">
       <Link>Source\Mx\Commands\PingCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\RefineCommand.cs">
+      <Link>Source\Mx\Commands\RefineCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\TypeCommand.cs">
       <Link>Source\Mx\Commands\TypeCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\VerCommand.cs">
+      <Link>Source\Mx\Commands\VerCommand.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\CompilerProxy.cs">
       <Link>Source\Pft\Infrastructure\Compiler\CompilerProxy.cs</Link>

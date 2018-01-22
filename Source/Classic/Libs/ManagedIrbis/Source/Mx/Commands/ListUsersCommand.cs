@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* StoreCommand.cs -- 
+/* ListUsersCommands.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using AM;
@@ -25,6 +26,9 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Client;
+using ManagedIrbis.Infrastructure;
 
 using MoonSharp.Interpreter;
 
@@ -37,7 +41,7 @@ namespace ManagedIrbis.Mx.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class StoreCommand
+    public sealed class ListUsersCommand
         : MxCommand
     {
         #region Properties
@@ -49,8 +53,8 @@ namespace ManagedIrbis.Mx.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public StoreCommand()
-            : base("Store")
+        public ListUsersCommand()
+            : base("listUsers")
         {
         }
 
@@ -75,17 +79,35 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            string fileName = "output.txt";
-            if (arguments.Length != 0)
+            if (!executive.Client.Connected)
             {
-                fileName = arguments[0].Text;
+                executive.WriteLine("Not connected");
+                return false;
             }
 
-            using (StreamWriter writer = File.CreateText(fileName))
+            string pattern = null;
+            if (arguments.Length != 0)
             {
-                foreach (MxRecord record in executive.Records)
+                pattern = arguments[0].Text;
+            }
+
+            ConnectedClient connected = executive.Client as ConnectedClient;
+            if (!ReferenceEquals(connected, null))
+            {
+                IIrbisConnection connection = connected.Connection;
+                UserInfo[] users = connection.ListUsers();
+                foreach (UserInfo user in users)
                 {
-                    writer.WriteLine(record.Mfn.ToInvariantString());
+                    if (!string.IsNullOrEmpty(pattern)
+                       && !string.IsNullOrEmpty(user.Name))
+                    {
+                        if (!Regex.IsMatch(user.Name, pattern, RegexOptions.IgnoreCase))
+                        {
+                            continue;
+                        }
+                    }
+
+                    executive.WriteLine(user.ToString());
                 }
             }
 

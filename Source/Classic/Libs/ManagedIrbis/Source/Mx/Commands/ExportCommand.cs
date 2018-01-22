@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* StoreCommand.cs -- 
+/* ExportCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -25,7 +25,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.ImportExport;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -37,7 +37,7 @@ namespace ManagedIrbis.Mx.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class StoreCommand
+    public sealed class ExportCommand
         : MxCommand
     {
         #region Properties
@@ -49,8 +49,8 @@ namespace ManagedIrbis.Mx.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public StoreCommand()
-            : base("Store")
+        public ExportCommand()
+            : base("export")
         {
         }
 
@@ -68,24 +68,34 @@ namespace ManagedIrbis.Mx.Commands
 
         /// <inheritdoc cref="MxCommand.Execute" />
         public override bool Execute
-            (
-                MxExecutive executive,
-                MxArgument[] arguments
-            )
+        (
+            MxExecutive executive,
+            MxArgument[] arguments
+        )
         {
             OnBeforeExecute();
 
-            string fileName = "output.txt";
+            string fileName = null;
             if (arguments.Length != 0)
             {
                 fileName = arguments[0].Text;
             }
 
-            using (StreamWriter writer = File.CreateText(fileName))
+            if (!string.IsNullOrEmpty(fileName))
             {
-                foreach (MxRecord record in executive.Records)
+                using (StreamWriter writer
+                    = TextWriterUtility.Create(fileName, IrbisEncoding.Utf8))
                 {
-                    writer.WriteLine(record.Mfn.ToInvariantString());
+                    foreach (MxRecord mxRecord in executive.Records)
+                    {
+                        MarcRecord record = executive.Client.ReadRecord(mxRecord.Mfn);
+                        if (!ReferenceEquals(record, null))
+                        {
+                            string text = record.ToPlainText();
+                            writer.Write(text);
+                            writer.WriteLine("*****");
+                        }
+                    }
                 }
             }
 

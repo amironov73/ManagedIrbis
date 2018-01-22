@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* StoreCommand.cs -- 
+/* VerCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -26,6 +26,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -37,7 +39,7 @@ namespace ManagedIrbis.Mx.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class StoreCommand
+    public sealed class VerCommand
         : MxCommand
     {
         #region Properties
@@ -49,8 +51,8 @@ namespace ManagedIrbis.Mx.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public StoreCommand()
-            : base("Store")
+        public VerCommand()
+            : base("ver")
         {
         }
 
@@ -68,25 +70,25 @@ namespace ManagedIrbis.Mx.Commands
 
         /// <inheritdoc cref="MxCommand.Execute" />
         public override bool Execute
-            (
-                MxExecutive executive,
-                MxArgument[] arguments
-            )
+        (
+            MxExecutive executive,
+            MxArgument[] arguments
+        )
         {
             OnBeforeExecute();
 
-            string fileName = "output.txt";
-            if (arguments.Length != 0)
+            if (!executive.Client.Connected)
             {
-                fileName = arguments[0].Text;
+                executive.WriteLine("Not connected");
+                return false;
             }
 
-            using (StreamWriter writer = File.CreateText(fileName))
+            ConnectedClient connected = executive.Client as ConnectedClient;
+            if (!ReferenceEquals(connected, null))
             {
-                foreach (MxRecord record in executive.Records)
-                {
-                    writer.WriteLine(record.Mfn.ToInvariantString());
-                }
+                IIrbisConnection connection = connected.Connection;
+                IrbisVersion version = connection.GetServerVersion();
+                executive.WriteLine(version.ToString());
             }
 
             OnAfterExecute();

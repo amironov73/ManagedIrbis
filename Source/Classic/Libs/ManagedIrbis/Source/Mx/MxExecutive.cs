@@ -102,6 +102,12 @@ namespace ManagedIrbis.Mx
         public Stack<string> History { get; private set; }
 
         /// <summary>
+        /// Stack of databases.
+        /// </summary>
+        [NotNull]
+        public Stack<string> Databases { get; private set; }
+
+        /// <summary>
         /// Get version of the executive.
         /// </summary>
         public static Version Version
@@ -139,6 +145,7 @@ namespace ManagedIrbis.Mx
             Commands = new NonNullCollection<MxCommand>();
             Records = new NonNullCollection<MxRecord>();
             History = new Stack<string>();
+            Databases = new Stack<string>();
 
             _CreateStandardCommands();
             _InitializeCommands();
@@ -176,11 +183,14 @@ namespace ManagedIrbis.Mx
                         new DirCommand(),
                         new DisconnectCommand(),
                         new ExitCommand(),
+                        new ExportCommand(),
                         new FormatCommand(),
                         new HistoryCommand(),
                         new InfoCommand(),
                         new LimitCommand(),
                         new ListCommand(),
+                        new ListDbCommand(),
+                        new ListUsersCommand(),
                         new NopCommand(),
                         new PingCommand(),
                         new PrintCommand(),
@@ -189,6 +199,7 @@ namespace ManagedIrbis.Mx
                         new SortCommand(),
                         new StoreCommand(),
                         new TypeCommand(),
+                        new VerCommand()
                     }
                 );
         }
