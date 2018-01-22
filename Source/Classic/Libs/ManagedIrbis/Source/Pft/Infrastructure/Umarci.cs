@@ -94,6 +94,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("2", Umarci2);
             Registry.Add("3", Umarci3);
             Registry.Add("4", Umarci4);
+            Registry.Add("5", Umarci5);
         }
 
         #endregion
@@ -449,6 +450,89 @@ namespace ManagedIrbis.Pft.Infrastructure
                 : field.GetFirstSubFieldValue(code);
 
             context.Write(node, text);
+        }
+
+        /// <summary>
+        /// ibatrak Handle command 5.
+        /// </summary>
+        public static void Umarci5
+            (
+                PftContext context,
+                PftNode node,
+                string expression
+            )
+        {
+            //ibatrak простая очистка за один проход 
+            //первого повторения подполей d e f c от скобок и завершающих разделителей
+            MarcRecord record = context.Record;
+            if (ReferenceEquals(record, null))
+            {
+                return;
+            }
+
+            string tag = expression;
+            if (string.IsNullOrEmpty(tag))
+            {
+                return;
+            }
+
+            RecordField field = record.Fields.GetField
+                (
+                    tag.SafeToInt32(),
+                    context.Index
+                );
+            if (ReferenceEquals(field, null))
+            {
+                return;
+            }
+            string text = field.ToText();
+            string[] subfields = { "^d", "^e", "^f", "^c" };
+            string[] substrings = { ":^", ";^", " : ^", " ; ^", ")^", ")" };
+
+            for (int i = 0; i < subfields.Length; i++)
+            {
+                int index = text.IndexOf(subfields[i]);
+                if (index < 0 || text.Length == index + 2)
+                {
+                    continue;
+                }
+                index += 2;
+                //открывающая скобка убирается только в начале подполя
+                if (text[index] == '(')
+                {
+                    text = text.Substring(0, index)
+                           + text.SafeSubstring(index + 1, text.Length);
+                    if (index == text.Length)
+                    {
+                        continue;
+                    }
+                }
+                //цикл по подстрокам в конце подполя, которые надо убрать
+                for (int j = 0; j < substrings.Length; j++)
+                {
+                    int subIndex = text.IndexOf(substrings[j], index);
+                    if (subIndex < 0)
+                    {
+                        continue;
+                    }
+                    //подстроки длиннее 1 символа оканчиваются на символ ^, его необходимо оставить,
+                    //так как это разделитель подполей
+                    if (substrings[j].Length > 1)
+                    {
+                        text = text.Substring(0, subIndex)
+                               + text.Substring(subIndex + substrings[j].Length - 1);
+                    }
+                    else
+                    {
+                        //завершающая скобка убирается, если стоит на конце строки
+                        //для ситуации со скобкой на конце подполя сделан шаблон )^
+                        if (subIndex == text.Length - 1)
+                            text = text.Substring(0, subIndex) + text.Substring(subIndex + 1);
+                    }
+                }
+            }
+
+            context.WriteAndSetFlag(node, text);
         }
 
         #endregion
