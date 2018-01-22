@@ -126,6 +126,8 @@ if p(v101) and v101 <> &uf('Korg.mnu!6') then
    '.'
 fi,
 
+if not v920:'ASP' then |. - |v327, fi
+ 
 |\par\pard\fi360 |v331,
 
 '\par\pard ',

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SearchCommand.cs -- 
+/* RefineCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -37,7 +37,7 @@ namespace ManagedIrbis.Mx.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class SearchCommand
+    public sealed class RefineCommand
         : MxCommand
     {
         #region Properties
@@ -49,8 +49,8 @@ namespace ManagedIrbis.Mx.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SearchCommand()
-            : base("Search")
+        public RefineCommand()
+            : base("refine")
         {
         }
 
@@ -78,50 +78,28 @@ namespace ManagedIrbis.Mx.Commands
             if (!executive.Client.Connected)
             {
                 executive.WriteLine("Not connected");
-
                 return false;
             }
 
-            if (arguments.Length != 0)
+            if (arguments.Length != 0
+                && executive.History.Count != 0)
             {
                 string argument = arguments[0].Text;
+                string previous = executive.History.Peek();
+                argument = string.Format("({0}) * ({1})", previous, argument);
+
                 if (!string.IsNullOrEmpty(argument))
                 {
-                    int[] found = executive.Client.Search(argument);
-                    int foundCount = found.Length;
-                    executive.WriteLine
-                        (
-                            3,
-                            "Found: {0}",
-                            found.Length
-                        );
-
-                    if (executive.Limit > 0)
+                    SearchCommand searchCommand = executive.Commands
+                        .OfType<SearchCommand>().FirstOrDefault();
+                    if (!ReferenceEquals(searchCommand, null))
                     {
-                        found = found.Take(executive.Limit).ToArray();
-                        if (found.Length < foundCount)
+                        MxArgument[] newArguments =
                         {
-                            executive.WriteLine
-                                (
-                                    3,
-                                    "Limited to {0} records",
-                                    found.Length
-                                );
-                        }
-                    }
-                    executive.Records.Clear();
-                    for (int i = 0; i < found.Length; i++)
-                    {
-                        int mfn = found[i];
-                        MxRecord record = new MxRecord
-                        {
-                            Database = executive.Client.Database,
-                            Mfn = mfn,
+                            new MxArgument {Text = argument}
                         };
-                        executive.Records.Add(record);
+                        searchCommand.Execute(executive, newArguments);
                     }
-
-                    executive.History.Push(argument);
                 }
             }
 

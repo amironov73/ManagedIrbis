@@ -116,6 +116,8 @@ if p(v101) and v101 <> &uf('Korg.mnu!6') then
    '.'
 fi,
 
+if not v920:'ASP' then |. - |v327, fi
+ 
 |\par\pard\fi360 |v331,
 
 if v920.1:'A' then else if s(v905^m)=''and &unifor('IPRIVATE,FPP,')=''then mhl,"\par  "|. |+v300,mpl fi fi, 
@@ -135,7 +137,8 @@ fi,
 ,&uf('6opri451'), 
 ,&uf('6opril421'), 
 ,&uf('6Opris488'),
-,&uf('6opri699'), 
+,&uf('6opri699'),
+
 if val(&unifor('J,I470='v903))>0 then '\par ' &unifor('+I?2,,,,I470='v903'?Есть рецензия / реферат') fi, 
 if p(v330)then 
    if a(v905^k) then'\par \tab {\b Содержание:}', 
@@ -172,7 +175,7 @@ if p(v330)then
          if a(v330^c) then else 
             if s(v330^f,v330^g)<>'' and &unifor('Av905^1#1')='' then 
                if (p(v330^g) and (not(v330^g:'<')) and (not(v330^g|!|:'>!'))) or 
-                  a(v330^g) and p(v330^f) then' / 'fi ,&uf('6o330g'), fi fi,
+                  a(v330^g) and p(v330^f) then' / 'fi ,o330g, fi fi,
          if p(v330^4)then'. -\b ', 
             if v330^4:'s'or v330^4:'p'or v330^4:'с'then 
             else mpu,

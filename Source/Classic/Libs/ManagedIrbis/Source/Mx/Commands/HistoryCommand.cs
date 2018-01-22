@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SearchCommand.cs -- 
+/* HistoryCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -37,7 +37,7 @@ namespace ManagedIrbis.Mx.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class SearchCommand
+    public sealed class HistoryCommand
         : MxCommand
     {
         #region Properties
@@ -49,8 +49,8 @@ namespace ManagedIrbis.Mx.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SearchCommand()
-            : base("Search")
+        public HistoryCommand()
+            : base("history")
         {
         }
 
@@ -75,53 +75,49 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            if (!executive.Client.Connected)
-            {
-                executive.WriteLine("Not connected");
-
-                return false;
-            }
-
+            string command = null;
             if (arguments.Length != 0)
             {
-                string argument = arguments[0].Text;
-                if (!string.IsNullOrEmpty(argument))
-                {
-                    int[] found = executive.Client.Search(argument);
-                    int foundCount = found.Length;
-                    executive.WriteLine
-                        (
-                            3,
-                            "Found: {0}",
-                            found.Length
-                        );
+                command = arguments[0].Text;
+            }
 
-                    if (executive.Limit > 0)
+            string[] history = executive.History.ToArray();
+
+            if (string.IsNullOrEmpty(command))
+            {
+                for (int i = 0; i < history.Length; i++)
+                {
+                    executive.WriteLine("{0}: {1}", i + 1, history[i]);
+                }
+            }
+            else
+            {
+                int index;
+                if (NumericUtility.TryParseInt32(command, out index))
+                {
+                    string argument = history.GetOccurrence
+                        (
+                            history.Length - index
+                        );
+                    if (string.IsNullOrEmpty(argument))
                     {
-                        found = found.Take(executive.Limit).ToArray();
-                        if (found.Length < foundCount)
+                        executive.WriteLine("No such entry");
+                    }
+                    else
+                    {
+                        SearchCommand searchCommand = executive.Commands
+                            .OfType<SearchCommand>().FirstOrDefault();
+                        if (!ReferenceEquals(searchCommand, null))
                         {
-                            executive.WriteLine
-                                (
-                                    3,
-                                    "Limited to {0} records",
-                                    found.Length
-                                );
+                            executive.WriteLine(argument);
+                            MxArgument[] newArguments =
+                            {
+                                new MxArgument {Text = argument}
+                            };
+                            searchCommand.Execute(executive, newArguments);
+                            executive.History.Pop();
                         }
                     }
-                    executive.Records.Clear();
-                    for (int i = 0; i < found.Length; i++)
-                    {
-                        int mfn = found[i];
-                        MxRecord record = new MxRecord
-                        {
-                            Database = executive.Client.Database,
-                            Mfn = mfn,
-                        };
-                        executive.Records.Add(record);
-                    }
-
-                    executive.History.Push(argument);
                 }
             }
 

@@ -96,6 +96,12 @@ namespace ManagedIrbis.Mx
         public int VerbosityLevel { get; set; }
 
         /// <summary>
+        /// Search history.
+        /// </summary>
+        [NotNull]
+        public Stack<string> History { get; private set; }
+
+        /// <summary>
         /// Get version of the executive.
         /// </summary>
         public static Version Version
@@ -132,6 +138,7 @@ namespace ManagedIrbis.Mx
             Client = new NullProvider();
             Commands = new NonNullCollection<MxCommand>();
             Records = new NonNullCollection<MxRecord>();
+            History = new Stack<string>();
 
             _CreateStandardCommands();
             _InitializeCommands();
@@ -170,12 +177,14 @@ namespace ManagedIrbis.Mx
                         new DisconnectCommand(),
                         new ExitCommand(),
                         new FormatCommand(),
+                        new HistoryCommand(),
                         new InfoCommand(),
                         new LimitCommand(),
                         new ListCommand(),
                         new NopCommand(),
                         new PingCommand(),
                         new PrintCommand(),
+                        new RefineCommand(),
                         new SearchCommand(),
                         new SortCommand(),
                         new StoreCommand(),
@@ -392,6 +401,22 @@ namespace ManagedIrbis.Mx
             )
         {
             ConsoleInput.WriteLine(string.Format(format, arguments));
+        }
+
+        /// <summary>
+        /// Write to console.
+        /// </summary>
+        public void WriteLine
+            (
+                ConsoleColor color,
+                [NotNull] string format,
+                params object[] arguments
+            )
+        {
+            ConsoleColor saveColor = ConsoleInput.ForegroundColor;
+            ConsoleInput.ForegroundColor = color;
+            ConsoleInput.WriteLine(string.Format(format, arguments));
+            ConsoleInput.ForegroundColor = saveColor;
         }
 
         /// <summary>
