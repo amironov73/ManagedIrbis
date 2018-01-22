@@ -369,6 +369,24 @@ namespace ManagedIrbis.Mx
         }
 
         /// <summary>
+        /// Read one line.
+        /// </summary>
+        [NotNull]
+        public string ReadLine()
+        {
+            ConsoleColor saveColor = ConsoleInput.ForegroundColor;
+            try
+            {
+                ConsoleInput.ForegroundColor = ConsoleColor.White;
+                return ConsoleInput.ReadLine();
+            }
+            finally
+            {
+                ConsoleInput.ForegroundColor = saveColor;
+            }
+        }
+
+        /// <summary>
         /// REPL
         /// </summary>
         public void Repl()
@@ -420,14 +438,19 @@ namespace ManagedIrbis.Mx
         public void WriteLine
             (
                 ConsoleColor color,
-                [NotNull] string format,
-                params object[] arguments
+                [NotNull] string text
             )
         {
             ConsoleColor saveColor = ConsoleInput.ForegroundColor;
-            ConsoleInput.ForegroundColor = color;
-            ConsoleInput.WriteLine(string.Format(format, arguments));
-            ConsoleInput.ForegroundColor = saveColor;
+            try
+            {
+                ConsoleInput.ForegroundColor = color;
+                ConsoleInput.WriteLine(text);
+            }
+            finally
+            {
+                ConsoleInput.ForegroundColor = saveColor;
+            }
         }
 
         /// <summary>
@@ -436,13 +459,32 @@ namespace ManagedIrbis.Mx
         public void WriteLine
             (
                 int verbosityLevel,
-                [NotNull] string format,
-                params object[] arguments
+                [NotNull] string text
             )
         {
             if (verbosityLevel <= VerbosityLevel)
             {
-                WriteLine(format, arguments);
+                WriteLine(text);
+            }
+        }
+
+        /// <summary>
+        /// Write message
+        /// </summary>
+        public void WriteMessage
+            (
+                [NotNull] string text
+            )
+        {
+            ConsoleColor saveColor = ConsoleInput.ForegroundColor;
+            try
+            {
+                ConsoleInput.ForegroundColor = ConsoleColor.Blue;
+                WriteLine(3, text);
+            }
+            finally
+            {
+                ConsoleInput.ForegroundColor = saveColor;
             }
         }
 

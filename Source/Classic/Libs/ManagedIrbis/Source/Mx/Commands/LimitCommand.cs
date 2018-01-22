@@ -86,12 +86,11 @@ namespace ManagedIrbis.Mx.Commands
                         executive.WriteLine("format error");
                     }
                     executive.Limit = newLimit;
-                    executive.WriteLine
+                    executive.WriteMessage(string.Format
                         (
-                            3,
                             "Limit changed to {0}",
                             executive.Limit
-                        );
+                        ));
                 }
             }
             else

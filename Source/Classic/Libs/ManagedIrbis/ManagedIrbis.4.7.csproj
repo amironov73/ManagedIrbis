@@ -236,6 +236,7 @@
     <Compile Include="Source\Mx\Commands\HistoryCommand.cs" />
     <Compile Include="Source\Mx\Commands\InfoCommand.cs" />
     <Compile Include="Source\Mx\Commands\ListCommand.cs" />
+    <Compile Include="Source\Mx\Commands\ListDbCommand.cs" />
     <Compile Include="Source\Mx\Commands\ListUsersCommand.cs" />
     <Compile Include="Source\Mx\Commands\PingCommand.cs" />
     <Compile Include="Source\Mx\Commands\RefineCommand.cs" />

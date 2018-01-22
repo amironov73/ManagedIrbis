@@ -170,6 +170,20 @@ namespace ManagedIrbis.Fields
         }
 
         /// <summary>
+        /// Издательства.
+        /// </summary>
+        [NotNull]
+        public string[] Publishers
+        {
+            get
+            {
+                return Record.FMA(210, 'c')
+                    .Union(Record.FMA(461, 'g'))
+                    .ToArray();
+            }
+        }
+
+        /// <summary>
         /// Область заглавия.
         /// </summary>
         [NotNull]
@@ -190,6 +204,23 @@ namespace ManagedIrbis.Fields
         public string TitleText
         {
             get { return _ExecuteScript(_titleScript); }
+        }
+
+        /// <summary>
+        /// Счётчик выдач.
+        /// </summary>
+        public int UsageCount
+        {
+            get { return Record.FM(999).SafeToInt32(); }
+        }
+
+        /// <summary>
+        /// Рабочий лист.
+        /// </summary>
+        [CanBeNull]
+        public string Worksheet
+        {
+            get { return Record.FM(920); }
         }
 
         /// <summary>

@@ -573,6 +573,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\ListCommand.cs">
       <Link>Source\Mx\Commands\ListCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\ListDbCommand.cs">
+      <Link>Source\Mx\Commands\ListDbCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\ListUsersCommand.cs">
       <Link>Source\Mx\Commands\ListUsersCommand.cs</Link>
     </Compile>

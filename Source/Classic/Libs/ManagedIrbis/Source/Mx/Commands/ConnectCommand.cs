@@ -103,12 +103,11 @@ namespace ManagedIrbis.Mx.Commands
                 {
                     executive.Client = InitializeProvider(argument);
                 }
-                executive.WriteLine
+                executive.WriteMessage(string.Format
                     (
-                        3,
                         "Connected, current database: {0}",
                         executive.Client.Database
-                    );
+                    ));
             }
 
             OnAfterExecute();

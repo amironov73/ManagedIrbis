@@ -89,24 +89,22 @@ namespace ManagedIrbis.Mx.Commands
                 {
                     int[] found = executive.Client.Search(argument);
                     int foundCount = found.Length;
-                    executive.WriteLine
+                    executive.WriteMessage(string.Format
                         (
-                            3,
                             "Found: {0}",
                             found.Length
-                        );
+                        ));
 
                     if (executive.Limit > 0)
                     {
                         found = found.Take(executive.Limit).ToArray();
                         if (found.Length < foundCount)
                         {
-                            executive.WriteLine
+                            executive.WriteMessage(string.Format
                                 (
-                                    3,
                                     "Limited to {0} records",
                                     found.Length
-                                );
+                                ));
                         }
                     }
                     executive.Records.Clear();

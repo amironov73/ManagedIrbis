@@ -251,6 +251,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegisteredMagazines", "Clas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Irbis2istu", "Classic\Apps\irbis2istu\Irbis2istu.csproj", "{21F8CD95-F5C7-4CB3-B281-4640C82AB744}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountPublishers", "Classic\Apps\CountPublishers\CountPublishers.csproj", "{BD3B2AD9-6790-4F7B-8EC1-C59F37513588}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1219,6 +1221,14 @@ Global
 		{21F8CD95-F5C7-4CB3-B281-4640C82AB744}.Release|Any CPU.Build.0 = Release|Any CPU
 		{21F8CD95-F5C7-4CB3-B281-4640C82AB744}.Release|x86.ActiveCfg = Release|Any CPU
 		{21F8CD95-F5C7-4CB3-B281-4640C82AB744}.Release|x86.Build.0 = Release|Any CPU
+		{BD3B2AD9-6790-4F7B-8EC1-C59F37513588}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD3B2AD9-6790-4F7B-8EC1-C59F37513588}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD3B2AD9-6790-4F7B-8EC1-C59F37513588}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BD3B2AD9-6790-4F7B-8EC1-C59F37513588}.Debug|x86.Build.0 = Debug|Any CPU
+		{BD3B2AD9-6790-4F7B-8EC1-C59F37513588}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD3B2AD9-6790-4F7B-8EC1-C59F37513588}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD3B2AD9-6790-4F7B-8EC1-C59F37513588}.Release|x86.ActiveCfg = Release|Any CPU
+		{BD3B2AD9-6790-4F7B-8EC1-C59F37513588}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1342,6 +1352,7 @@ Global
 		{5064BC4B-6178-410C-9FB6-D5D1A7C3289B} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{89EBA1C2-6891-42DD-9490-4FA33BFA928C} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{21F8CD95-F5C7-4CB3-B281-4640C82AB744} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{BD3B2AD9-6790-4F7B-8EC1-C59F37513588} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9210D671-3170-4F79-9CE3-2FE2B1208056}
