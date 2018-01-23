@@ -234,6 +234,7 @@
     <Compile Include="Source\Mx\Commands\DbCommand.cs" />
     <Compile Include="Source\Mx\Commands\DirCommand.cs" />
     <Compile Include="Source\Mx\Commands\ExportCommand.cs" />
+    <Compile Include="Source\Mx\Commands\HelpCommand.cs" />
     <Compile Include="Source\Mx\Commands\HistoryCommand.cs" />
     <Compile Include="Source\Mx\Commands\InfoCommand.cs" />
     <Compile Include="Source\Mx\Commands\ListCommand.cs" />

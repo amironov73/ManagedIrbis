@@ -200,6 +200,7 @@ namespace ManagedIrbis.Mx
                         new ExitCommand(),
                         new ExportCommand(),
                         new FormatCommand(),
+                        new HelpCommand(),
                         new HistoryCommand(),
                         new InfoCommand(),
                         new LimitCommand(),
@@ -384,6 +385,30 @@ namespace ManagedIrbis.Mx
         }
 
         /// <summary>
+        /// Get specified command.
+        /// </summary>
+        [CanBeNull]
+        public T GetCommand<T>()
+            where T: MxCommand
+        {
+            return Commands.OfType<T>().FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Get specified command.
+        /// </summary>
+        [CanBeNull]
+        public MxCommand GetCommand
+            (
+                [NotNull] string name
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
+
+            return Commands.FirstOrDefault(c => c.Name.SameString(name));
+        }
+
+        /// <summary>
         /// Read one line.
         /// </summary>
         [NotNull]
@@ -432,7 +457,19 @@ namespace ManagedIrbis.Mx
                 params object[] arguments
             )
         {
-            ConsoleInput.Write(string.Format(format, arguments));
+            MxConsole.Write(string.Format(format, arguments));
+        }
+
+        /// <summary>
+        /// Write error message.
+        /// </summary>
+        public void WriteError
+            (
+                [NotNull] string format,
+                params object[] arguments
+            )
+        {
+            WriteLine (Palette.Error, string.Format(format, arguments));
         }
 
         /// <summary>
@@ -444,7 +481,8 @@ namespace ManagedIrbis.Mx
                 params object[] arguments
             )
         {
-            ConsoleInput.WriteLine(string.Format(format, arguments));
+            MxConsole.Write(string.Format(format, arguments));
+            MxConsole.Write(Environment.NewLine);
         }
 
         /// <summary>

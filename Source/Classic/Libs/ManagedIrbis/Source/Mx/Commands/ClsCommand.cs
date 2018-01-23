@@ -9,21 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -40,10 +25,6 @@ namespace ManagedIrbis.Mx.Commands
     public sealed class ClsCommand
         : MxCommand
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -53,14 +34,6 @@ namespace ManagedIrbis.Mx.Commands
             : base("cls")
         {
         }
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -82,9 +55,11 @@ namespace ManagedIrbis.Mx.Commands
             return true;
         }
 
-        #endregion
-
-        #region Object members
+        /// <inheritdoc cref="MxCommand.GetShortHelp" />
+        public override string GetShortHelp()
+        {
+            return "Clear the console";
+        }
 
         #endregion
     }

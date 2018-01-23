@@ -236,6 +236,7 @@
     <Compile Include="Source\Mx\Commands\DbCommand.cs" />
     <Compile Include="Source\Mx\Commands\DirCommand.cs" />
     <Compile Include="Source\Mx\Commands\ExportCommand.cs" />
+    <Compile Include="Source\Mx\Commands\HelpCommand.cs" />
     <Compile Include="Source\Mx\Commands\HistoryCommand.cs" />
     <Compile Include="Source\Mx\Commands\InfoCommand.cs" />
     <Compile Include="Source\Mx\Commands\ListCommand.cs" />
@@ -245,6 +246,9 @@
     <Compile Include="Source\Mx\Commands\RefineCommand.cs" />
     <Compile Include="Source\Mx\Commands\TypeCommand.cs" />
     <Compile Include="Source\Mx\Commands\VerCommand.cs" />
+    <Compile Include="Source\Mx\Infrastructrure\IMxConsole.cs" />
+    <Compile Include="Source\Mx\Infrastructrure\MxConsole.cs" />
+    <Compile Include="Source\Mx\Infrastructrure\MxPalette.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\CompilerProxy.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexInfo.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexDictionary.cs" />

@@ -147,6 +147,24 @@ namespace ManagedIrbis.Mx
             return true;
         }
 
+        /// <summary>
+        /// Help message.
+        /// </summary>
+        [CanBeNull]
+        public virtual string GetShortHelp()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Help message.
+        /// </summary>
+        [CanBeNull]
+        public virtual string GetLongHelp()
+        {
+            return null;
+        }
+
         #endregion
 
         #region IDisposable members
