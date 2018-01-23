@@ -90,7 +90,7 @@ namespace BiblioGrinder
                     outputText = Regex.Replace
                         (
                             outputText,
-                            @"\s(-|–|\\u8211.)\sIS[BS]N\s[0-9-]*\.",
+                            @"\s(-|–|\\u8211.)\sIS[BS]N\s[0-9-]*\.?",
                             string.Empty
                         );
                     outputText = Regex.Replace

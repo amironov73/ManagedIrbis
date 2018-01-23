@@ -33,6 +33,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Client;
 using ManagedIrbis.Mx.Commands;
+using ManagedIrbis.Mx.Infrastructrure;
 
 using MoonSharp.Interpreter;
 
@@ -49,6 +50,18 @@ namespace ManagedIrbis.Mx
         : IDisposable
     {
         #region Properties
+
+        /// <summary>
+        /// Console.
+        /// </summary>
+        [NotNull]
+        public IMxConsole MxConsole { get; set; }
+
+        /// <summary>
+        /// Palette.
+        /// </summary>
+        [NotNull]
+        public MxPalette Palette { get; set; }
 
         /// <summary>
         /// Client.
@@ -141,6 +154,8 @@ namespace ManagedIrbis.Mx
             VerbosityLevel = 3;
             DescriptionFormat = "@brief";
 
+            MxConsole = new MxConsole();
+            Palette = new MxPalette();
             Client = new NullProvider();
             Commands = new NonNullCollection<MxCommand>();
             Records = new NonNullCollection<MxRecord>();
@@ -441,15 +456,16 @@ namespace ManagedIrbis.Mx
                 [NotNull] string text
             )
         {
-            ConsoleColor saveColor = ConsoleInput.ForegroundColor;
+            ConsoleColor saveColor = MxConsole.ForegroundColor;
             try
             {
                 ConsoleInput.ForegroundColor = color;
-                ConsoleInput.WriteLine(text);
+                MxConsole.Write(text);
+                MxConsole.Write(Environment.NewLine);
             }
             finally
             {
-                ConsoleInput.ForegroundColor = saveColor;
+                MxConsole.ForegroundColor = saveColor;
             }
         }
 
@@ -476,15 +492,15 @@ namespace ManagedIrbis.Mx
                 [NotNull] string text
             )
         {
-            ConsoleColor saveColor = ConsoleInput.ForegroundColor;
+            ConsoleColor saveColor = MxConsole.ForegroundColor;
             try
             {
-                ConsoleInput.ForegroundColor = ConsoleColor.Blue;
+                MxConsole.ForegroundColor = Palette.Message;
                 WriteLine(3, text);
             }
             finally
             {
-                ConsoleInput.ForegroundColor = saveColor;
+                MxConsole.ForegroundColor = saveColor;
             }
         }
 
