@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ExitCommand.cs -- 
+/* RestartCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -10,6 +10,8 @@
 #region Using directives
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Client;
 
 using MoonSharp.Interpreter;
 
@@ -22,7 +24,7 @@ namespace ManagedIrbis.Mx.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class ExitCommand
+    public sealed class RestartCommand
         : MxCommand
     {
         #region Properties
@@ -34,8 +36,8 @@ namespace ManagedIrbis.Mx.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ExitCommand()
-            : base("Exit")
+        public RestartCommand()
+            : base("restart")
         {
         }
 
@@ -53,16 +55,26 @@ namespace ManagedIrbis.Mx.Commands
 
         /// <inheritdoc cref="MxCommand.Execute" />
         public override bool Execute
-            (
-                MxExecutive executive,
-                MxArgument[] arguments
-            )
+        (
+            MxExecutive executive,
+            MxArgument[] arguments
+        )
         {
             OnBeforeExecute();
 
-            executive.WriteMessage("Exit");
-            executive.StopFlag = true;
+            if (!executive.Provider.Connected)
+            {
+                executive.WriteLine("Not connected");
+                return false;
+            }
 
+            ConnectedClient connected = executive.Provider as ConnectedClient;
+            if (!ReferenceEquals(connected, null))
+            {
+                IIrbisConnection connection = connected.Connection;
+                connection.RestartServer();
+                executive.WriteMessage("Server restarted");
+            }
             OnAfterExecute();
 
             return true;

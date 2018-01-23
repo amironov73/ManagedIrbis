@@ -9,22 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.ConsoleIO;
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -41,10 +25,6 @@ namespace ManagedIrbis.Mx.Commands
     public sealed class DisconnectCommand
         : MxCommand
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -54,14 +34,6 @@ namespace ManagedIrbis.Mx.Commands
             : base("Disconnect")
         {
         }
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -76,21 +48,13 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            executive.Client.Dispose();
-            executive.WriteLine
-                (
-                    3,
-                    "Disconnected"
-                );
+            executive.Provider.Dispose();
+            executive.WriteMessage("Disconnected");
 
             OnAfterExecute();
 
             return true;
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

@@ -88,7 +88,7 @@ namespace ManagedIrbis.Mx.Commands
                 {
                     foreach (MxRecord mxRecord in executive.Records)
                     {
-                        MarcRecord record = executive.Client.ReadRecord(mxRecord.Mfn);
+                        MarcRecord record = executive.Provider.ReadRecord(mxRecord.Mfn);
                         if (!ReferenceEquals(record, null))
                         {
                             string text = record.ToPlainText();

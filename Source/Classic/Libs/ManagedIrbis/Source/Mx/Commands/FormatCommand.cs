@@ -85,12 +85,12 @@ namespace ManagedIrbis.Mx.Commands
             {
                 executive.DescriptionFormat = argument;
 
-                if (executive.Client.Connected
+                if (executive.Provider.Connected
                     && executive.Records.Count != 0)
                 {
                     int[] mfns = executive.Records.Select(r => r.Mfn)
                         .ToArray();
-                    string[] formatted = executive.Client.FormatRecords
+                    string[] formatted = executive.Provider.FormatRecords
                         (
                             mfns,
                             executive.DescriptionFormat

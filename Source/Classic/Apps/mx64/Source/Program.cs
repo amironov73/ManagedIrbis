@@ -19,7 +19,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Mx;
-
+using ManagedIrbis.Mx.Commands;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -80,6 +80,8 @@ namespace mx64
                         }
 
                         executive.Repl();
+                        executive.GetCommand<DisconnectCommand>()
+                            .Execute(executive, MxArgument.EmptyArray);
                     }
                     else
                     {

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ExitCommand.cs -- 
+/* BangCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,7 +9,24 @@
 
 #region Using directives
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using AM;
+using AM.Collections;
+using AM.IO;
+using AM.Runtime;
+
+using CodeJam;
+
 using JetBrains.Annotations;
+using ManagedIrbis.Pft;
+using ManagedIrbis.Pft.Infrastructure;
 
 using MoonSharp.Interpreter;
 
@@ -22,7 +39,7 @@ namespace ManagedIrbis.Mx.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class ExitCommand
+    public sealed class BangCommand
         : MxCommand
     {
         #region Properties
@@ -34,8 +51,8 @@ namespace ManagedIrbis.Mx.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ExitCommand()
-            : base("Exit")
+        public BangCommand()
+            : base("!")
         {
         }
 
@@ -60,8 +77,21 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            executive.WriteMessage("Exit");
-            executive.StopFlag = true;
+            string source = null;
+            if (arguments.Length != 0)
+            {
+                source = arguments[0].Text;
+            }
+
+            if (!string.IsNullOrEmpty(source))
+            {
+                PftContext context = executive.Context;
+                context.ClearAll();
+                PftFormatter formatter = new PftFormatter(context);
+                formatter.ParseProgram(source);
+                string output = formatter.FormatRecord(new MarcRecord());
+                executive.WriteLine(output);
+            }
 
             OnAfterExecute();
 

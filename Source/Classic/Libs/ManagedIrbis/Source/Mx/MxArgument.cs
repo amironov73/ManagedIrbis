@@ -41,6 +41,13 @@ namespace ManagedIrbis.Mx
     {
         #region Properties
 
+
+        /// <summary>
+        /// Empty array of arguments.
+        /// </summary>
+        [NotNull]
+        public static readonly MxArgument[] EmptyArray = new MxArgument[0];
+
         /// <summary>
         /// Text of the argument.
         /// </summary>

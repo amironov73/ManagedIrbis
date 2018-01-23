@@ -34,7 +34,7 @@ using JetBrains.Annotations;
 using ManagedIrbis.Client;
 using ManagedIrbis.Mx.Commands;
 using ManagedIrbis.Mx.Infrastructrure;
-
+using ManagedIrbis.Pft.Infrastructure;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -52,6 +52,12 @@ namespace ManagedIrbis.Mx
         #region Properties
 
         /// <summary>
+        /// Context.
+        /// </summary>
+        [NotNull]
+        public PftContext Context { get; internal set; }
+
+        /// <summary>
         /// Console.
         /// </summary>
         [NotNull]
@@ -67,7 +73,7 @@ namespace ManagedIrbis.Mx
         /// Client.
         /// </summary>
         [NotNull]
-        public IrbisProvider Client { get; internal set; }
+        public IrbisProvider Provider { get; internal set; }
 
         /// <summary>
         /// Commands.
@@ -155,8 +161,10 @@ namespace ManagedIrbis.Mx
             DescriptionFormat = "@brief";
 
             MxConsole = new MxConsole();
-            Palette = new MxPalette();
-            Client = new NullProvider();
+            Palette = MxPalette.GetDefaultPalette();
+            Provider = new NullProvider();
+            Context = new PftContext(null);
+            Context.SetProvider(Provider);
             Commands = new NonNullCollection<MxCommand>();
             Records = new NonNullCollection<MxRecord>();
             History = new Stack<string>();
@@ -190,6 +198,7 @@ namespace ManagedIrbis.Mx
                     new MxCommand[]
                     {
                         new AliasCommand(),
+                        new BangCommand(),
                         new ClsCommand(),
                         new ConnectCommand(),
                         new CsCommand(),
@@ -208,9 +217,11 @@ namespace ManagedIrbis.Mx
                         new ListDbCommand(),
                         new ListUsersCommand(),
                         new NopCommand(),
+                        new PftCommand(),
                         new PingCommand(),
                         new PrintCommand(),
                         new RefineCommand(),
+                        new RestartCommand(),
                         new SearchCommand(),
                         new SortCommand(),
                         new StoreCommand(),
@@ -293,7 +304,7 @@ namespace ManagedIrbis.Mx
                         exception
                     );
 
-                WriteLine("Exception: {0}", exception);
+                WriteError("Exception: {0}", exception);
 
                 return result;
             }
@@ -330,7 +341,7 @@ namespace ManagedIrbis.Mx
         /// </summary>
         public void Banner()
         {
-            WriteLine("mx64 version {0}", Version);
+            WriteMessage(string.Format("mx64 version {0}", Version));
             WriteLine(string.Empty);
         }
 
@@ -385,13 +396,42 @@ namespace ManagedIrbis.Mx
         }
 
         /// <summary>
+        /// Форматирование на сервере.
+        /// </summary>
+        [NotNull]
+        public string FormatRemote
+            (
+                [NotNull] string source
+            )
+        {
+            MarcRecord record = new MarcRecord();
+            string result = Provider.FormatRecord(record, source)
+                          ?? string.Empty;
+
+            return result;
+        }
+
+        /// <summary>
         /// Get specified command.
         /// </summary>
-        [CanBeNull]
+        [NotNull]
         public T GetCommand<T>()
             where T: MxCommand
         {
-            return Commands.OfType<T>().FirstOrDefault();
+            T result = Commands.OfType<T>().FirstOrDefault();
+            if (ReferenceEquals(result, null))
+            {
+                throw new IrbisException
+                    (
+                        string.Format
+                            (
+                                "Command {0} not found",
+                                typeof(T).Name
+                            )
+                    );
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -414,15 +454,15 @@ namespace ManagedIrbis.Mx
         [NotNull]
         public string ReadLine()
         {
-            ConsoleColor saveColor = ConsoleInput.ForegroundColor;
+            ConsoleColor saveColor = MxConsole.ForegroundColor;
             try
             {
-                ConsoleInput.ForegroundColor = ConsoleColor.White;
-                return ConsoleInput.ReadLine();
+                MxConsole.ForegroundColor = Palette.Command;
+                return MxConsole.ReadLine();
             }
             finally
             {
-                ConsoleInput.ForegroundColor = saveColor;
+                MxConsole.ForegroundColor = saveColor;
             }
         }
 
@@ -443,8 +483,9 @@ namespace ManagedIrbis.Mx
 
             while (!StopFlag)
             {
-                string line = ConsoleInput.ReadLine();
+                string line = ReadLine();
                 ExecuteLine(line);
+                WriteLine(string.Empty);
             }
         }
 
@@ -551,7 +592,7 @@ namespace ManagedIrbis.Mx
         {
             _DisposeCommands();
 
-            Client.Dispose();
+            Provider.Dispose();
         }
 
         #endregion

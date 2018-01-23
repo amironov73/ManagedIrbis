@@ -80,7 +80,7 @@ namespace ManagedIrbis.Mx.Commands
 
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                executive.Client.NoOp();
+                executive.Provider.NoOp();
                 stopwatch.Stop();
 
                 result = stopwatch.ElapsedMilliseconds;
@@ -108,7 +108,7 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            if (!executive.Client.Connected)
+            if (!executive.Provider.Connected)
             {
                 executive.WriteLine("Not connected");
                 return false;

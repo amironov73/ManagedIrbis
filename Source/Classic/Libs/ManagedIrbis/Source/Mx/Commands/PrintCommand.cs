@@ -86,7 +86,7 @@ namespace ManagedIrbis.Mx.Commands
                 if (!string.IsNullOrEmpty(executive.OrderFormat))
                 {
                     int[] mfns = records.Select(r => r.Mfn).ToArray();
-                    string[] order = executive.Client.FormatRecords(mfns, executive.OrderFormat);
+                    string[] order = executive.Provider.FormatRecords(mfns, executive.OrderFormat);
                     for (int i = 0; i < order.Length; i++)
                     {
                         records[i].Order = order[i];
@@ -98,7 +98,7 @@ namespace ManagedIrbis.Mx.Commands
                 if (!string.IsNullOrEmpty(executive.DescriptionFormat))
                 {
                     int[] mfns = records.Select(r => r.Mfn).ToArray();
-                    string[] formatted = executive.Client.FormatRecords(mfns, executive.DescriptionFormat);
+                    string[] formatted = executive.Provider.FormatRecords(mfns, executive.DescriptionFormat);
                     for (int i = 0; i < formatted.Length; i++)
                     {
                         records[i].Order = formatted[i];

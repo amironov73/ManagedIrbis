@@ -77,7 +77,7 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            if (!executive.Client.Connected)
+            if (!executive.Provider.Connected)
             {
                 executive.WriteLine("Not connected");
                 return false;
@@ -93,11 +93,11 @@ namespace ManagedIrbis.Mx.Commands
             {
                 FileSpecification specification = new FileSpecification
                 {
-                    Database = executive.Client.Database,
+                    Database = executive.Provider.Database,
                     Path = IrbisPath.MasterFile,
                     FileName = fileName
                 };
-                string result = executive.Client.ReadFile(specification)
+                string result = executive.Provider.ReadFile(specification)
                     ?? string.Empty;
                 executive.WriteLine(result);
             }

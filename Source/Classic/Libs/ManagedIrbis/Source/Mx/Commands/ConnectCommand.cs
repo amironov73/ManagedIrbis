@@ -94,19 +94,20 @@ namespace ManagedIrbis.Mx.Commands
             if (arguments.Length != 0)
             {
                 string argument = arguments[0].Text;
-                executive.Client.Dispose();
+                executive.Provider.Dispose();
                 if (string.IsNullOrEmpty(argument))
                 {
-                    executive.Client = ProviderManager.GetPreconfiguredProvider();
+                    executive.Provider = ProviderManager.GetPreconfiguredProvider();
                 }
                 else
                 {
-                    executive.Client = InitializeProvider(argument);
+                    executive.Provider = InitializeProvider(argument);
                 }
+                executive.Context.SetProvider(executive.Provider);
                 executive.WriteMessage(string.Format
                     (
                         "Connected, current database: {0}",
-                        executive.Client.Database
+                        executive.Provider.Database
                     ));
             }
 

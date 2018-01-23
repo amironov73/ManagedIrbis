@@ -78,7 +78,7 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            if (!executive.Client.Connected)
+            if (!executive.Provider.Connected)
             {
                 executive.WriteLine("Not connected");
                 return false;
@@ -95,7 +95,7 @@ namespace ManagedIrbis.Mx.Commands
                 fileName = "*.*";
             }
 
-            ConnectedClient connected = executive.Client as ConnectedClient;
+            ConnectedClient connected = executive.Provider as ConnectedClient;
             if (!ReferenceEquals(connected, null))
             {
                 IIrbisConnection connection = connected.Connection;

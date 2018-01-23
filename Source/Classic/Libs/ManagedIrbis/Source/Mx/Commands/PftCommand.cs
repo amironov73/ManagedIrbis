@@ -1,13 +1,28 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ExitCommand.cs -- 
+/* PftCommand.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
 
 #region Using directives
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using AM;
+using AM.Collections;
+using AM.IO;
+using AM.Runtime;
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -22,7 +37,7 @@ namespace ManagedIrbis.Mx.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class ExitCommand
+    public sealed class PftCommand
         : MxCommand
     {
         #region Properties
@@ -34,8 +49,8 @@ namespace ManagedIrbis.Mx.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ExitCommand()
-            : base("Exit")
+        public PftCommand()
+            : base("pft")
         {
         }
 
@@ -53,15 +68,31 @@ namespace ManagedIrbis.Mx.Commands
 
         /// <inheritdoc cref="MxCommand.Execute" />
         public override bool Execute
-            (
-                MxExecutive executive,
-                MxArgument[] arguments
-            )
+        (
+            MxExecutive executive,
+            MxArgument[] arguments
+        )
         {
             OnBeforeExecute();
 
-            executive.WriteMessage("Exit");
-            executive.StopFlag = true;
+            if (!executive.Provider.Connected)
+            {
+                executive.WriteError("Not connected");
+
+                return false;
+            }
+
+            string source = null;
+            if (arguments.Length != 0)
+            {
+                source = arguments[0].Text;
+            }
+
+            if (!string.IsNullOrEmpty(source))
+            {
+                string text = executive.FormatRemote(source);
+                executive.WriteLine(text);
+            }
 
             OnAfterExecute();
 

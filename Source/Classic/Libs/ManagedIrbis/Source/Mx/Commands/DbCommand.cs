@@ -75,13 +75,13 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            if (!executive.Client.Connected)
+            if (!executive.Provider.Connected)
             {
                 executive.WriteLine("Not connected");
                 return false;
             }
 
-            string saveDatabase = executive.Client.Database;
+            string saveDatabase = executive.Provider.Database;
             string dbName = null;
             if (arguments.Length != 0)
             {
@@ -90,23 +90,23 @@ namespace ManagedIrbis.Mx.Commands
 
             if (!string.IsNullOrEmpty(dbName))
             {
-                executive.Client.Database = dbName;
+                executive.Provider.Database = dbName;
             }
 
             try
             {
-                int maxMfn = executive.Client.GetMaxMfn() - 1;
+                int maxMfn = executive.Provider.GetMaxMfn() - 1;
                 executive.WriteLine
                     (
                         "DB={0}, Max MFN={1}",
-                        executive.Client.Database,
+                        executive.Provider.Database,
                         maxMfn
                     );
             }
             catch
             {
                 executive.WriteLine("Error changing DB, restoring to {0}", saveDatabase);
-                executive.Client.Database = saveDatabase;
+                executive.Provider.Database = saveDatabase;
             }
 
             OnAfterExecute();

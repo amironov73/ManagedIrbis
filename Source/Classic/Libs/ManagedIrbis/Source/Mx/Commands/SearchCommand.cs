@@ -75,7 +75,7 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-            if (!executive.Client.Connected)
+            if (!executive.Provider.Connected)
             {
                 executive.WriteLine("Not connected");
 
@@ -87,7 +87,7 @@ namespace ManagedIrbis.Mx.Commands
                 string argument = arguments[0].Text;
                 if (!string.IsNullOrEmpty(argument))
                 {
-                    int[] found = executive.Client.Search(argument);
+                    int[] found = executive.Provider.Search(argument);
                     int foundCount = found.Length;
                     executive.WriteMessage(string.Format
                         (
@@ -113,7 +113,7 @@ namespace ManagedIrbis.Mx.Commands
                         int mfn = found[i];
                         MxRecord record = new MxRecord
                         {
-                            Database = executive.Client.Database,
+                            Database = executive.Provider.Database,
                             Mfn = mfn,
                         };
                         executive.Records.Add(record);
