@@ -35,6 +35,11 @@ namespace AM.Text
         public static readonly char[] Comma = { ',' };
 
         /// <summary>
+        /// Comma and semicolon.
+        /// </summary>
+        public static readonly char[] CommaAndSemicolon = { ',', ';' };
+
+        /// <summary>
         /// Colon.
         /// </summary>
         public static readonly char[] Colon = { ':' };
@@ -43,6 +48,11 @@ namespace AM.Text
         /// Dot.
         /// </summary>
         public static readonly char[] Dot = { '.' };
+
+        /// <summary>
+        /// Minus sign.
+        /// </summary>
+        public static readonly char[] Minus = { '-' };
 
         /// <summary>
         /// Newline.

@@ -211,6 +211,7 @@
     <Compile Include="AM\Text\HtmlTextTest.cs" />
     <Compile Include="AM\Text\RichTextTest.cs" />
     <Compile Include="AM\Text\TextUtilityTest.cs" />
+    <Compile Include="AM\NumberRangeTest.cs" />
     <Compile Include="AM\UtilityTest.cs" />
     <Compile Include="ManagedIrbis\AsyncExtensionsTest.cs" />
     <Compile Include="ManagedIrbis\Authentication\IrbisCredentialsTest.cs" />

@@ -52,7 +52,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             Assert.AreEqual("umarci", umarci.Name);
 
             Assert.IsNotNull(Umarci.Registry);
-            Assert.AreEqual(5, Umarci.Registry.Count);
+            Assert.AreEqual(6, Umarci.Registry.Count);
             Assert.IsFalse(Umarci.ThrowOnUnknown);
         }
 
