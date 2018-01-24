@@ -217,7 +217,7 @@ namespace ManagedIrbis.Biblio
 
             // Подзаголовочные сведения журналов
             _RemoveSubField(record, 463, '7');
-            _RemoveSubField(record, 963, 'e');
+            //_RemoveSubField(record, 963, 'e');
 
             // Издательство в статьях
             _RemoveSubField(record, 463, 'g');

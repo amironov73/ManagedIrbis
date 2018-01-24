@@ -54,7 +54,10 @@ namespace AM.Text
         /// </summary>
         public static string RussianPrologue
             = @"{\rtf1\ansi\ansicpg1251\deff0\deflang1049"
-              + @"{\fonttbl{\f0\fnil\fcharset204 MS Sans Serif;}}"
+              + @"{\fonttbl{\f0\fnil\fcharset204 Times New Roman;}"
+              + @"{\f1\fnil\fcharset238 Times New Roman;}}"
+              + @"{\stylesheet{\s0\f0\fs24\snext0 Normal;}"
+              + @"{\s1\f1\fs40\b\snext0 Heading;}}"
               + @"\viewkind4\uc1\pard\f0\fs16 ";
 
         #endregion
