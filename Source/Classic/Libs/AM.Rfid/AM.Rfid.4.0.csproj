@@ -17,22 +17,22 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\For4.0\bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Debug40\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>..\..\..\For4.0\bin\Debug\AM.Rfid.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Debug40\AM.Rfid.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\For4.0\bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Release40\</OutputPath>
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>..\..\..\For4.0\bin\Release\AM.Rfid.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Release40\AM.Rfid.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>
@@ -47,7 +47,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\..\For4.0\bin\x86\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4</DefineConstants>
-    <DocumentationFile>..\..\..\For4.0\bin\Debug\AM.Rfid.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Debug40\AM.Rfid.xml</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -56,7 +56,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\..\..\For4.0\bin\x86\Release\</OutputPath>
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4</DefineConstants>
-    <DocumentationFile>..\..\..\For4.0\bin\Release\AM.Rfid.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Release40\AM.Rfid.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>

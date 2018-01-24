@@ -16,20 +16,20 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\For4.0\bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Debug40\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For4.0\bin\Debug\AM.Drawing.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Debug40\AM.Drawing.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\For4.0\bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Release40\</OutputPath>
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For4.0\bin\Release\AM.Drawing.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Release40\AM.Drawing.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>

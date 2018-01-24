@@ -27,11 +27,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\For4.7\bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Release47\</OutputPath>
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45;FW46;FW47</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For4.7\bin\Release\ManagedIrbis.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Release47\ManagedIrbis.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>

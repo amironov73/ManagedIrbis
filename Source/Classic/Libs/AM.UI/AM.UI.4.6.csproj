@@ -16,20 +16,20 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\For4.6\bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Debug46\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW45;FW46</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For4.6\bin\Debug\AM.UI.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Debug46\AM.UI.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\For4.6\bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Release46\</OutputPath>
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45;FW46</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For4.6\bin\Release\AM.UI.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Release46\AM.UI.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -294,7 +294,6 @@
     <EmbeddedResource Include="Properties\Resources.ru.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Condition=" '$(TargetFrameworkVersion)'=='v4.0' " Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

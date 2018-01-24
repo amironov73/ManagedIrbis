@@ -16,20 +16,20 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\For4.7\bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Debug47\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW45;FW46;FW47</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For4.7\bin\Debug\AM.Win32.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Debug47\AM.Win32.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\For4.7\bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Release47\</OutputPath>
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45;FW46;FW47</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For4.7\bin\Release\AM.Win32.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Release47\AM.Win32.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>
@@ -42,18 +42,18 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\..\For4.7\bin\x86\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Debug47\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>..\..\..\For4.7\bin\Debug\AM.Win32.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Debug47\AM.Win32.xml</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>..\..\..\For4.7\bin\x86\Release\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Release47\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>..\..\..\For4.7\bin\Release\AM.Win32.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Release47\AM.Win32.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>

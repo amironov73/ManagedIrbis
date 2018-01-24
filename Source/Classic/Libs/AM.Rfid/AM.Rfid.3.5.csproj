@@ -17,22 +17,22 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\For3.5\bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Debug35\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW35</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>..\..\..\For3.5\bin\Debug\AM.Rfid.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Debug35\AM.Rfid.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\For3.5\bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Release35\</OutputPath>
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW35</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>..\..\..\For3.5\bin\Release\AM.Rfid.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Release35\AM.Rfid.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
@@ -41,7 +41,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\..\For3.5\bin\x86\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW35</DefineConstants>
-    <DocumentationFile>..\..\..\For3.5\bin\Debug\AM.Rfid.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Debug35\AM.Rfid.xml</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -50,7 +50,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\..\..\For3.5\bin\x86\Release\</OutputPath>
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW35</DefineConstants>
-    <DocumentationFile>..\..\..\For3.5\bin\Release\AM.Rfid.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Release35\AM.Rfid.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>

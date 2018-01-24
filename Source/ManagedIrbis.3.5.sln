@@ -3,25 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Core.4.0", "..\Classic\Libs\AM.Core\AM.Core.4.0.csproj", "{1126394A-4392-4341-8DDD-69B5C3E884D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Core.3.5", "Classic\Libs\AM.Core\AM.Core.3.5.csproj", "{1126394A-4392-4341-8DDD-69B5C3E884D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedIrbis.4.0", "..\Classic\Libs\ManagedIrbis\ManagedIrbis.4.0.csproj", "{727C0B37-1E31-49BB-927A-A93DAC558C52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedIrbis.3.5", "Classic\Libs\ManagedIrbis\ManagedIrbis.3.5.csproj", "{727C0B37-1E31-49BB-927A-A93DAC558C52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Drawing.4.0", "..\Classic\Libs\AM.Drawing\AM.Drawing.4.0.csproj", "{F64C8161-D6E3-4D78-88DB-C1787F4FE981}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Drawing.3.5", "Classic\Libs\AM.Drawing\AM.Drawing.3.5.csproj", "{F64C8161-D6E3-4D78-88DB-C1787F4FE981}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Windows.Forms.4.0", "..\Classic\Libs\AM.Windows.Forms\AM.Windows.Forms.4.0.csproj", "{C06E1D15-0D0D-44B3-BF74-1B2C616F9EE5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Windows.Forms.3.5", "Classic\Libs\AM.Windows.Forms\AM.Windows.Forms.3.5.csproj", "{C06E1D15-0D0D-44B3-BF74-1B2C616F9EE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestfulIrbis.4.0", "..\Classic\Libs\RestfulIrbis\RestfulIrbis.4.0.csproj", "{EC495BFC-5F13-4A85-B632-83FDFCDAA5FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestfulIrbis.3.5", "Classic\Libs\RestfulIrbis\RestfulIrbis.3.5.csproj", "{EC495BFC-5F13-4A85-B632-83FDFCDAA5FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsmiRegistration.4.0", "..\Classic\Apps\OsmiRegistration\OsmiRegistration.4.0.csproj", "{B356FF37-DBBE-411F-B40D-7F4852DBF425}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.AOT.3.5", "Classic\Libs\AM.AOT\AM.AOT.3.5.csproj", "{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.AOT.4.0", "..\Classic\Libs\AM.AOT\AM.AOT.4.0.csproj", "{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Win32.3.5", "Classic\Libs\AM.Win32\AM.Win32.3.5.csproj", "{41452BE0-6F2D-4266-A104-79170A358A42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Win32.4.0", "..\Classic\Libs\AM.Win32\AM.Win32.4.0.csproj", "{41452BE0-6F2D-4266-A104-79170A358A42}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.UI.4.0", "..\Classic\Libs\AM.UI\AM.UI.4.0.csproj", "{E9C1C881-8AF0-4625-9494-956A1C331649}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisUI.4.0", "..\Classic\Libs\IrbisUI\IrbisUI.4.0.csproj", "{AEEBB65D-1023-4AC2-A280-4639E085CDB5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisUI.3.5", "Classic\Libs\IrbisUI\IrbisUI.3.5.csproj", "{AEEBB65D-1023-4AC2-A280-4639E085CDB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,14 +67,6 @@ Global
 		{EC495BFC-5F13-4A85-B632-83FDFCDAA5FF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EC495BFC-5F13-4A85-B632-83FDFCDAA5FF}.Release|x86.ActiveCfg = Release|Any CPU
 		{EC495BFC-5F13-4A85-B632-83FDFCDAA5FF}.Release|x86.Build.0 = Release|Any CPU
-		{B356FF37-DBBE-411F-B40D-7F4852DBF425}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B356FF37-DBBE-411F-B40D-7F4852DBF425}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B356FF37-DBBE-411F-B40D-7F4852DBF425}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B356FF37-DBBE-411F-B40D-7F4852DBF425}.Debug|x86.Build.0 = Debug|Any CPU
-		{B356FF37-DBBE-411F-B40D-7F4852DBF425}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B356FF37-DBBE-411F-B40D-7F4852DBF425}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B356FF37-DBBE-411F-B40D-7F4852DBF425}.Release|x86.ActiveCfg = Release|Any CPU
-		{B356FF37-DBBE-411F-B40D-7F4852DBF425}.Release|x86.Build.0 = Release|Any CPU
 		{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}.Debug|x86.ActiveCfg = Debug|x86
@@ -95,14 +83,6 @@ Global
 		{41452BE0-6F2D-4266-A104-79170A358A42}.Release|Any CPU.Build.0 = Release|Any CPU
 		{41452BE0-6F2D-4266-A104-79170A358A42}.Release|x86.ActiveCfg = Release|x86
 		{41452BE0-6F2D-4266-A104-79170A358A42}.Release|x86.Build.0 = Release|x86
-		{E9C1C881-8AF0-4625-9494-956A1C331649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9C1C881-8AF0-4625-9494-956A1C331649}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9C1C881-8AF0-4625-9494-956A1C331649}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E9C1C881-8AF0-4625-9494-956A1C331649}.Debug|x86.Build.0 = Debug|Any CPU
-		{E9C1C881-8AF0-4625-9494-956A1C331649}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9C1C881-8AF0-4625-9494-956A1C331649}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E9C1C881-8AF0-4625-9494-956A1C331649}.Release|x86.ActiveCfg = Release|Any CPU
-		{E9C1C881-8AF0-4625-9494-956A1C331649}.Release|x86.Build.0 = Release|Any CPU
 		{AEEBB65D-1023-4AC2-A280-4639E085CDB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AEEBB65D-1023-4AC2-A280-4639E085CDB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEEBB65D-1023-4AC2-A280-4639E085CDB5}.Debug|x86.ActiveCfg = Debug|Any CPU

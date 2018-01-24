@@ -16,20 +16,20 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\For3.5\bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Debug35\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW35</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For3.5\bin\Debug\RestfulIrbis.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Debug35\RestfulIrbis.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\For3.5\bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Release35\</OutputPath>
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW35</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For3.5\bin\Release\RestfulIrbis.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Release35\RestfulIrbis.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>rest.ico</ApplicationIcon>
@@ -108,7 +108,6 @@
     <Content Include="rest.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Condition=" '$(TargetFrameworkVersion)'=='v4.0' " Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

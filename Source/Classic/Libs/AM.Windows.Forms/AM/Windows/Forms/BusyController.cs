@@ -286,7 +286,7 @@ namespace AM.Windows.Forms
         /// Run the specified action.
         /// </summary>
         public
-#if FW35
+#if FW35 || FW40
             bool
 #else
             async Task<bool>
@@ -307,7 +307,7 @@ namespace AM.Windows.Forms
                 {
                     UpdateControlState(false);
 
-                    #if FW35
+                    #if FW35 || FW40
 
                     PseudoAsync.Run(action);
 

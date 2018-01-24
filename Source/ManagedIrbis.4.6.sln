@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Core.4.6", "..\Classic\Libs\AM.Core\AM.Core.4.6.csproj", "{1126394A-4392-4341-8DDD-69B5C3E884D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Core.4.6", "Classic\Libs\AM.Core\AM.Core.4.6.csproj", "{1126394A-4392-4341-8DDD-69B5C3E884D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedIrbis.4.6", "..\Classic\Libs\ManagedIrbis\ManagedIrbis.4.6.csproj", "{727C0B37-1E31-49BB-927A-A93DAC558C52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedIrbis.4.6", "Classic\Libs\ManagedIrbis\ManagedIrbis.4.6.csproj", "{727C0B37-1E31-49BB-927A-A93DAC558C52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Drawing.4.6", "..\Classic\Libs\AM.Drawing\AM.Drawing.4.6.csproj", "{F64C8161-D6E3-4D78-88DB-C1787F4FE981}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Drawing.4.6", "Classic\Libs\AM.Drawing\AM.Drawing.4.6.csproj", "{F64C8161-D6E3-4D78-88DB-C1787F4FE981}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Windows.Forms.4.6", "..\Classic\Libs\AM.Windows.Forms\AM.Windows.Forms.4.6.csproj", "{C06E1D15-0D0D-44B3-BF74-1B2C616F9EE5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Windows.Forms.4.6", "Classic\Libs\AM.Windows.Forms\AM.Windows.Forms.4.6.csproj", "{C06E1D15-0D0D-44B3-BF74-1B2C616F9EE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestfulIrbis.4.6", "..\Classic\Libs\RestfulIrbis\RestfulIrbis.4.6.csproj", "{EC495BFC-5F13-4A85-B632-83FDFCDAA5FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestfulIrbis.4.6", "Classic\Libs\RestfulIrbis\RestfulIrbis.4.6.csproj", "{EC495BFC-5F13-4A85-B632-83FDFCDAA5FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.AOT.4.6", "..\Classic\Libs\AM.AOT\AM.AOT.4.6.csproj", "{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.AOT.4.6", "Classic\Libs\AM.AOT\AM.AOT.4.6.csproj", "{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

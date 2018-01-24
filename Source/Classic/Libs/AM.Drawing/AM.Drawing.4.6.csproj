@@ -16,20 +16,20 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\For4.6\bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Debug46\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW45;FW46</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For4.6\bin\Debug\AM.Drawing.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Debug46\AM.Drawing.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\For4.6\bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Release46\</OutputPath>
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45;FW46</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For4.6\bin\Release\AM.Drawing.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Release46\AM.Drawing.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>

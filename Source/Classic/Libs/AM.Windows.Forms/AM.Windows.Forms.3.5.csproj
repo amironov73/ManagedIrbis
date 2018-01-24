@@ -16,20 +16,20 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\For3.5\bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Debug35\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW35</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For3.5\bin\Debug\AM.Windows.Forms.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Debug35\AM.Windows.Forms.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\For3.5\bin\Debug\Release\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Debug35\</OutputPath>
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW35</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For3.5\bin\Release\AM.Windows.Forms.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Release35\AM.Windows.Forms.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>

@@ -16,22 +16,22 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\For3.5\bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Debug35\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW35</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For3.5\bin\Debug\AM.Core.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Debug35\AM.Core.xml</DocumentationFile>
     <LangVersion>3</LangVersion>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\For3.5\bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Release35\</OutputPath>
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW35</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For3.5\bin\Release\AM.Core.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Release35\AM.Core.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>

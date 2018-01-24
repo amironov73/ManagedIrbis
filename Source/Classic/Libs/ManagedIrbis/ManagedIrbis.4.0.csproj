@@ -16,22 +16,22 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\For4.0\bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Debug40\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For4.0\bin\Debug\ManagedIrbis.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Debug40\ManagedIrbis.xml</DocumentationFile>
     <LangVersion>3</LangVersion>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\For4.0\bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Release40\</OutputPath>
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For4.0\bin\Release\ManagedIrbis.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Release40\ManagedIrbis.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>
