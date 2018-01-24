@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Win32.3.5", "Classic\Lib
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisUI.3.5", "Classic\Libs\IrbisUI\IrbisUI.3.5.csproj", "{AEEBB65D-1023-4AC2-A280-4639E085CDB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mx64.3.5", "Classic\Apps\mx64\mx64.3.5.csproj", "{976E9A89-20E4-485C-A91A-3FEB219495BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,14 @@ Global
 		{AEEBB65D-1023-4AC2-A280-4639E085CDB5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AEEBB65D-1023-4AC2-A280-4639E085CDB5}.Release|x86.ActiveCfg = Release|Any CPU
 		{AEEBB65D-1023-4AC2-A280-4639E085CDB5}.Release|x86.Build.0 = Release|Any CPU
+		{976E9A89-20E4-485C-A91A-3FEB219495BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{976E9A89-20E4-485C-A91A-3FEB219495BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{976E9A89-20E4-485C-A91A-3FEB219495BC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{976E9A89-20E4-485C-A91A-3FEB219495BC}.Debug|x86.Build.0 = Debug|Any CPU
+		{976E9A89-20E4-485C-A91A-3FEB219495BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{976E9A89-20E4-485C-A91A-3FEB219495BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{976E9A89-20E4-485C-A91A-3FEB219495BC}.Release|x86.ActiveCfg = Release|Any CPU
+		{976E9A89-20E4-485C-A91A-3FEB219495BC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

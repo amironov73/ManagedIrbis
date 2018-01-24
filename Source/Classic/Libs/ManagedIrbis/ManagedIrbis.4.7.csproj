@@ -16,11 +16,11 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\For4.7\bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\Binaries\Debug47\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW45;FW46;FW47</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\For4.7\bin\Debug\ManagedIrbis.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Debug47\ManagedIrbis.xml</DocumentationFile>
     <LangVersion>3</LangVersion>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
