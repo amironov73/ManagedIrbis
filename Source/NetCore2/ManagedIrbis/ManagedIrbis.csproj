@@ -23,7 +23,7 @@
   <ItemGroup>
     <Compile Include="../../Classic/Common/**/*.cs" />
     <Compile Include="../../Classic/Libs/ManagedIrbis/**/*.cs" />
-    <Compile Remove="../../Classic/Libs/ManagedIrbis/Source/Pft/Infrastructure/Text/_Template.cs" />
+    <Compile Remove="../../Classic/Libs/ManagedIrbis/Source/**/_Template.cs" />
     <Compile Remove="../../Classic/Libs/ManagedIrbis/obj/**/*.*" />
   </ItemGroup>
 
