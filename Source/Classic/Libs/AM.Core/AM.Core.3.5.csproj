@@ -202,6 +202,7 @@
     <Compile Include="AM\Net\AsyncSocketResult.cs" />
     <Compile Include="AM\NonNullValue.cs" />
     <Compile Include="AM\NumberOrString.cs" />
+    <Compile Include="AM\NumberRange.cs" />
     <Compile Include="AM\ObjectDumper.cs" />
     <Compile Include="AM\Operator.cs" />
     <Compile Include="AM\Optional.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="AM\Reflection\PropertyAccessor.cs" />
     <Compile Include="AM\Reflection\PropertyOrField.cs" />
     <Compile Include="AM\Reflection\ReflectionUtility.cs" />
+    <Compile Include="AM\Reflection\Tablefier.cs" />
     <Compile Include="AM\Resources\LocalizationManager.cs" />
     <Compile Include="AM\Runtime\HandmadeSerializer.cs" />
     <Compile Include="AM\Runtime\IHandmadeSerializable.cs" />

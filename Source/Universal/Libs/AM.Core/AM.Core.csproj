@@ -483,6 +483,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\NumberOrString.cs">
       <Link>AM\NumberOrString.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\NumberRange.cs">
+      <Link>AM\NumberRange.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\ObjectDumper.cs">
       <Link>AM\ObjectDumper.cs</Link>
     </Compile>
@@ -527,6 +530,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Reflection\ReflectionUtility.cs">
       <Link>AM\Reflection\ReflectionUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Reflection\Tablefier.cs">
+      <Link>AM\Reflection\Tablefier.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Resources\LocalizationManager.cs">
       <Link>AM\Resources\LocalizationManager.cs</Link>
