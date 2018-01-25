@@ -248,13 +248,15 @@ namespace ManagedIrbis.Biblio
                 string header = bookGroup.Header;
                 log.WriteLine(header);
 
+                header = RichText.Encode3(header, UnicodeRange.Russian, "\\f2");
+
                 report.Body.Add(new ParagraphBand());
                 BiblioItem item = bookGroup.Item
                     .ThrowIfNull("bookGroup.Item");
                 int number = item.Number;
                 ReportBand band = new ParagraphBand
                     (
-                        number.ToInvariantString() + ") "
+                        number.ToInvariantString() + ".\\~\\~"
                         + header
                     );
                 report.Body.Add(band);

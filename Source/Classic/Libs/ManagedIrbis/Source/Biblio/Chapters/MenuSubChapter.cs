@@ -356,8 +356,9 @@ namespace ManagedIrbis.Biblio
                         ));
 
                     //// Для отладки: проверить упорядочение
-                    //band = new ParagraphBand(item.Order);
+                    //band = new ParagraphBand("MFN " + item.Record.Mfn + " " + item.Order);
                     //report.Body.Add(band);
+                    //report.Body.Add(new ParagraphBand());
 
                     MarcRecord record = item.Record;
                     if (!ReferenceEquals(record, null))

@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Reflection;
 using AM.Runtime;
 
 using CodeJam;
@@ -95,7 +96,8 @@ namespace ManagedIrbis.Mx.Commands
             if (!ReferenceEquals(connected, null))
             {
                 IIrbisConnection connection = connected.Connection;
-                UserInfo[] users = connection.ListUsers();
+                UserInfo[] users = connection.ListUsers().OrderBy(u => u.Name).ToArray();
+                List<UserInfo> list = new List<UserInfo>();
                 foreach (UserInfo user in users)
                 {
                     if (!string.IsNullOrEmpty(pattern)
@@ -107,8 +109,18 @@ namespace ManagedIrbis.Mx.Commands
                         }
                     }
 
-                    executive.WriteLine(user.ToString());
+                    list.Add(user);
+                    //executive.WriteLine(user.ToString());
                 }
+
+                Tablefier tablefier = new Tablefier();
+                string[] properties =
+                {
+                    "Name", "Password", "Cataloger", "Circulation",
+                    "Administrator"
+                };
+                string output = tablefier.Print(list, properties).TrimEnd();
+                executive.WriteLine(output);
             }
 
             OnAfterExecute();

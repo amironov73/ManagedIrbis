@@ -209,6 +209,9 @@ namespace ManagedIrbis.Biblio
         {
             // Украшаем запись согласно вкусам библиографов
 
+            // Источник библиографической записи
+            record.RemoveField(488);
+
             string worksheet = record.FM(920);
             if (!worksheet.SameString("ASP"))
             {

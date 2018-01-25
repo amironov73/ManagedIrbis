@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Reflection;
 using AM.Runtime;
 
 using CodeJam;
@@ -96,6 +97,7 @@ namespace ManagedIrbis.Mx.Commands
                 IIrbisConnection connection = connected.Connection;
                 DatabaseInfo[] databases = connection.ListDatabases("dbnam1.mnu")
                     .OrderBy(db => db.Name).ToArray();
+                List<DatabaseInfo> list = new List<DatabaseInfo>();
                 foreach (DatabaseInfo db in databases)
                 {
                     if (!string.IsNullOrEmpty(pattern)
@@ -107,8 +109,13 @@ namespace ManagedIrbis.Mx.Commands
                         }
                     }
 
-                    executive.WriteLine(db.ToString());
+                    list.Add(db);
                 }
+
+                Tablefier tablefier = new Tablefier();
+                string output = tablefier.Print(list, "Name", "Description")
+                    .TrimEnd();
+                executive.WriteLine(output);
             }
 
             OnAfterExecute();

@@ -68,8 +68,9 @@
       "title": "Библиографический указатель",
 
       // Выражение для отбора записей
-      //"search": "'DBWEB=RASP1 + DBWEB=RASP'",
-      "search": "'DBWEB=RASP$ * (\"VGRASP= 2. 2$\"  + \"VGRASP= 1.$\")'",
+      "search": "'DBWEB=RASP1 + DBWEB=RASP'",
+      //"search": "'DBWEB=RASP$ * (\"VGRASP= 2. 2$\"  + \"VGRASP= 1.$\")'",
+      //"search": "'DBWEB=RASP$ * \"VGRASP= 1.$\"'",
       //"search": "'DBWEB=RASP1 * (\"VGRASP= 2. 2$\"  + \"VGRASP= 1.$\")'",
 
       // Формат библиографического описания для записи
@@ -137,7 +138,7 @@
         //}
       ],
       "attr": {
-        "pageBreak": true
+        "pageBreak": false
       }
     },
 

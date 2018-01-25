@@ -20,12 +20,15 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Reflection;
 using AM.Runtime;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Client;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -86,7 +89,17 @@ namespace ManagedIrbis.Mx.Commands
             {
                 IIrbisConnection connection = connected.Connection;
                 ServerStat serverStat = connection.GetServerStat();
-                executive.WriteLine(serverStat.ToString());
+                //executive.WriteLine(serverStat.ToString());
+
+                Tablefier tablefier = new Tablefier();
+                string[] properties =
+                {
+                    "IPAddress", "Name", "ID", "Workstation", "Registered",
+                    "Acknowledged", "LastCommand", "CommandNumber"
+                };
+                string output = tablefier.Print(serverStat.RunningClients, properties)
+                    .TrimEnd();
+                executive.WriteLine(output);
             }
 
             OnAfterExecute();
