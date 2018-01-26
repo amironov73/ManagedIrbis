@@ -36,9 +36,9 @@ after_build:
 - cmd: compilecore2.cmd
 - cmd: compiledroid.cmd
 - cmd: compileuap.cmd
-#- cmd: cd Nuget
-#- cmd: packit.cmd
-#- cmd: cd ..
+- cmd: cd Nuget
+- cmd: packit.cmd
+- cmd: cd ..
 
 test_script:
 - cmd: runcodecov.cmd
