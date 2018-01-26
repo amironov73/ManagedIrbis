@@ -108,6 +108,15 @@ namespace ManagedIrbis.Magazines
         public SubField[] UnknownSubFields { get; set; }
 
         /// <summary>
+        /// Field.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        [Browsable(false)]
+        public RecordField Field { get; set; }
+
+        /// <summary>
         /// Arbitrary user data.
         /// </summary>
         [CanBeNull]
@@ -156,7 +165,8 @@ namespace ManagedIrbis.Magazines
                 Place = field.GetFirstSubFieldValue('d'),
                 Numbers = field.GetFirstSubFieldValue('h'),
                 Set = field.GetFirstSubFieldValue('k'),
-                UnknownSubFields = field.SubFields.GetUnknownSubFields(KnownCodes)
+                UnknownSubFields = field.SubFields.GetUnknownSubFields(KnownCodes),
+                Field = field
             };
 
             return result;

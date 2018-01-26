@@ -212,6 +212,20 @@ namespace ManagedIrbis.Biblio
                         order = order.Trim();
                     }
                     bookGroup.Order = order;
+
+                    if (!bookGroup.Single)
+                    {
+                        foreach (BiblioItem item in bookGroup)
+                        {
+                            order = formatter.FormatRecord(item.Record.Mfn);
+                            if (!string.IsNullOrEmpty(order))
+                            {
+                                order = order.Trim();
+                            }
+
+                            item.Order = order;
+                        }
+                    }
                 }
 
                 processor.ReleaseFormatter(context, formatter);

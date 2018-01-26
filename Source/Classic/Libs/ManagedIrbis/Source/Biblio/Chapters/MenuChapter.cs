@@ -212,6 +212,9 @@ namespace ManagedIrbis.Biblio
             // Источник библиографической записи
             record.RemoveField(488);
 
+            // Сведения об автографах
+            record.RemoveField(391);
+
             string worksheet = record.FM(920);
             if (!worksheet.SameString("ASP"))
             {

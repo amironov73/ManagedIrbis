@@ -167,6 +167,14 @@ namespace ManagedIrbis.Magazines
         public int LoanCount { get; set; }
 
         /// <summary>
+        /// Record.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public MarcRecord Record{get; set; }
+
+        /// <summary>
         /// Произвольные пользовательские данные.
         /// </summary>
         [CanBeNull]
@@ -210,7 +218,9 @@ namespace ManagedIrbis.Magazines
                     .Select(field => ExemplarInfo.Parse(field))
                     .ToArray(),
 
-                LoanCount = record.FM(999).SafeToInt32()
+                LoanCount = record.FM(999).SafeToInt32(),
+
+                Record = record
             };
 
             return result;

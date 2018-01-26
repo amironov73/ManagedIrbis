@@ -201,8 +201,17 @@ namespace ManagedIrbis.Magazines
         }
 
         /// <summary>
+        /// Record.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public MarcRecord Record { get; set; }
+
+        /// <summary>
         /// Произвольные пользовательские данные.
         /// </summary>
+        [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
         public object UserData { get; set; }
@@ -242,6 +251,7 @@ namespace ManagedIrbis.Magazines
                 MagazineType = record.FM(110, 't'),
                 MagazineKind = record.FM(110, 'b'),
                 Periodicity = record.FM(110, 'x'),
+                Record = record,
                 Mfn = record.Mfn
             };
 
