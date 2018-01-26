@@ -76,6 +76,11 @@ namespace ManagedIrbis.Biblio
             [CanBeNull]
             public BiblioItem Item { get; set; }
 
+            /// <summary>
+            /// Single.
+            /// </summary>
+            public bool Single { get; set; }
+
             #endregion
         }
 
@@ -87,7 +92,7 @@ namespace ManagedIrbis.Biblio
         /// Groups.
         /// </summary>
         [NotNull]
-        public List<Multivolume> Groups { get; private set; }
+        public List<Multivolume> Groups { get; protected set; }
 
         #endregion
 
@@ -105,9 +110,12 @@ namespace ManagedIrbis.Biblio
 
         #region Private members
 
-        private static char[] _lineDelimiters = { '\r', '\n' };
+        //private static char[] _lineDelimiters = { '\r', '\n' };
 
-        private static void _OrderGroup
+        /// <summary>
+        ///  Order the group.
+        /// </summary>
+        protected static void OrderGroup
             (
                 [NotNull] Multivolume bookGroup
             )
@@ -118,10 +126,6 @@ namespace ManagedIrbis.Biblio
             bookGroup.Clear();
             bookGroup.AddRange(items);
         }
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 
@@ -210,7 +214,7 @@ namespace ManagedIrbis.Biblio
             Items.Clear();
             foreach (Multivolume bookGroup in Groups)
             {
-                _OrderGroup(bookGroup);
+                OrderGroup(bookGroup);
                 BiblioItem item = new BiblioItem
                 {
                     Description = bookGroup.Header,
@@ -261,15 +265,27 @@ namespace ManagedIrbis.Biblio
                     );
                 report.Body.Add(band);
 
-                for (int i = 0; i < bookGroup.Count; i++)
+                //// Для отладки: проверить упорядоч    ение
+                //band = new ParagraphBand(bookGroup.Order);
+                //report.Body.Add(band);
+                //report.Body.Add(new ParagraphBand());
+
+                if (!bookGroup.Single)
                 {
-                    log.Write(".");
-                    item = bookGroup[i];
-                    string description = item.Description
-                        .ThrowIfNull("item.Description");
-                    band = new ParagraphBand(description);
-                    report.Body.Add(band);
+                    for (int i = 0; i < bookGroup.Count; i++)
+                    {
+                        log.Write(".");
+                        item = bookGroup[i];
+                        string description = item.Description
+                            .ThrowIfNull("item.Description");
+                        description = RichText.Encode3(description,
+                            UnicodeRange.Russian, "\\f2")
+                            .ThrowIfNull();
+                        band = new ParagraphBand(description);
+                        report.Body.Add(band);
+                    }
                 }
+
                 log.WriteLine(" done");
             }
 
@@ -277,10 +293,6 @@ namespace ManagedIrbis.Biblio
 
             log.WriteLine("End render {0}", this);
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

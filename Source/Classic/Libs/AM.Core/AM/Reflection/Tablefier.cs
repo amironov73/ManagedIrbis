@@ -154,7 +154,7 @@ namespace AM.Reflection
                 string[] line = new string[length];
                 for (int i = 0; i < length; i++)
                 {
-                    object value = columns[i].Property.GetValue(item);
+                    object value = columns[i].Property.GetValue(item, null);
                     string text = value.ToVisibleString();
                     line[i] = text;
                 }
@@ -180,7 +180,18 @@ namespace AM.Reflection
                 = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
             foreach (PropertyInfo property in properties)
             {
+#if UAP
+
+                // TODO Implement properly
+
+                TypeCode code = TypeCode.Object;
+
+#else
+
                 TypeCode code = Type.GetTypeCode(property.PropertyType);
+
+#endif
+
                 bool rightAlign;
                 switch (code)
                 {

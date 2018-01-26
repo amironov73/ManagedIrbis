@@ -105,6 +105,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchSearcher.cs">
       <Link>Source\Batch\BatchSearcher.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\MixedChapter.cs">
+      <Link>Source\Biblio\Chapters\MixedChapter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ConnectionFactory.cs">
       <Link>Source\ConnectionFactory.cs</Link>
     </Compile>

@@ -1,4 +1,4 @@
-'\fi600',
+'\fi360',
 
 if s(v982^s,v982^k)<>'' then v903' '&unifor("kstr.mnu|"v982^s),", "d982^k,&unifor('Av982^k#1')," "d982^i,&unifor('Av982^i#1'),". "d982^k,'\par ',fi,
 

@@ -70,7 +70,7 @@
       // Выражение для отбора записей
       "search": "'DBWEB=RASP1 + DBWEB=RASP'",
       //"search": "'DBWEB=RASP$ * (\"VGRASP= 2. 2$\"  + \"VGRASP= 1.$\")'",
-      //"search": "'DBWEB=RASP$ * \"VGRASP= 1.$\"'",
+      //search": "'DBWEB=RASP$ * \"VGRASP= 1. 1.$\"'",
       //"search": "'DBWEB=RASP1 * (\"VGRASP= 2. 2$\"  + \"VGRASP= 1.$\")'",
 
       // Формат библиографического описания для записи
@@ -97,7 +97,6 @@
       "menuSettings": [
         {
           "name": "1",
-          //"format": "*rasputin_section1.pft"
           "format": "@rasputin_section1"
         },
         {
@@ -105,11 +104,19 @@
           // Собрания сочинений
           "name": "1. 1. 1",
           "type": "CumulatingSubChapter",
-          //"general": "*rasputin_section111.pft",
           "general": "@rasputin_section111",
-          //"format": "*rasputin_specification.pft",
           "format": "@rasputin_specification",
           "order": "*order_years.pft"
+        },
+        {
+          // Смешанная группа
+          // Собрания сочинений
+          "name": "1. 1. 2",
+          "type": "MixedChapter",
+          "general": "@rasputin_section111",
+          "format": "@rasputin_specification",
+          "normal": "@rasputin_section1",
+          "order": "*order.pft"
         }//,
         //{
         //  // Группа с авторскими комплексами

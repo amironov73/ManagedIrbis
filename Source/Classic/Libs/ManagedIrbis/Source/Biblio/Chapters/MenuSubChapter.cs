@@ -369,6 +369,8 @@ namespace ManagedIrbis.Biblio
                             foreach (MarcRecord book in sameBooks)
                             {
                                 string text = book.Description;
+                                text = RichText.Encode3(text, UnicodeRange.Russian, "\\f2")
+                                    .ThrowIfNull();
                                 band = new ParagraphBand(text);
                                 report.Body.Add(band);
                                 //band.Cells.Add(new SimpleTextCell(text));
