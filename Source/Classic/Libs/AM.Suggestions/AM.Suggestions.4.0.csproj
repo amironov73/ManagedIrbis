@@ -1,88 +1,56 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AD2A34BD-2E69-48BB-B738-863D70B3E65F}</ProjectGuid>
+    <ProjectGuid>{929CC021-A694-43C2-B7D0-57FB7734053A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AM.Ocr</RootNamespace>
-    <AssemblyName>AM.Ocr</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>AM.Suggestions</RootNamespace>
+    <AssemblyName>AM.Suggestions</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\Binaries\Debug35\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW35</DefineConstants>
+    <OutputPath>..\..\..\..\Binaries\Debug40\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\..\..\Binaries\Debug40\AM.Suggestions.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\Binaries\Release35\</OutputPath>
-    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW35</DefineConstants>
+    <OutputPath>..\..\..\..\Binaries\Release40\</OutputPath>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\..\For3.5\bin\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW35</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>..\..\..\For3.5\bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW35</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>..\..\..\..\\Release40\AM.Suggestions.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net35-client\MoonSharp.Interpreter.dll</HintPath>
+      <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net35\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Leadtools">
-      <HintPath>..\..\..\ThirdParty\LeadTools\net20\Leadtools.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Leadtools.Codecs">
-      <HintPath>..\..\..\ThirdParty\LeadTools\net20\Leadtools.Codecs.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Leadtools.Forms.DocumentWriters">
-      <HintPath>..\..\..\ThirdParty\LeadTools\net20\Leadtools.Forms.DocumentWriters.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Leadtools.Forms.Ocr">
-      <HintPath>..\..\..\ThirdParty\LeadTools\net20\Leadtools.Forms.Ocr.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Leadtools.Forms.Ocr.Professional">
-      <HintPath>..\..\..\ThirdParty\LeadTools\net20\Leadtools.Forms.Ocr.Professional.dll</HintPath>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\RestSharp.105.2.3\lib\net4\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
@@ -93,12 +61,32 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <!-- BEGIN -->
   <ItemGroup>
-    <Folder Include="AM\Ocr\" />
+    <Compile Include="AM\Suggestions\DaDataModel.cs" />
+    <Compile Include="AM\Suggestions\DaDataSuggestionClient.cs" />
+    <Compile Include="AM\Suggestions\ISuggester.cs" />
+    <Compile Include="AM\Suggestions\StandardSuggester.cs" />
+    <Compile Include="AM\Suggestions\SuggestAttribute.cs" />
+    <Compile Include="AM\Suggestions\SuggesterTypeConverter.cs" />
+    <Compile Include="AM\Suggestions\SuggestingTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AM\Suggestions\TodayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AM\Suggestions\TodayControl.Designer.cs">
+      <DependentUpon>TodayControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Suggestions\TodayEditor.cs" />
+    <Compile Include="AM\Suggestions\TodaySuggester.cs" />
   </ItemGroup>
   <!-- END -->
   <ItemGroup>
@@ -108,18 +96,27 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ArsMagna.private.snk" />
-    <None Include="packages.config" />
+    <EmbeddedResource Include="AM\Suggestions\TodayControl.resx">
+      <DependentUpon>TodayControl.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AM.Core\AM.Core.3.5.csproj">
+    <ProjectReference Include="..\AM.Core\AM.Core.4.0.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
       <Name>AM.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AM.Drawing\AM.Drawing.3.5.csproj">
+    <ProjectReference Include="..\AM.Drawing\AM.Drawing.4.0.csproj">
       <Project>{f64c8161-d6e3-4d78-88db-c1787f4fe981}</Project>
       <Name>AM.Drawing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AM.Windows.Forms\AM.Windows.Forms.4.0.csproj">
+      <Project>{c06e1d15-0d0d-44b3-bf74-1b2c616f9ee5}</Project>
+      <Name>AM.Windows.Forms</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ArsMagna.private.snk" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueBook.ico" />

@@ -9,25 +9,25 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AM.Istu</RootNamespace>
     <AssemblyName>AM.Istu</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
-    <DocumentationFile>bin\Debug\AM.Istu.xml</DocumentationFile>
+    <OutputPath>..\..\..\..\Binaries\Debug40\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW40</DefineConstants>
+    <DocumentationFile>..\..\..\..\Binaries\Debug40\AM.Istu.xml</DocumentationFile>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
-    <DocumentationFile>bin\Release\AM.Istu.xml</DocumentationFile>
+    <OutputPath>..\..\..\..\Binaries\Release40\</OutputPath>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW40</DefineConstants>
+    <DocumentationFile>..\..\..\..\Binaries\Release40\AM.Istu.xml</DocumentationFile>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -50,7 +50,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
@@ -121,23 +121,23 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AM.Core\AM.Core.csproj">
+    <ProjectReference Include="..\AM.Core\AM.Core.4.0.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
       <Name>AM.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AM.Drawing\AM.Drawing.csproj">
+    <ProjectReference Include="..\AM.Drawing\AM.Drawing.4.0.csproj">
       <Project>{f64c8161-d6e3-4d78-88db-c1787f4fe981}</Project>
       <Name>AM.Drawing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AM.Suggestions\AM.Suggestions.csproj">
+    <ProjectReference Include="..\AM.Suggestions\AM.Suggestions.4.0.csproj">
       <Project>{929cc021-a694-43c2-b7d0-57fb7734053a}</Project>
       <Name>AM.Suggestions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AM.Windows.Forms\AM.Windows.Forms.csproj">
+    <ProjectReference Include="..\AM.Windows.Forms\AM.Windows.Forms.4.0.csproj">
       <Project>{c06e1d15-0d0d-44b3-bf74-1b2c616f9ee5}</Project>
       <Name>AM.Windows.Forms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ManagedIrbis\ManagedIrbis.csproj">
+    <ProjectReference Include="..\ManagedIrbis\ManagedIrbis.4.0.csproj">
       <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
       <Name>ManagedIrbis</Name>
     </ProjectReference>
