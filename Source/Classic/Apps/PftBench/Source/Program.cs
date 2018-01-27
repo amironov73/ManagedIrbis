@@ -33,11 +33,20 @@ namespace PftBench
             )
         {
             ExceptionBox.Show(eventArgs.Exception);
+
+#if FW35
+
+            Environment.FailFast("Shutting down");
+
+#else
+
             Environment.FailFast
                 (
                     "Shutting down",
                     eventArgs.Exception
                 );
+
+#endif
         }
 
 

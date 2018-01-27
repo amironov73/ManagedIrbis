@@ -9,18 +9,17 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PftBench</RootNamespace>
     <AssemblyName>PftBench</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
+    <OutputPath>..\..\..\..\Binaries\Debug40\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -28,8 +27,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
+    <OutputPath>..\..\..\..\Binaries\Release40\</OutputPath>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -48,7 +47,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.TextEditor, Version=3.2.1.6466, Culture=neutral, PublicKeyToken=4d61825e8dd49f1a, processorArchitecture=MSIL">
@@ -118,23 +117,23 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Libs\AM.Core\AM.Core.csproj">
+    <ProjectReference Include="..\..\Libs\AM.Core\AM.Core.4.0.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
       <Name>AM.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Libs\AM.Drawing\AM.Drawing.csproj">
+    <ProjectReference Include="..\..\Libs\AM.Drawing\AM.Drawing.4.0.csproj">
       <Project>{f64c8161-d6e3-4d78-88db-c1787f4fe981}</Project>
       <Name>AM.Drawing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Libs\AM.Windows.Forms\AM.Windows.Forms.csproj">
+    <ProjectReference Include="..\..\Libs\AM.Windows.Forms\AM.Windows.Forms.4.0.csproj">
       <Project>{c06e1d15-0d0d-44b3-bf74-1b2c616f9ee5}</Project>
       <Name>AM.Windows.Forms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Libs\IrbisUI\IrbisUI.csproj">
+    <ProjectReference Include="..\..\Libs\IrbisUI\IrbisUI.4.0.csproj">
       <Project>{aeebb65d-1023-4ac2-a280-4639e085cdb5}</Project>
       <Name>IrbisUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Libs\ManagedIrbis\ManagedIrbis.csproj">
+    <ProjectReference Include="..\..\Libs\ManagedIrbis\ManagedIrbis.4.0.csproj">
       <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
       <Name>ManagedIrbis</Name>
     </ProjectReference>
@@ -146,7 +145,6 @@
     <Folder Include="Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Condition=" '$(TargetFrameworkVersion)'=='v4.0' " Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

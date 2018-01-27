@@ -89,7 +89,6 @@ IF %8==core2 copy %BIN%\%BUILD%Core2\%1.*                              lib\netst
 
 IF %1==ManagedIrbis (
 mkdir content
-del lib\net40\*.dll.config
 del lib\net35\ManagedIrbis.Isis.*
 del lib\net40\ManagedIrbis.Isis.*
 del lib\net45\ManagedIrbis.Isis.*

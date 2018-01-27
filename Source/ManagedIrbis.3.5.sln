@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisInterop.3.5", "Classic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficialWrapper.3.5", "Classic\Libs\OfficialWrapper\OfficialWrapper.3.5.csproj", "{3A17CCCE-FDBE-4D88-86C5-279523D7E931}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PftBench.3.5", "Classic\Apps\PftBench\PftBench.3.5.csproj", "{CE79DD1B-DC92-42BF-9AA9-579A264F9E72}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -161,6 +163,14 @@ Global
 		{3A17CCCE-FDBE-4D88-86C5-279523D7E931}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3A17CCCE-FDBE-4D88-86C5-279523D7E931}.Release|x86.ActiveCfg = Release|Any CPU
 		{3A17CCCE-FDBE-4D88-86C5-279523D7E931}.Release|x86.Build.0 = Release|Any CPU
+		{CE79DD1B-DC92-42BF-9AA9-579A264F9E72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE79DD1B-DC92-42BF-9AA9-579A264F9E72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE79DD1B-DC92-42BF-9AA9-579A264F9E72}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CE79DD1B-DC92-42BF-9AA9-579A264F9E72}.Debug|x86.Build.0 = Debug|Any CPU
+		{CE79DD1B-DC92-42BF-9AA9-579A264F9E72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE79DD1B-DC92-42BF-9AA9-579A264F9E72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE79DD1B-DC92-42BF-9AA9-579A264F9E72}.Release|x86.ActiveCfg = Release|Any CPU
+		{CE79DD1B-DC92-42BF-9AA9-579A264F9E72}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
