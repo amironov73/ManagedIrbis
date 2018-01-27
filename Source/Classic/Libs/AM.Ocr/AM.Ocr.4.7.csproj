@@ -18,6 +18,7 @@
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\..\Binaries\Debug47\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW45;FW46;FW47</DefineConstants>
+    <DocumentationFile>..\..\..\..\Binaries\Debug47\AM.Ocr.xml</DocumentationFile>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -26,6 +27,7 @@
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\..\Binaries\Release47\</OutputPath>
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45;FW46;FW47</DefineConstants>
+    <DocumentationFile>..\..\..\..\Binaries\Release47\AM.Ocr.xml</DocumentationFile>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -33,6 +35,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\..\..\Binaries\Debug47\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW45;FW46;FW47</DefineConstants>
+    <DocumentationFile>..\..\..\..\Binaries\Debug47\AM.Ocr.xml</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -41,6 +44,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\..\..\..\Binaries\Release47\</OutputPath>
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45;FW46;FW47</DefineConstants>
+    <DocumentationFile>..\..\..\..\Binaries\Release47\AM.Ocr.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>

@@ -10,7 +10,7 @@
       Managed wrapper for IRBIS64.DLL
     </description>
     <releaseNotes>
-      Now supports NET 3.5/4.0/4.5/4.6/Net Standard 2.0
+      Now supports NET 3.5/4.0/4.5/Net Standard 2.0
     </releaseNotes>
     <summary>
       Managed wrappper for IRBIS64.DLL

@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\..\Binaries\Debug40\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -28,7 +28,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\..\Binaries\Release40\</OutputPath>
-    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4</DefineConstants>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -46,7 +46,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\..\For4.0\bin\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW40</DefineConstants>
     <DocumentationFile>..\..\..\..\Binaries\Debug40\AM.Rfid.xml</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -55,7 +55,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\..\..\For4.0\bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4</DefineConstants>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW40</DefineConstants>
     <DocumentationFile>..\..\..\..\Binaries\Release40\AM.Rfid.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>

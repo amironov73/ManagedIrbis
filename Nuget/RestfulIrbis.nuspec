@@ -10,7 +10,7 @@
       REST server and client for popular russian library automation system IRBIS64.
     </description>
     <releaseNotes>
-      Now supports NET 3.5/4.0/4.5/4.6/Net Standard 2.0
+      Now supports NET 3.5/4.0/4.5/Net Standard 2.0
     </releaseNotes>
     <summary>
       REST server and client for popular russian library automation system IRBIS64.

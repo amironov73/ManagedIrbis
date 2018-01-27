@@ -9,16 +9,16 @@ IF not exist lib     mkdir lib     > nul 2> nul
 
 CALL :BUILD AM.Core            core sl droid uap win81 pcl core2
 CALL :BUILD ManagedIrbis       core sl droid uap win81 pcl core2
-CALL :BUILD AM.Drawing         no   no no    no  no    no  no
-CALL :BUILD AM.Rfid            no   no no    no  no    no  no
+CALL :BUILD AM.Drawing         no   no no    no  no    no  core2
+CALL :BUILD AM.Rfid            no   no no    no  no    no  core2
 CALL :BUILD AM.Windows.Forms   no   no no    no  no    no  no
-CALL :BUILD AM.Win32           no   no no    no  no    no  no
+CALL :BUILD AM.Win32           no   no no    no  no    no  core2
 CALL :BUILD IrbisUI            no   no no    no  no    no  no
-CALL :BUILD AM.Suggestions     no   no no    no  no    no  no
-CALL :BUILD AM.AOT             core no droid uap no    pcl no
-CALL :BUILD AM.Ocr             no   no no    no  no    no  no
-CALL :BUILD RestfulIrbis       core no droid uap no    pcl no
-CALL :BUILD IrbisInterop       no   no no    no  no    no  no
+CALL :BUILD AM.Suggestions     no   no no    no  no    no  core2
+CALL :BUILD AM.AOT             core no droid uap no    pcl core2
+CALL :BUILD AM.Ocr             no   no no    no  no    no  core2
+CALL :BUILD RestfulIrbis       core no droid uap no    pcl core2
+CALL :BUILD IrbisInterop       no   no no    no  no    no  core2
 CALL :BUILD ManagedIrbis.Isis  no   no no    no  no    no  no
 
 IF exist content (

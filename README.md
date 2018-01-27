@@ -7,7 +7,7 @@ popular russian library computer system IRBIS64 ("ИРБИС64").
 ManagedIrbis currently supports:
 
 - classic desktop .NET 3.5/4.0/4.5/4.6 up to 4.6.2 (possibly 4.7.x);
-- .NET Core Runtime 2.0.3 (NET Standard 2.0);
+- .NET Core Runtime 2.0.5 (NET Standard 2.0);
 - Mono 4.3;
 - Compact Framework 3.5 (for WinMobile and Pocket PC);
 - Xamarin Android.

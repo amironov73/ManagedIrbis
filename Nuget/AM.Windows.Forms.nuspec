@@ -10,7 +10,7 @@
       ArsMagna WinForms services
     </description>
     <releaseNotes>
-      Now supports NET 3.5/4.0/4.5/4.6
+      Now supports NET 3.5/4.0/4.5/4.6/4.7
     </releaseNotes>
     <summary>
       Fully managed client for popular russian library automation system IRBIS64.

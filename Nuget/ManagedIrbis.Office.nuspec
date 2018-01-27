@@ -10,7 +10,7 @@
       Report driver for Excel file generation.
     </description>
     <releaseNotes>
-      Now supports NET 3.5/4.0/4.5/4.6
+      Now supports NET Framework 4.0/4.5/4.6/4.7
     </releaseNotes>
     <summary>
       Report driver for Excel file generation.

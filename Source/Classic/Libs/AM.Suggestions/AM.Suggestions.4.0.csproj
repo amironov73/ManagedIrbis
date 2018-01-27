@@ -29,7 +29,7 @@
     <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\..\Release40\AM.Suggestions.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Release40\AM.Suggestions.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>
