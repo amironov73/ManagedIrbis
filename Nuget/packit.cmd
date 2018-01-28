@@ -92,6 +92,9 @@ mkdir content
 del lib\net35\ManagedIrbis.Isis.*
 del lib\net40\ManagedIrbis.Isis.*
 del lib\net45\ManagedIrbis.Isis.*
+del lib\net35\ManagedIrbis.Web.*
+del lib\net40\ManagedIrbis.Web.*
+del lib\net45\ManagedIrbis.Web.*
 )
 
 IF %1==AM.Rfid (

@@ -235,6 +235,7 @@
     <Compile Include="Source\Mx\Commands\PingCommand.cs" />
     <Compile Include="Source\Mx\Commands\RefineCommand.cs" />
     <Compile Include="Source\Mx\Commands\RestartCommand.cs" />
+    <Compile Include="Source\Mx\Commands\StatCommand.cs" />
     <Compile Include="Source\Mx\Commands\TypeCommand.cs" />
     <Compile Include="Source\Mx\Commands\VerCommand.cs" />
     <Compile Include="Source\Mx\Infrastructrure\IMxConsole.cs" />

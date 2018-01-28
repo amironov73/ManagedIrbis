@@ -555,6 +555,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\RestartCommand.cs">
       <Link>Source\Mx\Commands\RestartCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\StatCommand.cs">
+      <Link>Source\Mx\Commands\StatCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\TypeCommand.cs">
       <Link>Source\Mx\Commands\TypeCommand.cs</Link>
     </Compile>

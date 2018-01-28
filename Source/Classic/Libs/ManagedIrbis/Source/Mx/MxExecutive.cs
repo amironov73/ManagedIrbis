@@ -224,6 +224,7 @@ namespace ManagedIrbis.Mx
                         new RestartCommand(),
                         new SearchCommand(),
                         new SortCommand(),
+                        new StatCommand(),
                         new StoreCommand(),
                         new TypeCommand(),
                         new VerCommand()
@@ -523,6 +524,18 @@ namespace ManagedIrbis.Mx
             )
         {
             MxConsole.Write(string.Format(format, arguments));
+            MxConsole.Write(Environment.NewLine);
+        }
+
+        /// <summary>
+        /// Write to console.
+        /// </summary>
+        public void WriteLine
+            (
+                [NotNull] string text
+            )
+        {
+            MxConsole.Write(text);
             MxConsole.Write(Environment.NewLine);
         }
 
