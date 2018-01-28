@@ -4,32 +4,32 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EAB967AB-A37A-4C1A-95AF-EDE878296E40}</ProjectGuid>
+    <ProjectGuid>{91CEF828-1675-4B97-9C01-412E197EF902}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AM.Web</RootNamespace>
-    <AssemblyName>AM.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <RootNamespace>ManagedIrbis.Web</RootNamespace>
+    <AssemblyName>ManagedIrbis.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\Binaries\Debug47\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW45;FW46;FW47</DefineConstants>
+    <OutputPath>..\..\..\..\Binaries\Debug40\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\..\Binaries\Debug47\AM.Web.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Debug40\ManagedIrbis.Web.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\Binaries\Release47\</OutputPath>
-    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45;FW46;FW47</DefineConstants>
+    <OutputPath>..\..\..\..\Binaries\Release40\</OutputPath>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\..\Binaries\Release47\AM.Web.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\..\Binaries\Release40\ManagedIrbis.Web.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>
@@ -46,7 +46,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
@@ -70,7 +70,7 @@
   </ItemGroup>
   <!-- BEGIN -->
   <ItemGroup>
-    <Compile Include="Source\WebUtility.cs" />
+    <Compile Include="Source\IrbisWebUtility.cs" />
   </ItemGroup>
   <!-- END -->
   <ItemGroup>
@@ -80,15 +80,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AM.Core\AM.Core.4.7.csproj">
+    <ProjectReference Include="..\AM.Core\AM.Core.4.0.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
       <Name>AM.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AM.Web\AM.Web.4.0.csproj">
+      <Project>{eab967ab-a37a-4c1a-95af-ede878296e40}</Project>
+      <Name>AM.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ManagedIrbis\ManagedIrbis.4.0.csproj">
+      <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
+      <Name>ManagedIrbis</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <None Include="BlueBook.ico" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ArsMagna.private.snk" />

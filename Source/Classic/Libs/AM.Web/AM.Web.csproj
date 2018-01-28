@@ -26,7 +26,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW45</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\AM.Web.xml</DocumentationFile>
