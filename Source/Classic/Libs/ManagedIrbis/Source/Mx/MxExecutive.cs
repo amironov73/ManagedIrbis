@@ -157,6 +157,8 @@ namespace ManagedIrbis.Mx
         /// </summary>
         public MxExecutive()
         {
+            _output = new StringBuilder();
+
             VerbosityLevel = 3;
             DescriptionFormat = "@brief";
 
@@ -177,6 +179,8 @@ namespace ManagedIrbis.Mx
         #endregion
 
         #region Private members
+
+        private StringBuilder _output;
 
 #if !WINMOBILE && !PocketPC
 
@@ -275,7 +279,10 @@ namespace ManagedIrbis.Mx
             MxCommand command = _FindCommand(commandName);
             if (ReferenceEquals(command, null))
             {
-                WriteLine("Unknown command: '{0}'", commandName);
+                WriteError(string.Format
+                    (
+                        "Unknown command: '{0}'", commandName
+                    ));
                 return false;
             }
 
@@ -305,7 +312,11 @@ namespace ManagedIrbis.Mx
                         exception
                     );
 
-                WriteError("Exception: {0}", exception);
+                WriteError(string.Format
+                    (
+                        "Exception: {0}",
+                        exception
+                    ));
 
                 return result;
             }
@@ -347,10 +358,20 @@ namespace ManagedIrbis.Mx
         }
 
         /// <summary>
+        /// Clear the output.
+        /// </summary>
+        public void ClearOutput()
+        {
+            _output.Length = 0;
+        }
+
+        /// <summary>
         /// Execute initialization script.
         /// </summary>
         public bool ExecuteInitScript()
         {
+            // TODO implement
+
             return true;
         }
 
@@ -507,25 +528,24 @@ namespace ManagedIrbis.Mx
         /// </summary>
         public void WriteError
             (
-                [NotNull] string format,
-                params object[] arguments
+                [NotNull] string text
             )
         {
-            WriteLine (Palette.Error, string.Format(format, arguments));
+            WriteLine (Palette.Error, text);
         }
 
-        /// <summary>
-        /// Write to console.
-        /// </summary>
-        public void WriteLine
-            (
-                [NotNull] string format,
-                params object[] arguments
-            )
-        {
-            MxConsole.Write(string.Format(format, arguments));
-            MxConsole.Write(Environment.NewLine);
-        }
+        ///// <summary>
+        ///// Write to console.
+        ///// </summary>
+        //public void WriteLine
+        //    (
+        //        [NotNull] string format,
+        //        params object[] arguments
+        //    )
+        //{
+        //    MxConsole.Write(string.Format(format, arguments));
+        //    MxConsole.Write(Environment.NewLine);
+        //}
 
         /// <summary>
         /// Write to console.
@@ -581,9 +601,14 @@ namespace ManagedIrbis.Mx
         /// </summary>
         public void WriteMessage
             (
-                [NotNull] string text
+                [CanBeNull] string text
             )
         {
+            if (string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+
             ConsoleColor saveColor = MxConsole.ForegroundColor;
             try
             {
@@ -593,6 +618,21 @@ namespace ManagedIrbis.Mx
             finally
             {
                 MxConsole.ForegroundColor = saveColor;
+            }
+        }
+
+        /// <summary>
+        /// Write the text to the output.
+        /// </summary>
+        public void WriteOutput
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (!string.IsNullOrEmpty(text))
+            {
+                _output.AppendLine(text);
+                WriteLine(Palette.Foreground, text);
             }
         }
 

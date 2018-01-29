@@ -120,8 +120,9 @@ namespace ManagedIrbis.Biblio
             )
         {
             // У иностранных книг язык не rus
+            // Если язык не указан, считаем, что rus
 
-            string language = record.FM(101);
+            string language = record.FM(101) ?? "rus";
 
             return !language.SameString("rus");
         }

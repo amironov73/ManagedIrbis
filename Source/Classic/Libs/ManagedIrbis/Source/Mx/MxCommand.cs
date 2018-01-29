@@ -165,6 +165,17 @@ namespace ManagedIrbis.Mx
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual bool RecognizeLine
+            (
+                [NotNull] string line
+            )
+        {
+            return false;
+        }
+
         #endregion
 
         #region IDisposable members

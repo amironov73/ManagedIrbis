@@ -96,16 +96,20 @@ namespace ManagedIrbis.Mx.Commands
             try
             {
                 int maxMfn = executive.Provider.GetMaxMfn() - 1;
-                executive.WriteLine
+                executive.WriteMessage(string.Format
                     (
                         "DB={0}, Max MFN={1}",
                         executive.Provider.Database,
                         maxMfn
-                    );
+                    ));
             }
             catch
             {
-                executive.WriteLine("Error changing DB, restoring to {0}", saveDatabase);
+                executive.WriteError(string.Format
+                    (
+                        "Error changing DB, restoring to {0}",
+                        saveDatabase
+                    ));
                 executive.Provider.Database = saveDatabase;
             }
 

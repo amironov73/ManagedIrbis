@@ -87,7 +87,11 @@ namespace ManagedIrbis.Mx.Commands
             {
                 for (int i = 0; i < history.Length; i++)
                 {
-                    executive.WriteLine("{0}: {1}", i + 1, history[i]);
+                    executive.WriteMessage(string.Format
+                        (
+                            "{0}: {1}",
+                            i + 1, history[i]
+                        ));
                 }
             }
             else

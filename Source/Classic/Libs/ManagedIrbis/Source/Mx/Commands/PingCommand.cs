@@ -85,11 +85,16 @@ namespace ManagedIrbis.Mx.Commands
 
                 result = stopwatch.ElapsedMilliseconds;
 
-                executive.WriteLine("{0}: {1} ms", number, result);
+                executive.WriteMessage(string.Format
+                    (
+                        "{0}: {1} ms",
+                        number,
+                        result
+                    ));
             }
             catch
             {
-                executive.WriteLine("ERROR");
+                executive.WriteError("ERROR");
             }
 
             return result;
@@ -129,7 +134,10 @@ namespace ManagedIrbis.Mx.Commands
                 sum += DoPing(i + 1, executive);
             }
 
-            executive.WriteLine("average = {0}", sum / ntries);
+            executive.WriteMessage(string.Format
+                (
+                    "average = {0}", sum / ntries
+                ));
 
             OnAfterExecute();
 

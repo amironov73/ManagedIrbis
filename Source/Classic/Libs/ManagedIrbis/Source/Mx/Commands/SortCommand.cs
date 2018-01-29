@@ -81,7 +81,28 @@ namespace ManagedIrbis.Mx.Commands
                 argument = arguments[0].Text;
             }
 
-            executive.OrderFormat = argument;
+            if (string.IsNullOrEmpty(argument))
+            {
+                string sort = executive.OrderFormat;
+                if (string.IsNullOrEmpty(sort))
+                {
+                    sort = "OFF";
+                }
+                executive.WriteMessage(string.Format
+                    (
+                        "SORT is: {0}",
+                        sort
+                    ));
+            }
+            else if (argument.SameString("off"))
+            {
+                executive.OrderFormat = null;
+                executive.WriteMessage("SORT is OFF now");
+            }
+            else
+            {
+                executive.OrderFormat = argument;
+            }
 
             OnAfterExecute();
 

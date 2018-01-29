@@ -66,7 +66,7 @@ namespace ManagedIrbis.Mx.Commands
 
         #region MxCommand members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="MxCommand.Execute" />
         public override bool Execute
             (
                 MxExecutive executive,
@@ -103,7 +103,11 @@ namespace ManagedIrbis.Mx.Commands
             }
             else
             {
-                executive.WriteLine("Format is: {0}", executive.DescriptionFormat);
+                executive.WriteMessage(string.Format
+                    (
+                        "Format is: {0}",
+                        executive.DescriptionFormat
+                    ));
             }
 
             OnAfterExecute();

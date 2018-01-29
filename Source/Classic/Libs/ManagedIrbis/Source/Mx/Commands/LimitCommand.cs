@@ -95,7 +95,11 @@ namespace ManagedIrbis.Mx.Commands
             }
             else
             {
-                executive.WriteLine("Limit is: {0}", executive.Limit);
+                executive.WriteMessage(string.Format
+                    (
+                        "Limit is: {0}",
+                        executive.Limit
+                    ));
             }
 
             OnAfterExecute();

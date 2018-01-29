@@ -109,11 +109,11 @@ namespace ManagedIrbis.Mx.Commands
                 {
                     if (string.IsNullOrEmpty(record.Description))
                     {
-                        executive.WriteLine("{0}", record.Mfn);
+                        executive.WriteOutput(record.Mfn.ToInvariantString());
                     }
                     else
                     {
-                        executive.WriteLine(record.Description);
+                        executive.WriteOutput(record.Description);
                     }
                 }
             }

@@ -75,17 +75,19 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
+            executive.ClearOutput();
+
             MxRecord[] records = executive.Records.ToArray();
 
             if (records.Length == 0)
             {
-                executive.WriteLine("No records");
+                executive.WriteMessage("No records");
             }
             else
             {
                 foreach (MxRecord record in records)
                 {
-                    executive.WriteLine("{0}", record.Mfn);
+                    executive.WriteOutput(record.Mfn.ToInvariantString());
                 }
             }
 

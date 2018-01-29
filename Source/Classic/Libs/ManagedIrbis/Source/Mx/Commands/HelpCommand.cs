@@ -76,7 +76,11 @@ namespace ManagedIrbis.Mx.Commands
             {
                 foreach (MxCommand command in executive.Commands)
                 {
-                    executive.WriteLine("{0} {1}", command.Name, command.GetShortHelp());
+                    executive.WriteMessage(string.Format
+                        (
+                            "{0} {1}",
+                            command.Name, command.GetShortHelp()
+                        ));
                 }
             }
             else
@@ -84,11 +88,18 @@ namespace ManagedIrbis.Mx.Commands
                 MxCommand command = executive.GetCommand(name);
                 if (ReferenceEquals(command, null))
                 {
-                    executive.WriteError("Unknown command '{0}'", name);
+                    executive.WriteError(string.Format
+                        (
+                            "Unknown command '{0}'",
+                            name
+                        ));
                 }
                 else
                 {
-                    executive.WriteLine("{0}", command.GetLongHelp());
+                    executive.WriteMessage
+                        (
+                            command.GetLongHelp()
+                        );
                 }
             }
 
