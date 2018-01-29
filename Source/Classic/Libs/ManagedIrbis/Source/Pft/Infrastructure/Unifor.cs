@@ -196,6 +196,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+U", UniforPlusU.RepeatString);
             Registry.Add("+V", UniforPlusV.Substring);
             Registry.Add("+W", UniforPlusW.Increment);
+            Registry.Add("+X", UniforPlusX.SearchIncrement);
             Registry.Add("+Z", UniforPlusZ.AnsiToOem);
             Registry.Add("+@", UniforPlusAt.FormatJson);
             Registry.Add("++A", UniforPlusPlusA.GetPhrase);

@@ -17,6 +17,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
             Execute("+W12", "");
             Execute("+W12#", "");
             Execute("+W#12", "");
+            Execute("+Wnothing#ab12cd34ef", "AB12CD34EF");
         }
     }
 }
