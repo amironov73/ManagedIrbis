@@ -156,7 +156,7 @@ namespace ManagedIrbis.Biblio
         }
 
         [NotNull]
-        private static string Enhance
+        internal static string Enhance
             (
                 [NotNull] string text
             )

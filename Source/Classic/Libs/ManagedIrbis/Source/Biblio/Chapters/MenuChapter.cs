@@ -209,6 +209,22 @@ namespace ManagedIrbis.Biblio
         {
             // Украшаем запись согласно вкусам библиографов
 
+            foreach (RecordField field in record.Fields)
+            {
+                if (!string.IsNullOrEmpty(field.Value))
+                {
+                    field.Value = MenuSubChapter.Enhance(field.Value);
+                }
+
+                foreach (SubField subField in field.SubFields)
+                {
+                    if (!string.IsNullOrEmpty(subField.Value))
+                    {
+                        subField.Value = MenuSubChapter.Enhance(subField.Value);
+                    }
+                }
+            }
+
             // Источник библиографической записи
             record.RemoveField(488);
 
