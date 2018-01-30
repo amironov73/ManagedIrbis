@@ -126,6 +126,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Authentication\AuthenticationResult.cs">
       <Link>Source\Authentication\AuthenticationResult.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Authentication\ICredentialsResolver.cs">
+      <Link>Source\Authentication\ICredentialsResolver.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Authentication\IrbisCredentials.cs">
       <Link>Source\Authentication\IrbisCredentials.cs</Link>
     </Compile>
@@ -588,6 +591,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\ListUsersCommand.cs">
       <Link>Source\Mx\Commands\ListUsersCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\ModuleCommand.cs">
+      <Link>Source\Mx\Commands\ModuleCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\PftCommand.cs">
       <Link>Source\Mx\Commands\PftCommand.cs</Link>
     </Compile>
@@ -611,6 +617,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\IMxConsole.cs">
       <Link>Source\Mx\Infrastructrure\IMxConsole.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\ModuleDefinition.cs">
+      <Link>Source\Mx\Infrastructrure\ModuleDefinition.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\MxConsole.cs">
       <Link>Source\Mx\Infrastructrure\MxConsole.cs</Link>

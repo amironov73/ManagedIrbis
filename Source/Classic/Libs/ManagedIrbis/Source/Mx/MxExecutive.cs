@@ -22,6 +22,7 @@ using AM;
 using AM.Collections;
 using AM.ConsoleIO;
 using AM.IO;
+using AM.Json;
 using AM.Logging;
 using AM.Runtime;
 using AM.Text;
@@ -500,6 +501,46 @@ namespace ManagedIrbis.Mx
             Code.NotNullNorEmpty(name, "name");
 
             return Commands.FirstOrDefault(c => c.Name.SameString(name));
+        }
+
+        /// <summary>
+        /// Load the module.
+        /// </summary>
+        public void LoadModule
+            (
+                [NotNull] string modulePath
+            )
+        {
+            Code.NotNullNorEmpty(modulePath, "modulePath");
+
+            string extension = Path.GetExtension(modulePath);
+            if (string.IsNullOrEmpty(extension))
+            {
+                modulePath = modulePath + ".mxmodule";
+            }
+
+            if (!File.Exists(modulePath))
+            {
+                modulePath = Path.Combine("modules", modulePath);
+            }
+
+            ModuleDefinition definition = JsonUtility.ReadObjectFromFile<ModuleDefinition>(modulePath);
+
+            // Must not load twice
+            MxModule found = Modules.FirstOrDefault
+                (
+                    m => m.GetType().FullName == definition.ClassName
+                );
+            if (!ReferenceEquals(found, null))
+            {
+                return;
+            }
+
+            Assembly assembly = Assembly.LoadFile(definition.AssemblyPath);
+            Type type = assembly.GetType(definition.ClassName);
+            MxModule module = (MxModule) Activator.CreateInstance(type);
+            module.Initialize(this);
+            Modules.Add(module);
         }
 
         /// <summary>
