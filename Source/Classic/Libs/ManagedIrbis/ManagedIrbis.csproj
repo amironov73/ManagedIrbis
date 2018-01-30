@@ -77,6 +77,7 @@
     <Compile Include="Source\AsyncExtensions.cs" />
     <Compile Include="Source\Authentication\AbstractAuthenticator.cs" />
     <Compile Include="Source\Authentication\AuthenticationResult.cs" />
+    <Compile Include="Source\Authentication\ICredentialsResolver.cs" />
     <Compile Include="Source\Authentication\IrbisCredentials.cs" />
     <Compile Include="Source\Authentication\UserContext.cs" />
     <Compile Include="Source\Batch\BatchAccessor.cs" />
@@ -231,6 +232,7 @@
     <Compile Include="Source\Mx\Commands\ListCommand.cs" />
     <Compile Include="Source\Mx\Commands\ListDbCommand.cs" />
     <Compile Include="Source\Mx\Commands\ListUsersCommand.cs" />
+    <Compile Include="Source\Mx\Commands\ModuleCommand.cs" />
     <Compile Include="Source\Mx\Commands\PftCommand.cs" />
     <Compile Include="Source\Mx\Commands\PingCommand.cs" />
     <Compile Include="Source\Mx\Commands\RefineCommand.cs" />
@@ -240,6 +242,8 @@
     <Compile Include="Source\Mx\Commands\VerCommand.cs" />
     <Compile Include="Source\Mx\Infrastructrure\IMxConsole.cs" />
     <Compile Include="Source\Mx\Infrastructrure\MxConsole.cs" />
+    <Compile Include="Source\Mx\Infrastructrure\MxHandler.cs" />
+    <Compile Include="Source\Mx\Infrastructrure\MxModule.cs" />
     <Compile Include="Source\Mx\Infrastructrure\MxPalette.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\CompilerProxy.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexInfo.cs" />

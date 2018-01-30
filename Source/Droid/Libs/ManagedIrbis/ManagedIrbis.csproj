@@ -557,6 +557,12 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\MxConsole.cs">
       <Link>Source\Mx\Infrastructrure\MxConsole.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\MxHandler.cs">
+      <Link>Source\Mx\Infrastructrure\MxHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\MxModule.cs">
+      <Link>Source\Mx\Infrastructrure\MxModule.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\MxPalette.cs">
       <Link>Source\Mx\Infrastructrure\MxPalette.cs</Link>
     </Compile>

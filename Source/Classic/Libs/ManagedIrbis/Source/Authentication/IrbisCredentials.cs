@@ -65,7 +65,7 @@ namespace ManagedIrbis.Authentication
         public string Password { get; set; }
 
         /// <summary>
-        /// Resource.
+        /// Resource (e. g. database).
         /// </summary>
         [CanBeNull]
         [XmlAttribute("resource")]
@@ -73,7 +73,7 @@ namespace ManagedIrbis.Authentication
         public string Resource { get; set; }
 
         /// <summary>
-        /// Role.
+        /// Role (e. g. workstation kind).
         /// </summary>
         [CanBeNull]
         [XmlAttribute("role")]

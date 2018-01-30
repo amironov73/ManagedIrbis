@@ -30,6 +30,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Authentication;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
 using ManagedIrbis.Pft;
@@ -83,6 +84,12 @@ namespace ManagedIrbis.Client
         /// </summary>
         [NotNull]
         public ServiceRepository Services { get; private set; }
+
+        /// <summary>
+        /// Resolves the credentials.
+        /// </summary>
+        [CanBeNull]
+        public ICredentialsResolver CredentialsResolver { get;set; }
 
         #endregion
 

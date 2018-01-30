@@ -453,8 +453,8 @@ namespace ManagedIrbis.Biblio
                         record = provider.ReadRecord(found[i]);
                         if (!ReferenceEquals(record, null))
                         {
-                            _BeautifyRecord(record);
                             _Fix463(record);
+                            _BeautifyRecord(record);
                         }
                         records.Add(record);
                         context.Records.Add(record);

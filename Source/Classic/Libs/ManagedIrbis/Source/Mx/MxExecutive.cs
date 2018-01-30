@@ -35,6 +35,7 @@ using ManagedIrbis.Client;
 using ManagedIrbis.Mx.Commands;
 using ManagedIrbis.Mx.Infrastructrure;
 using ManagedIrbis.Pft.Infrastructure;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -127,6 +128,18 @@ namespace ManagedIrbis.Mx
         public Stack<string> Databases { get; private set; }
 
         /// <summary>
+        /// List of modules.
+        /// </summary>
+        [NotNull]
+        public List<MxModule> Modules { get; private set; }
+
+        /// <summary>
+        /// List of handlers.
+        /// </summary>
+        [NotNull]
+        public List<MxHandler> Handlers { get; private set; }
+
+        /// <summary>
         /// Get version of the executive.
         /// </summary>
         public static Version Version
@@ -171,6 +184,8 @@ namespace ManagedIrbis.Mx
             Records = new NonNullCollection<MxRecord>();
             History = new Stack<string>();
             Databases = new Stack<string>();
+            Modules = new List<MxModule>();
+            Handlers = new List<MxHandler>();
 
             _CreateStandardCommands();
             _InitializeCommands();
@@ -220,6 +235,7 @@ namespace ManagedIrbis.Mx
                         new ListCommand(),
                         new ListDbCommand(),
                         new ListUsersCommand(),
+                        new ModuleCommand(),
                         new NopCommand(),
                         new PftCommand(),
                         new PingCommand(),
@@ -241,6 +257,22 @@ namespace ManagedIrbis.Mx
             foreach (MxCommand command in Commands)
             {
                 command.Dispose();
+            }
+        }
+
+        private void _DisposeHandlers()
+        {
+            foreach (MxHandler handler in Handlers)
+            {
+                handler.Dispose();
+            }
+        }
+
+        private void _DisposeModules()
+        {
+            foreach (MxModule module in Modules)
+            {
+                module.Dispose();
             }
         }
 
@@ -512,18 +544,6 @@ namespace ManagedIrbis.Mx
         }
 
         /// <summary>
-        /// Write to console.
-        /// </summary>
-        public void Write
-            (
-                [NotNull] string format,
-                params object[] arguments
-            )
-        {
-            MxConsole.Write(string.Format(format, arguments));
-        }
-
-        /// <summary>
         /// Write error message.
         /// </summary>
         public void WriteError
@@ -533,19 +553,6 @@ namespace ManagedIrbis.Mx
         {
             WriteLine (Palette.Error, text);
         }
-
-        ///// <summary>
-        ///// Write to console.
-        ///// </summary>
-        //public void WriteLine
-        //    (
-        //        [NotNull] string format,
-        //        params object[] arguments
-        //    )
-        //{
-        //    MxConsole.Write(string.Format(format, arguments));
-        //    MxConsole.Write(Environment.NewLine);
-        //}
 
         /// <summary>
         /// Write to console.
@@ -582,21 +589,6 @@ namespace ManagedIrbis.Mx
         }
 
         /// <summary>
-        /// Write to console.
-        /// </summary>
-        public void WriteLine
-            (
-                int verbosityLevel,
-                [NotNull] string text
-            )
-        {
-            if (verbosityLevel <= VerbosityLevel)
-            {
-                WriteLine(text);
-            }
-        }
-
-        /// <summary>
         /// Write message
         /// </summary>
         public void WriteMessage
@@ -613,7 +605,7 @@ namespace ManagedIrbis.Mx
             try
             {
                 MxConsole.ForegroundColor = Palette.Message;
-                WriteLine(3, text);
+                WriteLine(text);
             }
             finally
             {
@@ -640,9 +632,11 @@ namespace ManagedIrbis.Mx
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
+            _DisposeModules();
+            _DisposeHandlers();
             _DisposeCommands();
 
             Provider.Dispose();
