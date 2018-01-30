@@ -204,6 +204,12 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\ConnectedFormatter.cs">
       <Link>Source\Client\ConnectedFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\MappedMstFile64.cs">
+      <Link>Source\Direct\MappedMstFile64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\MappedXrfFile64.cs">
+      <Link>Source\Direct\MappedXrfFile64.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\BookInfo.cs">
       <Link>Source\Fields\BookInfo.cs</Link>
     </Compile>

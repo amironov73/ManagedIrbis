@@ -104,10 +104,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
             else
             {
-                if (string.IsNullOrEmpty(parts[1]))
-                {
-                    return;
-                }
                 string separator = parts[1].Substring(0, 1);
                 if (string.IsNullOrEmpty(separator))
                 {

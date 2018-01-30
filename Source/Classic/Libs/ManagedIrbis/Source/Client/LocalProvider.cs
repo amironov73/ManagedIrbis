@@ -432,7 +432,7 @@ namespace ManagedIrbis.Client
                             "LocalProvider::GetMaxMfn",
                             exception
                         );
-                    }
+                }
                 finally
                 {
                     if (!ReferenceEquals(accessor, null)
@@ -617,19 +617,16 @@ namespace ManagedIrbis.Client
                 try
                 {
                     accessor = _GetAccessor();
-                    if (!ReferenceEquals(accessor, null))
+                    MarcRecord[] versions
+                        = accessor.ReadAllRecordVersions(mfn);
+                    int index = version;
+                    if (version < 0)
                     {
-                        MarcRecord[] versions 
-                            = accessor.ReadAllRecordVersions(mfn);
-                        int index = version;
-                        if (version < 0)
-                        {
-                            index = versions.Length + version;
-                        }
-                        if (index >= 0 && index < versions.Length)
-                        {
-                            result = versions[index];
-                        }
+                        index = versions.Length + version;
+                    }
+                    if (index >= 0 && index < versions.Length)
+                    {
+                        result = versions[index];
                     }
                 }
                 catch (Exception exception)
@@ -668,10 +665,7 @@ namespace ManagedIrbis.Client
                 try
                 {
                     accessor = _GetAccessor();
-                    if (!ReferenceEquals(accessor, null))
-                    {
-                        result = accessor.ReadTerms(parameters);
-                    }
+                    result = accessor.ReadTerms(parameters);
                 }
                 catch (Exception exception)
                 {
@@ -718,17 +712,17 @@ namespace ManagedIrbis.Client
 
             using (new BusyGuard(BusyState))
             {
-                    SearchManager manager = new SearchManager(this);
-                    SearchContext context = new SearchContext(manager, this);
+                SearchManager manager = new SearchManager(this);
+                SearchContext context = new SearchContext(manager, this);
 
-                    SearchTokenList tokens
-                        = SearchQueryLexer.Tokenize(expression);
-                    SearchQueryParser parser
-                        = new SearchQueryParser(tokens);
-                    SearchProgram program = parser.Parse();
+                SearchTokenList tokens
+                    = SearchQueryLexer.Tokenize(expression);
+                SearchQueryParser parser
+                    = new SearchQueryParser(tokens);
+                SearchProgram program = parser.Parse();
 
-                    TermLink[] found = program.Find(context);
-                    result = TermLink.ToMfn(found);
+                TermLink[] found = program.Find(context);
+                result = TermLink.ToMfn(found);
 
                 //    DirectAccess64 accessor = null;
                 //    try
@@ -783,10 +777,7 @@ namespace ManagedIrbis.Client
             try
             {
                 accessor = _GetAccessor();
-                if (!ReferenceEquals(accessor, null))
-                {
-                    result = accessor.ReadLinks(term);
-                }
+                result = accessor.ReadLinks(term);
             }
             catch (Exception exception)
             {
@@ -832,13 +823,10 @@ namespace ManagedIrbis.Client
             try
             {
                 accessor = _GetAccessor();
-                if (!ReferenceEquals(accessor, null))
-                {
-                    result = accessor.InvertedFile
-                        .SearchStart(term)
-                        .Take(limit)
-                        .ToArray();
-                }
+                result = accessor.InvertedFile
+                    .SearchStart(term)
+                    .Take(limit)
+                    .ToArray();
             }
             catch (Exception exception)
             {

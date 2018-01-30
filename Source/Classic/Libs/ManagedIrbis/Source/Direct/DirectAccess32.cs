@@ -181,11 +181,8 @@ namespace ManagedIrbis.Direct
                     }
                     MstRecord32 mstRecord = Mst.ReadRecord2(offset);
                     MarcRecord previousVersion = mstRecord.DecodeRecord();
-                    if (previousVersion != null)
-                    {
-                        result.Add(previousVersion);
-                        lastVersion = previousVersion;
-                    }
+                    result.Add(previousVersion);
+                    lastVersion = previousVersion;
                 }
             }
 

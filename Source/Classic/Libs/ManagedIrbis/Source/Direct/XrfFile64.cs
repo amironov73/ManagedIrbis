@@ -101,7 +101,7 @@ namespace ManagedIrbis.Direct
                 int mfn
             )
         {
-            //ibatrak умножение в Int32 с преобразованием результата в Int64,
+            // ibatrak умножение в Int32 с преобразованием результата в Int64,
             // при больших mfn вызывает переполнение и результат
             // становится отрицательным
             long result = (long)XrfRecord64.RecordSize * (mfn - 1);

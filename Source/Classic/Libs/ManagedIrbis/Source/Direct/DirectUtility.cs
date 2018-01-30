@@ -9,8 +9,9 @@
 
 #region Using directives
 
+using System;
 using System.IO;
-
+using System.IO.MemoryMappedFiles;
 using AM.IO;
 using AM.Logging;
 
@@ -33,11 +34,11 @@ namespace ManagedIrbis.Direct
     {
         #region Private members
 
-        private static byte[] _l01Content32 = {};
-        private static byte[] _l02Content32 = {};
-        private static byte[] _n01Content32 = {};
-        private static byte[] _n02Content32 = {};
-        private static byte[] _cntContent32 = 
+        private static byte[] _l01Content32 = { };
+        private static byte[] _l02Content32 = { };
+        private static byte[] _n01Content32 = { };
+        private static byte[] _n02Content32 = { };
+        private static byte[] _cntContent32 =
         {
             0x01, 0x00, 0x05, 0x00, 0x05, 0x00, 0x0F, 0x00,
             0x05, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00,
@@ -250,10 +251,10 @@ namespace ManagedIrbis.Direct
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
         };
 
-        private static byte[] _ifpContent64 = {};
-        private static byte[] _l01Content64 = {};
-        private static byte[] _n01Content64 = {};
-        private static byte[] _xrfContent64 = {};
+        private static byte[] _ifpContent64 = { };
+        private static byte[] _l01Content64 = { };
+        private static byte[] _n01Content64 = { };
+        private static byte[] _xrfContent64 = { };
         private static byte[] _mstContent64 =
         {
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
@@ -390,6 +391,44 @@ namespace ManagedIrbis.Direct
 
             return result;
         }
+
+#if !FW35 && !WINMOBILE && !PocketPC
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static int ReadNetworkInt32
+            (
+                [NotNull] this MemoryMappedViewAccessor accessor,
+                long position
+            )
+        {
+            int result = accessor.ReadInt32(position);
+            byte[] buffer = BitConverter.GetBytes(result);
+            StreamUtility.NetworkToHost32(buffer, 0);
+            result = BitConverter.ToInt32(buffer, 0);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static long ReadNetworkInt64
+            (
+                [NotNull] this MemoryMappedViewAccessor accessor,
+                long position
+            )
+        {
+            long result = accessor.ReadInt64(position);
+            byte[] buffer = BitConverter.GetBytes(result);
+            StreamUtility.NetworkToHost64(buffer, 0);
+            result = BitConverter.ToInt64(buffer, 0);
+
+            return result;
+        }
+
+#endif
 
         #endregion
     }
