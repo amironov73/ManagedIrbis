@@ -178,9 +178,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+9L", UniforPlus9.FileExist);
             Registry.Add("+9N", UniforPlus9.NextTerm);
             Registry.Add("+9P", UniforPlus9.PreviousTerm);
+            Registry.Add("+9R", UniforPlus9.RomanToArabic);
             Registry.Add("+9S", UniforPlus9.FindSubstring);
             Registry.Add("+9T", UniforPlus9.PrintNumbers);
             Registry.Add("+9V", UniforPlus9.GetGeneration);
+            Registry.Add("+9X", UniforPlus9.ArabicToRoman);
             Registry.Add("+B", UniforPlusB.ByteSum);
             Registry.Add("+C", UniforPlusC.Increment);
             Registry.Add("+D", UniforPlusD.GetDatabaseName);

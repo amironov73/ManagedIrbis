@@ -12,6 +12,7 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 using AM;
@@ -1419,6 +1420,109 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             )
         {
             _ShowTerm(context, node, expression, true);
+        }
+
+        // ================================================================
+
+        //
+        // Преобразование римского числа в арабское – &uf('+9R')
+        // Вид функции: +9R.
+        // Назначение: Преобразование римского числа в арабское.
+        // Присутствует в версиях ИРБИС с 2011.1.
+        // Формат (передаваемая строка):
+        // +9R<римское_число>
+        //
+
+        static readonly string[] _replaceRom = { "CM", "CD", "XC", "XL", "IX", "IV" };
+        static readonly string[] _replaceNum = { "DCCCC", "CCCC", "LXXXX", "XXXX", "VIIII", "IIII" };
+        static readonly string[] _roman = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+        static readonly int[] arabic = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+
+        //
+        // Borrowed from
+        // https://stackoverflow.com/questions/14900228/roman-numerals-to-integers
+        //
+        /// <summary>
+        /// Converts a Roman number string into a Arabic number
+        /// </summary>
+        /// <param name="romanNumber">the Roman number string</param>
+        /// <returns>the Arabic number (0 if the given string is not convertible to a Roman number)</returns>
+        private static int ToArabicNumber
+            (
+                [NotNull] string romanNumber
+            )
+        {
+            return Enumerable.Range(0, _replaceRom.Length)
+                .Aggregate
+                    (
+                        romanNumber,
+                        (agg, cur) => agg.Replace(_replaceRom[cur], _replaceNum[cur]),
+                        agg => agg.ToArray()
+                    )
+                .Aggregate
+                    (
+                        0,
+                        (agg, cur) =>
+                            {
+                                int idx = Array.IndexOf(_roman, cur.ToString());
+                                return idx < 0 ? 0 : agg + arabic[idx];
+                            },
+                        agg => agg
+                    );
+        }
+
+        /// <summary>
+        /// ibatrak преобразование арабского числа в римское
+        /// </summary>
+        public static void RomanToArabic
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+            if (string.IsNullOrEmpty(expression))
+            {
+                return;
+            }
+
+            int num = ToArabicNumber(expression.ToUpperInvariant());
+            string output = num.ToInvariantString();
+
+            context.WriteAndSetFlag(node, output);
+        }
+
+        // ================================================================
+
+        //
+        // Преобразование арабского числа в римское – &uf('+9X')
+        // Вид функции: +9X.
+        // Назначение: Преобразование арабского числа в римское.
+        // Присутствует в версиях ИРБИС с 2011.1.
+        // Формат (передаваемая строка):
+        // +9X<арабское_число>
+        //
+
+        /// <summary>
+        /// ibatrak преобразование арабского числа в римское
+        /// </summary>
+        public static void ArabicToRoman
+            (
+                [NotNull] PftContext context,
+                [CanBeNull] PftNode node,
+                [CanBeNull] string expression
+            )
+        {
+
+            if (string.IsNullOrEmpty(expression))
+            {
+                return;
+            }
+
+            int num = expression.SafeToInt32();
+            string output = UniforS.ToRoman(num);
+
+            context.WriteAndSetFlag(node, output);
         }
 
         #endregion

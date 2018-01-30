@@ -362,5 +362,62 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         //    // Обработка ошибок
         //    Execute("+9P", "");
         //}
+
+        [TestMethod]
+        public void UniforPlus9_RomanToArabic_1()
+        {
+            Execute("+9RI", "1");
+            Execute("+9Ri", "1");
+            Execute("+9RII", "2");
+            Execute("+9RIII", "3");
+            Execute("+9RIIII", "4");
+            Execute("+9RIV", "4");
+            Execute("+9RV", "5");
+            Execute("+9RVI", "6");
+            Execute("+9RVII", "7");
+            Execute("+9RVIII", "8");
+            Execute("+9RVIIII", "9");
+            Execute("+9RIX", "9");
+            Execute("+9RX", "10");
+            Execute("+9RXI", "11");
+            Execute("+9RXII", "12");
+            Execute("+9RXV", "15");
+            Execute("+9RXX", "20");
+            Execute("+9RXXX", "30");
+            Execute("+9RXXXX", "40");
+            Execute("+9RXL", "40");
+            Execute("+9RL", "50");
+            Execute("+9RLI", "51");
+            Execute("+9RLXI", "61");
+            Execute("+9RC", "100");
+            Execute("+9RCLXI", "161");
+            Execute("+9RDCLXI", "661");
+            Execute("+9Rmmxviii", "2018");
+
+            // Обработка ошибок
+            Execute("+9R", "");
+        }
+
+        [TestMethod]
+        public void UniforPlus9_ArabicToRoman_1()
+        {
+            Execute("+9X4", "IV");
+            Execute("+9X6", "VI");
+            Execute("+9X9", "IX");
+            Execute("+9X23", "XXIII");
+            Execute("+9X43", "XLIII");
+            Execute("+9X53", "LIII");
+            Execute("+9X93", "XCIII");
+            Execute("+9X123", "CXXIII");
+            Execute("+9X423", "CDXXIII");
+            Execute("+9X523", "DXXIII");
+            Execute("+9X923", "CMXXIII");
+            Execute("+9X1234", "MCCXXXIV");
+            Execute("+9X3234", "MMMCCXXXIV");
+
+            // Обработка ошибок
+            Execute("+9X", "");
+            Execute("+9X6234", "");
+        }
     }
 }

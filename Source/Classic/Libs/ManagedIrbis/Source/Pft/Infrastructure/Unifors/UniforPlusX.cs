@@ -48,6 +48,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 [CanBeNull] string expression
             )
         {
+            //
+            // TODO Implement context non-closing
+            // TODO NextTerm in provider
+            //
+
             if (string.IsNullOrEmpty(expression))
             {
                 return;
@@ -93,7 +98,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     result = string.CompareOrdinal(terms[i].Text, parts[0]);
                     term = terms[i].Text;
-                    if (result > 0)
+                    if (result == 1)
                     {
                         break;
                     }
