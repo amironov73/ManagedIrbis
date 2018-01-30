@@ -11,7 +11,7 @@
 
 using System;
 using System.IO;
-using System.IO.MemoryMappedFiles;
+
 using AM.IO;
 using AM.Logging;
 
@@ -20,6 +20,12 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
+
+#if !FW35 && !WINMOBILE && !PocketPC
+
+using System.IO.MemoryMappedFiles;
+
+#endif
 
 #endregion
 
@@ -414,6 +420,22 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// 
         /// </summary>
+        public static int ReadNetworkInt32
+            (
+                [NotNull] this MemoryMappedViewStream stream
+            )
+        {
+            byte[] buffer = new byte[4];
+            stream.Read(buffer, 0, 4);
+            StreamUtility.NetworkToHost32(buffer, 0);
+            int result = BitConverter.ToInt32(buffer, 0);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static long ReadNetworkInt64
             (
                 [NotNull] this MemoryMappedViewAccessor accessor,
@@ -424,6 +446,22 @@ namespace ManagedIrbis.Direct
             byte[] buffer = BitConverter.GetBytes(result);
             StreamUtility.NetworkToHost64(buffer, 0);
             result = BitConverter.ToInt64(buffer, 0);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static long ReadNetworkInt64
+            (
+                [NotNull] this MemoryMappedViewStream stream
+            )
+        {
+            byte[] buffer = new byte[8];
+            stream.Read(buffer, 0, 8);
+            StreamUtility.NetworkToHost64(buffer, 0);
+            long result = BitConverter.ToInt64(buffer, 0);
 
             return result;
         }

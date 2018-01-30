@@ -56,17 +56,20 @@ namespace ManagedIrbis.Direct
             Code.NotNullNorEmpty(fileName, "fileName");
 
             FileName = fileName;
+            _lockObject = new object();
             _mapping = MemoryMappedFile.CreateFromFile(fileName, FileMode.Open);
-            _accessor = _mapping.CreateViewAccessor();
+            _stream = _mapping.CreateViewStream();
         }
 
         #endregion
 
         #region Private members
 
+        private readonly object _lockObject;
+
         private readonly MemoryMappedFile _mapping;
 
-        private readonly MemoryMappedViewAccessor _accessor;
+        private readonly MemoryMappedViewStream _stream;
 
         #endregion
 
@@ -83,15 +86,19 @@ namespace ManagedIrbis.Direct
         {
             Code.Positive(mfn, "mfn");
 
-            long position = (long)XrfRecord64.RecordSize * (mfn - 1);
-            XrfRecord64 result = new XrfRecord64
+            lock (_lockObject)
             {
-                Mfn = mfn,
-                Offset = _accessor.ReadNetworkInt64(position),
-                Status = (RecordStatus)_accessor.ReadInt32(position + 8)
-            };
+                long position = (long) XrfRecord64.RecordSize * (mfn - 1);
+                _stream.Seek(position, SeekOrigin.Begin);
+                XrfRecord64 result = new XrfRecord64
+                {
+                    Mfn = mfn,
+                    Offset = _stream.ReadNetworkInt64(),
+                    Status = (RecordStatus) _stream.ReadNetworkInt32()
+                };
 
-            return result;
+                return result;
+            }
         }
 
         #endregion
@@ -101,7 +108,7 @@ namespace ManagedIrbis.Direct
         /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
-            _accessor.Dispose();
+            _stream.Dispose();
             _mapping.Dispose();
         }
 
