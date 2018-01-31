@@ -513,6 +513,12 @@ namespace ManagedIrbis.Mx
         {
             Code.NotNullNorEmpty(modulePath, "modulePath");
 
+#if UAP
+
+            throw new NotImplementedException();
+
+#else
+
             string extension = Path.GetExtension(modulePath);
             if (string.IsNullOrEmpty(extension))
             {
@@ -541,6 +547,8 @@ namespace ManagedIrbis.Mx
             MxModule module = (MxModule) Activator.CreateInstance(type);
             module.Initialize(this);
             Modules.Add(module);
+
+#endif
         }
 
         /// <summary>
