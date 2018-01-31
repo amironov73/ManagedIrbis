@@ -398,7 +398,7 @@ namespace ManagedIrbis.Direct
             return result;
         }
 
-#if !FW35 && !UWP && !WINMOBILE && !PocketPC
+#if !FW35 && !UAP && !WINMOBILE && !PocketPC
 
         /// <summary>
         /// 
