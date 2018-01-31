@@ -21,7 +21,7 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-#if !FW35 && !WINMOBILE && !PocketPC
+#if !FW35 && !UAP && !WINMOBILE && !PocketPC
 
 using System.IO.MemoryMappedFiles;
 
@@ -398,7 +398,7 @@ namespace ManagedIrbis.Direct
             return result;
         }
 
-#if !FW35 && !WINMOBILE && !PocketPC
+#if !FW35 && !UWP && !WINMOBILE && !PocketPC
 
         /// <summary>
         /// 

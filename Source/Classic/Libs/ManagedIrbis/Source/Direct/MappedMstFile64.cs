@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#if !FW35 && !WINMOBILE && !PocketPC
+#if !FW35 && !UAP && !WINMOBILE && !PocketPC
 
 #region Using directives
 
