@@ -62,6 +62,8 @@ echo.
 %PATCH% %BINARIES%\Release45\*.exe.config 4.5
 echo.
 
+goto :END
+
 echo v4.6 restore
 echo.
 %NUGET% restore Source\ManagedIrbis.4.6.sln
@@ -97,3 +99,5 @@ echo.
 %PATCH% %BINARIES%\Debug47\*.exe.config   4.7
 %PATCH% %BINARIES%\Release47\*.exe.config 4.7
 echo.
+
+:END
