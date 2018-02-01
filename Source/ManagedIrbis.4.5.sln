@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Core", "Classic\Libs\AM.Core\AM.Core.csproj", "{1126394A-4392-4341-8DDD-69B5C3E884D2}"
 EndProject
@@ -26,8 +26,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Rfid", "Classic\Libs\AM.Rfid\AM.Rfid.csproj", "{51481C63-5D59-4AE1-927A-C94276B63C72}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Suggestions", "Classic\Libs\AM.Suggestions\AM.Suggestions.csproj", "{929CC021-A694-43C2-B7D0-57FB7734053A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.UI", "Classic\Libs\AM.UI\AM.UI.csproj", "{E9C1C881-8AF0-4625-9494-956A1C331649}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisInterop", "Classic\Libs\IrbisInterop\IrbisInterop.csproj", "{47702452-F405-41C6-BFA0-5E4F532F5338}"
 EndProject
@@ -149,14 +147,6 @@ Global
 		{929CC021-A694-43C2-B7D0-57FB7734053A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{929CC021-A694-43C2-B7D0-57FB7734053A}.Release|x86.ActiveCfg = Release|Any CPU
 		{929CC021-A694-43C2-B7D0-57FB7734053A}.Release|x86.Build.0 = Release|Any CPU
-		{E9C1C881-8AF0-4625-9494-956A1C331649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9C1C881-8AF0-4625-9494-956A1C331649}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9C1C881-8AF0-4625-9494-956A1C331649}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E9C1C881-8AF0-4625-9494-956A1C331649}.Debug|x86.Build.0 = Debug|Any CPU
-		{E9C1C881-8AF0-4625-9494-956A1C331649}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9C1C881-8AF0-4625-9494-956A1C331649}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E9C1C881-8AF0-4625-9494-956A1C331649}.Release|x86.ActiveCfg = Release|Any CPU
-		{E9C1C881-8AF0-4625-9494-956A1C331649}.Release|x86.Build.0 = Release|Any CPU
 		{47702452-F405-41C6-BFA0-5E4F532F5338}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{47702452-F405-41C6-BFA0-5E4F532F5338}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47702452-F405-41C6-BFA0-5E4F532F5338}.Debug|x86.ActiveCfg = Debug|x86
