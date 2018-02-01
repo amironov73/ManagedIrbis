@@ -386,6 +386,8 @@ namespace ManagedIrbis.Biblio
                     record.RemoveField(700);
                     record.RemoveField(701);
                     record.RemoveField(702);
+                    record.RemoveField(331); // Аннотация
+                    record.RemoveField(101); // Язык основного текста
 
                     record.Fields.Add(new RecordField(200).AddSubField('a', "То же"));
 

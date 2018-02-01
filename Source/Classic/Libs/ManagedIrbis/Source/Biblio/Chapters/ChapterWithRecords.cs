@@ -84,11 +84,14 @@ namespace ManagedIrbis.Biblio
                 [NotNull] MarcRecord record
             )
         {
-            foreach (BiblioItem item in chapter.Items)
+            if (!ReferenceEquals(chapter.Items, null))
             {
-                if (ReferenceEquals(item.Record, record))
+                foreach (BiblioItem item in chapter.Items)
                 {
-                    return item;
+                    if (ReferenceEquals(item.Record, record))
+                    {
+                        return item;
+                    }
                 }
             }
 

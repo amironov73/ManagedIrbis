@@ -116,6 +116,8 @@ if p(v101) and v101 <> &uf('Korg.mnu!6') then
    '.'
 fi,
 
+if p(v951^i) then '. - Режим доступа: ', v951^i, ', свободный. ', fi,
+
 if not v920:'ASP' then |. - |v327, fi
  
 |\par\pard\fi360 |v331,

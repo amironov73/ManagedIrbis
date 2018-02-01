@@ -27,7 +27,8 @@
     },
     "removeTags": [
         10, 11, 320, 488, 517, 470
-    ] 
+    ],
+    "showOrder" : false
   },
 
   // ================================================================
@@ -69,8 +70,8 @@
 
       // Выражение для отбора записей
       "search": "'DBWEB=RASP1 + DBWEB=RASP'",
-      //"search": "'DBWEB=RASP$ * (\"VGRASP= 2. 2$\"  + \"VGRASP= 1.$\")'",
-      //search": "'DBWEB=RASP$ * \"VGRASP= 1. 1.$\"'",
+      // "search": "'DBWEB=RASP$ * (\"VGRASP= 2. 2$\"  + \"VGRASP= 1.$\")'",
+      //"search": "'DBWEB=RASP$ * \"VGRASP= 1. 2. 5\"'",
       //"search": "'DBWEB=RASP1 * (\"VGRASP= 2. 2$\"  + \"VGRASP= 1.$\")'",
 
       // Формат библиографического описания для записи
@@ -117,7 +118,17 @@
           "format": "@rasputin_specification",
           "normal": "@rasputin_section1",
           "order": "*order.pft"
+        },
+
+        {
+          // Сортировка по годам
+          // Интервью и т. п.
+          "name": "1. 2. 5",
+          "type": "MenuSubChapter",
+          "format": "@rasputin_section1",
+          "order": "*order_years.pft"
         }//,
+
         //{
         //  // Группа с авторскими комплексами
         //  "name": "2. 6",

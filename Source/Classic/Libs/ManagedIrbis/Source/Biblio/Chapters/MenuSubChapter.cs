@@ -29,6 +29,8 @@ using ManagedIrbis.Reports;
 
 using MoonSharp.Interpreter;
 
+using Newtonsoft.Json.Linq;
+
 #endregion
 
 // ReSharper disable ForCanBeConvertedToForeach
@@ -238,8 +240,10 @@ namespace ManagedIrbis.Biblio
                             {
                                 foreach (MarcRecord oneRecord in same)
                                 {
-                                    oneRecord.Description = formatter.FormatRecord(oneRecord)
+                                    string desc = formatter.FormatRecord(oneRecord)
                                         .TrimEnd('\u001F');
+                                    desc = BiblioUtility.AddTrailingDot(desc);
+                                    oneRecord.Description = desc;
                                 }
                             }
                         }
@@ -326,6 +330,8 @@ namespace ManagedIrbis.Biblio
                 .ThrowIfNull("processor.Report");
             // ReportDriver driver = context.ReportContext.Driver;
 
+            bool showOrder = context.Document.CommonSettings.Value<bool?>("showOrder") ?? false;
+
             if (Records.Count != 0
                 || Duplicates.Count != 0
                 || Children.Count != 0)
@@ -355,10 +361,13 @@ namespace ManagedIrbis.Biblio
                             RichText.Encode3(description, UnicodeRange.Russian, "\\f2")
                         ));
 
-                    //// Для отладки: проверить упорядочение
-                    //band = new ParagraphBand("MFN " + item.Record.Mfn + " " + item.Order);
-                    //report.Body.Add(band);
-                    //report.Body.Add(new ParagraphBand());
+                    // Для отладки: проверить упорядочение
+                    if (showOrder)
+                    {
+                        band = new ParagraphBand("MFN " + item.Record.Mfn + " " + item.Order);
+                        report.Body.Add(band);
+                        report.Body.Add(new ParagraphBand());
+                    }
 
                     MarcRecord record = item.Record;
                     if (!ReferenceEquals(record, null))
