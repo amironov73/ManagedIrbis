@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CountPublishers")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")][assembly: AssemblyProduct("CountPublishers")]
+[assembly: AssemblyProduct("CountPublishers")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("bd3b2ad9-6790-4f7b-8ec1-c59f37513588")]
