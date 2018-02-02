@@ -121,6 +121,26 @@ namespace ManagedIrbis.Biblio
         #region Private members
 
         /// <summary>
+        /// Очищаем ключ упорядочивания записи.
+        /// </summary>
+        [NotNull]
+        protected internal string CleanOrder
+            (
+                [NotNull] string text
+            )
+        {
+            StringBuilder result = new StringBuilder(text);
+            result.Replace("[", string.Empty);
+            result.Replace("]", string.Empty);
+            result.Replace("\"", string.Empty);
+            result.Replace("«", string.Empty);
+            result.Replace("»", string.Empty);
+            result.Replace("...", string.Empty);
+
+            return result.ToString();
+        }
+
+        /// <summary>
         /// Get property value.
         /// </summary>
         [CanBeNull]

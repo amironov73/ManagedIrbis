@@ -16,6 +16,20 @@
     <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn />
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <DocumentationFile>bin\Debug\netstandard2.0\AM.Core.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn />
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <DocumentationFile>bin\Release\netstandard2.0\AM.Core.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="../../Classic/Common/**/*.cs" />
     <Compile Include="../../Classic/Libs/AM.Core/**/*.cs" />

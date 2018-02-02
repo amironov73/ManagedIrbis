@@ -71,8 +71,8 @@
       // Выражение для отбора записей
       "search": "'DBWEB=RASP1 + DBWEB=RASP'",
       // "search": "'DBWEB=RASP$ * (\"VGRASP= 2. 2$\"  + \"VGRASP= 1.$\")'",
-      //"search": "'DBWEB=RASP$ * \"VGRASP= 1. 2. 5\"'",
-      //"search": "'DBWEB=RASP1 * (\"VGRASP= 2. 2$\"  + \"VGRASP= 1.$\")'",
+      // "search": "'DBWEB=RASP$ * \"VGRASP= 1. 2$\"'",
+      // "search": "'DBWEB=RASP1 * (\"VGRASP= 2. 2$\"  + \"VGRASP= 1.$\")'",
 
       // Формат библиографического описания для записи
       //"format": "*rasputin.pft",
@@ -120,10 +120,46 @@
           "order": "*order.pft"
         },
 
+        // Сортировка по годам
+        // Интервью и т. п.
         {
-          // Сортировка по годам
-          // Интервью и т. п.
           "name": "1. 2. 5",
+          "type": "MenuSubChapter",
+          "format": "@rasputin_section1",
+          "order": "*order_years.pft"
+        },
+        {
+          "name": "1. 3. 4",
+          "type": "MenuSubChapter",
+          "format": "@rasputin_section1",
+          "order": "*order_years.pft"
+        },
+        {
+          "name": "2. 2. 1",
+          "type": "MenuSubChapter",
+          "format": "@rasputin_section1",
+          "order": "*order_years.pft"
+        },
+        {
+          "name": "2. 2. 2",
+          "type": "MenuSubChapter",
+          "format": "@rasputin_section1",
+          "order": "*order_years.pft"
+        },
+        {
+          "name": "2. 3",
+          "type": "MenuSubChapter",
+          "format": "@rasputin_section1",
+          "order": "*order_years.pft"
+        },
+        {
+          "name": "2. 3. 1",
+          "type": "MenuSubChapter",
+          "format": "@rasputin_section1",
+          "order": "*order_years.pft"
+        },
+        {
+          "name": "2. 4",
           "type": "MenuSubChapter",
           "format": "@rasputin_section1",
           "order": "*order_years.pft"

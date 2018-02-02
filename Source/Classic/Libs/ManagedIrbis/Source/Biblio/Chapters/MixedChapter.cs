@@ -214,6 +214,9 @@ namespace ManagedIrbis.Biblio
                     {
                         order = order.Trim();
                     }
+
+                    order = CleanOrder(order);
+
                     bookGroup.Order = order;
 
                     if (!bookGroup.Single)

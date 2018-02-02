@@ -203,6 +203,7 @@ namespace ManagedIrbis.Biblio
                     if (!string.IsNullOrEmpty(order))
                     {
                         order = order.Trim();
+                        order = CleanOrder(order);
                     }
                     bookGroup.Order = order;
                 }
@@ -245,6 +246,7 @@ namespace ManagedIrbis.Biblio
             IrbisReport report = processor.Report
                 .ThrowIfNull("processor.Report");
 
+            bool showOrder = context.Document.CommonSettings.Value<bool?>("showOrder") ?? false;
             RenderTitle(context);
 
             foreach (Multivolume bookGroup in Groups)
@@ -265,10 +267,14 @@ namespace ManagedIrbis.Biblio
                     );
                 report.Body.Add(band);
 
-                //// Для отладки: проверить упорядоч    ение
-                //band = new ParagraphBand(bookGroup.Order);
-                //report.Body.Add(band);
-                //report.Body.Add(new ParagraphBand());
+                // Для отладки: проверить упорядоч    ение
+                // Для отладки: проверить упорядочение
+                if (showOrder)
+                {
+                    band = new ParagraphBand(bookGroup.Order);
+                    report.Body.Add(band);
+                    report.Body.Add(new ParagraphBand());
+                }
 
                 if (!bookGroup.Single)
                 {

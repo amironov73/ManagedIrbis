@@ -272,6 +272,8 @@ namespace ManagedIrbis.Biblio
 
                             // TODO handle string.IsNullOrEmpty(order)
 
+                            order = CleanOrder(order);
+
                             //item.Order = RichText.Decode(order);
                             item.Order = order;
                         }

@@ -334,7 +334,9 @@ namespace ManagedIrbis.Biblio
             report.Body.Add(new NewPageBand());
             RenderTitle(context);
 
-            string[] keys = NumberText.Sort(Dictionary.Keys).ToArray();
+            string[] keys = Dictionary.Keys.ToArray();
+            string[] items = keys.Select(k => CleanOrder(k)).ToArray();
+            Array.Sort(items, keys);
             StringBuilder builder = new StringBuilder();
             foreach (string key in keys)
             {
