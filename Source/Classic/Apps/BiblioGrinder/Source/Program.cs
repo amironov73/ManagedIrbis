@@ -99,25 +99,41 @@ namespace BiblioGrinder
                             @"([А-Я]\.)\s([А-Я])",
                             "$1\\~$2"
                         );
+
+                    outputText = Regex.Replace
+                        (
+                            outputText,
+                            "\\\"([\\w])",
+                            "«$1"
+                        );
+                    outputText = Regex.Replace
+                        (
+                            outputText,
+                            "([\\w\\.])\\\"",
+                            "$1»"
+                        );
+
+                    outputText = Regex.Replace
+                        (
+                            outputText,
+                            "\\\"(\\.\\.\\.|\\(|\\[)",
+                            "«$1"
+                        );
+                    outputText = Regex.Replace
+                        (
+                            outputText,
+                            "(\\.\\.\\.|\\!|\\?|\\)|\\])\\\"",
+                            "$1»"
+                        );
+
                     outputText = outputText
                         .Replace(" - ", " \\u8211? ")
                         .Replace("}- ", "}\\u8211? ")
                         .Replace(" -}", " \\u8211?}")
                         .Replace(" -\\", " \\u8211?\\")
-                        .Replace(" \"", " «")
-                        .Replace("}\"", "}«")
-                        .Replace("\" ", "» ")
-                        .Replace("\",", "»,")
-                        .Replace("\".", "».")
-                        .Replace("\"{", "»{")
-                        .Replace("\")", "»)")
-                        .Replace("\"]", "»]")
-                        .Replace("\":", "»:")
-                        .Replace("\"\\", "»\\")
                         .Replace("\\u8470? ", "\u8470?\\~")
                         .Replace("...", "\\'85")
                         .Replace("С. ", "С.\\~")
-                        //.Replace("  ", " ")
                         ;
 
                     File.WriteAllText
