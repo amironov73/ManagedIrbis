@@ -194,6 +194,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MappedAccess64.cs">
       <Link>Source\Direct\MappedAccess64.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MappedInvertedFile64.cs">
+      <Link>Source\Direct\MappedInvertedFile64.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MappedMstFile64.cs">
       <Link>Source\Direct\MappedMstFile64.cs</Link>
     </Compile>

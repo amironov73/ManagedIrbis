@@ -67,6 +67,12 @@ namespace ManagedIrbis.Direct
         public MappedXrfFile64 Xrf { get; private set; }
 
         /// <summary>
+        /// Inverted (index) file.
+        /// </summary>
+        [NotNull]
+        public MappedInvertedFile64 InvertedFile { get; private set; }
+
+        /// <summary>
         /// Database path.
         /// </summary>
         [NotNull]
@@ -89,6 +95,7 @@ namespace ManagedIrbis.Direct
             Database = Path.GetFileNameWithoutExtension(masterFile);
             Mst = new MappedMstFile64(Path.ChangeExtension(masterFile, ".mst"));
             Xrf = new MappedXrfFile64(Path.ChangeExtension(masterFile, ".xrf"));
+            InvertedFile = new MappedInvertedFile64(Path.ChangeExtension(masterFile, ".ifp"));
         }
 
         #endregion
@@ -196,6 +203,7 @@ namespace ManagedIrbis.Direct
         /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
+            InvertedFile.Dispose();
             Xrf.Dispose();
             Mst.Dispose();
         }

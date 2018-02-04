@@ -418,6 +418,21 @@ namespace ManagedIrbis.Direct
                     FileAccess.Read,
                     FileShare.Read
                 );
+
+#if NETCORE
+
+            MemoryMappedFile result = MemoryMappedFile.CreateFromFile
+                (
+                    stream,
+                    null, // map name = anonymous
+                    stream.Length, // capacity = all the file
+                    MemoryMappedFileAccess.Read,
+                    HandleInheritability.None,
+                    false // close the stream when the MMF is closed
+                );
+
+#else
+
             MemoryMappedFile result = MemoryMappedFile.CreateFromFile
                 (
                     stream,
@@ -429,6 +444,7 @@ namespace ManagedIrbis.Direct
                     false // close the stream when the MMF is closed
                 );
 
+#endif
             return result;
         }
 

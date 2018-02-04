@@ -253,6 +253,7 @@
     <Compile Include="ManagedIrbis\Direct\DirectAccess64Test.cs" />
     <Compile Include="ManagedIrbis\Direct\DirectUtilityTest.cs" />
     <Compile Include="ManagedIrbis\Direct\MappedAccess64Test.cs" />
+    <Compile Include="ManagedIrbis\Direct\MappedInvertedFile64Test.cs" />
     <Compile Include="ManagedIrbis\Direct\MappedMstFile64Test.cs" />
     <Compile Include="ManagedIrbis\Direct\MappedXrfFile64Test.cs" />
     <Compile Include="ManagedIrbis\Direct\MstRecord64Test.cs" />
