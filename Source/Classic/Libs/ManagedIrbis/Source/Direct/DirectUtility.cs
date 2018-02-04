@@ -401,6 +401,38 @@ namespace ManagedIrbis.Direct
 #if !FW35 && !UAP && !WINMOBILE && !PocketPC
 
         /// <summary>
+        /// Open the <see cref="MemoryMappedFile"/> for read only.
+        /// </summary>
+        [NotNull]
+        public static MemoryMappedFile OpenMemoryMappedFile
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            FileStream stream = new FileStream
+                (
+                    fileName,
+                    FileMode.Open,
+                    FileAccess.Read,
+                    FileShare.Read
+                );
+            MemoryMappedFile result = MemoryMappedFile.CreateFromFile
+                (
+                    stream,
+                    null, // map name = anonymous
+                    stream.Length, // capacity = all the file
+                    MemoryMappedFileAccess.Read,
+                    null, // no security
+                    HandleInheritability.None,
+                    false // close the stream when the MMF is closed
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         public static int ReadNetworkInt32

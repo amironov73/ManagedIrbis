@@ -67,14 +67,17 @@ namespace ManagedIrbis.Direct
 
             FileName = fileName;
 
-            _mapping = MemoryMappedFile.CreateFromFile(fileName, FileMode.Open);
-            _stream = _mapping.CreateViewStream();
+            _lockObject = new object();
+            _mapping = DirectUtility.OpenMemoryMappedFile(fileName);
+            _stream = _mapping.CreateViewStream(0, 0, MemoryMappedFileAccess.Read);
             ControlRecord = MstControlRecord64.Read(_stream);
         }
 
         #endregion
 
         #region Private members
+
+        private readonly object _lockObject;
 
         private readonly MemoryMappedFile _mapping;
 
@@ -93,42 +96,46 @@ namespace ManagedIrbis.Direct
                 long position
             )
         {
-            Encoding encoding = IrbisEncoding.Utf8;
-            List<MstDictionaryEntry64> dictionary = new List<MstDictionaryEntry64>();
-
-            _stream.Seek(position, SeekOrigin.Begin);
-            var leader = MstRecordLeader64.Read(_stream);
-
-            for (int i = 0; i < leader.Nvf; i++)
+            lock (_lockObject)
             {
-                MstDictionaryEntry64 entry = new MstDictionaryEntry64
-                {
-                    Tag = _stream.ReadInt32Network(),
-                    Position = _stream.ReadInt32Network(),
-                    Length = _stream.ReadInt32Network()
-                };
-                dictionary.Add(entry);
-            }
+                Encoding encoding = IrbisEncoding.Utf8;
+                List<MstDictionaryEntry64> dictionary
+                    = new List<MstDictionaryEntry64>();
 
-            foreach (MstDictionaryEntry64 entry in dictionary)
-            {
-                long endOffset = leader.Base + entry.Position;
-                _stream.Seek(position + endOffset, SeekOrigin.Begin);
-                entry.Bytes = StreamUtility.ReadBytes(_stream, entry.Length);
-                if (!ReferenceEquals(entry.Bytes, null))
+                _stream.Seek(position, SeekOrigin.Begin);
+                MstRecordLeader64 leader = MstRecordLeader64.Read(_stream);
+
+                for (int i = 0; i < leader.Nvf; i++)
                 {
-                    byte[] buffer = entry.Bytes;
-                    entry.Text = encoding.GetString(buffer, 0, buffer.Length);
+                    MstDictionaryEntry64 entry = new MstDictionaryEntry64
+                    {
+                        Tag = _stream.ReadInt32Network(),
+                        Position = _stream.ReadInt32Network(),
+                        Length = _stream.ReadInt32Network()
+                    };
+                    dictionary.Add(entry);
                 }
+
+                foreach (MstDictionaryEntry64 entry in dictionary)
+                {
+                    long endOffset = leader.Base + entry.Position;
+                    _stream.Seek(position + endOffset, SeekOrigin.Begin);
+                    entry.Bytes = StreamUtility.ReadBytes(_stream, entry.Length);
+                    if (!ReferenceEquals(entry.Bytes, null))
+                    {
+                        byte[] buffer = entry.Bytes;
+                        entry.Text = encoding.GetString(buffer, 0, buffer.Length);
+                    }
+                }
+
+                MstRecord64 result = new MstRecord64
+                {
+                    Leader = leader,
+                    Dictionary = dictionary
+                };
+
+                return result;
             }
-
-            MstRecord64 result = new MstRecord64
-            {
-                Leader = leader,
-                Dictionary = dictionary
-            };
-
-            return result;
         }
 
         #endregion

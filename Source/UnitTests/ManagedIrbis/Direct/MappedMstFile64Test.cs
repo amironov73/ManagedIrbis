@@ -25,7 +25,7 @@ namespace UnitTests.ManagedIrbis.Direct
             return Path.Combine
                 (
                     Irbis64RootPath,
-                    "Datai\\IBIS\\ibis.mst"
+                    "Datai/IBIS/ibis.mst"
                 );
         }
 

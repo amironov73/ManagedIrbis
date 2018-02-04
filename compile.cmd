@@ -62,7 +62,7 @@ echo.
 %PATCH% %BINARIES%\Release45\*.exe.config 4.5
 echo.
 
-goto :END
+rem goto :END
 
 echo v4.6 restore
 echo.

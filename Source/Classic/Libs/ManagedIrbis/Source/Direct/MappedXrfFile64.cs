@@ -57,8 +57,9 @@ namespace ManagedIrbis.Direct
 
             FileName = fileName;
             _lockObject = new object();
-            _mapping = MemoryMappedFile.CreateFromFile(fileName, FileMode.Open);
-            _stream = _mapping.CreateViewStream();
+            //_mapping = MemoryMappedFile.CreateFromFile(fileName, FileMode.Open);
+            _mapping = DirectUtility.OpenMemoryMappedFile(fileName);
+            _stream = _mapping.CreateViewStream(0, 0, MemoryMappedFileAccess.Read);
         }
 
         #endregion
