@@ -13,31 +13,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.IO.MemoryMappedFiles;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
-using AM;
-using AM.Collections;
-using AM.IO;
 using AM.Logging;
-using AM.Runtime;
-using AM.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Mapping;
+using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -193,6 +180,102 @@ namespace ManagedIrbis.Direct
                 }
             }
 
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Read links for the term.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public TermLink[] ReadLinks
+            (
+                [NotNull] string key
+            )
+        {
+            Code.NotNull(key, "key");
+
+            return InvertedFile.SearchExact(key);
+        }
+
+        /// <summary>
+        /// Read terms.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public TermInfo[] ReadTerms
+            (
+                [NotNull] TermParameters parameters
+            )
+        {
+            Code.NotNull(parameters, "parameters");
+
+            TermInfo[] result = InvertedFile.ReadTerms(parameters);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Simple search.
+        /// </summary>
+        [NotNull]
+        public int[] SearchSimple
+            (
+                [NotNull] string key
+            )
+        {
+            Code.NotNullNorEmpty(key, "key");
+
+            int[] found = InvertedFile.SearchSimple(key);
+            List<int> result = new List<int>();
+            foreach (int mfn in found)
+            {
+                if (!Xrf.ReadRecord(mfn).Deleted)
+                {
+                    result.Add(mfn);
+                }
+            }
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Simple search and read records.
+        /// </summary>
+        [NotNull]
+        public MarcRecord[] SearchReadSimple
+            (
+                [NotNull] string key
+            )
+        {
+            Code.NotNullNorEmpty(key, "key");
+
+            int[] mfns = InvertedFile.SearchSimple(key);
+            List<MarcRecord> result = new List<MarcRecord>(mfns.Length);
+            foreach (int mfn in mfns)
+            {
+                try
+                {
+                    XrfRecord64 xrfRecord = Xrf.ReadRecord(mfn);
+                    if (!xrfRecord.Deleted)
+                    {
+                        MstRecord64 mstRecord = Mst.ReadRecord(xrfRecord.Offset);
+                        if (!mstRecord.Deleted)
+                        {
+                            MarcRecord irbisRecord = mstRecord.DecodeRecord();
+                            irbisRecord.Database = Database;
+                            result.Add(irbisRecord);
+                        }
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Log.TraceException
+                        (
+                            "MappedAccess64::SearchReadSimple",
+                            exception
+                        );
+                }
+            }
             return result.ToArray();
         }
 

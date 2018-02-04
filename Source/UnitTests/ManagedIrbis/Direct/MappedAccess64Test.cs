@@ -8,7 +8,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Direct;
-
+using ManagedIrbis.Search;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.ManagedIrbis.Direct
@@ -42,12 +42,12 @@ namespace UnitTests.ManagedIrbis.Direct
             Assert.AreEqual(database, access.Database);
             Assert.IsNotNull(access.Mst);
             Assert.IsNotNull(access.Xrf);
-            //Assert.IsNotNull(access.InvertedFile);
+            Assert.IsNotNull(access.InvertedFile);
             access.Dispose();
         }
 
         [TestMethod]
-        public void MappedAccess_GetMaxMfn_1()
+        public void MappedAccess64_GetMaxMfn_1()
         {
             using (MappedAccess64 access = _GetAccess())
             {
@@ -57,7 +57,7 @@ namespace UnitTests.ManagedIrbis.Direct
         }
 
         [TestMethod]
-        public void MappedAccess_ReadRawRecord_1()
+        public void MappedAccess64_ReadRawRecord_1()
         {
             using (MappedAccess64 access = _GetAccess())
             {
@@ -72,7 +72,7 @@ namespace UnitTests.ManagedIrbis.Direct
         }
 
         [TestMethod]
-        public void MappedAccess_ReadRawRecord_2()
+        public void MappedAccess64_ReadRawRecord_2()
         {
             using (MappedAccess64 access = _GetAccess())
             {
@@ -82,7 +82,7 @@ namespace UnitTests.ManagedIrbis.Direct
         }
 
         [TestMethod]
-        public void MappedAccess_ReadRecord_1()
+        public void MappedAccess64_ReadRecord_1()
         {
             using (MappedAccess64 access = _GetAccess())
             {
@@ -95,7 +95,7 @@ namespace UnitTests.ManagedIrbis.Direct
         }
 
         [TestMethod]
-        public void MappedAccess_ReadRecord_2()
+        public void MappedAccess64_ReadRecord_2()
         {
             using (MappedAccess64 access = _GetAccess())
             {
@@ -105,13 +105,95 @@ namespace UnitTests.ManagedIrbis.Direct
         }
 
         [TestMethod]
-        public void MappedAccess_ReadAllRecordVersions_1()
+        public void MappedAccess64_ReadAllRecordVersions_1()
         {
             using (MappedAccess64 access = _GetAccess())
             {
                 MarcRecord[] versions = access.ReadAllRecordVersions(1);
                 Assert.IsNotNull(versions);
                 Assert.AreEqual(2, versions.Length);
+            }
+        }
+
+        [TestMethod]
+        public void MappedAccess64_ReadLinks_1()
+        {
+            using (MappedAccess64 access = _GetAccess())
+            {
+                TermLink[] links = access.ReadLinks("K=CASE");
+                Assert.IsNotNull(links);
+                Assert.AreEqual(2, links.Length);
+            }
+        }
+
+        [TestMethod]
+        public void MappedAccess64_ReadLinks_2()
+        {
+            using (MappedAccess64 access = _GetAccess())
+            {
+                TermLink[] links = access.ReadLinks("K=CAS0");
+                Assert.IsNotNull(links);
+                Assert.AreEqual(0, links.Length);
+            }
+        }
+
+        [TestMethod]
+        public void MappedAccess64_ReadTerms_1()
+        {
+            using (MappedAccess64 access = _GetAccess())
+            {
+                TermParameters parameters = new TermParameters
+                {
+                    StartTerm = "K=",
+                    NumberOfTerms = 10
+                };
+                TermInfo[] terms = access.ReadTerms(parameters);
+                Assert.IsNotNull(terms);
+                Assert.AreEqual(10, terms.Length);
+            }
+        }
+
+        [TestMethod]
+        public void MappedAccess64_SearchSimple_1()
+        {
+            using (MappedAccess64 access = _GetAccess())
+            {
+                int[] found = access.SearchSimple("K=CASE");
+                Assert.IsNotNull(found);
+                Assert.AreEqual(2, found.Length);
+            }
+        }
+
+        [TestMethod]
+        public void MappedAccess64_SearchSimple_2()
+        {
+            using (MappedAccess64 access = _GetAccess())
+            {
+                int[] found = access.SearchSimple("K=CAS0");
+                Assert.IsNotNull(found);
+                Assert.AreEqual(0, found.Length);
+            }
+        }
+
+        [TestMethod]
+        public void MappedAccess64_SearchSimple_3()
+        {
+            using (MappedAccess64 access = _GetAccess())
+            {
+                int[] found = access.SearchSimple("K=C$");
+                Assert.IsNotNull(found);
+                Assert.AreEqual(19, found.Length);
+            }
+        }
+
+        [TestMethod]
+        public void MappedAccess64_SearchReadSimple_1()
+        {
+            using (MappedAccess64 access = _GetAccess())
+            {
+                MarcRecord[] found = access.SearchReadSimple("K=C$");
+                Assert.IsNotNull(found);
+                Assert.AreEqual(19, found.Length);
             }
         }
     }
