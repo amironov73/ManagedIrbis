@@ -16,6 +16,7 @@ using System.IO;
 using AM;
 using AM.IO;
 using AM.Runtime;
+using AM.Text;
 
 using CodeJam;
 
@@ -27,13 +28,25 @@ using MoonSharp.Interpreter;
 
 namespace ManagedIrbis.Infrastructure
 {
+    //
+    // Путь на файл Αpath.Adbn.Afilename
+    // Αpath – код путей:
+    // 0 – общесистемный путь.
+    // 1 – путь размещения сведений о базах данных сервера ИРБИС64
+    // 2 – путь на мастер-файл базы данных.
+    // 3 – путь на словарь базы данных.
+    // 10 – путь на параметрию базы данных.
+    // Adbn – имя базы данных
+    // Afilename – имя требуемого файла с расширением
+    // В случае чтения ресурса по пути 0 и 1 имя базы данных не задается.
+    //
+ 
     /// <summary>
-    /// Irbis file name.
+    /// File name specification in IRBIS64.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    [DebuggerDisplay("Path={Path} Database={Database} " +
-                     "FileName={FileName}")]
+    [DebuggerDisplay("Path={Path} Database={Database} FileName={FileName}")]
     public sealed class FileSpecification
         : IHandmadeSerializable,
         IVerifiable,
@@ -67,7 +80,7 @@ namespace ManagedIrbis.Infrastructure
         /// File contents (when we want write the file).
         /// </summary>
         [CanBeNull]
-        public string Contents { get; set; }
+        public string Content { get; set; }
 
         #endregion
 
@@ -118,8 +131,8 @@ namespace ManagedIrbis.Infrastructure
 
         private static bool _CompareDatabases
             (
-                string first,
-                string second
+                [CanBeNull] string first,
+                [CanBeNull] string second
             )
         {
             if (string.IsNullOrEmpty(first)
@@ -128,17 +141,53 @@ namespace ManagedIrbis.Infrastructure
                 return true;
             }
 
-            return string.Compare
-                (
-                    first,
-                    second,
-                    StringComparison.OrdinalIgnoreCase
-                ) == 0;
+            return StringUtility.CompareNoCase(first, second); 
         }
 
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Parse the text specification.
+        /// </summary>
+        [NotNull]
+        public static FileSpecification Parse
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNullNorEmpty(text, "text");
+
+            TextNavigator navigator = new TextNavigator(text);
+            int path = NumericUtility.ParseInt32(navigator.ReadTo("."));
+            string database = navigator.ReadTo(".").EmptyToNull();
+            string fileName = navigator.GetRemainingText();
+            bool binaryFile = fileName.StartsWith("@");
+            if (binaryFile)
+            {
+                fileName = fileName.Substring(1);
+            }
+
+            string content = null;
+            int position = fileName.IndexOf("&");
+            if (position >= 0)
+            {
+                content = fileName.Substring(position + 1);
+                fileName = fileName.Substring(0, position);
+            }
+            FileSpecification result = new FileSpecification
+            {
+                BinaryFile = binaryFile,
+                Path = (IrbisPath) path,
+                Database = database,
+                FileName = fileName,
+                Content = content
+            };
+
+
+            return result;
+        }
 
         #endregion
 
@@ -150,11 +199,13 @@ namespace ManagedIrbis.Infrastructure
                 BinaryReader reader
             )
         {
+            Code.NotNull(reader, "reader");
+
             BinaryFile = reader.ReadBoolean();
             Path = (IrbisPath)reader.ReadPackedInt32();
             Database = reader.ReadNullableString();
             FileName = reader.ReadNullableString();
-            Contents = reader.ReadNullableString();
+            Content = reader.ReadNullableString();
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -163,12 +214,14 @@ namespace ManagedIrbis.Infrastructure
                 BinaryWriter writer
             )
         {
+            Code.NotNull(writer, "writer");
+
             writer.Write(BinaryFile);
             writer
                 .WritePackedInt32((int)Path)
                 .WriteNullable(Database)
                 .WriteNullable(FileName)
-                .WriteNullable(Contents);
+                .WriteNullable(Content);
         }
 
         #endregion
@@ -181,8 +234,7 @@ namespace ManagedIrbis.Infrastructure
                 bool throwOnError
             )
         {
-            Verifier<FileSpecification> verifier
-                = new Verifier<FileSpecification>
+            Verifier<FileSpecification> verifier = new Verifier<FileSpecification>
                     (
                         this,
                         throwOnError
@@ -263,7 +315,7 @@ namespace ManagedIrbis.Infrastructure
             }
             else
             {
-                if (!ReferenceEquals(Contents, null))
+                if (!ReferenceEquals(Content, null))
                 {
                     fileName = "&" + fileName;
                 }
@@ -293,11 +345,11 @@ namespace ManagedIrbis.Infrastructure
                     break;
             }
 
-            if (!ReferenceEquals(Contents, null))
+            if (!ReferenceEquals(Content, null))
             {
                 result = result
                     + "&"
-                    + IrbisText.WindowsToIrbis(Contents);
+                    + IrbisText.WindowsToIrbis(Content);
             }
 
             return result;

@@ -158,7 +158,7 @@ namespace ManagedIrbis.Direct
         [NotNull]
         public MstRecord64 ReadRecord
             (
-                long offset
+                long position
             )
         {
             MemoryStream memory;
@@ -166,11 +166,7 @@ namespace ManagedIrbis.Direct
 
             lock (_lockObject)
             {
-                //if (_stream.Seek(offset, SeekOrigin.Begin) != offset)
-                //{
-                //    throw new IOException();
-                //}
-                _stream.Seek(offset, SeekOrigin.Begin);
+                _stream.Seek(position, SeekOrigin.Begin);
 
                 memory = new MemoryStream(PreloadLength);
                 _AppendStream(_stream, memory, PreloadLength);
@@ -186,8 +182,9 @@ namespace ManagedIrbis.Direct
 
             Encoding encoding = IrbisEncoding.Utf8;
             List<MstDictionaryEntry64> dictionary
-                = new List<MstDictionaryEntry64>();
+                = new List<MstDictionaryEntry64>(leader.Nvf);
 
+            byte[] bytes = memory.GetBuffer();
             for (int i = 0; i < leader.Nvf; i++)
             {
                 MstDictionaryEntry64 entry = new MstDictionaryEntry64
@@ -196,19 +193,9 @@ namespace ManagedIrbis.Direct
                     Position = memory.ReadInt32Network(),
                     Length = memory.ReadInt32Network()
                 };
+                int endOffset = leader.Base + entry.Position;
+                entry.Text = encoding.GetString(bytes, endOffset, entry.Length);
                 dictionary.Add(entry);
-            }
-
-            foreach (MstDictionaryEntry64 entry in dictionary)
-            {
-                long endOffset = leader.Base + entry.Position;
-                memory.Seek(endOffset, SeekOrigin.Begin);
-                entry.Bytes = StreamUtility.ReadBytes(memory, entry.Length);
-                if (!ReferenceEquals(entry.Bytes, null))
-                {
-                    byte[] buffer = entry.Bytes;
-                    entry.Text = encoding.GetString(buffer, 0, buffer.Length);
-                }
             }
 
             MstRecord64 result = new MstRecord64

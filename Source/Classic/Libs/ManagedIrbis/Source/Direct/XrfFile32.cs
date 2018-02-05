@@ -149,7 +149,6 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Read the record.
         /// </summary>
-        [NotNull]
         public XrfRecord32 ReadRecord
             (
                 int mfn
@@ -179,11 +178,9 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public void WriteRecord
             (
-                [NotNull] XrfRecord32 record
+                XrfRecord32 record
             )
         {
-            Code.NotNull(record, "record");
-
             throw new NotImplementedException("WriteRecord");
         }
 

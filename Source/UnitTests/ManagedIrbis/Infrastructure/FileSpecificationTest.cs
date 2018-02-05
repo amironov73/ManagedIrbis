@@ -1,9 +1,15 @@
 ﻿using System;
+
 using AM.Runtime;
+
 using ManagedIrbis;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis.Infrastructure;
+
+// ReSharper disable AssignNullToNotNullAttribute
+// ReSharper disable ObjectCreationAsStatement
 
 namespace UnitTests.ManagedIrbis.Infrastructure
 {
@@ -11,14 +17,14 @@ namespace UnitTests.ManagedIrbis.Infrastructure
     public class FileSpecificationTest
     {
         [TestMethod]
-        public void FileSpecification_Construction()
+        public void FileSpecification_Constructor_1()
         {
             FileSpecification specification = new FileSpecification();
             Assert.AreEqual(false, specification.BinaryFile);
             Assert.AreEqual(IrbisPath.System, specification.Path);
             Assert.AreEqual(null, specification.Database);
             Assert.AreEqual(null, specification.FileName);
-            Assert.AreEqual(null, specification.Contents);
+            Assert.AreEqual(null, specification.Content);
 
             specification = new FileSpecification
                 (
@@ -29,7 +35,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure
             Assert.AreEqual(IrbisPath.MasterFile, specification.Path);
             Assert.AreEqual(null, specification.Database);
             Assert.AreEqual("brief.pft", specification.FileName);
-            Assert.AreEqual(null, specification.Contents);
+            Assert.AreEqual(null, specification.Content);
 
             specification = new FileSpecification
                 (
@@ -41,14 +47,14 @@ namespace UnitTests.ManagedIrbis.Infrastructure
             Assert.AreEqual(IrbisPath.MasterFile, specification.Path);
             Assert.AreEqual("IBIS", specification.Database);
             Assert.AreEqual("brief.pft", specification.FileName);
-            Assert.AreEqual(null, specification.Contents);
+            Assert.AreEqual(null, specification.Content);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void FileSpecification_Construction_Exception()
+        public void FileSpecification_Constructor_2()
         {
-            FileSpecification specification = new FileSpecification
+            new FileSpecification
                 (
                     IrbisPath.MasterFile,
                     null
@@ -56,7 +62,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure
         }
 
         [TestMethod]
-        public void FileSpecification_ToString()
+        public void FileSpecification_ToString_1()
         {
             FileSpecification specification = new FileSpecification();
             Assert.AreEqual
@@ -88,7 +94,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure
                 );
 
             specification.BinaryFile = false;
-            specification.Contents = "Hello";
+            specification.Content = "Hello";
             Assert.AreEqual
                 (
                     "2.IBIS.&brief.pft&Hello",
@@ -97,7 +103,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure
         }
 
         [TestMethod]
-        public void FileSpecification_Equals()
+        public void FileSpecification_Equals_1()
         {
             FileSpecification first = new FileSpecification
                 (
@@ -147,13 +153,13 @@ namespace UnitTests.ManagedIrbis.Infrastructure
 
             Assert.AreEqual(first.Database, second.Database);
             Assert.AreEqual(first.BinaryFile, second.BinaryFile);
-            Assert.AreEqual(first.Contents, second.Contents);
+            Assert.AreEqual(first.Content, second.Content);
             Assert.AreEqual(first.FileName, second.FileName);
             Assert.AreEqual(first.Path, second.Path);
         }
 
         [TestMethod]
-        public void FileSpecification_Serialization()
+        public void FileSpecification_Serialization_1()
         {
             FileSpecification specification = new FileSpecification();
             _TestSerialization(specification);
@@ -175,7 +181,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure
         }
 
         [TestMethod]
-        public void FileSpecification_Verify()
+        public void FileSpecification_Verify_1()
         {
             FileSpecification specification = new FileSpecification();
             Assert.IsFalse(specification.Verify(false));
@@ -204,7 +210,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure
         }
 
         [TestMethod]
-        public void FileSpecification_GetHashCode()
+        public void FileSpecification_GetHashCode_1()
         {
             FileSpecification first = new FileSpecification
                 (
@@ -224,6 +230,57 @@ namespace UnitTests.ManagedIrbis.Infrastructure
                     first.GetHashCode(),
                     second.GetHashCode()
                 );
+        }
+
+        [TestMethod]
+        public void FileSpecification_Parse_1()
+        {
+            FileSpecification specification = FileSpecification.Parse("2.IBIS.brief.pft");
+            Assert.AreEqual(IrbisPath.MasterFile, specification.Path);
+            Assert.AreEqual("IBIS", specification.Database);
+            Assert.AreEqual("brief.pft", specification.FileName);
+            Assert.IsNull(specification.Content);
+            Assert.IsFalse(specification.BinaryFile);
+        }
+
+        [TestMethod]
+        public void FileSpecification_Parse_2()
+        {
+            FileSpecification specification = FileSpecification.Parse("0..iri.mnu");
+            Assert.AreEqual(IrbisPath.System, specification.Path);
+            Assert.IsNull(specification.Database);
+            Assert.AreEqual("iri.mnu", specification.FileName);
+            Assert.IsNull(specification.Content);
+            Assert.IsFalse(specification.BinaryFile);
+        }
+
+        [TestMethod]
+        public void FileSpecification_Parse_3()
+        {
+            FileSpecification specification = FileSpecification.Parse("2.IBIS.@doclad99.doc");
+            Assert.AreEqual(IrbisPath.MasterFile, specification.Path);
+            Assert.AreEqual("IBIS", specification.Database);
+            Assert.AreEqual("doclad99.doc", specification.FileName);
+            Assert.IsNull(specification.Content);
+            Assert.IsTrue(specification.BinaryFile);
+        }
+
+        [TestMethod]
+        public void FileSpecification_Parse_4()
+        {
+            FileSpecification specification = FileSpecification.Parse("2.IBIS.brief.pft&Hello");
+            Assert.AreEqual(IrbisPath.MasterFile, specification.Path);
+            Assert.AreEqual("IBIS", specification.Database);
+            Assert.AreEqual("brief.pft", specification.FileName);
+            Assert.AreEqual("Hello", specification.Content);
+            Assert.IsFalse(specification.BinaryFile);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void FileSpecification_Parse5()
+        {
+            FileSpecification.Parse("Hello");
         }
     }
 }

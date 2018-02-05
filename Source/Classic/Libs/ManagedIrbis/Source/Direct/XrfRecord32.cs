@@ -7,7 +7,7 @@
  * Status: poor
  */
 
-#region Usingd directives
+#region Using directives
 
 using System.Diagnostics;
 
@@ -25,7 +25,7 @@ namespace ManagedIrbis.Direct
     [PublicAPI]
     [MoonSharpUserData]
     [DebuggerDisplay("Offset={AbsoluteOffset}, Status={Status}")]
-    public sealed class XrfRecord32
+    public struct XrfRecord32
     {
         #region Constants
 
@@ -94,17 +94,9 @@ namespace ManagedIrbis.Direct
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
         #region Object members
 
-        /// <inheritdoc cref="object.ToString"/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format

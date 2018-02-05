@@ -135,7 +135,6 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Read the record.
         /// </summary>
-        [NotNull]
         public XrfRecord64 ReadRecord
             (
                 int mfn
@@ -197,11 +196,9 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public void WriteRecord
             (
-                [NotNull] XrfRecord64 record
+                XrfRecord64 record
             )
         {
-            Code.NotNull(record, "record");
-
             long offset = _GetOffset(record.Mfn);
             lock (_lockObject)
             {

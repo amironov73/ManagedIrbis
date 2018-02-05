@@ -107,12 +107,12 @@ namespace ManagedIrbis.Direct
         [NotNull]
         public RecordField DecodeField
             (
-                [NotNull] MstDictionaryEntry64 entry
+                MstDictionaryEntry64 entry
             )
         {
-            RecordField result = RecordFieldUtility.Parse
+            RecordField result = RecordField.Parse
                 (
-                    entry.Tag.ToInvariantString(),
+                    entry.Tag,
                     entry.Text
                 );
 
@@ -150,7 +150,6 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Encode the field.
         /// </summary>
-        [NotNull]
         public static MstDictionaryEntry64 EncodeField
             (
                 [NotNull] RecordField field
@@ -211,8 +210,9 @@ namespace ManagedIrbis.Direct
                 + Dictionary.Count * MstDictionaryEntry64.EntrySize;
             Leader.Base = recordSize;
             int position = 0;
-            foreach (MstDictionaryEntry64 entry in Dictionary)
+            for (int i = 0; i < Dictionary.Count; i++)
             {
+                MstDictionaryEntry64 entry = Dictionary[i];
                 entry.Position = position;
                 entry.Bytes = encoding.GetBytes(entry.Text);
                 int length = entry.Bytes.Length;
@@ -256,7 +256,7 @@ namespace ManagedIrbis.Direct
         #region Object members
 
         /// <inheritdoc cref="object.ToString" />
-        public override string ToString ( )
+        public override string ToString ()
         {
             return string.Format 
                 ( 

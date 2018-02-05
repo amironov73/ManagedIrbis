@@ -137,31 +137,31 @@
         {
           "name": "2. 2. 1",
           "type": "MenuSubChapter",
-          "format": "@rasputin_section1",
+          "format": "@rasputin",
           "order": "*order_years.pft"
         },
         {
           "name": "2. 2. 2",
           "type": "MenuSubChapter",
-          "format": "@rasputin_section1",
+          "format": "@rasputin",
           "order": "*order_years.pft"
         },
         {
           "name": "2. 3",
           "type": "MenuSubChapter",
-          "format": "@rasputin_section1",
+          "format": "@rasputin",
           "order": "*order_years.pft"
         },
         {
           "name": "2. 3. 1",
           "type": "MenuSubChapter",
-          "format": "@rasputin_section1",
+          "format": "@rasputin",
           "order": "*order_years.pft"
         },
         {
           "name": "2. 4",
           "type": "MenuSubChapter",
-          "format": "@rasputin_section1",
+          "format": "@rasputin",
           "order": "*order_years.pft"
         }//,
 

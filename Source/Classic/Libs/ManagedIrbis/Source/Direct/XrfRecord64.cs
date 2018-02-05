@@ -36,7 +36,7 @@ namespace ManagedIrbis.Direct
     /// Contains information about record offset and status.
     /// </summary>
     [DebuggerDisplay("Offset={Offset}, Status={Status}")]
-    public sealed class XrfRecord64
+    public struct XrfRecord64
     {
         #region Constants
 

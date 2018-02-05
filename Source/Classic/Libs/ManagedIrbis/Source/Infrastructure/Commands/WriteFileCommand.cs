@@ -128,7 +128,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             {
                 verifier.NotNull
                     (
-                        file.Contents,
+                        file.Content,
                         "file.Contents"
                     );
             }

@@ -26,7 +26,7 @@ namespace ManagedIrbis.Direct
     [PublicAPI]
     [MoonSharpUserData]
     [StructLayout(LayoutKind.Sequential)]
-    public sealed class MstDictionaryEntry64
+    public struct MstDictionaryEntry64
     {
         #region Constants
 

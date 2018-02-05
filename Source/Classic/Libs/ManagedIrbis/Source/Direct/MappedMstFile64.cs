@@ -99,11 +99,11 @@ namespace ManagedIrbis.Direct
             lock (_lockObject)
             {
                 Encoding encoding = IrbisEncoding.Utf8;
-                List<MstDictionaryEntry64> dictionary
-                    = new List<MstDictionaryEntry64>();
 
                 _stream.Seek(position, SeekOrigin.Begin);
                 MstRecordLeader64 leader = MstRecordLeader64.Read(_stream);
+                List<MstDictionaryEntry64> dictionary
+                    = new List<MstDictionaryEntry64>(leader.Nvf);
 
                 for (int i = 0; i < leader.Nvf; i++)
                 {
@@ -113,11 +113,7 @@ namespace ManagedIrbis.Direct
                         Position = _stream.ReadInt32Network(),
                         Length = _stream.ReadInt32Network()
                     };
-                    dictionary.Add(entry);
-                }
-
-                foreach (MstDictionaryEntry64 entry in dictionary)
-                {
+                    long saveOffset = _stream.Position;
                     long endOffset = leader.Base + entry.Position;
                     _stream.Seek(position + endOffset, SeekOrigin.Begin);
                     entry.Bytes = StreamUtility.ReadBytes(_stream, entry.Length);
@@ -126,6 +122,8 @@ namespace ManagedIrbis.Direct
                         byte[] buffer = entry.Bytes;
                         entry.Text = encoding.GetString(buffer, 0, buffer.Length);
                     }
+                    _stream.Seek(saveOffset, SeekOrigin.Begin);
+                    dictionary.Add(entry);
                 }
 
                 MstRecord64 result = new MstRecord64
