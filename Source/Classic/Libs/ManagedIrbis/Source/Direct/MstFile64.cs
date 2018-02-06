@@ -59,10 +59,6 @@ namespace ManagedIrbis.Direct
     public sealed class MstFile64
         : IDisposable
     {
-        #region Constants
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -73,8 +69,7 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Control record.
         /// </summary>
-        [NotNull]
-        public MstControlRecord64 ControlRecord { get; private set; }
+        public MstControlRecord64 ControlRecord { get; internal set; }
 
         /// <summary>
         /// File name.
@@ -184,7 +179,7 @@ namespace ManagedIrbis.Direct
             List<MstDictionaryEntry64> dictionary
                 = new List<MstDictionaryEntry64>(leader.Nvf);
 
-            byte[] bytes = memory.GetBuffer();
+            byte[] bytes = memory.ToArray();
             for (int i = 0; i < leader.Nvf; i++)
             {
                 MstDictionaryEntry64 entry = new MstDictionaryEntry64
@@ -312,8 +307,11 @@ namespace ManagedIrbis.Direct
                     ControlRecord = MstControlRecord64.Read(_stream);
                     _stream.Position = 0;
                 }
-                ControlRecord.NextPosition = _stream.Length;
-                ControlRecord.Write(_stream);
+
+                MstControlRecord64 control = ControlRecord;
+                control.NextPosition = _stream.Length;
+                ControlRecord = control;
+                control.Write(_stream);
                 _lockFlag = ControlRecord.Blocked != 0;
                 _stream.Flush();
             }
@@ -324,12 +322,10 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public void UpdateLeader
             (
-                [NotNull] MstRecordLeader64 leader,
+                MstRecordLeader64 leader,
                 long position
             )
         {
-            Code.NotNull(leader, "leader");
-
             lock (_lockObject)
             {
                 _stream.Position = position;

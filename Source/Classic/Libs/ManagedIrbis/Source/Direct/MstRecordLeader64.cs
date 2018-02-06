@@ -11,7 +11,6 @@
 
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices;
 
 using AM.IO;
 
@@ -26,10 +25,8 @@ namespace ManagedIrbis.Direct
     /// <summary>
     /// Leader of MST record.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    [DebuggerDisplay("MFN={Mfn}, Length={Length}, "
-        + "NVF={Nvf}, Status={Status}")]
-    public sealed class MstRecordLeader64
+    [DebuggerDisplay("MFN={Mfn}, Length={Length}, NVF={Nvf}, Status={Status}")]
+    public struct MstRecordLeader64
     {
         #region Constants
         
@@ -87,7 +84,6 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Read the record leader.
         /// </summary>
-        [NotNull]
         public static MstRecordLeader64 Read
             (
                 [NotNull] Stream stream

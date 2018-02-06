@@ -149,7 +149,7 @@ namespace ManagedIrbis.Mx
             {
 #if CLASSIC
 
-                Assembly assembly = typeof (MxExecutive).Assembly;
+                Assembly assembly = typeof(MxExecutive).Assembly;
                 Version result = assembly.GetName().Version;
 
                 return result;
@@ -295,6 +295,36 @@ namespace ManagedIrbis.Mx
                 // Comment, ignore it
                 return true;
             }
+
+            List<MxHandler> detectedHandlers = new List<MxHandler>();
+
+            string[] prefixes = Handlers.Select(h => h.Prefix).ToArray();
+            if (prefixes.Length != 0)
+            {
+                while (true)
+                {
+                    int index = StringUtility.LastIndexOfAny(line, prefixes);
+                    if (index < 0)
+                    {
+                        break;
+                    }
+
+                    string handlerCommand = line.Substring(index);
+                    foreach (MxHandler handler in Handlers)
+                    {
+                        if (handlerCommand.StartsWith(handler.Prefix))
+                        {
+                            handlerCommand = handlerCommand.Substring(handler.Prefix.Length).Trim();
+                            handler.Parse(this, handlerCommand);
+                            detectedHandlers.Add(handler);
+                            break;
+                        }
+                    }
+                    line = line.Substring(0, index);
+                }
+            }
+
+            detectedHandlers.Reverse();
 
             string[] parts = StringUtility.SplitString
                 (
@@ -471,7 +501,7 @@ namespace ManagedIrbis.Mx
         /// </summary>
         [NotNull]
         public T GetCommand<T>()
-            where T: MxCommand
+            where T : MxCommand
         {
             T result = Commands.OfType<T>().FirstOrDefault();
             if (ReferenceEquals(result, null))
@@ -544,7 +574,7 @@ namespace ManagedIrbis.Mx
 
             Assembly assembly = Assembly.LoadFile(definition.AssemblyPath);
             Type type = assembly.GetType(definition.ClassName);
-            MxModule module = (MxModule) Activator.CreateInstance(type);
+            MxModule module = (MxModule)Activator.CreateInstance(type);
             module.Initialize(this);
             Modules.Add(module);
 
@@ -600,7 +630,7 @@ namespace ManagedIrbis.Mx
                 [NotNull] string text
             )
         {
-            WriteLine (Palette.Error, text);
+            WriteLine(Palette.Error, text);
         }
 
         /// <summary>

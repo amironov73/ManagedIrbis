@@ -9,8 +9,6 @@
 
 #region Using directives
 
-using System.Runtime.InteropServices;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -25,7 +23,6 @@ namespace ManagedIrbis.Direct
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    [StructLayout(LayoutKind.Sequential)]
     public struct MstDictionaryEntry64
     {
         #region Constants

@@ -46,6 +46,12 @@ namespace ManagedIrbis.Mx.Infrastructrure
     {
         #region Properties
 
+        /// <summary>
+        /// Prefix.
+        /// </summary>
+        [NotNull]
+        public abstract string Prefix { get; }
+
         #endregion
 
         #region Construction
@@ -62,6 +68,46 @@ namespace ManagedIrbis.Mx.Infrastructrure
         /// Initialize the handler.
         /// </summary>
         public virtual void Initialize
+            (
+                [NotNull] MxExecutive executive
+            )
+        {
+            Code.NotNull(executive, "executive");
+        }
+
+        /// <summary>
+        /// Parse the command line.
+        /// </summary>
+        public abstract void Parse
+            (
+                [NotNull] MxExecutive executive,
+                [CanBeNull] string commandLine
+            );
+
+        /// <summary>
+        /// Begin output.
+        /// </summary>
+        public virtual void BeginOutput
+            (
+                [NotNull] MxExecutive executive
+            )
+        {
+            Code.NotNull(executive, "executive");
+        }
+
+        /// <summary>
+        /// Handle output.
+        /// </summary>
+        public abstract void HandleOutput
+            (
+                [NotNull] MxExecutive executive,
+                [CanBeNull] string output
+            );
+
+        /// <summary>
+        /// End output.
+        /// </summary>
+        public virtual void EndOutput
             (
                 [NotNull] MxExecutive executive
             )

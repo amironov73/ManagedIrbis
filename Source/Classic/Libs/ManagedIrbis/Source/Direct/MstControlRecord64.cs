@@ -9,15 +9,15 @@
 
 #region Using directives
 
-using System;
 using System.IO;
-using System.Runtime.InteropServices;
 
 using AM.IO;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
 
 #endregion
 
@@ -29,8 +29,9 @@ namespace ManagedIrbis.Direct
     /// базы данных или при ее инициализации) и поддерживается 
     /// автоматически.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public sealed class MstControlRecord64
+    [PublicAPI]
+    [MoonSharpUserData]
+    public struct MstControlRecord64
     {
         #region Constants
 

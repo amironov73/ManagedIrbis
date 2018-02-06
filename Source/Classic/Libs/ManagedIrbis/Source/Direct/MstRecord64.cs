@@ -175,15 +175,16 @@ namespace ManagedIrbis.Direct
         {
             Code.NotNull(record, "record");
 
+            MstRecordLeader64 leader = new MstRecordLeader64
+            {
+                Mfn = record.Mfn,
+                Status = (int) record.Status,
+                Previous = record.PreviousOffset,
+                Version = record.Version
+            };
             MstRecord64 result = new MstRecord64
             {
-                Leader =
-                {
-                    Mfn = record.Mfn,
-                    Status = (int) record.Status,
-                    Previous = record.PreviousOffset,
-                    Version = record.Version
-                }
+                Leader = leader
             };
 
             if (result.Dictionary.Capacity < record.Fields.Count)
@@ -204,11 +205,12 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public void Prepare()
         {
+            MstRecordLeader64 leader = Leader;
             Encoding encoding = IrbisEncoding.Utf8;
-            Leader.Nvf = Dictionary.Count;
+            leader.Nvf = Dictionary.Count;
             int recordSize = MstRecordLeader64.LeaderSize
                 + Dictionary.Count * MstDictionaryEntry64.EntrySize;
-            Leader.Base = recordSize;
+            leader.Base = recordSize;
             int position = 0;
             for (int i = 0; i < Dictionary.Count; i++)
             {
@@ -225,7 +227,9 @@ namespace ManagedIrbis.Direct
             {
                 recordSize++;
             }
-            Leader.Length = recordSize;
+            leader.Length = recordSize;
+
+            Leader = leader;
         }
 
         /// <summary>

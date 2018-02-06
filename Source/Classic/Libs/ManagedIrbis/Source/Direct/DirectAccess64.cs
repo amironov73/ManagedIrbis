@@ -313,7 +313,9 @@ namespace ManagedIrbis.Direct
             {
                 mfn = Mst.ControlRecord.NextMfn;
                 leader.Mfn = mfn;
-                Mst.ControlRecord.NextMfn = mfn + 1;
+                MstControlRecord64 control = Mst.ControlRecord;
+                control.NextMfn = mfn + 1;
+                Mst.ControlRecord = control;
                 xrfRecord = new XrfRecord64
                 {
                     Mfn = mfn,

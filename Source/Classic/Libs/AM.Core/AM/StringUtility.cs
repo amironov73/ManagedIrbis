@@ -2302,6 +2302,68 @@ namespace AM
 
 #endif
 
+        // ===============================================================
+
+        /// <summary>
+        /// Get very first index of substrings.
+        /// </summary>
+        public static int FirstIndexOfAny
+            (
+                [NotNull] string text,
+                [NotNull] string[] fragments
+            )
+        {
+            Code.NotNull(text, "text");
+            Code.NotNull(fragments, "fragments");
+
+            int result = -1;
+            foreach (string fragment in fragments)
+            {
+                int index = text.IndexOf(fragment);
+                if (index >= 0)
+                {
+                    if (result < 0)
+                    {
+                        result = index;
+                    }
+                    else
+                    {
+                        if (result > 0 && index < result)
+                        {
+                            result = index;
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get very last index of substrings.
+        /// </summary>
+        public static int LastIndexOfAny
+            (
+                [NotNull] string text,
+                [NotNull] string[] fragments
+            )
+        {
+            Code.NotNull(text, "text");
+            Code.NotNull(fragments, "fragments");
+
+            int result = -1;
+            foreach (string fragment in fragments)
+            {
+                int index = text.LastIndexOf(fragment);
+                if (index > result)
+                {
+                    result = index;
+                }
+            }
+
+            return result;
+        }
+
 #endregion
     }
 }
