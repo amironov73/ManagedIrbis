@@ -582,6 +582,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\VerCommand.cs">
       <Link>Source\Mx\Commands\VerCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Mx\Handlers\FileAppendHandler.cs">
+      <Link>Source\Mx\Handlers\FileAppendHandler.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Mx\Handlers\FileWriteHandler.cs">
       <Link>Source\Mx\Handlers\FileWriteHandler.cs</Link>
     </Compile>

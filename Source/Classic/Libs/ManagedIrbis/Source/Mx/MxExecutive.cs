@@ -314,7 +314,8 @@ namespace ManagedIrbis.Mx
                     {
                         if (handlerCommand.StartsWith(handler.Prefix))
                         {
-                            handlerCommand = handlerCommand.Substring(handler.Prefix.Length).Trim();
+                            handlerCommand = handlerCommand
+                                .Substring(handler.Prefix.Length).Trim();
                             handler.Parse(this, handlerCommand);
                             detectedHandlers.Add(handler);
                             break;
@@ -324,6 +325,7 @@ namespace ManagedIrbis.Mx
                 }
             }
 
+            line = line.Trim();
             detectedHandlers.Reverse();
 
             string[] parts = StringUtility.SplitString
@@ -339,14 +341,19 @@ namespace ManagedIrbis.Mx
                 commandArgument = parts[1];
             }
 
-            MxCommand command = _FindCommand(commandName);
-            if (ReferenceEquals(command, null))
+            MxCommand command = null;
+
+            if (!string.IsNullOrEmpty(commandName))
             {
-                WriteError(string.Format
-                    (
-                        "Unknown command: '{0}'", commandName
-                    ));
-                return false;
+                command = _FindCommand(commandName);
+                if (ReferenceEquals(command, null))
+                {
+                    WriteError(string.Format
+                        (
+                            "Unknown command: '{0}'", commandName
+                        ));
+                    return false;
+                }
             }
 
             MxArgument[] arguments =
@@ -361,11 +368,24 @@ namespace ManagedIrbis.Mx
 
             try
             {
-                result = command.Execute
+                foreach (MxHandler handler in detectedHandlers)
+                {
+                    handler.BeginOutput(this);
+                }
+
+                if (!ReferenceEquals(command, null))
+                {
+                    result = command.Execute
                     (
                         this,
                         arguments
                     );
+                }
+
+                foreach (MxHandler handler in detectedHandlers)
+                {
+                    handler.EndOutput(this);
+                }
             }
             catch (Exception exception)
             {
@@ -478,6 +498,20 @@ namespace ManagedIrbis.Mx
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Get collected output.
+        /// </summary>
+        [CanBeNull]
+        public string GetOutput()
+        {
+            if (ReferenceEquals(_output, null))
+            {
+                return null;
+            }
+
+            return _output.ToString();
         }
 
         /// <summary>

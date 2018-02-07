@@ -127,7 +127,7 @@ namespace ManagedIrbis.Mx.Handlers
 
             if (!string.IsNullOrEmpty(FileName))
             {
-                _writer = new StreamWriter(FileName, false, encoding);
+                _writer = TextWriterUtility.Create(FileName, encoding);
             }
         }
 
@@ -153,6 +153,12 @@ namespace ManagedIrbis.Mx.Handlers
         {
             if (!ReferenceEquals(_writer, null))
             {
+                string output = executive.GetOutput();
+                if (!string.IsNullOrEmpty(output))
+                {
+                    _writer.Write(output);
+                }
+
                 _writer.Dispose();
                 _writer = null;
             }

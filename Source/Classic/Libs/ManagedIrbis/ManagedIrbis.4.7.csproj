@@ -244,6 +244,7 @@
     <Compile Include="Source\Mx\Commands\StatCommand.cs" />
     <Compile Include="Source\Mx\Commands\TypeCommand.cs" />
     <Compile Include="Source\Mx\Commands\VerCommand.cs" />
+    <Compile Include="Source\Mx\Handlers\FileAppendHandler.cs" />
     <Compile Include="Source\Mx\Handlers\FileWriteHandler.cs" />
     <Compile Include="Source\Mx\Infrastructrure\IMxConsole.cs" />
     <Compile Include="Source\Mx\Infrastructrure\ModuleDefinition.cs" />
