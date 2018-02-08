@@ -32,6 +32,13 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
+        public void NumericUtility_CompressRange_2()
+        {
+            int[] array = new int[0];
+            Assert.AreEqual(string.Empty, NumericUtility.CompressRange(array));
+        }
+
+        [TestMethod]
         public void NumericUtility_FormatRange_1()
         {
             Assert.AreEqual("1-5", NumericUtility.FormatRange(1, 5));
@@ -59,12 +66,16 @@ namespace UnitTests.AM
         public void NumericUtility_ParseDecimal_1()
         {
             Assert.AreEqual(1.23m, NumericUtility.ParseDecimal("1.23"));
+            Assert.AreEqual(1.23m, NumericUtility.ParseDecimal("1,23"));
+            Assert.AreEqual(123.45m, NumericUtility.ParseDecimal("1,23.45"));
         }
 
         [TestMethod]
         public void NumericUtility_ParseDouble_1()
         {
             Assert.AreEqual(1.23, NumericUtility.ParseDouble("1.23"));
+            Assert.AreEqual(1.23, NumericUtility.ParseDouble("1,23"));
+            Assert.AreEqual(123.45, NumericUtility.ParseDouble("1,23.45"));
         }
 
         [TestMethod]
@@ -77,6 +88,8 @@ namespace UnitTests.AM
         public void NumericUtility_ParseInt32_1()
         {
             Assert.AreEqual(123, NumericUtility.ParseInt32("123"));
+            Assert.AreEqual(123, NumericUtility.ParseInt32("12,3"));
+            Assert.AreEqual(123, NumericUtility.ParseInt32("123,"));
         }
 
         [TestMethod]
@@ -92,6 +105,15 @@ namespace UnitTests.AM
             Assert.AreEqual(1.23m, NumericUtility.SafeToDecimal(null, 1.23m));
             Assert.AreEqual(1.23m, NumericUtility.SafeToDecimal("hello", 1.23m));
             Assert.AreEqual(1.32m, NumericUtility.SafeToDecimal("1.32", 1.23m));
+        }
+
+        [TestMethod]
+        public void NumericUtility_SafeToDouble_1()
+        {
+            Assert.AreEqual(1.23, NumericUtility.SafeToDouble("hello", 1.23));
+            Assert.AreEqual(1.23, NumericUtility.SafeToDouble(null, 1.23));
+            Assert.AreEqual(1.23, NumericUtility.SafeToDouble("hello", 1.23));
+            Assert.AreEqual(1.32, NumericUtility.SafeToDouble("1.32", 1.23));
         }
 
         [TestMethod]
@@ -118,6 +140,14 @@ namespace UnitTests.AM
             Assert.AreEqual(0, NumericUtility.SafeToInt32("hello"));
             Assert.AreEqual(0, NumericUtility.SafeToInt32(null));
             Assert.AreEqual(132, NumericUtility.SafeToInt32("132"));
+        }
+
+        [TestMethod]
+        public void NumericUtility_SafeToInt64_1()
+        {
+            Assert.AreEqual(0L, NumericUtility.SafeToInt64("hello"));
+            Assert.AreEqual(0L, NumericUtility.SafeToInt64(null));
+            Assert.AreEqual(132L, NumericUtility.SafeToInt64("132"));
         }
 
         [TestMethod]
@@ -176,6 +206,8 @@ namespace UnitTests.AM
             Assert.AreEqual(1.23m, value);
 
             Assert.IsFalse(NumericUtility.TryParseDecimal("hello", out value));
+            Assert.IsFalse(NumericUtility.TryParseDecimal(string.Empty, out value));
+            Assert.IsFalse(NumericUtility.TryParseDecimal(null, out value));
         }
 
         [TestMethod]
@@ -185,7 +217,12 @@ namespace UnitTests.AM
             Assert.IsTrue(NumericUtility.TryParseDouble("1.23", out value));
             Assert.AreEqual(1.23, value);
 
+            Assert.IsTrue(NumericUtility.TryParseDouble("1,23", out value));
+            Assert.AreEqual(1.23, value);
+
             Assert.IsFalse(NumericUtility.TryParseDouble("hello", out value));
+            Assert.IsFalse(NumericUtility.TryParseDouble(string.Empty, out value));
+            Assert.IsFalse(NumericUtility.TryParseDouble(null, out value));
         }
 
         [TestMethod]
@@ -195,7 +232,12 @@ namespace UnitTests.AM
             Assert.IsTrue(NumericUtility.TryParseFloat("1.23", out value));
             Assert.AreEqual(1.23f, value);
 
+            Assert.IsTrue(NumericUtility.TryParseFloat("1,23", out value));
+            Assert.AreEqual(1.23f, value);
+
             Assert.IsFalse(NumericUtility.TryParseFloat("hello", out value));
+            Assert.IsFalse(NumericUtility.TryParseFloat(string.Empty, out value));
+            Assert.IsFalse(NumericUtility.TryParseFloat(null, out value));
         }
 
         [TestMethod]
@@ -206,6 +248,8 @@ namespace UnitTests.AM
             Assert.AreEqual(123, value);
 
             Assert.IsFalse(NumericUtility.TryParseInt16("hello", out value));
+            Assert.IsFalse(NumericUtility.TryParseInt16(string.Empty, out value));
+            Assert.IsFalse(NumericUtility.TryParseInt16(null, out value));
         }
         [TestMethod]
         public void NumericUtility_TryParseInt32_1()
@@ -215,6 +259,8 @@ namespace UnitTests.AM
             Assert.AreEqual(123, value);
 
             Assert.IsFalse(NumericUtility.TryParseInt32("hello", out value));
+            Assert.IsFalse(NumericUtility.TryParseInt32(string.Empty, out value));
+            Assert.IsFalse(NumericUtility.TryParseInt32(null, out value));
         }
 
         [TestMethod]
@@ -225,6 +271,8 @@ namespace UnitTests.AM
             Assert.AreEqual(123, value);
 
             Assert.IsFalse(NumericUtility.TryParseInt64("hello", out value));
+            Assert.IsFalse(NumericUtility.TryParseInt64(string.Empty, out value));
+            Assert.IsFalse(NumericUtility.TryParseInt64(null, out value));
         }
 
         [TestMethod]
@@ -235,6 +283,8 @@ namespace UnitTests.AM
             Assert.AreEqual(123, value);
 
             Assert.IsFalse(NumericUtility.TryParseUInt16("hello", out value));
+            Assert.IsFalse(NumericUtility.TryParseUInt16(string.Empty, out value));
+            Assert.IsFalse(NumericUtility.TryParseUInt16(null, out value));
         }
         [TestMethod]
         public void NumericUtility_TryParseUInt32_1()
@@ -244,6 +294,8 @@ namespace UnitTests.AM
             Assert.AreEqual(123u, value);
 
             Assert.IsFalse(NumericUtility.TryParseUInt32("hello", out value));
+            Assert.IsFalse(NumericUtility.TryParseUInt32(string.Empty, out value));
+            Assert.IsFalse(NumericUtility.TryParseUInt32(null, out value));
         }
 
         [TestMethod]
@@ -254,6 +306,8 @@ namespace UnitTests.AM
             Assert.AreEqual(123u, value);
 
             Assert.IsFalse(NumericUtility.TryParseUInt64("hello", out value));
+            Assert.IsFalse(NumericUtility.TryParseUInt64(string.Empty, out value));
+            Assert.IsFalse(NumericUtility.TryParseUInt64(null, out value));
         }
     }
 }

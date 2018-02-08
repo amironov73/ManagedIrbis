@@ -22,6 +22,8 @@ using JetBrains.Annotations;
 
 #endregion
 
+// ReSharper disable InvokeAsExtensionMethod
+
 namespace AM
 {
     /// <summary>
@@ -32,7 +34,7 @@ namespace AM
     {
         #region Private members
 
-#if FW45
+#if FW45 || NETCORE
 
         private const MethodImplOptions Aggressive
             = MethodImplOptions.AggressiveInlining;
@@ -102,6 +104,53 @@ namespace AM
         }
 
         /// <summary>
+        /// Convert the floating point number text representation
+        /// to <see cref="CultureInfo.InvariantCulture"/>.
+        /// </summary>
+        [NotNull]
+        public static string ConvertFloatToInvariant
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNull(text, "text");
+
+            if (StringUtility.ContainsCharacter(text, ','))
+            {
+                if (StringUtility.ContainsCharacter(text, '.'))
+                {
+                    text = text.Replace(",", string.Empty);
+                }
+                else
+                {
+                    text = text.Replace(',', '.');
+                }
+            }
+
+            return text;
+        }
+
+        /// <summary>
+        /// Convert the integer number text representation
+        /// to <see cref="CultureInfo.InvariantCulture"/>.
+        /// </summary>
+        [NotNull]
+        public static string ConvertIntegerToInvariant
+            (
+                [NotNull] string text
+            )
+        {
+            Code.NotNull(text, "text");
+
+            if (StringUtility.ContainsCharacter(text, ','))
+            {
+                text = text.Replace(",", string.Empty);
+            }
+
+            return text;
+        }
+
+        /// <summary>
         /// Форматирование диапазона целых чисел.
         /// </summary>
         /// <remarks>Границы диапазона могут совпадать, однако
@@ -121,13 +170,13 @@ namespace AM
             }
             if (first == last - 1)
             {
-                return first.ToInvariantString() 
-                    + ", " 
+                return first.ToInvariantString()
+                    + ", "
                     + last.ToInvariantString();
             }
 
-            return first.ToInvariantString() 
-                + "-" 
+            return first.ToInvariantString()
+                + "-"
                 + last.ToInvariantString();
         }
 
@@ -197,6 +246,8 @@ namespace AM
         {
             Code.NotNullNorEmpty(text, "text");
 
+            text = ConvertFloatToInvariant(text);
+
             decimal result = decimal.Parse
                 (
                     text,
@@ -217,6 +268,8 @@ namespace AM
             )
         {
             Code.NotNullNorEmpty(text, "text");
+
+            text = ConvertFloatToInvariant(text);
 
             double result = double.Parse
                 (
@@ -239,6 +292,8 @@ namespace AM
         {
             Code.NotNullNorEmpty(text, "text");
 
+            text = ConvertIntegerToInvariant(text);
+
             short result = short.Parse
                 (
                     text,
@@ -260,6 +315,8 @@ namespace AM
         {
             Code.NotNullNorEmpty(text, "text");
 
+            text = ConvertIntegerToInvariant(text);
+
             int result = int.Parse
                 (
                     text,
@@ -280,6 +337,8 @@ namespace AM
             )
         {
             Code.NotNullNorEmpty(text, "text");
+
+            text = ConvertFloatToInvariant(text);
 
             long result = long.Parse
                 (
@@ -675,7 +734,13 @@ namespace AM
                 out decimal value
             )
         {
-            Code.NotNullNorEmpty(text, "text");
+            if (string.IsNullOrEmpty(text))
+            {
+                value = 0m;
+                return false;
+            }
+
+            text = ConvertFloatToInvariant(text);
 
 #if WINMOBILE || PocketPC
 
@@ -723,6 +788,14 @@ namespace AM
                 out double value
             )
         {
+            if (string.IsNullOrEmpty(text))
+            {
+                value = 0.0;
+                return false;
+            }
+
+            text = ConvertFloatToInvariant(text);
+
 #if WINMOBILE || PocketPC
 
             bool result = false;
@@ -769,7 +842,13 @@ namespace AM
                 out float value
             )
         {
-            Code.NotNullNorEmpty(text, "text");
+            if (string.IsNullOrEmpty(text))
+            {
+                value = 0.0f;
+                return false;
+            }
+
+            text = ConvertFloatToInvariant(text);
 
 #if WINMOBILE || PocketPC
 
@@ -817,7 +896,13 @@ namespace AM
                 out short value
             )
         {
-            Code.NotNullNorEmpty(text, "text");
+            if (string.IsNullOrEmpty(text))
+            {
+                value = 0;
+                return false;
+            }
+
+            text = ConvertIntegerToInvariant(text);
 
 #if WINMOBILE || PocketPC
 
@@ -866,7 +951,13 @@ namespace AM
                 out ushort value
             )
         {
-            Code.NotNullNorEmpty(text, "text");
+            if (string.IsNullOrEmpty(text))
+            {
+                value = 0;
+                return false;
+            }
+
+            text = ConvertIntegerToInvariant(text);
 
 #if WINMOBILE || PocketPC
 
@@ -914,6 +1005,14 @@ namespace AM
                 out int value
             )
         {
+            if (string.IsNullOrEmpty(text))
+            {
+                value = 0;
+                return false;
+            }
+
+            text = ConvertIntegerToInvariant(text);
+
 #if WINMOBILE || PocketPC
 
             bool result = false;
@@ -961,7 +1060,13 @@ namespace AM
                 out uint value
             )
         {
-            Code.NotNullNorEmpty(text, "text");
+            if (string.IsNullOrEmpty(text))
+            {
+                value = 0;
+                return false;
+            }
+
+            text = ConvertIntegerToInvariant(text);
 
 #if WINMOBILE || PocketPC
 
@@ -1009,7 +1114,13 @@ namespace AM
                 out long value
             )
         {
-            Code.NotNullNorEmpty(text, "text");
+            if (string.IsNullOrEmpty(text))
+            {
+                value = 0;
+                return false;
+            }
+
+            text = ConvertIntegerToInvariant(text);
 
 #if WINMOBILE || PocketPC
 
@@ -1058,7 +1169,13 @@ namespace AM
                 out ulong value
             )
         {
-            Code.NotNullNorEmpty(text, "text");
+            if (string.IsNullOrEmpty(text))
+            {
+                value = 0;
+                return false;
+            }
+
+            text = ConvertIntegerToInvariant(text);
 
 #if WINMOBILE || PocketPC
 
