@@ -91,7 +91,7 @@ namespace AM.Logging
             return this;
         }
 
-#endregion
+        #endregion
 
         #region IAMLogger members
 

@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Collections;
@@ -58,8 +58,42 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NonNullCollection_AddRange_2()
+        {
+            NonNullCollection<object> collection
+                = new NonNullCollection<object>();
+            collection.AddRange
+                (
+                    (IEnumerable<object>) new[]
+                    {
+                        new object(),
+                        new object(),
+                        new object()
+                    }
+                );
+            Assert.AreEqual(3, collection.Count);
+        }
+
+        [TestMethod]
+        public void NonNullCollection_AddRange_3()
+        {
+            NonNullCollection<object> collection
+                = new NonNullCollection<object>();
+            collection.AddRange
+                (
+                    (IList<object>) new[]
+                    {
+                        new object(),
+                        new object(),
+                        new object()
+                    }
+                );
+            Assert.AreEqual(3, collection.Count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NonNullCollection_AddRange_4()
         {
             NonNullCollection<object> collection
                 = new NonNullCollection<object>();
@@ -118,6 +152,36 @@ namespace UnitTests.AM.Collections
             };
             collection.EnsureCapacity(100);
             Assert.IsTrue(collection.Capacity >= 100);
+        }
+
+        [TestMethod]
+        public void NonNullCollection_ToArray_1()
+        {
+            NonNullCollection<string> collection = new NonNullCollection<string>();
+            string[] array = collection.ToArray();
+            Assert.AreEqual(0, array.Length);
+        }
+
+        [TestMethod]
+        public void NonNullCollection_ToArray_2()
+        {
+            NonNullCollection<string> collection = new NonNullCollection<string>();
+            collection.Add("hello");
+            string[] array = collection.ToArray();
+            Assert.AreEqual(1, array.Length);
+            Assert.AreEqual("hello", array[0]);
+        }
+
+        [TestMethod]
+        public void NonNullCollection_ToArray_3()
+        {
+            NonNullCollection<string> collection = new NonNullCollection<string>();
+            collection.Add("hello");
+            collection.Add("world");
+            string[] array = collection.ToArray();
+            Assert.AreEqual(2, array.Length);
+            Assert.AreEqual("hello", array[0]);
+            Assert.AreEqual("world", array[1]);
         }
     }
 }

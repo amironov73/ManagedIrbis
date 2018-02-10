@@ -62,7 +62,7 @@ namespace AM.Logging
 
         #region IAmLogger members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IAmLogger.Debug" />
         public void Debug
             (
                 string text
@@ -74,7 +74,7 @@ namespace AM.Logging
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IAmLogger.Error" />
         public void Error
             (
                 string text
@@ -86,7 +86,7 @@ namespace AM.Logging
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IAmLogger.Fatal" />
         public void Fatal
             (
                 string text
@@ -98,7 +98,7 @@ namespace AM.Logging
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IAmLogger.Info" />
         public void Info
             (
                 string text
@@ -110,7 +110,7 @@ namespace AM.Logging
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IAmLogger.Trace" />
         public void Trace
             (
                 string text
@@ -122,7 +122,7 @@ namespace AM.Logging
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IAmLogger.Warn" />
         public void Warn
             (
                 string text

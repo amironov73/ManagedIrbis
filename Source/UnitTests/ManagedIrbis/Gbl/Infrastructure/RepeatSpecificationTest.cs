@@ -196,7 +196,7 @@ namespace UnitTests.ManagedIrbis.Gbl.Infrastructure
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(IrbisException))]
         public void RepeatSpecification_Parse_Exception_3()
         {
             RepeatSpecification specification
