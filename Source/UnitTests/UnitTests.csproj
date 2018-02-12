@@ -196,6 +196,9 @@
     <Compile Include="AM\IO\StreamUtilityTest.cs" />
     <Compile Include="AM\IO\TextWriterUtilityTest.cs" />
     <Compile Include="AM\Json\JsonUtilityTest.cs" />
+    <Compile Include="AM\Logging\FileLoggerTest.cs" />
+    <Compile Include="AM\Logging\LogTest.cs" />
+    <Compile Include="AM\Logging\TeeLoggerTest.cs" />
     <Compile Include="AM\MessageEventArgsTest.cs" />
     <Compile Include="AM\ObjectDumperTest.cs" />
     <Compile Include="AM\PredicateBuilderTest.cs" />
@@ -203,6 +206,7 @@
     <Compile Include="AM\Reflection\TaggedClassAttributeTest.cs" />
     <Compile Include="AM\Reflection\TablefierTest.cs" />
     <Compile Include="AM\SubArrayTest.cs" />
+    <Compile Include="AM\Text\EncodingUtilityTest.cs" />
     <Compile Include="AM\Text\Output\NullOutputTest.cs" />
     <Compile Include="AM\Text\RichTextStripperTest.cs" />
     <Compile Include="AM\Text\SourceCodeUtilityTest.cs" />

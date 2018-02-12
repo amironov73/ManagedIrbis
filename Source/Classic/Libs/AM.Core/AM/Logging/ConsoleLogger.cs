@@ -13,6 +13,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,7 @@ namespace AM.Logging
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [ExcludeFromCodeCoverage]
     public sealed class ConsoleLogger
         : IAmLogger
     {

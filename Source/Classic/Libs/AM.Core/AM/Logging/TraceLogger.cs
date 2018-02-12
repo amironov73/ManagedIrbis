@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -43,6 +44,7 @@ namespace AM.Logging
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [ExcludeFromCodeCoverage]
     public sealed class TraceLogger
         : IAmLogger
     {

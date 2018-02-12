@@ -81,6 +81,27 @@ namespace AM.Text
             }
         }
 
+        private static Encoding _cp866;
+
+        /// <summary>
+        /// Gets the CP866 (cyrillic) <see cref="Encoding"/>.
+        /// </summary>
+        [NotNull]
+        public static Encoding Cp866
+        {
+            [DebuggerStepThrough]
+            get
+            {
+                if (ReferenceEquals(_cp866, null))
+                {
+                    RegisterRequiredProviders();
+                    _cp866 = Encoding.GetEncoding(866);
+                }
+
+                return _cp866;
+            }
+        }
+
         private static Encoding _windows1251;
 
         /// <summary>
@@ -340,6 +361,18 @@ namespace AM.Text
 
             return result;
             // ReSharper restore JoinDeclarationAndInitializer
+        }
+
+        /// <summary>
+        /// Register required encoding providers.
+        /// </summary>
+        public static void RegisterRequiredProviders()
+        {
+#if NETCORE
+
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+#endif
         }
 
         #endregion

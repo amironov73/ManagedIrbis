@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System.Diagnostics.CodeAnalysis;
+
 using JetBrains.Annotations;
 
 #endregion
@@ -19,6 +21,7 @@ namespace AM.Logging
     /// Null logger.
     /// </summary>
     [PublicAPI]
+    [ExcludeFromCodeCoverage]
     public sealed class NullLogger
         : IAmLogger
     {
