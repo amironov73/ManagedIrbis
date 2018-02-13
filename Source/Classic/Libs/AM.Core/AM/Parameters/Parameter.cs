@@ -98,10 +98,7 @@ namespace AM.Parameters
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore the object state from the specified stream.
-        /// </summary>
-        /// <param name="reader"></param>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -113,9 +110,7 @@ namespace AM.Parameters
             Value = reader.ReadNullableString();
         }
 
-        /// <summary>
-        /// Save the object state to the specified stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -132,9 +127,7 @@ namespace AM.Parameters
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify the object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
@@ -157,12 +150,7 @@ namespace AM.Parameters
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format

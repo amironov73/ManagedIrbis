@@ -34,10 +34,6 @@ namespace AM.IO
     [MoonSharpUserData]
     public static class BinaryWriterUtility
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -239,7 +235,7 @@ namespace AM.IO
 
 #else
 
-            if (!ReferenceEquals(value, null))
+            if (value != null)
             {
                 writer.Write(true);
                 writer.Write(value.Value);
@@ -331,7 +327,7 @@ namespace AM.IO
             )
         {
             Code.NotNull(writer, "writer");
-            Code.NotNull(array, "writer");
+            Code.NotNull(array, "array");
 
             writer.WritePackedInt32(array.Length);
             for (int i = 0; i < array.Length; i++)
@@ -470,7 +466,7 @@ namespace AM.IO
         {
             Code.NotNull(writer, "writer");
 
-            if (value != null)
+            if (!ReferenceEquals(value, null))
             {
                 writer.Write(true);
                 writer.Write(value);

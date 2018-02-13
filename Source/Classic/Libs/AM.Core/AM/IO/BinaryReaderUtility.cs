@@ -281,31 +281,6 @@ namespace AM.IO
         }
 
         /// <summary>
-        /// Reads list of items from the stream.
-        /// </summary>
-        [NotNull]
-        public static BinaryReader ReadList<T>
-            (
-                [NotNull] this BinaryReader reader,
-                [NotNull] List<T> list 
-            )
-            where T : IHandmadeSerializable, new()
-        {
-            Code.NotNull(reader, "reader");
-            Code.NotNull(list, "list");
-
-            int count = reader.ReadPackedInt32();
-            for (int i = 0; i < count; i++)
-            {
-                T item = new T();
-                item.RestoreFromStream(reader);
-                list.Add(item);
-            }
-
-            return reader;
-        }
-
-        /// <summary>
         /// Read nullable byte.
         /// </summary>
         [CanBeNull]

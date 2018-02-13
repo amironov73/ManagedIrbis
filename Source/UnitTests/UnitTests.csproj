@@ -187,6 +187,7 @@
     <Compile Include="AM\FunctionalUtilityTest.cs" />
     <Compile Include="AM\GenderUtilityTest.cs" />
     <Compile Include="AM\IO\BinaryReaderUtilityTest.cs" />
+    <Compile Include="AM\IO\BinaryWriterUtilityTest.cs" />
     <Compile Include="AM\IO\ByteNavigatorTest.cs" />
     <Compile Include="AM\IO\DynamicStreamTest.cs" />
     <Compile Include="AM\IO\InsistentFileTest.cs" />
@@ -299,7 +300,6 @@
     <Compile Include="AM\Globalization\BuiltinCulturesTest.cs" />
     <Compile Include="AM\Globalization\RussianStringComparerTest.cs" />
     <Compile Include="AM\InquiryEventArgsTest.cs" />
-    <Compile Include="AM\IO\BinaryWriterTest.cs" />
     <Compile Include="AM\IO\CompressionUtilityTest.cs" />
     <Compile Include="AM\IO\FileUtilityTest.cs" />
     <Compile Include="AM\IO\NotifyStreamTest.cs" />
