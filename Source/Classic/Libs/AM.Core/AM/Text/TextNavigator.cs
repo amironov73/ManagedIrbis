@@ -192,6 +192,7 @@ namespace AM.Text
         public bool IsControl()
         {
             char c = PeekChar();
+
             return char.IsControl(c);
         }
 
@@ -201,6 +202,7 @@ namespace AM.Text
         public bool IsDigit()
         {
             char c = PeekChar();
+
             return char.IsDigit(c);
         }
 
@@ -210,6 +212,7 @@ namespace AM.Text
         public bool IsLetter()
         {
             char c = PeekChar();
+
             return char.IsLetter(c);
         }
 
@@ -219,6 +222,7 @@ namespace AM.Text
         public bool IsLetterOrDigit()
         {
             char c = PeekChar();
+
             return char.IsLetterOrDigit(c);
         }
 
@@ -228,6 +232,7 @@ namespace AM.Text
         public bool IsNumber()
         {
             char c = PeekChar();
+
             return char.IsNumber(c);
         }
 
@@ -237,6 +242,7 @@ namespace AM.Text
         public bool IsPunctuation()
         {
             char c = PeekChar();
+
             return char.IsPunctuation(c);
         }
 
@@ -246,16 +252,8 @@ namespace AM.Text
         public bool IsSeparator()
         {
             char c = PeekChar();
-            return char.IsSeparator(c);
-        }
 
-        /// <summary>
-        /// Суррогат?
-        /// </summary>
-        public bool IsSurrogate()
-        {
-            char c = PeekChar();
-            return char.IsSurrogate(c);
+            return char.IsSeparator(c);
         }
 
         /// <summary>
@@ -264,6 +262,7 @@ namespace AM.Text
         public bool IsSymbol()
         {
             char c = PeekChar();
+
             return char.IsSymbol(c);
         }
 
@@ -273,6 +272,7 @@ namespace AM.Text
         public bool IsWhiteSpace()
         {
             char c = PeekChar();
+
             return char.IsWhiteSpace(c);
         }
 
@@ -346,7 +346,8 @@ namespace AM.Text
         /// <summary>
         /// Смещение указателя.
         /// </summary>
-        public void Move
+        [NotNull]
+        public TextNavigator Move
             (
                 int distance
             )
@@ -355,6 +356,8 @@ namespace AM.Text
 
             _position += distance;
             _column += distance;
+
+            return this;
         }
 
         /// <summary>
@@ -1442,9 +1445,14 @@ namespace AM.Text
                 length += start;
                 start = 0;
             }
-            if (start + length > _length)
+            if (start >= _length)
             {
-                length = _length - start;
+                length = 0;
+                start = _length - 1;
+            }
+            if (length < 0)
+            {
+                length = 0;
             }
 
             return _text.Substring
@@ -1844,10 +1852,6 @@ namespace AM.Text
                     break;
                 }
                 string word = ReadWord();
-                if (string.IsNullOrEmpty(word))
-                {
-                    break;
-                }
                 result.Add(word);
             }
 
@@ -1873,10 +1877,6 @@ namespace AM.Text
                     break;
                 }
                 string word = ReadWord(additionalWordCharacters);
-                if (string.IsNullOrEmpty(word))
-                {
-                    break;
-                }
                 result.Add(word);
             }
 

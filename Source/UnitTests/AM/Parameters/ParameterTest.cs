@@ -10,7 +10,7 @@ namespace UnitTests.AM.Parameters
     public class ParameterTest
     {
         [TestMethod]
-        public void Parameter_Construction()
+        public void Parameter_Construction_1()
         {
             Parameter parameter = new Parameter();
             Assert.IsNull(parameter.Name);
@@ -32,7 +32,7 @@ namespace UnitTests.AM.Parameters
         }
 
         [TestMethod]
-        public void Parameter_Serialize()
+        public void Parameter_Serialize_1()
         {
             Parameter parameter = new Parameter();
             _TestSerialization(parameter);
@@ -42,7 +42,7 @@ namespace UnitTests.AM.Parameters
         }
 
         [TestMethod]
-        public void Parameter_Verify()
+        public void Parameter_Verify_1()
         {
             Parameter parameter = new Parameter();
             Assert.IsFalse(parameter.Verify(false));
@@ -52,7 +52,7 @@ namespace UnitTests.AM.Parameters
         }
 
         [TestMethod]
-        public void Parameter_ToString()
+        public void Parameter_ToString_1()
         {
             Parameter parameter = new Parameter("Name", "Value");
             Assert.AreEqual

@@ -9,7 +9,7 @@ namespace UnitTests.AM.Parameters
     public class ParameterUtilityTest
     {
         [TestMethod]
-        public void TestParameterUtility_Encode()
+        public void TestParameterUtility_Encode_1()
         {
             Parameter[] parameters =
             {
@@ -27,7 +27,7 @@ namespace UnitTests.AM.Parameters
         }
 
         [TestMethod]
-        public void TestParameterUtility_ParseString()
+        public void TestParameterUtility_ParseString_1()
         {
             string text = "";
             Parameter[] parameters = ParameterUtility.ParseString(text);
