@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Verifier.cs --
+/* Verifier.cs -- helper class for IVerifiable interface
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -29,7 +29,7 @@ using MoonSharp.Interpreter;
 namespace AM
 {
     /// <summary>
-    /// Helper for <see cref="IVerifiable"/>
+    /// Helper class for <see cref="IVerifiable"/> interface.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -42,7 +42,7 @@ namespace AM
         /// Prefix.
         /// </summary>
         [CanBeNull]
-        private string Prefix { get; set; }
+        public string Prefix { get; set; }
 
         /// <summary>
         /// Result.
@@ -84,6 +84,7 @@ namespace AM
         private readonly T _target;
 
         private readonly bool _throwOnError;
+
         private void _Throw ()
         {
             if (!Result && ThrowOnError)
@@ -183,6 +184,7 @@ namespace AM
         /// <summary>
         /// Assert.
         /// </summary>
+        [StringFormatMethod("format")]
         public Verifier<T> Assert
             (
                 bool condition,
@@ -211,6 +213,7 @@ namespace AM
         {
             if (string.IsNullOrEmpty(path))
             {
+                Result = false;
                 _Throw
                     (
                         "Directory '{0}': path not specified",
@@ -220,6 +223,7 @@ namespace AM
 
             if (!Directory.Exists(path))
             {
+                Result = false;
                 _Throw
                     (
                         "Directory '{0}' is set to '{1}': path not exist",
@@ -242,6 +246,7 @@ namespace AM
         {
             if (string.IsNullOrEmpty(path))
             {
+                Result = false;
                 _Throw
                     (
                         "File '{0}': path not specified",
@@ -251,6 +256,7 @@ namespace AM
 
             if (!File.Exists(path))
             {
+                Result = false;
                 _Throw
                     (
                         "File '{0}' is set to '{1}': path not exist",

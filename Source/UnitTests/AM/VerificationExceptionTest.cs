@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM;
@@ -9,14 +10,14 @@ namespace UnitTests.AM
     public class VerificationExceptionTest
     {
         [TestMethod]
-        public void VerificationException_Construction1()
+        public void VerificationException_Construction_1()
         {
             VerificationException exception = new VerificationException();
             Assert.IsNotNull(exception.Message);
         }
 
         [TestMethod]
-        public void VerificationException_Construction2()
+        public void VerificationException_Construction_2()
         {
             const string expected = "Key";
             VerificationException exception = new VerificationException(expected);
@@ -24,7 +25,7 @@ namespace UnitTests.AM
         }
 
         [TestMethod]
-        public void VerificationException_Construction3()
+        public void VerificationException_Construction_3()
         {
             Exception innerException = new Exception("Message");
             const string expected = "Key";

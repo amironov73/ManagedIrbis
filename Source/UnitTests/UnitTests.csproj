@@ -219,6 +219,7 @@
     <Compile Include="AM\Text\TextUtilityTest.cs" />
     <Compile Include="AM\NumberRangeTest.cs" />
     <Compile Include="AM\UtilityTest.cs" />
+    <Compile Include="AM\VerifierTest.cs" />
     <Compile Include="ManagedIrbis\AsyncExtensionsTest.cs" />
     <Compile Include="ManagedIrbis\Authentication\IrbisCredentialsTest.cs" />
     <Compile Include="ManagedIrbis\Batch\BatchAccessorTest.cs" />
