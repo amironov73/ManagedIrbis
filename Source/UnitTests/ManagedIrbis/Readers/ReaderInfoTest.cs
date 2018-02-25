@@ -17,8 +17,7 @@ namespace UnitTests.ManagedIrbis.Readers
         {
             byte[] bytes = first.SaveToMemory();
 
-            ReaderInfo second = bytes
-                .RestoreObjectFromMemory<ReaderInfo>();
+            ReaderInfo second = bytes.RestoreObjectFromMemory<ReaderInfo>();
 
             Assert.AreEqual(first.Age, second.Age);
             Assert.AreEqual(first.DateOfBirth, second.DateOfBirth);
@@ -28,7 +27,7 @@ namespace UnitTests.ManagedIrbis.Readers
         }
 
         [TestMethod]
-        public void TestReaderInfoSerialization()
+        public void ReaderInfoSerialization_1()
         {
             ReaderInfo readerInfo = new ReaderInfo();
             _TestSerialization(readerInfo);

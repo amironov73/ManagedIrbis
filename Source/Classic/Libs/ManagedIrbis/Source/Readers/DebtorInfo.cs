@@ -229,7 +229,7 @@ namespace ManagedIrbis.Readers
             Remarks = reader.ReadNullableString();
             Mfn = reader.ReadPackedInt32();
             Description = reader.ReadNullableString();
-            Debt = reader.ReadArray<VisitInfo>();
+            Debt = reader.ReadNullableArray<VisitInfo>();
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -251,9 +251,8 @@ namespace ManagedIrbis.Readers
                 .WritePackedInt32(Age)
                 .WriteNullable(Remarks)
                 .WritePackedInt32(Mfn)
-                .WriteNullable(Description);
-
-            Debt.SaveToStream(writer);
+                .WriteNullable(Description)
+                .WriteNullableArray(Debt);
         }
 
         #endregion

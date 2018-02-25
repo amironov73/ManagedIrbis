@@ -53,11 +53,11 @@ namespace AM.Runtime
             )
             where T : IHandmadeSerializable, new()
         {
-            bool isNull = !reader.ReadBoolean();
-            if (isNull)
-            {
-                return null;
-            }
+            //bool isNull = !reader.ReadBoolean();
+            //if (isNull)
+            //{
+            //    return null;
+            //}
 
             int count = reader.ReadPackedInt32();
             T[] result = new T[count];
@@ -274,7 +274,10 @@ namespace AM.Runtime
                 ))
             using (BinaryReader reader = new BinaryReader(deflate))
             {
-                return reader.RestoreNullable<T>();
+                T result = new T();
+                result.RestoreFromStream(reader);
+
+                return result;
             }
         }
 
@@ -290,19 +293,19 @@ namespace AM.Runtime
         {
             Code.NotNull(writer, "writer");
 
-            if (ReferenceEquals(array, null))
-            {
-                writer.Write(false);
-            }
-            else
-            {
-                writer.Write(true);
+            //if (ReferenceEquals(array, null))
+            //{
+            //    writer.Write(false);
+            //}
+            //else
+            //{
+                //writer.Write(true);
                 writer.WritePackedInt32(array.Length);
                 foreach (T item in array)
                 {
                     item.SaveToStream(writer);
                 }
-            }
+            //}
         }
 
         /// <summary>

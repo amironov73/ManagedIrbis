@@ -635,15 +635,15 @@ namespace ManagedIrbis.Readers
             writer.WriteNullable(Email);
             writer.WriteNullable(HomePhone);
             writer.WriteNullable(RegistrationDateString);
-            Enrollment.SaveToStream(writer);
-            Registrations.SaveToStream(writer);
+            writer.WriteNullableArray(Enrollment);
+            writer.WriteNullableArray(Registrations);
             writer.WriteNullable(EnabledPlaces);
             writer.WriteNullable(DisabledPlaces);
             writer.WriteNullable(Rights);
             writer.WriteNullable(Remarks);
             writer.WriteNullable(PhotoFile);
-            Visits.SaveToStream(writer);
-            Profiles.SaveToStream(writer);
+            writer.WriteNullableArray(Visits);
+            writer.WriteNullableArray(Profiles);
             writer.WriteNullable(Description);
             writer.WritePackedInt32(Mfn);
         }
@@ -671,15 +671,15 @@ namespace ManagedIrbis.Readers
             Email = reader.ReadNullableString();
             HomePhone = reader.ReadNullableString();
             RegistrationDateString = reader.ReadNullableString();
-            Enrollment = reader.ReadArray<ReaderRegistration>();
-            Registrations = reader.ReadArray<ReaderRegistration>();
+            Enrollment = reader.ReadNullableArray<ReaderRegistration>();
+            Registrations = reader.ReadNullableArray<ReaderRegistration>();
             EnabledPlaces = reader.ReadNullableString();
             DisabledPlaces = reader.ReadNullableString();
             Rights = reader.ReadNullableString();
             Remarks = reader.ReadNullableString();
             PhotoFile = reader.ReadNullableString();
-            Visits = reader.ReadArray<VisitInfo>();
-            Profiles = reader.ReadArray<IriProfile>();
+            Visits = reader.ReadNullableArray<VisitInfo>();
+            Profiles = reader.ReadNullableArray<IriProfile>();
             Description = reader.ReadNullableString();
             Mfn = reader.ReadPackedInt32();
         }

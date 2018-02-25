@@ -26,7 +26,7 @@ namespace UnitTests.ManagedIrbis.Readers
         }
 
         [TestMethod]
-        public void TestDebtorInfoSerialization()
+        public void DebtorInfo_Serialization_1()
         {
             DebtorInfo debtorInfo = new DebtorInfo();
             _TestSerialization(debtorInfo);

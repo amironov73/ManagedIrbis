@@ -1,11 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO;
 using System.Reflection;
 
-using AM;
 using AM.Reflection;
-using AM.Text;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -66,6 +63,64 @@ namespace UnitTests.AM.Reflection
 
         [TestMethod]
         public void PropertyOrField_Get_Set_2()
+        {
+            CanaryClass canary = new CanaryClass
+            {
+                BooleanField = true
+            };
+            Type type = canary.GetType();
+            FieldInfo info = type.GetField("BooleanField");
+            Assert.IsNotNull(info);
+            PropertyOrField field = new PropertyOrField(info);
+            Assert.AreSame(info, field.FieldInfo);
+            Assert.IsNull(field.PropertyInfo);
+            Assert.AreEqual("BooleanField", field.Name);
+            Assert.IsTrue(field.MemberType == typeof(bool));
+            Assert.IsFalse(field.IsProperty);
+            Assert.IsFalse(field.IsIndexed);
+            Assert.IsFalse(field.ReadOnly);
+
+            Assert.AreEqual(true, field.GetValue(canary));
+
+            field.SetValue(canary, false);
+            Assert.AreEqual(false, canary.BooleanField);
+
+            Assert.IsFalse(field.HaveAttribute<DisplayNameAttribute>(false));
+
+            Assert.AreEqual("BooleanField", field.ToString());
+        }
+
+        [TestMethod]
+        public void PropertyOrField_Get_Set_3()
+        {
+            CanaryClass canary = new CanaryClass
+            {
+                StringField = "Text"
+            };
+            Type type = canary.GetType();
+            FieldInfo info = type.GetField("StringField");
+            Assert.IsNotNull(info);
+            PropertyOrField field = new PropertyOrField(info);
+            Assert.AreSame(info, field.FieldInfo);
+            Assert.IsNull(field.PropertyInfo);
+            Assert.AreEqual("StringField", field.Name);
+            Assert.IsTrue(field.MemberType == typeof(string));
+            Assert.IsFalse(field.IsProperty);
+            Assert.IsFalse(field.IsIndexed);
+            Assert.IsFalse(field.ReadOnly);
+
+            Assert.AreEqual("Text", field.GetValue(canary));
+
+            field.SetValue(canary, "Text2");
+            Assert.AreEqual("Text2", canary.StringField);
+
+            Assert.IsFalse(field.HaveAttribute<DisplayNameAttribute>(false));
+
+            Assert.AreEqual("StringField", field.ToString());
+        }
+
+        [TestMethod]
+        public void PropertyOrField_Get_Set_4()
         {
             CanaryClass canary = new CanaryClass
             {

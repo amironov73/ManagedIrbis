@@ -115,14 +115,14 @@ namespace AM.Text
         /// </summary>
         [XmlAttribute("from")]
         [JsonProperty("from")]
-        public char From { get; private set; }
+        public char From { get; set; }
 
         /// <summary>
         /// To (including).
         /// </summary>
         [XmlAttribute("to")]
         [JsonProperty("to")]
-        public char To { get; private set; }
+        public char To { get; set; }
 
         #endregion
 
@@ -176,6 +176,10 @@ namespace AM.Text
             )
         {
             Code.NotNull(reader, "reader");
+
+            Name = reader.ReadNullableString();
+            From = reader.ReadChar();
+            To = reader.ReadChar();
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -185,6 +189,10 @@ namespace AM.Text
             )
         {
             Code.NotNull(writer, "writer");
+
+            writer.WriteNullable(Name);
+            writer.Write(From);
+            writer.Write(To);
         }
 
         #endregion
