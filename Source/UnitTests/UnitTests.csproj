@@ -194,6 +194,7 @@
     <Compile Include="AM\IO\NonBufferedStreamTest.cs" />
     <Compile Include="AM\IO\NonCloseableStreamReaderTest.cs" />
     <Compile Include="AM\IO\NonCloseableStreamTest.cs" />
+    <Compile Include="AM\IO\NonCloseableTextReaderTest.cs" />
     <Compile Include="AM\IO\StreamUtilityTest.cs" />
     <Compile Include="AM\IO\TextWriterUtilityTest.cs" />
     <Compile Include="AM\Json\JsonUtilityTest.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="AM\Text\TextUtilityTest.cs" />
     <Compile Include="AM\NumberRangeTest.cs" />
     <Compile Include="AM\Text\UnicodeRangeTest.cs" />
+    <Compile Include="AM\Threading\ScopedLockFactoryTest.cs" />
     <Compile Include="AM\UtilityTest.cs" />
     <Compile Include="AM\VerifierTest.cs" />
     <Compile Include="AM\Xml\CanaryClass.cs" />
