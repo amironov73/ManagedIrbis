@@ -1,8 +1,13 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Text;
+
+// ReSharper disable RedundantCast
+// ReSharper disable EqualExpressionComparison
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
+// ReSharper disable ExpressionIsAlwaysNull
 
 namespace UnitTests.AM.Text
 {
@@ -10,7 +15,7 @@ namespace UnitTests.AM.Text
     public class TextWithEncodingTest
     {
         [TestMethod]
-        public void TextWithEncoding_Construction1()
+        public void TextWithEncoding_Construction_1()
         {
             TextWithEncoding text = new TextWithEncoding();
             byte[] bytes = text.ToBytes();
@@ -18,7 +23,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextWithEncoding_Construction2()
+        public void TextWithEncoding_Construction_2()
         {
             TextWithEncoding text = new TextWithEncoding("Привет");
             byte[] bytes = text.ToBytes();
@@ -26,7 +31,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextWithEncoding_Construction3()
+        public void TextWithEncoding_Construction_3()
         {
             TextWithEncoding text = new TextWithEncoding("Hello", true);
             byte[] bytes = text.ToBytes();
@@ -34,7 +39,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextWithEncoding_Construction4()
+        public void TextWithEncoding_Construction_4()
         {
             TextWithEncoding text = new TextWithEncoding("Привет", Encoding.GetEncoding(1251));
             byte[] bytes = text.ToBytes();
@@ -42,7 +47,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextWithEncoding_ImplicitOperator()
+        public void TextWithEncoding_ImplicitOperator_1()
         {
             TextWithEncoding text = "Hello";
             byte[] bytes = text.ToBytes();
@@ -50,7 +55,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextWithEncoding_CompareTo1()
+        public void TextWithEncoding_CompareTo_1()
         {
             TextWithEncoding first = "Hello";
             TextWithEncoding second = "World";
@@ -58,7 +63,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextWithEncoding_CompareTo2()
+        public void TextWithEncoding_CompareTo_2()
         {
             TextWithEncoding first = "Hello";
             TextWithEncoding second = null;
@@ -66,7 +71,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextWithEncoding_Comparison1()
+        public void TextWithEncoding_Comparison_1()
         {
             TextWithEncoding first = new TextWithEncoding("Hello", true);
             TextWithEncoding second = new TextWithEncoding("Hello", false);
@@ -79,7 +84,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextWithEncoding_Comparison2()
+        public void TextWithEncoding_Comparison_2()
         {
             TextWithEncoding first = new TextWithEncoding("Hello", true);
             TextWithEncoding second = null;
@@ -92,7 +97,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextWithEncoding_Comparison3()
+        public void TextWithEncoding_Comparison_3()
         {
             TextWithEncoding first = null;
             TextWithEncoding second = new TextWithEncoding("Hello", true);
@@ -105,7 +110,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextWithEncoding_Comparison4()
+        public void TextWithEncoding_Comparison_4()
         {
             TextWithEncoding first = new TextWithEncoding("Hello", true);
             TextWithEncoding second = new TextWithEncoding("World", false);
@@ -118,7 +123,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextWithEncoding_Comparison5()
+        public void TextWithEncoding_Comparison_5()
         {
             TextWithEncoding first = new TextWithEncoding("Hello", true);
             TextWithEncoding second = null;
@@ -131,7 +136,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextWithEncoding_Comparison6()
+        public void TextWithEncoding_Comparison_6()
         {
             TextWithEncoding first = null;
             TextWithEncoding second = new TextWithEncoding("Hello", true);
@@ -144,7 +149,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextWithEncoding_Equals1()
+        public void TextWithEncoding_Equals_1()
         {
             TextWithEncoding first = new TextWithEncoding("Hello", true);
             TextWithEncoding second = new TextWithEncoding("World", false);
@@ -155,7 +160,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextWithEncoding_Equals2()
+        public void TextWithEncoding_Equals_2()
         {
             TextWithEncoding first = new TextWithEncoding("Hello", true);
             TextWithEncoding second = new TextWithEncoding("World", false);
@@ -166,7 +171,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextWithEncoding_GetHashCode()
+        public void TextWithEncoding_GetHashCode_1()
         {
             TextWithEncoding text = new TextWithEncoding();
             Assert.AreEqual(0, text.GetHashCode());
@@ -176,7 +181,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextWithEncoding_ToString()
+        public void TextWithEncoding_ToString_1()
         {
             TextWithEncoding text = new TextWithEncoding();
             Assert.AreEqual(string.Empty, text.ToString());

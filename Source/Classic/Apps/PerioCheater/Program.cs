@@ -43,6 +43,25 @@ namespace PerioCheater
         static string fromSigla;
         static string toSigla;
 
+        static void ProcessBinding(string inventory, string index)
+        {
+            int[] found = Connection.Search("\"II={0}\"", index);
+            foreach (int mfn in found)
+            {
+                MarcRecord r = Connection.ReadRecord(mfn);
+                foreach (RecordField f in r.Fields.GetField(910))
+                {
+                    if (f.GetFirstSubFieldValue('i') == inventory)
+                    {
+                        f.SetSubField('d', toSigla);
+                        Connection.WriteRecord(r);
+                        Console.Write(" >");
+                        break;
+                    }
+                }
+            }
+        }
+
         static void ProcessIssue(MagazineIssueInfo issue)
         {
             bool modified = false;
@@ -53,37 +72,58 @@ namespace PerioCheater
             }
 
             string worksheet = issue.Worksheet;
-            if (!worksheet.SameString("NJ"))
+            if (string.IsNullOrEmpty(worksheet))
+            {
+                return;
+            }
+            if (!worksheet.Contains("NJ"))
             {
                 return;
             }
 
+            string index = record.FM(903);
             foreach (RecordField field in record.Fields.GetField(910))
             {
-                string binding = field.GetFirstSubFieldValue('p');
-                if (!string.IsNullOrEmpty(binding))
+                string inventory = field.GetFirstSubFieldValue('b');
+                if (string.IsNullOrEmpty(inventory))
                 {
-                    return;
+                    continue;
                 }
+
+                if (!inventory.StartsWith("П"))
+                {
+                    continue;
+                }
+
+                //string binding = field.GetFirstSubFieldValue('p');
+                //if (!string.IsNullOrEmpty(binding))
+                //{
+                //    field.SetSubField('d', toSigla);
+                //    modified = true;
+                //    continue;
+                //}
 
                 if (field.GetFirstSubFieldValue('d').SameString(fromSigla))
                 {
                     field.SetSubField('d', toSigla);
+                    Connection.WriteRecord(record);
+                    Console.Write("\t" + issue);
                     modified = true;
                 }
+
+                ProcessBinding(inventory, index);
             }
 
             if (modified)
             {
-                Connection.WriteRecord(record);
-                Console.WriteLine("\t" + issue);
+                Console.WriteLine();
             }
         }
 
         static void ProcessMagazine(MagazineInfo magazine)
         {
             Console.WriteLine(magazine.ExtendedTitle);
-            if (magazine.IsNewspaper)
+            if (!magazine.IsNewspaper)
             {
                 return;
             }

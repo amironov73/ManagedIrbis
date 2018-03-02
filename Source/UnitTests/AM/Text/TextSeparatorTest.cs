@@ -1,30 +1,67 @@
-using System;
-using System.IO;
+using System.Text;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using ManagedIrbis.Pft;
+using AM.Text;
+
+using JetBrains.Annotations;
 
 namespace UnitTests.AM.Text
 {
     [TestClass]
     public class TextSeparatorTest
     {
+        class MySeparator
+            : TextSeparator
+        {
+            public StringBuilder Accumulator { get; }
+
+            public MySeparator()
+            {
+                Accumulator = new StringBuilder();
+            }
+
+            protected override void HandleChunk(bool inner, string text)
+            {
+                if (inner)
+                {
+                    Accumulator.Append(text);
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(text))
+                    {
+                        Accumulator.Append("<<<");
+                        Accumulator.Append(text);
+                        Accumulator.Append(">>>");
+                    }
+                }
+            }
+        }
+
         private void _TestSeparator
             (
-                string source,
-                string expected
+                [NotNull] string source,
+                [NotNull] string expected
             )
         {
-            PftTextSeparator separator = new PftTextSeparator();
+            MySeparator separator = new MySeparator();
             bool endState = separator.SeparateText(source);
             Assert.IsFalse(endState);
-            string actual = separator.Accumulator;
+            string actual = separator.Accumulator.ToString();
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void TextSeparator_Construction_1()
+        {
+            TextSeparator separator = new TextSeparator();
+            Assert.AreEqual(TextSeparator.DefaultOpen, separator.Open);
+            Assert.AreEqual(TextSeparator.DefaultClose, separator.Close);
+        }
 
         [TestMethod]
-        public void TextSeparator_SeparateText1()
+        public void TextSeparator_SeparateText_1()
         {
             _TestSeparator("", "");
             _TestSeparator("Hello", "<<<Hello>>>");
@@ -46,7 +83,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void TextSeparator_SeparateText2()
+        public void TextSeparator_SeparateText_2()
         {
             _TestSeparator("", "");
             _TestSeparator("<Hello>!", "<<<<Hello>!>>>");

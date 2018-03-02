@@ -1,7 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Text;
+
+using JetBrains.Annotations;
 
 namespace UnitTests.AM.Text
 {
@@ -9,10 +10,10 @@ namespace UnitTests.AM.Text
     public class TransliteratorTest
     {
         private void _TestTransliterate
-            (
-                string word,
-                string expected
-            )
+        (
+            [NotNull] string word,
+            [NotNull] string expected
+        )
         {
             string actual = Transliterator.Transliterate(word);
 

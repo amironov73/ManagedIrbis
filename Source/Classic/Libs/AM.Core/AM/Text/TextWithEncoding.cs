@@ -56,6 +56,7 @@ namespace AM.Text
         /// </summary>
         public TextWithEncoding()
         {
+            Encoding = Encoding.UTF8;
         }
 
         /// <summary>
@@ -102,10 +103,6 @@ namespace AM.Text
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -144,20 +141,7 @@ namespace AM.Text
 
         #region Comparison
 
-        /// <summary>
-        /// Compares the current object with another
-        /// object of the same type.
-        /// </summary>
-        /// <param name="other">An object to compare
-        /// with this object.</param>
-        /// <returns>A value that indicates
-        /// the relative order of the objects being compared.
-        /// The return value has the following meanings:
-        /// Value Meaning Less than zero This object is less
-        /// than the <paramref name="other" /> parameter.
-        /// Zero This object is equal to <paramref name="other" />.
-        /// Greater than zero This object is greater than
-        /// <paramref name="other" />.</returns>
+        /// <inheritdoc cref="IComparable{T}.CompareTo" />
         public int CompareTo
             (
                 [CanBeNull] TextWithEncoding other
@@ -233,18 +217,10 @@ namespace AM.Text
             return string.Equals(Text, other.Text);
         }
 
-        /// <summary>
-        /// Determines whether the specified
-        /// <see cref="System.Object" /> is equal to this instance.
-        /// </summary>
-        /// <param name="obj">The object to compare with
-        /// the current object.</param>
-        /// <returns><c>true</c> if the specified
-        /// <see cref="System.Object" /> is equal to this instance;
-        /// otherwise, <c>false</c>.</returns>
+        /// <inheritdoc cref="object.Equals(object)" />
         public override bool Equals
             (
-                [CanBeNull] object obj
+                object obj
             )
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -266,12 +242,10 @@ namespace AM.Text
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            return ReferenceEquals(Text, null)
-                ? string.Empty
-                : Text;
+            return Text ?? string.Empty;
         }
 
         #endregion

@@ -26,7 +26,8 @@ namespace AM.Text
     {
         #region Construction
 
-        //ГОСТ 16876-71
+        // ReSharper disable once InconsistentNaming
+        // ГОСТ 16876-71
         private static readonly Dictionary<string, string> _gost;
 
         #endregion

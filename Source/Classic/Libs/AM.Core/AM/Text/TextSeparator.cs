@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 
@@ -127,6 +128,7 @@ namespace AM.Text
         /// Handle text chunk.
         /// </summary>
         /// <remarks>Must be overridden.</remarks>
+        [ExcludeFromCodeCoverage]
         protected virtual void HandleChunk
             (
                 bool inner,
