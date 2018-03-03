@@ -195,6 +195,20 @@ namespace AM.Text
             return result;
         }
 
+        /// <summary>
+        /// Format decimal.
+        /// </summary>
+        [NotNull]
+        public static string Format
+            (
+                decimal arg0
+            )
+        {
+            string result = arg0.ToString(_formatProvider);
+
+            return result;
+        }
+
         #endregion
     }
 }

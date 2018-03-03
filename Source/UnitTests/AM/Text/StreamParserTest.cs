@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Text;
@@ -12,7 +13,7 @@ namespace UnitTests.AM.Text
         : Common.CommonUnitTest
     {
         [TestMethod]
-        public void StreamParser_Construction1()
+        public void StreamParser_Construction_1()
         {
             string text = "Hello, world!";
             StringReader reader = new StringReader(text);
@@ -39,7 +40,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_ReadInt16()
+        public void StreamParser_ReadInt16_1()
         {
             const string text = "  \t1234 ogo";
             StreamParser parser = StreamParser.FromString(text);
@@ -58,7 +59,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_ReadUInt16()
+        public void StreamParser_ReadUInt16_1()
         {
             const string text = "  \t1234 ogo";
             StreamParser parser = StreamParser.FromString(text);
@@ -73,7 +74,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_ReadInt32()
+        public void StreamParser_ReadInt32_1()
         {
             const string text = "  \t1234 ogo";
             StreamParser parser = StreamParser.FromString(text);
@@ -93,15 +94,15 @@ namespace UnitTests.AM.Text
 
         [TestMethod]
         [ExpectedException(typeof(FormatException))]
-        public void StreamParser_ReadInt32_Exception()
+        public void StreamParser_ReadInt32_2()
         {
             const string text = "  ogo";
             StreamParser parser = StreamParser.FromString(text);
-            int? number = parser.ReadInt32();
+            parser.ReadInt32();
         }
 
         [TestMethod]
-        public void StreamParser_ReadUInt32()
+        public void StreamParser_ReadUInt32_1()
         {
             const string text = "  \t1234 ogo";
             StreamParser parser = StreamParser.FromString(text);
@@ -115,7 +116,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_ReadInt64()
+        public void StreamParser_ReadInt64_1()
         {
             const string text = "  \t1234 ogo";
             StreamParser parser = StreamParser.FromString(text);
@@ -134,7 +135,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_ReadUInt64()
+        public void StreamParser_ReadUInt64_1()
         {
             const string text = "  \t1234 ogo";
             StreamParser parser = StreamParser.FromString(text);
@@ -161,7 +162,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_ReadDouble()
+        public void StreamParser_ReadDouble_1()
         {
             _TestDouble("1", 1.0);
             _TestDouble("1.", 1.0);
@@ -178,11 +179,11 @@ namespace UnitTests.AM.Text
 
         [TestMethod]
         [ExpectedException(typeof(FormatException))]
-        public void StreamParser_ReadDouble_Exception()
+        public void StreamParser_ReadDouble_2()
         {
             const string text = "  ogo";
             StreamParser parser = StreamParser.FromString(text);
-            double? number = parser.ReadDouble();
+            parser.ReadDouble();
         }
 
         private void _TestSingle
@@ -198,7 +199,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_ReadSingle()
+        public void StreamParser_ReadSingle_1()
         {
             _TestSingle("1", 1.0F);
             _TestSingle("1.", 1.0F);
@@ -227,7 +228,7 @@ namespace UnitTests.AM.Text
 
 
         [TestMethod]
-        public void StreamParser_ReadDecimal()
+        public void StreamParser_ReadDecimal_1()
         {
             _TestDecimal("1", 1.0m);
             _TestDecimal("1.", 1.0m);
@@ -242,7 +243,7 @@ namespace UnitTests.AM.Text
 
 
         [TestMethod]
-        public void StreamParser_ReadSingle_Eof()
+        public void StreamParser_ReadSingle_2()
         {
             StreamParser parser = StreamParser.FromString(string.Empty);
             double? number = parser.ReadDouble();
@@ -250,7 +251,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_IsControl()
+        public void StreamParser_IsControl_1()
         {
             StreamParser parser = StreamParser.FromString("1\nhello");
             Assert.IsFalse(parser.IsControl());
@@ -261,7 +262,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_IsLetter()
+        public void StreamParser_IsLetter_1()
         {
             StreamParser parser = StreamParser.FromString("1h!ello");
             Assert.IsFalse(parser.IsLetter());
@@ -272,7 +273,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_IsLetterOrDigit()
+        public void StreamParser_IsLetterOrDigit_1()
         {
             StreamParser parser = StreamParser.FromString("1h!ello");
             Assert.IsTrue(parser.IsLetterOrDigit());
@@ -283,7 +284,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_IsNumber()
+        public void StreamParser_IsNumber_1()
         {
             StreamParser parser = StreamParser.FromString("1½hello");
             Assert.IsTrue(parser.IsNumber());
@@ -294,7 +295,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_IsPunctuation()
+        public void StreamParser_IsPunctuation_1()
         {
             StreamParser parser = StreamParser.FromString("1!hello");
             Assert.IsFalse(parser.IsPunctuation());
@@ -305,7 +306,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_IsSeparator()
+        public void StreamParser_IsSeparator_1()
         {
             StreamParser parser = StreamParser.FromString("1 hello");
             Assert.IsFalse(parser.IsSeparator());
@@ -316,7 +317,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_IsSurrogate()
+        public void StreamParser_IsSurrogate_1()
         {
             StreamParser parser = StreamParser.FromString("1\xd801hello");
             Assert.IsFalse(parser.IsSurrogate());
@@ -327,7 +328,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_IsSymbol()
+        public void StreamParser_IsSymbol_1()
         {
             StreamParser parser = StreamParser.FromString("1№hello");
             Assert.IsFalse(parser.IsSymbol());
@@ -338,7 +339,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_SkipControl1()
+        public void StreamParser_SkipControl_1()
         {
             StreamParser parser = StreamParser.FromString("\r\nhello");
             parser.SkipControl();
@@ -346,14 +347,14 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_SkipControl2()
+        public void StreamParser_SkipControl_2()
         {
             StreamParser parser = StreamParser.FromString("\r\n");
             Assert.IsFalse(parser.SkipControl());
         }
 
         [TestMethod]
-        public void StreamParser_SkipPunctuation1()
+        public void StreamParser_SkipPunctuation_1()
         {
             StreamParser parser = StreamParser.FromString(".,hello");
             parser.SkipPunctuation();
@@ -361,7 +362,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void StreamParser_SkipPunctuation2()
+        public void StreamParser_SkipPunctuation_2()
         {
             StreamParser parser = StreamParser.FromString(".,");
             Assert.IsFalse(parser.SkipPunctuation());

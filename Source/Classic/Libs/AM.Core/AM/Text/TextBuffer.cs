@@ -54,7 +54,7 @@ namespace AM.Text
         /// <summary>
         /// Row number (starting from 1).
         /// </summary>
-        public int Row { get { return _row; } }
+        public int Line { get { return _line; } }
 
         #endregion
 
@@ -67,7 +67,7 @@ namespace AM.Text
         {
             _array = new char[1024];
             _column = 1;
-            _row = 1;
+            _line = 1;
         }
 
         #endregion
@@ -76,7 +76,20 @@ namespace AM.Text
 
         private char[] _array;
 
-        private int _length, _column, _row;
+        private int _length, _column, _line;
+
+        private void _CalculateColumn()
+        {
+            for (int i = _length - 1; i >= 0; i--)
+            {
+                if (_array[i] == '\n')
+                {
+                    break;
+                }
+
+                _column++;
+            }
+        }
 
         private void _EnsureCapacity
             (
@@ -113,6 +126,14 @@ namespace AM.Text
             }
 
             _length--;
+            _column--;
+            if (_column == 0)
+            {
+                _line--;
+                _column = 1;
+                _CalculateColumn();
+            }
+
             return true;
         }
 
@@ -123,6 +144,8 @@ namespace AM.Text
         public TextBuffer Clear()
         {
             _length = 0;
+            _line = 1;
+            _column = 1;
 
             return this;
         }
@@ -145,7 +168,7 @@ namespace AM.Text
         /// <summary>
         /// Предваряется явным переводом строки?
         /// </summary>
-        public bool PrecededByEmptyLine()
+        public bool PrecededByNewLine()
         {
             char[] newLine = Environment.NewLine.ToCharArray();
             int len = newLine.Length;
@@ -175,9 +198,8 @@ namespace AM.Text
         {
             char[] newLine = Environment.NewLine.ToCharArray();
             int len = newLine.Length;
-            int len2 = len*2;
 
-            while (_length > len2)
+            while (_length > len)
             {
                 if (!ArrayUtility.Coincide
                     (
@@ -192,6 +214,9 @@ namespace AM.Text
                 }
 
                 _length -= len;
+                _line--;
+                _column = 1;
+                _CalculateColumn();
             }
 
             return this;
@@ -212,7 +237,7 @@ namespace AM.Text
 
             if (c == '\n')
             {
-                _row++;
+                _line++;
                 _column = 1;
             }
             else
@@ -244,7 +269,7 @@ namespace AM.Text
             {
                 if (c == '\n')
                 {
-                    _row++;
+                    _line++;
                     _column = 1;
                 }
                 else

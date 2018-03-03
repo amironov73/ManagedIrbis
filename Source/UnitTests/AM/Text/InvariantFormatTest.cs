@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Text;
 
@@ -9,7 +8,7 @@ namespace UnitTests.AM.Text
     public class InvariantFormatTest
     {
         [TestMethod]
-        public void InvariantFormat_Format1()
+        public void InvariantFormat_Format_1()
         {
             Assert.AreEqual
                 (
@@ -22,10 +21,16 @@ namespace UnitTests.AM.Text
                     "10000.5",
                     InvariantFormat.Format(10000.5)
                 );
+
+            Assert.AreEqual
+                (
+                    "10000.5",
+                    InvariantFormat.Format(10000.5m)
+                );
         }
 
         [TestMethod]
-        public void InvariantFormat_Format2()
+        public void InvariantFormat_Format_2()
         {
             Assert.AreEqual
                 (
@@ -51,7 +56,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void InvariantFormat_Format3()
+        public void InvariantFormat_Format_3()
         {
             Assert.AreEqual
                 (
@@ -77,7 +82,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void InvariantFormat_Format4()
+        public void InvariantFormat_Format_4()
         {
             Assert.AreEqual
                 (
@@ -105,7 +110,7 @@ namespace UnitTests.AM.Text
         }
 
         [TestMethod]
-        public void InvariantFormat_Format5()
+        public void InvariantFormat_Format_5()
         {
             Assert.AreEqual
                 (

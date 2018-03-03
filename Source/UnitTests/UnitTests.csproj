@@ -215,6 +215,7 @@
     <Compile Include="AM\Text\Output\NullOutputTest.cs" />
     <Compile Include="AM\Text\RichTextStripperTest.cs" />
     <Compile Include="AM\Text\SourceCodeUtilityTest.cs" />
+    <Compile Include="AM\Text\TextBufferTest.cs" />
     <Compile Include="AM\Text\TextSeparatorTest.cs" />
     <Compile Include="AM\NumberOrStringTest.cs" />
     <Compile Include="AM\ActionUtilityTest.cs" />

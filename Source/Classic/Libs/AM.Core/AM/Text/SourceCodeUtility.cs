@@ -124,7 +124,7 @@ namespace AM.Text
                 return string.Format
                     (
                         CultureInfo.InvariantCulture,
-                        "\\x{0}",
+                        "\\x{0:X2}",
                         (int)value
                     );
             }

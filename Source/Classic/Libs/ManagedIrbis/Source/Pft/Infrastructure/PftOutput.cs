@@ -201,7 +201,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public bool PrecededByEmptyLine()
         {
-            bool result = _normal.PrecededByEmptyLine();
+            bool result = _normal.PrecededByNewLine();
 
             return result;
         }
