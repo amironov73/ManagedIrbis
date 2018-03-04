@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 using AM;
 using AM.IO;
@@ -9,7 +10,8 @@ using JetBrains.Annotations;
 namespace UnitTests.AM.Runtime
 {
     public sealed class CanaryClass
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+          IDisposable
     {
         public string Name { get; set; }
 
@@ -34,6 +36,11 @@ namespace UnitTests.AM.Runtime
             {
                 throw new VerificationException();
             }
+        }
+
+        public void Dispose()
+        {
+            // Nothing to do here
         }
     }
 }

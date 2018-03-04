@@ -11,6 +11,7 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 
 using AM.IO;
 using AM.Logging;
@@ -39,6 +40,12 @@ namespace AM.Runtime
         /// </summary>
         [CanBeNull]
         public string Namespace { get; set; }
+
+        /// <summary>
+        /// Assembly for short type names.
+        /// </summary>
+        [CanBeNull]
+        public Assembly Assembly { get; set; }
 
         /// <summary>
         /// Prefix length.
@@ -90,9 +97,11 @@ namespace AM.Runtime
                 typeName = Namespace + "." + typeName;
             }
 
-            Type type = Type.GetType(typeName, true);
-            IHandmadeSerializable result
-                = (IHandmadeSerializable) Activator.CreateInstance(type);
+            Type type = ReferenceEquals(Assembly, null)
+                ? Type.GetType(typeName, true)
+                : Assembly.GetType(typeName, true);
+
+            IHandmadeSerializable result = (IHandmadeSerializable) Activator.CreateInstance(type);
 
             result.RestoreFromStream(reader);
 
@@ -118,10 +127,12 @@ namespace AM.Runtime
             {
                 typeName = Namespace + "." + typeName;
             }
-            Type type = Type.GetType(typeName, true);
 
-            IHandmadeSerializable[] result
-                = new IHandmadeSerializable[count];
+            Type type = ReferenceEquals(Assembly, null)
+                ? Type.GetType(typeName, true)
+                : Assembly.GetType(typeName, true);
+
+            IHandmadeSerializable[] result = new IHandmadeSerializable[count];
 
             for (int i = 0; i < count; i++)
             {

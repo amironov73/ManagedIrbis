@@ -5,7 +5,6 @@
  * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor
- * TODO implement IVerifiable
  */
 
 #region Using directives
@@ -13,6 +12,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -50,7 +50,8 @@ namespace AM.Text
         /// Fragment: a prefix plus a number.
         /// </summary>
         class Chunk
-            : IHandmadeSerializable
+            : IHandmadeSerializable,
+              IVerifiable
         {
             #region Properties
 
@@ -180,6 +181,23 @@ namespace AM.Text
 
             #endregion
 
+            #region IVerifiable members
+
+            /// <inheritdoc cref="IVerifiable.Verify" />
+            public bool Verify
+                (
+                    bool throwOnError
+                )
+            {
+                Verifier<Chunk> verifier = new Verifier<Chunk>(this, throwOnError);
+
+                verifier.Assert(HavePrefix || HaveValue, "Must have prefix or value");
+
+                return verifier.Result;
+            }
+
+            #endregion
+
             #region Object members
 
             /// <inheritdoc cref="object.ToString" />
@@ -304,7 +322,7 @@ namespace AM.Text
         /// </summary>
         public NumberText
             (
-                string text
+                [CanBeNull] string text
             )
             : this()
         {
@@ -588,7 +606,7 @@ namespace AM.Text
         /// </summary>
         public void Parse
             (
-                string text
+                [CanBeNull] string text
             )
         {
             _chunks.Clear();
@@ -856,57 +874,6 @@ namespace AM.Text
         }
 
         /// <summary>
-        /// Verify the object state.
-        /// </summary>
-        public NumberText Verify()
-        {
-            for (
-                    LinkedListNode<Chunk> node = _chunks.First;
-                    node != null;
-                    node = node.Next
-                )
-            {
-                Chunk chunk = node.Value;
-                if (!chunk.HavePrefix && !chunk.HaveValue)
-                {
-                    Log.Error
-                        (
-                            "NumberText::Verify: "
-                            + "empty chunk"
-                        );
-
-                    throw new ArsMagnaException();
-                }
-                if (node.Next != null)
-                {
-                    if (!chunk.HaveValue)
-                    {
-                        Log.Error
-                            (
-                                "NumberText::Verify: "
-                                + "chunk without value"
-                            );
-
-                        throw new ArsMagnaException();
-                    }
-
-                    if (!node.Next.Value.HavePrefix)
-                    {
-                        Log.Error
-                            (
-                                "NumberText::Verify: "
-                                + "next chunk without prefix"
-                            );
-
-                        throw new ArsMagnaException();
-                    }
-                }
-            }
-
-            return this;
-        }
-
-        /// <summary>
         /// Soft given text lines.
         /// </summary>
         public static IEnumerable<string> Sort
@@ -954,24 +921,7 @@ namespace AM.Text
 
         #region Comparison
 
-        /// <summary>
-        /// Compares the current instance with another
-        /// object of the same type and returns an integer
-        /// that indicates whether the current instance
-        /// precedes, follows, or occurs in the same position
-        /// in the sort order as the other object.
-        /// </summary>
-        /// <param name="other">An object to compare with
-        /// this instance.</param>
-        /// <returns>A value that indicates the relative
-        /// order of the objects being compared. The return
-        /// value has these meanings: Value Meaning
-        /// Less than zero This instance precedes
-        /// <paramref name="other" /> in the sort order.
-        /// Zero This instance occurs in the same position
-        /// in the sort order as <paramref name="other" />.
-        /// Greater than zero This instance follows
-        /// <paramref name="other" /> in the sort order.</returns>
+        /// <inheritdoc cref="IComparable{T}.CompareTo" />
         public int CompareTo
             (
                 [NotNull] NumberText other
@@ -1150,16 +1100,18 @@ namespace AM.Text
                 NumberText right
             )
         {
-            if (ReferenceEquals(left, null))
-            {
-                return !ReferenceEquals(right, null);
-            }
-            if (ReferenceEquals(right, null))
+            if (ReferenceEquals(left, null)
+                ||ReferenceEquals(right, null))
             {
                 return true;
             }
 
-            return left.CompareTo(right) != 0;            
+            if (ReferenceEquals(left, right))
+            {
+                return false;
+            }
+
+            return left.CompareTo(right) != 0;
         }
 
         /// <summary>
@@ -1171,11 +1123,8 @@ namespace AM.Text
                 string right
             )
         {
-            if (ReferenceEquals(left, null))
-            {
-                return !ReferenceEquals(right, null);
-            }
-            if (ReferenceEquals(right, null))
+            if (ReferenceEquals(left, null)
+                ||ReferenceEquals(right, null))
             {
                 return true;
             }
@@ -1360,15 +1309,7 @@ namespace AM.Text
             return left.CompareTo(right) >= 0;
         }
 
-        /// <summary>
-        /// Indicates whether the current object is equal
-        /// to another object of the same type.
-        /// </summary>
-        /// <param name="other">An object to compare with
-        /// this object.</param>
-        /// <returns>true if the current object is equal
-        /// to the <paramref name="other" /> parameter;
-        /// otherwise, false.</returns>
+        /// <inheritdoc cref="IEquatable{T}.Equals(T)" />
         public bool Equals
             (
                 NumberText other
@@ -1381,16 +1322,7 @@ namespace AM.Text
             return CompareTo(other) == 0;
         }
 
-        /// <summary>
-        /// Determines whether the specified
-        /// <see cref="System.Object" /> is equal to this
-        /// instance.
-        /// </summary>
-        /// <param name="obj">The object to compare with
-        /// the current object.</param>
-        /// <returns><c>true</c> if the specified
-        /// <see cref="System.Object" /> is equal to this
-        /// instance; otherwise, <c>false</c>.</returns>
+        /// <inheritdoc cref="object.Equals(object)" />
         public override bool Equals
             (
                 object obj
@@ -1398,18 +1330,15 @@ namespace AM.Text
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
+
             return obj is NumberText && Equals((NumberText)obj);
         }
 
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>A hash code for this instance,
-        /// suitable for use in hashing algorithms and data
-        /// structures like a hash table.</returns>
+        /// <inheritdoc cref="object.GetHashCode" />
+        [ExcludeFromCodeCoverage]
         public override int GetHashCode()
         {
-            return _chunks != null ? _chunks.GetHashCode() : 0;
+            return _chunks.GetHashCode();
         }
 
         #endregion
@@ -1450,12 +1379,7 @@ namespace AM.Text
             return GetEnumerator();
         }
 
-        /// <summary>
-        /// Returns an enumerator that iterates through
-        /// the collection.
-        /// </summary>
-        /// <returns>An enumerator that can be used
-        /// to iterate through the collection.</returns>
+        /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
         public IEnumerator<string> GetEnumerator()
         {
             foreach (Chunk chunk in _chunks)
@@ -1468,9 +1392,7 @@ namespace AM.Text
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore object state from the given stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -1489,9 +1411,7 @@ namespace AM.Text
             }
         }
 
-        /// <summary>
-        /// Save object state to the given stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -1511,20 +1431,19 @@ namespace AM.Text
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify the object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
             )
         {
-            Verifier<NumberText> verifier
-                = new Verifier<NumberText>
-                (
-                    this,
-                    throwOnError
-                );
+            Verifier<NumberText> verifier = new Verifier<NumberText>(this, throwOnError);
+
+            verifier.Positive(_chunks.Count, "_chunks.Count");
+            foreach (Chunk chunk in _chunks)
+            {
+                verifier.VerifySubObject(chunk, "chunk");
+            }
 
             return verifier.Result;
         }
@@ -1533,7 +1452,7 @@ namespace AM.Text
 
         #region Object members
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
