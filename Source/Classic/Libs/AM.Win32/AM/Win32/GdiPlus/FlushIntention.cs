@@ -1,5 +1,8 @@
-﻿/* FlushIntention.cs -- specifies when to flush the queue of graphics operations
-   Ars Magna project, http://library.istu.edu/am */
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* FlushIntention.cs -- specifies when to flush the queue of graphics operations
+   Ars Magna project, http://arsmagna.ru */
 
 #region Using directives
 

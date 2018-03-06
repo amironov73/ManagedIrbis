@@ -1,4 +1,7 @@
-﻿/* PAINTSTRUCT.cs -- used to paint client area of a window
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* PAINTSTRUCT.cs -- used to paint client area of a window
  * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor

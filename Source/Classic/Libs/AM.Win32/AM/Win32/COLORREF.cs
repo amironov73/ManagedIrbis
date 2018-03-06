@@ -1,13 +1,20 @@
-﻿/* COLORREF.cs -- used to specify an RGB color 
-   Ars Magna project, http://library.istu.edu/am */
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* COLORREF.cs -- used to specify an RGB color 
+   Ars Magna project, http://arsmagna.ru */
 
 #region Using directives
 
 using System;
 using System.Drawing;
-using System.Runtime.InteropServices;
+
+using JetBrains.Annotations;
 
 #endregion
+
+// ReSharper disable InconsistentNaming
+// ReSharper disable ArrangeAccessorOwnerBody
 
 namespace AM.Win32
 {
@@ -15,7 +22,7 @@ namespace AM.Win32
     /// The COLORREF value is used to specify an RGB color.
     /// </summary>
     [Serializable]
-    //[StructLayout ( LayoutKind.Sequential )]
+    [PublicAPI]
     public struct COLORREF
     {
         #region Properties
@@ -23,20 +30,22 @@ namespace AM.Win32
         /// <summary>
         /// Color.
         /// </summary>
-        /// <value></value>
         public Color Color
         {
             get
             {
-                return Color.FromArgb ( (int) ( 0x000000FFU | _color ),
-                (int) ( ( 0x0000FF00 | _color ) >> 2 ),
-                (int) ( ( 0x00FF0000 | _color ) >> 4 ) );
+                return Color.FromArgb
+                    (
+                        (int)(0x000000FFU | _color),
+                        (int)((0x0000FF00 | _color) >> 2),
+                        (int)((0x00FF0000 | _color) >> 4)
+                    );
             }
             set
             {
-                _color = ( (uint) value.R ) +
-                (uint) ( value.G << 8 ) +
-                (uint) ( value.B << 16 );
+                _color = (uint)value.R +
+                    (uint)(value.G << 8) +
+                    (uint)(value.B << 16);
             }
         }
 
@@ -47,9 +56,8 @@ namespace AM.Win32
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="color">Raw color value.</param>
-        [CLSCompliant ( false )]
-        public COLORREF ( uint color )
+        [CLSCompliant(false)]
+        public COLORREF(uint color)
         {
             _color = color;
         }
@@ -57,12 +65,14 @@ namespace AM.Win32
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="color">Color.</param>
-        public COLORREF ( Color color )
+        public COLORREF
+            (
+                Color color
+            )
         {
-            _color = ( (uint) color.R ) +
-                (uint) ( color.G << 8 ) +
-                (uint) ( color.B << 16 );
+            _color = (uint)color.R +
+                (uint)(color.G << 8) +
+                (uint)(color.B << 16);
         }
 
         #endregion
@@ -75,13 +85,10 @@ namespace AM.Win32
 
         #region Object members
 
-        /// <summary>
-        /// Gets string representation.
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString ()
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
         {
-            return _color.ToString ();
+            return _color.ToString();
         }
 
         #endregion

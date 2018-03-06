@@ -1,5 +1,8 @@
-﻿/* WindowsTweaker.cs -- 
-   Ars Magna project, http://library.istu.edu/am */
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* WindowsTweaker.cs -- 
+   Ars Magna project, http://arsmagna.ru */
 
 #region Using directives
 
@@ -18,12 +21,6 @@ namespace AM.Win32
 	/// </summary>
 	public static class WindowsTweaker
 	{
-		#region Properties
-		#endregion
-
-		#region Private members
-		#endregion
-
 		#region Public methods
 
 		/// <summary>

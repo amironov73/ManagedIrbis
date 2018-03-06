@@ -1,5 +1,5 @@
 ﻿/* StringGrid.cs --  
-   Ars Magna project, http://library.istu.edu/am */
+   Ars Magna project, http://arsmagna.ru */
 
 #region Using directives
 

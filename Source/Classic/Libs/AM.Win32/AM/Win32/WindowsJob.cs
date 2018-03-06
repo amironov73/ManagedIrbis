@@ -1,4 +1,7 @@
-﻿/* WindowsJob.cs -- 
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* WindowsJob.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -10,6 +13,8 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
+using JetBrains.Annotations;
+
 #endregion
 
 namespace AM.Win32
@@ -20,6 +25,7 @@ namespace AM.Win32
     /// <remarks>Borrowed from Tom DuPont:
     /// http://www.tomdupont.net/2016/02/how-to-kill-child-process-when-parent.html
     /// </remarks>
+    [PublicAPI]
     public sealed class WindowsJob
         : IDisposable
     {
@@ -91,6 +97,7 @@ namespace AM.Win32
         #region Private members
 
         private readonly JobObjectHandle _handle;
+
         private bool _disposed;
 
         #endregion
@@ -128,7 +135,7 @@ namespace AM.Win32
 
         #region IDisposable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
             Dispose(true);
