@@ -11,8 +11,13 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Text;
+
+using AM;
 
 using CodeJam;
 
@@ -356,9 +361,26 @@ namespace RestfulIrbis.OsmiCards
                     Method.GET
                 );
             request.AddUrlSegment("name", templateName);
-            IRestResponse response = Connection.Execute(request);
+            string content = string.Empty;
+            HttpStatusCode statusCode = HttpStatusCode.NoContent;
 
-            JObject result = JObject.Parse(response.Content);
+            JObject result;
+            try
+            {
+                IRestResponse response = Connection.Execute(request);
+                content = response.Content ?? string.Empty;
+                statusCode = response.StatusCode;
+                result = JObject.Parse(content);
+            }
+            catch (Exception inner)
+            {
+                Encoding encoding = Encoding.UTF8;
+                ArsMagnaException outer = new ArsMagnaException("Error Get template info", inner);
+                outer.Attach(new BinaryAttachment("content", encoding.GetBytes(content)));
+                outer.Attach(new BinaryAttachment("statusCode", encoding.GetBytes(statusCode.ToString())));
+
+                throw outer;
+            }
 
             return result;
         }

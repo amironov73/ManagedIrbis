@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using AM;
+using AM.Logging;
 using AM.Windows.Forms;
 
 using ManagedIrbis.Readers;
@@ -78,10 +79,27 @@ namespace OsmiRegistration
             this.ShowVersionInfoInTitle();
             _logBox.Output.PrintSystemInformation();
 
-            ControlCenter.Initialize();
-            ControlCenter.Output = _logBox.Output;
+            try
+            {
+                ControlCenter.Initialize(_logBox.Output);
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException("MainForm::Load", exception);
+                ExceptionBox.Show(this, exception);
+                Application.Exit();
+            }
 
-            ControlCenter.Ping();
+            try
+            {
+                ControlCenter.Ping();
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException("MainForm::Load", exception);
+                ExceptionBox.Show(this, exception);
+                Application.Exit();
+            }
 
             ControlCenter.WriteLine("Ready");
             ControlCenter.WriteLine(string.Empty);

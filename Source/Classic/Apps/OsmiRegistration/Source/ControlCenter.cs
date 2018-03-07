@@ -207,7 +207,7 @@ namespace OsmiRegistration
         [NotNull]
         public static IrbisConnection GetIrbisConnection()
         {
-            IrbisConnection result 
+            IrbisConnection result
                 = new IrbisConnection(ConnectionString);
 
             return result;
@@ -254,8 +254,13 @@ namespace OsmiRegistration
         /// <summary>
         /// Initialize.
         /// </summary>
-        public static void Initialize()
+        public static void Initialize
+            (
+                [CanBeNull] AbstractOutput output
+            )
         {
+            Output = output;
+
             Configuration = JObject.Parse
                 (
                     File.ReadAllText("osmi.json")
@@ -266,16 +271,29 @@ namespace OsmiRegistration
             string baseUri = CM.AppSettings["baseUri"];
             string apiId = CM.AppSettings["apiID"];
             string apiKey = CM.AppSettings["apiKey"];
-            Client = new OsmiCardsClient
-                (
-                    baseUri,
-                    apiId,
-                    apiKey
-                );
+//            try
+//            {
+                Client = new OsmiCardsClient
+                    (
+                        baseUri,
+                        apiId,
+                        apiKey
+                    );
 
-            WriteLine("Reading OSMI template");
-            TemplateName = CM.AppSettings["template"];
-            Template = Client.GetTemplateInfo(TemplateName);
+                TemplateName = CM.AppSettings["template"];
+                WriteLine("Reading OSMI template: {0}", TemplateName);
+                Template = Client.GetTemplateInfo(TemplateName);
+//            }
+//            catch (Exception inner)
+//            {
+//                Encoding encoding = Encoding.UTF8;
+//                ArsMagnaException outer = new ArsMagnaException("OSMI error", inner);
+//                outer.Attach(new BinaryAttachment("baseUri", encoding.GetBytes(baseUri)));
+//                outer.Attach(new BinaryAttachment("apiId", encoding.GetBytes(apiId)));
+//                outer.Attach(new BinaryAttachment("apiKey", encoding.GetBytes(apiKey)));
+//
+//                throw outer;
+//            }
         }
 
         public static bool Ping()
@@ -304,7 +322,7 @@ namespace OsmiRegistration
                     ticket,
                     email
                 );
-            
+
             WriteLine("Послано письмо по адресу {0}", email);
         }
 
@@ -344,8 +362,8 @@ namespace OsmiRegistration
 
             bool result = Regex.IsMatch
                 (
-                    email, 
-                    @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", 
+                    email,
+                    @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z",
                     RegexOptions.IgnoreCase
                 );
 
