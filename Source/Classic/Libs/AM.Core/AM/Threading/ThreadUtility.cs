@@ -94,6 +94,18 @@ namespace AM.Threading
             System.Threading.Thread.Sleep (milliseconds);
         }
 
+#elif UAP
+
+        /// <summary>
+        /// Sleep for specified milliseconds.
+        /// </summary>
+        public static void Sleep
+            (
+                int milliseconds
+            )
+        {
+            Task.Delay(milliseconds).Wait();
+        }
 
 #else
 

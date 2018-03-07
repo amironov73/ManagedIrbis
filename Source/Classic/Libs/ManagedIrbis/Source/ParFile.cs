@@ -301,7 +301,7 @@ namespace ManagedIrbis
 
             foreach (string key in Enumerable.Range(1, 10)
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !UAP
 
                 .Select(NumericUtility.ToInvariantString)
 

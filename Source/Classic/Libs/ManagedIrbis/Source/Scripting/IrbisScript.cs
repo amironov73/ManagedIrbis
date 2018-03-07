@@ -119,7 +119,7 @@ namespace ManagedIrbis.Scripting
         /// </summary>
         private void _Initialize()
         {
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !UAP
 
             RegisterIrbisTypes();
             Engine = new Script(CoreModules.Preset_Complete);
@@ -204,7 +204,7 @@ namespace ManagedIrbis.Scripting
         {
             Code.NotNullNorEmpty(filename, "filename");
 
-#if WINMOBILE || PocketPC
+#if WINMOBILE || PocketPC || UAP
 
             throw new NotImplementedException();
 
@@ -229,7 +229,7 @@ namespace ManagedIrbis.Scripting
                 [CanBeNull] string code
             )
         {
-#if WINMOBILE || PocketPC
+#if WINMOBILE || PocketPC || UAP
 
             throw new NotImplementedException();
 
@@ -271,7 +271,7 @@ namespace ManagedIrbis.Scripting
         /// </summary>
         public static void RegisterIrbisTypes()
         {
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !UAP
 
             if (!_typesRegistered)
             {

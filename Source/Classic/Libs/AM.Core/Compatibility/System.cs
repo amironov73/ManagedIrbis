@@ -933,7 +933,7 @@ namespace System
     /// <summary>
     /// Represents a method that converts an object from one type to another type.
     /// </summary>
-    public delegate TOutput Converter<in TInput, out TOutput>
+    public delegate TOutput Converter<TInput, TOutput>
         (
             TInput input
         );

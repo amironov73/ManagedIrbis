@@ -97,9 +97,19 @@ namespace AM.Runtime
                 typeName = Namespace + "." + typeName;
             }
 
+#if UAP
+
+            Type type = ReferenceEquals(Assembly, null)
+                ? Type.GetType(typeName, true)
+                : Assembly.GetType(typeName);
+
+#else
+
             Type type = ReferenceEquals(Assembly, null)
                 ? Type.GetType(typeName, true)
                 : Assembly.GetType(typeName, true);
+
+#endif
 
             IHandmadeSerializable result = (IHandmadeSerializable) Activator.CreateInstance(type);
 
@@ -128,9 +138,19 @@ namespace AM.Runtime
                 typeName = Namespace + "." + typeName;
             }
 
+#if UAP
+
+            Type type = ReferenceEquals(Assembly, null)
+                ? Type.GetType(typeName, true)
+                : Assembly.GetType(typeName);
+
+#else
+
             Type type = ReferenceEquals(Assembly, null)
                 ? Type.GetType(typeName, true)
                 : Assembly.GetType(typeName, true);
+
+#endif
 
             IHandmadeSerializable[] result = new IHandmadeSerializable[count];
 
