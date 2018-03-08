@@ -204,7 +204,6 @@
   </ItemGroup>
   <!-- END -->
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="ArsMagna.private.snk" />
   </ItemGroup>
   <ItemGroup>
