@@ -8,7 +8,11 @@
 
 using System;
 
+using JetBrains.Annotations;
+
 #endregion
+
+// ReSharper disable InconsistentNaming
 
 namespace AM.Win32
 {
@@ -16,6 +20,7 @@ namespace AM.Win32
     /// File access rights for functions like CreateFile.
     /// </summary>
     [Flags]
+    [PublicAPI]
     public enum FileAccessFlags
     {
         /// <summary>

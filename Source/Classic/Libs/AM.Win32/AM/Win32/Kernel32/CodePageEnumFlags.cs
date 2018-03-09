@@ -1,14 +1,18 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* CodePageEnumFlags.cs -- 
+/* CodePageEnumFlags.cs -- specifies the code pages to enumerate
    Ars Magna project, http://arsmagna.ru */
 
 #region Using directives
 
 using System;
 
+using JetBrains.Annotations;
+
 #endregion
+
+// ReSharper disable InconsistentNaming
 
 namespace AM.Win32
 {
@@ -16,6 +20,7 @@ namespace AM.Win32
     ///  Specifies the code pages to enumerate.
     /// </summary>
     [Flags]
+    [PublicAPI]
     public enum CodePageEnumFlags
     {
         /// <summary>

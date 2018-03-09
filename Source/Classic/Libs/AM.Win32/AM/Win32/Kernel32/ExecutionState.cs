@@ -7,12 +7,12 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
+
+using JetBrains.Annotations;
 
 #endregion
+
+// ReSharper disable InconsistentNaming
 
 namespace AM.Win32
 {
@@ -20,6 +20,7 @@ namespace AM.Win32
     /// Thread's execution requirements.
     /// </summary>
     [Flags]
+    [PublicAPI]
     public enum ExecutionState
     {
         /// <summary>
@@ -51,6 +52,6 @@ namespace AM.Win32
         /// in effect until the next call that uses ES_CONTINUOUS and 
         /// one of the other state flags is cleared.
         /// </summary>
-        ES_CONTINUOUS = unchecked ( (int) 0x80000000 )
+        ES_CONTINUOUS = unchecked((int)0x80000000)
     }
 }

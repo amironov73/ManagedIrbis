@@ -6,9 +6,7 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+using JetBrains.Annotations;
 
 #endregion
 
@@ -17,8 +15,9 @@ namespace AM.Win32
     /// <summary>
     /// 
     /// </summary>
+    [PublicAPI]
     public delegate bool CodePageEnumProc 
-    (
-        string codePage
-    );
+        (
+            string codePage
+        );
 }

@@ -4,26 +4,35 @@
 /* ACPowerState.cs -- AC power status.
    Ars Magna project, http://arsmagna.ru */
 
+#region Using directives
+
+using JetBrains.Annotations;
+
+#endregion
+
+// ReSharper disable InconsistentNaming
+
 namespace AM.Win32
 {
-	/// <summary>
-	/// AC power status.
-	/// </summary>
-	public enum ACPowerStatus : byte
-	{
-		/// <summary>
-		/// Offline.
-		/// </summary>
-		Offline = 0,
+    /// <summary>
+    /// AC power status.
+    /// </summary>
+    [PublicAPI]
+    public enum ACPowerStatus : byte
+    {
+        /// <summary>
+        /// Offline.
+        /// </summary>
+        Offline = 0,
 
-		/// <summary>
-		/// Online.
-		/// </summary>
-		Online = 1,
+        /// <summary>
+        /// Online.
+        /// </summary>
+        Online = 1,
 
-		/// <summary>
-		/// Unknown.
-		/// </summary>
-		Unknown = 255
-	}
+        /// <summary>
+        /// Unknown.
+        /// </summary>
+        Unknown = 255
+    }
 }

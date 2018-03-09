@@ -10,15 +10,18 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
+using JetBrains.Annotations;
 
 #endregion
+
+// ReSharper disable InconsistentNaming
 
 namespace AM.Win32
 {
     /// <summary>
     /// Kernel32.dll interop.
     /// </summary>
+    [PublicAPI]
     public static class Kernel32
     {
         #region Constants
@@ -3731,7 +3734,7 @@ namespace AM.Win32
         [CLSCompliant(false)]
         public static IntPtr LocalAlloc(uint dwBytes)
         {
-            return LocalAlloc(LocalAllocFlags.GMEM_FIXED, dwBytes);
+            return LocalAlloc(LocalAllocFlags.LMEM_FIXED, dwBytes);
         }
 
         /// <summary>
