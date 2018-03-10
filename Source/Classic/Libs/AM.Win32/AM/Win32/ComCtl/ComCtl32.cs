@@ -6,10 +6,7 @@
 
 #region Using directives
 
-using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Text;
+using JetBrains.Annotations;
 
 #endregion
 
@@ -18,6 +15,7 @@ namespace AM.Win32
     /// <summary>
     /// Comctl32.dll wrapper.
     /// </summary>
+    [PublicAPI]
     public static partial class ComCtl32
     {
         #region Constants

@@ -8,28 +8,33 @@
 
 using System.Runtime.InteropServices;
 
+using JetBrains.Annotations;
+
 #endregion
+
+// ReSharper disable InconsistentNaming
 
 namespace AM.Win32
 {
-	/// <summary>
-	/// Defines the CF_FILEGROUPDESCRIPTOR clipboard format. 
-	/// </summary>
-	public struct FILEGROUPDESCRIPTORA
-	{
-		/// <summary>
-		/// Number of elements in fgd.
-		/// </summary>
-		public int cItems;
+    /// <summary>
+    /// Defines the CF_FILEGROUPDESCRIPTOR clipboard format.
+    /// </summary>
+    [PublicAPI]
+    public struct FILEGROUPDESCRIPTORA
+    {
+        /// <summary>
+        /// Number of elements in fgd.
+        /// </summary>
+        public int cItems;
 
-		/// <summary>
-		/// Array of <see cref="FILEDESCRIPTORA"/>
-		///  structures that contain the file information.
-		/// </summary>
-		/// <remarks>
-		/// SizeConst!!!
-		/// </remarks>
-		[MarshalAs ( UnmanagedType.ByValArray, SizeConst = 1 )]
-		public FILEDESCRIPTORA[] fgd;
-	}
+        /// <summary>
+        /// Array of <see cref="FILEDESCRIPTORA"/>
+        ///  structures that contain the file information.
+        /// </summary>
+        /// <remarks>
+        /// SizeConst!!!
+        /// </remarks>
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
+        public FILEDESCRIPTORA[] fgd;
+    }
 }

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* REOBJECT.cs -- 
+/* REOBJECT.cs -- OLE or image object in a rich edit control
    Ars Magna project, http://arsmagna.ru */
 
 #region Using directives
@@ -9,20 +9,22 @@
 using System;
 using System.Runtime.InteropServices;
 
+using JetBrains.Annotations;
+
 #endregion
+
+// ReSharper disable InconsistentNaming
 
 namespace AM.Win32
 {
     /// <summary>
-    /// 
+    /// Contains information about an OLE or image object in a rich edit control.
     /// </summary>
+    [PublicAPI]
     [Serializable]
     [StructLayout ( LayoutKind.Sequential )]
     public struct REOBJECT
     {
-        #region Constants
-        #endregion
-
         #region Public members
 
         /// <summary>

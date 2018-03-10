@@ -1,14 +1,18 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* PipeWaitFlags.cs --  
+/* PipeWaitFlags.cs -- wait intervals for named pipes
    Ars Magna project, http://arsmagna.ru */
 
 #region Using directives
 
 using System;
 
+using JetBrains.Annotations;
+
 #endregion
+
+// ReSharper disable InconsistentNaming
 
 namespace AM.Win32
 {
@@ -16,12 +20,13 @@ namespace AM.Win32
     /// Wait intervals for named pipes.
     /// </summary>
     [Flags]
+    [PublicAPI]
     public enum PipeWaitFlags
     {
         /// <summary>
         /// Waits indefinitely.
         /// </summary>
-        NMPWAIT_WAIT_FOREVER = unchecked ( (int) 0xffffffff ),
+        NMPWAIT_WAIT_FOREVER = unchecked((int)0xffffffff),
 
         /// <summary>
         /// Does not wait for the named pipe. If the named pipe 
