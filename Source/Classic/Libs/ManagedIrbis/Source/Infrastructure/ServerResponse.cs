@@ -359,7 +359,7 @@ namespace ManagedIrbis.Infrastructure
         [NotNull]
         public static ServerResponse GetEmptyResponse
             (
-                IrbisConnection connection
+                IIrbisConnection connection
             )
         {
             byte[] empty = new byte[0];

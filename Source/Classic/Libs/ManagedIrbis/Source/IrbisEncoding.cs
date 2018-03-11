@@ -49,11 +49,13 @@ namespace ManagedIrbis
         /// <summary>
         /// OEM encoding.
         /// </summary>
+        [NotNull]
         public static Encoding Oem { get { return _oem; } }
 
         /// <summary>
         /// UTF8 encoding.
         /// </summary>
+        [NotNull]
         public static Encoding Utf8 { get { return _utf8; } }
 
         #endregion
@@ -92,12 +94,14 @@ namespace ManagedIrbis
             {
                 return Ansi;
             }
+
             if (name.SameString("Dos")
                 || name.SameString("MsDos")
                 || name.SameString("Oem"))
             {
                 return Oem;
             }
+
             if (name.SameString("Utf")
                 || name.SameString("Utf8")
                 || name.SameString("Utf-8"))

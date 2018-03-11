@@ -407,7 +407,7 @@ namespace AM.Threading
             return new BusyState(value);
         }
 
-#endregion
+        #endregion
 
         #region IHandmadeSerializable members
 
