@@ -198,31 +198,24 @@ namespace ManagedIrbis.Menus
         {
             Code.NotNull(code, "code");
 
-            MenuEntry candidate = FindEntry(code);
-            if (!ReferenceEquals(candidate, null))
+            MenuEntry result = FindEntry(code);
+            if (!ReferenceEquals(result, null))
             {
-                return candidate;
+                return result;
             }
 
             code = code.Trim();
-            candidate = FindEntry(code);
-            if (!ReferenceEquals(candidate, null))
+            result = FindEntry(code);
+            if (!ReferenceEquals(result, null))
             {
-                return candidate;
+                return result;
             }
 
             code = TrimCode(code);
-            candidate = FindEntry(code);
-            // ReSharper disable UseNullPropagation
-            if (!ReferenceEquals(candidate, null))
-            {
-                return candidate;
-            }
-            // ReSharper restore UseNullPropagation
+            result = FindEntry(code);
 
-            return null;
+            return result;
         }
-
 
         /// <summary>
         /// Finds the entry (case sensitive).
@@ -235,29 +228,23 @@ namespace ManagedIrbis.Menus
         {
             Code.NotNull(code, "code");
 
-            MenuEntry candidate = FindEntrySensitive(code);
-            if (!ReferenceEquals(candidate, null))
+            MenuEntry result = FindEntrySensitive(code);
+            if (!ReferenceEquals(result, null))
             {
-                return candidate;
+                return result;
             }
 
             code = code.Trim();
-            candidate = FindEntrySensitive(code);
-            if (!ReferenceEquals(candidate, null))
+            result = FindEntrySensitive(code);
+            if (!ReferenceEquals(result, null))
             {
-                return candidate;
+                return result;
             }
 
             code = TrimCode(code);
-            candidate = FindEntrySensitive(code);
-            // ReSharper disable UseNullPropagation
-            if (!ReferenceEquals(candidate, null))
-            {
-                return candidate;
-            }
-            // ReSharper restore UseNullPropagation
+            result = FindEntrySensitive(code);
 
-            return null;
+            return result;
         }
 
         /// <summary>

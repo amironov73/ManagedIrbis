@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
 using AM;
 using AM.Threading;
 
@@ -85,13 +86,13 @@ namespace ManagedIrbis.Infrastructure.Sockets
 
         #region AbstractClientSocket members
 
-        /// <inheritdoc cref="AbstractClientSocket.AbortRequest"/>
+        /// <inheritdoc cref="AbstractClientSocket.AbortRequest" />
         public override void AbortRequest()
         {
             InnerSocket.ThrowIfNull().AbortRequest();
         }
 
-        /// <inheritdoc cref="AbstractClientSocket.ExecuteRequest"/>
+        /// <inheritdoc cref="AbstractClientSocket.ExecuteRequest" />
         public override byte[] ExecuteRequest
             (
                 byte[] request

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.IO;
-using AM.Runtime;
-using ManagedIrbis;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using AM.Runtime;
+
+using ManagedIrbis;
 using ManagedIrbis.Gbl;
 
-namespace UnitTests.AM.Gbl
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace UnitTests.ManagedIrbis.Gbl
 {
     [TestClass]
     public class GblFileTest

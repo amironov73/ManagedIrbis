@@ -11,6 +11,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+
 using CodeJam;
 
 using JetBrains.Annotations;

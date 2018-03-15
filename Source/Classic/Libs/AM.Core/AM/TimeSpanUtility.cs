@@ -42,7 +42,7 @@ namespace AM
         /// </summary>
         public static TimeSpan OneHour
         {
-            get { return new TimeSpan(1, 0, 0);}
+            get { return new TimeSpan(1, 0, 0); }
         }
 
         /// <summary>

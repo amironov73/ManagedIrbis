@@ -10,7 +10,9 @@
 #region Using directives
 
 using System;
+
 using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;

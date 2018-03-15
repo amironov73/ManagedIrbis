@@ -97,7 +97,7 @@ namespace ManagedIrbis.Search
 
         #region IHandmadeSerializable members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -112,7 +112,7 @@ namespace ManagedIrbis.Search
             ReverseOrder = reader.ReadBoolean();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer

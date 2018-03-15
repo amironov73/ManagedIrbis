@@ -133,21 +133,27 @@ namespace ManagedIrbis.Gbl
                         case "DBN":
                             result.Database = value;
                             break;
+
                         case "MFN":
                             result.Mfn = value.SafeToInt32();
                             break;
+
                         case "AUTOIN":
                             result.Autoin = value;
                             break;
+
                         case "UPDATE":
                             result.Update = value;
                             break;
+
                         case "STATUS":
                             result.Status = value;
                             break;
+
                         case "UPDUF":
                             result.UpdUf = value;
                             break;
+
                         case "GBL_ERROR":
                             result.Error = value;
                             result.Success = false;

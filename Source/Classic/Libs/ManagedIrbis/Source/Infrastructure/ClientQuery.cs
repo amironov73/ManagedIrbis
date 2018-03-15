@@ -295,9 +295,7 @@ namespace ManagedIrbis.Infrastructure
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
@@ -312,20 +310,20 @@ namespace ManagedIrbis.Infrastructure
             verifier
                 .NotNullNorEmpty(CommandCode, "CommandCode")
                 .Assert
-                (
-                    Workstation != IrbisWorkstation.None,
-                    "Workstation"
-                )
+                    (
+                        Workstation != IrbisWorkstation.None,
+                        "Workstation"
+                    )
                 .Assert
-                (
-                    ClientID != 0,
-                    "ClientID"
-                )
+                    (
+                        ClientID != 0,
+                        "ClientID"
+                    )
                 .Assert
-                (
-                    CommandNumber != 0,
-                    "CommandNumber"
-                );
+                    (
+                        CommandNumber != 0,
+                        "CommandNumber"
+                    );
 
             return verifier.Result;
         }
@@ -334,12 +332,7 @@ namespace ManagedIrbis.Infrastructure
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format

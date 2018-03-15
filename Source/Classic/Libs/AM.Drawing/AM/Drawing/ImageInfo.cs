@@ -193,8 +193,10 @@ namespace AM.Drawing
                     result.Width = BitConverter.ToInt32(buffer, 18);
                     result.Height = BitConverter.ToInt32(buffer, 22);
                     result.Colors = 1 << buffer[28];
+
                     return result;
                 }
+
                 throw new ApplicationException();
             }
         }
@@ -226,13 +228,18 @@ namespace AM.Drawing
                     result.Height = buffer[8] + buffer[9] * 256;
                     byte packed = buffer[10];
                     result.Colors = 1 << ((packed & 7) + 1);
+
                     return result;
                 }
+
                 throw new ApplicationException();
             }
         }
 
-        private static ImageInfo _GetJpegImageInfo(string fileName)
+        private static ImageInfo _GetJpegImageInfo
+            (
+                string fileName
+            )
         {
             using (FileStream file = File.OpenRead(fileName))
             {
@@ -243,6 +250,7 @@ namespace AM.Drawing
                 {
                     throw new ApplicationException();
                 }
+
                 ImageInfo result = new ImageInfo(fileName);
                 result.Colors = 1 << 24;
                 while (true)
@@ -282,28 +290,39 @@ namespace AM.Drawing
                         }
                         result.Height = _ReadUInt16(file);
                         result.Width = _ReadUInt16(file);
+
                         return result;
                     }
                     file.Position = position + blockLength;
                     continue;
                 }
             }
+
             throw new ApplicationException();
         }
 
-        private static ImageInfo _GetPcxImageInfo(string fileName)
+        private static ImageInfo _GetPcxImageInfo
+            (
+                string fileName
+            )
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException(nameof(_GetPcxImageInfo));
         }
 
-        private static ImageInfo _GetTgaImageInfo(string fileName)
+        private static ImageInfo _GetTgaImageInfo
+            (
+                string fileName
+            )
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException(nameof(_GetTgaImageInfo));
         }
 
-        private static ImageInfo _GetTiffImageInfo(string fileName)
+        private static ImageInfo _GetTiffImageInfo
+            (
+                string fileName
+            )
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new NotImplementedException(nameof(_GetTiffImageInfo));
         }
 
         private static ushort _ReadUInt16(Stream stream)
@@ -340,19 +359,25 @@ namespace AM.Drawing
             {
                 case ".bmp":
                     return _GetBmpImageInfo(fileName);
+
                 case ".gif":
                     return _GetGifImageInfo(fileName);
+
                 case ".jpeg":
                 case ".jpg":
                 case ".jfif":
                     return _GetJpegImageInfo(fileName);
+
                 case ".pcx":
                     return _GetPcxImageInfo(fileName);
+
                 case ".tga":
                     return _GetTgaImageInfo(fileName);
+
                 case ".tif":
                 case ".tiff":
                     return _GetTiffImageInfo(fileName);
+
                 default:
                     throw new ArgumentException();
             }
@@ -362,16 +387,7 @@ namespace AM.Drawing
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="T:System.String"></see>
-        /// that represents the current
-        /// <see cref="T:System.Object"></see>.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.String"></see>
-        /// that represents the current
-        /// <see cref="T:System.Object"></see>.
-        /// </returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format

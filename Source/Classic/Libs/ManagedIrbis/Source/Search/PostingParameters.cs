@@ -119,9 +119,7 @@ namespace ManagedIrbis.Search
 
         #region IVerifiable members
 
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError

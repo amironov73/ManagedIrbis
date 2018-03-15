@@ -56,6 +56,7 @@ namespace AM.Drawing
                     font.Underline,
                     font.Strikeout
                 );
+
             return result;
         }
 
