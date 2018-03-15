@@ -507,7 +507,8 @@ namespace UnitTests.AM.IO
             IniFile.Section section = file.CreateSection("Main");
             section.Add("Parameter1", "Value1");
 
-            Assert.IsTrue(section.TryGetValue("Parameter1", out string value));
+            string value;
+            Assert.IsTrue(section.TryGetValue("Parameter1", out value));
             Assert.AreEqual("Value1", value);
             Assert.IsFalse(section.TryGetValue("Parameter2", out value));
         }
