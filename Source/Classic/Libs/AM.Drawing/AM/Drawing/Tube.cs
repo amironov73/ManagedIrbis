@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* Tube.cs -- palette item
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
@@ -16,8 +16,6 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-using CodeJam;
-
 using JetBrains.Annotations;
 
 #endregion
@@ -25,13 +23,12 @@ using JetBrains.Annotations;
 namespace AM.Drawing
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [XmlRoot("tube")]
-    // ReSharper disable RedundantNameQualifier
+    // ReSharper disable once RedundantNameQualifier
     [System.ComponentModel.DesignerCategory("Code")]
-    // ReSharper restore RedundantNameQualifier
     public sealed class Tube
         : //Component,
         IDisposable,
@@ -42,7 +39,6 @@ namespace AM.Drawing
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
-        /// <value>The name.</value>
         [XmlAttribute("name")]
         public string Name { get; set; }
 
@@ -98,7 +94,7 @@ namespace AM.Drawing
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the 
+        /// Initializes a new instance of the
         /// <see cref="Tube"/> class.
         /// </summary>
         public Tube()
@@ -107,7 +103,7 @@ namespace AM.Drawing
         }
 
         /// <summary>
-        /// Initializes a new instance of the 
+        /// Initializes a new instance of the
         /// <see cref="Tube"/> class.
         /// </summary>
         /// <param name="color">The color.</param>
@@ -118,7 +114,7 @@ namespace AM.Drawing
         }
 
         /// <summary>
-        /// Initializes a new instance of the 
+        /// Initializes a new instance of the
         /// <see cref="Tube"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
@@ -128,7 +124,7 @@ namespace AM.Drawing
         }
 
         /// <summary>
-        /// Initializes a new instance of the 
+        /// Initializes a new instance of the
         /// <see cref="Tube"/> class.
         /// </summary>
         /// <param name="color">The color.</param>
@@ -140,7 +136,7 @@ namespace AM.Drawing
         }
 
         /// <summary>
-        /// Initializes a new instance of the 
+        /// Initializes a new instance of the
         /// <see cref="Tube"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
@@ -152,7 +148,7 @@ namespace AM.Drawing
         }
 
         /// <summary>
-        /// Releases unmanaged resources and performs 
+        /// Releases unmanaged resources and performs
         /// other cleanup operations before the
         /// <see cref="Tube"/> is reclaimed by garbage collection.
         /// </summary>
@@ -166,7 +162,7 @@ namespace AM.Drawing
         #region Public methods
 
         /// <summary>
-        /// Performs an implicit conversion from 
+        /// Performs an implicit conversion from
         /// <see cref="Tube"/> to <see cref="System.Drawing.Brush"/>.
         /// </summary>
         /// <param name="tube">The tube.</param>
@@ -177,7 +173,7 @@ namespace AM.Drawing
         }
 
         /// <summary>
-        /// Performs an implicit conversion from 
+        /// Performs an implicit conversion from
         /// <see cref="Tube"/> to <see cref="System.Drawing.Pen"/>.
         /// </summary>
         /// <param name="tube">The tube.</param>
@@ -188,7 +184,7 @@ namespace AM.Drawing
         }
 
         /// <summary>
-        /// Performs an implicit conversion from 
+        /// Performs an implicit conversion from
         /// <see cref="Tube"/> to <see cref="System.Drawing.Color"/>.
         /// </summary>
         /// <param name="tube">The tube.</param>
@@ -210,8 +206,8 @@ namespace AM.Drawing
         /// <summary>
         /// Generates an object from its XML representation.
         /// </summary>
-        /// <param name="reader">The 
-        /// <see cref="T:System.Xml.XmlReader"/> stream from 
+        /// <param name="reader">The
+        /// <see cref="T:System.Xml.XmlReader"/> stream from
         /// which the object is deserialized.</param>
         void IXmlSerializable.ReadXml(XmlReader reader)
         {
@@ -225,8 +221,8 @@ namespace AM.Drawing
         /// <summary>
         /// Converts an object into its XML representation.
         /// </summary>
-        /// <param name="writer">The 
-        /// <see cref="T:System.Xml.XmlWriter"/> stream 
+        /// <param name="writer">The
+        /// <see cref="T:System.Xml.XmlWriter"/> stream
         /// to which the object is serialized.</param>
         void IXmlSerializable.WriteXml(XmlWriter writer)
         {
@@ -243,8 +239,8 @@ namespace AM.Drawing
         #region IDisposable members
 
         /// <summary>
-        /// Performs application-defined tasks associated 
-        /// with freeing, releasing, or resetting unmanaged 
+        /// Performs application-defined tasks associated
+        /// with freeing, releasing, or resetting unmanaged
         /// resources.
         /// </summary>
         public void Dispose()
@@ -266,7 +262,7 @@ namespace AM.Drawing
         #region Object members
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public bool Equals(Tube other)
         {
@@ -276,14 +272,14 @@ namespace AM.Drawing
         }
 
         /// <summary>
-        /// Determines whether the specified 
+        /// Determines whether the specified
         /// <see cref="System.Object"/> is equal to this instance.
         /// </summary>
-        /// <param name="obj">The <see cref="System.Object"/> 
+        /// <param name="obj">The <see cref="System.Object"/>
         /// to compare with this instance.</param>
         /// <returns>
-        /// 	<c>true</c> if the specified 
-        /// <see cref="System.Object"/> is equal to this instance; 
+        /// 	<c>true</c> if the specified
+        /// <see cref="System.Object"/> is equal to this instance;
         /// otherwise, <c>false</c>.
         /// </returns>
         /// <exception cref="T:System.NullReferenceException">
@@ -301,21 +297,21 @@ namespace AM.Drawing
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use 
-        /// in hashing algorithms and data structures like 
-        /// a hash table. 
+        /// A hash code for this instance, suitable for use
+        /// in hashing algorithms and data structures like
+        /// a hash table.
         /// </returns>
         public override int GetHashCode()
         {
-            return (Name != null ? Name.GetHashCode() : 0);
+            return Name != null ? Name.GetHashCode() : 0;
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that 
+        /// Returns a <see cref="System.String"/> that
         /// represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String"/> that represents 
+        /// A <see cref="System.String"/> that represents
         /// this instance.
         /// </returns>
         public override string ToString()

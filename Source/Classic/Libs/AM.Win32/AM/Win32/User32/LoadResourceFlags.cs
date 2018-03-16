@@ -1,14 +1,18 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* LoadResourceFlags.cs --  
+/* LoadResourceFlags.cs -- flags for LoadImage and similar functions
    Ars Magna project, http://arsmagna.ru */
 
 #region Using directives
 
 using System;
 
+using JetBrains.Annotations;
+
 #endregion
+
+// ReSharper disable InconsistentNaming
 
 namespace AM.Win32
 {
@@ -16,6 +20,7 @@ namespace AM.Win32
     /// Flags for LoadImage and similar functions
     /// </summary>
     [Flags]
+    [PublicAPI]
     public enum LoadResourceFlags
     {
         /// <summary>

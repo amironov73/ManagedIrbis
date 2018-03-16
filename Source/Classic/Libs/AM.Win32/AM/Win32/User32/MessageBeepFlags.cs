@@ -1,27 +1,30 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* MessageBeepFlags.cs --  
+/* MessageBeepFlags.cs -- sound type
    Ars Magna project, http://arsmagna.ru */
 
 #region Using directives
 
-using System;
+using JetBrains.Annotations;
 
 #endregion
+
+// ReSharper disable InconsistentNaming
 
 namespace AM.Win32
 {
     /// <summary>
     /// Sound type, as identified by an entry in the registry.
     /// </summary>
+    [PublicAPI]
     public enum MessageBeepFlags
     {
         /// <summary>
         /// Simple beep. If the sound card is not available, 
         /// the sound is generated using the speaker.
         /// </summary>
-        SimpleBeep = unchecked ( (int) 0xFFFFFFFF ),
+        SimpleBeep = unchecked((int)0xFFFFFFFF),
 
         /// <summary>
         /// SystemAsterisk.
