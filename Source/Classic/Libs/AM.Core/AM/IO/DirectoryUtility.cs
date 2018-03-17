@@ -17,8 +17,6 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace AM.IO
@@ -27,7 +25,6 @@ namespace AM.IO
     /// Directory manipulation routines.
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
     public static class DirectoryUtility
     {
         #region Private members
@@ -56,7 +53,7 @@ namespace AM.IO
                 string[] directories = Directory.GetDirectories(path);
                 foreach (string dir in directories)
                 {
-                    _GetFiles(found, dir, masks, recursive);
+                    _GetFiles(found, dir, masks, true);
                 }
             }
         }
@@ -73,11 +70,10 @@ namespace AM.IO
         #region Public methods
 
         /// <summary>
-        /// Clears the specified directory. Deletes all files 
+        /// Clears the specified directory. Deletes all files
         /// and subdirectories
         /// from the directory.
         /// </summary>
-        /// <param name="path">Path to the directory.</param>
         public static void ClearDirectory
             (
                 [NotNull] string path
@@ -85,8 +81,7 @@ namespace AM.IO
         {
             Code.NotNull(path, "path");
 
-            foreach (string subdirectory 
-                in Directory.GetDirectories(path))
+            foreach (string subdirectory in Directory.GetDirectories(path))
             {
                 Directory.Delete
                     (
@@ -99,10 +94,10 @@ namespace AM.IO
                 File.Delete
                     (
                         Path.Combine
-                        (
-                            path, 
-                            fileName
-                        )
+                            (
+                                path,
+                                fileName
+                            )
                     );
             }
         }
@@ -110,10 +105,6 @@ namespace AM.IO
         /// <summary>
         /// Gets list of files in specified path.
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="mask"></param>
-        /// <param name="recursive"></param>
-        /// <returns></returns>
         [NotNull]
         public static string[] GetFiles
             (
@@ -127,20 +118,11 @@ namespace AM.IO
 
             List<string> found = new List<string>();
 
-#if WINMOBILE || PocketPC
-
-            string[] masks = mask.Split(_separator);
-
-#else
-
             string[] masks = mask.Split
                 (
                     _separator,
                     StringSplitOptions.RemoveEmptyEntries
                 );
-
-#endif
-
             _GetFiles(found, path, masks, recursive);
 
             return found.ToArray();
@@ -153,7 +135,7 @@ namespace AM.IO
         /// в себя символы * и ?, например *.exe или c:\*.bat.</param>
         /// <returns>Массив имен файлов, соответствующих регулярному
         /// выражению. Если параметр <paramref name="wildcard"/>
-        /// включал имя директории, то каждое имя в массив также 
+        /// включал имя директории, то каждое имя в массив также
         /// будет содержать имя директории.</returns>
         /// <remarks>В поиске участвуют только файлы, но не директории.
         /// </remarks>
@@ -171,7 +153,7 @@ namespace AM.IO
             {
                 FileInfo[] files = new DirectoryInfo
                     (
-                    Directory.GetCurrentDirectory()
+                        Directory.GetCurrentDirectory()
                     )
                     .GetFiles(wildcard);
                 List<string> result = new List<string>(files.Length);
@@ -179,8 +161,10 @@ namespace AM.IO
                 {
                     result.Add(file.Name);
                 }
+
                 return result.ToArray();
             }
+
             return Directory.GetFiles(dir, name);
         }
 

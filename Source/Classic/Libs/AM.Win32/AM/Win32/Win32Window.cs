@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* Win32Window.cs -- better than NativeWindow.
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
@@ -10,20 +10,21 @@
 #region Using directives
 
 using System;
-using System.Diagnostics;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows.Forms;
+
+using JetBrains.Annotations;
 
 #endregion
+
+// ReSharper disable InconsistentNaming
 
 namespace AM.Win32
 {
     /// <summary>
-    /// Better than <see cref="System.Windows.Forms.NativeWindow"/>
-    /// class.
+    /// Better than System.Windows.Forms.NativeWindow class.
     /// </summary>
+    [PublicAPI]
     public class Win32Window
     {
         #region Properties
@@ -38,6 +39,7 @@ namespace AM.Win32
             {
                 Rectangle result;
                 User32.GetWindowRect(Handle, out result);
+
                 return result;
             }
             set
@@ -54,52 +56,28 @@ namespace AM.Win32
             }
         }
 
-        private IntPtr _handle;
-
         /// <summary>
         /// Gets or sets window handle.
         /// </summary>
-        /// <value>Window handle.</value>
-        public IntPtr Handle
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return _handle;
-            }
-            [DebuggerStepThrough]
-            set
-            {
-                _handle = value;
-            }
-        }
+        public IntPtr Handle { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is valid.
         /// </summary>
-        /// <value><c>true</c> if this instance is valid; 
-        /// otherwise, <c>false</c>.</value>
         public bool IsValid
         {
-            get
-            {
-                return User32.IsWindow(Handle);
-            }
+            get { return User32.IsWindow(Handle); }
         }
 
         /// <summary>
         /// Gets or sets window location.
         /// </summary>
-        /// <value>The location.</value>
         public Point Location
         {
-            get
-            {
-                return this.Bounds.Location;
-            }
+            get { return Bounds.Location; }
             set
             {
-                Size size = this.Size;
+                Size size = Size;
                 User32.MoveWindow
                     (
                         Handle,
@@ -115,29 +93,22 @@ namespace AM.Win32
         /// <summary>
         /// Gets or sets window size.
         /// </summary>
-        /// <value>Window size.</value>
         public Size Size
         {
-            get
-            {
-                return this.Bounds.Size;
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return Bounds.Size; }
+            set { throw new NotImplementedException(); }
         }
 
         /// <summary>
         /// Gets or sets window text (caption).
         /// </summary>
-        /// <value>Window text (caption).</value>
         public string Text
         {
             get
             {
                 StringBuilder result = new StringBuilder(256);
                 User32.GetWindowText(Handle, result, result.Capacity);
+
                 return result.ToString();
             }
             set
@@ -149,32 +120,19 @@ namespace AM.Win32
         /// <summary>
         /// Gets or sets a value indicating whether [top most].
         /// </summary>
-        /// <value><c>true</c> if [top most]; otherwise, <c>false</c>.
-        /// </value>
         public bool TopMost
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this 
+        /// Gets or sets a value indicating whether this
         /// <see cref="T:Win32Window"/> is visible.
         /// </summary>
-        /// <value><c>true</c> if visible; otherwise, <c>false</c>.
-        /// </value>
         public bool Visible
         {
-            get
-            {
-                return User32.IsWindowVisible(Handle);
-            }
+            get { return User32.IsWindowVisible(Handle); }
             set
             {
                 User32.ShowWindow
@@ -201,9 +159,6 @@ namespace AM.Win32
 
         #endregion
 
-        #region Private members
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -217,7 +172,6 @@ namespace AM.Win32
         /// <summary>
         /// Gets the DC.
         /// </summary>
-        /// <returns></returns>
         public IntPtr GetDC()
         {
             return User32.GetDC(Handle);
@@ -226,7 +180,6 @@ namespace AM.Win32
         /// <summary>
         /// Gets the desktop window.
         /// </summary>
-        /// <returns></returns>
         public static Win32Window GetDesktopWindow()
         {
             return new Win32Window(User32.GetDesktopWindow());
@@ -235,7 +188,6 @@ namespace AM.Win32
         /// <summary>
         /// Gets the foreground window.
         /// </summary>
-        /// <returns></returns>
         public static Win32Window GetForegroundWindow()
         {
             return new Win32Window(User32.GetForegroundWindow());
@@ -244,7 +196,6 @@ namespace AM.Win32
         /// <summary>
         /// Gets the next window.
         /// </summary>
-        /// <returns></returns>
         public Win32Window GetNextWindow()
         {
             return new Win32Window(User32.GetWindow
@@ -257,7 +208,6 @@ namespace AM.Win32
         /// <summary>
         /// Gets parent of the window.
         /// </summary>
-        /// <returns></returns>
         public Win32Window GetParentWindow()
         {
             return new Win32Window(User32.GetParent(Handle));
@@ -266,7 +216,6 @@ namespace AM.Win32
         /// <summary>
         /// Gets the shell window.
         /// </summary>
-        /// <returns></returns>
         public static Win32Window GetShellWindow()
         {
             return new Win32Window(User32.GetShellWindow());
@@ -275,7 +224,6 @@ namespace AM.Win32
         /// <summary>
         /// Gets the window DC.
         /// </summary>
-        /// <returns></returns>
         public IntPtr GetWindowDC()
         {
             return User32.GetWindowDC(Handle);
@@ -284,9 +232,10 @@ namespace AM.Win32
         /// <summary>
         /// Invalidates whole window region.
         /// </summary>
-        /// <param name="erase">If set to <c>true</c> 
-        /// background of the window will be erased.</param>
-        public void Invalidate(bool erase)
+        public void Invalidate
+            (
+                bool erase
+            )
         {
             User32.InvalidateRect(Handle, IntPtr.Zero, erase);
         }
@@ -294,10 +243,11 @@ namespace AM.Win32
         /// <summary>
         /// Invalidates specified rectangle region of the window.
         /// </summary>
-        /// <param name="rectangle">Region to invalidate.</param>
-        /// <param name="erase">If set to <c>true</c> 
-        /// background of the window will be erased.</param>
-        public void Invalidate(Rectangle rectangle, bool erase)
+        public void Invalidate
+            (
+                Rectangle rectangle,
+                bool erase
+            )
         {
             User32.InvalidateRect(Handle, ref rectangle, erase);
         }
@@ -305,8 +255,10 @@ namespace AM.Win32
         /// <summary>
         /// Releases the DC.
         /// </summary>
-        /// <param name="context">The context.</param>
-        public void ReleaseDC(IntPtr context)
+        public void ReleaseDC
+            (
+                IntPtr context
+            )
         {
             User32.ReleaseDC(Handle, context);
         }

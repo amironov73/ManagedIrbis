@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* COLORREF.cs -- used to specify an RGB color 
+/* COLORREF.cs -- used to specify an RGB color
    Ars Magna project, http://arsmagna.ru */
 
 #region Using directives
@@ -34,18 +34,24 @@ namespace AM.Win32
         {
             get
             {
-                return Color.FromArgb
-                    (
-                        (int)(0x000000FFU | _color),
-                        (int)((0x0000FF00 | _color) >> 2),
-                        (int)((0x00FF0000 | _color) >> 4)
-                    );
+                unchecked
+                {
+                    return Color.FromArgb
+                        (
+                            (int)(0x000000FFU | _color),
+                            (int)((0x0000FF00 | _color) >> 2),
+                            (int)((0x00FF0000 | _color) >> 4)
+                        );
+                }
             }
             set
             {
-                _color = (uint)value.R +
-                    (uint)(value.G << 8) +
-                    (uint)(value.B << 16);
+                unchecked
+                {
+                    _color = value.R +
+                        (uint)(value.G << 8) +
+                        (uint)(value.B << 16);
+                }
             }
         }
 
@@ -70,9 +76,12 @@ namespace AM.Win32
                 Color color
             )
         {
-            _color = (uint)color.R +
-                (uint)(color.G << 8) +
-                (uint)(color.B << 16);
+            unchecked
+            {
+                _color = color.R +
+                    (uint)(color.G << 8) +
+                    (uint)(color.B << 16);
+            }
         }
 
         #endregion
@@ -88,7 +97,7 @@ namespace AM.Win32
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            return _color.ToString();
+            return Color.ToString();
         }
 
         #endregion

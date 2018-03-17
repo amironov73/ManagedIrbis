@@ -16,38 +16,39 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
+using CodeJam;
+
 using JetBrains.Annotations;
+
+using Newtonsoft.Json;
 
 #endregion
 
 namespace AM.Drawing
 {
     /// <summary>
-    ///
+    /// <see cref="Palette"/> item.
     /// </summary>
     [PublicAPI]
     [XmlRoot("tube")]
-    // ReSharper disable once RedundantNameQualifier
-    [System.ComponentModel.DesignerCategory("Code")]
     public sealed class Tube
-        : //Component,
-        IDisposable,
+        : IDisposable,
         IXmlSerializable
     {
         #region Properties
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Name of the tube.
         /// </summary>
         [XmlAttribute("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
         private Color _color;
 
         /// <summary>
-        /// Gets or sets the color.
+        /// Color of the tube.
         /// </summary>
-        /// <value>The color.</value>
         [XmlAttribute("color")]
         public Color Color
         {
@@ -62,32 +63,22 @@ namespace AM.Drawing
         private Brush _brush;
 
         /// <summary>
-        /// Gets the brush.
+        /// Get the brush.
         /// </summary>
-        /// <value>The brush.</value>
         [XmlIgnore]
         [Browsable(false)]
-        [DesignerSerializationVisibility
-            (DesignerSerializationVisibility.Hidden)]
-        public Brush Brush
-        {
-            get { return _brush ?? (_brush = new SolidBrush(Color)); }
-        }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Brush Brush => _brush ?? (_brush = new SolidBrush(Color));
 
         private Pen _pen;
 
         /// <summary>
-        /// Gets the pen.
+        /// Get the pen.
         /// </summary>
-        /// <value>The pen.</value>
         [XmlIgnore]
         [Browsable(false)]
-        [DesignerSerializationVisibility
-            (DesignerSerializationVisibility.Hidden)]
-        public Pen Pen
-        {
-            get { return _pen ?? (_pen = new Pen(Color)); }
-        }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Pen Pen => _pen ?? (_pen = new Pen(Color));
 
         #endregion
 
@@ -136,25 +127,18 @@ namespace AM.Drawing
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="Tube"/> class.
+        /// Constructor.
         /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="color">The color.</param>
-        public Tube(string name, Color color)
+        public Tube
+            (
+                [NotNull] string name,
+                Color color
+            )
         {
-            Color = color;
-            Name = name;
-        }
+            Code.NotNull(name, "name");
 
-        /// <summary>
-        /// Releases unmanaged resources and performs
-        /// other cleanup operations before the
-        /// <see cref="Tube"/> is reclaimed by garbage collection.
-        /// </summary>
-        ~Tube()
-        {
-            Dispose();
+            Name = name;
+            Color = color;
         }
 
         #endregion
@@ -165,9 +149,7 @@ namespace AM.Drawing
         /// Performs an implicit conversion from
         /// <see cref="Tube"/> to <see cref="System.Drawing.Brush"/>.
         /// </summary>
-        /// <param name="tube">The tube.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator Brush ( Tube tube )
+        public static implicit operator Brush([NotNull] Tube tube)
         {
             return tube.Brush;
         }
@@ -176,9 +158,7 @@ namespace AM.Drawing
         /// Performs an implicit conversion from
         /// <see cref="Tube"/> to <see cref="System.Drawing.Pen"/>.
         /// </summary>
-        /// <param name="tube">The tube.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator Pen ( Tube tube )
+        public static implicit operator Pen([NotNull] Tube tube)
         {
             return tube.Pen;
         }
@@ -187,9 +167,7 @@ namespace AM.Drawing
         /// Performs an implicit conversion from
         /// <see cref="Tube"/> to <see cref="System.Drawing.Color"/>.
         /// </summary>
-        /// <param name="tube">The tube.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator Color ( Tube tube )
+        public static implicit operator Color([NotNull] Tube tube)
         {
             return tube.Color;
         }
@@ -203,30 +181,16 @@ namespace AM.Drawing
             return null;
         }
 
-        /// <summary>
-        /// Generates an object from its XML representation.
-        /// </summary>
-        /// <param name="reader">The
-        /// <see cref="T:System.Xml.XmlReader"/> stream from
-        /// which the object is deserialized.</param>
         void IXmlSerializable.ReadXml(XmlReader reader)
         {
             Name = reader.GetAttribute("name");
-            _color = ColorTranslator
-                .FromHtml(reader
-                    .GetAttribute("color"));
+            _color = ColorTranslator.FromHtml(reader.GetAttribute("color"));
             reader.Read();
         }
 
-        /// <summary>
-        /// Converts an object into its XML representation.
-        /// </summary>
-        /// <param name="writer">The
-        /// <see cref="T:System.Xml.XmlWriter"/> stream
-        /// to which the object is serialized.</param>
         void IXmlSerializable.WriteXml(XmlWriter writer)
         {
-            writer.WriteAttributeString("name",Name);
+            writer.WriteAttributeString("name", Name);
             writer.WriteAttributeString
                 (
                     "color",
@@ -238,14 +202,10 @@ namespace AM.Drawing
 
         #region IDisposable members
 
-        /// <summary>
-        /// Performs application-defined tasks associated
-        /// with freeing, releasing, or resetting unmanaged
-        /// resources.
-        /// </summary>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
-            if (_brush != null)
+            if (!ReferenceEquals(_brush, null))
             {
                 _brush.Dispose();
                 _brush = null;
@@ -261,9 +221,7 @@ namespace AM.Drawing
 
         #region Object members
 
-        /// <summary>
-        ///
-        /// </summary>
+        /// <inheritdoc cref="IEquatable{T}.Equals(T)" />
         public bool Equals(Tube other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -271,52 +229,28 @@ namespace AM.Drawing
             return Equals(other.Name, Name);
         }
 
-        /// <summary>
-        /// Determines whether the specified
-        /// <see cref="System.Object"/> is equal to this instance.
-        /// </summary>
-        /// <param name="obj">The <see cref="System.Object"/>
-        /// to compare with this instance.</param>
-        /// <returns>
-        /// 	<c>true</c> if the specified
-        /// <see cref="System.Object"/> is equal to this instance;
-        /// otherwise, <c>false</c>.
-        /// </returns>
-        /// <exception cref="T:System.NullReferenceException">
-        /// The <paramref name="obj"/> parameter is null.
-        /// </exception>
+        /// <inheritdoc cref="object.Equals(object)" />
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (Tube)) return false;
-            return Equals((Tube) obj);
+            if (obj.GetType() != typeof(Tube)) return false;
+
+            return Equals((Tube)obj);
         }
 
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>
-        /// A hash code for this instance, suitable for use
-        /// in hashing algorithms and data structures like
-        /// a hash table.
-        /// </returns>
+        /// <inheritdoc cref="object.GetHashCode" />
         public override int GetHashCode()
         {
-            return Name != null ? Name.GetHashCode() : 0;
+            // ReSharper disable once NonReadonlyMemberInGetHashCode
+
+            return Name?.GetHashCode() ?? 0;
         }
 
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that
-        /// represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents
-        /// this instance.
-        /// </returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            return string.Format("{0} [{1}]", Color, Name);
+            return $"{Color} [{Name}]";
         }
 
         #endregion
