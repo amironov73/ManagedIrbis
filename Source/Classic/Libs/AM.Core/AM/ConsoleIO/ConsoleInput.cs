@@ -75,7 +75,6 @@ namespace AM.ConsoleIO
             set { Driver.Title = value; }
         }
 
-
         #endregion
 
         #region Construction

@@ -57,15 +57,10 @@ namespace AM.Text.Output
 
         #region AbstractOutput members
 
-        /// <summary>
-        /// Флаг: был ли вывод с помощью WriteError.
-        /// </summary>
+        /// <inheritdoc cref="AbstractOutput.HaveError" />
         public override bool HaveError { get; set; }
 
-        /// <summary>
-        /// Очищает вывод, например, окно.
-        /// Надо переопределить в потомке.
-        /// </summary>
+        /// <inheritdoc cref="AbstractOutput.Clear" />
         public override AbstractOutput Clear()
         {
             _builder.Length = 0;
@@ -74,10 +69,7 @@ namespace AM.Text.Output
             return this;
         }
 
-        /// <summary>
-        /// Конфигурирование объекта.
-        /// Надо переопределить в потомке.
-        /// </summary>
+        /// <inheritdoc cref="AbstractOutput.Configure" />
         public override AbstractOutput Configure
             (
                 string configuration
@@ -88,10 +80,7 @@ namespace AM.Text.Output
             return this;
         }
 
-        /// <summary>
-        /// Метод, который нужно переопределить
-        /// в потомке.
-        /// </summary>
+        /// <inheritdoc cref="AbstractOutput.Write(string)" />
         public override AbstractOutput Write
             (
                 string text
@@ -126,12 +115,7 @@ namespace AM.Text.Output
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return _builder.ToString();

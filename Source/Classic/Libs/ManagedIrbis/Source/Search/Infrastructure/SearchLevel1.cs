@@ -14,7 +14,6 @@ using System.Linq;
 
 using CodeJam;
 
-
 #endregion
 
 namespace ManagedIrbis.Search.Infrastructure

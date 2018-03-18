@@ -61,6 +61,5 @@ namespace ManagedIrbis.Search
         }
 
         #endregion
-
     }
 }

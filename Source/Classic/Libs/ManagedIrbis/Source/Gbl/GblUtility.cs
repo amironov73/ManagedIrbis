@@ -75,7 +75,6 @@ namespace ManagedIrbis.Gbl
             return result.ToString();
         }
 
-
         /// <summary>
         /// Restore <see cref="GblFile"/> from JSON.
         /// </summary>
@@ -220,6 +219,7 @@ namespace ManagedIrbis.Gbl
             GblFile result = FromXml(text);
 
             return result;
+
 #endif
         }
 
@@ -311,6 +311,6 @@ namespace ManagedIrbis.Gbl
             return writer.ToString();
         }
 
-#endregion
+        #endregion
     }
 }

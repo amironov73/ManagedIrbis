@@ -18,6 +18,7 @@ namespace ManagedIrbis.Search.Infrastructure
     /// <summary>
     /// 
     /// </summary>
+    [PublicAPI]
     public interface ISearchTree
     {
         /// <summary>

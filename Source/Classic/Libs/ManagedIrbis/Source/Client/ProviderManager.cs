@@ -203,9 +203,9 @@ namespace ManagedIrbis.Client
                 if (throwOnError)
                 {
                     throw new IrbisException
-                    (
-                        "Can't find type: " + name
-                    );
+                        (
+                            "Can't find type: " + name
+                        );
                 }
 
                 return null;

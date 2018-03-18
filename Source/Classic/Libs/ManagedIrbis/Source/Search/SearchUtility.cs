@@ -21,7 +21,9 @@ using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Search.Infrastructure;
+
 using MoonSharp.Interpreter;
 
 #endregion

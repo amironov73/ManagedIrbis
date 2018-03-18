@@ -61,7 +61,6 @@ namespace ManagedIrbis.Gbl
     [PublicAPI]
     [MoonSharpUserData]
     [XmlRoot("gbl-parameter")]
-    [DebuggerDisplay("[{Name}] {Value}")]
     public sealed class GblParameter
         : IHandmadeSerializable,
         IVerifiable
@@ -118,9 +117,7 @@ namespace ManagedIrbis.Gbl
 
         #region IHandmadeSerializable members
 
-        /// <summary>
-        /// Restore object state from given stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
         public void RestoreFromStream
             (
                 BinaryReader reader
@@ -132,9 +129,7 @@ namespace ManagedIrbis.Gbl
             Value = reader.ReadNullableString();
         }
 
-        /// <summary>
-        /// Save object state to given stream.
-        /// </summary>
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
         public void SaveToStream
             (
                 BinaryWriter writer
@@ -150,10 +145,7 @@ namespace ManagedIrbis.Gbl
 
         #region IVerifiable members
 
-
-        /// <summary>
-        /// Verify object state.
-        /// </summary>
+        /// <inheritdoc cref="IVerifiable.Verify" />
         public bool Verify
             (
                 bool throwOnError
@@ -176,12 +168,7 @@ namespace ManagedIrbis.Gbl
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format

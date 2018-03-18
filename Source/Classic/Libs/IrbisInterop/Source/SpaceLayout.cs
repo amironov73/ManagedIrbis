@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 using AM.Runtime;
 
 using CodeJam;
-using IrbisInterop;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis;
