@@ -249,12 +249,15 @@
     <Compile Include="Source\Mx\Commands\VerCommand.cs" />
     <Compile Include="Source\Mx\Handlers\FileAppendHandler.cs" />
     <Compile Include="Source\Mx\Handlers\FileWriteHandler.cs" />
+    <Compile Include="Source\Mx\Infrastructrure\HandlerInstance.cs" />
     <Compile Include="Source\Mx\Infrastructrure\IMxConsole.cs" />
     <Compile Include="Source\Mx\Infrastructrure\ModuleDefinition.cs" />
     <Compile Include="Source\Mx\Infrastructrure\MxConsole.cs" />
+    <Compile Include="Source\Mx\Infrastructrure\MxContext.cs" />
     <Compile Include="Source\Mx\Infrastructrure\MxHandler.cs" />
     <Compile Include="Source\Mx\Infrastructrure\MxModule.cs" />
     <Compile Include="Source\Mx\Infrastructrure\MxPalette.cs" />
+    <Compile Include="Source\Mx\Infrastructrure\BuiltinModule.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\CompilerProxy.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexInfo.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexDictionary.cs" />

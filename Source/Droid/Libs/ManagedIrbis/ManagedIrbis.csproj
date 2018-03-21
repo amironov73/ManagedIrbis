@@ -575,6 +575,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Handlers\FileWriteHandler.cs">
       <Link>Source\Mx\Handlers\FileWriteHandler.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\HandlerInstance.cs">
+      <Link>Source\Mx\Infrastructrure\HandlerInstance.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\IMxConsole.cs">
       <Link>Source\Mx\Infrastructrure\IMxConsole.cs</Link>
     </Compile>
@@ -584,6 +587,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\MxConsole.cs">
       <Link>Source\Mx\Infrastructrure\MxConsole.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\MxContext.cs">
+      <Link>Source\Mx\Infrastructrure\MxContext.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\MxHandler.cs">
       <Link>Source\Mx\Infrastructrure\MxHandler.cs</Link>
     </Compile>
@@ -592,6 +598,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\MxPalette.cs">
       <Link>Source\Mx\Infrastructrure\MxPalette.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\BuiltinModule.cs">
+      <Link>Source\Mx\Infrastructrure\BuiltinModule.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\CompilerProxy.cs">
       <Link>Source\Pft\Infrastructure\Compiler\CompilerProxy.cs</Link>

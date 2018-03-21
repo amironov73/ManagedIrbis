@@ -332,7 +332,6 @@
     <Compile Include="AM\Win32\User32\ShowWindowFlags.cs" />
     <Compile Include="AM\Win32\User32\SystemMenuCommand.cs" />
     <Compile Include="AM\Win32\User32\SystemMetricsFlags.cs" />
-    <Compile Include="AM\Win32\User32\SystemParameters.cs" />
     <Compile Include="AM\Win32\User32\TRACKMOUSEEVENT.cs" />
     <Compile Include="AM\Win32\User32\TrackMouseEventFlags.cs" />
     <Compile Include="AM\Win32\User32\User32.cs" />
