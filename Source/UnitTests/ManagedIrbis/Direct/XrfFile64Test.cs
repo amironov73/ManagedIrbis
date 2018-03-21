@@ -25,8 +25,25 @@ namespace UnitTests.ManagedIrbis.Direct
             return Path.Combine
                 (
                     Irbis64RootPath,
-                    "Datai\\IBIS\\ibis.xrf"
+                    "Datai/IBIS/ibis.xrf"
                 );
+        }
+
+        [NotNull]
+        private string _CreateDatabase()
+        {
+            Random random = new Random();
+            string directory = Path.Combine
+            (
+                Path.GetTempPath(),
+                random.Next().ToInvariantString()
+            );
+            Directory.CreateDirectory(directory);
+            string path = Path.Combine(directory, "database");
+            DirectUtility.CreateDatabase64(path);
+            string result = path + ".xrf";
+
+            return result;
         }
 
         [TestMethod]
@@ -64,6 +81,38 @@ namespace UnitTests.ManagedIrbis.Direct
             using (XrfFile64 file = new XrfFile64(fileName, mode))
             {
                 file.ReadRecord(111111);
+            }
+        }
+
+        [TestMethod]
+        public void XrfFile64_ReopenFile_1()
+        {
+            string fileName = _CreateDatabase();
+            using (XrfFile64 file = new XrfFile64(fileName, DirectAccessMode.ReadOnly))
+            {
+                Assert.AreEqual(DirectAccessMode.ReadOnly, file.Mode);
+                file.ReopenFile(DirectAccessMode.Exclusive);
+                Assert.AreEqual(DirectAccessMode.Exclusive, file.Mode);
+            }
+        }
+
+        [TestMethod]
+        public void XrfFile64_WriteRecord_1()
+        {
+            string fileName = _CreateDatabase();
+            using (XrfFile64 file = new XrfFile64(fileName, DirectAccessMode.Exclusive))
+            {
+                XrfRecord64 record1 = new XrfRecord64
+                {
+                    Mfn = 1,
+                    Offset = 12345678L
+                };
+                file.WriteRecord(record1);
+
+                file.LockRecord(1, true);
+
+                XrfRecord64 record2 = file.ReadRecord(1);
+                Assert.IsTrue(record2.Locked);
             }
         }
     }

@@ -399,7 +399,7 @@ namespace ManagedIrbis.Fields
                 AccessLevel = field.GetFirstSubFieldValue('d'),
                 LanOnly = SubFieldMapper.ToBoolean(field, 'l'),
                 InputDate = SubFieldMapper.ToDateTime(field, '1'),
-                FileSize = SubFieldMapper.ToInt64(field, '2'),
+                FileSize = SubFieldMapper.ToInt64(field, '2') ?? 0,
                 Number = field.GetFirstSubFieldValue('3'),
                 LastCheck = SubFieldMapper.ToDateTime(field, '5'),
                 ImageSize = field.GetFirstSubFieldValue('6'),

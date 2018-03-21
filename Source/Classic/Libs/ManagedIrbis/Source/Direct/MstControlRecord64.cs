@@ -94,7 +94,6 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Read the control record from specified stream.
         /// </summary>
-        [NotNull]
         public static MstControlRecord64 Read
             (
                 [NotNull] Stream stream

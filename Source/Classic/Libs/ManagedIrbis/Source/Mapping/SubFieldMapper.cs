@@ -10,20 +10,12 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -32,20 +24,12 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Mapping
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class SubFieldMapper
     {
-        #region Properties
-
-        #endregion
-
-        #region Configuration
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -56,7 +40,7 @@ namespace ManagedIrbis.Mapping
                 [NotNull] SubField subField
             )
         {
-            return string.IsNullOrEmpty(subField.Value);
+            return !string.IsNullOrEmpty(subField.Value);
         }
 
         /// <summary>
@@ -90,6 +74,22 @@ namespace ManagedIrbis.Mapping
             return string.IsNullOrEmpty(text)
                 ? '\0'
                 : text[0];
+        }
+
+        /// <summary>
+        /// Преобразование в символ.
+        /// </summary>
+        public static char ToChar
+            (
+                [NotNull] RecordField field,
+                char code
+            )
+        {
+            SubField subField = field.GetFirstSubField(code);
+
+            return ReferenceEquals(subField, null)
+                ? '\0'
+                : subField.Value.FirstChar();
         }
 
         /// <summary>
@@ -237,13 +237,13 @@ namespace ManagedIrbis.Mapping
         /// <summary>
         /// Преобразование в 64-битное целое со знаком.
         /// </summary>
-        public static long ToInt64
+        public static long? ToInt64
             (
                 [NotNull] RecordField field,
                 char code
             )
         {
-            long result = 0;
+            long? result = null;
             SubField subField = field.GetFirstSubField(code);
             if (!ReferenceEquals(subField, null))
             {

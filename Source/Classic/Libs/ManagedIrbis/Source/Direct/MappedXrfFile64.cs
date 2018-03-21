@@ -79,7 +79,6 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Read the record.
         /// </summary>
-        [NotNull]
         public XrfRecord64 ReadRecord
             (
                 int mfn

@@ -256,7 +256,6 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Read record leader only.
         /// </summary>
-        [NotNull]
         public MstRecordLeader64 ReadLeader
             (
                 long position

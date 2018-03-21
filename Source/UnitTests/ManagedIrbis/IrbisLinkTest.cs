@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis;
 
@@ -82,6 +81,16 @@ namespace UnitTests.ManagedIrbis
 
         [TestMethod]
         public void IrbisLink_ParseForImage_2()
+        {
+            IrbisLink link = IrbisLink.ParseForImage("IRBIS:10?P1=V1&P2=V2&FILENAME=textfolder.gif");
+            Assert.AreEqual("3", link.Command);
+            Assert.AreEqual("10", link.Path);
+            Assert.IsNull(link.Database);
+            Assert.AreEqual("textfolder.gif", link.FileName);
+        }
+
+        [TestMethod]
+        public void IrbisLink_ParseForImage_3()
         {
             IrbisLink link = IrbisLink.ParseForImage("IRBIS:10?FILENAME=textfolder.gif");
             Assert.AreEqual("3", link.Command);

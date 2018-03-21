@@ -1,5 +1,5 @@
-﻿using System;
-using AM;
+﻿using AM;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis;

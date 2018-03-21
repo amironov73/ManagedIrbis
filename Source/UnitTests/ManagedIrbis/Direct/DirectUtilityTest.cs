@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.MemoryMappedFiles;
 
 using AM;
 using AM.IO;
@@ -10,6 +11,8 @@ using ManagedIrbis;
 using ManagedIrbis.Direct;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+// ReSharper disable InvokeAsExtensionMethod
 
 namespace UnitTests.ManagedIrbis.Direct
 {
@@ -122,6 +125,95 @@ namespace UnitTests.ManagedIrbis.Direct
                     fileName,
                     (DirectAccessMode)100
                 );
+        }
+
+        [TestMethod]
+        public void DirectUtility_OpenMemoryMappedFile_1()
+        {
+            string fileName = _GetReadFileName();
+            MemoryMappedFile mmf = DirectUtility.OpenMemoryMappedFile(fileName);
+            Assert.IsNotNull(mmf);
+            mmf.Dispose();
+        }
+
+        [TestMethod]
+        public void DirectUtility_ReadNetworkInt32_1()
+        {
+            string fileName = _GetReadFileName();
+            MemoryMappedFile mmf = DirectUtility.OpenMemoryMappedFile(fileName);
+            MemoryMappedViewAccessor accessor
+                = mmf.CreateViewAccessor(0, 100, MemoryMappedFileAccess.Read);
+            try
+            {
+                int expected = 0x3639323A;
+                int actual = DirectUtility.ReadNetworkInt32(accessor, 4);
+                Assert.AreEqual(expected, actual);
+            }
+            finally
+            {
+                accessor.Dispose();
+                mmf.Dispose();
+            }
+        }
+
+        [TestMethod]
+        public void DirectUtility_ReadNetworkInt32_2()
+        {
+            string fileName = _GetReadFileName();
+            MemoryMappedFile mmf = DirectUtility.OpenMemoryMappedFile(fileName);
+            MemoryMappedViewStream stream
+                = mmf.CreateViewStream(0, 100, MemoryMappedFileAccess.Read);
+            try
+            {
+                int expected = unchecked((int)0xEFBBBF23);
+                int actual = DirectUtility.ReadNetworkInt32(stream);
+                Assert.AreEqual(expected, actual);
+            }
+            finally
+            {
+                stream.Dispose();
+                mmf.Dispose();
+            }
+        }
+
+        [TestMethod]
+        public void DirectUtility_ReadNetworkInt64_1()
+        {
+            string fileName = _GetReadFileName();
+            MemoryMappedFile mmf = DirectUtility.OpenMemoryMappedFile(fileName);
+            MemoryMappedViewAccessor accessor
+                = mmf.CreateViewAccessor(0, 100, MemoryMappedFileAccess.Read);
+            try
+            {
+                long expected = 0x205E42323639323AL;
+                long actual = DirectUtility.ReadNetworkInt64(accessor, 4);
+                Assert.AreEqual(expected, actual);
+            }
+            finally
+            {
+                accessor.Dispose();
+                mmf.Dispose();
+            }
+        }
+
+        [TestMethod]
+        public void DirectUtility_ReadNetworkInt64_2()
+        {
+            string fileName = _GetReadFileName();
+            MemoryMappedFile mmf = DirectUtility.OpenMemoryMappedFile(fileName);
+            MemoryMappedViewStream stream
+                = mmf.CreateViewStream(0, 100, MemoryMappedFileAccess.Read);
+            try
+            {
+                long expected = 0x3639323AEFBBBF23;
+                long actual = DirectUtility.ReadNetworkInt64(stream);
+                Assert.AreEqual(expected, actual);
+            }
+            finally
+            {
+                stream.Dispose();
+                mmf.Dispose();
+            }
         }
     }
 }

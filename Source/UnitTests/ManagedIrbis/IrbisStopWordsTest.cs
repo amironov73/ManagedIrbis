@@ -1,6 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+
 using ManagedIrbis;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.ManagedIrbis
@@ -9,7 +10,7 @@ namespace UnitTests.ManagedIrbis
     public class IrbisStopWordsTest
         : Common.CommonUnitTest
     {
-        private const string ibis = "IBIS.STW";
+        private const string Ibis = "IBIS.STW";
 
         [TestMethod]
         public void IrbisStopWords_Construction_1()
@@ -21,8 +22,8 @@ namespace UnitTests.ManagedIrbis
         [TestMethod]
         public void IrbisStopWords_Construction_2()
         {
-            IrbisStopWords words = new IrbisStopWords(ibis);
-            Assert.AreEqual(ibis, words.FileName);
+            IrbisStopWords words = new IrbisStopWords(Ibis);
+            Assert.AreEqual(Ibis, words.FileName);
         }
 
         [TestMethod]
@@ -31,7 +32,7 @@ namespace UnitTests.ManagedIrbis
             string fileName = Path.Combine
                 (
                     TestDataPath,
-                    ibis
+                    Ibis
                 );
 
             IrbisStopWords words = IrbisStopWords.ParseFile

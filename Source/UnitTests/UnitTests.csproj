@@ -273,7 +273,11 @@
     <Compile Include="ManagedIrbis\Direct\MappedInvertedFile64Test.cs" />
     <Compile Include="ManagedIrbis\Direct\MappedMstFile64Test.cs" />
     <Compile Include="ManagedIrbis\Direct\MappedXrfFile64Test.cs" />
+    <Compile Include="ManagedIrbis\Direct\MstControlRecord64Test.cs" />
+    <Compile Include="ManagedIrbis\Direct\MstDictionaryEntry64Test.cs" />
+    <Compile Include="ManagedIrbis\Direct\MstFile64Test.cs" />
     <Compile Include="ManagedIrbis\Direct\MstRecord64Test.cs" />
+    <Compile Include="ManagedIrbis\Direct\MstRecordLeader64Test.cs" />
     <Compile Include="ManagedIrbis\Direct\XrfFile32Test.cs" />
     <Compile Include="ManagedIrbis\Direct\XrfFile64Test.cs" />
     <Compile Include="ManagedIrbis\Direct\XrfRecord32Test.cs" />

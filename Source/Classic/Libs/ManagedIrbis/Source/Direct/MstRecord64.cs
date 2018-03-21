@@ -14,8 +14,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+
 using AM;
 using AM.IO;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -34,7 +36,6 @@ namespace ManagedIrbis.Direct
     [DebuggerDisplay("Leader={Leader}")]
     public sealed class MstRecord64
     {
-
         #region Properties
 
         /// <summary>
@@ -165,7 +166,7 @@ namespace ManagedIrbis.Direct
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public static MstRecord64 EncodeRecord
@@ -221,6 +222,7 @@ namespace ManagedIrbis.Direct
                 entry.Length = length;
                 recordSize += length;
                 position += length;
+                Dictionary[i] = entry;
             }
 
             if (recordSize % 2 != 0)
@@ -262,9 +264,9 @@ namespace ManagedIrbis.Direct
         /// <inheritdoc cref="object.ToString" />
         public override string ToString ()
         {
-            return string.Format 
-                ( 
-                    "Leader: {0}{2}Dictionary: {1}", 
+            return string.Format
+                (
+                    "Leader: {0}{2}Dictionary: {1}",
                     Leader,
                     _DumpDictionary (),
                     Environment.NewLine
