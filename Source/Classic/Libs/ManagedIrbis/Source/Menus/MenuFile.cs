@@ -107,6 +107,11 @@ namespace ManagedIrbis.Menus
 
         #region Private members
 
+        /// <summary>
+        /// Separators for the menu entries.
+        /// </summary>
+        public static char[] MenuSeparators = { ' ', '-', '=', ':' };
+
         // ReSharper disable once InconsistentNaming
         internal readonly NonNullCollection<MenuEntry> _entries;
 
@@ -148,7 +153,7 @@ namespace ManagedIrbis.Menus
             Code.NotNull(code, "code");
 
             code = code.Trim();
-            string[] parts = code.Split(' ', '-', '=', ':');
+            string[] parts = code.Split(MenuSeparators);
             if (parts.Length != 0)
             {
                 code = parts[0];

@@ -249,7 +249,7 @@ namespace Irbis2istu
                 return;
             }
 
-            string description = _irbisConnection.FormatRecord("@sbrief", record.Mfn);
+            string description = _irbisConnection.FormatRecord("@sbrief_istu", record.Mfn);
             //string description = _GetDescription(record);
 
             if (string.IsNullOrEmpty(description))

@@ -1,22 +1,18 @@
 ﻿using System.IO;
-using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
 
-using AM.Runtime;
+using AM.Text;
 
-using JetBrains.Annotations;
 using ManagedIrbis;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis.Menus;
-
-using Newtonsoft.Json;
 
 namespace UnitTests.ManagedIrbis.Menus
 {
     [TestClass]
     public class MenuUtilityTest
+        : Common.CommonUnitTest
     {
         [TestMethod]
         public void MenuUtility_Add_1()
@@ -151,5 +147,25 @@ namespace UnitTests.ManagedIrbis.Menus
             Assert.AreEqual(3, tree.Roots.Count);
         }
 
+        [TestMethod]
+        public void MenuUtility_ParseLocalJsonFile_1()
+        {
+            string fileName = Path.Combine(TestDataPath, "test-menu.json");
+            MenuFile menu = MenuUtility.ParseLocalJsonFile(fileName);
+            Assert.AreEqual(3, menu.Entries.Count);
+        }
+
+        [TestMethod]
+        public void MenuUtility_SaveLocalJsonFile_1()
+        {
+            MenuFile menu = new MenuFile();
+            menu.Add("a", "first");
+            menu.Add("a", "second");
+            string fileName = Path.GetTempFileName();
+            menu.SaveLocalJsonFile(fileName);
+            string expected = "[\n  {\n    \"code\": \"a\",\n    \"comment\": \"first\"\n  },\n  {\n    \"code\": \"a\",\n    \"comment\": \"second\"\n  }\n]";
+            string actual = File.ReadAllText(fileName).DosToUnix();
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
