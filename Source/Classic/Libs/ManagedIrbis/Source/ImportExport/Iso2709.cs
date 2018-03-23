@@ -11,7 +11,9 @@
 
 using System.IO;
 using System.Text;
+
 using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -25,7 +27,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.ImportExport
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -89,10 +91,14 @@ namespace ManagedIrbis.ImportExport
 
         private static int _Encode(char[] chars, int pos, string str)
         {
-            for (int i = 0; i < str.Length; pos++, i++)
+            if (!ReferenceEquals(chars, null) && !ReferenceEquals(str, null))
             {
-                chars[pos] = str[i];
+                for (int i = 0; i < str.Length; pos++, i++)
+                {
+                    chars[pos] = str[i];
+                }
             }
+
             return pos;
         }
 
@@ -262,7 +268,7 @@ namespace ManagedIrbis.ImportExport
                     for (int j = 0; j < field.SubFields.Count; j++)
                     {
                         fldlen += 2; // Признак подполя и его код
-                        fldlen += 
+                        fldlen +=
                             (
                                 field.SubFields[j].Value
                                 ?? string.Empty

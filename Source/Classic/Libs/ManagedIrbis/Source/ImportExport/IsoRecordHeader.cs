@@ -1,13 +1,17 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* MarcRecordHeader.cs -- 
+/* MarcRecordHeader.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
 */
 
 #region Using directives
+
+using CodeJam;
+
+using JetBrains.Annotations;
 
 using ManagedIrbis.Marc;
 
@@ -18,6 +22,7 @@ namespace ManagedIrbis.ImportExport
     /// <summary>
     /// Summary description for MarcRecordHeader.
     /// </summary>
+    [PublicAPI]
     public sealed class IsoRecordHeader
     {
         #region Properties
@@ -56,25 +61,41 @@ namespace ManagedIrbis.ImportExport
 
         #endregion
 
-        #region Object members
-
-        #endregion
-
-        #region Private members
-
-
-        #endregion
-
         #region Public methods
+
+        /// <summary>
+        /// Encode the header.
+        /// </summary>
+        public void Encode
+            (
+                [NotNull] byte[] bytes,
+                int offset
+            )
+        {
+            Code.NotNull(bytes, "bytes");
+
+            unchecked
+            {
+                bytes[offset] = (byte) RecordStatus;
+                bytes[offset + 1] = (byte) RecordType;
+                bytes[offset + 2] = (byte) BibliographicalIndex;
+                bytes[offset + 3] = (byte) BibliographicalLevel;
+                bytes[offset + 4] = (byte) CatalogingRules;
+                bytes[offset + 5] = (byte) RelatedRecord;
+            }
+        }
 
         /// <summary>
         /// Parse text representation.
         /// </summary>
+        [NotNull]
         public static IsoRecordHeader Parse
             (
-                string text
+                [NotNull] string text
             )
         {
+            Code.NotNull(text, "text");
+
             IsoRecordHeader result = new IsoRecordHeader
             {
                 RecordStatus = (MarcRecordStatus) text[0],
@@ -91,21 +112,23 @@ namespace ManagedIrbis.ImportExport
         /// <summary>
         /// Parse binary representation.
         /// </summary>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
+        [NotNull]
         public static IsoRecordHeader Parse
             (
-                byte[] bytes
+                [NotNull] byte[] bytes,
+                int offset
             )
         {
+            Code.NotNull(bytes, "bytes");
+
             IsoRecordHeader result = new IsoRecordHeader
             {
-                RecordStatus = (MarcRecordStatus) bytes[0],
-                RecordType = (MarcRecordType) bytes[1],
-                BibliographicalIndex = (MarcBibliographicalIndex) bytes[2],
-                BibliographicalLevel = (MarcBibliographicalLevel) bytes[3],
-                CatalogingRules = (MarcCatalogingRules) bytes[4],
-                RelatedRecord = (MarcRelatedRecord) bytes[5]
+                RecordStatus = (MarcRecordStatus) bytes[offset],
+                RecordType = (MarcRecordType) bytes[offset + 1],
+                BibliographicalIndex = (MarcBibliographicalIndex) bytes[offset + 2],
+                BibliographicalLevel = (MarcBibliographicalLevel) bytes[offset + 3],
+                CatalogingRules = (MarcCatalogingRules) bytes[offset + 4],
+                RelatedRecord = (MarcRelatedRecord) bytes[offset + 5]
             };
 
             return result;
@@ -114,6 +137,7 @@ namespace ManagedIrbis.ImportExport
         /// <summary>
         /// Заголовок по умолчанию.
         /// </summary>
+        [NotNull]
         public static IsoRecordHeader GetDefault()
         {
             IsoRecordHeader result = new IsoRecordHeader
@@ -127,6 +151,27 @@ namespace ManagedIrbis.ImportExport
             };
 
             return result;
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            char[] result = new char[6];
+            unchecked
+            {
+                result[0] = (char) RecordStatus;
+                result[1] = (char) RecordType;
+                result[2] = (char) BibliographicalIndex;
+                result[3] = (char) BibliographicalLevel;
+                result[4] = (char) CatalogingRules;
+                result[5] = (char) RelatedRecord;
+            }
+
+            return new string(result);
         }
 
         #endregion

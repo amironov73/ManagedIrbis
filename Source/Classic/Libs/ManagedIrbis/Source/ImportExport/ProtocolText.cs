@@ -195,7 +195,7 @@ namespace ManagedIrbis.ImportExport
             RecordField result = new RecordField
             {
                 Tag = NumericUtility.ParseInt32(_ReadTo(reader, '#')),
-                Value = _ReadTo(reader, '^')
+                Value = _ReadTo(reader, '^').EmptyToNull()
             };
 
             while (true)
@@ -479,7 +479,7 @@ namespace ManagedIrbis.ImportExport
         [CanBeNull]
         public static MarcRecord ParseResponseForAllFormat
             (
-                [NotNull] string line,
+                [CanBeNull] string line,
                 [NotNull] MarcRecord record
             )
         {
@@ -532,7 +532,7 @@ namespace ManagedIrbis.ImportExport
         [CanBeNull]
         public static MarcRecord ParseResponseForGblFormat
             (
-                [NotNull] string line,
+                [CanBeNull] string line,
                 [NotNull] MarcRecord record
             )
         {
@@ -552,10 +552,13 @@ namespace ManagedIrbis.ImportExport
                 for (int i = 1; i < split.Length; i++)
                 {
                     line = split[i];
-                    RecordField field = ParseLine(line);
-                    if (field.Tag > 0)
+                    if (!string.IsNullOrEmpty(line))
                     {
-                        record.Fields.Add(field);
+                        RecordField field = ParseLine(line);
+                        if (field.Tag > 0)
+                        {
+                            record.Fields.Add(field);
+                        }
                     }
                 }
             }

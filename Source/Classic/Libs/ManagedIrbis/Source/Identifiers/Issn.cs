@@ -22,7 +22,9 @@ using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Pft;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -76,7 +78,6 @@ namespace ManagedIrbis.Identifiers
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-
     public static class Issn
     {
         #region Constants

@@ -449,7 +449,10 @@
     <Compile Include="ManagedIrbis\Identifiers\CodeDigitTest.cs" />
     <Compile Include="ManagedIrbis\Identifiers\DoiTest.cs" />
     <Compile Include="ManagedIrbis\Identifiers\Upc12Test.cs" />
+    <Compile Include="ManagedIrbis\ImportExport\Iso2709Test.cs" />
     <Compile Include="ManagedIrbis\ImportExport\IsoReaderTest.cs" />
+    <Compile Include="ManagedIrbis\ImportExport\IsoRecordHeaderTest.cs" />
+    <Compile Include="ManagedIrbis\ImportExport\ProtocolTextTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\Commands\ActualizeRecordCommandTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\Commands\CommandTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\Commands\ConnectCommandTest.cs" />
