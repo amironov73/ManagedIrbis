@@ -502,6 +502,7 @@ namespace ManagedIrbis
         /// Parse specified stream.
         /// </summary>
         [NotNull]
+        [MustUseReturnValue]
         public static IrbisTreeFile ParseStream
             (
                 [NotNull] TextReader reader
@@ -569,6 +570,7 @@ DONE:
         /// Read local file.
         /// </summary>
         [NotNull]
+        [MustUseReturnValue]
         public static IrbisTreeFile ReadLocalFile
             (
                 [NotNull] string fileName,

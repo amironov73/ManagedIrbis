@@ -2,9 +2,9 @@
 
 using AM.Runtime;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using ManagedIrbis;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.ManagedIrbis
 {
@@ -87,10 +87,18 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void IrbisDateConvertStringToDate_3()
+        public void IrbisDate_ConvertStringToDate_3()
         {
             DateTime actual = IrbisDate.ConvertStringToDate("201702251015");
             DateTime expected = new DateTime(2017, 2, 25);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void IrbisDate_ConvertTimeToString_1()
+        {
+            string expected = "010203";
+            string actual = IrbisDate.ConvertTimeToString(new TimeSpan(1, 2, 3));
             Assert.AreEqual(expected, actual);
         }
 

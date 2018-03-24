@@ -1,8 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 
-using AM.IO;
 using AM.Runtime;
 using AM.Text;
 
@@ -130,6 +128,41 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
+        public void IrbisAlphabetTable_ParseText_1()
+        {
+            string text = "001 002 003";
+            TextReader reader = new StringReader(text);
+            IrbisAlphabetTable table = IrbisAlphabetTable.ParseText(reader);
+            Assert.AreEqual(3, table.Characters.Length);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IrbisException))]
+        public void IrbisAlphabetTable_ParseText_2()
+        {
+            string text = "wrong file";
+            TextReader reader = new StringReader(text);
+            IrbisAlphabetTable table = IrbisAlphabetTable.ParseText(reader);
+            Assert.AreEqual(3, table.Characters.Length);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IrbisException))]
+        public void IrbisAlphabetTable_ParseText_3()
+        {
+            string text = "   ";
+            TextReader reader = new StringReader(text);
+            IrbisAlphabetTable table = IrbisAlphabetTable.ParseText(reader);
+            Assert.AreEqual(3, table.Characters.Length);
+        }
+
+        [TestMethod]
+        public void IrbisAlphabetTable_ResetInstance_1()
+        {
+            IrbisAlphabetTable.ResetInstance();
+        }
+
+        [TestMethod]
         public void IrbisAlphabetTable_SplitWords_1()
         {
             IrbisAlphabetTable table = _GetTable();
@@ -148,6 +181,28 @@ namespace UnitTests.ManagedIrbis
             Assert.AreEqual("вышел", words[8]);
             Assert.AreEqual("зайчик", words[9]);
             Assert.AreEqual("погулять", words[10]);
+        }
+
+        [TestMethod]
+        public void IrbisAlphabetTable_SplitWords_2()
+        {
+            IrbisAlphabetTable table = _GetTable();
+            const string text = "Hello, world";
+            string[] words = table.SplitWords(text);
+            Assert.AreEqual(2, words.Length);
+            Assert.AreEqual("Hello", words[0]);
+            Assert.AreEqual("world", words[1]);
+        }
+
+        [TestMethod]
+        public void IrbisAlphabetTable_SplitWords_3()
+        {
+            IrbisAlphabetTable table = _GetTable();
+            string[] words = table.SplitWords(null);
+            Assert.AreEqual(0, words.Length);
+
+            words = table.SplitWords(string.Empty);
+            Assert.AreEqual(0, words.Length);
         }
 
         [TestMethod]
@@ -172,6 +227,17 @@ namespace UnitTests.ManagedIrbis
         public void IrbisAlphabetTable_ToSourceCode_1()
         {
             IrbisAlphabetTable table = _GetTable();
+            StringWriter writer = new StringWriter();
+            table.ToSourceCode(writer);
+            string sourceCode = writer.ToString();
+            Assert.IsNotNull(sourceCode);
+        }
+
+        [TestMethod]
+        public void IrbisAlphabetTable_ToSourceCode_2()
+        {
+            byte[] bytes = {0x10, 0x11, 0x12};
+            IrbisAlphabetTable table = new IrbisAlphabetTable(IrbisEncoding.Ansi, bytes);
             StringWriter writer = new StringWriter();
             table.ToSourceCode(writer);
             string sourceCode = writer.ToString();

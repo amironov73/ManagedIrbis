@@ -217,9 +217,10 @@ namespace ManagedIrbis
         /// <see cref="IrbisUpperCaseTable"/>.
         /// </summary>
         [NotNull]
+        [MustUseReturnValue]
         public static IrbisUpperCaseTable GetInstance
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");
@@ -246,17 +247,17 @@ namespace ManagedIrbis
         /// Load the table from specified server file.
         /// </summary>
         [NotNull]
+        [MustUseReturnValue]
         public static IrbisUpperCaseTable FromServer
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] string fileName
             )
         {
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            FileSpecification specification
-                = new FileSpecification
+            FileSpecification specification = new FileSpecification
                     (
                         IrbisPath.System,
                         fileName
@@ -516,7 +517,6 @@ namespace ManagedIrbis
             writer.Write(_encoding.CodePage);
             writer.WriteArray(_table);
         }
-
 
         #endregion
 

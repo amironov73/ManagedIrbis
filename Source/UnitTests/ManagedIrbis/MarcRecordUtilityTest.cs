@@ -6,10 +6,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AM;
 using AM.Runtime;
 using AM.Text;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Infrastructure;
+
 using Moq;
 
 // ReSharper disable InvokeAsExtensionMethod
@@ -394,9 +396,9 @@ namespace UnitTests.ManagedIrbis
             MarcRecord record = new MarcRecord();
             RecordField[] replacement =
             {
-                new RecordField(702, "^aИванов^bИ. И."), 
-                new RecordField(702, "^aПетров^bП. П."), 
-                new RecordField(702, "^aСидоров^bС. С."), 
+                new RecordField(702, "^aИванов^bИ. И."),
+                new RecordField(702, "^aПетров^bП. П."),
+                new RecordField(702, "^aСидоров^bС. С."),
             };
             MarcRecord result = record.ReplaceField(700, replacement);
             Assert.AreSame(record, result);
@@ -411,9 +413,9 @@ namespace UnitTests.ManagedIrbis
             MarcRecord record = new MarcRecord();
             RecordField[] replacement =
             {
-                new RecordField(702, "^aИванов^bИ. И."), 
-                new RecordField(702, "^aПетров^bП. П."), 
-                new RecordField(702, "^aСидоров^bС. С."), 
+                new RecordField(702, "^aИванов^bИ. И."),
+                new RecordField(702, "^aПетров^bП. П."),
+                new RecordField(702, "^aСидоров^bС. С."),
             };
             record.AddField(700, "^aСидоров^bС. С.");
             MarcRecord result = record.RemoveField(700);
@@ -431,9 +433,9 @@ namespace UnitTests.ManagedIrbis
             MarcRecord record = new MarcRecord();
             RecordField[] replacement =
             {
-                new RecordField(702, "^aИванов^bИ. И."), 
-                new RecordField(702, "^aПетров^bП. П."), 
-                new RecordField(702, "^aСидоров^bС. С."), 
+                new RecordField(702, "^aИванов^bИ. И."),
+                new RecordField(702, "^aПетров^bП. П."),
+                new RecordField(702, "^aСидоров^bС. С."),
             };
             record.AddField(200, "^aЗаглавие");
             record.AddField(700, "^aИванов^bИ. И.");

@@ -149,6 +149,19 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Strong UTF-8 decoder, throw exceptions
+        /// on invalid bytes.
+        /// </summary>
+        public static void StrongUtf8()
+        {
+            _utf8 = new UTF8Encoding
+                (
+                    false, // don't emit UTF-8 prefix,
+                    true   // throw on invalid bytes
+                );
+        }
+
+        /// <summary>
         /// Override default single-byte encoding.
         /// </summary>
         public static void SetAnsiEncoding

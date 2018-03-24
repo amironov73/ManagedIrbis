@@ -1,10 +1,18 @@
 ﻿using System;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using AM;
 using AM.Runtime;
+using AM.Text;
+
+using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Menus;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+// ReSharper disable PossibleNullReferenceException
+// ReSharper disable MustUseReturnValue
 
 namespace UnitTests.ManagedIrbis
 {
@@ -13,7 +21,7 @@ namespace UnitTests.ManagedIrbis
         : Common.CommonUnitTest
     {
         [TestMethod]
-        public void IrbisTreeFile_Constructor_1()
+        public void IrbisTreeFile_Construction_1()
         {
             IrbisTreeFile tree = new IrbisTreeFile();
 
@@ -34,6 +42,31 @@ namespace UnitTests.ManagedIrbis
             Assert.AreEqual("First - child", child.Suffix);
 
             _TestSerialization(tree);
+        }
+
+        [TestMethod]
+        public void IrbisTreeFile_ParseStream_1()
+        {
+            TextReader reader = TextReader.Null;
+            IrbisTreeFile tree = IrbisTreeFile.ParseStream(reader);
+            Assert.AreEqual(0, tree.Roots.Count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void IrbisTreeFile_ParseStream_2()
+        {
+            TextReader reader = new StringReader(IrbisTreeFile.Indent + "HELLO");
+            IrbisTreeFile.ParseStream(reader);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void IrbisTreeFile_ParseStream_3()
+        {
+            string text = "Hello\n\t\tWorld";
+            TextReader reader = new StringReader(text);
+            IrbisTreeFile.ParseStream(reader);
         }
 
         [TestMethod]
@@ -90,7 +123,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void IrbisTreeFile_Save1()
+        public void IrbisTreeFile_Save_1()
         {
             var tree1 = _CreateTree();
 
@@ -122,29 +155,28 @@ namespace UnitTests.ManagedIrbis
         private IrbisTreeFile _CreateTree()
         {
             IrbisTreeFile tree1 = new IrbisTreeFile();
-            IrbisTreeFile.Item root1 = tree1.AddRoot("1 - First");
+            tree1.AddRoot("1 - First");
             IrbisTreeFile.Item root2 = tree1.AddRoot("2 - Second");
             root2.AddChild("2.1 - Second first");
             IrbisTreeFile.Item child = root2.AddChild("2.2 - Second second");
             child.AddChild("2.2.1 - Second second first");
-            child = root2.AddChild("2.3 - Second third");
+            root2.AddChild("2.3 - Second third");
             IrbisTreeFile.Item root3 = tree1.AddRoot("3 - Third");
             child = root3.AddChild("3.1 - Third first");
             child.AddChild("3.1.1 - Third first first");
-            IrbisTreeFile.Item root4 = tree1.AddRoot("4 - Fourth");
-            
+            tree1.AddRoot("4 - Fourth");
+
             return tree1;
         }
 
         private void _TestSerialization
             (
-                IrbisTreeFile first
+                [NotNull] IrbisTreeFile first
             )
         {
             byte[] bytes = first.SaveToMemory();
 
-            IrbisTreeFile second = bytes
-                .RestoreObjectFromMemory<IrbisTreeFile>();
+            IrbisTreeFile second = bytes.RestoreObjectFromMemory<IrbisTreeFile>();
 
             Assert.AreEqual(first.FileName, second.FileName);
             Assert.AreEqual(first.Roots.Count, second.Roots.Count);
@@ -155,18 +187,76 @@ namespace UnitTests.ManagedIrbis
         {
             IrbisTreeFile tree = new IrbisTreeFile();
             _TestSerialization(tree);
+
+            tree = _CreateTree();
+            _TestSerialization(tree);
         }
 
         [TestMethod]
         public void IrbisTreeFile_Verify_1()
         {
             IrbisTreeFile tree = _CreateTree();
-            
             Assert.IsTrue(tree.Verify(false));
+            Assert.IsTrue(tree.Verify(true));
 
             tree = new IrbisTreeFile();
-
             Assert.IsFalse(tree.Verify(false));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(VerificationException))]
+        public void IrbisTreeFile_Verify_2()
+        {
+            IrbisTreeFile tree = new IrbisTreeFile();
+            IrbisTreeFile.Item item = new IrbisTreeFile.Item();
+            tree.Roots.Add(item);
+            tree.Verify(true);
+        }
+
+        [TestMethod]
+        public void IrbisTreeFile_Verify_3()
+        {
+            IrbisTreeFile tree = new IrbisTreeFile();
+            IrbisTreeFile.Item item = new IrbisTreeFile.Item();
+            tree.Roots.Add(item);
+            Assert.IsFalse(tree.Verify(false));
+        }
+
+        [TestMethod]
+        public void IrbisTreeFile_SaveToLocalFile_1()
+        {
+            IrbisTreeFile tree = _CreateTree();
+            string fileName = Path.GetTempFileName();
+            tree.SaveToLocalFile(fileName, IrbisEncoding.Ansi);
+            int length = File.ReadAllText(fileName, IrbisEncoding.Ansi).DosToUnix().Length;
+            Assert.AreEqual(180, length);
+        }
+
+        [TestMethod]
+        public void IrbisTreeFile_ToMenu_1()
+        {
+            IrbisTreeFile tree = _CreateTree();
+            MenuFile menu = tree.ToMenu();
+            Assert.AreEqual(10, menu.Entries.Count);
+        }
+
+        [TestMethod]
+        public void IrbisTreeFile_Walk_1()
+        {
+            IrbisTreeFile tree = _CreateTree();
+            int count = 0;
+            Action<IrbisTreeFile.Item> action = item => count++;
+            tree.Walk(action);
+            Assert.AreEqual(10, count);
+        }
+
+        [TestMethod]
+        public void IrbisTreeFile_Delimiter_1()
+        {
+            string saveDelimiter = IrbisTreeFile.Item.Delimiter;
+            IrbisTreeFile.Item.Delimiter = "!";
+            Assert.AreEqual("!", IrbisTreeFile.Item.Delimiter);
+            IrbisTreeFile.Item.Delimiter = saveDelimiter;
         }
     }
 }

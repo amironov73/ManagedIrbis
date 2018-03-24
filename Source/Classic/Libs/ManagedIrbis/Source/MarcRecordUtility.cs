@@ -90,7 +90,7 @@ namespace ManagedIrbis
                 string text = value.ToString();
                 if (!string.IsNullOrEmpty(text))
                 {
-                    field = RecordField.Parse(tag, value.ToString());
+                    field = RecordField.Parse(tag, text);
                 }
                 else
                 {
@@ -224,15 +224,14 @@ namespace ManagedIrbis
             return false;
         }
 
-
         /// <summary>
         /// Нет ни одного поля с указанными тегами?
         /// </summary>
         public static bool HaveNotField
-        (
-            this MarcRecord record,
-            params int[] tags
-        )
+            (
+                [NotNull] this MarcRecord record,
+                params int[] tags
+            )
         {
             RecordFieldCollection fields = record.Fields;
             for (int i = 0; i < fields.Count; i++)
@@ -251,7 +250,7 @@ namespace ManagedIrbis
         /// </summary>
         public static bool HaveNotField
             (
-                this MarcRecord record,
+                [NotNull] this MarcRecord record,
                 int tag
             )
         {

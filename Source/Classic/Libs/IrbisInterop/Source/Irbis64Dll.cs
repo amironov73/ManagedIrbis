@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Irbis64Dll.cs -- 
+/* Irbis64Dll.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -38,7 +38,7 @@ using ManagedIrbis.Server;
 namespace IrbisInterop
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed class Irbis64Dll
         : IDisposable
@@ -642,7 +642,7 @@ namespace IrbisInterop
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public TermInfo[] ExactSearchTrimEx
@@ -701,7 +701,7 @@ namespace IrbisInterop
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public TermLink[] ExactSearchTrimLinks
@@ -948,7 +948,7 @@ namespace IrbisInterop
             using (new BusyGuard(Busy))
             {
                 _ReadRecord(Shelf, mfn);
-                string result = _FormatRecord();
+                string result = _FormatRecord().Replace('\r', '\n');
 
                 return result;
             }
@@ -1440,7 +1440,7 @@ namespace IrbisInterop
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public TermLink[] Search
@@ -1464,7 +1464,7 @@ namespace IrbisInterop
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public int[] Search
@@ -1480,7 +1480,7 @@ namespace IrbisInterop
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public TermLink[] SearchEx
