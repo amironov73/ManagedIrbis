@@ -14,12 +14,16 @@ namespace UnitTests.ManagedIrbis
             )
         {
             string actual = IrbisText.CleanupText(source);
+            Assert.AreEqual(expected, actual);
+        }
 
-            Assert.AreEqual
-                (
-                    expected,
-                    actual
-                );
+        [TestMethod]
+        public void IrbisText_CleanupMarkup_1()
+        {
+            Assert.AreEqual(null, IrbisText.CleanupMarkup(null));
+            Assert.AreEqual(string.Empty, IrbisText.CleanupMarkup(string.Empty));
+            Assert.AreEqual("Hello world", IrbisText.CleanupMarkup("Hello world"));
+            Assert.AreEqual("Hello world", IrbisText.CleanupMarkup("Hello [[B]]world[[/B]]"));
         }
 
         [TestMethod]
@@ -54,12 +58,7 @@ namespace UnitTests.ManagedIrbis
            )
         {
             string actual = IrbisText.IrbisToWindows(source);
-
-            Assert.AreEqual
-                (
-                    expected,
-                    actual
-                );
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
@@ -79,12 +78,7 @@ namespace UnitTests.ManagedIrbis
            )
         {
             string actual = IrbisText.WindowsToIrbis(source);
-
-            Assert.AreEqual
-                (
-                    expected,
-                    actual
-                );
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
@@ -104,12 +98,7 @@ namespace UnitTests.ManagedIrbis
            )
         {
             int actual = IrbisText.SplitIrbisToLines(source).Length;
-
-            Assert.AreEqual
-                (
-                    expected,
-                    actual
-                );
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
@@ -120,6 +109,22 @@ namespace UnitTests.ManagedIrbis
             _TestSplit("\x001F", 2);
             _TestSplit("У попа была собака", 1);
             _TestSplit("У попа была\x001Fсобака", 2);
+        }
+
+        [TestMethod]
+        public void IrbisText_ToLower_1()
+        {
+            Assert.AreEqual(null, IrbisText.ToLower(null));
+            Assert.AreEqual(string.Empty, IrbisText.ToLower(string.Empty));
+            Assert.AreEqual("hello world", IrbisText.ToLower("Hello world"));
+        }
+
+        [TestMethod]
+        public void IrbisText_ToUpper_1()
+        {
+            Assert.AreEqual(null, IrbisText.ToUpper(null));
+            Assert.AreEqual(string.Empty, IrbisText.ToUpper(string.Empty));
+            Assert.AreEqual("HELLO WORLD", IrbisText.ToUpper("Hello world"));
         }
     }
 }

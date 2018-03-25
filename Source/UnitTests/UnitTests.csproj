@@ -505,8 +505,10 @@
     <Compile Include="ManagedIrbis\Infrastructure\Transactions\IrbisTransactionManagerTest.cs" />
     <Compile Include="ManagedIrbis\IrbisEncodingTest.cs" />
     <Compile Include="ManagedIrbis\IrbisFormatTest.cs" />
+    <Compile Include="ManagedIrbis\IrbisSearchQueryTest.cs" />
     <Compile Include="ManagedIrbis\IrbisStopWordsTest.cs" />
     <Compile Include="ManagedIrbis\IrbisUpperCaseTableTest.cs" />
+    <Compile Include="ManagedIrbis\IrbisUtilityTest.cs" />
     <Compile Include="ManagedIrbis\LanguageFileTest.cs" />
     <Compile Include="ManagedIrbis\LocalizationManagerTest.cs" />
     <Compile Include="ManagedIrbis\Magazines\MagazineArticleInfoTest.cs" />
@@ -812,7 +814,6 @@
     <Compile Include="ManagedIrbis\IrbisVersionTest.cs" />
     <Compile Include="ManagedIrbis\IrbisConnectionTest.cs" />
     <Compile Include="ManagedIrbis\RecordReferenceTest.cs" />
-    <Compile Include="ManagedIrbis\IrbisQueryTest.cs" />
     <Compile Include="ManagedIrbis\IrbisOptTest.cs" />
     <Compile Include="ManagedIrbis\IrbisAlphabetTableTest.cs" />
     <Compile Include="ManagedIrbis\ParFileTest.cs" />
