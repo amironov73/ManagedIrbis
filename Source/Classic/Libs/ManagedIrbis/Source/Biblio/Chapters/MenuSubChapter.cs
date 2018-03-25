@@ -332,7 +332,12 @@ namespace ManagedIrbis.Biblio
                 .ThrowIfNull("processor.Report");
             // ReportDriver driver = context.ReportContext.Driver;
 
-            bool showOrder = context.Document.CommonSettings.Value<bool?>("showOrder") ?? false;
+            bool showOrder =
+#if WINMOBILE || PocketPC
+                false;
+#else
+                context.Document.CommonSettings.Value<bool?>("showOrder") ?? false;
+#endif
 
             if (Records.Count != 0
                 || Duplicates.Count != 0

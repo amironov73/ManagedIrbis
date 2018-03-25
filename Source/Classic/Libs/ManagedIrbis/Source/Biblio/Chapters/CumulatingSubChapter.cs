@@ -246,7 +246,13 @@ namespace ManagedIrbis.Biblio
             IrbisReport report = processor.Report
                 .ThrowIfNull("processor.Report");
 
-            bool showOrder = context.Document.CommonSettings.Value<bool?>("showOrder") ?? false;
+            bool showOrder =
+#if WINMOBILE || PocketPC
+                false;
+#else
+                context.Document.CommonSettings.Value<bool?>("showOrder") ?? false;
+#endif
+
             RenderTitle(context);
 
             foreach (Multivolume bookGroup in Groups)

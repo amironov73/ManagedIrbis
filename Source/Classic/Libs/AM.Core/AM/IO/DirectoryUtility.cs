@@ -118,8 +118,9 @@ namespace AM.IO
 
             List<string> found = new List<string>();
 
-            string[] masks = mask.Split
+            string[] masks = StringUtility.SplitString 
                 (
+                    mask,
                     _separator,
                     StringSplitOptions.RemoveEmptyEntries
                 );

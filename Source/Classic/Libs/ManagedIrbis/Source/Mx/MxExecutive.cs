@@ -577,7 +577,7 @@ namespace ManagedIrbis.Mx
         {
             Code.NotNullNorEmpty(modulePath, "modulePath");
 
-#if UAP
+#if UAP || WINMOBILE || PocketPC
 
             throw new NotImplementedException();
 
