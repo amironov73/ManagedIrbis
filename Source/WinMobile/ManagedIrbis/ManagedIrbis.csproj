@@ -522,6 +522,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\TestingSocket.cs">
       <Link>Source\Infrastructure\Sockets\TestingSocket.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Menus\ReturnMnu.cs">
+      <Link>Source\Menus\ReturnMnu.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Monitoring\BlockedRecord.cs">
       <Link>Source\Monitoring\BlockedRecord.cs</Link>
     </Compile>

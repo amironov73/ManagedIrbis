@@ -287,6 +287,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\ExceptionUtility.cs">
       <Link>AM\ExceptionUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\FastNumber.cs">
+      <Link>AM\FastNumber.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\FunctionalUtility.cs">
       <Link>AM\FunctionalUtility.cs</Link>
     </Compile>

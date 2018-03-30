@@ -227,6 +227,7 @@
     <Compile Include="Source\Infrastructure\CommandKind.cs" />
     <Compile Include="Source\Infrastructure\ResponseBuilder.cs" />
     <Compile Include="Source\Infrastructure\Sockets\TestingSocket.cs" />
+    <Compile Include="Source\Menus\ReturnMnu.cs" />
     <Compile Include="Source\Monitoring\BlockedRecord.cs" />
     <Compile Include="Source\Mx\Commands\BangCommand.cs" />
     <Compile Include="Source\Mx\Commands\ClsCommand.cs" />
