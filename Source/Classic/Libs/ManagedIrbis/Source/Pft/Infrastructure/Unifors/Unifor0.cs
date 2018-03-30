@@ -98,7 +98,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     }
 
                     builder
-                        .Append(RichText.Encode(text, null))
+                        .Append(RichText.Encode(text, UnicodeRange.Cyrillic))
                         .Append("\\par ");
                 }
 
