@@ -733,5 +733,18 @@ namespace UnitTests.ManagedIrbis
             field.SubFields.Clear();
             Assert.IsNull(field.GetValueOrFirstSubField());
         }
+
+        [TestMethod]
+        public void RecordField_IsEmpty_1()
+        {
+            RecordField field = new RecordField(200);
+            Assert.IsTrue(field.IsEmpty);
+
+            field = new RecordField(200, "Field200");
+            Assert.IsFalse(field.IsEmpty);
+
+            field = new RecordField(200, new SubField('a', "SubfieldA"));
+            Assert.IsFalse(field.IsEmpty);
+        }
     }
 }

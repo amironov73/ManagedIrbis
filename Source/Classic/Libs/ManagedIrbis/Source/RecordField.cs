@@ -227,6 +227,19 @@ namespace ManagedIrbis
             }
         }
 
+        /// <summary>
+        /// Пустое ли поле?
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        public bool IsEmpty
+        {
+            get
+            {
+                return string.IsNullOrEmpty(Value) && SubFields.Count == 0;
+            }
+        }
+
         #endregion
 
         #region Construction

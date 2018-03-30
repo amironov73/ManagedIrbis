@@ -9,14 +9,12 @@
 
 #region Using directives
 
-using System.Diagnostics;
-using System.IO;
+using System.Collections.Generic;
 using System.Text;
 
-using JetBrains.Annotations;
+using AM;
 
-using ManagedIrbis.ImportExport;
-using ManagedIrbis.Infrastructure;
+using JetBrains.Annotations;
 
 #endregion
 
@@ -31,12 +29,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // ++0
     //
 
+    //
+    // Начиная с версии 2016.1, форматный выход &uf('++0')
+    // модифицирован следующим образом
+    // &uf('++0,nnn,mmm,...')
+    // nnn, mmm - метки полей, которые ИСКЛЮЧАЮТСЯ из форматирования.
+    //
+
     static class UniforPlusPlus0
     {
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         public static void FormatAll
@@ -46,12 +47,35 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 [CanBeNull] string expression
             )
         {
+            List<int> tagsToSkip = new List<int> { 953 };
+            if (!string.IsNullOrEmpty(expression))
+            {
+                foreach (string item in StringUtility.SplitString(expression, ","))
+                {
+                    int tag;
+                    if (NumericUtility.TryParseInt32(item, out tag))
+                    {
+                        tagsToSkip.Add(tag);
+                    }
+                }
+            }
+
             MarcRecord record = context.Record;
             if (!ReferenceEquals(record, null))
             {
                 StringBuilder output = new StringBuilder();
                 foreach (RecordField field in record.Fields)
                 {
+                    if (tagsToSkip.Contains(field.Tag))
+                    {
+                        continue;
+                    }
+
+                    if (field.IsEmpty)
+                    {
+                        continue;
+                    }
+
                     string fieldValue = field.Value;
                     if (!string.IsNullOrEmpty(fieldValue))
                     {

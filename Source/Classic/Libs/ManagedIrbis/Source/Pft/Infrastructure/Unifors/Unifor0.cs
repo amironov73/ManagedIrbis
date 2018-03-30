@@ -44,6 +44,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
     static class Unifor0
     {
+        #region Properties
+
+        /// <summary>
+        /// Hide content of the field 953.
+        /// </summary>
+        public static bool Hide953Content = true;
+
+        #endregion
+
         #region Public methods
 
         public static void FormatAll
@@ -63,20 +72,34 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 Encoding encoding = IrbisEncoding.Utf8;
                 foreach (RecordField field in record.Fields)
                 {
-                    int tag = field.Tag;
+                    if (field.IsEmpty)
+                    {
+                        continue;
+                    }
                     fieldCount++;
+
+                    int tag = field.Tag;
+                    builder
+                        .Append("\\b #")
+                        .Append(FastNumber.Int32ToString(tag))
+                        .Append('/')
+                        .Append(FastNumber.Int32ToString(field.Repeat))
+                        .Append(":_\\b0 ");
+
                     string text = field.ToText();
                     int byteCount = encoding.GetByteCount(text);
                     dataSize += byteCount;
                     recordSize += 12; // Размер заголовка поля
                     recordSize += byteCount; // Размер данных поля
-                    builder.AppendFormat
-                        (
-                            "\\b #{0}/{1}:_\\b0 {2}\\par ",
-                            tag.ToInvariantString(),
-                            field.Repeat,
-                            RichText.Encode(text, null)
-                        );
+
+                    if (tag == 953 && Hide953Content)
+                    {
+                        text = "[Internal Resource]";
+                    }
+
+                    builder
+                        .Append(RichText.Encode(text, null))
+                        .Append("\\par ");
                 }
 
                 builder.AppendFormat
