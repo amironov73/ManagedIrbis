@@ -79,8 +79,4 @@ if v920.1:'A' then
       if a(v463^1) and p(v463^s)then'. - ',mpu,&unifor('Korg.mnu|4'),'. ',mpl,fi, v463^s) 
 fi fi, 
 
-if p(v10^d) then '. - Цена ', v10^d 
-else if p(v910^e) then '. - Цена ', v910^e+|, | fi,
-fi,
-
 &unifor('!'),&unifor('+F'),&uf('['), 

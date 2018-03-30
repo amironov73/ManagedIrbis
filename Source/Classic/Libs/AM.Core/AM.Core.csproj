@@ -146,6 +146,7 @@
     <Compile Include="AM\ExceptionEventArgs.cs" />
     <Compile Include="AM\ExceptionEventArgsT.cs" />
     <Compile Include="AM\ExceptionUtility.cs" />
+    <Compile Include="AM\FastNumber.cs" />
     <Compile Include="AM\FunctionalUtility.cs" />
     <Compile Include="AM\FuncUtility.cs" />
     <Compile Include="AM\Gender.cs" />

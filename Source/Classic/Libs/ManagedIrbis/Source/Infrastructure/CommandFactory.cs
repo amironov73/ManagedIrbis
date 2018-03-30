@@ -67,7 +67,7 @@ namespace ManagedIrbis.Infrastructure
 
         static CommandFactory()
         {
-            _superFactory = connection 
+            _superFactory = connection
                 => new CommandFactory(connection);
         }
 
@@ -75,7 +75,7 @@ namespace ManagedIrbis.Infrastructure
 
         #region Private members
 
-        private static Func<IrbisConnection, CommandFactory>
+        private static Func<IIrbisConnection, CommandFactory>
             _superFactory;
 
         #endregion
@@ -142,7 +142,7 @@ namespace ManagedIrbis.Infrastructure
         [NotNull]
         public static CommandFactory GetDefaultFactory
             (
-                [NotNull] IrbisConnection connection
+                [NotNull] IIrbisConnection connection
             )
         {
             Code.NotNull(connection, "connection");
@@ -501,12 +501,12 @@ namespace ManagedIrbis.Infrastructure
         [NotNull]
         public static Func<IrbisConnection, CommandFactory> SetSuperFactory
             (
-                [NotNull] Func<IrbisConnection, CommandFactory> superFactory
+                [NotNull] Func<IIrbisConnection, CommandFactory> superFactory
             )
         {
             Code.NotNull(superFactory, "superFactory");
 
-            Func<IrbisConnection, CommandFactory> result = _superFactory;
+            Func<IIrbisConnection, CommandFactory> result = _superFactory;
             _superFactory = superFactory;
 
             return result;

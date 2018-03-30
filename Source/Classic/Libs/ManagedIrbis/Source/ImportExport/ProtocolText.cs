@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Iso2709.cs --
+/* ProtocolText.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -36,18 +36,6 @@ namespace ManagedIrbis.ImportExport
     [MoonSharpUserData]
     public static class ProtocolText
     {
-        #region Constants
-
-        #endregion
-
-        #region Properties
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
         #region Private members
 
         private static void _AppendIrbisLine
@@ -194,7 +182,7 @@ namespace ManagedIrbis.ImportExport
 
             RecordField result = new RecordField
             {
-                Tag = NumericUtility.ParseInt32(_ReadTo(reader, '#')),
+                Tag = FastNumber.ParseInt32(_ReadTo(reader, '#')),
                 Value = _ReadTo(reader, '^').EmptyToNull()
             };
 
@@ -205,6 +193,7 @@ namespace ManagedIrbis.ImportExport
                 {
                     break;
                 }
+
                 char code = char.ToLower((char)next);
                 string text = _ReadTo(reader, '^');
                 SubField subField = new SubField
@@ -235,10 +224,10 @@ namespace ManagedIrbis.ImportExport
 
             Regex regex = new Regex(@"^(-?\d+)\#(\d*)?");
             Match match = regex.Match(line1);
-            record.Mfn = Math.Abs(int.Parse(match.Groups[1].Value));
+            record.Mfn = Math.Abs(FastNumber.ParseInt32(match.Groups[1].Value));
             if (match.Groups[2].Length > 0)
             {
-                record.Status = (RecordStatus)int.Parse
+                record.Status = (RecordStatus)FastNumber.ParseInt32
                     (
                         match.Groups[2].Value
                     );
@@ -246,7 +235,7 @@ namespace ManagedIrbis.ImportExport
             match = regex.Match(line2);
             if (match.Groups[2].Length > 0)
             {
-                record.Version = int.Parse(match.Groups[2].Value);
+                record.Version = FastNumber.ParseInt32(match.Groups[2].Value);
             }
 
             return record;
@@ -284,10 +273,12 @@ namespace ManagedIrbis.ImportExport
                     {
                         break;
                     }
+
                     if (line == "#")
                     {
                         break;
                     }
+
                     RecordField field = ParseLine(line);
                     if (field.Tag > 0)
                     {
@@ -336,6 +327,7 @@ namespace ManagedIrbis.ImportExport
             {
                 return record;
             }
+
             string second = response.GetUtfString();
             if (string.IsNullOrEmpty(second))
             {
@@ -447,6 +439,11 @@ namespace ManagedIrbis.ImportExport
                 }
 
                 string[] split = line.Split('\x1F');
+                if (split.Length < 3)
+                {
+                    return null;
+                }
+
                 ParseMfnStatusVersion
                     (
                         split[1],
@@ -496,6 +493,11 @@ namespace ManagedIrbis.ImportExport
                 record.Fields.Clear();
 
                 string[] split = line.Split('\x1F');
+                if (split.Length < 3)
+                {
+                    return null;
+                }
+
                 ParseMfnStatusVersion
                     (
                         split[1],
