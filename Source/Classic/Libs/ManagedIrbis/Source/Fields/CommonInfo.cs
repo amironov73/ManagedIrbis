@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* CommonInfo.cs -- 
+/* CommonInfo.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -50,12 +50,12 @@ namespace ManagedIrbis.Fields
         #region Constants
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const int MainTag = 461;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const int AdditionalTag = 46;
 
@@ -317,7 +317,7 @@ namespace ManagedIrbis.Fields
         public string PreviousTitle { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [CanBeNull]
         [XmlIgnore]
@@ -325,20 +325,12 @@ namespace ManagedIrbis.Fields
         public RecordField Field461 { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
         public RecordField Field46 { get; private set; }
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
 
         #endregion
 

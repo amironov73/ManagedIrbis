@@ -499,7 +499,7 @@ namespace ManagedIrbis.Infrastructure
         /// Set Super Factory.
         /// </summary>
         [NotNull]
-        public static Func<IrbisConnection, CommandFactory> SetSuperFactory
+        public static Func<IIrbisConnection, CommandFactory> SetSuperFactory
             (
                 [NotNull] Func<IIrbisConnection, CommandFactory> superFactory
             )

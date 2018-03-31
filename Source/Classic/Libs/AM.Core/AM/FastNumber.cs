@@ -47,7 +47,7 @@ namespace AM
                 for (; number != 0; offset--)
                 {
                     int remainder;
-                    number = Math.DivRem(number, 10, out remainder);
+                    number = Utility.DivRem(number, 10, out remainder);
                     buffer[offset] = (char) ('0' + remainder);
                 }
             }
@@ -77,7 +77,7 @@ namespace AM
                 for (; number != 0; offset--)
                 {
                     long remainder;
-                    number = Math.DivRem(number, 10, out remainder);
+                    number = Utility.DivRem(number, 10, out remainder);
                     buffer[offset] = (char) ('0' + remainder);
                 }
             }

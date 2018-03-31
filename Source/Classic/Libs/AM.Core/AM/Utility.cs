@@ -57,6 +57,62 @@ namespace AM
         // =========================================================
 
         /// <summary>
+        /// Calculates the quotient of two 32-bit signed integers
+        /// and also returns the remainder in an output parameter.
+        /// </summary>
+        /// <remarks>
+        /// For compatibility.
+        /// </remarks>
+        [MethodImpl(Aggressive)]
+        public static int DivRem
+            (
+                int a,
+                int b,
+                out int remainder
+            )
+        {
+#if UAP
+
+            remainder = a % b;
+            return a / b;
+
+#else
+
+            return Math.DivRem(a, b, out remainder);
+
+#endif
+        }
+
+        /// <summary>
+        /// Calculates the quotient of two 64-bit signed integers
+        /// and also returns the remainder in an output parameter.
+        /// </summary>
+        /// <remarks>
+        /// For compatibility.
+        /// </remarks>
+        [MethodImpl(Aggressive)]
+        public static long DivRem
+            (
+                long a,
+                long b,
+                out long remainder
+            )
+        {
+#if UAP || WINMOBILE || PocketPC
+
+            remainder = a % b;
+            return a / b;
+
+#else
+
+            return Math.DivRem(a, b, out remainder);
+
+#endif
+        }
+
+        // =========================================================
+
+        /// <summary>
         /// Шестнадцатиричный дамп массива байт.
         /// </summary>
         public static string DumpBytes
