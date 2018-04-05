@@ -252,12 +252,15 @@
     <Compile Include="ManagedIrbis\Client\CatalogDeltaTest.cs" />
     <Compile Include="ManagedIrbis\Client\CatalogStateTest.cs" />
     <Compile Include="ManagedIrbis\Client\ClientLMTest.cs" />
+    <Compile Include="ManagedIrbis\Client\ConnectedClientTest.cs" />
+    <Compile Include="ManagedIrbis\Client\ConnectedFormatterTest.cs" />
     <Compile Include="ManagedIrbis\Client\ConnectionAliasTest.cs" />
     <Compile Include="ManagedIrbis\Client\ContextIniSectionTest.cs" />
     <Compile Include="ManagedIrbis\Client\DesktopIniSectionTest.cs" />
     <Compile Include="ManagedIrbis\Client\DisplayIniSectionTest.cs" />
     <Compile Include="ManagedIrbis\Client\EntryIniSectionTest.cs" />
     <Compile Include="ManagedIrbis\Client\IrbisProviderAsyncExtensionsTest.cs" />
+    <Compile Include="ManagedIrbis\Client\IrbisProviderTest.cs" />
     <Compile Include="ManagedIrbis\Client\LocalCatalogerIniFileTest.cs" />
     <Compile Include="ManagedIrbis\Client\LocalProviderTest.cs" />
     <Compile Include="ManagedIrbis\Client\MessageFileTest.cs" />
@@ -500,6 +503,8 @@
     <Compile Include="ManagedIrbis\Infrastructure\Commands\WriteRecordCommandTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\Commands\WriteRecordsCommandTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\EfficientRecordSerializerTest.cs" />
+    <Compile Include="ManagedIrbis\Infrastructure\ExecutionContextTest.cs" />
+    <Compile Include="ManagedIrbis\Infrastructure\ExecutionEventArgsTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\FileSpecificationTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\Sockets\TestingSocketTest.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\Transactions\IrbisTransactionContextTest.cs" />

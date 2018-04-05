@@ -49,7 +49,7 @@ namespace ManagedIrbis.Infrastructure
         /// Connection.
         /// </summary>
         [CanBeNull]
-        public IrbisConnection Connection { get; set; }
+        public IIrbisConnection Connection { get; set; }
 
         /// <summary>
         /// Exception.
@@ -90,7 +90,7 @@ namespace ManagedIrbis.Infrastructure
         /// </summary>
         public ExecutionContext
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] AbstractCommand command
             )
         {

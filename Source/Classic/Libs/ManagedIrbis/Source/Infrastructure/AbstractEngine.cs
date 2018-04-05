@@ -120,7 +120,7 @@ namespace ManagedIrbis.Infrastructure
         {
             AbstractCommand command = context.Command
                 .ThrowIfNull("Command");
-            IrbisConnection connection = context.Connection
+            IIrbisConnection connection = context.Connection
                 .ThrowIfNull("Connection");
 
             if (command.RequireConnection && connection.Socket.RequireConnection)
@@ -246,7 +246,7 @@ namespace ManagedIrbis.Infrastructure
 
             AbstractCommand command = context.Command
                 .ThrowIfNull("Command");
-            IrbisConnection connection = context.Connection
+            IIrbisConnection connection = context.Connection
                 .ThrowIfNull("Connection");
 
             if (!command.Verify(ThrowOnVerify))
@@ -260,9 +260,12 @@ namespace ManagedIrbis.Infrastructure
 
             using (new BusyGuard(connection.Busy))
             {
-                ServerResponse result
-                    = ServerResponse.GetEmptyResponse(connection);
-                connection.Interrupted = false;
+                ServerResponse result = ServerResponse.GetEmptyResponse(connection);
+                IrbisConnection irbis = connection as IrbisConnection;
+                if (!ReferenceEquals(irbis, null))
+                {
+                    irbis.Interrupted = false;
+                }
 
                 try
                 {
@@ -346,8 +349,8 @@ namespace ManagedIrbis.Infrastructure
 
             OnBeforeExecute(context);
 
-            var result = ReferenceEquals(NestedEngine, null) 
-                ? StandardExecution(context) 
+            var result = ReferenceEquals(NestedEngine, null)
+                ? StandardExecution(context)
                 : NestedEngine.ExecuteCommand(context);
 
             context.Response = result;
