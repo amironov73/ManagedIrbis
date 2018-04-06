@@ -120,4 +120,7 @@
   <data name="ArsMagnaProject" xml:space="preserve">
     <value>Ars Magna Project</value>
   </data>
+  <data name="IrbisProvider_NotOverridden" xml:space="preserve">
+    <value>not overridden</value>
+  </data>
 </root>

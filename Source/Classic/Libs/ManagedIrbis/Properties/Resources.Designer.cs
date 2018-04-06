@@ -68,5 +68,14 @@ namespace ManagedIrbis.Properties {
                 return ResourceManager.GetString("ArsMagnaProject", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to not overridden.
+        /// </summary>
+        internal static string IrbisProvider_NotOverridden {
+            get {
+                return ResourceManager.GetString("IrbisProvider_NotOverridden", resourceCulture);
+            }
+        }
     }
 }

@@ -244,6 +244,8 @@ namespace ManagedIrbis.Infrastructure
         {
             Log.Trace("AbstractEngine::StandardExecution");
 
+            CheckConnection(context);
+
             AbstractCommand command = context.Command
                 .ThrowIfNull("Command");
             IIrbisConnection connection = context.Connection
