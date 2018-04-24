@@ -1029,7 +1029,7 @@ namespace AM.IO
                 return;
             }
 
-            Encoding encoding = Encoding 
+            Encoding encoding = Encoding
                 ?? EncodingUtility.DefaultEncoding;
 
             Read(FileName, encoding);
@@ -1111,7 +1111,10 @@ namespace AM.IO
                     string value = parts.Length == 2
                         ? parts[1]
                         : null;
-                    section.SetValue(key, value);
+                    if (!string.IsNullOrEmpty(key))
+                    {
+                        section.SetValue(key, value);
+                    }
                 }
             }
 
