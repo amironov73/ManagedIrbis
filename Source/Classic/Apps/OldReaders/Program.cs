@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Program.cs -- 
+/* Program.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -42,6 +42,7 @@ namespace OldReaders
         private static BlockingCollection<ReaderInfo> OldReaders;
 
         private static DateTime Threshold;
+        private static DateTime LowerBound;
 
         private static void Main()
         {
@@ -59,6 +60,12 @@ namespace OldReaders
                             .GetString("threshold")
                             .ThrowIfNull("threshold not set")
                     );
+                LowerBound = DateTime.MinValue;
+                string lowerText = ConfigurationUtility.GetString("lowerBound");
+                if (!string.IsNullOrEmpty(lowerText))
+                {
+                    LowerBound = IrbisDate.ConvertStringToDate(lowerText);
+                }
 
                 Console.WriteLine("Loading readers");
 
@@ -77,10 +84,10 @@ namespace OldReaders
                     string[] databases = ConfigurationUtility.GetString("databases")
                         .ThrowIfNull("databases not specified")
                         .Split
-                        (
-                            new[] { ' ', ';', ',' },
-                            StringSplitOptions.RemoveEmptyEntries
-                        );
+                            (
+                                new[] { ' ', ';', ',' },
+                                StringSplitOptions.RemoveEmptyEntries
+                            );
 
                     foreach (string database in databases)
                     {
@@ -225,6 +232,7 @@ namespace OldReaders
             {
                 return;
             }
+
             ticket = ticket.ToLower();
             if (ticket.Contains(Litres))
             {
@@ -278,13 +286,13 @@ namespace OldReaders
                     {
                         return;
                     }
+
                     reader.UserData = lastRegistration.Date
                         .ToShortDateString() + " перерегистрация";
                 }
                 else
                 {
-                    lastRegistration
-                        = GetLastRegistration(reader.Enrollment);
+                    lastRegistration = GetLastRegistration(reader.Enrollment);
 
                     if (!ReferenceEquals(lastRegistration, null))
                     {
@@ -303,12 +311,13 @@ namespace OldReaders
             }
             else
             {
-                if (lastEvent.DateGiven >= Threshold)
+                DateTime dateGiven = lastEvent.DateGiven;
+                if (dateGiven < LowerBound || dateGiven >= Threshold)
                 {
                     return;
                 }
-                reader.UserData = lastEvent.DateGiven
-                    .ToShortDateString() + " посещение";
+
+                reader.UserData = dateGiven.ToShortDateString() + " посещение";
             }
 
             OldReaders.Add(reader);
