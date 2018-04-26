@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 
+using AM.Configuration;
+
 using AngleSharp;
 using AngleSharp.Dom;
 using IElement=AngleSharp.Dom.IElement;
@@ -54,8 +56,8 @@ namespace GrabPrLib
         private static IBrowsingContext _browsingContext;
         private static WebClient _webClient;
         private static Page[] _pages;
-        private static int scale = 4;
-        private static int sleep = 3000;
+        private static int _scale = 4;
+        private static int _sleep = 3000;
 
         static bool DownloadPage
             (
@@ -74,8 +76,8 @@ namespace GrabPrLib
                 return false;
             }
 
-            string url = $"{_serverUrl}?FIF={_imageDir}/{fileName}&JTL={scale},";
-            int zoom = Math.Min(scale, page.MaxZoom);
+            int zoom = Math.Min(_scale, page.MaxZoom);
+            string url = $"{_serverUrl}?FIF={_imageDir}/{fileName}&JTL={zoom},";
             int width = (int)page.Dimensions[zoom].Width;
             int height = (int)page.Dimensions[zoom].Height;
             int colCount = (width + tileWidth - 1) / tileWidth;
@@ -109,7 +111,7 @@ namespace GrabPrLib
                 pageImage.Save(fileName);
             }
 
-            Console.WriteLine("done");
+            Console.WriteLine(" done");
 
             return true;
         }
@@ -119,25 +121,30 @@ namespace GrabPrLib
             Console.Write("Building PDF ");
             PdfWriter writer = new PdfWriter(_pdfFileName);
             PdfDocument pdf = new PdfDocument(writer);
+            int index = 1;
             using (Document document = new Document(pdf))
             {
+                document.SetMargins(0, 0, 0, 0);
                 foreach (Page page in _pages)
                 {
                     string fileName = page.FileName;
-                    Console.Write($"{fileName} ");
+                    Console.Write($"[{index}] {fileName} ");
                     Image image = new Image(ImageDataFactory.Create(fileName));
                     document.Add(image);
                     document.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                    index++;
                 }
             }
             Console.WriteLine("done");
 
             Console.WriteLine("Deleting images");
+            index = 1;
             foreach (Page page in _pages)
             {
                 string fileName = page.FileName;
-                Console.Write($"{fileName} ");
+                Console.Write($"[{index}] {fileName} ");
                 File.Delete(fileName);
+                index++;
             }
 
             Console.WriteLine("done");
@@ -153,6 +160,11 @@ namespace GrabPrLib
 
             try
             {
+                _sleep = ConfigurationUtility.GetInt32("sleep", 3000);
+                Console.WriteLine($"Sleep={_sleep}ms");
+                _scale = ConfigurationUtility.GetInt32("scale", 4);
+                Console.WriteLine($"Scale={_scale}x");
+
                 _pageUrl = Url.Create(args[0]);
 
                 _pdfFileName = Path.ChangeExtension
@@ -184,7 +196,7 @@ namespace GrabPrLib
                     return;
                 }
                 string dataUrl = (string)token.Value;
-                Console.WriteLine($"Data URL: {dataUrl}");
+                Console.WriteLine($"Data URL={dataUrl}");
                 token = (JValue)root.SelectToken("$.diva.1.options.iipServerURL");
                 if (ReferenceEquals(token, null))
                 {
@@ -192,7 +204,7 @@ namespace GrabPrLib
                     return;
                 }
                 _serverUrl = (string) token.Value;
-                Console.WriteLine($"Server URL: {_serverUrl}");
+                Console.WriteLine($"Server URL={_serverUrl}");
                 token = (JValue)root.SelectToken("$.diva.1.options.imageDir");
                 if (ReferenceEquals(token, null))
                 {
@@ -200,20 +212,19 @@ namespace GrabPrLib
                     return;
                 }
                 _imageDir = (string)token.Value;
-                Console.WriteLine($"Image dir: {_imageDir}");
+                Console.WriteLine($"Image dir={_imageDir}");
                 _webClient = new WebClient();
                 json = _webClient.DownloadString(dataUrl);
                 root = JObject.Parse(json);
                 JArray array = (JArray)root.SelectToken("pgs");
                 _pages = array.ToObject<Page[]>();
-                Console.WriteLine($"Total pages: {_pages.Length}");
-                _pages = _pages.Take(10).ToArray();
+                Console.WriteLine($"Total pages={_pages.Length}");
                 int pageNumber = 1;
                 foreach (Page page in _pages)
                 {
                     if (DownloadPage(pageNumber, page))
                     {
-                        Thread.Sleep(sleep);
+                        Thread.Sleep(_sleep);
                     }
 
                     pageNumber++;
