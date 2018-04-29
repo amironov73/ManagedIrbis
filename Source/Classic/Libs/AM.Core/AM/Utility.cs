@@ -71,7 +71,7 @@ namespace AM
                 out int remainder
             )
         {
-#if UAP
+#if UAP || WinMobile || PocketPC
 
             remainder = a % b;
             return a / b;

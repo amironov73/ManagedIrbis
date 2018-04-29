@@ -927,6 +927,24 @@
             Bunch of useful routines.
             </summary>
         </member>
+        <member name="M:AM.Utility.DivRem(System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            Calculates the quotient of two 32-bit signed integers
+            and also returns the remainder in an output parameter.
+            </summary>
+            <remarks>
+            For compatibility.
+            </remarks>
+        </member>
+        <member name="M:AM.Utility.DivRem(System.Int64,System.Int64,System.Int64@)">
+            <summary>
+            Calculates the quotient of two 64-bit signed integers
+            and also returns the remainder in an output parameter.
+            </summary>
+            <remarks>
+            For compatibility.
+            </remarks>
+        </member>
         <member name="M:AM.Utility.DumpBytes(System.Byte[])">
             <summary>
             Шестнадцатиричный дамп массива байт.
@@ -3887,6 +3905,61 @@
             Format decimal.
             </summary>
         </member>
+        <member name="T:AM.FastNumber">
+            <summary>
+            Fast routines for integer numbers.
+            </summary>
+        </member>
+        <member name="M:AM.FastNumber.Int32ToString(System.Int32)">
+            <summary>
+            Convert integer to string.
+            </summary>
+        </member>
+        <member name="M:AM.FastNumber.Int64ToString(System.Int64)">
+            <summary>
+            Convert integer to string.
+            </summary>
+        </member>
+        <member name="M:AM.FastNumber.ParseInt32(System.String)">
+            <summary>
+            Fast number parsing.
+            </summary>
+        </member>
+        <member name="M:AM.FastNumber.ParseInt32(System.String,System.Int32,System.Int32)">
+            <summary>
+            Fast number parsing.
+            </summary>
+        </member>
+        <member name="M:AM.FastNumber.ParseInt32(System.Char[],System.Int32,System.Int32)">
+            <summary>
+            Fast number parsing.
+            </summary>
+        </member>
+        <member name="M:AM.FastNumber.ParseInt32(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Fast number parsing.
+            </summary>
+        </member>
+        <member name="M:AM.FastNumber.ParseInt64(System.String)">
+            <summary>
+            Fast number parsing.
+            </summary>
+        </member>
+        <member name="M:AM.FastNumber.ParseInt64(System.String,System.Int32,System.Int32)">
+            <summary>
+            Fast number parsing.
+            </summary>
+        </member>
+        <member name="M:AM.FastNumber.ParseInt64(System.Char[],System.Int32,System.Int32)">
+            <summary>
+            Fast number parsing.
+            </summary>
+        </member>
+        <member name="M:AM.FastNumber.ParseInt64(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Fast number parsing.
+            </summary>
+        </member>
         <member name="T:AM.Data.ColumnHeaderAttribute">
             <summary>
             
@@ -5800,6 +5873,27 @@
             </summary>
             <param name="sender"></param>
             <param name="ea"></param>
+        </member>
+        <member name="T:AM.Core.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:AM.Core.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:AM.Core.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:AM.Core.Properties.Resources.ArsMagnaProject">
+            <summary>
+              Looks up a localized string similar to Ars Magna Project.
+            </summary>
         </member>
         <member name="T:System.Converter`2">
             <summary>

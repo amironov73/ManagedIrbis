@@ -3012,9 +3012,9 @@
             <inheritdoc cref="P:ManagedIrbis.Infrastructure.Commands.AbstractCommand.GoodReturnCodes"/>
         </member>
         <member name="T:ManagedIrbis.Client.IrbisProvider">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Client.IrbisProvider.#ctor">
             <summary>
@@ -3938,14 +3938,14 @@
             </summary>
         </member>
         <member name="F:ManagedIrbis.Fields.CommonInfo.MainTag">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:ManagedIrbis.Fields.CommonInfo.AdditionalTag">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Fields.CommonInfo.ParseRecord(ManagedIrbis.MarcRecord)">
             <summary>
@@ -4071,14 +4071,14 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Fields.CommonInfo.Field461">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="P:ManagedIrbis.Fields.CommonInfo.Field46">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:ManagedIrbis.Fields.CollectiveInfo">
             <summary>
@@ -6521,6 +6521,9 @@
         <member name="M:ManagedIrbis.Infrastructure.Commands.DynamicCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)">
             <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)"/>
         </member>
+        <member name="M:ManagedIrbis.Infrastructure.Commands.DynamicCommand.Verify(System.Boolean)">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Verify(System.Boolean)"/>
+        </member>
         <member name="P:ManagedIrbis.Infrastructure.Commands.DynamicCommand.GoodReturnCodesHandler">
             <summary>
             Handle return codes.
@@ -6955,6 +6958,79 @@
         </member>
         <member name="M:ManagedIrbis.Mx.Commands.InfoCommand.Execute(ManagedIrbis.Mx.MxExecutive,ManagedIrbis.Mx.MxArgument[])">
             <inheritdoc cref="M:ManagedIrbis.Mx.MxCommand.Execute(ManagedIrbis.Mx.MxExecutive,ManagedIrbis.Mx.MxArgument[])"/>
+        </member>
+        <member name="T:ManagedIrbis.Menus.ReturnMnu">
+            <summary>
+            Wrapper for RETURN.MNU.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Menus.ReturnMnu.DefaultFileName">
+            <summary>
+            Default file name.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Menus.ReturnMnu.#ctor(ManagedIrbis.Menus.MenuFile)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Menus.ReturnMnu.FromConnection(ManagedIrbis.IIrbisConnection,System.String)">
+            <summary>
+            Read RETURN.MNU from server connection.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Menus.ReturnMnu.FromConnection(ManagedIrbis.IIrbisConnection)">
+            <summary>
+            Read RETURN.MNU from server connection.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Menus.ReturnMnu.FromFile(System.String)">
+            <summary>
+            Read RETURN.MNU from the local file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Menus.ReturnMnu.FromProvider(ManagedIrbis.Client.IrbisProvider,System.String)">
+            <summary>
+            Read RETURN.MNU from the provider.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Menus.ReturnMnu.FromProvider(ManagedIrbis.Client.IrbisProvider)">
+            <summary>
+            Read RETURN.MNU from the provider.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Menus.ReturnMnu.Items">
+            <summary>
+            Items.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Menus.ReturnMnu.Item">
+            <summary>
+            Item.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Menus.ReturnMnu.Item.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Menus.ReturnMnu.Item.#ctor(ManagedIrbis.Menus.MenuEntry)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Menus.ReturnMnu.Item.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Menus.ReturnMnu.Item.Date">
+            <summary>
+            Date.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Menus.ReturnMnu.Item.Comment">
+            <summary>
+            Comment.
+            </summary>
         </member>
         <member name="T:ManagedIrbis.Ibf.Infrastructure.Ast.IbfReorgIf">
             <summary>
@@ -16635,6 +16711,11 @@
             Является ли поле фиксированным.
             </summary>
         </member>
+        <member name="P:ManagedIrbis.RecordField.IsEmpty">
+            <summary>
+            Пустое ли поле?
+            </summary>
+        </member>
         <member name="P:ManagedIrbis.RecordField.ReadOnly">
             <inheritdoc cref="P:AM.IReadOnly`1.ReadOnly"/>
         </member>
@@ -23347,6 +23428,32 @@
             Role (e. g. workstation kind).
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Properties.Resources.ArsMagnaProject">
+            <summary>
+              Looks up a localized string similar to Ars Magna Project.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Properties.Resources.IrbisProvider_NotOverridden">
+            <summary>
+              Looks up a localized string similar to not overridden.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Readers.ReaderRegistration">
             <summary>
             Информация о регистрации/перерегистрации читателя.
@@ -28398,6 +28505,11 @@
             Контроль ISSN/ISBN.
             Возвращаемое значение: 0 – при положительном
             результате, 1 – при отрицательном.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Pft.Infrastructure.Unifors.Unifor0.Hide953Content">
+            <summary>
+            Hide content of the field 953.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.PftGlobal">
@@ -35803,7 +35915,7 @@
             Get <see cref="T:ManagedIrbis.Infrastructure.Commands.DatabaseStatCommand"/>.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.CommandFactory.GetDefaultFactory(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.CommandFactory.GetDefaultFactory(ManagedIrbis.IIrbisConnection)">
             <summary>
             Get default <see cref="T:ManagedIrbis.Infrastructure.CommandFactory"/>.
             </summary>
@@ -35984,7 +36096,7 @@
             Get WriteRecordsCommand.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.CommandFactory.SetSuperFactory(System.Func{ManagedIrbis.IrbisConnection,ManagedIrbis.Infrastructure.CommandFactory})">
+        <member name="M:ManagedIrbis.Infrastructure.CommandFactory.SetSuperFactory(System.Func{ManagedIrbis.IIrbisConnection,ManagedIrbis.Infrastructure.CommandFactory})">
             <summary>
             Set Super Factory.
             </summary>
@@ -40474,7 +40586,7 @@
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.ExecutionContext.#ctor(ManagedIrbis.IrbisConnection,ManagedIrbis.Infrastructure.Commands.AbstractCommand)">
+        <member name="M:ManagedIrbis.Infrastructure.ExecutionContext.#ctor(ManagedIrbis.IIrbisConnection,ManagedIrbis.Infrastructure.Commands.AbstractCommand)">
             <summary>
             Constructor.
             </summary>
