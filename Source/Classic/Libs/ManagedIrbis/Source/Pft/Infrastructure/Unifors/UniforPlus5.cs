@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using System.IO;
+
 using AM;
 using AM.Logging;
 using AM.Text;
@@ -33,79 +35,122 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     // +5Х<имя_справочника/списка>
     // где Х принимает значения: Т – выдать значение;
     // F – выдать пояснение(имеет смысл, если задается справочник,
-    // т.е.файл с расширением MNU).
+    // т. е. файл с расширением MNU).
     //
     // Пример:
     //
     // (&unifor('+5Tfield.mnu'),' – ',&unifor('+5Ffield.mnu'))
     //
 
+    //
+    // ibatrak
+    // unifor +5 парсит *.MNU как меню,
+    // а если встречается любой другой файл, выдает просто текстовую строку.
+    // Пустая строка означает конец разбора.
+    //
+
     static class UniforPlus5
     {
         #region Public methods
 
-        public static void GetEntry
+        public static void GetMenuEntry
             (
                 [NotNull] PftContext context,
                 [CanBeNull] PftNode node,
                 [CanBeNull] string expression
             )
         {
-            if (string.IsNullOrEmpty(expression))
+            // ibatrak
+            // минимальная длина выражения команда + .mnu (имя файла - только расширение) = 5
+            if (string.IsNullOrEmpty(expression) || expression.Length < 5)
             {
                 return;
             }
 
             TextNavigator navigator = new TextNavigator(expression);
-            char command = navigator.ReadChar();
-            string menuName = navigator.GetRemainingText();
+            char command = CharUtility.ToUpperInvariant(navigator.ReadChar());
+            if (command != 'T' && command != 'F')
+            {
+                Log.Warn
+                    (
+                        "UniforPlus5::GetMenuEntry: "
+                        + "unknown command="
+                        + command.ToVisibleString()
+                    );
+
+                return;
+            }
+
+            string fileName = navigator.GetRemainingText();
             if (command == TextNavigator.EOF
-                || string.IsNullOrEmpty(menuName))
+                || string.IsNullOrEmpty(fileName))
             {
                 return;
             }
 
-            command = CharUtility.ToUpperInvariant(command);
-            FileSpecification specification = new FileSpecification
-                (
-                    IrbisPath.MasterFile,
-                    context.Provider.Database,
-                    menuName
-                );
-
-            MenuFile menu = context.Provider.ReadMenuFile(specification);
-            if (ReferenceEquals(menu, null))
-            {
-                return;
-            }
-
-            int index = context.Index;
-            MenuEntry entry = menu.Entries.GetItem(index);
-            if (ReferenceEquals(entry, null))
-            {
-                return;
-            }
-
+            FileSpecification specification;
             string output = null;
+            int index = context.Index;
 
-            switch (command)
+            string extension = StringUtility.ToUpperInvariant(Path.GetExtension(fileName));
+            if (extension != ".MNU")
             {
-                case 'T':
-                    output = entry.Code;
-                    break;
+                specification = new FileSpecification
+                    (
+                        IrbisPath.System,
+                        fileName
+                    );
+                string text = context.Provider.ReadFile(specification);
+                if (!string.IsNullOrEmpty(text))
+                {
+                    string[] lines = text.SplitLines();
+                    for (int i = 0; i < lines.Length; i++)
+                    {
+                        string value = lines[i];
+                        if (string.IsNullOrEmpty(value))
+                        {
+                            break;
+                        }
 
-                case 'F':
-                    output = entry.Comment;
-                    break;
+                        if (i == index)
+                        {
+                            output = value;
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // .MNU
+                specification = new FileSpecification
+                    (
+                        IrbisPath.MasterFile,
+                        context.Provider.Database,
+                        fileName
+                    );
+                MenuFile menu = context.Provider.ReadMenuFile(specification);
+                if (ReferenceEquals(menu, null))
+                {
+                    return;
+                }
 
-                default:
-                    Log.Warn
-                        (
-                            "UniforPlus5::GetEntry: "
-                            + "unknown command="
-                            + command.ToVisibleString()
-                        );
-                    break;
+                MenuEntry entry = menu.Entries.GetItem(index);
+                if (ReferenceEquals(entry, null))
+                {
+                    return;
+                }
+
+                switch (command)
+                {
+                    case 'T':
+                        output = entry.Code;
+                        break;
+
+                    case 'F':
+                        output = entry.Comment;
+                        break;
+                }
             }
 
             context.WriteAndSetFlag(node, output);

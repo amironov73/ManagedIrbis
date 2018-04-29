@@ -141,7 +141,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+3W", UniforPlus3.ConvertToAnsi);
             Registry.Add("+3+", UniforPlus3.ReplacePlus);
             Registry.Add("+4", UniforPlus4.GetField);
-            Registry.Add("+5", UniforPlus5.GetEntry);
+            Registry.Add("+5", UniforPlus5.GetMenuEntry);
             Registry.Add("+6", UniforPlus6.GetRecordStatus);
             Registry.Add("+7", UniforPlus7.ClearGlobals);
             Registry.Add("+7A", UniforPlus7.UnionGlobals);
