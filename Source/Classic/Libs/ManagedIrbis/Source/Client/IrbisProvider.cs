@@ -34,8 +34,11 @@ using ManagedIrbis.Authentication;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
 using ManagedIrbis.Pft;
-using ManagedIrbis.Properties;
 using ManagedIrbis.Search;
+
+#if !UAP
+using ManagedIrbis.Properties;
+#endif
 
 using MoonSharp.Interpreter;
 
@@ -121,7 +124,9 @@ namespace ManagedIrbis.Client
         [CanBeNull]
         public virtual IPftFormatter AcquireFormatter()
         {
+#if !UAP
             Log.Warn("IrbisProvider::AcquireFormatter: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return null;
         }
@@ -136,7 +141,9 @@ namespace ManagedIrbis.Client
         {
             // Nothing to do here
 
+#if !UAP
             Log.Warn("IrbisProvider::Configure: " + Resources.IrbisProvider_NotOverridden);
+#endif
         }
 
         /// <summary>
@@ -148,7 +155,9 @@ namespace ManagedIrbis.Client
                 [NotNull] string term
             )
         {
+#if !UAP
             Log.Warn("IrbisProvider::ExactSearchLinks: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return EmptyArray<TermLink>.Value;
         }
@@ -163,7 +172,9 @@ namespace ManagedIrbis.Client
                 int limit
             )
         {
+#if !UAP
             Log.Warn("IrbisProvider::ExactSearchTrimLinks: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return EmptyArray<TermLink>.Value;
         }
@@ -176,7 +187,9 @@ namespace ManagedIrbis.Client
                 [NotNull] FileSpecification specification
             )
         {
+#if !UAP
             Log.Warn("IrbisProvider::FileExist: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return false;
         }
@@ -191,7 +204,9 @@ namespace ManagedIrbis.Client
                 string format
             )
         {
+#if !UAP
             Log.Warn("IrbisProvider::FormatRecord: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return string.Empty;
         }
@@ -205,7 +220,9 @@ namespace ManagedIrbis.Client
                 string format
             )
         {
+#if !UAP
             Log.Warn("IrbisProvider::FormatRecords: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return StringUtility.EmptyArray;
         }
@@ -216,7 +233,9 @@ namespace ManagedIrbis.Client
         [NotNull]
         public virtual IrbisAlphabetTable GetAlphabetTable()
         {
+#if !UAP
             Log.Warn("IrbisProvider::GetAlphabetTable: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return new IrbisAlphabetTable();
         }
@@ -232,7 +251,9 @@ namespace ManagedIrbis.Client
         {
             Code.NotNullNorEmpty(database, "database");
 
+#if !UAP
             Log.Warn("IrbisProvider::GetCatalogState: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             CatalogState result = new CatalogState
             {
@@ -258,7 +279,9 @@ namespace ManagedIrbis.Client
         /// </summary>
         public virtual int GetMaxMfn()
         {
+#if !UAP
             Log.Warn("IrbisProvider::GetMaxMfn: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return 0;
         }
@@ -270,7 +293,9 @@ namespace ManagedIrbis.Client
         [ItemNotNull]
         public virtual string[] GetFileSearchPath()
         {
+#if !UAP
             Log.Warn("IrbisProvider::GetFileSearchPath: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return StringUtility.EmptyArray;
         }
@@ -281,7 +306,9 @@ namespace ManagedIrbis.Client
         [NotNull]
         public virtual IrbisStopWords GetStopWords()
         {
+#if !UAP
             Log.Warn("IrbisProvider::GetStopWords: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return new IrbisStopWords();
         }
@@ -292,7 +319,9 @@ namespace ManagedIrbis.Client
         [NotNull]
         public virtual IrbisUpperCaseTable GetUpperCaseTable()
         {
+#if !UAP
             Log.Warn("IrbisProvider::GetUpperCaseTable: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return new IrbisUpperCaseTable();
         }
@@ -303,7 +332,9 @@ namespace ManagedIrbis.Client
         [NotNull]
         public virtual IniFile GetUserIniFile()
         {
+#if !UAP
             Log.Warn("IrbisProvider::GetUserIniFile: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             IniFile result = new IniFile();
 
@@ -316,7 +347,9 @@ namespace ManagedIrbis.Client
         [NotNull]
         public virtual DatabaseInfo[] ListDatabases()
         {
+#if !UAP
             Log.Warn("IrbisProvider::ListDatabases: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return EmptyArray<DatabaseInfo>.Value;
         }
@@ -340,7 +373,9 @@ namespace ManagedIrbis.Client
         {
             Code.NotNull(fileSpecification, "fileSpecification");
 
+#if !UAP
             Log.Warn("IrbisProvider::ReadFile: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return null;
         }
@@ -404,7 +439,9 @@ namespace ManagedIrbis.Client
                 int mfn
             )
         {
+#if !UAP
             Log.Warn("IrbisProvider::ReadRecord: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return null;
         }
@@ -419,7 +456,9 @@ namespace ManagedIrbis.Client
                 int version
             )
         {
+#if !UAP
             Log.Warn("IrbisProvider::ReadRecordVersion: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return null;
         }
@@ -430,7 +469,9 @@ namespace ManagedIrbis.Client
         [CanBeNull]
         public virtual SearchScenario[] ReadSearchScenarios()
         {
+#if !UAP
             Log.Warn("IrbisProvider::ReadSearchScenarios: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return EmptyArray<SearchScenario>.Value;
         }
@@ -444,7 +485,9 @@ namespace ManagedIrbis.Client
                 [NotNull] TermParameters parameters
             )
         {
+#if !UAP
             Log.Warn("IrbisProvider::ReadTerms: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return EmptyArray<TermInfo>.Value;
         }
@@ -454,7 +497,9 @@ namespace ManagedIrbis.Client
         /// </summary>
         public virtual void Reconnect()
         {
+#if !UAP
             Log.Warn("IrbisProvider::Reconnect: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             // Nothing to do here
         }
@@ -467,7 +512,9 @@ namespace ManagedIrbis.Client
                 [CanBeNull] IPftFormatter formatter
             )
         {
+#if !UAP
             Log.Warn("IrbisProvider::ReleaseFormatter: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             // Nothing to do here
         }
@@ -481,7 +528,9 @@ namespace ManagedIrbis.Client
                 [CanBeNull] string expression
             )
         {
+#if !UAP
             Log.Warn("IrbisProvider::Search: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             return EmptyArray<int>.Value;
         }
@@ -494,7 +543,9 @@ namespace ManagedIrbis.Client
                 [NotNull] MarcRecord record
             )
         {
+#if !UAP
             Log.Warn("IrbisProvider::WriteRecord: " + Resources.IrbisProvider_NotOverridden);
+#endif
 
             // Nothing to do here
         }
