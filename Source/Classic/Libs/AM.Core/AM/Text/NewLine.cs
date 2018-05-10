@@ -17,11 +17,16 @@ using MoonSharp.Interpreter;
 
 #endregion
 
+// ReSharper disable InconsistentNaming
+
 namespace AM.Text
 {
     //
-    // Carriage Return = ASCII 13 (0x0D), '\r'
-    // Line Feed       = ASCII 10 (0x0A), '\n'
+    // Carriage Return     = ASCII 13 (0x0D), '\r'
+    // Line Feed           = ASCII 10 (0x0A), '\n'
+    // Next Line           = U+0085
+    // Line Separator      = U+2028
+    // Paragraph Separator = U+2029
     //
 
     /// <summary>
@@ -54,6 +59,11 @@ namespace AM.Text
         public const string CRLF = "\r\n";
 
         /// <summary>
+        /// Default value;
+        /// </summary>
+        public const string Default = "\r\n";
+
+        /// <summary>
         /// Line Feed.
         /// </summary>
         public const string LF = "\n";
@@ -62,6 +72,11 @@ namespace AM.Text
         /// Line Feed.
         /// </summary>
         public const string LineFeed = "\n";
+
+        /// <summary>
+        /// UNICODE Line Separator, U+2028.
+        /// </summary>
+        public const string LineSeparator = "\u2028";
 
         /// <summary>
         /// Linux.
@@ -79,6 +94,16 @@ namespace AM.Text
         public const string MsDos = "\r\n";
 
         /// <summary>
+        /// UNICODE Next Line, U+0085.
+        /// </summary>
+        public const string NextLine = "\u8085";
+
+        /// <summary>
+        /// UNICODE Paragraph Separator, U+2029.
+        /// </summary>
+        public const string ParagraphSeparator = "\u2029";
+
+        /// <summary>
         /// UNIX.
         /// </summary>
         public const string Unix = "\n";
@@ -91,6 +116,38 @@ namespace AM.Text
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Determine line endings for the <see cref="text"/>.
+        /// </summary>
+        [NotNull]
+        public static string DetermineLineEndings
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return Default;
+            }
+
+            if (text.Contains(CRLF))
+            {
+                return CRLF;
+            }
+
+            if (text.Contains(LF))
+            {
+                return LF;
+            }
+
+            if (text.Contains(CR))
+            {
+                return CR;
+            }
+
+            return Default;
+        }
 
         /// <summary>
         /// Change MS-DOS to UNIX line endings.
@@ -146,6 +203,50 @@ namespace AM.Text
             result.Replace(LineFeed, string.Empty);
 
             return result.ToString();
+        }
+
+        /// <summary>
+        /// Change UNICODE to MS-DOS line endings.
+        /// </summary>
+        [CanBeNull]
+        public static string UnicodeToWindows
+            (
+                [CanBeNull] this string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            string result = text
+                .Replace(NextLine, MsDos)
+                .Replace(LineSeparator, MsDos)
+                .Replace(ParagraphSeparator, MsDos);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Change UNICODE to UNIX line endings.
+        /// </summary>
+        [CanBeNull]
+        public static string UnicodeToUnix
+            (
+                [CanBeNull] this string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            string result = text
+                .Replace(NextLine, Unix)
+                .Replace(LineSeparator, Unix)
+                .Replace(ParagraphSeparator, Unix);
+
+            return result;
         }
 
         /// <summary>

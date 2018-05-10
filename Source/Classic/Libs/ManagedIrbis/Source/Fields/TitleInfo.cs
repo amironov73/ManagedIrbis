@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml.Serialization;
 
 using AM;
@@ -138,6 +139,55 @@ namespace ManagedIrbis.Fields
         [Description("Последующие сведения об ответственности")]
         [DisplayName("Последующие сведения об ответственности")]
         public string OtherResponsibility { get; set; }
+
+        /// <summary>
+        /// Full title.
+        /// </summary>
+        [NotNull]
+        public string FullTitle
+        {
+            get
+            {
+                StringBuilder result = new StringBuilder();
+                if (!string.IsNullOrEmpty(VolumeNumber))
+                {
+                    result.Append(VolumeNumber);
+                }
+
+                if (!string.IsNullOrEmpty(Title))
+                {
+                    if (result.Length != 0)
+                    {
+                        result.Append(". ");
+                    }
+
+                    result.Append(Title);
+                }
+
+                if (!string.IsNullOrEmpty(General))
+                {
+                    if (result.Length != 0)
+                    {
+                        result.Append(" ");
+                    }
+
+                    result.Append('[');
+                    result.Append(General);
+                    result.Append(']');
+                }
+
+                if (!string.IsNullOrEmpty(Subtitle))
+                {
+                    if (result.Length != 0)
+                    {
+                        result.Append(": ");
+                        result.Append(Subtitle);
+                    }
+                }
+
+                return result.ToString();
+            }
+        }
 
         /// <summary>
         /// Associated field.
