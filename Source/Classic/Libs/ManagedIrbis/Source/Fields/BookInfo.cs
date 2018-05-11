@@ -71,6 +71,25 @@ namespace ManagedIrbis.Fields
         }
 
         /// <summary>
+        /// Первый автор.
+        /// </summary>
+        [CanBeNull]
+        public AuthorInfo FirstAuthor
+        {
+            get
+            {
+                AuthorInfo result = null;
+                RecordField field700 = Record.Fields.GetFirstField(700);
+                if (!ReferenceEquals(field700, null))
+                {
+                    result = AuthorInfo.ParseField700(field700);
+                }
+
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Авторы.
         /// </summary>
         [NotNull]

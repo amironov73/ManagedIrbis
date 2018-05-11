@@ -11,6 +11,8 @@
 
 using System.Collections.Generic;
 
+using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -56,6 +58,30 @@ namespace ManagedIrbis.Fields
             #endregion
         }
 
+        class NumericComparer
+            : IComparer<TitleInfo>
+        {
+            #region IComparer<T> members
+
+            public int Compare
+                (
+                    TitleInfo x,
+                    TitleInfo y
+                )
+            {
+                Code.NotNull(x, "x");
+                Code.NotNull(y, "y");
+
+                return NumberText.Compare
+                    (
+                        x.FullTitle,
+                        y.FullTitle
+                    );
+            }
+
+            #endregion
+        }
+
         class TitleOnlyComparer
             : IComparer<TitleInfo>
         {
@@ -92,6 +118,17 @@ namespace ManagedIrbis.Fields
         public static IComparer<TitleInfo> FullTitle()
         {
             return new FullTitleComparer();
+        }
+
+        /// <summary>
+        /// Compare <see cref="TitleInfo"/>
+        /// by <see cref="TitleInfo.FullTitle"/> field
+        /// with respect to numbers.
+        /// </summary>
+        [NotNull]
+        public static IComparer<TitleInfo> Numeric()
+        {
+            return new NumericComparer();
         }
 
         /// <summary>

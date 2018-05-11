@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* MenuSubChapter.cs -- 
+/* MenuSubChapter.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -38,7 +38,7 @@ using Newtonsoft.Json.Linq;
 namespace ManagedIrbis.Biblio
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -368,15 +368,19 @@ namespace ManagedIrbis.Biblio
                             RichText.Encode3(description, UnicodeRange.Russian, "\\f2")
                         ));
 
+                    MarcRecord record = item.Record;
+
                     // Для отладки: проверить упорядочение
                     if (showOrder)
                     {
-                        band = new ParagraphBand("MFN " + item.Record.Mfn + " " + item.Order);
-                        report.Body.Add(band);
-                        report.Body.Add(new ParagraphBand());
+                        if (!ReferenceEquals(record, null))
+                        {
+                            band = new ParagraphBand("MFN " + record.Mfn + " " + item.Order);
+                            report.Body.Add(band);
+                            report.Body.Add(new ParagraphBand());
+                        }
                     }
 
-                    MarcRecord record = item.Record;
                     if (!ReferenceEquals(record, null))
                     {
                         RecordCollection sameBooks = record.UserData as RecordCollection;
