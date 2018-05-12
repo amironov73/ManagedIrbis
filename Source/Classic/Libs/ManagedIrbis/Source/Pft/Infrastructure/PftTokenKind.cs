@@ -195,6 +195,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         Global,
 
         /// <summary>
+        /// `
+        /// </summary>
+        GraveAccent,
+
+        /// <summary>
         /// #
         /// </summary>
         Hash,

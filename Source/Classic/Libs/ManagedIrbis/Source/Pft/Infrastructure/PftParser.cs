@@ -784,6 +784,13 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private PftNode ParseGraveAccent()
+        {
+            return MoveNext(new PftGraveAccent(Tokens.Current));
+        }
+
+        //=================================================
+
         private PftNode ParseGroup()
         {
             PftGroup result = new PftGroup(Tokens.Current);

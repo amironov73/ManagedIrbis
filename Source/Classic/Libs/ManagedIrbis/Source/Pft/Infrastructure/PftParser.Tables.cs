@@ -100,6 +100,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.TripleLess, PftTokenKind.UnconditionalLiteral,
             PftTokenKind.X, PftTokenKind.Unifor,
 
+            PftTokenKind.GraveAccent,
+
             PftTokenKind.V, PftTokenKind.ConditionalLiteral,
             PftTokenKind.RepeatableLiteral,
 
@@ -155,6 +157,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.For, ParseFor},
                 {PftTokenKind.ForEach, ParseForEach},
                 {PftTokenKind.From, ParseFrom},
+                {PftTokenKind.GraveAccent, ParseGraveAccent},
                 {PftTokenKind.LeftCurly, ParseNested},
                 {PftTokenKind.LeftParenthesis, ParseGroup},
                 {PftTokenKind.Hash, ParseHash},

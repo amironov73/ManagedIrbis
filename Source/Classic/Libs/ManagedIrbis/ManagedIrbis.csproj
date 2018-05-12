@@ -259,6 +259,7 @@
     <Compile Include="Source\Mx\Infrastructrure\MxModule.cs" />
     <Compile Include="Source\Mx\Infrastructrure\MxPalette.cs" />
     <Compile Include="Source\Mx\Infrastructrure\BuiltinModule.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftGraveAccent.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\CompilerProxy.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexInfo.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexDictionary.cs" />

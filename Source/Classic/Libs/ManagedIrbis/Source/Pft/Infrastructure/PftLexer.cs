@@ -569,6 +569,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                         }
                         break;
 
+                    case '`':
+                        kind = PftTokenKind.GraveAccent;
+                        value = ReadTo('`');
+                        break;
+
                     case '?':
                         kind = PftTokenKind.Question;
                         value = c.ToString();

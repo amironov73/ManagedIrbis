@@ -591,6 +591,7 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftFromTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftFTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftFunctionCallTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftGraveAccentTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftGroupTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftGTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftHashTest.cs" />
