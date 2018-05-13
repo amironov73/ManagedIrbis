@@ -475,6 +475,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         TripleLess,
 
         /// <summary>
+        /// _
+        /// </summary>
+        Underscore,
+
+        /// <summary>
         /// &amp;uf('0')
         /// </summary>
         Unifor,

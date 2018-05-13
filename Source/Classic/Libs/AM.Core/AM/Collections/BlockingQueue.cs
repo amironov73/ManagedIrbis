@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* BlockingQueue.cs -- 
+/* BlockingQueue.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -13,21 +13,11 @@
 
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using AM;
-using AM.Collections;
 using AM.Logging;
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -38,7 +28,7 @@ using MoonSharp.Interpreter;
 namespace AM.Collections
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>Borrowed from Tom DuPont:
     /// http://www.tomdupont.net/2012/06/net-blockingqueue.html
@@ -105,11 +95,11 @@ namespace AM.Collections
         private const int Timeout = 60000;
 
         private bool _disposed;
-        
+
         private readonly CancellationTokenSource _tokenSource;
-        
+
         private readonly BlockingCollection<T> _collection;
-        
+
         private readonly Task[] _tasks;
 
         /// <summary>

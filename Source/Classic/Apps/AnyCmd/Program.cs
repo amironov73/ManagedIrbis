@@ -1,5 +1,5 @@
 ﻿/* Program.cs --
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  */
 
@@ -9,8 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 
@@ -21,7 +19,7 @@ using ManagedIrbis.Infrastructure;
 
 namespace AnyCmd
 {
-    class Program
+    static class Program
     {
         static int Main(string[] args)
         {

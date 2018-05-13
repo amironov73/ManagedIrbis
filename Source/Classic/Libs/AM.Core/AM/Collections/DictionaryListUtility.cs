@@ -10,10 +10,7 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 using AM.Logging;
 
@@ -37,7 +34,7 @@ namespace AM.Collections
         #region Public methods
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static void RestoreFromStream<TKey, TValue>
             (
@@ -58,7 +55,7 @@ namespace AM.Collections
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static void SaveToStream<TKey, TValue>
             (

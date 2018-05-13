@@ -128,7 +128,7 @@ namespace ManagedIrbis.Scripting
             // SetGlobal("Client", Connection);
             // Engine.Globals["v"] = (Func<string,string>)_V;
 
-            foreach (Type type in UserData.GetRegisteredTypes())
+            foreach (Type type in UserData.GetRegisteredTypes(false))
             {
                 if (!ReferenceEquals(type.Namespace, null)
                     && type.Namespace.StartsWith("ManagedClient"))
@@ -212,7 +212,9 @@ namespace ManagedIrbis.Scripting
 
             DynValue result = Engine.DoFile
                 (
-                    filename
+                    filename,
+                    null,
+                    null
                 );
 
             return result;
@@ -240,7 +242,7 @@ namespace ManagedIrbis.Scripting
                 return DynValue.Nil;
             }
 
-            return Engine.DoString(code);
+            return Engine.DoString(code, null, null);
 
 #endif
         }
@@ -279,7 +281,7 @@ namespace ManagedIrbis.Scripting
                 //UserData.RegisterAssembly(typeof(StringUtility).Assembly);
                 //UserData.RegisterAssembly(typeof(IrbisScript).Assembly);
 
-                UserData.RegisterType<Version>();
+                UserData.RegisterType<Version>(InteropAccessMode.Default, null);
                 _typesRegistered = true;
             }
 
@@ -327,7 +329,7 @@ namespace ManagedIrbis.Scripting
         {
             Record = record;
             SetGlobal("Record", record);
-            
+
             return this;
         }
 

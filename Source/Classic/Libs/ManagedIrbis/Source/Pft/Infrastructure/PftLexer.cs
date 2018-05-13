@@ -569,10 +569,31 @@ namespace ManagedIrbis.Pft.Infrastructure
                         }
                         break;
 
+                    case '_':
+                        kind = PftTokenKind.Underscore;
+                        value = c.ToString();
+                        break;
+
                     case '`':
                         kind = PftTokenKind.GraveAccent;
                         value = ReadTo('`');
                         break;
+
+                    case '«':
+                    case '»':
+                    case '‘':
+                    case '’':
+                    case '“':
+                    case '”':
+                    case '‹':
+                    case '›':
+                    case '–':
+                    case '—':
+                    case '‰':
+                    case '¦':
+                    case '§':
+                    case '±':
+                        throw new NotImplementedException();
 
                     case '?':
                         kind = PftTokenKind.Question;

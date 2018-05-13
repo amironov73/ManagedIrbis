@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* CommandLineParser.cs -- simple parsing of the command line
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
@@ -11,7 +11,6 @@
 
 using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 using AM.Logging;

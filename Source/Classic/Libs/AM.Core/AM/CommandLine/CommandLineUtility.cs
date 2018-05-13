@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* CommandLineUtility.cs -- common routines for command line
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
@@ -10,7 +10,6 @@
 #region Using directives
 
 using System.Collections.Generic;
-using System.Linq;
 
 using AM.Text;
 

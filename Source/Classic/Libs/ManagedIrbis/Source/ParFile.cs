@@ -30,6 +30,8 @@ using Newtonsoft.Json;
 
 #endregion
 
+// ReSharper disable InvokeAsExtensionMethod
+
 namespace ManagedIrbis
 {
     // Official documentation:
@@ -300,18 +302,7 @@ namespace ManagedIrbis
             }
 
             foreach (string key in Enumerable.Range(1, 10)
-
-#if !WINMOBILE && !PocketPC && !UAP
-
-                .Select(NumericUtility.ToInvariantString)
-
-#else
-
-                .Select(n => n.ToInvariantString())
-
-#endif
-
-                )
+                .Select(n => NumericUtility.ToInvariantString(n)))
             {
                 if (!result.ContainsKey(key))
                 {

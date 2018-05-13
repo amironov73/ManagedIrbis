@@ -157,7 +157,7 @@ namespace AM.Collections
         }
 
         /// <summary>
-        /// Initializes a new instance of the 
+        /// Initializes a new instance of the
         /// <see cref="Quartet{T1, T2, T3, T4}"/> class.
         /// </summary>
         /// <param name="quartet">The quartet.</param>
@@ -176,7 +176,7 @@ namespace AM.Collections
         }
 
         /// <summary>
-        /// Initializes a new instance of the 
+        /// Initializes a new instance of the
         /// <see cref="Quartet{T1, T2, T3, T4}"/> class.
         /// Constructs quartet without 3 last elements.
         /// </summary>
@@ -190,7 +190,7 @@ namespace AM.Collections
         }
 
         /// <summary>
-        /// Initializes a new instance of the 
+        /// Initializes a new instance of the
         /// <see cref="Quartet{T1, T2, T3, T4}"/> class.
         /// Constructs quartet without 2 last elements.
         /// </summary>
@@ -207,7 +207,7 @@ namespace AM.Collections
         }
 
         /// <summary>
-        /// Initializes a new instance of the 
+        /// Initializes a new instance of the
         /// <see cref="Quartet{T1, T2, T3, T4}"/> class.
         /// Constructs quartet without last element.
         /// </summary>
@@ -227,7 +227,7 @@ namespace AM.Collections
         }
 
         /// <summary>
-        /// Initializes a new instance of the 
+        /// Initializes a new instance of the
         /// <see cref="Quartet{T1, T2, T3, T4}"/> class.
         /// </summary>
         /// <param name="first">Initial value for first element.
@@ -253,7 +253,7 @@ namespace AM.Collections
         }
 
         /// <summary>
-        /// Initializes a new instance of the 
+        /// Initializes a new instance of the
         /// <see cref="Quartet{T1, T2, T3, T4}"/> class.
         /// </summary>
         /// <param name="first">Initial value for first element.
@@ -641,7 +641,7 @@ namespace AM.Collections
                 return true;
             }
 
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }

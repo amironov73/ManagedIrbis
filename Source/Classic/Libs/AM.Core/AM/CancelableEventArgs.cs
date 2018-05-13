@@ -10,9 +10,7 @@
 #region Using directives
 
 using System;
-
-using CodeJam;
-
+using System.Linq;
 using JetBrains.Annotations;
 
 #endregion
@@ -33,7 +31,7 @@ namespace AM
         /// Gets or sets a value indicating whether
         /// event handling must be canceled.
         /// </summary>
-        /// <value><c>true</c> if cancel; 
+        /// <value><c>true</c> if cancel;
         /// otherwise, <c>false</c>.</value>
         public bool Cancel { get; set; }
 
@@ -60,7 +58,8 @@ namespace AM
             }
 
             Delegate[] list = handler.GetInvocationList();
-            foreach (CancelableEventHandler eventHandler in list)
+            foreach (CancelableEventHandler eventHandler
+                in list.OfType<CancelableEventHandler>())
             {
                 eventHandler(sender, this);
                 if (Cancel)

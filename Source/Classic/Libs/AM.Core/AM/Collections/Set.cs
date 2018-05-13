@@ -197,14 +197,14 @@ namespace AM.Collections
         /// Convert all.
         /// </summary>
         [NotNull]
-        public Set<U> ConvertAll<U>
+        public Set<TItem> ConvertAll<TItem>
             (
-                [NotNull] Converter<T, U> converter
+                [NotNull] Converter<T, TItem> converter
             )
         {
             Code.NotNull(converter, "converter");
 
-            Set<U> result = new Set<U>(Count);
+            Set<TItem> result = new Set<TItem>(Count);
 
             foreach (T element in this)
             {
