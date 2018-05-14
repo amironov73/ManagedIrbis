@@ -36,7 +36,7 @@ using CM = System.Configuration.ConfigurationManager;
 namespace BookTerminator
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public partial class MainForm
         : Form
@@ -126,7 +126,7 @@ namespace BookTerminator
                 );
         }
 
-        public bool _Resolver
+        private bool _Resolver
             (
                 Exception exception
             )
@@ -227,7 +227,7 @@ namespace BookTerminator
                     (
                         () =>
                         {
-                            string format 
+                            string format
                                 = CM.AppSettings["format"];
                             formatted = Connection.FormatRecord
                                 (
@@ -239,7 +239,7 @@ namespace BookTerminator
                                 = Connection.ReadRecord(mfn);
                             if (record.Deleted)
                             {
-                                formatted 
+                                formatted
                                     = "<strong>DELETED</strong><br/>"
                                     + formatted;
                             }

@@ -122,7 +122,10 @@
     <Compile Include="Source\Direct\MappedInvertedFile64.cs" />
     <Compile Include="Source\Direct\MappedMstFile64.cs" />
     <Compile Include="Source\Direct\MappedXrfFile64.cs" />
+    <Compile Include="Source\Fields\AuthorComparer.cs" />
+    <Compile Include="Source\Fields\BookComparer.cs" />
     <Compile Include="Source\Fields\BookInfo.cs" />
+    <Compile Include="Source\Fields\TitleComparer.cs" />
     <Compile Include="Source\Infrastructure\EfficientRecordSerializer.cs" />
     <Compile Include="Source\FastFields.cs" />
     <Compile Include="Source\FieldDifference.cs" />
@@ -256,6 +259,7 @@
     <Compile Include="Source\Mx\Infrastructrure\MxModule.cs" />
     <Compile Include="Source\Mx\Infrastructrure\MxPalette.cs" />
     <Compile Include="Source\Mx\Infrastructrure\BuiltinModule.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftGraveAccent.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\CompilerProxy.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexInfo.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexDictionary.cs" />

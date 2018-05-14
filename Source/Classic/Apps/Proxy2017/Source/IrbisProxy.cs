@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IrbisProxy.cs -- 
+/* IrbisProxy.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -30,16 +30,16 @@ namespace Proxy2017
     {
         public static Version Version = new Version(1, 0, 10, 26);
 
-        /// <summary>
-        /// Признак остановки.
-        /// </summary>
-        public static volatile bool Stop;
+        ///// <summary>
+        ///// Признак остановки.
+        ///// </summary>
+        //public static volatile bool Stop;
 
-        /// <summary>
-        /// Нагрузка на сервер: количество одновременных
-        /// соединений в данный момент.
-        /// </summary>
-        public static int Load;
+        ///// <summary>
+        ///// Нагрузка на сервер: количество одновременных
+        ///// соединений в данный момент.
+        ///// </summary>
+        //public static int Load;
 
         /// <summary>
         /// Простая последовательная очередь задач
@@ -47,16 +47,16 @@ namespace Proxy2017
         /// </summary>
         private static TaskQueue<TransactionInfo> Engine;
 
-        /// <summary>
-        /// Прослушивающий сокет.
-        /// </summary>
-        private static Socket ListenerSocket;
+        ///// <summary>
+        ///// Прослушивающий сокет.
+        ///// </summary>
+        //private static Socket ListenerSocket;
 
-        /// <summary>
-        /// Последовательный номер обрабатываемой транзакции
-        /// «запрос-ответ».
-        /// </summary>
-        private static long TransactionIndex;
+        ///// <summary>
+        ///// Последовательный номер обрабатываемой транзакции
+        ///// «запрос-ответ».
+        ///// </summary>
+        //private static long TransactionIndex;
 
         /// <summary>
         /// Таймаут приема данных в миллисекундах.

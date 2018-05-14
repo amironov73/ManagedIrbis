@@ -33,7 +33,7 @@ using MoonSharp.Interpreter;
 namespace AM.Istu.OldModel
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -41,6 +41,9 @@ namespace AM.Istu.OldModel
     {
         #region Properties
 
+        /// <summary>
+        /// Whether is new sanction?
+        /// </summary>
         [MapIgnore]
         [HiddenColumn]
         [Browsable(false)]
@@ -53,16 +56,22 @@ namespace AM.Istu.OldModel
             }
         }
 
+        /// <summary>
+        /// ID.
+        /// </summary>
         [Browsable(false)]
         [MapField("id")]
         public int ID { get; set; }
 
+        /// <summary>
+        /// Ticket.
+        /// </summary>
         [Browsable(false)]
         [MapField("ticket")]
         public string Ticket { get; set; }
 
         ///<summary>
-        /// 
+        ///
         ///</summary>
         [SortIndex(0)]
         [ColumnIndex(0)]
@@ -73,7 +82,7 @@ namespace AM.Istu.OldModel
         public DateTime Moment { get; set; }
 
         ///<summary>
-        /// 
+        ///
         ///</summary>
         [SortIndex(1)]
         [ColumnIndex(1)]
@@ -84,7 +93,7 @@ namespace AM.Istu.OldModel
         public bool Active { get; set; }
 
         ///<summary>
-        /// 
+        ///
         ///</summary>
         [SortIndex(2)]
         [ColumnIndex(2)]
@@ -95,7 +104,7 @@ namespace AM.Istu.OldModel
         public string Description { get; set; }
 
         ///<summary>
-        /// 
+        ///
         ///</summary>
         [SortIndex(3)]
         [ColumnIndex(3)]
@@ -118,7 +127,7 @@ namespace AM.Istu.OldModel
         #region Public methods
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [JetBrains.Annotations.NotNull]
         public static SanctionRecord CreateNew()

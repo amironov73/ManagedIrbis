@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* DataAccessLayer.cs -- 
+/* DataAccessLayer.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -86,6 +86,9 @@ namespace AM.Istu.BookSupply
 
         #region Public methods
 
+        /// <summary>
+        /// List of departments.
+        /// </summary>
         [NotNull]
         public DepartmentInfo[] ListDepartments()
         {

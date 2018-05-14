@@ -42,48 +42,48 @@ namespace OfficialWrapper
         #region Constants
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const int MaxPostings = 32758;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const int MaxBuffer = 30 * 1024;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const int DefaultBufferSize = 320 * 1024;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const string DefaultHost = "127.0.0.1";
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const string DefaultDatabase = "IBIS";
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const IrbisWorkstation DefaultWorkstation
             = IrbisWorkstation.Administrator;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const int DefaultPort = 6666;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const string DefaultUsername = "1";
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const string DefaultPassword = "1";
 
@@ -365,8 +365,8 @@ namespace OfficialWrapper
         /// Установка таймаута соединения с сервером.
         /// Установка времени появления заставки ожидания.
         /// </summary>
-        /// <param name="timeout">Интервала максимального ожидания 
-        /// ответа от сервера (в секундах), после чего прерванная функция 
+        /// <param name="timeout">Интервала максимального ожидания
+        /// ответа от сервера (в секундах), после чего прерванная функция
         /// возвращает ERR_USER. По умолчанию этот интервал - 30 сек.
         /// </param>
         public void SetShowWaiting
@@ -391,12 +391,12 @@ namespace OfficialWrapper
         /// Установка интервала подтверждения.
         /// </summary>
         /// <param name="interval">Значение интервала в минутах.</param>
-        /// <remarks>Функция определяет интервал времени, по истечении 
-        /// которого автоматически выдается подтверждение о том, 
-        /// что клиентское приложение находится в рабочем состоянии 
-        /// («живет») – если в течение этого интервала не выдавался 
-        /// ни один запрос на сервер. По умолчанию – 1 минута. 
-        /// Автоматическое подтверждение выполняется с помощью 
+        /// <remarks>Функция определяет интервал времени, по истечении
+        /// которого автоматически выдается подтверждение о том,
+        /// что клиентское приложение находится в рабочем состоянии
+        /// («живет») – если в течение этого интервала не выдавался
+        /// ни один запрос на сервер. По умолчанию – 1 минута.
+        /// Автоматическое подтверждение выполняется с помощью
         /// функции IC_nooperation.</remarks>
         public void SetClientTimeLive
             (
@@ -688,6 +688,14 @@ namespace OfficialWrapper
         //        );
         //}
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="mfn"></param>
+        /// <param name="record"></param>
+        /// <param name="lockFlag"></param>
+        /// <param name="ifUpdate"></param>
+        /// <returns></returns>
         public string WriteRawRecord
             (
                 int mfn,
@@ -1158,6 +1166,11 @@ namespace OfficialWrapper
             return NativeUtility.ToUtf(text);
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
         public string FromUtf(byte[] buffer)
         {
             return NativeUtility.FromUtf(buffer);

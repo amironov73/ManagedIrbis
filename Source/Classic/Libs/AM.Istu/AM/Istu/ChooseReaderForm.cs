@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ChooseReaderForm.cs -- 
+/* ChooseReaderForm.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -24,16 +24,24 @@ using ManagedIrbis.Readers;
 
 namespace AM.Istu
 {
-    public partial class ChooseReaderForm 
+    /// <summary>
+    /// Form for the reader choosing.
+    /// </summary>
+    public partial class ChooseReaderForm
         : Form
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public ChooseReaderForm()
         {
             InitializeComponent();
         }
 
-
-        public static ReaderInfo ChooseReader 
+        /// <summary>
+        /// Choose the reader.
+        /// </summary>
+        public static ReaderInfo ChooseReader
             (
                 IWin32Window owner,
                 IEnumerable<ReaderInfo> readers

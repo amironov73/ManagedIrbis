@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* NativeUtility.cs -- 
+/* NativeUtility.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -43,7 +43,7 @@ using Newtonsoft.Json;
 namespace OfficialWrapper
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -51,21 +51,39 @@ namespace OfficialWrapper
     {
         #region Public methods
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public static IntPtr AllocateMemory(int size)
         {
             return Marshal.AllocHGlobal(size);
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="pointer"></param>
         public static void FreeMemory(IntPtr pointer)
         {
             Marshal.FreeHGlobal(pointer);
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
         public static Encoding GetUtfEncoding()
         {
             return new UTF8Encoding(false, true);
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public static byte[] ToUtf(string text)
         {
             Encoding utf = GetUtfEncoding();
@@ -76,6 +94,11 @@ namespace OfficialWrapper
             return result;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public static byte[] ToUtfLen(string text)
         {
             Encoding utf = GetUtfEncoding();
@@ -100,11 +123,21 @@ namespace OfficialWrapper
             return result;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
         public static string FromUtf(byte[] bytes)
         {
             return GetUtfEncoding().GetString(bytes);
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
         public static string FromUtfZ(byte[] bytes)
         {
             int index = Array.IndexOf<byte>(bytes, 0);

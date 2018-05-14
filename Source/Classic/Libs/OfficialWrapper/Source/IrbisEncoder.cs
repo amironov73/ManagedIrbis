@@ -158,6 +158,11 @@ namespace OfficialWrapper
 
         #region Utilities
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="subField"></param>
         public static void EncodeSubField
             (
                 StringBuilder builder,
@@ -172,6 +177,11 @@ namespace OfficialWrapper
                 );
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="field"></param>
         public static void EncodeField
             (
                 StringBuilder builder,
@@ -200,6 +210,12 @@ namespace OfficialWrapper
             builder.AppendLine();
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="field"></param>
+        /// <param name="code"></param>
+        /// <param name="value"></param>
         public static void AddSubField
             (
                 RecordField field,
@@ -227,6 +243,11 @@ namespace OfficialWrapper
             value.Length = 0;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
         public static RecordField ParseLine(string line)
         {
             string[] parts = line.Split
@@ -328,9 +349,9 @@ namespace OfficialWrapper
         #endregion
 
         /*
-        
+
          Формат клиентского представления записи:
-          
+
          0#код возврата
          MFN#статус записи
          0#номер версии записи

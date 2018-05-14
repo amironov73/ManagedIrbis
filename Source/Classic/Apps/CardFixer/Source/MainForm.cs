@@ -99,7 +99,7 @@ namespace CardFixer
             }
         }
 
-        private bool _busy;
+        // private bool _busy;
 
         private void _AddVersionToTitle()
         {

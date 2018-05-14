@@ -118,7 +118,7 @@ namespace AM.Text
         #region Public methods
 
         /// <summary>
-        /// Determine line endings for the <see cref="text"/>.
+        /// Determine line endings for the <paramref name="text"/>.
         /// </summary>
         [NotNull]
         public static string DetermineLineEndings

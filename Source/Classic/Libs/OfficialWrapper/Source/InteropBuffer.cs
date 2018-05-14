@@ -17,23 +17,36 @@ using System.Text;
 
 namespace OfficialWrapper
 {
+    /// <summary>
+    ///
+    /// </summary>
     public sealed class InteropBuffer
         : IDisposable
     {
         #region Constants
 
-        public const int DefaultSize = 30*1024;
+        /// <summary>
+        ///
+        /// </summary>
+        public const int DefaultSize = 30 * 1024;
 
         #endregion
 
         #region Construction
 
+        /// <summary>
+        ///
+        /// </summary>
         public InteropBuffer()
             : this(DefaultSize)
         {
         }
 
-        public InteropBuffer( int size )
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="size"></param>
+        public InteropBuffer(int size)
         {
             Handle = Marshal.AllocHGlobal(size);
         }
@@ -46,13 +59,22 @@ namespace OfficialWrapper
 
         #region Public members
 
+        /// <summary>
+        ///
+        /// </summary>
         public IntPtr Handle;
 
+        /// <summary>
+        ///
+        /// </summary>
         public int Size
         {
-            get { return (int) NativeMethods64.GlobalSize(Handle); }
+            get { return (int)NativeMethods64.GlobalSize(Handle); }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         public byte[] Bytes
         {
             get
@@ -79,6 +101,9 @@ namespace OfficialWrapper
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         public string AnsiString
         {
             get
@@ -93,12 +118,15 @@ namespace OfficialWrapper
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         public string AnsiZString
         {
-            get 
-            { 
+            get
+            {
                 byte[] bytes = Bytes;
-                int zero = Array.IndexOf<byte>(bytes,0);
+                int zero = Array.IndexOf<byte>(bytes, 0);
                 string result = Encoding.Default.GetString
                     (
                         bytes,
@@ -117,6 +145,9 @@ namespace OfficialWrapper
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         public string UnicodeString
         {
             get
@@ -132,6 +163,9 @@ namespace OfficialWrapper
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         public string UnicodeZString
         {
             get
@@ -145,11 +179,14 @@ namespace OfficialWrapper
                 Bytes = StringToBytesZ
                     (
                         value,
-                        new UnicodeEncoding(false,false)
+                        new UnicodeEncoding(false, false)
                     );
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         public string Utf8String
         {
             get
@@ -165,6 +202,9 @@ namespace OfficialWrapper
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         public string Utf8ZString
         {
             get
@@ -183,11 +223,15 @@ namespace OfficialWrapper
             }
         }
 
-        public bool Increase ()
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        public bool Increase()
         {
-            int newSize = Size*2;
-            Marshal.FreeHGlobal (Handle);
-            Handle = Marshal.AllocHGlobal (newSize);
+            int newSize = Size * 2;
+            Marshal.FreeHGlobal(Handle);
+            Handle = Marshal.AllocHGlobal(newSize);
             return true;
         }
 
@@ -201,14 +245,14 @@ namespace OfficialWrapper
         /// <param name="text">The text.</param>
         /// <param name="encoding">The encoding.</param>
         /// <returns></returns>
-        public byte[] StringToBytesZ 
+        public byte[] StringToBytesZ
             (
                 string text,
                 Encoding encoding
             )
         {
             int length = encoding.GetByteCount(text);
-            byte [] result = new byte[length + 2];
+            byte[] result = new byte[length + 2];
             Array.Copy
                 (
                     encoding.GetBytes(text),
@@ -223,6 +267,7 @@ namespace OfficialWrapper
 
         #region IDisposable members
 
+        /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
             Marshal.FreeHGlobal(Handle);

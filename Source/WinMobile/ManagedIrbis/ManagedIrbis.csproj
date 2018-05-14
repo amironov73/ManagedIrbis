@@ -216,8 +216,17 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\MappedXrfFile64.cs">
       <Link>Source\Direct\MappedXrfFile64.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\AuthorComparer.cs">
+      <Link>Source\Fields\AuthorComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\BookComparer.cs">
+      <Link>Source\Fields\BookComparer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\BookInfo.cs">
       <Link>Source\Fields\BookInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\TitleComparer.cs">
+      <Link>Source\Fields\TitleComparer.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\EfficientRecordSerializer.cs">
       <Link>Source\Infrastructure\EfficientRecordSerializer.cs</Link>
@@ -617,6 +626,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\BuiltinModule.cs">
       <Link>Source\Mx\Infrastructrure\BuiltinModule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftGraveAccent.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftGraveAccent.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\CompilerProxy.cs">
       <Link>Source\Pft\Infrastructure\Compiler\CompilerProxy.cs</Link>

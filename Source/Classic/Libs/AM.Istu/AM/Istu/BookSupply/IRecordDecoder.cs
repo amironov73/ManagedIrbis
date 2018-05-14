@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IRecordDecoder.cs -- 
+/* IRecordDecoder.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -43,6 +43,9 @@ namespace AM.Istu.BookSupply
     /// </summary>
     public interface IRecordDecoder
     {
+        /// <summary>
+        /// Decode the book record.
+        /// </summary>
         [NotNull]
         BookInfo DecodeBookRecord
             (

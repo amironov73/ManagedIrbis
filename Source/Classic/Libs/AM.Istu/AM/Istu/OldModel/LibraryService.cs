@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* LibraryService.cs -- 
+/* LibraryService.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -39,7 +39,7 @@ using Newtonsoft.Json;
 namespace AM.Istu.OldModel
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     public class LibraryService
@@ -58,6 +58,9 @@ namespace AM.Istu.OldModel
 
         #region Public methods
 
+        /// <summary>
+        /// Get loan by the number.
+        /// </summary>
         [CanBeNull]
         public Loan GetLoanByNumber
             (
@@ -67,6 +70,9 @@ namespace AM.Istu.OldModel
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Get loan by the barcode.
+        /// </summary>
         [CanBeNull]
         public Loan GetLoanByBarcode
             (
@@ -76,6 +82,9 @@ namespace AM.Istu.OldModel
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Get loan by the RFID.
+        /// </summary>
         [CanBeNull]
         public Loan GetLoanByRfid
             (
@@ -85,6 +94,9 @@ namespace AM.Istu.OldModel
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Get loans for the ticket.
+        /// </summary>
         [JetBrains.Annotations.NotNull]
         [ItemNotNull]
         public Loan[] GetLoansForTicket
@@ -95,6 +107,9 @@ namespace AM.Istu.OldModel
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Get reader by the ticket.
+        /// </summary>
         [CanBeNull]
         public ReaderRecord GetReaderForTicket
             (
@@ -104,6 +119,9 @@ namespace AM.Istu.OldModel
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Get reader for the barcode.
+        /// </summary>
         [CanBeNull]
         public ReaderRecord GetReaderForBarcode
             (
@@ -113,6 +131,9 @@ namespace AM.Istu.OldModel
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Get reader for the RFID.
+        /// </summary>
         [CanBeNull]
         public ReaderRecord GetReaderForRfid
             (
@@ -122,6 +143,9 @@ namespace AM.Istu.OldModel
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Get the document.
+        /// </summary>
         public void GiveDocument
             (
                 [JetBrains.Annotations.NotNull] Loan loan,
@@ -131,12 +155,15 @@ namespace AM.Istu.OldModel
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Return the document.
+        /// </summary>
         public void ReturnDocument
             (
                 [JetBrains.Annotations.NotNull] Loan loan
             )
         {
-            
+
         }
 
         #endregion

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* UslugaRecord.cs -- 
+/* UslugaRecord.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -34,7 +34,7 @@ using MoonSharp.Interpreter;
 namespace AM.Istu.OldModel
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -42,20 +42,32 @@ namespace AM.Istu.OldModel
     {
         #region Properties
 
+        /// <summary>
+        /// Title.
+        /// </summary>
         public string Title { get; set; }
 
+        /// <summary>
+        /// Price.
+        /// </summary>
         public int Price { get; set; }
 
+        /// <summary>
+        /// Unit.
+        /// </summary>
         public string Unit { get; set; }
 
         #endregion
 
         #region Public methods
 
+        /// <summary>
+        /// Read the file.
+        /// </summary>
         public static UslugaRecord[] ReadFile
-        (
-            string fileName
-        )
+            (
+                string fileName
+            )
         {
             List<UslugaRecord> result = new List<UslugaRecord>();
 
@@ -73,6 +85,7 @@ namespace AM.Istu.OldModel
                     {
                         continue;
                     }
+
                     UslugaRecord usluga = new UslugaRecord
                     {
                         Title = parts[0],
