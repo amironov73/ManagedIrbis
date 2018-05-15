@@ -53,7 +53,8 @@ namespace AM.Windows
             for (int i = 0; i < count; i++)
             {
                 DependencyObject obj = VisualTreeHelper.GetChild(element, i);
-                if (obj is TChild item)
+                TChild item = obj as TChild;
+                if (!ReferenceEquals(item, null))
                 {
                     result.Add(item);
                 }
