@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* IrbisCatalog.cs --
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
@@ -55,17 +55,32 @@ namespace ManagedIrbis
         /// <summary>
         /// Node file.
         /// </summary>
-        public const string NodeFileExtension = "n01";
+        public const string NodeFileExtension1 = "n01";
+
+        /// <summary>
+        /// Node file.
+        /// </summary>
+        public const string NodeFileExtension2 = "n02";
 
         /// <summary>
         /// Leaf node file.
         /// </summary>
-        public const string LeafFileExtension = "l01";
+        public const string LeafFileExtension1 = "l01";
+
+        /// <summary>
+        /// Leaf node file.
+        /// </summary>
+        public const string LeafFileExtension2 = "l02";
 
         /// <summary>
         /// File selection table.
         /// </summary>
         public const string FileSelectionTableExtension = "fst";
+
+        /// <summary>
+        /// File selection table.
+        /// </summary>
+        public const string FileSelectionInvertedTableExtension = "ifs";
 
         #endregion
 
@@ -86,9 +101,12 @@ namespace ManagedIrbis
                 MasterFileExtension,
                 CrossReferenceExtension,
                 IndexFileExtension,
-                NodeFileExtension,
-                LeafFileExtension,
-                FileSelectionTableExtension
+                NodeFileExtension1,
+                NodeFileExtension2,
+                LeafFileExtension1,
+                LeafFileExtension2,
+                FileSelectionTableExtension,
+                FileSelectionInvertedTableExtension
             };
 
             return result;

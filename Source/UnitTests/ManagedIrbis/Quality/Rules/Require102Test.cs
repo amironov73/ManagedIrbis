@@ -5,6 +5,7 @@ using AM.Json;
 using AM.Runtime;
 using AM.Xml;
 
+using ManagedIrbis;
 using ManagedIrbis.Quality;
 using ManagedIrbis.Quality.Rules;
 
@@ -31,7 +32,7 @@ namespace UnitTests.ManagedIrbis.Quality.Rules
         }
 
         [TestMethod]
-        [ExpectedException(typeof(VerificationException))]
+        [ExpectedException(typeof(IrbisException))]
         public void Require102_CheckRecord_1()
         {
             RuleContext context = GetContext();

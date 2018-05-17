@@ -144,6 +144,8 @@ namespace ManagedIrbis.Fields
         /// Full title.
         /// </summary>
         [NotNull]
+        [XmlIgnore]
+        [JsonIgnore]
         public string FullTitle
         {
             get

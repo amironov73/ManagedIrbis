@@ -9,12 +9,15 @@
 
 #region Using directives
 
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
 using AM;
+using AM.Collections;
 using AM.IO;
 using AM.Runtime;
 using AM.Text;
@@ -227,8 +230,20 @@ namespace ManagedIrbis.Magazines
         }
 
         /// <summary>
+        /// Should serialize the <see cref="Articles"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeArticles()
+        {
+            return !Articles.IsNullOrEmpty();
+        }
+
+        /// <summary>
         /// Should serialize the <see cref="LoanCount"/> field?
         /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public bool ShouldSerializeLoanCount()
         {
             return LoanCount != 0;
@@ -237,6 +252,8 @@ namespace ManagedIrbis.Magazines
         /// <summary>
         /// Should serialize the <see cref="Mfn"/> field?
         /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public bool ShouldSerializeMfn()
         {
             return Mfn != 0;
@@ -257,7 +274,7 @@ namespace ManagedIrbis.Magazines
 
             return NumberText.Compare
                 (
-                    first.Number, 
+                    first.Number,
                     second.Number
                 );
         }
@@ -343,8 +360,8 @@ namespace ManagedIrbis.Magazines
                 return string
                     .Format
                         (
-                            "{0} ({1})", 
-                            Number.ToVisibleString(), 
+                            "{0} ({1})",
+                            Number.ToVisibleString(),
                             Supplement
                         )
                     .Trim();

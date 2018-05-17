@@ -32,12 +32,27 @@ using System.IO.MemoryMappedFiles;
 namespace ManagedIrbis.Direct
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public static class DirectUtility
     {
+        #region Properties
+
+        ///// <summary>
+        ///// Extensions for database files.
+        ///// </summary>
+        //[NotNull]
+        //[ItemNotNull]
+        //public static string[] DatabaseExtensions =
+        //{
+        //    "mst", "xrf", "ifp", "l01", "l02", "n01", "n02", "cnt",
+        //    "fst", "ifs", "sch", "stw"
+        //};
+
+        #endregion
+
         #region Private members
 
         private static byte[] _l01Content32 = { };
@@ -449,7 +464,7 @@ namespace ManagedIrbis.Direct
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static int ReadNetworkInt32
             (
@@ -466,7 +481,7 @@ namespace ManagedIrbis.Direct
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static int ReadNetworkInt32
             (
@@ -482,7 +497,7 @@ namespace ManagedIrbis.Direct
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static long ReadNetworkInt64
             (
@@ -499,7 +514,7 @@ namespace ManagedIrbis.Direct
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static long ReadNetworkInt64
             (

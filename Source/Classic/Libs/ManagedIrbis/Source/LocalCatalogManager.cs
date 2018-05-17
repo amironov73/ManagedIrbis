@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* LocalCatalogManager.cs -- creates, copies local catalogs
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
 using AM.IO;
 using AM.Logging;
@@ -194,6 +195,58 @@ namespace ManagedIrbis
                 throw new IrbisException("ibisPath doesn't exist");
             }
 
+            string directory = Path.GetDirectoryName(ibisPath);
+            if (string.IsNullOrEmpty(directory))
+            {
+                Log.Error
+                    (
+                        "LocalCatalogManager::CreateCatalog: "
+                        + "ibisPath must be full: "
+                        + ibisPath.ToVisibleString()
+                    );
+
+                throw new IrbisException("must be full path");
+            }
+
+            string ibisName = Path.GetFileName(directory);
+            if (string.IsNullOrEmpty(ibisName))
+            {
+                Log.Error
+                    (
+                        "LocalCatalogManager::CreateCatalog: "
+                        + "ibisPath must be full: "
+                        + ibisPath.ToVisibleString()
+                    );
+
+                throw new IrbisException("must be full path");
+            }
+
+            directory = Path.GetDirectoryName(targetPath);
+            if (string.IsNullOrEmpty(directory))
+            {
+                Log.Error
+                    (
+                        "LocalCatalogManager::CreateCatalog: "
+                        + "targetPath must be full: "
+                        + targetPath.ToVisibleString()
+                    );
+
+                throw new IrbisException("must be full path");
+            }
+
+            string targetName = Path.GetFileName(directory);
+            if (string.IsNullOrEmpty(ibisName))
+            {
+                Log.Error
+                    (
+                        "LocalCatalogManager::CreateCatalog: "
+                        + "targetPath must be full: "
+                        + targetPath.ToVisibleString()
+                    );
+
+                throw new IrbisException("must be full path");
+            }
+
             if (!Directory.Exists(targetPath))
             {
                 Directory.CreateDirectory(targetPath);
@@ -201,15 +254,35 @@ namespace ManagedIrbis
             DirectoryUtility.ClearDirectory(targetPath);
 
             string[] sourceFiles = Directory.GetFiles(ibisPath);
+            string[] extensions = IrbisCatalog.GetExtensions();
             foreach (string sourceFile in sourceFiles)
             {
-                // TODO don't copy ibis.* database files
+                string fileName = Path.GetFileNameWithoutExtension(sourceFile)
+                    .ThrowIfNull("Path.GetFileName");
+                if (fileName.SameString(ibisPath))
+                {
+                    // don't copy ibis.* database files
+
+                    string extension = Path.GetExtension(sourceFile)
+                        .ThrowIfNull("Path.GetExtension");
+                    if (extensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    // change file name
+                    fileName = targetName + extension;
+                }
+                else
+                {
+                    fileName = Path.GetFileName(sourceFile)
+                        .ThrowIfNull("Path.GetFileName");
+                }
 
                 string targetFile = Path.Combine
                     (
                         targetPath,
-                        Path.GetFileName(sourceFile)
-                            .ThrowIfNull("Path.GetFileName")
+                        fileName
                     );
                 File.Copy(sourceFile, targetFile);
             }
@@ -219,9 +292,16 @@ namespace ManagedIrbis
                     targetPath
                 );
 
-            // TODO write .par
-            // ParFile parFile = new ParFile(targetPath);
-            // parFile.WriteFile();
+            string parName = Path.Combine
+                (
+                    RootPath,
+                    targetName + ".par"
+                );
+            if (!File.Exists(parName))
+            {
+                ParFile parFile = new ParFile(targetPath);
+                parFile.WriteFile(parName);
+            }
         }
 
         /// <summary>

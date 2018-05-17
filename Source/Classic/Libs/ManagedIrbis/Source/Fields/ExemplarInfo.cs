@@ -9,10 +9,12 @@
 
 #region Using directives
 
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-
+using AM.Collections;
 using AM.IO;
 using AM.Runtime;
 using AM.Text;
@@ -504,6 +506,16 @@ namespace ManagedIrbis.Fields
                     record,
                     ExemplarTag
                 );
+        }
+
+        /// <summary>
+        /// Should serialize <see cref="OtherSubFields"/> field?
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool ShouldSerializeOtherSubFields()
+        {
+            return !OtherSubFields.IsNullOrEmpty();
         }
 
         /// <summary>

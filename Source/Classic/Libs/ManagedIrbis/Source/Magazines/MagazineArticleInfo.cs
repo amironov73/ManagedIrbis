@@ -167,7 +167,6 @@ namespace ManagedIrbis.Magazines
                 Authors = AuthorInfo.ParseField330(field),
                 Title = TitleInfo.ParseField330(field)
             };
-            
 
             return result;
         }
