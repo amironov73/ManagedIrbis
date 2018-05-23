@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Tablefier.cs -- 
+/* Tablefier.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -39,7 +39,7 @@ using Newtonsoft.Json;
 namespace AM.Reflection
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -56,6 +56,11 @@ namespace AM.Reflection
             /// Title.
             /// </summary>
             public string Title { get; set; }
+
+            /// <summary>
+            /// Index.
+            /// </summary>
+            public int Index { get; set; }
 
             /// <summary>
             /// Width.
@@ -191,6 +196,13 @@ namespace AM.Reflection
                 TypeCode code = Type.GetTypeCode(property.PropertyType);
 
 #endif
+                int index = 0;
+                MemberOrderAttribute moa = ReflectionUtility
+                    .GetCustomAttribute<MemberOrderAttribute>(property);
+                if (!ReferenceEquals(moa, null))
+                {
+                    index = moa.Index;
+                }
 
                 bool rightAlign;
                 switch (code)
@@ -214,13 +226,17 @@ namespace AM.Reflection
                 Column column = new Column
                 {
                     Title = property.Name,
+                    Index = index,
                     Property = property,
                     RightAlign = rightAlign
                 };
                 result.Add(column);
             }
 
-            return result.ToArray();
+            return result
+                .OrderBy(column => column.Index)
+                .ThenBy(column => column.Title)
+                .ToArray();
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using AM.Reflection;
 
 namespace UnitTests.AM.Reflection
 {
@@ -17,12 +18,16 @@ namespace UnitTests.AM.Reflection
         #region Properties
 
         [DisplayName("CanaryProperty")]
+        [MemberOrder(1)]
         public int Int32Property { get; set; }
 
+        [MemberOrder(2)]
         public bool BooleanProperty { get; set; }
 
+        [MemberOrder(3)]
         public string StringProperty { get; set; }
 
+        [MemberOrder(4)]
         public int NoSetterProperty { get { return 123; } }
 
         #endregion
