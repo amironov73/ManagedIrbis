@@ -526,6 +526,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Reflection\FieldAccessor.cs">
       <Link>AM\Reflection\FieldAccessor.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Reflection\MemberOrderAttribute.cs">
+      <Link>AM\Reflection\MemberOrderAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Reflection\PropertyAccessor.cs">
       <Link>AM\Reflection\PropertyAccessor.cs</Link>
     </Compile>
