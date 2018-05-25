@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Isni.cs --
+/* Isni.cs -- International Standard Name Identifier.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,11 +9,13 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AM;
+
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using MoonSharp.Interpreter;
 
 #endregion
 
@@ -45,13 +47,42 @@ namespace ManagedIrbis.Identifiers
     // См. https://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D0%B6%D0%B4%D1%83%D0%BD%D0%B0%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B9_%D0%B8%D0%B4%D0%B5%D0%BD%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%82%D0%BE%D1%80_%D1%81%D1%82%D0%B0%D0%BD%D0%B4%D0%B0%D1%80%D1%82%D0%BD%D1%8B%D1%85_%D0%BD%D0%B0%D0%B8%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B9
     // https://en.wikipedia.org/wiki/International_Standard_Name_Identifier
     //
+    // См. https://en.wikipedia.org/wiki/International_Standard_Name_Identifier
+    //
+    // См. https://support.orcid.org/knowledgebase/articles/116780-structure-of-the-orcid-identifier
+    //
 
-
-
-    class Isni
+    /// <summary>
+    /// International Standard Name Identifier.
+    /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
+    public static class Isni
     {
+        #region Public methods
 
+        ///<summary>
+        /// Generates check digit as per ISO 7064 11,2.
+        /// </summary>
+        public static string GenerateCheckDigit
+            (
+                [NotNull] string baseDigits
+            )
+        {
+            Code.NotNullNorEmpty(baseDigits, "baseDigits");
 
+            int total = 0;
+            foreach (char c in baseDigits)
+            {
+                int digit = c - '0';
+                total = (total + digit) * 2;
+            }
+            int remainder = total % 11;
+            int result = (12 - remainder) % 11;
 
+            return result == 10 ? "X" : result.ToInvariantString();
+        }
+
+        #endregion
     }
 }

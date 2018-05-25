@@ -451,6 +451,7 @@
     <Compile Include="ManagedIrbis\Identifiers\Ean13Test.cs" />
     <Compile Include="ManagedIrbis\Identifiers\Ean8Test.cs" />
     <Compile Include="ManagedIrbis\Identifiers\IsmnTest.cs" />
+    <Compile Include="ManagedIrbis\Identifiers\IsniTest.cs" />
     <Compile Include="ManagedIrbis\Identifiers\IssnTest.cs" />
     <Compile Include="ManagedIrbis\Identifiers\CodeDigitTest.cs" />
     <Compile Include="ManagedIrbis\Identifiers\DoiTest.cs" />
