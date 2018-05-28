@@ -175,8 +175,8 @@ namespace ManagedIrbis.Pft.Infrastructure
             result.Apply(specification);
             Tokens.MoveNext();
 
-            // Gather right hand (for V command only)
-            if (result is PftV)
+            // Gather right hand (for V and G commands only)
+            if (result is PftV || result is PftG)
             {
                 if (!Tokens.IsEof)
                 {
