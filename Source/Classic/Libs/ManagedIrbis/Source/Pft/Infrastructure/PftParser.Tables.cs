@@ -11,22 +11,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM;
-using AM.IO;
-using AM.Text;
-
-using CodeJam;
 
 using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -254,6 +240,15 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.Colon, PftTokenKind.Tilda
         };
 
+        private static TokenPair[] _curlyPair =
+        {
+            new TokenPair
+            {
+                Open = PftTokenKind.LeftCurly,
+                Close = PftTokenKind.RightCurly
+            }
+        };
+
         private static PftTokenKind[] _curlyClose =
         {
             PftTokenKind.RightCurly
@@ -298,6 +293,40 @@ namespace ManagedIrbis.Pft.Infrastructure
             PftTokenKind.If
         };
 
+        private static TokenPair[] _loopPairs =
+        {
+            new TokenPair
+            {
+                Open = PftTokenKind.For,
+                Close = PftTokenKind.End
+            },
+            new TokenPair
+            {
+                Open = PftTokenKind.ForEach,
+                Close = PftTokenKind.End
+            },
+            new TokenPair
+            {
+                Open = PftTokenKind.Local,
+                Close = PftTokenKind.End
+            },
+            new TokenPair
+            {
+                Open = PftTokenKind.With,
+                Close = PftTokenKind.End
+            },
+            new TokenPair
+            {
+                Open = PftTokenKind.While,
+                Close = PftTokenKind.End
+            },
+            new TokenPair
+            {
+                Open = PftTokenKind.LeftCurly,
+                Close = PftTokenKind.RightCurly
+            }
+        };
+
         private static PftTokenKind[] _loopClose =
         {
             PftTokenKind.End, PftTokenKind.RightCurly
@@ -318,6 +347,20 @@ namespace ManagedIrbis.Pft.Infrastructure
         private static PftTokenKind[] _orderStop =
         {
             PftTokenKind.Order, PftTokenKind.End
+        };
+
+        private static TokenPair[] _parenthesisPairs =
+        {
+            new TokenPair
+            {
+                Open = PftTokenKind.LeftParenthesis,
+                Close = PftTokenKind.RightParenthesis
+            },
+            new TokenPair
+            {
+                Open = PftTokenKind.LeftCurly,
+                Close = PftTokenKind.RightCurly
+            },
         };
 
         private static PftTokenKind[] _parenthesisClose =

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Reflection;
+
+using AM;
 using AM.Text;
 using AM.Text.Output;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis;
@@ -11,6 +14,7 @@ using ManagedIrbis.Pft.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
 using ManagedIrbis.Pft.Infrastructure.Compiler;
 using ManagedIrbis.Pft.Infrastructure.Diagnostics;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
@@ -105,218 +109,254 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Compiler
         [TestMethod]
         public void PftPacket_CallDebugger_1()
         {
-            using (IrbisProvider provider = new NullProvider())
+            // TODO придумать что-нибудь для AppVeyor
+            if (!ContinuousIntegrationUtility.DetectAppVeyor())
             {
-                PftNode[] nodes =
+                using (IrbisProvider provider = new NullProvider())
                 {
-                    new PftUnconditionalLiteral("Hello"),
-                    new PftBang(),
-                };
-                PftPacket packet = _GetPacket(provider, nodes);
+                    PftNode[] nodes =
+                    {
+                        new PftUnconditionalLiteral("Hello"),
+                        new PftBang(),
+                    };
+                    PftPacket packet = _GetPacket(provider, nodes);
 
-                PftContext context = packet.Context;
-                Mock<PftDebugger> debuggerMock = new Mock<PftDebugger>(context);
-                PftDebugger debugger = debuggerMock.Object;
-                context.Debugger = debugger;
+                    PftContext context = packet.Context;
+                    Mock<PftDebugger> debuggerMock = new Mock<PftDebugger>(context);
+                    PftDebugger debugger = debuggerMock.Object;
+                    context.Debugger = debugger;
 
-                string text = packet.Execute(_GetRecord()).DosToUnix();
-                Assert.AreEqual("Hello", text);
+                    string text = packet.Execute(_GetRecord()).DosToUnix();
+                    Assert.AreEqual("Hello", text);
 
-                debuggerMock.Verify
+                    debuggerMock.Verify
                     (
                         d => d.Activate(It.IsAny<PftDebugEventArgs>()),
                         Times.Once
                     );
+                }
             }
         }
 
         [TestMethod]
         public void PftPacket_DoFieldV_1()
         {
-            using (IrbisProvider provider = new NullProvider())
+            // TODO придумать что-нибудь для AppVeyor
+            if (!ContinuousIntegrationUtility.DetectAppVeyor())
             {
-                PftNode[] nodes =
+                using (IrbisProvider provider = new NullProvider())
                 {
-                    new PftV(200, 'a'),
-                    new PftV(200, 'e')
+                    PftNode[] nodes =
                     {
-                        LeftHand =
+                        new PftV(200, 'a'),
+                        new PftV(200, 'e')
                         {
-                            new PftConditionalLiteral(" : ", false)
-                        }
-                    },
-                    new PftV(200, 'f')
-                    {
-                        LeftHand =
+                            LeftHand =
+                            {
+                                new PftConditionalLiteral(" : ", false)
+                            }
+                        },
+                        new PftV(200, 'f')
                         {
-                            new PftConditionalLiteral(" / ", false)
+                            LeftHand =
+                            {
+                                new PftConditionalLiteral(" / ", false)
+                            }
                         }
-                    }
-                };
-                PftPacket packet = _GetPacket(provider, nodes);
-                string text = packet.Execute(_GetRecord()).DosToUnix();
-                Assert.AreEqual("Заглавие : подзаголовочное / И. И. Иванов, П. П. Петров", text);
+                    };
+                    PftPacket packet = _GetPacket(provider, nodes);
+                    string text = packet.Execute(_GetRecord()).DosToUnix();
+                    Assert.AreEqual("Заглавие : подзаголовочное / И. И. Иванов, П. П. Петров", text);
+                }
             }
         }
 
         [TestMethod]
         public void PftPacket_DoFieldV_2()
         {
-            using (IrbisProvider provider = new NullProvider())
+            // TODO придумать что-нибудь для AppVeyor
+            if (!ContinuousIntegrationUtility.DetectAppVeyor())
             {
-                PftNode[] nodes =
+                using (IrbisProvider provider = new NullProvider())
                 {
-                    new PftV(300)
+                    PftNode[] nodes =
                     {
-                        LeftHand =
+                        new PftV(300)
                         {
-                            new PftRepeatableLiteral(" => ", true, true)
+                            LeftHand =
+                            {
+                                new PftRepeatableLiteral(" => ", true, true)
+                            }
                         }
-                    }
-                };
-                PftPacket packet = _GetPacket(provider, nodes);
-                string text = packet.Execute(_GetRecord()).DosToUnix();
-                Assert.AreEqual("Первое примечание => Второе примечание => Третье примечание", text);
+                    };
+                    PftPacket packet = _GetPacket(provider, nodes);
+                    string text = packet.Execute(_GetRecord()).DosToUnix();
+                    Assert.AreEqual("Первое примечание => Второе примечание => Третье примечание", text);
+                }
             }
         }
 
         [TestMethod]
         public void PftPacket_DoGroup_1()
         {
-            using (IrbisProvider provider = new NullProvider())
+            // TODO придумать что-нибудь для AppVeyor
+            if (!ContinuousIntegrationUtility.DetectAppVeyor())
             {
-                PftNode[] nodes =
+                using (IrbisProvider provider = new NullProvider())
                 {
-                    new PftGroup
+                    PftNode[] nodes =
                     {
-                        Children =
+                        new PftGroup
                         {
-                            new PftV(300),
-                            new PftSlash()
-                        }
-                    },
-                };
-                PftPacket packet = _GetPacket(provider, nodes);
-                string text = packet.Execute(_GetRecord()).DosToUnix();
-                Assert.AreEqual("Первое примечание\nВторое примечание\nТретье примечание\n", text);
+                            Children =
+                            {
+                                new PftV(300),
+                                new PftSlash()
+                            }
+                        },
+                    };
+                    PftPacket packet = _GetPacket(provider, nodes);
+                    string text = packet.Execute(_GetRecord()).DosToUnix();
+                    Assert.AreEqual("Первое примечание\nВторое примечание\nТретье примечание\n", text);
+                }
             }
         }
 
         [TestMethod]
         public void PftPacket_DoGlobal_1()
         {
-            using (IrbisProvider provider = new NullProvider())
+            // TODO придумать что-нибудь для AppVeyor
+            if (!ContinuousIntegrationUtility.DetectAppVeyor())
             {
-                PftNode[] nodes =
+                using (IrbisProvider provider = new NullProvider())
                 {
-                    new PftGroup
+                    PftNode[] nodes =
                     {
-                        Children =
+                        new PftGroup
                         {
-                            new PftG(100),
-                            new PftSlash()
-                        }
-                    },
-                };
-                PftPacket packet = _GetPacket(provider, nodes);
-                PftContext context = packet.Context;
-                context.Globals.Add(100, "First");
-                context.Globals.Append(100, "Second");
-                context.Globals.Append(100, "Third");
-                string text = packet.Execute(_GetRecord()).DosToUnix();
-                Assert.AreEqual("First\nSecond\nThird\n", text);
+                            Children =
+                            {
+                                new PftG(100),
+                                new PftSlash()
+                            }
+                        },
+                    };
+                    PftPacket packet = _GetPacket(provider, nodes);
+                    PftContext context = packet.Context;
+                    context.Globals.Add(100, "First");
+                    context.Globals.Append(100, "Second");
+                    context.Globals.Append(100, "Third");
+                    string text = packet.Execute(_GetRecord()).DosToUnix();
+                    Assert.AreEqual("First\nSecond\nThird\n", text);
+                }
             }
         }
 
         [TestMethod]
         public void PftPacket_DoGlobal_2()
         {
-            using (IrbisProvider provider = new NullProvider())
+            // TODO придумать что-нибудь для AppVeyor
+            if (!ContinuousIntegrationUtility.DetectAppVeyor())
             {
-                PftNode[] nodes =
+                using (IrbisProvider provider = new NullProvider())
                 {
-                    new PftG(100)
+                    PftNode[] nodes =
                     {
-                        LeftHand =
+                        new PftG(100)
                         {
-                            new PftRepeatableLiteral(" => ", true, true)
+                            LeftHand =
+                            {
+                                new PftRepeatableLiteral(" => ", true, true)
+                            }
                         }
-                    }
-                };
-                PftPacket packet = _GetPacket(provider, nodes);
-                PftContext context = packet.Context;
-                context.Globals.Add(100, "First");
-                context.Globals.Append(100, "Second");
-                context.Globals.Append(100, "Third");
-                string text = packet.Execute(_GetRecord()).DosToUnix();
-                Assert.AreEqual("First => Second => Third", text);
+                    };
+                    PftPacket packet = _GetPacket(provider, nodes);
+                    PftContext context = packet.Context;
+                    context.Globals.Add(100, "First");
+                    context.Globals.Append(100, "Second");
+                    context.Globals.Append(100, "Third");
+                    string text = packet.Execute(_GetRecord()).DosToUnix();
+                    Assert.AreEqual("First => Second => Third", text);
+                }
             }
         }
 
         [TestMethod]
         public void PftPacket_Evaluate_1()
         {
-            using (IrbisProvider provider = new NullProvider())
+            // TODO придумать что-нибудь для AppVeyor
+            if (!ContinuousIntegrationUtility.DetectAppVeyor())
             {
-                PftNode[] nodes =
+                using (IrbisProvider provider = new NullProvider())
                 {
-                    new PftUnifor("uf")
+                    PftNode[] nodes =
                     {
-                        Children =
+                        new PftUnifor("uf")
                         {
-                            new PftUnconditionalLiteral("+9V")
+                            Children =
+                            {
+                                new PftUnconditionalLiteral("+9V")
+                            }
                         }
-                    }
-                };
-                PftPacket packet = _GetPacket(provider, nodes);
-                string text = packet.Execute(_GetRecord()).DosToUnix();
-                Assert.AreEqual("64", text);
+                    };
+                    PftPacket packet = _GetPacket(provider, nodes);
+                    string text = packet.Execute(_GetRecord()).DosToUnix();
+                    Assert.AreEqual("64", text);
+                }
             }
         }
 
         [TestMethod]
         public void PftPacket_DebuggerHook_1()
         {
-            using (IrbisProvider provider = new NullProvider())
+            // TODO придумать что-нибудь для AppVeyor
+            if (!ContinuousIntegrationUtility.DetectAppVeyor())
             {
-                PftNode[] nodes =
+                using (IrbisProvider provider = new NullProvider())
                 {
-                    new PftUnconditionalLiteral("Hello")
-                };
-                PftPacket packet = _GetPacket(provider, nodes);
-                packet.Breakpoints.Add(2, true);
+                    PftNode[] nodes =
+                    {
+                        new PftUnconditionalLiteral("Hello")
+                    };
+                    PftPacket packet = _GetPacket(provider, nodes);
+                    packet.Breakpoints.Add(2, true);
 
-                PftContext context = packet.Context;
-                Mock<PftDebugger> debuggerMock = new Mock<PftDebugger>(context);
-                PftDebugger debugger = debuggerMock.Object;
-                context.Debugger = debugger;
+                    PftContext context = packet.Context;
+                    Mock<PftDebugger> debuggerMock = new Mock<PftDebugger>(context);
+                    PftDebugger debugger = debuggerMock.Object;
+                    context.Debugger = debugger;
 
-                string text = packet.Execute(_GetRecord()).DosToUnix();
-                Assert.AreEqual("Hello", text);
+                    string text = packet.Execute(_GetRecord()).DosToUnix();
+                    Assert.AreEqual("Hello", text);
 
-                debuggerMock.Verify
-                    (
-                        d => d.Activate(It.IsAny<PftDebugEventArgs>()),
-                        Times.Once
-                    );
+                    debuggerMock.Verify
+                        (
+                            d => d.Activate(It.IsAny<PftDebugEventArgs>()),
+                            Times.Once
+                        );
+                }
             }
         }
 
         [TestMethod]
         public void PftPacket_ToString_1()
         {
-            string expected = "Hello";
-            using (IrbisProvider provider = new NullProvider())
+            // TODO придумать что-нибудь для AppVeyor
+            if (!ContinuousIntegrationUtility.DetectAppVeyor())
             {
-                PftNode[] nodes =
+                string expected = "Hello";
+                using (IrbisProvider provider = new NullProvider())
                 {
-                    new PftUnconditionalLiteral(expected)
-                };
-                PftPacket packet = _GetPacket(provider, nodes);
-                string actual = packet.Execute(_GetRecord()).DosToUnix();
-                Assert.AreEqual(expected, actual);
-                actual = packet.ToString();
-                Assert.AreEqual(expected, actual);
+                    PftNode[] nodes =
+                    {
+                        new PftUnconditionalLiteral(expected)
+                    };
+                    PftPacket packet = _GetPacket(provider, nodes);
+                    string actual = packet.Execute(_GetRecord()).DosToUnix();
+                    Assert.AreEqual(expected, actual);
+                    actual = packet.ToString();
+                    Assert.AreEqual(expected, actual);
+                }
             }
         }
     }

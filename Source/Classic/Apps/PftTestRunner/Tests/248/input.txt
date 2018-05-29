@@ -1,0 +1,22 @@
+﻿if v920:'ASP' or v920:'J' 
+then 'HAVE=1' 
+else 
+  if v907:'ОБРНЗ' and (not v907:'obrzv') 
+  then 'HAVE=0' 
+  else
+    if rsum
+    (
+      (
+        if p(v910) then
+          if ((v910^a='0' or v910^a='1' or v910^a='9') and v910^h.1='E') or (v910^d='Ф403' or v910^d='Ф603')
+          then '1;'
+          else '0;'
+          fi,
+        fi
+      )
+    ) > 0
+    then 'HAVE=1'
+    else 'HAVE=0' 
+    fi,
+   fi,
+fi

@@ -1,4 +1,5 @@
-﻿using AM.Text;
+﻿using AM;
+using AM.Text;
 
 using JetBrains.Annotations;
 
@@ -71,25 +72,33 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [TestMethod]
         public void PftCodeBlock_Execute_2()
         {
-            PftCodeBlock node = new PftCodeBlock
+            // TODO придумать что-нибудь для AppVeyor
+            if (!ContinuousIntegrationUtility.DetectAppVeyor())
             {
-                Text = "context.Write(null, \"Hello\");"
-            };
-            _Execute(node, "Hello");
+                PftCodeBlock node = new PftCodeBlock
+                {
+                    Text = "context.Write(null, \"Hello\");"
+                };
+                _Execute(node, "Hello");
+            }
         }
 
         [TestMethod]
         public void PftCodeBlock_Execute_3()
         {
-            PftCodeBlock node = new PftCodeBlock
+            // TODO придумать что-нибудь для AppVeyor
+            if (!ContinuousIntegrationUtility.DetectAppVeyor())
             {
-                Text = "context.Write(null, \"Hello\")"
-            };
-            PftContext context = new PftContext(null);
-            node.Execute(context);
-            string actual = context.Text.DosToUnix();
-            Assert.IsNotNull(actual);
-            Assert.IsTrue(actual.Contains(";"));
+                PftCodeBlock node = new PftCodeBlock
+                {
+                    Text = "context.Write(null, \"Hello\")"
+                };
+                PftContext context = new PftContext(null);
+                node.Execute(context);
+                string actual = context.Text.DosToUnix();
+                Assert.IsNotNull(actual);
+                Assert.IsTrue(actual.Contains(";"));
+            }
         }
 
         [TestMethod]

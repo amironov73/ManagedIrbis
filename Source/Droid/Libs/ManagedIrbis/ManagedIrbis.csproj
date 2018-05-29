@@ -1658,6 +1658,12 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Text\TextDriver.cs">
       <Link>Source\Pft\Infrastructure\Text\TextDriver.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\TokenPair.cs">
+      <Link>Source\Pft\Infrastructure\TokenPair.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\TokenStack.cs">
+      <Link>Source\Pft\Infrastructure\TokenStack.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\Unifor0.cs">
       <Link>Source\Pft\Infrastructure\Unifors\Unifor0.cs</Link>
     </Compile>

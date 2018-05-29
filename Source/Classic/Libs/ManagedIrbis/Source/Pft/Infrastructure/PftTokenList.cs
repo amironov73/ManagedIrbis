@@ -341,6 +341,87 @@ namespace ManagedIrbis.Pft.Infrastructure
             return result;
         }
 
+        /// <summary>
+        /// Get segment (span) of the token list.
+        /// </summary>
+        [CanBeNull]
+        internal PftTokenList Segment
+            (
+                [NotNull] TokenPair[] pairs,
+                [NotNull] PftTokenKind[] open,
+                [NotNull] PftTokenKind[] close,
+                [NotNull] PftTokenKind[] stop
+            )
+        {
+            Code.NotNull(pairs, "pairs");
+            Code.NotNull(open, "open");
+            Code.NotNull(close, "close");
+            Code.NotNull(stop, "stop");
+
+            int savePosition = _position;
+            int foundPosition = -1;
+
+            TokenStack stack = new TokenStack(this, pairs);
+            while (!IsEof)
+            {
+                PftTokenKind current = Current.Kind;
+
+                if (open.Contains(current))
+                {
+                    stack.Push(current);
+                }
+                else if (close.Contains(current))
+                {
+                    if (stack.Count == 0)
+                    {
+                        if (stop.Contains(current))
+                        {
+                            foundPosition = _position;
+                            break;
+                        }
+                    }
+                    stack.Pop(current);
+                }
+                else if (stop.Contains(current))
+                {
+                    if (stack.Count == 0)
+                    {
+                        foundPosition = _position;
+                        break;
+                    }
+                }
+
+                MoveNext();
+            }
+
+            stack.Verify();
+            if (foundPosition < 0)
+            {
+                Log.Trace
+                    (
+                        "PftTokenList::Segment: "
+                        + "not found"
+                    );
+
+                _position = savePosition;
+
+                return null;
+            }
+
+            List<PftToken> tokens = new List<PftToken>();
+            for (
+                    int position = savePosition;
+                    position < _position;
+                    position++
+                )
+            {
+                tokens.Add(_tokens[position]);
+            }
+
+            PftTokenList result = new PftTokenList(tokens);
+
+            return result;
+        }
 
         /// <summary>
         /// Get segment (span) of the token list.
@@ -396,11 +477,11 @@ namespace ManagedIrbis.Pft.Infrastructure
             if (level != 0)
             {
                 Log.Error
-                    (
-                        "PftTokenList::Segment: "
-                        + "unbalanced="
-                        + level
-                    );
+                (
+                    "PftTokenList::Segment: "
+                    + "unbalanced="
+                    + level
+                );
 
                 throw new PftSyntaxException(this);
             }

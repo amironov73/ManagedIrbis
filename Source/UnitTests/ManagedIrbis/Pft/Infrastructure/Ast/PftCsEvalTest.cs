@@ -1,4 +1,5 @@
-﻿using AM.Text;
+﻿using AM;
+using AM.Text;
 
 using JetBrains.Annotations;
 
@@ -63,8 +64,12 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Ast
         [TestMethod]
         public void PftCsEval_Execute_2()
         {
-            PftCsEval node = new PftCsEval(new PftV(100));
-            _Execute(node, "Hello");
+            // TODO придумать что-нибудь для AppVeyor
+            if (!ContinuousIntegrationUtility.DetectAppVeyor())
+            {
+                PftCsEval node = new PftCsEval(new PftV(100));
+                _Execute(node, "Hello");
+            }
         }
 
         [TestMethod]

@@ -88,10 +88,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
-        private string _text;
-
 #if CLASSIC
 
+        private string _text;
         private MethodInfo _method;
 
 #endif

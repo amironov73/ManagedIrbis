@@ -607,6 +607,8 @@
     <Compile Include="Source\Pft\Infrastructure\Text\PftPrettyPrinter.cs" />
     <Compile Include="Source\Pft\Infrastructure\Text\PlainTextDriver.cs" />
     <Compile Include="Source\Pft\Infrastructure\Text\TextDriver.cs" />
+    <Compile Include="Source\Pft\Infrastructure\TokenPair.cs" />
+    <Compile Include="Source\Pft\Infrastructure\TokenStack.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\Unifor0.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\Unifor2.cs" />
     <Compile Include="Source\Pft\Infrastructure\Unifors\Unifor7.cs" />

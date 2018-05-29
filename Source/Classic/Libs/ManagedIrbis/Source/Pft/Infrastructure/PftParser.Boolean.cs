@@ -205,6 +205,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenList conditionTokens = Tokens.Segment
                 (
+                    _parenthesisPairs,
                     _parenthesisOpen,
                     _parenthesisClose,
                     _andStop
@@ -282,6 +283,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenList conditionTokens = Tokens.Segment
                 (
+                    _parenthesisOpen,
+                    _parenthesisClose,
                     _thenStop
                 )
                 .ThrowIfNull("conditionTokens");
