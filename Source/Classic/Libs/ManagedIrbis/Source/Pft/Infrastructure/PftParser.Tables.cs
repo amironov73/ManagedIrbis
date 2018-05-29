@@ -102,6 +102,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.GraveAccent,
 
+            PftTokenKind.Eval, PftTokenKind.CsEval,
+
             PftTokenKind.V, PftTokenKind.ConditionalLiteral,
             PftTokenKind.RepeatableLiteral,
 
@@ -151,7 +153,9 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Comma, ParseComma},
                 {PftTokenKind.Comment, ParseComment},
                 {PftTokenKind.ConditionalLiteral, ParseField},
+                {PftTokenKind.CsEval, ParseCsEval},
                 {PftTokenKind.EatOpen, ParseEat},
+                {PftTokenKind.Eval, ParseEval},
                 {PftTokenKind.F, ParseF},
                 {PftTokenKind.Fmt, ParseF2 },
                 {PftTokenKind.For, ParseFor},

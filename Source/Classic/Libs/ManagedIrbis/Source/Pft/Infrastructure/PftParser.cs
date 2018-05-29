@@ -279,6 +279,15 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private PftNode ParseCsEval()
+        {
+            PftNode result = new PftCsEval(Tokens.Current);
+            ParseCall(result);
+            return result;
+        }
+
+        //=================================================
+
         private PftNode ParseEat()
         {
             PftEat result = new PftEat(Tokens.Current);
@@ -318,6 +327,16 @@ namespace ManagedIrbis.Pft.Infrastructure
         private PftEmpty ParseEmpty()
         {
             PftEmpty result = new PftEmpty(Tokens.Current);
+            ParseCall(result);
+            return result;
+        }
+
+
+        //=================================================
+
+        private PftNode ParseEval()
+        {
+            PftNode result = new PftEval(Tokens.Current);
             ParseCall(result);
             return result;
         }

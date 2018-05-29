@@ -577,10 +577,12 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftConditionAndOrTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftConditionNotTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftConditionParenthesisTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftCsEvalTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftCTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftDTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftEatTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftEmptyTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftEvalTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftF2Test.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftFalseTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftFieldAssignmentTest.cs" />

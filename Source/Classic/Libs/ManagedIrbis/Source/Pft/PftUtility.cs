@@ -1127,6 +1127,7 @@ namespace ManagedIrbis.Pft
             "blank",
             "break",
             "ceil",
+            "cseval",
             "div",
             "do",
             "else",

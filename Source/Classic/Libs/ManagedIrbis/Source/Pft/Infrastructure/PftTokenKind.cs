@@ -100,6 +100,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         ConditionalLiteral,
 
         /// <summary>
+        /// cseval()
+        /// </summary>
+        CsEval,
+
+        /// <summary>
         /// div
         /// </summary>
         Div,
@@ -138,6 +143,11 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// =
         /// </summary>
         Equals,
+
+        /// <summary>
+        /// eval()
+        /// </summary>
+        Eval,
 
         /// <summary>
         /// f(123)

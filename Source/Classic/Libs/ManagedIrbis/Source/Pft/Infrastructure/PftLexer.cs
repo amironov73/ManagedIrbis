@@ -949,6 +949,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                                 value = "ceil";
                                 break;
 
+                            case "cseval":
+                                kind = PftTokenKind.CsEval;
+                                value = "cseval";
+                                break;
+
                             case "div":
                                 kind = PftTokenKind.Div;
                                 value = "div";
@@ -974,6 +979,11 @@ namespace ManagedIrbis.Pft.Infrastructure
                             case "конец":
                                 kind = PftTokenKind.End;
                                 value = "end";
+                                break;
+
+                            case "eval":
+                                kind = PftTokenKind.Eval;
+                                value = "eval";
                                 break;
 
                             case "fmt":
