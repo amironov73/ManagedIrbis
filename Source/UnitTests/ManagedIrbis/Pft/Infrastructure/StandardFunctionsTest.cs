@@ -1,6 +1,4 @@
-﻿using System;
-
-using AM.PlatformAbstraction;
+﻿using AM.PlatformAbstraction;
 using AM.Text;
 
 using JetBrains.Annotations;
@@ -25,6 +23,8 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
             )
         {
             PftContext result = new PftContext(null);
+            result.Provider.PlatformAbstraction
+                = new TestingPlatformAbstraction();
             PftFormatter formatter = new PftFormatter(result);
             formatter.ParseProgram(source);
             formatter.Program.Execute(result);
@@ -117,6 +117,37 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
                 string actual = context.Text.DosToUnix();
                 Assert.AreEqual(expected, actual);
             }
+        }
+
+        [NotNull]
+        private MarcRecord _GetRecord()
+        {
+            MarcRecord result = new MarcRecord();
+
+            RecordField field = new RecordField(700);
+            field.AddSubField('a', "Иванов");
+            field.AddSubField('b', "И. И.");
+            result.Fields.Add(field);
+
+            field = new RecordField(701);
+            field.AddSubField('a', "Петров");
+            field.AddSubField('b', "П. П.");
+            result.Fields.Add(field);
+
+            field = new RecordField(200);
+            field.AddSubField('a', "Заглавие");
+            field.AddSubField('e', "подзаголовочное");
+            field.AddSubField('f', "И. И. Иванов, П. П. Петров");
+            result.Fields.Add(field);
+
+            field = new RecordField(300, "Первое примечание");
+            result.Fields.Add(field);
+            field = new RecordField(300, "Второе примечание");
+            result.Fields.Add(field);
+            field = new RecordField(300, "Третье примечание");
+            result.Fields.Add(field);
+
+            return result;
         }
 
         [TestMethod]
@@ -233,6 +264,54 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
                 (
                     "0",
                     _Run("len()").Text
+                );
+        }
+
+        [TestMethod]
+        public void StandardFunctions_NOcc_1()
+        {
+            MarcRecord record = _GetRecord();
+            _Test
+                (
+                    record,
+                    "nocc()",
+                    "0"
+                );
+            _Test
+                (
+                    record,
+                    "nocc(910)",
+                    "0"
+                );
+            _Test
+                (
+                    record,
+                    "nocc(300)",
+                    "3"
+                );
+        }
+
+        [TestMethod]
+        public void StandardFunctions_NOcc_2()
+        {
+            MarcRecord record = _GetRecord();
+            _Test
+                (
+                    record,
+                    "(if p(v300) then iocc(), '-',nocc(),'|',fi)",
+                    "1-3|2-3|3-3|"
+                );
+            _Test
+                (
+                    record,
+                    "(if p(v910) then iocc(), '-',nocc(),'|',fi)",
+                    string.Empty
+                );
+            _Test
+                (
+                    record,
+                    "(iocc(), '-',nocc(),'|')",
+                    "1-0|"
                 );
         }
 
@@ -535,9 +614,28 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
+        public void StandardFunctions_Fatal_1()
+        {
+            PftContext context = _Run("fatal('message')");
+            TestingPlatformAbstraction platform
+                = (TestingPlatformAbstraction) context.Provider.PlatformAbstraction;
+            Assert.IsTrue(platform.FailFastFlag);
+        }
+
+        [TestMethod]
         public void StandardFunctions_GetEnv_1()
         {
             _Test("getEnv('COMSPEC')", @"c:\windows\cmd.exe");
+        }
+
+        [TestMethod]
+        public void StandardFunctions_Include_1()
+        {
+            _Test
+                (
+                    "include('_test_hello')",
+                    "Hello"
+                );
         }
 
         [TestMethod]
@@ -564,6 +662,16 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
                 .AddField(100, "Line1")
                 .AddField(100, "Line2");
             _Test(record, "npost('v100')", "2");
+        }
+
+        [TestMethod]
+        public void StandardFunctions_OsVersion_1()
+        {
+            _Test
+                (
+                    "osVersion()",
+                    "Microsoft Windows NT 6.1.7601.65536"
+                );
         }
 
         [TestMethod]
@@ -618,9 +726,8 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         public void StandardFunctions_Today_1()
         {
             string format = "yyyyMMdd";
-            string today =
-                new TestingPlatformAbstraction().NowValue.Date.ToString(format);
-            string source = string.Format("now('{0}')", format);
+            string today = new TestingPlatformAbstraction().NowValue.Date.ToString(format);
+            string source = string.Format("today('{0}')", format);
             _Test(source, today);
         }
 

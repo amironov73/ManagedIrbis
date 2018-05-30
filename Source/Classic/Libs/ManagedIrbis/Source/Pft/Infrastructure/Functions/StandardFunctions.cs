@@ -424,24 +424,40 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         private static void NOcc(PftContext context, PftNode node, PftNode[] arguments)
         {
-            if (ReferenceEquals(context.CurrentGroup, null)
-                || ReferenceEquals(context.Record, null))
+            MarcRecord record = context.Record;
+            if (ReferenceEquals(record, null))
             {
                 context.Write(node, "0");
                 return;
             }
 
             int result = 0;
-            var fields = context.CurrentGroup.GetDescendants<PftV>()
-                .Where(field => field.Command == 'v' || field.Command == 'V')
-                .ToArray();
 
-            foreach (PftV field in fields)
+            if (arguments.Length != 0)
             {
-                int count = context.Record.Fields.GetField(field.Tag.SafeToInt32()).Length;
-                if (count > result)
+                double? value = context.GetNumericArgument(arguments, 0);
+                if (value.HasValue)
                 {
-                    result = count;
+                    int tag = (int) value;
+                    result = record.Fields.GetFieldCount(tag);
+                }
+            }
+            else
+            {
+                if (!ReferenceEquals(context.CurrentGroup, null))
+                {
+                    var fields = context.CurrentGroup.GetDescendants<PftV>()
+                        .Where(field => field.Command == 'v' || field.Command == 'V')
+                        .ToArray();
+
+                    foreach (PftV field in fields)
+                    {
+                        int count = record.Fields.GetField(field.Tag.SafeToInt32()).Length;
+                        if (count > result)
+                        {
+                            result = count;
+                        }
+                    }
                 }
             }
 

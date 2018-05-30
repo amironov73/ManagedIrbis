@@ -640,12 +640,14 @@
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftWithTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Ast\PftXTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\Compiler\PftPacketTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\ExternalPftCacheTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\FormatExitTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\FunctionDescriptorTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\IndexSpecificationTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftContextSaverTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftContextTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftDebugEventArgsTest.cs" />
+    <Compile Include="ManagedIrbis\Pft\Infrastructure\PftFunctionManagerTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftGlobalManagerTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftGlobalTest.cs" />
     <Compile Include="ManagedIrbis\Pft\Infrastructure\PftLexerTest.cs" />
