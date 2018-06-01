@@ -732,10 +732,8 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
                         {
                             new PftGroup
                                 (
-                                    new PftV(692, 'b')
-                                    {
-                                        RightHand = { new PftSlash() }
-                                    }
+                                    new PftV(692, 'b'),
+                                    new PftSlash()
                                 )
                         },
                         Where = new PftComparison
