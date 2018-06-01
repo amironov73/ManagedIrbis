@@ -74,8 +74,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         private static PftTokenKind[] RightHandItems =
         {
             PftTokenKind.C, PftTokenKind.Comment,
-            PftTokenKind.Hash, PftTokenKind.Nl, PftTokenKind.Percent,
-            PftTokenKind.Slash, PftTokenKind.X
+            PftTokenKind.Nl, PftTokenKind.X
         };
 
         private static PftTokenKind[] MainModeItems =

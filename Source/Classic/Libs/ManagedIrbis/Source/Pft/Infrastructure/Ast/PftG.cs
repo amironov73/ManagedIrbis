@@ -145,8 +145,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 if (!string.IsNullOrEmpty(value))
                 {
                     if (Indent != 0
-                        && IsFirstRepeat(context)
-                       )
+                        && IsFirstRepeat(context))
                     {
                         value = new string(' ', Indent) + value;
                     }
@@ -203,8 +202,24 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             int index = context.Index;
 
-            RecordField field = context.Globals.Get(Number)
-                .GetOccurrence(index);
+            RecordField[] fields = context.Globals.Get(Number);
+            if (fields.Length == 0)
+            {
+                return null;
+            }
+
+            fields = PftUtility.GetArrayItem
+                (
+                    context,
+                    fields,
+                    FieldRepeat
+                );
+            if (fields.Length == 0)
+            {
+                return null;
+            }
+
+            RecordField field = fields.GetOccurrence(index);
             if (ReferenceEquals(field, null))
             {
                 return null;

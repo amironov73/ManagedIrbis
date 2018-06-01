@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* MxExecutive.cs -- 
+/* MxExecutive.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -44,7 +44,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Mx
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -147,7 +147,7 @@ namespace ManagedIrbis.Mx
         {
             get
             {
-#if CLASSIC
+#if CLASSIC || NETCORE
 
                 Assembly assembly = typeof(MxExecutive).Assembly;
                 Version result = assembly.GetName().Version;

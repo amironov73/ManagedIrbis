@@ -130,11 +130,15 @@ namespace UnitTests.ManagedIrbis.Server
         [TestMethod]
         public void ServerConfiguration_Verify_1()
         {
-            ServerConfiguration configuration = new ServerConfiguration();
-            Assert.IsFalse(configuration.Verify(false));
+            // TODO придумать что-нибудь для AppVeyor
+            if (!ContinuousIntegrationUtility.DetectAppVeyor())
+            {
+                ServerConfiguration configuration = new ServerConfiguration();
+                Assert.IsFalse(configuration.Verify(false));
 
-            configuration = ServerConfiguration.FromIniFile(_GetFileName());
-            Assert.IsTrue(configuration.Verify(false));
+                configuration = ServerConfiguration.FromIniFile(_GetFileName());
+                Assert.IsTrue(configuration.Verify(false));
+            }
         }
 
         [TestMethod]

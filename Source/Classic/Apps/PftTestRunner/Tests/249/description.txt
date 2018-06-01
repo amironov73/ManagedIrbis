@@ -1,1 +1,1 @@
-﻿nocc() function
+﻿nocc() function outside group

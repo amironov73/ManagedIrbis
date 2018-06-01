@@ -35,7 +35,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -239,8 +239,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
                 throw new IrbisException("Field is null");
             }
-            string tag = field.Tag;
-            if (string.IsNullOrEmpty(tag))
+            string fieldTag = field.Tag;
+            if (string.IsNullOrEmpty(fieldTag))
             {
                 Log.Error
                     (
@@ -252,27 +252,37 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
 
             string value = context.Evaluate(Expression);
-            if (field.SubField == SubField.NoCode)
+            char command = field.Command;
+            int tag = fieldTag.SafeToInt32();
+            if (command == 'g' || command == 'G')
             {
-                PftUtility.AssignField
-                    (
-                        context,
-                        tag.SafeToInt32(),
-                        field.FieldRepeat,
-                        value
-                    );
+                // TODO support field repeat
+                context.Globals[tag] = value;
             }
             else
             {
-                PftUtility.AssignSubField
-                    (
-                        context,
-                        tag.SafeToInt32(),
-                        field.FieldRepeat,
-                        field.SubField,
-                        field.SubFieldRepeat,
-                        value
-                    );
+                if (field.SubField == SubField.NoCode)
+                {
+                    PftUtility.AssignField
+                        (
+                            context,
+                            tag,
+                            field.FieldRepeat,
+                            value
+                        );
+                }
+                else
+                {
+                    PftUtility.AssignSubField
+                        (
+                            context,
+                            tag,
+                            field.FieldRepeat,
+                            field.SubField,
+                            field.SubFieldRepeat,
+                            value
+                        );
+                }
             }
 
             OnAfterExecution(context);

@@ -20,7 +20,7 @@ using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
 using System.Reflection;
 
@@ -31,7 +31,7 @@ using System.Reflection;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -100,7 +100,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
         private bool _compiled;
 
@@ -120,7 +120,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
             if (!_compiled)
             {

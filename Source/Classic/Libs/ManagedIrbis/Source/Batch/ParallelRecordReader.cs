@@ -66,7 +66,7 @@ namespace ManagedIrbis.Batch
 
         #region Construction
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
         /// <summary>
         /// Constructor.

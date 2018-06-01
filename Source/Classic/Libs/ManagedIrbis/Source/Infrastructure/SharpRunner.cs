@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SharpRunner.cs -- 
+/* SharpRunner.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -18,7 +18,7 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
 using System.CodeDom.Compiler;
 
@@ -31,7 +31,7 @@ using Microsoft.CSharp;
 namespace ManagedIrbis.Infrastructure
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -108,7 +108,7 @@ namespace ManagedIrbis.UserSpace
 }
 ";
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
         private static string ExtractErrors
             (
@@ -170,7 +170,7 @@ namespace ManagedIrbis.UserSpace
                 [NotNull] Action<string> errorAction
             )
         {
-#if CLASSIC
+#if CLASSIC || NETCORE
 
             string className = "Class" + Guid.NewGuid().ToString("N");
             string code = ClassPrologue
@@ -235,7 +235,7 @@ namespace ManagedIrbis.UserSpace
                 [NotNull] Action<string> errorAction
             )
         {
-#if CLASSIC
+#if CLASSIC || NETCORE
 
             CSharpCodeProvider provider = new CSharpCodeProvider();
 
@@ -274,6 +274,5 @@ namespace ManagedIrbis.UserSpace
         }
 
         #endregion
-
     }
 }

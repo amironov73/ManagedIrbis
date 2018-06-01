@@ -20,7 +20,7 @@ using ManagedIrbis.Pft.Infrastructure.Text;
 
 using MoonSharp.Interpreter;
 
-#if CLASSIC
+#if CLASSIC ||NETCORE
 
 using System.Reflection;
 
@@ -88,7 +88,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region Private members
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
         private string _text;
         private MethodInfo _method;
@@ -107,7 +107,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
             string expression = context.Evaluate(Children);
             if (!string.IsNullOrEmpty(expression))

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* CsFileCommand.cs -- 
+/* CsFileCommand.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -10,7 +10,7 @@
 
 #region Using directives
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
 using System.Reflection;
 
@@ -27,7 +27,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Mx.Commands
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -69,7 +69,7 @@ namespace ManagedIrbis.Mx.Commands
         {
             OnBeforeExecute();
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
             if (arguments.Length != 0)
             {

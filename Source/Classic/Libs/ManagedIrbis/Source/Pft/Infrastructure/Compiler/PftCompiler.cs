@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* PftCompiler.cs -- 
+/* PftCompiler.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -40,7 +40,7 @@ using Microsoft.CSharp;
 
 using MoonSharp.Interpreter;
 
-#if CLASSIC
+#if CLASSIC || NETCORE
 
 using System.CodeDom.Compiler;
 
@@ -51,7 +51,7 @@ using System.CodeDom.Compiler;
 namespace ManagedIrbis.Pft.Infrastructure.Compiler
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -456,7 +456,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             Code.NotNull(output, "output");
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if !CLASSIC
+#if !CLASSIC && !NETCORE
 
             return null;
 
@@ -535,7 +535,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public void EndClass
             (
@@ -690,7 +690,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public string StartClass()

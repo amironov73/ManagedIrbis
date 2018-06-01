@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* RemoteFormatter.cs -- 
+/* RemoteFormatter.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -42,7 +42,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Pft.Infrastructure.Compiler
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -55,7 +55,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
         /// Counter.
         /// </summary>
         public static int Counter { get; private set; }
-        
+
         /// <summary>
         /// Domain
         /// </summary>
