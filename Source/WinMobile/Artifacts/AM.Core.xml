@@ -318,9 +318,9 @@
             </summary>
         </member>
         <member name="T:AM.ConsoleIO.IConsoleDriver">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.ConsoleIO.IConsoleDriver.Clear">
             <summary>
@@ -478,14 +478,14 @@
         </member>
         <member name="M:AM.Collections.Quartet`4.#ctor(AM.Collections.Quartet{`0,`1,`2,`3})">
             <summary>
-            Initializes a new instance of the 
+            Initializes a new instance of the
             <see cref="T:AM.Collections.Quartet`4"/> class.
             </summary>
             <param name="quartet">The quartet.</param>
         </member>
         <member name="M:AM.Collections.Quartet`4.#ctor(`0)">
             <summary>
-            Initializes a new instance of the 
+            Initializes a new instance of the
             <see cref="T:AM.Collections.Quartet`4"/> class.
             Constructs quartet without 3 last elements.
             </summary>
@@ -493,7 +493,7 @@
         </member>
         <member name="M:AM.Collections.Quartet`4.#ctor(`0,`1)">
             <summary>
-            Initializes a new instance of the 
+            Initializes a new instance of the
             <see cref="T:AM.Collections.Quartet`4"/> class.
             Constructs quartet without 2 last elements.
             </summary>
@@ -502,7 +502,7 @@
         </member>
         <member name="M:AM.Collections.Quartet`4.#ctor(`0,`1,`2)">
             <summary>
-            Initializes a new instance of the 
+            Initializes a new instance of the
             <see cref="T:AM.Collections.Quartet`4"/> class.
             Constructs quartet without last element.
             </summary>
@@ -512,7 +512,7 @@
         </member>
         <member name="M:AM.Collections.Quartet`4.#ctor(`0,`1,`2,`3)">
             <summary>
-            Initializes a new instance of the 
+            Initializes a new instance of the
             <see cref="T:AM.Collections.Quartet`4"/> class.
             </summary>
             <param name="first">Initial value for first element.
@@ -526,7 +526,7 @@
         </member>
         <member name="M:AM.Collections.Quartet`4.#ctor(`0,`1,`2,`3,System.Boolean)">
             <summary>
-            Initializes a new instance of the 
+            Initializes a new instance of the
             <see cref="T:AM.Collections.Quartet`4"/> class.
             </summary>
             <param name="first">Initial value for first element.
@@ -3304,6 +3304,21 @@
             
             </summary>
         </member>
+        <member name="T:AM.Reflection.MemberOrderAttribute">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:AM.Reflection.MemberOrderAttribute.#ctor(System.Int32)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:AM.Reflection.MemberOrderAttribute.Index">
+            <summary>
+            Index.
+            </summary>
+        </member>
         <member name="T:AM.Reflection.EnumMemberInfo">
             <summary>
             Information about <see cref="T:System.Enum"/> member.
@@ -3575,14 +3590,14 @@
             </summary>
         </member>
         <member name="M:AM.Collections.DictionaryListUtility.RestoreFromStream``2(AM.Collections.DictionaryList{``0,``1},System.IO.BinaryReader)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.Collections.DictionaryListUtility.SaveToStream``2(AM.Collections.DictionaryList{``0,``1},System.IO.BinaryWriter)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:AM.Collections.DictionaryCounterDouble`1">
             <summary>
@@ -3683,7 +3698,7 @@
             Gets or sets a value indicating whether
             event handling must be canceled.
             </summary>
-            <value><c>true</c> if cancel; 
+            <value><c>true</c> if cancel;
             otherwise, <c>false</c>.</value>
         </member>
         <member name="T:AM.Text.CharacterClassifier">
@@ -6991,6 +7006,11 @@
             Carriage Return + Line Feed.
             </summary>
         </member>
+        <member name="F:AM.Text.NewLine.Default">
+            <summary>
+            Default value;
+            </summary>
+        </member>
         <member name="F:AM.Text.NewLine.LF">
             <summary>
             Line Feed.
@@ -6999,6 +7019,11 @@
         <member name="F:AM.Text.NewLine.LineFeed">
             <summary>
             Line Feed.
+            </summary>
+        </member>
+        <member name="F:AM.Text.NewLine.LineSeparator">
+            <summary>
+            UNICODE Line Separator, U+2028.
             </summary>
         </member>
         <member name="F:AM.Text.NewLine.Linux">
@@ -7016,6 +7041,16 @@
             MS-DOS.
             </summary>
         </member>
+        <member name="F:AM.Text.NewLine.NextLine">
+            <summary>
+            UNICODE Next Line, U+0085.
+            </summary>
+        </member>
+        <member name="F:AM.Text.NewLine.ParagraphSeparator">
+            <summary>
+            UNICODE Paragraph Separator, U+2029.
+            </summary>
+        </member>
         <member name="F:AM.Text.NewLine.Unix">
             <summary>
             UNIX.
@@ -7026,6 +7061,11 @@
             Windows.
             </summary>
         </member>
+        <member name="M:AM.Text.NewLine.DetermineLineEndings(System.String)">
+            <summary>
+            Determine line endings for the <paramref name="text"/>.
+            </summary>
+        </member>
         <member name="M:AM.Text.NewLine.DosToUnix(System.String)">
             <summary>
             Change MS-DOS to UNIX line endings.
@@ -7034,6 +7074,16 @@
         <member name="M:AM.Text.NewLine.RemoveLineBreaks(System.String)">
             <summary>
             Remove NewLine symbol.
+            </summary>
+        </member>
+        <member name="M:AM.Text.NewLine.UnicodeToWindows(System.String)">
+            <summary>
+            Change UNICODE to MS-DOS line endings.
+            </summary>
+        </member>
+        <member name="M:AM.Text.NewLine.UnicodeToUnix(System.String)">
+            <summary>
+            Change UNICODE to UNIX line endings.
             </summary>
         </member>
         <member name="M:AM.Text.NewLine.UnixToDos(System.String)">
@@ -12784,9 +12834,9 @@
             </summary>
         </member>
         <member name="T:AM.Reflection.Tablefier">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.Reflection.Tablefier.AdjustColumns(AM.Reflection.Tablefier.Column[],System.String[][])">
             <summary>
@@ -12831,6 +12881,11 @@
         <member name="P:AM.Reflection.Tablefier.Column.Title">
             <summary>
             Title.
+            </summary>
+        </member>
+        <member name="P:AM.Reflection.Tablefier.Column.Index">
+            <summary>
+            Index.
             </summary>
         </member>
         <member name="P:AM.Reflection.Tablefier.Column.Width">

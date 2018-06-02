@@ -1,0 +1,532 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AM.AOT</name>
+    </assembly>
+    <members>
+        <member name="T:AM.AOT.Stemming.PortugalStemmer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AM.AOT.Stemming.StemmerOperations">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.SetCurrent(System.String)">
+            <summary>
+            Set the current string.
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.GetCurrent">
+            <summary>
+            Get the current string.
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.CopyFrom(AM.AOT.Stemming.StemmerOperations)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.InGrouping(System.Char[],System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.InGroupingB(System.Char[],System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.OutGrouping(System.Char[],System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.OutGroupingB(System.Char[],System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.InRange(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.InRangeB(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.OutRange(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.OutRangeB(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.eq_s(System.Int32,System.String)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.eq_s_b(System.Int32,System.String)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.eq_v(System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.eq_v_b(System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.find_among(AM.AOT.Stemming.Among[],System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.ReplaceS(System.Int32,System.Int32,System.String)">
+            <summary>
+            to replace chars between
+            c_bra and c_ket in current by the
+            chars in s.
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.SliceCheck">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.SliceFrom(System.String)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.SliceFrom(System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.slice_del">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.Insert(System.Int32,System.Int32,System.String)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.Insert(System.Int32,System.Int32,System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.SliceTo(System.Text.StringBuilder)">
+            <summary>
+            Copy the slice into the supplied
+            <see cref="T:System.Text.StringBuilder"/>.
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.AssignTo(System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.RemoveDerivational">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.RemoveAugmentative">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.RemoveDiminutive">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.RemoveComparative">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.RemovePossessives">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.StemmerOperations.RemoveCase">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AM.AOT.Stemming.IStemmer">
+            <summary>
+            Common stemmer interface.
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.IStemmer.Stem(System.String)">
+            <summary>
+            Stem the word.
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.PortugalStemmer.Stem(System.String)">
+            <inheritdoc cref="M:AM.AOT.Stemming.IStemmer.Stem(System.String)"/>
+        </member>
+        <member name="T:AM.AOT.Stemming.MystemResult">
+            <summary>
+            Результат анализа для одного слова.
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.MystemResult.ToString">
+            <inheritdoc />
+        </member>
+        <member name="P:AM.AOT.Stemming.MystemResult.Text">
+            <summary>
+            Text.
+            </summary>
+        </member>
+        <member name="P:AM.AOT.Stemming.MystemResult.Analysis">
+            <summary>
+            Analysis.
+            </summary>
+        </member>
+        <member name="T:AM.AOT.Stemming.RussianStemmer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.RussianStemmer.Stem(System.String)">
+            <inheritdoc cref="M:AM.AOT.Stemming.IStemmer.Stem(System.String)"/>
+        </member>
+        <member name="T:AM.AOT.Stemming.MystemAnalysis">
+            <summary>
+            Анализ слова.
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.MystemAnalysis.ToString">
+            <inheritdoc />
+        </member>
+        <member name="P:AM.AOT.Stemming.MystemAnalysis.Lexeme">
+            <summary>
+            Основная форма слова
+            </summary>
+        </member>
+        <member name="P:AM.AOT.Stemming.MystemAnalysis.Weight">
+            <summary>
+            Относительный вес
+            </summary>
+        </member>
+        <member name="P:AM.AOT.Stemming.MystemAnalysis.Grammeme">
+            <summary>
+            Грамматический разбор слова
+            </summary>
+        </member>
+        <member name="P:AM.AOT.Stemming.MystemAnalysis.PartOfSpeech">
+            <summary>
+            Часть речи.
+            </summary>
+        </member>
+        <member name="P:AM.AOT.Stemming.MystemAnalysis.IsObscene">
+            <summary>
+            Обсценное?
+            </summary>
+        </member>
+        <member name="T:AM.AOT.Stemming.GermanStemmer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.GermanStemmer.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.GermanStemmer.Stem(System.String)">
+            <inheritdoc cref="M:AM.AOT.Stemming.IStemmer.Stem(System.String)"/>
+        </member>
+        <member name="T:AM.AOT.Spelling.AffixRule">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Spelling.AffixRule.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:AM.AOT.Spelling.AffixRule.AllowCombine">
+            <summary>
+            Allow combining prefix and suffix.
+            </summary>
+        </member>
+        <member name="P:AM.AOT.Spelling.AffixRule.AffixEntries">
+            <summary>
+            Collection of text entries that make up this rule.
+            </summary>
+        </member>
+        <member name="P:AM.AOT.Spelling.AffixRule.Name">
+            <summary>
+            Name of the Affix rule
+            </summary>
+        </member>
+        <member name="T:AM.AOT.Spelling.AffixUtility">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Spelling.AffixUtility.AddPrefix(System.String,AM.AOT.Spelling.AffixRule)">
+            <summary>
+            Adds a prefix to a word.
+            </summary>
+            <param name="word" type="string">
+                <para>
+                    The word to add the prefix to
+                </para>
+            </param>
+            <param name="rule" type="NetSpell.SpellChecker.Dictionary.Affix.AffixRule">
+                <para>
+                    The AffixRule to use when adding the prefix
+                </para>
+            </param>
+            <returns>
+                The word with the prefix added
+            </returns>
+        </member>
+        <member name="M:AM.AOT.Spelling.AffixUtility.AddSuffix(System.String,AM.AOT.Spelling.AffixRule)">
+            <summary>
+            Adds a suffix to a word
+            </summary>
+            <param name="word" type="string">
+                <para>
+                    The word to get the suffix added to
+                </para>
+            </param>
+            <param name="rule" type="NetSpell.SpellChecker.Dictionary.Affix.AffixRule">
+                <para>
+                    The AffixRule to use when adding the suffix
+                </para>
+            </param>
+            <returns>
+                The word with the suffix added
+            </returns>
+        </member>
+        <member name="M:AM.AOT.Spelling.AffixUtility.EncodeConditions(System.String,AM.AOT.Spelling.AffixEntry)">
+            <summary>
+            Generates the condition character array
+            </summary>
+            <param name="conditionText" type="string">
+                <para>
+                    the text form of the conditions
+                </para>
+            </param>
+            <param name="entry" type="NetSpell.SpellChecker.Dictionary.Affix.AffixEntry">
+                <para>
+                    The AffixEntry to add the condition array to
+                </para>
+            </param>
+        </member>
+        <member name="M:AM.AOT.Spelling.AffixUtility.RemovePrefix(System.String,AM.AOT.Spelling.AffixEntry)">
+            <summary>
+            Removes the affix prefix rule entry for the word if valid
+            </summary>
+            <param name="word" type="string">
+                <para>
+                    The word to be modified
+                </para>
+            </param>
+            <param name="entry" type="NetSpell.SpellChecker.Dictionary.Affix.AffixEntry">
+                <para>
+                    The affix rule entry to use
+                </para>
+            </param>
+            <returns>
+                The word after affix removed.  Will be the same word if affix could not be removed.
+            </returns>
+            <remarks>
+            This method does not verify that the returned word is a valid word, only that the affix can be removed
+            </remarks>
+        </member>
+        <member name="M:AM.AOT.Spelling.AffixUtility.RemoveSuffix(System.String,AM.AOT.Spelling.AffixEntry)">
+            <summary>
+            Removes the affix suffix rule entry for the word if valid.
+            </summary>
+            <param name="word" type="string">
+                <para>
+                    The word to be modified
+                </para>
+            </param>
+            <param name="entry" type="NetSpell.SpellChecker.Dictionary.Affix.AffixEntry">
+                <para>
+                    The affix rule entry to use
+                </para>
+            </param>
+            <returns>
+                The word after affix removed. Will be the same word if affix could not be removed.
+            </returns>
+            <remarks>
+            	This method does not verify that the returned word is a valid word, only that the affix can be removed
+            </remarks>
+        </member>
+        <member name="T:AM.AOT.Stemming.EnglishStemmer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.EnglishStemmer.Stem(System.String)">
+            <inheritdoc cref="M:AM.AOT.Stemming.IStemmer.Stem(System.String)"/>
+        </member>
+        <member name="T:AM.AOT.Distributional.WordInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Distributional.WordInfo.Parse(Newtonsoft.Json.Linq.JProperty)">
+            <summary>
+            Parse the <see cref="T:Newtonsoft.Json.Linq.JProperty"/>
+            </summary>
+        </member>
+        <member name="P:AM.AOT.Distributional.WordInfo.Word">
+            <summary>
+            Word.
+            </summary>
+        </member>
+        <member name="P:AM.AOT.Distributional.WordInfo.PartOfSpeech">
+            <summary>
+            Part of speech.
+            </summary>
+        </member>
+        <member name="P:AM.AOT.Distributional.WordInfo.Value">
+            <summary>
+            Value.
+            </summary>
+        </member>
+        <member name="T:AM.AOT.Stemming.SpanishStemmer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.SpanishStemmer.Stem(System.String)">
+            <inheritdoc cref="M:AM.AOT.Stemming.IStemmer.Stem(System.String)"/>
+        </member>
+        <member name="T:AM.AOT.Stemming.FrenchStemmer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.FrenchStemmer.Stem(System.String)">
+            <inheritdoc cref="M:AM.AOT.Stemming.IStemmer.Stem(System.String)"/>
+        </member>
+        <member name="T:AM.AOT.Stemming.ItalianStemmer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Stemming.ItalianStemmer.Stem(System.String)">
+            <inheritdoc cref="M:AM.AOT.Stemming.IStemmer.Stem(System.String)"/>
+        </member>
+        <member name="T:AM.AOT.Spelling.AffixEntry">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.AOT.Spelling.AffixEntry.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:AM.AOT.Spelling.AffixEntry.AddCharacters">
+            <summary>
+            The characters to add to the string.
+            </summary>
+        </member>
+        <member name="P:AM.AOT.Spelling.AffixEntry.Conditions">
+            <summary>
+            The condition to be met in order to add characters.
+            </summary>
+        </member>
+        <member name="P:AM.AOT.Spelling.AffixEntry.StripCharacters">
+            <summary>
+            The characters to remove before adding characters.
+            </summary>
+        </member>
+        <member name="P:AM.AOT.Spelling.AffixEntry.ConditionCount">
+            <summary>
+            The number of conditions that must be met
+            </summary>
+        </member>
+        <member name="T:AM.AOT.Distributional.ModelName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AM.AOT.Distributional.ModelName.News">
+            <summary>
+            Новостной корпус.
+            </summary>
+            <remarks><para>Модель обучена на потоке новостей с 1500
+            преимущественно русскоязычных новостных сайтов
+            (всего около 30 миллионов документов,
+            с сентября 2013 до ноября 2016 включительно).
+            Размер корпуса - почти 5 миллиардов слов.
+            Модель знает 194 058 лемм; леммы, встретившиеся
+            в корпусе менее 200 раз, при обучении игнорировались.</para>
+            <para>Использован алгоритм Continuous Bag-of-Words.</para>
+            <para>Размерность векторов 300, размер окна 2.</para>
+            </remarks>
+        </member>
+        <member name="F:AM.AOT.Distributional.ModelName.RusCorpora">
+            <summary>
+            Национальный Корпус Русского языка.
+            </summary>
+            <remarks><para>Обучена на полном НКРЯ. Размер корпуса - 250 миллионов слов.
+            Модель знает 184 973 леммы; леммы, встретившиеся в корпусе менее 10 раз,
+            при обучении игнорировались.</para>
+            <para>Использован алгоритм Continuous Skipgram.</para>
+            <para>Размерность векторов 300, размер окна 10.</para>
+            </remarks>
+        </member>
+        <member name="F:AM.AOT.Distributional.ModelName.RuWiki">
+            <summary>
+            НКРЯ и дамп русскоязычной Википедии за ноябрь 2016.
+            </summary>
+            <remarks><para>Модель обучена на двух корпусах, слитых вместе.
+            Размер корпуса - 600 миллионов слов. Модель знает 392 339 лемм;
+            леммы, встретившиеся в корпусе менее 15 раз,
+            при обучении игнорировались.</para>.
+            <para>Использован алгоритм Continuous Bag-of-Words.</para>
+            <para>Размерность векторов 300, размер окна 20.</para>
+            </remarks>
+        </member>
+        <member name="F:AM.AOT.Distributional.ModelName.Web">
+            <summary>
+            Веб-корпус.
+            </summary>
+            <remarks><para>Модель обучена на случайном сэмпле из 9 миллионов
+            русскоязычных веб-страниц, обкачанных в декабре 2014 года.
+            Размер корпуса - 900 миллионов слов. Модель знает 267 540 лемм;
+            леммы, встретившиеся в корпусе менее 30 раз,
+            при обучении игнорировались.</para>
+            <para>Использован алгоритм Continuous Bag-of-Words.</para>
+            <para>Размерность векторов 300, размер окна 20.</para>
+            </remarks>
+        </member>
+    </members>
+</doc>

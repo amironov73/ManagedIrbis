@@ -3713,6 +3713,11 @@
             Разбор записи на экземпляры.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Fields.ExemplarInfo.ShouldSerializeOtherSubFields">
+            <summary>
+            Should serialize <see cref="P:ManagedIrbis.Fields.ExemplarInfo.OtherSubFields"/> field?
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Fields.ExemplarInfo.ToField">
             <summary>
             Преобразование экземпляра обратно в поле записи.
@@ -6864,9 +6869,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.ExternalPftCache">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:ManagedIrbis.Pft.Infrastructure.ExternalPftCache.AST">
             <summary>
@@ -7562,6 +7567,27 @@
         <member name="P:ManagedIrbis.Fields.ExternalResource.UserData">
             <summary>
             Arbitrary user data.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Fields.BookComparer">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.Fields.BookInfo"/>.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.BookComparer.ByAuthorAndTitle">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.Fields.BookInfo"/>
+            by the authors and titles.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.BookComparer.Author">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.Fields.AuthorInfo"/>.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.BookComparer.Title">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.Fields.TitleInfo"/>.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Batch.BatchSearcher">
@@ -10093,6 +10119,11 @@
             Последующие сведения об ответственности. Подполе g.
             </summary>
         </member>
+        <member name="P:ManagedIrbis.Fields.TitleInfo.FullTitle">
+            <summary>
+            Full title.
+            </summary>
+        </member>
         <member name="P:ManagedIrbis.Fields.TitleInfo.Field">
             <summary>
             Associated field.
@@ -10366,6 +10397,11 @@
         <member name="M:ManagedIrbis.Magazines.MagazineIssueInfo.Parse(ManagedIrbis.MarcRecord)">
             <summary>
             Разбор записи.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Magazines.MagazineIssueInfo.ShouldSerializeArticles">
+            <summary>
+            Should serialize the <see cref="P:ManagedIrbis.Magazines.MagazineIssueInfo.Articles"/> field?
             </summary>
         </member>
         <member name="M:ManagedIrbis.Magazines.MagazineIssueInfo.ShouldSerializeLoanCount">
@@ -11222,9 +11258,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Compiler.PftCompiler">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:ManagedIrbis.Pft.Infrastructure.Compiler.PftCompiler.NodeMethodPrefix">
             <summary>
@@ -11277,9 +11313,9 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Compiler.PftCompiler.EndClass(System.String)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Compiler.PftCompiler.EndMethod(ManagedIrbis.Pft.Infrastructure.PftNode)">
             <summary>
@@ -11312,9 +11348,9 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Compiler.PftCompiler.StartClass">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Compiler.PftCompiler.StartMethod(ManagedIrbis.Pft.Infrastructure.PftNode)">
             <summary>
@@ -11489,9 +11525,9 @@
             <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.RequiresConnection"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftCodeBlock">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftCodeBlock.#ctor">
             <summary>
@@ -12303,9 +12339,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Biblio.MenuSubChapter">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:ManagedIrbis.Biblio.ChapterWithRecords">
             <summary>
@@ -14103,9 +14139,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Direct.DirectUtility">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Direct.DirectUtility.CreateDatabase32(System.String)">
             <summary>
@@ -14229,6 +14265,38 @@
             <summary>
             Value of the alias.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftCsEval">
+            <summary>
+            Исполнение динамического C#-формата.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftCsEval.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftCsEval.#ctor(ManagedIrbis.Pft.Infrastructure.PftToken)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftCsEval.#ctor(ManagedIrbis.Pft.Infrastructure.PftNode[])">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftCsEval.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftCsEval.PrettyPrint(ManagedIrbis.Pft.Infrastructure.Text.PftPrettyPrinter)">
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.PrettyPrint(ManagedIrbis.Pft.Infrastructure.Text.PftPrettyPrinter)"/>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftCsEval.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftCsEval.ExtendedSyntax">
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.ExtendedSyntax"/>
         </member>
         <member name="T:ManagedIrbis.Mx.Commands.BangCommand">
             <summary>
@@ -15918,6 +15986,47 @@
             <summary>
             Reference.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftGraveAccent">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftGraveAccent.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftGraveAccent.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftGraveAccent.#ctor(ManagedIrbis.Pft.Infrastructure.PftToken)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftGraveAccent.Compile(ManagedIrbis.Pft.Infrastructure.Compiler.PftCompiler)">
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Compile(ManagedIrbis.Pft.Infrastructure.Compiler.PftCompiler)"/>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftGraveAccent.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftGraveAccent.PrettyPrint(ManagedIrbis.Pft.Infrastructure.Text.PftPrettyPrinter)">
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.PrettyPrint(ManagedIrbis.Pft.Infrastructure.Text.PftPrettyPrinter)"/>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftGraveAccent.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftGraveAccent.ConstantExpression">
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.ConstantExpression"/>
+        </member>
+        <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftGraveAccent.Text">
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Text"/>
+        </member>
+        <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftGraveAccent.RequiresConnection">
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.RequiresConnection"/>
         </member>
         <member name="T:ManagedIrbis.Mx.Handlers.FileAppendHandler">
             <summary>
@@ -17971,6 +18080,11 @@
             Get segment (span) of the token list.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.PftTokenList.Segment(ManagedIrbis.Pft.Infrastructure.TokenPair[],ManagedIrbis.Pft.Infrastructure.PftTokenKind[],ManagedIrbis.Pft.Infrastructure.PftTokenKind[],ManagedIrbis.Pft.Infrastructure.PftTokenKind[])">
+            <summary>
+            Get segment (span) of the token list.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.PftTokenList.Segment(ManagedIrbis.Pft.Infrastructure.PftTokenKind[],ManagedIrbis.Pft.Infrastructure.PftTokenKind[],ManagedIrbis.Pft.Infrastructure.PftTokenKind[])">
             <summary>
             Get segment (span) of the token list.
@@ -18628,9 +18742,9 @@
             <inheritdoc/>
         </member>
         <member name="T:ManagedIrbis.Mx.Commands.CsFileCommand">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Mx.Commands.CsFileCommand.#ctor">
             <summary>
@@ -18660,17 +18774,32 @@
             Index (inverted) file.
             </summary>
         </member>
-        <member name="F:ManagedIrbis.IrbisCatalog.NodeFileExtension">
+        <member name="F:ManagedIrbis.IrbisCatalog.NodeFileExtension1">
             <summary>
             Node file.
             </summary>
         </member>
-        <member name="F:ManagedIrbis.IrbisCatalog.LeafFileExtension">
+        <member name="F:ManagedIrbis.IrbisCatalog.NodeFileExtension2">
+            <summary>
+            Node file.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.IrbisCatalog.LeafFileExtension1">
+            <summary>
+            Leaf node file.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.IrbisCatalog.LeafFileExtension2">
             <summary>
             Leaf node file.
             </summary>
         </member>
         <member name="F:ManagedIrbis.IrbisCatalog.FileSelectionTableExtension">
+            <summary>
+            File selection table.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.IrbisCatalog.FileSelectionInvertedTableExtension">
             <summary>
             File selection table.
             </summary>
@@ -21253,6 +21382,31 @@
             Arbitrary user data.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Identifiers.Isrc">
+            <summary>
+            International Standard Recording Code.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Isrc.Country">
+            <summary>
+            Country code.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Isrc.Registrant">
+            <summary>
+            Registrant code.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Isrc.Year">
+            <summary>
+            Last two digits of the reference year.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Isrc.Number">
+            <summary>
+            Number.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Biblio.ChapterCollection">
             <summary>
             
@@ -23318,6 +23472,16 @@
         <member name="P:ManagedIrbis.Fields.QuantitativeCharacteristics.NumberOfCopies">
             <summary>
             Тираж (цифры), подполе x.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Pmid">
+            <summary>
+            PubMed Identifier.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Pmid.Identifier">
+            <summary>
+            Identifier.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Biblio.ChapterWithErrors">
@@ -26430,6 +26594,21 @@
             Some arbitrary user data (optional).
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Pft.Infrastructure.TokenPair">
+            <summary>
+            Pair of tokens.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Pft.Infrastructure.TokenPair.Open">
+            <summary>
+            Open token.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Pft.Infrastructure.TokenPair.Close">
+            <summary>
+            Close token.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.PftLexer">
             <summary>
             Lexer for PFT.
@@ -26661,9 +26840,9 @@
             <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.ExtendedSyntax"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftFieldAssignment">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftFieldAssignment.#ctor">
             <summary>
@@ -27599,6 +27778,11 @@
         <member name="P:ManagedIrbis.Fields.BookInfo.Amount">
             <summary>
             Количество экземпляров.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.BookInfo.FirstAuthor">
+            <summary>
+            Первый автор.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Fields.BookInfo.Authors">
@@ -30057,6 +30241,23 @@
             Prefix.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Fields.AuthorComparer">
+            <summary>
+            Compare authors.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.AuthorComparer.ByFamilyName">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.Fields.AuthorInfo"/>
+            by <see cref="P:ManagedIrbis.Fields.AuthorInfo.FamilyName"/> field.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.AuthorComparer.ByFullName">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.Fields.AuthorInfo"/>
+            by <see cref="P:ManagedIrbis.Fields.AuthorInfo.FullName"/> field.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Biblio.RecordCollection">
             <summary>
             
@@ -31920,6 +32121,38 @@
             <summary>
             Saved "connected" state.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftEval">
+            <summary>
+            Исполнение динамического PFT-формата.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftEval.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftEval.#ctor(ManagedIrbis.Pft.Infrastructure.PftToken)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftEval.#ctor(ManagedIrbis.Pft.Infrastructure.PftNode[])">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftEval.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftEval.PrettyPrint(ManagedIrbis.Pft.Infrastructure.Text.PftPrettyPrinter)">
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.PrettyPrint(ManagedIrbis.Pft.Infrastructure.Text.PftPrettyPrinter)"/>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftEval.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Pft.Infrastructure.Ast.PftEval.ExtendedSyntax">
+            <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.ExtendedSyntax"/>
         </member>
         <member name="T:ManagedIrbis.Mx.Commands.ListUsersCommand">
             <summary>
@@ -35638,9 +35871,9 @@
             <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.ExtendedSyntax"/>
         </member>
         <member name="T:ManagedIrbis.Mx.MxExecutive">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Mx.MxExecutive.#ctor">
             <summary>
@@ -36176,6 +36409,16 @@
             <summary>
             Convert the record to the protocol text.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Isni">
+            <summary>
+            International Standard Name Identifier.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Identifiers.Isni.GenerateCheckDigit(System.String)">
+            <summary>
+             Generates check digit as per ISO 7064 11,2.
+             </summary>
         </member>
         <member name="T:ManagedIrbis.Fst.FstLine">
             <summary>
@@ -37905,9 +38148,9 @@
             <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.RequiresConnection"/>
         </member>
         <member name="T:ManagedIrbis.Mx.Commands.CsCommand">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Mx.Commands.CsCommand.#ctor">
             <summary>
@@ -38277,6 +38520,40 @@
         <member name="M:ManagedIrbis.FastFields.GetField(System.Int32,System.Int32)">
             <summary>
             Get field.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Pii">
+            <summary>
+            Publisher Item Identifier.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Pii.Identifier">
+            <summary>
+            Identifier.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Fields.TitleComparer">
+            <summary>
+            Compare titles.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.TitleComparer.FullTitle">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.Fields.TitleInfo"/>
+            by <see cref="P:ManagedIrbis.Fields.TitleInfo.FullTitle"/> field.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.TitleComparer.Numeric">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.Fields.TitleInfo"/>
+            by <see cref="P:ManagedIrbis.Fields.TitleInfo.FullTitle"/> field
+            with respect to numbers.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.TitleComparer.TitleOnly">
+            <summary>
+            Compare <see cref="T:ManagedIrbis.Fields.TitleInfo"/>
+            by <see cref="P:ManagedIrbis.Fields.TitleInfo.Title"/> field.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Biblio.ItemCollection">
@@ -39534,6 +39811,11 @@
             'literal'
             </summary>
         </member>
+        <member name="F:ManagedIrbis.Pft.Infrastructure.PftTokenKind.CsEval">
+            <summary>
+            cseval()
+            </summary>
+        </member>
         <member name="F:ManagedIrbis.Pft.Infrastructure.PftTokenKind.Div">
             <summary>
             div
@@ -39572,6 +39854,11 @@
         <member name="F:ManagedIrbis.Pft.Infrastructure.PftTokenKind.Equals">
             <summary>
             =
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Pft.Infrastructure.PftTokenKind.Eval">
+            <summary>
+            eval()
             </summary>
         </member>
         <member name="F:ManagedIrbis.Pft.Infrastructure.PftTokenKind.F">
@@ -39627,6 +39914,11 @@
         <member name="F:ManagedIrbis.Pft.Infrastructure.PftTokenKind.Global">
             <summary>
             global
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Pft.Infrastructure.PftTokenKind.GraveAccent">
+            <summary>
+            `
             </summary>
         </member>
         <member name="F:ManagedIrbis.Pft.Infrastructure.PftTokenKind.Hash">
@@ -39902,6 +40194,11 @@
         <member name="F:ManagedIrbis.Pft.Infrastructure.PftTokenKind.TripleLess">
             <summary>
             &lt;&lt;&lt;
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Pft.Infrastructure.PftTokenKind.Underscore">
+            <summary>
+            _
             </summary>
         </member>
         <member name="F:ManagedIrbis.Pft.Infrastructure.PftTokenKind.Unifor">
@@ -40547,9 +40844,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.SharpRunner">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:ManagedIrbis.Infrastructure.SharpRunner.AssemblyReferences">
             <summary>
