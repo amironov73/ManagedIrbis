@@ -274,6 +274,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\TitleComparer.cs">
       <Link>Source\Fields\TitleComparer.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isil.cs">
+      <Link>Source\Identifiers\Isil.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isrc.cs">
       <Link>Source\Identifiers\Isrc.cs</Link>
     </Compile>

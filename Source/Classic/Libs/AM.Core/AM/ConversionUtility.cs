@@ -12,7 +12,7 @@
 using System;
 using System.ComponentModel;
 using System.Reflection;
-
+using System.Text;
 using AM.Logging;
 
 using CodeJam;
@@ -28,6 +28,65 @@ namespace AM
     /// </summary>
     public static class ConversionUtility
     {
+        #region Private members
+
+        private static readonly char[] ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+            .ToCharArray();
+        private static readonly int BASE_58 = ALPHABET.Length;
+        private static readonly int BASE_256 = 256;
+        private static readonly int[] INDEXES = new int[128];
+
+        private static byte divmod58(byte[] number, int startAt)
+        {
+            int remainder = 0;
+            for (int i = startAt; i < number.Length; i++)
+            {
+                int digit256 = number[i] & 0xFF;
+                int temp = remainder * BASE_256 + digit256;
+
+                number[i] = (byte) (temp / BASE_58);
+
+                remainder = temp % BASE_58;
+            }
+
+            return (byte) remainder;
+        }
+
+        private static byte divmod256(byte[] number58, int startAt)
+        {
+            int remainder = 0;
+            for (int i = startAt; i < number58.Length; i++)
+            {
+                int digit58 = (int) number58[i] & 0xFF;
+                int temp = remainder * BASE_58 + digit58;
+
+                number58[i] = (byte) (temp / BASE_256);
+
+                remainder = temp % BASE_256;
+            }
+
+            return (byte) remainder;
+        }
+
+        #endregion
+
+        #region Construction
+
+        static ConversionUtility()
+        {
+            for (int i = 0; i < INDEXES.Length; i++)
+            {
+                INDEXES[i] = -1;
+            }
+
+            for (int i = 0; i < ALPHABET.Length; i++)
+            {
+                INDEXES[ALPHABET[i]] = i;
+            }
+        }
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -159,6 +218,166 @@ namespace AM
             //}
 
             throw new ArsMagnaException();
+        }
+
+        //
+        // https://ru.wikipedia.org/wiki/Base58
+        //
+        // Base58 - вариант кодирования цифрового кода в виде
+        // буквенно-цифрового текста на основе латинского алфавита.
+        // Алфавит кодирования содержит 58 символов. Применяется
+        // для передачи данных в разнородных сетях (транспортное
+        // кодирование). Стандарт похож на Base64, но отличается тем,
+        // что в результатах нет не только служебных кодов,
+        // но и алфавитно-цифровых символов, которые могут человеком
+        // восприниматься неоднозначно. Исключены 0 (ноль),
+        // O (заглавная латинская o), I (заглавная латинская i),
+        // l (маленькая латинская L).
+        // Также исключены символы + (плюс) и / (косая черта),
+        // которые при кодировании URL могут приводить
+        // к неверной интерпретации.
+        //
+        // Стандарт был разработан для уменьшения визуальной путаницы
+        // у пользователей, которые вручную вводят данные на основе
+        // распечатанного текста или фотографии, т.е. без возможности
+        // машинного копирования и вставки.
+        //
+        // В отличие от Base64, при кодировании не сохраняется
+        // однозначное побайтное соответствие с исходными данными
+        // (разные комбинации одинакового количества байт кодируются
+        // строкой с разной длиной символов). По этой причине,
+        // способ хорошо подходит для кодирования больших целых чисел,
+        // но не предназначены для кодирования более длинных частей
+        // двоичных данных.
+        //
+
+        /// <summary>
+        /// Converts the specified string, which encodes binary data
+        /// as base-58 digits, to an equivalent 8-bit unsigned
+        /// integer array.
+        /// </summary>
+        public static byte[] FromBase58String
+            (
+                [NotNull] string input
+            )
+        {
+            Code.NotNull(input, "input");
+
+            if (input.Length == 0)
+            {
+                return EmptyArray<byte>.Value;
+            }
+
+            byte[] input58 = new byte[input.Length];
+
+            // Transform the String to a base58 byte sequence
+            for (int i = 0; i < input.Length; ++i)
+            {
+                char c = input[i];
+
+                int digit58 = -1;
+                if (c >= 0 && c < 128)
+                {
+                    digit58 = INDEXES[c];
+                }
+                if (digit58 < 0)
+                {
+                    throw new ApplicationException("Not a Base58 input: " + input);
+                }
+
+                input58[i] = (byte) digit58;
+            }
+
+            // Count leading zeroes
+            int zeroCount = 0;
+            while (zeroCount < input58.Length && input58[zeroCount] == 0)
+            {
+                ++zeroCount;
+            }
+
+            // The encoding
+            byte[] temp = new byte[input.Length];
+            int j = temp.Length;
+
+            int startAt = zeroCount;
+            while (startAt < input58.Length)
+            {
+                byte mod = divmod256(input58, startAt);
+                if (input58[startAt] == 0) {
+                    ++startAt;
+                }
+
+                temp[--j] = mod;
+            }
+
+            // Do no add extra leading zeroes, move j to first non null byte
+            while (j < temp.Length && temp[j] == 0)
+            {
+                ++j;
+            }
+
+            int start = j - zeroCount;
+
+            return ArrayUtility.Range(temp, start, temp.Length - start);
+        }
+
+        /// <summary>
+        /// Converts an array of 8-bit unsigned integers
+        /// to its equivalent string representation that
+        /// is encoded with base-58 digits.
+        /// </summary>
+        [NotNull]
+        public static string ToBase58String
+            (
+                [NotNull] byte[] input
+            )
+        {
+            Code.NotNull(input, "input");
+
+            int inputLength = input.Length;
+            if (inputLength == 0)
+            {
+                return string.Empty;
+            }
+
+            // Count leading zeroes
+            int zeroCount = 0;
+            while (zeroCount < inputLength && input[zeroCount] == 0)
+            {
+                zeroCount++;
+            }
+
+            // The actual encoding
+            byte[] temp = new byte[inputLength * 2];
+            int j = temp.Length;
+
+            int startAt = zeroCount;
+            while (startAt < inputLength)
+            {
+                byte mod = divmod58(input, startAt);
+                if (input[startAt] == 0)
+                {
+                    ++startAt;
+                }
+
+                temp[--j] = (byte) ALPHABET[mod];
+            }
+
+            // Strip extra '1' if any
+            while (j < temp.Length && temp[j] == ALPHABET[0])
+            {
+                j++;
+            }
+
+            // Add as many leading '1' as there were leading zeros.
+            while (--zeroCount >= 0)
+            {
+                temp[--j] = (byte) ALPHABET[0];
+            }
+
+            string result = Encoding.ASCII.GetString(temp, j, temp.Length-j);
+
+            return result;
         }
 
         /// <summary>

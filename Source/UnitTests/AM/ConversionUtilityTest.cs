@@ -49,7 +49,7 @@ namespace UnitTests.AM
 
         class SourceType2
         {
-            public static explicit operator TargetType2 (SourceType2 arg)
+            public static explicit operator TargetType2(SourceType2 arg)
             {
                 return new TargetType2();
             }
@@ -62,7 +62,7 @@ namespace UnitTests.AM
                 return new SourceType2();
             }
 
-            public static explicit operator TargetType (SourceType3 arg)
+            public static explicit operator TargetType(SourceType3 arg)
             {
                 return new TargetType();
             }
@@ -224,6 +224,38 @@ namespace UnitTests.AM
         public void ConversionUtility_ToBoolean_6()
         {
             ConversionUtility.ToBoolean("bullshit");
+        }
+
+        [TestMethod]
+        public void ConversionUtility_ToBase58String_1()
+        {
+            Assert.AreEqual
+                (
+                    0,
+                    ConversionUtility.ToBase58String(EmptyArray<byte>.Value).Length
+                );
+
+            Assert.AreEqual
+                (
+                    "Ldp",
+                    ConversionUtility.ToBase58String(new byte[] { 1, 2, 3 })
+                );
+        }
+
+        [TestMethod]
+        public void ConversionUtility_FromBase58String_1()
+        {
+            Assert.AreEqual
+                (
+                    0,
+                    ConversionUtility.FromBase58String(string.Empty).Length
+                );
+
+            CollectionAssert.AreEqual
+                (
+                    new byte[] { 1, 2, 3 },
+                    ConversionUtility.FromBase58String("Ldb")
+                );
         }
     }
 }

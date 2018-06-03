@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* ArrayUtility.cs -- array manipulation helpers
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
@@ -144,7 +144,7 @@ namespace AM
         /// </returns>
         /// <typeparam name="T">Array element type.</typeparam>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="firstArray"/> or 
+        /// <paramref name="firstArray"/> or
         /// <paramref name="secondArray"/> is <c>null</c>.
         /// </exception>
         /// <exception cref="ArgumentException">Length of
@@ -424,6 +424,37 @@ namespace AM
                 arrays[i].CopyTo(result, offset);
                 offset += arrays[i].Length;
             }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get range of the array.
+        /// </summary>
+        [NotNull]
+        public static T[] Range<T>
+            (
+                [NotNull] T[] input,
+                int offset,
+                int length
+            )
+        {
+            Code.NotNull(input, "input");
+            Code.Nonnegative(offset, "offset");
+
+            int inputLength = input.Length;
+            if (offset > inputLength || length <= 0)
+            {
+                return EmptyArray<T>.Value;
+            }
+
+            if (offset + length > inputLength)
+            {
+                length = inputLength - offset;
+            }
+
+            T[] result = new T[length];
+            Array.Copy(input, offset, result, 0, length);
 
             return result;
         }
