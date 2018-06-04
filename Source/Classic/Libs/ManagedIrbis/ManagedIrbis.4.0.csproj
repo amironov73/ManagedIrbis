@@ -126,6 +126,7 @@
     <Compile Include="Source\Identifiers\Isrc.cs" />
     <Compile Include="Source\Identifiers\Pii.cs" />
     <Compile Include="Source\Identifiers\Pmid.cs" />
+    <Compile Include="Source\Identifiers\Umid.cs" />
     <Compile Include="Source\Infrastructure\EfficientRecordSerializer.cs" />
     <Compile Include="Source\FastFields.cs" />
     <Compile Include="Source\FieldDifference.cs" />

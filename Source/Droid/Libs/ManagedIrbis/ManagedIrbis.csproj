@@ -227,6 +227,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Pmid.cs">
       <Link>Source\Identifiers\Pmid.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Umid.cs">
+      <Link>Source\Identifiers\Umid.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\EfficientRecordSerializer.cs">
       <Link>Source\Infrastructure\EfficientRecordSerializer.cs</Link>
     </Compile>
