@@ -228,6 +228,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\TitleComparer.cs">
       <Link>Source\Fields\TitleComparer.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Bici.cs">
+      <Link>Source\Identifiers\Bici.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isil.cs">
       <Link>Source\Identifiers\Isil.cs</Link>
     </Compile>
@@ -242,6 +245,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Umid.cs">
       <Link>Source\Identifiers\Umid.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Xri.cs">
+      <Link>Source\Identifiers\Xri.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\EfficientRecordSerializer.cs">
       <Link>Source\Infrastructure\EfficientRecordSerializer.cs</Link>
