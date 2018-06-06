@@ -180,6 +180,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Testing
                         IrbisEncoding.Utf8
                     )
                     .ThrowIfNull("ReadOneRecord returns null");
+                record.Mfn = 1; // TODO some other value?
 
                 string pftFile = GetFullName(InputFileName);
                 string input = FileUtility.ReadAllText

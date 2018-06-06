@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* NodeLeader.cs -- leader in N01/L01
+/* NodeLeader.cs -- record leader in N01/L01
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -29,7 +29,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis
 {
     /// <summary>
-    /// Лидер записи в N01, L01
+    /// Record leader of L01/N01 file.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -107,23 +107,18 @@ namespace ManagedIrbis
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format
                 (
                     "Number: {0}, Previous: {1}, "
                     + "Next: {2}, TermCount: {3}, "
-                    + "FreeOffset: {4}", 
-                    Number, 
-                    Previous, 
-                    Next, 
-                    TermCount, 
+                    + "FreeOffset: {4}",
+                    Number,
+                    Previous,
+                    Next,
+                    TermCount,
                     FreeOffset
                 );
         }

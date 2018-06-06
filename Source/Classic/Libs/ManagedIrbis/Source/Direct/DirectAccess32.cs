@@ -69,38 +69,24 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public DirectAccess32
             (
-                [NotNull] string masterFile
+                [NotNull] string masterFile,
+                DirectAccessMode mode
             )
         {
             Code.NotNullNorEmpty(masterFile, "masterFile");
 
-            Database = Path.GetFileNameWithoutExtension
-                (
-                    masterFile
-                );
+            Database = Path.GetFileNameWithoutExtension(masterFile);
             Mst = new MstFile32
                 (
-                    Path.ChangeExtension
-                        (
-                            masterFile,
-                            ".mst"
-                        )
+                    Path.ChangeExtension(masterFile, ".mst")
                 );
             Xrf = new XrfFile32
                 (
-                    Path.ChangeExtension
-                    (
-                        masterFile,
-                        ".xrf"
-                    )
+                    Path.ChangeExtension(masterFile, ".xrf")
                 );
             InvertedFile = new InvertedFile32
                 (
-                    Path.ChangeExtension
-                    (
-                        masterFile,
-                        ".ifp"
-                    )
+                    Path.ChangeExtension(masterFile, ".ifp")
                 );
         }
 

@@ -21,9 +21,9 @@ using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
-
 #endregion
+
+// ReSharper disable InconsistentNaming
 
 namespace ManagedIrbis.Direct
 {
@@ -54,7 +54,7 @@ namespace ManagedIrbis.Direct
     // Каждый ключ переменной длины, который есть в записи,
     // представлен в справочнике одним входом следующего формата:
     // Число бит Параметр
-    // 16        LEN – длина ключа;                
+    // 16        LEN – длина ключа;
     // 16        OFFSET_KEY – смещение на ключ(от начала записи);
     // 32        LOW –
     //             В N01 файле:
@@ -156,6 +156,23 @@ namespace ManagedIrbis.Direct
 
         #endregion
 
+        #region Public methods
+
+        /// <summary>
+        /// Dump the record.
+        /// </summary>
+        public void DumpRecord
+            (
+                [NotNull] TextWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer.WriteLine(ToString());
+        }
+
+        #endregion
+
         #region Object members
 
         /// <inheritdoc cref="object.ToString"/>
@@ -169,8 +186,9 @@ namespace ManagedIrbis.Direct
 
             return string.Format
                 (
-                    "Leader: {0}, Items: {1}", 
-                    Leader, 
+                    "{0}{1}{2}",
+                    Leader,
+                    Environment.NewLine,
                     items
                 );
         }

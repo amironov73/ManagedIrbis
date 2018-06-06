@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* PftRef.cs --
+/* PftRef.cs -- ref() function
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -49,10 +49,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     //
     // Функция REF - очень мощное средство, поскольку позволяет
     // объединить данные, хранимые в различных записях базы данных,
-    //в один выводимый документ. 
+    //в один выводимый документ.
     //
     // В большинстве случаев связывание записей непосредственно
-    // через MFN может оказаться неудобным. 
+    // через MFN может оказаться неудобным.
     //
     // Более удобным является использование возможности функции L.
     // Напомним, что функция L находит MFN, соответствующий
@@ -67,7 +67,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     // механизм связывания записей. При конкретном практическом
     // применении пользователь сам определяет смысл связей посредством
     // использования языка форматирования и специального проектирования
-    // базы данных. 
+    // базы данных.
     //
     // Например, если библиографическая запись описания статьи должна
     // быть связана с записью соответствующего номера журнала,
@@ -80,7 +80,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     //
 
     /// <summary>
-    /// 
+    /// ref() function
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -302,27 +302,32 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
-                PftContext context
+                PftContext parentContext
             )
         {
-            OnBeforeExecution(context);
+            OnBeforeExecution(parentContext);
 
             if (!ReferenceEquals(Mfn, null))
             {
-                context.Evaluate(Mfn);
+                parentContext.Evaluate(Mfn);
                 int mfn = (int)Mfn.Value;
-                MarcRecord record = context.Provider.ReadRecord(mfn);
+                MarcRecord record = parentContext.Provider.ReadRecord(mfn);
                 if (!ReferenceEquals(record, null))
                 {
-                    using (new PftContextSaver(context, true))
+                    PftContext nestedContext = new PftContext(parentContext)
                     {
-                        context.Record = record;
-                        context.Execute(Format);
-                    }
+                        Record = record,
+                        Output = parentContext.Output
+                    };
+
+                    // формат вызывается в контексте без повторений
+                    nestedContext.Reset();
+
+                    nestedContext.Execute(Format);
                 }
             }
 
-            OnAfterExecution(context);
+            OnAfterExecution(parentContext);
         }
 
         /// <inheritdoc cref="PftNode.GetNodeInfo" />

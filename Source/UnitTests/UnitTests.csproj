@@ -271,6 +271,7 @@
     <Compile Include="ManagedIrbis\Client\RemoteCatalogerIniFileTest.cs" />
     <Compile Include="ManagedIrbis\ConnectionFactoryTest.cs" />
     <Compile Include="ManagedIrbis\DatabaseInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Direct\DirectAccess32Test.cs" />
     <Compile Include="ManagedIrbis\Direct\DirectAccess64Test.cs" />
     <Compile Include="ManagedIrbis\Direct\DirectUtilityTest.cs" />
     <Compile Include="ManagedIrbis\Direct\MappedAccess64Test.cs" />

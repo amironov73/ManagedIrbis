@@ -1172,8 +1172,20 @@ namespace ManagedIrbis.Pft.Infrastructure
             result.Mfn = ParseArithmetic(PftTokenKind.Comma);
             Tokens.Current.MustBe(PftTokenKind.Comma);
             Tokens.RequireNext();
+
             PftNode pseudo = new PftNode();
-            ParseCall3(pseudo);
+            bool saveInGroup = _inGroup;
+            // there can be nested group inside the ref format
+            _inGroup = false;
+            try
+            {
+                ParseCall3(pseudo);
+            }
+            finally
+            {
+                _inGroup = saveInGroup;
+            }
+
             PftNode[] tempArray = pseudo.Children.ToArray();
             pseudo.Children.Clear();
             result.Format.AddRange(tempArray);

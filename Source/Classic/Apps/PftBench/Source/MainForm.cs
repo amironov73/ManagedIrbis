@@ -85,6 +85,10 @@ namespace PftBench
             string recordText = _recordBox.Text;
             StringReader reader = new StringReader(recordText);
             _record = PlainText.ReadRecord(reader);
+            if (!ReferenceEquals(_record, null))
+            {
+                _record.Mfn = 1; // TODO some other value?
+            }
             _recordGrid.SetRecord(_record);
 
             PftLexer lexer = new PftLexer();
