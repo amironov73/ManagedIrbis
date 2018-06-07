@@ -1,0 +1,1 @@
+﻿Banker's rounding with f() function

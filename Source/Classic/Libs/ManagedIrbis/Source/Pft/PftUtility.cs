@@ -860,7 +860,7 @@ namespace ManagedIrbis.Pft
         //=================================================
 
         /// <summary>
-        /// Format value like function f does.
+        /// Format value like function f() does.
         /// </summary>
         public static string FormatLikeF
             (
@@ -882,13 +882,105 @@ namespace ManagedIrbis.Pft
                 minLength = arg2;
             }
 
-
             bool useE = true;
             int decimalPoints = 0;
             if (arg3 >= 0)
             {
                 useE = false;
                 decimalPoints = arg3;
+            }
+
+            // ibatrak
+            // IRBIS uses banker's rounding
+
+            // f(0.5,0,0) = 0
+            // f(1.5,0,0) = 2
+            // f(2.5,0,0) = 2
+            // f(3.5,0,0) = 4
+            // f(4.5,0,0) = 4
+            // f(5.5,0,0) = 6
+            // f(6.5,0,0) = 6
+            // f(7.5,0,0) = 8
+            // f(8.5,0,0) = 8
+            // f(9.5,0,0) = 10
+            // f(0.05,0,1) = 0.1
+            // f(0.15,0,1) = 0.1
+            // f(0.25,0,1) = 0.3
+            // f(0.35,0,1) = 0.3
+            // f(0.45,0,1) = 0.5
+            // f(0.55,0,1) = 0.6
+            // f(0.65,0,1) = 0.7
+            // f(0.75,0,1) = 0.8
+            // f(0.85,0,1) = 0.8
+            // f(0.95,0,1) = 0.9
+            // f(0.005,0,2) = 0.01
+            // f(0.015,0,2) = 0.02
+            // f(0.025,0,2) = 0.03
+            // f(0.035,0,2) = 0.04
+            // f(0.045,0,2) = 0.05
+            // f(0.055,0,2) = 0.06
+            // f(0.065,0,2) = 0.07
+            // f(0.075,0,2) = 0.08
+            // f(0.085,0,2) = 0.09
+            // f(0.095,0,2) = 0.10
+
+            switch (decimalPoints)
+            {
+                case 0:
+                    value = Math.Round
+                        (
+                            value,
+                            decimalPoints,
+                            MidpointRounding.ToEven
+                        );
+                    break;
+
+                //case 1:
+                //    // ReSharper disable CompareOfFloatsByEqualityOperator
+
+                //    if (value == 0.05)
+                //    {
+                //        value = 0.1;
+                //    }
+                //    else if (value == 0.15)
+                //    {
+                //        value = 0.1;
+                //    }
+                //    else if (value == 0.25)
+                //    {
+                //        value = 0.3;
+                //    }
+                //    else if (value == 0.35)
+                //    {
+                //        value = 0.3;
+                //    }
+                //    else if (value == 0.45)
+                //    {
+                //        value = 0.5;
+                //    }
+                //    else if (value == 0.55)
+                //    {
+                //        value = 0.6;
+                //    }
+                //    else if (value == 0.65)
+                //    {
+                //        value = 0.7;
+                //    }
+                //    else if (value == 0.75)
+                //    {
+                //        value = 0.8;
+                //    }
+                //    else if (value == 0.85)
+                //    {
+                //        value = 0.8;
+                //    }
+                //    else if (value == 0.95)
+                //    {
+                //        value = 0.9;
+                //    }
+                //    break;
+
+                //// ReSharper restore CompareOfFloatsByEqualityOperator
             }
 
             string format = useE

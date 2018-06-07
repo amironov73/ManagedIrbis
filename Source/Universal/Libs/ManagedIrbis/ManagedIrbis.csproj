@@ -277,6 +277,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Bici.cs">
       <Link>Source\Identifiers\Bici.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Coden.cs">
+      <Link>Source\Identifiers\Coden.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isil.cs">
       <Link>Source\Identifiers\Isil.cs</Link>
     </Compile>

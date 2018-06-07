@@ -19,7 +19,7 @@ namespace System
     public delegate TOutput Converter<TInput, TOutput> (TInput input);
 
     ///// <summary>
-    ///// 
+    /////
     ///// </summary>
     //public sealed class NonSerializedAttribute
     //    : Attribute
@@ -44,7 +44,7 @@ namespace System
     //    public ArgumentOutOfRangeException(string paramName, object actualValue, string message)
     //        : base(message)
     //    {
-            
+
     //    }
     //}
 }
@@ -61,82 +61,82 @@ namespace System
     public enum ConsoleColor
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Black,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Blue,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Cyan,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         DarkBlue,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         DarkCyan,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         DarkGray,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         DarkGreen,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         DarkMagenta,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         DarkRed,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         DarkYellow,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Gray,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Green,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Magenta,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Red,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         White,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Yellow
     }
@@ -147,142 +147,142 @@ namespace System
     public enum ConsoleKey
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         A,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Add,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Applications,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Attention,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         B,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Backspace,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         BrowserBack,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         BrowserFavorites,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         BrowserForward,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         BrowserHome,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         BrowserRefresh,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         BrowserSearch,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         BrowserStop,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         C,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Clear,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         CrSel,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         D,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         D0,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         D1,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         D2,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         D3,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         D4,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         D5,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         D6,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         D7,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         D8,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         D9,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Decimal,
 
@@ -787,7 +787,7 @@ namespace System
         Separator,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Sleep,
 
@@ -862,35 +862,35 @@ namespace System
         Z,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Zoom
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [FlagsAttribute]
     public enum ConsoleModifiers
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Alt = 0x01,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Control = 0x02,
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Shift = 0x04
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public struct ConsoleKeyInfo
     {
@@ -938,34 +938,57 @@ namespace System
             TInput input
         );
 
+    /// <summary>
+    /// For compatibility.
+    /// </summary>
     public enum ConsoleSpecialKey
     {
         // We realize this is incomplete, and may add values in the future.
+
+        /// <summary>
+        /// For compatibility.
+        /// </summary>
         ControlC = 0,
+
+        /// <summary>
+        /// For compatibility.
+        /// </summary>
         ControlBreak = 1,
     }
 
+    /// <summary>
+    /// For compatibility.
+    /// </summary>
     public sealed class ConsoleCancelEventArgs : EventArgs
     {
         private ConsoleSpecialKey _type;
         private bool _cancel;  // Whether to cancel the CancelKeyPress event
- 
+
         internal ConsoleCancelEventArgs(ConsoleSpecialKey type)
         {
             _type = type;
             _cancel = false;
         }
- 
+
         // Whether to cancel the break event.  By setting this to true, the
         // Control-C will not kill the process.
-        public bool Cancel {
+
+        /// <summary>
+        /// For compatibility.
+        /// </summary>
+        public bool Cancel
+        {
             get { return _cancel; }
             set {
                 _cancel = value;
             }
         }
- 
-        public ConsoleSpecialKey SpecialKey {
+
+        /// <summary>
+        /// For compatibility.
+        /// </summary>
+        public ConsoleSpecialKey SpecialKey
+        {
             get { return _type; }
         }
     }

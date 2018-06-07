@@ -102,8 +102,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
     // f(mfn,3,0)                      4
     //
 
+    //
+    // ibatrak
+    // F(0.5, 0, 0) выводит 0
+    // F(1.5, 0, 0) выводит 2
+    // F(2.5, 0, 0) выводит 2
+    // F(3.5, 0, 0) выводит 4
+    // F(4.5, 0, 0) выводит 4
+    //
+
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]

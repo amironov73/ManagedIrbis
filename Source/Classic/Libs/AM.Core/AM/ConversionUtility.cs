@@ -282,7 +282,7 @@ namespace AM
                 }
                 if (digit58 < 0)
                 {
-                    throw new ApplicationException("Not a Base58 input: " + input);
+                    throw new Exception("Not a Base58 input: " + input);
                 }
 
                 input58[i] = (byte) digit58;

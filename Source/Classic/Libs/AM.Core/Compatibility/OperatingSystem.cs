@@ -2,14 +2,44 @@
 
 namespace System
 {
+    /// <summary>
+    /// For compatibility.
+    /// </summary>
     public enum PlatformID
     {
+        /// <summary>
+        /// For compatibility.
+        /// </summary>
         Win32S        = 0,
+
+        /// <summary>
+        /// For compatibility.
+        /// </summary>
         Win32Windows  = 1,
+
+        /// <summary>
+        /// For compatibility.
+        /// </summary>
         Win32NT       = 2,
-        WinCE         = 3,      
+
+        /// <summary>
+        /// For compatibility.
+        /// </summary>
+        WinCE         = 3,
+
+        /// <summary>
+        /// For compatibility.
+        /// </summary>
         Unix          = 4,
+
+        /// <summary>
+        /// For compatibility.
+        /// </summary>
         Xbox          = 5,
+
+        /// <summary>
+        /// For compatibility.
+        /// </summary>
         MacOSX        = 6
     }
 
@@ -22,7 +52,7 @@ namespace System
         private readonly PlatformID _platform;
         private readonly string _servicePack;
         private string _versionString;
- 
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -30,9 +60,9 @@ namespace System
             : this(platform, version, null)
         {
         }
-    
+
         internal OperatingSystem(PlatformID platform, Version version, string servicePack)
-        { 
+        {
             _platform = platform;
             _version = (Version) version;
             _servicePack = servicePack;
@@ -50,15 +80,15 @@ namespace System
         /// Service pack.
         /// </summary>
         public string ServicePack
-        { 
-            get { 
+        {
+            get {
                 if( _servicePack == null) {
                     return string.Empty;
                 }
- 
+
                 return _servicePack;
             }
-        }    
+        }
 
         /// <summary>
         /// Version.
@@ -84,7 +114,7 @@ namespace System
                 {
                     return _versionString;
                 }
- 
+
                 String os;
                 switch(_platform)
                 {
@@ -116,7 +146,7 @@ namespace System
                         os = "<unknown> ";
                         break;
                 }
- 
+
                 if( String.IsNullOrEmpty(_servicePack))
                 {
                     _versionString = os + _version;
@@ -125,7 +155,7 @@ namespace System
                 {
                     _versionString = os + _version.ToString(3) + " " + _servicePack;
                 }
- 
+
                 return _versionString;
             }
         }

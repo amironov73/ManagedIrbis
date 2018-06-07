@@ -310,8 +310,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             if (!ReferenceEquals(Mfn, null))
             {
                 parentContext.Evaluate(Mfn);
-                int mfn = (int)Mfn.Value;
-                MarcRecord record = parentContext.Provider.ReadRecord(mfn);
+                int newMfn = (int)Mfn.Value;
+                int oldMfn = 0;
+                MarcRecord record = parentContext.Record;
+                if (!ReferenceEquals(record, null))
+                {
+                    oldMfn = record.Mfn;
+                }
+
+                if (newMfn != oldMfn)
+                {
+                    // TODO some caching
+
+                    record = parentContext.Provider.ReadRecord(newMfn);
+                }
                 if (!ReferenceEquals(record, null))
                 {
                     PftContext nestedContext = new PftContext(parentContext)
