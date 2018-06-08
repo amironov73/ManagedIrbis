@@ -1003,7 +1003,7 @@ namespace AM.Text
             while (true)
             {
                 char c = ReadChar();
-                if (c == EOF 
+                if (c == EOF
                     || Array.IndexOf(stopChars, c) >= 0)
                 {
                     break;

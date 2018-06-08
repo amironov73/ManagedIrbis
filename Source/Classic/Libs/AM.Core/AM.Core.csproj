@@ -73,6 +73,7 @@
     <Compile Include="AM\ActionUtility.cs" />
     <Compile Include="AM\ArrayUtility.cs" />
     <Compile Include="AM\ArsMagnaException.cs" />
+    <Compile Include="AM\Ascii85.cs" />
     <Compile Include="AM\AutoDisposeAttribute.cs" />
     <Compile Include="AM\BinaryAttachment.cs" />
     <Compile Include="AM\BooleanUtility.cs" />

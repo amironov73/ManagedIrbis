@@ -706,6 +706,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftGraveAccent.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftGraveAccent.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftQuestion.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftQuestion.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Compiler\CompilerProxy.cs">
       <Link>Source\Pft\Infrastructure\Compiler\CompilerProxy.cs</Link>
     </Compile>

@@ -68,6 +68,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\ArsMagnaException.cs">
       <Link>AM\ArsMagnaException.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Ascii85.cs">
+      <Link>AM\Ascii85.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\AutoDisposeAttribute.cs">
       <Link>AM\AutoDisposeAttribute.cs</Link>
     </Compile>

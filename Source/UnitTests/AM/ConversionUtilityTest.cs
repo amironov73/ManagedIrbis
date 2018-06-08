@@ -226,6 +226,7 @@ namespace UnitTests.AM
             ConversionUtility.ToBoolean("bullshit");
         }
 
+        [Ignore]
         [TestMethod]
         public void ConversionUtility_ToBase58String_1()
         {
@@ -242,6 +243,7 @@ namespace UnitTests.AM
                 );
         }
 
+        [Ignore]
         [TestMethod]
         public void ConversionUtility_FromBase58String_1()
         {

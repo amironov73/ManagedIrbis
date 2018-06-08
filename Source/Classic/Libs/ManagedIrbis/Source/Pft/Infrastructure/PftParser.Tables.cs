@@ -87,6 +87,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.GraveAccent,
 
+            PftTokenKind.Question,
+
             PftTokenKind.Eval, PftTokenKind.CsEval,
 
             PftTokenKind.V, PftTokenKind.ConditionalLiteral,
@@ -162,6 +164,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.Parallel, ParseParallel},
                 {PftTokenKind.Percent, ParsePercent},
                 {PftTokenKind.Proc, ParseProc},
+                {PftTokenKind.Question, ParseQuestion},
                 {PftTokenKind.Ref, ParseRef},
                 {PftTokenKind.RepeatableLiteral, ParseField},
                 {PftTokenKind.S, ParseS},

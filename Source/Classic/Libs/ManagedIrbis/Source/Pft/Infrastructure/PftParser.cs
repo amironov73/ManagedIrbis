@@ -1163,6 +1163,13 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private PftNode ParseQuestion()
+        {
+            return MoveNext(new PftQuestion(Tokens.Current));
+        }
+
+        //=================================================
+
         private PftNode ParseRef()
         {
             PftRef result = new PftRef(Tokens.Current);

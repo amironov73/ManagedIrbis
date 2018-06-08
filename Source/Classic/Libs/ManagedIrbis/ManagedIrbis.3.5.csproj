@@ -273,6 +273,7 @@
     <Compile Include="Source\Pft\Infrastructure\Ast\PftCsEval.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftEval.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftGraveAccent.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftQuestion.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\CompilerProxy.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexInfo.cs" />
     <Compile Include="Source\Pft\Infrastructure\Compiler\IndexDictionary.cs" />

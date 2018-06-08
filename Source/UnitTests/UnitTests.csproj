@@ -135,6 +135,7 @@
     <Compile Include="AM\AOT\Stemming\GermanStemmerTest.cs" />
     <Compile Include="AM\AOT\Stemming\RussianStemmerTest.cs" />
     <Compile Include="AM\ArsMangaExceptionTest.cs" />
+    <Compile Include="AM\Ascii85Test.cs" />
     <Compile Include="AM\BinaryAttachmentTest.cs" />
     <Compile Include="AM\BooleanUtilityTest.cs" />
     <Compile Include="AM\Caching\CacheItemTest.cs" />
