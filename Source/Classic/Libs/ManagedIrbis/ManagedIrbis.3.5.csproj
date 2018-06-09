@@ -270,6 +270,7 @@
     <Compile Include="Source\Mx\Infrastructrure\MxModule.cs" />
     <Compile Include="Source\Mx\Infrastructrure\MxPalette.cs" />
     <Compile Include="Source\Mx\Infrastructrure\BuiltinModule.cs" />
+    <Compile Include="Source\Pft\Infrastructure\Ast\PftBackslash.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftCsEval.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftEval.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftGraveAccent.cs" />

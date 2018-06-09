@@ -697,6 +697,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\BuiltinModule.cs">
       <Link>Source\Mx\Infrastructrure\BuiltinModule.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftBackslash.cs">
+      <Link>Source\Pft\Infrastructure\Ast\PftBackslash.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftCsEval.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftCsEval.cs</Link>
     </Compile>

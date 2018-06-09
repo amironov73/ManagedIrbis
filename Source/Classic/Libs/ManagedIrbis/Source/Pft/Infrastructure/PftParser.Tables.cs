@@ -87,7 +87,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
             PftTokenKind.GraveAccent,
 
-            PftTokenKind.Question,
+            PftTokenKind.Question, PftTokenKind.Backslash,
 
             PftTokenKind.Eval, PftTokenKind.CsEval,
 
@@ -135,6 +135,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {PftTokenKind.A, ParseA},
                 {PftTokenKind.At, ParseAt},
                 {PftTokenKind.Bang, ParseBang},
+                {PftTokenKind.Backslash, ParseBackslash},
                 {PftTokenKind.Break, ParseBreak},
                 {PftTokenKind.C, ParseC},
                 {PftTokenKind.Comma, ParseComma},

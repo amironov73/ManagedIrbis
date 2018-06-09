@@ -218,6 +218,13 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private PftNode ParseBackslash()
+        {
+            return MoveNext(new PftBackslash(Tokens.Current));
+        }
+
+        //=================================================
+
         private PftNode ParseBang()
         {
             return MoveNext(new PftBang(Tokens.Current));
