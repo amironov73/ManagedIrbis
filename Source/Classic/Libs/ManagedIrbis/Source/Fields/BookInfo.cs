@@ -189,6 +189,14 @@ namespace ManagedIrbis.Fields
         }
 
         /// <summary>
+        /// Цена, общая для всех экземпляров.
+        /// </summary>
+        public decimal Price
+        {
+            get { return Record.FM(10, 'd').SafeToDecimal(0); }
+        }
+
+        /// <summary>
         /// Издательства.
         /// </summary>
         [NotNull]

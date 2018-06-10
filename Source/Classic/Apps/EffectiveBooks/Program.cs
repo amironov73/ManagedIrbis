@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Configuration;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using AM;
+using AM.Configuration;
 
 using CodeJam;
 
@@ -12,8 +13,11 @@ using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Batch;
+using ManagedIrbis.Client;
+using ManagedIrbis.Fields;
 using ManagedIrbis.Menus;
 
+// ReSharper disable LocalizableElement
 // ReSharper disable UseStringInterpolation
 // ReSharper disable UseNameofExpression
 
@@ -68,25 +72,97 @@ namespace EffectiveBooks
             {
                 Console.WriteLine();
             }
+
+            decimal loanCost = LoanCount == 0
+                ? TotalCost
+                : TotalCost / LoanCount;
+
+            decimal meanLoan = (decimal)LoanCount / ExemplarCount;
+
+            Console.WriteLine
+                (
+                    string.Format
+                        (
+                            CultureInfo.InvariantCulture,
+                            "{0}\t{1}\t{2}\t{3:F2}\t{4}\t{5:F2}\t{6:F2}",
+                            Description,
+                            TitleCount,
+                            ExemplarCount,
+                            TotalCost,
+                            LoanCount,
+                            meanLoan,
+                            loanCost
+                        )
+                );
         }
     }
 
     class Program
     {
         private static IrbisConnection _connection;
+        private static IrbisProvider _provider;
+        private static bool _outputBooks;
 
         [NotNull]
         static EffectiveStat ProcessBook
             (
-                [NotNull] MarcRecord record
+                [NotNull] MarcRecord record,
+                [NotNull] string ksu
             )
         {
             Code.NotNull(record, "record");
 
+            BookInfo book = new BookInfo(_provider, record);
+            ExemplarInfo[] selected = book.Exemplars.Where
+                (
+                    ex => ex.KsuNumber1.SameString(ksu)
+                )
+                .ToArray();
+            Debug.Assert(selected.Length != 0, "exemplars.Length != 0");
             EffectiveStat result = new EffectiveStat
             {
-                Description = _connection.FormatRecord("@sbrief", record.Mfn)
+                Description = book.Description,
+                TitleCount = 1
             };
+
+            int totalExemplars = 0;
+            foreach (ExemplarInfo exemplar in book.Exemplars)
+            {
+                int amount = exemplar.Amount.SafeToInt32();
+                if (amount == 0)
+                {
+                    amount = 1;
+                }
+
+                totalExemplars += amount;
+            }
+
+            foreach (ExemplarInfo exemplar in selected)
+            {
+                int amount = exemplar.Amount.SafeToInt32();
+                if (amount == 0)
+                {
+                    amount = 1;
+                }
+
+                result.ExemplarCount += amount;
+
+                decimal price = exemplar.Price.SafeToDecimal(0);
+                if (price == 0)
+                {
+                    price = book.Price;
+                }
+
+                result.TotalCost += amount * price;
+            }
+
+            decimal loanCount = book.UsageCount;
+            if (result.ExemplarCount != totalExemplars)
+            {
+                loanCount = loanCount * result.ExemplarCount / totalExemplars;
+            }
+
+            result.LoanCount = (int) loanCount;
 
             return result;
         }
@@ -99,12 +175,26 @@ namespace EffectiveBooks
         {
             Code.NotNull(entry, "entry");
 
+            string ksu = entry.Code.ThrowIfNull("entry.Code");
+
+            if (_outputBooks)
+            {
+                Console.WriteLine();
+                Console.WriteLine("КСУ {0} {1}", ksu, entry.Comment);
+                Console.WriteLine();
+            }
+
             EffectiveStat result = new EffectiveStat
             {
-                Description = string.Format("Итого по КСУ {0}", entry.Code)
+                Description = string.Format
+                    (
+                        _outputBooks? "Итого по КСУ {0}" : "{0}\t{1}",
+                        ksu,
+                        entry.Comment
+                    )
             };
 
-            string expression = string.Format("\"KSU={0}\"", entry.Code);
+            string expression = string.Format("\"NKSU={0}\"", ksu);
             IEnumerable<MarcRecord> batch = BatchRecordReader.Search
                 (
                     _connection,
@@ -114,8 +204,11 @@ namespace EffectiveBooks
                 );
             foreach (MarcRecord record in batch)
             {
-                EffectiveStat bookStat = ProcessBook(record);
-                bookStat.Output(false);
+                EffectiveStat bookStat = ProcessBook(record, ksu);
+                if (_outputBooks)
+                {
+                    bookStat.Output(false);
+                }
                 result.Add(bookStat);
             }
 
@@ -126,10 +219,12 @@ namespace EffectiveBooks
         {
             try
             {
+                _outputBooks = ConfigurationUtility.GetBoolean("books", false);
                 string connectionString
                     = IrbisConnectionUtility.GetStandardConnectionString();
                 using (_connection = new IrbisConnection(connectionString))
                 {
+                    _provider = new ConnectedClient(_connection);
                     MenuFile menu = MenuFile.ParseLocalFile("ksu.mnu");
                     EffectiveStat totalStat = new EffectiveStat
                     {
@@ -138,7 +233,7 @@ namespace EffectiveBooks
                     foreach (MenuEntry entry in menu.Entries)
                     {
                         EffectiveStat ksuStat = ProcessKsu(entry);
-                        ksuStat.Output(true);
+                        ksuStat.Output(_outputBooks);
                         totalStat.Add(ksuStat);
                     }
 
