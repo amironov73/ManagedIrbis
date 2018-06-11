@@ -18,7 +18,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Reports
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -105,6 +105,11 @@ namespace ManagedIrbis.Reports
         /// Left justify.
         /// </summary>
         public const string Left = "Left";
+
+        /// <summary>
+        /// Cell is a number.
+        /// </summary>
+        public const string Number = "Number";
 
         /// <summary>
         /// Red color.

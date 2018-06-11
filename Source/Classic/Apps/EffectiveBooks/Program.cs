@@ -6,6 +6,7 @@ using System.Linq;
 
 using AM;
 using AM.Configuration;
+using AM.IO;
 
 using CodeJam;
 
@@ -16,6 +17,7 @@ using ManagedIrbis.Batch;
 using ManagedIrbis.Client;
 using ManagedIrbis.Fields;
 using ManagedIrbis.Menus;
+using ManagedIrbis.Reports;
 
 // ReSharper disable LocalizableElement
 // ReSharper disable UseStringInterpolation
@@ -23,6 +25,49 @@ using ManagedIrbis.Menus;
 
 namespace EffectiveBooks
 {
+    class EffectiveReport
+        : IrbisReport
+    {
+        #region Properties
+
+        [NotNull]
+        public IrbisProvider Provider { get; private set; }
+
+        [NotNull]
+        public ReportContext Context { get; private set; }
+
+        [NotNull]
+        // ReSharper disable once NotNullMemberIsNotInitialized
+        public static EffectiveReport Instance { get; set; }
+
+        #endregion
+
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public EffectiveReport
+            (
+                [NotNull] IrbisProvider provider
+            )
+        {
+            Provider = provider;
+            Context = new ReportContext(provider);
+
+            Header = new HeaderBand();
+            Header.Cells.Add(new TextCell("КСУ"));
+            Header.Cells.Add(new TextCell("Назв."));
+            Header.Cells.Add(new TextCell("Экз."));
+            Header.Cells.Add(new TextCell("Руб."));
+            Header.Cells.Add(new TextCell("Выдач"));
+            Header.Cells.Add(new TextCell("Руб/выд."));
+            Header.Cells.Add(new TextCell("Выд./экз."));
+        }
+
+        #endregion
+    }
+
     class EffectiveStat
     {
         /// <summary>
@@ -71,6 +116,7 @@ namespace EffectiveBooks
             if (indent)
             {
                 Console.WriteLine();
+                EffectiveReport.Instance.Body.Add(new ReportBand());
             }
 
             decimal loanCost = LoanCount == 0
@@ -94,6 +140,16 @@ namespace EffectiveBooks
                             loanCost
                         )
                 );
+
+            ReportBand band = new ReportBand();
+            band.Cells.Add(new TextCell(Description));
+            band.Cells.Add(new TextCell(TitleCount.ToInvariantString()));
+            band.Cells.Add(new TextCell(ExemplarCount.ToInvariantString()));
+            band.Cells.Add(new TextCell(TotalCost.ToInvariantString("F2")));
+            band.Cells.Add(new TextCell(LoanCount.ToInvariantString()));
+            band.Cells.Add(new TextCell(meanLoan.ToInvariantString("F2")));
+            band.Cells.Add(new TextCell(loanCost.ToInvariantString("F2")));
+            EffectiveReport.Instance.Body.Add(band);
         }
     }
 
@@ -121,7 +177,7 @@ namespace EffectiveBooks
             Debug.Assert(selected.Length != 0, "exemplars.Length != 0");
             EffectiveStat result = new EffectiveStat
             {
-                Description = book.Description,
+                Description = _outputBooks ? book.Description : string.Empty,
                 TitleCount = 1
             };
 
@@ -162,7 +218,7 @@ namespace EffectiveBooks
                 loanCount = loanCount * result.ExemplarCount / totalExemplars;
             }
 
-            result.LoanCount = (int) loanCount;
+            result.LoanCount = (int)loanCount;
 
             return result;
         }
@@ -188,7 +244,7 @@ namespace EffectiveBooks
             {
                 Description = string.Format
                     (
-                        _outputBooks? "Итого по КСУ {0}" : "{0}\t{1}",
+                        _outputBooks ? "Итого по КСУ {0}" : "{0} {1}",
                         ksu,
                         entry.Comment
                     )
@@ -225,6 +281,7 @@ namespace EffectiveBooks
                 using (_connection = new IrbisConnection(connectionString))
                 {
                     _provider = new ConnectedClient(_connection);
+                    EffectiveReport.Instance = new EffectiveReport(_provider);
                     MenuFile menu = MenuFile.ParseLocalFile("ksu.mnu");
                     EffectiveStat totalStat = new EffectiveStat
                     {
@@ -239,6 +296,15 @@ namespace EffectiveBooks
 
                     totalStat.Output(true);
                 }
+
+                ExcelDriver driver = new ExcelDriver();
+                string fileName = "output.xlsx";
+                FileUtility.DeleteIfExists(fileName);
+                driver.OutputFile = fileName;
+                EffectiveReport report = EffectiveReport.Instance;
+                report.Context.SetDriver(driver);
+
+                report.Render(report.Context);
             }
             catch (Exception e)
             {

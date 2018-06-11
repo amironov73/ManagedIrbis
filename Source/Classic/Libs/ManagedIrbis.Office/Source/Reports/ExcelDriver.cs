@@ -32,7 +32,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Reports
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -159,6 +159,10 @@ namespace ManagedIrbis.Reports
                     case ReportAttribute.Italic:
                         enabled = (bool)pair.Value;
                         curCell.Font.Italic = enabled;
+                        break;
+
+                    case ReportAttribute.Number:
+                        // TODO: implement
                         break;
 
                     case ReportAttribute.Span:
