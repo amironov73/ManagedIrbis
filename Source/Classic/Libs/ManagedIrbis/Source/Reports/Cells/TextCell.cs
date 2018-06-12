@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* TextCell.cs -- 
+/* TextCell.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -26,7 +26,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Reports
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -61,6 +61,18 @@ namespace ManagedIrbis.Reports
             (
                 string text
             )
+        {
+            Text = text;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public TextCell
+            (
+                string text,
+                params ReportAttribute[] attributes
+            ) : base(attributes)
         {
             Text = text;
         }

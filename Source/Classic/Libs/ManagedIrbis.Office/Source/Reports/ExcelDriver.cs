@@ -162,7 +162,8 @@ namespace ManagedIrbis.Reports
                         break;
 
                     case ReportAttribute.Number:
-                        // TODO: implement
+                        string format = (string) pair.Value;
+                        curCell.NumberFormat = format;
                         break;
 
                     case ReportAttribute.Span:
@@ -264,8 +265,22 @@ namespace ManagedIrbis.Reports
                 ReportCell cell
             )
         {
-            _worksheet.Cells[_row, _column].Value
-                = _accumulatedText.ToString();
+            string numberFormat = (string)cell.Attributes
+                .GetAttribute(ReportAttribute.Number);
+
+            if (!string.IsNullOrEmpty(numberFormat))
+            {
+                double value = NumericUtility.ParseDouble
+                    (
+                        _accumulatedText.ToString()
+                    );
+                _worksheet.Cells[_row, _column].Value = value;
+            }
+            else
+            {
+                _worksheet.Cells[_row, _column].Value
+                    = _accumulatedText.ToString();
+            }
 
             _column++;
         }

@@ -22,7 +22,7 @@ namespace ManagedIrbis.Reports
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public static class ReportAttribute
+    public class ReportAttribute
     {
         #region Constants
 
@@ -150,6 +150,55 @@ namespace ManagedIrbis.Reports
         /// Text wrapping.
         /// </summary>
         public const string WrapText = "WrapText";
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Name.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Value.
+        /// </summary>
+        public object Value { get; set; }
+
+        #endregion
+
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ReportAttribute()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ReportAttribute
+            (
+                string name
+            )
+        {
+            Name = name;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ReportAttribute
+            (
+                string name,
+                object value
+            )
+        {
+            Name = name;
+            Value = value;
+        }
 
         #endregion
     }

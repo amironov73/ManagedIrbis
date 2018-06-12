@@ -50,6 +50,23 @@ namespace ManagedIrbis.Reports
 
         #region Public methods
 
+        /// <summary>
+        /// Get the attribute value by name.
+        /// </summary>
+        [CanBeNull]
+        public object GetAttribute
+            (
+                [NotNull] string name
+            )
+        {
+            Code.NotNull(name, "name");
+
+            object result;
+            TryGetValue(name, out result);
+
+            return result;
+        }
+
         #endregion
 
         #region IVerifiable members

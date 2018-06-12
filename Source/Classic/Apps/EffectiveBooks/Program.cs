@@ -56,13 +56,28 @@ namespace EffectiveBooks
             Context = new ReportContext(provider);
 
             Header = new HeaderBand();
-            Header.Cells.Add(new TextCell("КСУ"));
-            Header.Cells.Add(new TextCell("Назв."));
-            Header.Cells.Add(new TextCell("Экз."));
-            Header.Cells.Add(new TextCell("Руб."));
-            Header.Cells.Add(new TextCell("Выдач"));
-            Header.Cells.Add(new TextCell("Руб/выд."));
-            Header.Cells.Add(new TextCell("Выд./экз."));
+            Header.Cells.Add(new TextCell("КСУ",
+                new ReportAttribute(ReportAttribute.Bold, true)));
+            Header.Cells.Add(new TextCell("Дата",
+                new ReportAttribute(ReportAttribute.Bold, true)));
+            Header.Cells.Add(new TextCell("Назв.",
+                new ReportAttribute(ReportAttribute.Bold, true)));
+            Header.Cells.Add(new TextCell("Экз.",
+                new ReportAttribute(ReportAttribute.Bold, true)));
+            Header.Cells.Add(new TextCell("Руб.",
+                new ReportAttribute(ReportAttribute.Bold, true)));
+            Header.Cells.Add(new TextCell("Выдач",
+                new ReportAttribute(ReportAttribute.Bold, true)));
+            Header.Cells.Add(new TextCell("Выд./экз.",
+                new ReportAttribute(ReportAttribute.Bold, true)));
+            Header.Cells.Add(new TextCell("Руб/выд.",
+                new ReportAttribute(ReportAttribute.Bold, true)));
+            Header.Cells.Add(new TextCell("Выд/день",
+                new ReportAttribute(ReportAttribute.Bold, true)));
+            Header.Cells.Add(new TextCell("Чит. эффект.",
+                new ReportAttribute(ReportAttribute.Bold, true)));
+            Header.Cells.Add(new TextCell("Фин. эффект.",
+                new ReportAttribute(ReportAttribute.Bold, true)));
         }
 
         #endregion
@@ -95,6 +110,11 @@ namespace EffectiveBooks
         /// </summary>
         public int LoanCount;
 
+        /// <summary>
+        /// Дата поступления экземпляров.
+        /// </summary>
+        public DateTime Date;
+
         public void Add
             (
                 [NotNull] EffectiveStat other
@@ -106,6 +126,14 @@ namespace EffectiveBooks
             ExemplarCount += other.ExemplarCount;
             TotalCost += other.TotalCost;
             LoanCount += other.LoanCount;
+            if (Date == DateTime.MinValue)
+            {
+                Date = other.Date;
+            }
+            else if (other.Date != DateTime.MinValue && other.Date < Date)
+            {
+                Date = other.Date;
+            }
         }
 
         public void Output
@@ -125,30 +153,60 @@ namespace EffectiveBooks
 
             decimal meanLoan = (decimal)LoanCount / ExemplarCount;
 
+            int days = Date == DateTime.MinValue
+                ? 0
+                : (DateTime.Today - Date).Days + 1;
+            decimal dayLoan = days == 0
+                ? 0
+                : (decimal) LoanCount / days;
+            decimal rdrEff = days == 0
+                ? 0
+                : (decimal) LoanCount / ExemplarCount / days * 1000m;
+            decimal finEff = days == 0
+                ? 0
+                : LoanCount / TotalCost / days * 100000m;
+
             Console.WriteLine
                 (
                     string.Format
                         (
                             CultureInfo.InvariantCulture,
-                            "{0}\t{1}\t{2}\t{3:F2}\t{4}\t{5:F2}\t{6:F2}",
+                            "{0}\t{1:d}\t{2}\t{3}\t{4:F2}\t{5}\t{6:F2}\t{7:F2}\t{8:F2}\t{9:F2}\t{10:F2}",
                             Description,
+                            Date,
                             TitleCount,
                             ExemplarCount,
                             TotalCost,
                             LoanCount,
                             meanLoan,
-                            loanCost
+                            loanCost,
+                            dayLoan,
+                            rdrEff,
+                            finEff
                         )
                 );
 
             ReportBand band = new ReportBand();
             band.Cells.Add(new TextCell(Description));
-            band.Cells.Add(new TextCell(TitleCount.ToInvariantString()));
-            band.Cells.Add(new TextCell(ExemplarCount.ToInvariantString()));
-            band.Cells.Add(new TextCell(TotalCost.ToInvariantString("F2")));
-            band.Cells.Add(new TextCell(LoanCount.ToInvariantString()));
-            band.Cells.Add(new TextCell(meanLoan.ToInvariantString("F2")));
-            band.Cells.Add(new TextCell(loanCost.ToInvariantString("F2")));
+            band.Cells.Add(new TextCell(Date.ToShortDateString()));
+            band.Cells.Add(new TextCell(TitleCount.ToInvariantString(),
+                new ReportAttribute(ReportAttribute.Number, "0")));
+            band.Cells.Add(new TextCell(ExemplarCount.ToInvariantString(),
+                new ReportAttribute(ReportAttribute.Number, "0")));
+            band.Cells.Add(new TextCell(TotalCost.ToInvariantString("F0"),
+                new ReportAttribute(ReportAttribute.Number, "0")));
+            band.Cells.Add(new TextCell(LoanCount.ToInvariantString(),
+                new ReportAttribute(ReportAttribute.Number, "0")));
+            band.Cells.Add(new TextCell(meanLoan.ToInvariantString("F2"),
+                new ReportAttribute(ReportAttribute.Number, "0.00")));
+            band.Cells.Add(new TextCell(loanCost.ToInvariantString("F2"),
+                new ReportAttribute(ReportAttribute.Number, "0.00")));
+            band.Cells.Add(new TextCell(dayLoan.ToInvariantString("F2"),
+                new ReportAttribute(ReportAttribute.Number, "0.00")));
+            band.Cells.Add(new TextCell(rdrEff.ToInvariantString("F2"),
+                new ReportAttribute(ReportAttribute.Number, "0.00")));
+            band.Cells.Add(new TextCell(finEff.ToInvariantString("F2"),
+                new ReportAttribute(ReportAttribute.Number, "0.00")));
             EffectiveReport.Instance.Body.Add(band);
         }
     }
@@ -195,6 +253,19 @@ namespace EffectiveBooks
 
             foreach (ExemplarInfo exemplar in selected)
             {
+                DateTime date = IrbisDate.ConvertStringToDate(exemplar.Date);
+                if (date != DateTime.MinValue)
+                {
+                    if (result.Date == DateTime.MinValue)
+                    {
+                        result.Date = date;
+                    }
+                    else if (date < result.Date)
+                    {
+                        result.Date = date;
+                    }
+                }
+
                 int amount = exemplar.Amount.SafeToInt32();
                 if (amount == 0)
                 {
@@ -309,6 +380,7 @@ namespace EffectiveBooks
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                throw;
             }
         }
     }

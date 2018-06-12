@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Band.cs -- 
+/* Band.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -130,6 +130,36 @@ namespace ManagedIrbis.Reports
             };
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ReportBand
+            (
+                params ReportCell[] cells
+            )
+            : this()
+        {
+            foreach (ReportCell cell in cells)
+            {
+                Cells.Add(cell);
+            }
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ReportBand
+            (
+                params ReportAttribute[] attributes
+            )
+            : this()
+        {
+            foreach (ReportAttribute attribute in attributes)
+            {
+                Attributes.Add(attribute.Name, attribute.Value);
+            }
+        }
+
         #endregion
 
         #region Private members
@@ -238,7 +268,7 @@ namespace ManagedIrbis.Reports
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public virtual void RenderAllRecords
             (
@@ -266,7 +296,7 @@ namespace ManagedIrbis.Reports
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public void RenderAllRecords
             (

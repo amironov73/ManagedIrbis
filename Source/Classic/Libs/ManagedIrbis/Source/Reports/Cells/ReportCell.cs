@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ReportCell.cs -- 
+/* ReportCell.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -37,7 +37,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Reports
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -108,6 +108,21 @@ namespace ManagedIrbis.Reports
             Attributes = new ReportAttributes();
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        protected ReportCell
+            (
+                params ReportAttribute[] attributes
+            )
+            : this()
+        {
+            foreach (ReportAttribute attribute in attributes)
+            {
+                Attributes.Add(attribute.Name, attribute.Value);
+            }
+        }
+
         #endregion
 
         #region Private members
@@ -120,7 +135,7 @@ namespace ManagedIrbis.Reports
                 ReportContext context
             )
         {
-            ReportEventArgs eventArgs 
+            ReportEventArgs eventArgs
                 = new ReportEventArgs(context);
             AfterCompute.Raise(eventArgs);
         }
@@ -173,7 +188,7 @@ namespace ManagedIrbis.Reports
         /// <summary>
         /// Render the cell.
         /// </summary>
-        public virtual void Render 
+        public virtual void Render
             (
                 [NotNull] ReportContext context
             )
