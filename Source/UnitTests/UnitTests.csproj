@@ -266,6 +266,7 @@
     <Compile Include="ManagedIrbis\Client\LocalProviderTest.cs" />
     <Compile Include="ManagedIrbis\Client\MessageFileTest.cs" />
     <Compile Include="ManagedIrbis\Client\NullProviderTest.cs" />
+    <Compile Include="ManagedIrbis\Client\PlainTextProviderTest.cs" />
     <Compile Include="ManagedIrbis\Client\ProviderManagerTest.cs" />
     <Compile Include="ManagedIrbis\Client\RecordStateComparerTest.cs" />
     <Compile Include="ManagedIrbis\Client\RecordStateTest.cs" />

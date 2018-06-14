@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SemiConnectedClient.cs -- 
+/* SemiConnectedClient.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -16,7 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using CodeJam;
-
+using JetBrains.Annotations;
 using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
 
@@ -30,6 +30,28 @@ namespace ManagedIrbis.Client
     public class SemiConnectedClient
         : ConnectedClient
     {
+        #region Constructrion
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public SemiConnectedClient()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public SemiConnectedClient
+            (
+                [NotNull] IIrbisConnection connection
+            )
+            : base(connection)
+        {
+        }
+
+        #endregion
+
         #region Private members
 
         #endregion

@@ -441,12 +441,15 @@ namespace ManagedIrbis.Pft
         {
             Code.NotNull(source, "source");
 
-            // TODO some caching
-
-            PftLexer lexer = new PftLexer();
-            PftTokenList tokens = lexer.Tokenize(source);
-            PftParser parser = new PftParser(tokens);
-            PftProgram result = parser.Parse();
+            PftProgram result = ProgramCache.GetProgram(source);
+            if (ReferenceEquals(result, null))
+            {
+                PftLexer lexer = new PftLexer();
+                PftTokenList tokens = lexer.Tokenize(source);
+                PftParser parser = new PftParser(tokens);
+                result = parser.Parse();
+                ProgramCache.AddProgram(source, result);
+            }
 
             return result;
         }

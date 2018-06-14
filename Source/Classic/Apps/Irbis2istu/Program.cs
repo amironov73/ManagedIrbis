@@ -318,7 +318,15 @@ namespace Irbis2istu
 
                     foreach (MarcRecord record in batch)
                     {
-                        ProcessRecord(record);
+                        try
+                        {
+                            ProcessRecord(record);
+                        }
+                        catch (Exception exception)
+                        {
+                            Console.WriteLine("Exception: {0}", exception.Message);
+                            Debug.WriteLine(exception);
+                        }
                     }
 
                     _database

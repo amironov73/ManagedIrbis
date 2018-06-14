@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ProgramCache.cs --
+/* ProgramCache.cs -- simple cache for PFT scripts.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,9 +9,8 @@
 
 #region Using directives
 
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-
-using AM.Collections;
 
 using CodeJam;
 
@@ -22,10 +21,10 @@ using JetBrains.Annotations;
 namespace ManagedIrbis.Pft.Infrastructure
 {
     /// <summary>
-    /// 
+    /// Simple cache for PFT scripts.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    static class ProgramCache
+    public static class ProgramCache
     {
         #region Properties
 
@@ -33,10 +32,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// Registry.
         /// </summary>
         [NotNull]
-        public static CaseInsensitiveDictionary<PftProgram> Registry
+        static Dictionary<string, PftProgram> Registry
         {
             get;
-            private set;
+            set;
         }
 
         #endregion
@@ -45,15 +44,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         static ProgramCache()
         {
-            Registry = new CaseInsensitiveDictionary<PftProgram>();
-            _sync = new object();
+            Registry = new Dictionary<string, PftProgram>();
         }
-
-        #endregion
-
-        #region Private members
-
-        private static readonly object _sync;
 
         #endregion
 
@@ -71,7 +63,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Code.NotNull(sourceText, "sourceText");
             Code.NotNull(program, "program");
 
-            lock (_sync)
+            lock (Registry)
             {
                 Registry[sourceText] = program;
             }
@@ -82,7 +74,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         /// </summary>
         public static void Clear()
         {
-            lock (_sync)
+            lock (Registry)
             {
                 Registry.Clear();
             }
@@ -102,7 +94,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 return null;
             }
 
-            lock (_sync)
+            lock (Registry)
             {
                 PftProgram result;
                 Registry.TryGetValue(sourceText, out result);

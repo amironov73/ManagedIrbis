@@ -60,6 +60,10 @@ namespace EffectiveBooks
                 new ReportAttribute(ReportAttribute.Bold, true)));
             Header.Cells.Add(new TextCell("Дата",
                 new ReportAttribute(ReportAttribute.Bold, true)));
+            Header.Cells.Add(new TextCell("Сигла",
+                new ReportAttribute(ReportAttribute.Bold, true)));
+            Header.Cells.Add(new TextCell("ББК",
+                new ReportAttribute(ReportAttribute.Bold, true)));
             Header.Cells.Add(new TextCell("Назв.",
                 new ReportAttribute(ReportAttribute.Bold, true)));
             Header.Cells.Add(new TextCell("Экз.",
@@ -78,6 +82,21 @@ namespace EffectiveBooks
                 new ReportAttribute(ReportAttribute.Bold, true)));
             Header.Cells.Add(new TextCell("Фин. эффект.",
                 new ReportAttribute(ReportAttribute.Bold, true)));
+        }
+
+        #endregion
+
+        #region Public methods
+
+        public static void AddLine(string text)
+        {
+            Instance.Body.Add(new ReportBand(new TextCell(text)));
+        }
+
+        public static void BoldLine(string text)
+        {
+            Instance.Body.Add(new ReportBand(new TextCell(text,
+                new ReportAttribute(ReportAttribute.Bold, true))));
         }
 
         #endregion
@@ -115,6 +134,16 @@ namespace EffectiveBooks
         /// </summary>
         public DateTime Date;
 
+        /// <summary>
+        /// Сигла (фонд).
+        /// </summary>
+        public string Sigla;
+
+        /// <summary>
+        /// ББК.
+        /// </summary>
+        public string Bbk;
+
         public void Add
             (
                 [NotNull] EffectiveStat other
@@ -144,7 +173,6 @@ namespace EffectiveBooks
             if (indent)
             {
                 Console.WriteLine();
-                EffectiveReport.Instance.Body.Add(new ReportBand());
             }
 
             decimal loanCost = LoanCount == 0
@@ -164,16 +192,20 @@ namespace EffectiveBooks
                 : (decimal) LoanCount / ExemplarCount / days * 1000m;
             decimal finEff = days == 0
                 ? 0
-                : LoanCount / TotalCost / days * 100000m;
+                : TotalCost == 0
+                  ? 0
+                  : LoanCount / TotalCost / days * 100000m;
 
             Console.WriteLine
                 (
                     string.Format
                         (
                             CultureInfo.InvariantCulture,
-                            "{0}\t{1:d}\t{2}\t{3}\t{4:F2}\t{5}\t{6:F2}\t{7:F2}\t{8:F2}\t{9:F2}\t{10:F2}",
+                            "{0}\t{1:d}\t{2}\t{3}\t{4}\t{5}\t{6:F0}\t{7}\t{8:F2}\t{9:F2}\t{10:F2}\t{11:F2}\t{12:F2}",
                             Description,
                             Date,
+                            Sigla,
+                            Bbk,
                             TitleCount,
                             ExemplarCount,
                             TotalCost,
@@ -189,6 +221,8 @@ namespace EffectiveBooks
             ReportBand band = new ReportBand();
             band.Cells.Add(new TextCell(Description));
             band.Cells.Add(new TextCell(Date.ToShortDateString()));
+            band.Cells.Add(new TextCell(Sigla));
+            band.Cells.Add(new TextCell(Bbk));
             band.Cells.Add(new TextCell(TitleCount.ToInvariantString(),
                 new ReportAttribute(ReportAttribute.Number, "0")));
             band.Cells.Add(new TextCell(ExemplarCount.ToInvariantString(),
@@ -251,6 +285,8 @@ namespace EffectiveBooks
                 totalExemplars += amount;
             }
 
+            List<string> siglas = new List<string>();
+
             foreach (ExemplarInfo exemplar in selected)
             {
                 DateTime date = IrbisDate.ConvertStringToDate(exemplar.Date);
@@ -280,6 +316,8 @@ namespace EffectiveBooks
                     price = book.Price;
                 }
 
+                siglas.Add(exemplar.Place);
+
                 result.TotalCost += amount * price;
             }
 
@@ -289,7 +327,12 @@ namespace EffectiveBooks
                 loanCount = loanCount * result.ExemplarCount / totalExemplars;
             }
 
+            result.Bbk = record.FM(621).SafeSubstring(0, 2);
+
             result.LoanCount = (int)loanCount;
+            result.Sigla = string.Join(" ", siglas.Distinct()
+                .Where(s => !string.IsNullOrEmpty(s))
+                .Select(s => s.ToUpperInvariant()));
 
             return result;
         }
@@ -352,20 +395,42 @@ namespace EffectiveBooks
                 using (_connection = new IrbisConnection(connectionString))
                 {
                     _provider = new ConnectedClient(_connection);
+                    //_provider = new SemiConnectedClient(_connection);
                     EffectiveReport.Instance = new EffectiveReport(_provider);
                     MenuFile menu = MenuFile.ParseLocalFile("ksu.mnu");
                     EffectiveStat totalStat = new EffectiveStat
                     {
                         Description = "Всего по всем КСУ"
                     };
+                    bool first = true;
+
                     foreach (MenuEntry entry in menu.Entries)
                     {
+                        if (_outputBooks)
+                        {
+                            if (!first)
+                            {
+                                EffectiveReport.AddLine(string.Empty);
+                            }
+
+                            first = false;
+
+                            string title = string.Format
+                                (
+                                    "{0} {1}",
+                                    entry.Code,
+                                    entry.Comment
+                                );
+                            EffectiveReport.BoldLine(title);
+                        }
+
                         EffectiveStat ksuStat = ProcessKsu(entry);
-                        ksuStat.Output(_outputBooks);
+                        ksuStat.Output(false);
                         totalStat.Add(ksuStat);
                     }
 
-                    totalStat.Output(true);
+                    EffectiveReport.AddLine(string.Empty);
+                    totalStat.Output(false);
                 }
 
                 ExcelDriver driver = new ExcelDriver();
