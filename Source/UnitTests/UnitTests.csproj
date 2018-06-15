@@ -262,6 +262,7 @@
     <Compile Include="ManagedIrbis\Client\EntryIniSectionTest.cs" />
     <Compile Include="ManagedIrbis\Client\IrbisProviderAsyncExtensionsTest.cs" />
     <Compile Include="ManagedIrbis\Client\IrbisProviderTest.cs" />
+    <Compile Include="ManagedIrbis\Client\IsoFileProviderTest.cs" />
     <Compile Include="ManagedIrbis\Client\LocalCatalogerIniFileTest.cs" />
     <Compile Include="ManagedIrbis\Client\LocalProviderTest.cs" />
     <Compile Include="ManagedIrbis\Client\MessageFileTest.cs" />

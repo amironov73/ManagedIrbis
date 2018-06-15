@@ -70,7 +70,7 @@ namespace ManagedIrbis.ImportExport
 
             for (; count > 0; count--, offset++)
             {
-                result = result * 10 + (bytes[offset] - ((byte)'0'));
+                result = result * 10 + (bytes[offset] - (byte)'0');
             }
 
             return result;
@@ -82,7 +82,7 @@ namespace ManagedIrbis.ImportExport
             len--;
             for (pos += len; len >= 0; len--)
             {
-                chars[pos] = (char)((val % 10) + ((byte)'0'));
+                chars[pos] = (char)(val % 10 + (byte)'0');
                 val /= 10;
                 // @@@@@@@@@@@@
                 pos--;
@@ -155,8 +155,8 @@ namespace ManagedIrbis.ImportExport
             {
                 // находим следующее поле
                 // Если нарвались на разделитель, заканчиваем
-                if ((record[dic] == FieldDelimiter)
-                     || (start > (recordLength - 4)))
+                if (record[dic] == FieldDelimiter
+                     || start > recordLength - 4)
                 {
                     break;
                 }
@@ -194,8 +194,8 @@ namespace ManagedIrbis.ImportExport
                             // Нарвались на поле без подполей
                             for (end = start; ; end++)
                             {
-                                if ((record[end] == FieldDelimiter)
-                                     || (record[end] == SubfieldDelimiter))
+                                if (record[end] == FieldDelimiter
+                                     || record[end] == SubfieldDelimiter)
                                 {
                                     break;
                                 }
@@ -210,14 +210,13 @@ namespace ManagedIrbis.ImportExport
                         else
                         {
                             // Декодируем подполя
-                            SubField sub = new SubField
-                                (chars[++start]);
+                            SubField sub = new SubField (chars[++start]);
                             fld.SubFields.Add(sub);
                             start++;
                             for (end = start; ; end++)
                             {
-                                if ((record[end] == FieldDelimiter)
-                                     || (record[end] == SubfieldDelimiter))
+                                if (record[end] == FieldDelimiter
+                                     || record[end] == SubfieldDelimiter)
                                 {
                                     break;
                                 }
@@ -234,6 +233,7 @@ namespace ManagedIrbis.ImportExport
                 }
             }
 
+            result.Modified = false;
             return result;
         }
 

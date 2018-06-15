@@ -98,6 +98,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\MixedChapter.cs">
       <Link>Source\Biblio\Chapters\MixedChapter.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\IsoFileProvider.cs">
+      <Link>Source\Client\IsoFileProvider.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\PlainTextProvider.cs">
       <Link>Source\Client\PlainTextProvider.cs</Link>
     </Compile>

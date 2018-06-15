@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* PlainTextProvider.cs -- client for plain text file.
+/* IsoFileProvider.cs -- client for ISO 2709 file.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 
 using AM;
@@ -21,6 +22,8 @@ using AM.IO;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.ImportExport;
 
 using MoonSharp.Interpreter;
 
@@ -31,19 +34,26 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Client
 {
     /// <summary>
-    /// Client for plain text file.
+    /// Client for ISO 2709 file.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class PlainTextProvider
+    public sealed class IsoFileProvider
         : IrbisProvider
     {
-        #region Constants
+        #region Nested classes
 
-        /// <summary>
-        /// Record separator.
-        /// </summary>
-        public const string RecordSeparator = "*****";
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        struct Layout
+        {
+            public long Offset;
+
+            public int Length;
+        }
+
+        #endregion
+
+        #region Constants
 
         /// <summary>
         /// Extension of the layout file.
@@ -61,6 +71,12 @@ namespace ManagedIrbis.Client
         public string FilePath { get; private set; }
 
         /// <summary>
+        /// Encoding
+        /// </summary>
+        [NotNull]
+        public Encoding Encoding { get; private set; }
+
+        /// <summary>
         /// Layout file path.
         /// </summary>
         [NotNull]
@@ -76,63 +92,77 @@ namespace ManagedIrbis.Client
 
         #region Private members
 
-        private StreamReader _reader;
+        private Layout[] _layout;
 
-        /// <summary>
-        /// Смещения до записей.
-        /// </summary>
-        private long[] _layout;
+        private Stream _stream;
 
         private void _ScanFile()
         {
-            Stream stream;
-
             string layoutPath = LayoutPath;
             if (File.Exists(layoutPath))
             {
-                using (stream = File.OpenRead(layoutPath))
+                using (Stream stream = File.OpenRead(layoutPath))
                 {
                     BinaryReader reader = new BinaryReader(stream);
-                    int length = checked((int) (stream.Length / sizeof(long)));
-                    _layout = new long[length];
-                    for (int i = 0; i < length; i++)
+                    int itemCount = checked((int)
+                        (
+                            stream.Length / Marshal.SizeOf(typeof(Layout))
+                        ));
+                    _layout = new Layout[itemCount];
+                    for (int i = 0; i < itemCount; i++)
                     {
-                        _layout[i] = reader.ReadInt64();
+                        Layout item = new Layout
+                        {
+                            Offset = reader.ReadInt64(),
+                            Length = reader.ReadInt32()
+                        };
+                        _layout[i] = item;
                     }
                 }
 
                 return;
             }
 
-            stream = _reader.BaseStream;
-            _reader.DiscardBufferedData();
-            stream.Seek(0, SeekOrigin.Begin);
-
-            Encoding encoding = _reader.CurrentEncoding;
-            List<long> offsets = new List<long> ();
-            string line;
-            long start = 0, position = 0;
-            while ((line = _reader.ReadLine()) != null)
+            List<Layout> list = new List<Layout>();
+            _stream.Seek(0, SeekOrigin.Begin);
+            int bufferLength = 5;
+            byte[] buffer = new byte[bufferLength];
+            long streamLength = _stream.Length, position = 0;
+            while (position < streamLength)
             {
-                position += encoding.GetByteCount(line) + 2;
-                if (line == RecordSeparator)
+                int readed = _stream.Read(buffer, 0, bufferLength);
+                if (readed != bufferLength)
                 {
-                    offsets.Add(start);
-                    start = position;
+                    throw new IrbisException();
                 }
+
+                int recordLength = FastNumber.ParseInt32(buffer, 0, bufferLength);
+                if (recordLength <= 0)
+                {
+                    throw new IrbisException();
+                }
+
+                Layout item = new Layout
+                {
+                    Offset = position,
+                    Length = recordLength
+                };
+                list.Add(item);
+                position += recordLength;
+                _stream.Seek(position, SeekOrigin.Begin);
             }
 
-            _layout = offsets.ToArray();
+            _layout = list.ToArray();
         }
 
         #endregion
 
-        #region Contruction
+        #region Construction
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PlainTextProvider
+        public IsoFileProvider
             (
                 [NotNull] string filePath,
                 [NotNull] Encoding encoding
@@ -142,8 +172,9 @@ namespace ManagedIrbis.Client
             Code.NotNull(encoding, "encoding");
 
             FilePath = filePath;
+            Encoding = encoding;
             Database = Path.GetFileNameWithoutExtension(filePath);
-            _reader = TextReaderUtility.OpenRead(filePath, encoding);
+            _stream = File.OpenRead(filePath);
             _ScanFile();
         }
 
@@ -172,7 +203,9 @@ namespace ManagedIrbis.Client
                 BinaryWriter writer = new BinaryWriter(stream);
                 for (int i = 0; i < _layout.Length; i++)
                 {
-                    writer.Write(_layout[i]);
+                    Layout item = _layout[i];
+                    writer.Write(item.Offset);
+                    writer.Write(item.Length);
                 }
             }
         }
@@ -200,82 +233,26 @@ namespace ManagedIrbis.Client
                 return null;
             }
 
-            long offset = _layout[mfn-1];
-            _reader.DiscardBufferedData();
-            _reader.BaseStream.Seek(offset, SeekOrigin.Begin);
+            Layout item = _layout[mfn - 1];
+            long offset = item.Offset;
+            int length = item.Length;
 
-            MarcRecord result = new MarcRecord()
+            _stream.Seek(offset, SeekOrigin.Begin);
+            byte[] buffer = new byte[length];
+            int readed = _stream.Read(buffer, 0, length);
+            if (readed != length)
             {
-                Mfn = mfn,
-                Database = Database
-            };
-            while (true)
-            {
-                string line = _reader.ReadLine();
-                if (string.IsNullOrEmpty(line))
-                {
-                    throw new IrbisException();
-                }
-
-                if (line == RecordSeparator)
-                {
-                    break;
-                }
-
-                if (line[0] != '#')
-                {
-                    throw new IrbisException();
-                }
-
-                int pos = line.IndexOf(':') + 1;
-                if (pos <= 1 || line[pos] != ' ')
-                {
-                    throw new IrbisException();
-                }
-
-                int tag = FastNumber.ParseInt32(line, 1, pos - 2);
-                RecordField field = new RecordField(tag);
-                result.Fields.Add(field);
-                int start = ++pos, length = line.Length;
-                while (pos < length)
-                {
-                    if (line[pos] == '^')
-                    {
-                        break;
-                    }
-                    pos++;
-                }
-
-                if (pos != start)
-                {
-                    field.Value = line.Substring(start, pos - start);
-                    start = pos;
-                }
-
-                while (start < length - 1)
-                {
-                    char code = line[++start];
-                    pos = ++start;
-                    while (pos < length)
-                    {
-                        if (line[pos] == '^')
-                        {
-                            break;
-                        }
-                        pos++;
-                    }
-
-                    SubField sub = new SubField
-                        (
-                            code,
-                            line.Substring(start, pos - start)
-                        );
-                    field.SubFields.Add(sub);
-                    start = pos;
-                }
+                throw new IrbisException();
             }
 
-            result.Modified = false;
+            MemoryStream memory = new MemoryStream(buffer);
+            MarcRecord result = Iso2709.ReadRecord(memory, Encoding);
+            if (!ReferenceEquals(result, null))
+            {
+                result.Database = Database;
+                result.Mfn = mfn;
+            }
+
             return result;
         }
 
@@ -307,10 +284,10 @@ namespace ManagedIrbis.Client
         /// <inheritdoc cref="IDisposable.Dispose"/>
         public override void Dispose()
         {
-            if (!ReferenceEquals(_reader, null))
+            if (!ReferenceEquals(_stream, null))
             {
-                _reader.Dispose();
-                _reader = null;
+                _stream.Dispose();
+                _stream = null;
             }
 
             base.Dispose();
