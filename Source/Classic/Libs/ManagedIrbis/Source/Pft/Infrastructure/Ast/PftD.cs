@@ -181,7 +181,14 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
             else
             {
-                context.DoRepeatableAction(_Execute, 1);
+                PftContext childContext = new PftContext(context)
+                {
+                    FieldOutputMode = context.FieldOutputMode,
+                    UpperMode = context.UpperMode,
+                    Output = context.Output
+                };
+
+                childContext.DoRepeatableAction(_Execute, 1);
             }
 
             OnAfterExecution(context);

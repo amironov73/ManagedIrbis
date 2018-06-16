@@ -242,9 +242,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             }
             else
             {
-                _count = GetCount(context);
+                PftContext childContext = new PftContext(context)
+                {
+                    FieldOutputMode = context.FieldOutputMode,
+                    UpperMode = context.UpperMode,
+                    Output = context.Output
+                };
 
-                context.DoRepeatableAction(_Execute);
+                _count = GetCount(childContext);
+                childContext.DoRepeatableAction(_Execute);
             }
 
             OnAfterExecution(context);

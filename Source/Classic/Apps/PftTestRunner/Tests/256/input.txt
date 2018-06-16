@@ -1,0 +1,1 @@
+﻿if p(v700) then v700^a if p(v700^b) then " "v700^b else " "v700^g fi '. ' fi

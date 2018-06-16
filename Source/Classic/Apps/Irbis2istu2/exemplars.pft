@@ -1,0 +1,7 @@
+﻿f(rsum(
+  (if p(v910) then
+    if '0159': v910^a then '1' fi,
+    if 'CU': v910^a then v910^1 fi,
+    ';'
+  fi)
+),0,0)

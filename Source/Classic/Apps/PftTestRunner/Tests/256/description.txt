@@ -1,0 +1,1 @@
+﻿Proper PftV output outside of the repeatable group
