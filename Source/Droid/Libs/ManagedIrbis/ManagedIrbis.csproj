@@ -227,8 +227,20 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Coden.cs">
       <Link>Source\Identifiers\Coden.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Gdti.cs">
+      <Link>Source\Identifiers\Gdti.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isadn.cs">
+      <Link>Source\Identifiers\Isadn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isan.cs">
+      <Link>Source\Identifiers\Isan.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isil.cs">
       <Link>Source\Identifiers\Isil.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isli.cs">
+      <Link>Source\Identifiers\Isli.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isrc.cs">
       <Link>Source\Identifiers\Isrc.cs</Link>

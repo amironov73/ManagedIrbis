@@ -130,7 +130,11 @@
     <Compile Include="Source\Fields\TitleComparer.cs" />
     <Compile Include="Source\Identifiers\Bici.cs" />
     <Compile Include="Source\Identifiers\Coden.cs" />
+    <Compile Include="Source\Identifiers\Gdti.cs" />
+    <Compile Include="Source\Identifiers\Isadn.cs" />
+    <Compile Include="Source\Identifiers\Isan.cs" />
     <Compile Include="Source\Identifiers\Isil.cs" />
+    <Compile Include="Source\Identifiers\Isli.cs" />
     <Compile Include="Source\Identifiers\Isrc.cs" />
     <Compile Include="Source\Identifiers\Pii.cs" />
     <Compile Include="Source\Identifiers\Pmid.cs" />
