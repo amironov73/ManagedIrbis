@@ -123,10 +123,12 @@
     <Compile Include="Source\Biblio\TermComparer.cs" />
     <Compile Include="Source\BibTex\BibTex.cs" />
     <Compile Include="Source\Client\ConnectedFormatter.cs" />
+    <Compile Include="Source\Direct\FoundRecord.cs" />
     <Compile Include="Source\Direct\MappedAccess64.cs" />
     <Compile Include="Source\Direct\MappedInvertedFile64.cs" />
     <Compile Include="Source\Direct\MappedMstFile64.cs" />
     <Compile Include="Source\Direct\MappedXrfFile64.cs" />
+    <Compile Include="Source\Direct\MstRecover64.cs" />
     <Compile Include="Source\Fields\AuthorComparer.cs" />
     <Compile Include="Source\Fields\BookComparer.cs" />
     <Compile Include="Source\Fields\BookInfo.cs" />

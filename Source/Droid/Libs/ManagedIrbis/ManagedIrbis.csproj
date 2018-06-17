@@ -197,6 +197,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ConnectedFormatter.cs">
       <Link>Source\Client\ConnectedFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\FoundRecord.cs">
+      <Link>Source\Direct\FoundRecord.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MappedAccess64.cs">
       <Link>Source\Direct\MappedAccess64.cs</Link>
     </Compile>
@@ -208,6 +211,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MappedXrfFile64.cs">
       <Link>Source\Direct\MappedXrfFile64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstRecover64.cs">
+      <Link>Source\Direct\MstRecover64.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\AuthorComparer.cs">
       <Link>Source\Fields\AuthorComparer.cs</Link>

@@ -29,7 +29,7 @@ namespace ManagedIrbis.Direct
     public struct MstRecordLeader64
     {
         #region Constants
-        
+
         /// <summary>
         /// Фиксированный размер лидера записи.
         /// </summary>
@@ -102,7 +102,7 @@ namespace ManagedIrbis.Direct
                 Status = stream.ReadInt32Network()
             };
 
-            //Debug.Assert(result.Base == 
+            //Debug.Assert(result.Base ==
             //    (LeaderSize + result.Nvf * MstDictionaryEntry64.EntrySize));
 
             return result;
@@ -132,20 +132,20 @@ namespace ManagedIrbis.Direct
         #region Object members
 
         /// <inheritdoc cref="object.ToString" />
-        public override string ToString ()
+        public override string ToString()
         {
-            return string.Format 
-                ( 
+            return string.Format
+                (
                     "Mfn: {0}, Length: {1}, Previous: {2}, "
                   + "Base: {3}, Nvf: {4}, Status: {5}, "
-                  + "Version: {6}", 
+                  + "Version: {6}",
                     Mfn,
-                    Length, 
-                    Previous, 
-                    Base, 
-                    Nvf, 
-                    Status, 
-                    Version 
+                    Length,
+                    Previous,
+                    Base,
+                    Nvf,
+                    Status,
+                    Version
                 );
         }
 
