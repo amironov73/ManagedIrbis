@@ -230,11 +230,26 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Gdti.cs">
       <Link>Source\Identifiers\Gdti.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Grid.cs">
+      <Link>Source\Identifiers\Grid.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Gsrn.cs">
+      <Link>Source\Identifiers\Gsrn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Gtin.cs">
+      <Link>Source\Identifiers\Gtin.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Imsi.cs">
+      <Link>Source\Identifiers\Imsi.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isadn.cs">
       <Link>Source\Identifiers\Isadn.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isan.cs">
       <Link>Source\Identifiers\Isan.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isci.cs">
+      <Link>Source\Identifiers\Isci.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isil.cs">
       <Link>Source\Identifiers\Isil.cs</Link>
@@ -244,6 +259,18 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isrc.cs">
       <Link>Source\Identifiers\Isrc.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Isrn.cs">
+      <Link>Source\Identifiers\Isrn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Istc.cs">
+      <Link>Source\Identifiers\Istc.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Iswc.cs">
+      <Link>Source\Identifiers\Iswc.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\MessageId.cs">
+      <Link>Source\Identifiers\MessageId.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Pii.cs">
       <Link>Source\Identifiers\Pii.cs</Link>
