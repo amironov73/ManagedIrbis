@@ -157,6 +157,39 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\MixedChapter.cs">
       <Link>Source\Biblio\Chapters\MixedChapter.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\BibTex\BibTexField.cs">
+      <Link>Source\BibTex\BibTexField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\BibTex\FieldCollection.cs">
+      <Link>Source\BibTex\FieldCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\BibTex\KnownTags.cs">
+      <Link>Source\BibTex\KnownTags.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\BibTex\BibTexParser.cs">
+      <Link>Source\BibTex\BibTexParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\BibTex\BibTexFile.cs">
+      <Link>Source\BibTex\BibTexFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\BibTex\BibTexRecord.cs">
+      <Link>Source\BibTex\BibTexRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\BibTex\RecordCollection.cs">
+      <Link>Source\BibTex\RecordCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\BibTex\RecordType.cs">
+      <Link>Source\BibTex\RecordType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\BibTex\Token.cs">
+      <Link>Source\BibTex\Token.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\BibTex\BibTexTokenizer.cs">
+      <Link>Source\BibTex\BibTexTokenizer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\BibTex\TokenKind.cs">
+      <Link>Source\BibTex\TokenKind.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\IsoFileProvider.cs">
       <Link>Source\Client\IsoFileProvider.cs</Link>
     </Compile>

@@ -10,6 +10,7 @@
 #region Using directives
 
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -25,7 +26,7 @@ using JetBrains.Annotations;
 namespace ManagedIrbis.ImportExport
 {
     //
-    // Текстовые файлы документов используются для 
+    // Текстовые файлы документов используются для
     // импорта/экспорта данных в режимах ИМПОРТ и ЭКСПОРТ
     // АРМов «Каталогизатор» и «Администратор».
     //
@@ -345,6 +346,43 @@ namespace ManagedIrbis.ImportExport
             }
 
             return result.ToString();
+        }
+
+        /// <summary>
+        /// Export the record.
+        /// </summary>
+        [NotNull]
+        public static TextWriter WriteRecord
+            (
+                [NotNull] TextWriter writer,
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(writer, "writer");
+            Code.NotNull(record, "record");
+
+            CultureInfo culture = CultureInfo.InvariantCulture;
+            foreach (RecordField field in record.Fields)
+            {
+                writer.Write('#');
+                writer.Write(field.Tag.ToString(culture));
+                writer.Write(": ");
+                if (!string.IsNullOrEmpty(field.Value))
+                {
+                    writer.Write(field.Value);
+                }
+
+                foreach (SubField subField in field.SubFields)
+                {
+                    writer.Write("^{0}{1}", subField.Code, subField.Value);
+                }
+
+                writer.WriteLine();
+            }
+
+            writer.WriteLine("*****");
+
+            return writer;
         }
 
         #endregion

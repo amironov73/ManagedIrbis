@@ -18,6 +18,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Direct;
+using ManagedIrbis.ImportExport;
 
 #endregion
 
@@ -27,33 +28,6 @@ namespace MstDoctor
 {
     class Program
     {
-        static void WriteRecord
-            (
-                [NotNull] StreamWriter writer,
-                [NotNull] MarcRecord record
-            )
-        {
-            CultureInfo culture = CultureInfo.InvariantCulture;
-
-            foreach (RecordField field in record.Fields)
-            {
-                writer.Write(string.Format(culture, "#{0}: ", field.Tag));
-                if (!string.IsNullOrEmpty(field.Value))
-                {
-                    writer.Write(field.Value);
-                }
-
-                foreach (SubField subField in field.SubFields)
-                {
-                    writer.Write("^{0}{1}", subField.Code, subField.Value);
-                }
-
-                writer.WriteLine();
-            }
-
-            writer.WriteLine("*****");
-        }
-
         static void Main(string[] args)
         {
             if (args.Length != 2)
@@ -90,7 +64,7 @@ namespace MstDoctor
                         MstRecord64 mstRecord = input.ReadRecord(info.Position);
                         MarcRecord marcRecord = mstRecord.DecodeRecord();
 
-                        WriteRecord(output, marcRecord);
+                        PlainText.WriteRecord(output, marcRecord);
                     }
                 }
             }

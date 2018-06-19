@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* BibTex.cs -- 
+/* BibTex.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -19,6 +19,9 @@ using System.Threading.Tasks;
 
 namespace ManagedIrbis.BibTex
 {
+    //
+    // https://github.com/MaikelH/BibtexLibrary
+    //
 
     //
     // BibTeX — программное обеспечение для создания

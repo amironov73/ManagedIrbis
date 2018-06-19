@@ -83,6 +83,17 @@
     <Compile Include="Source\Batch\BatchRecordWriter.cs" />
     <Compile Include="Source\Batch\BatchSearcher.cs" />
     <Compile Include="Source\Biblio\Chapters\MixedChapter.cs" />
+    <Compile Include="Source\BibTex\BibTexField.cs" />
+    <Compile Include="Source\BibTex\FieldCollection.cs" />
+    <Compile Include="Source\BibTex\KnownTags.cs" />
+    <Compile Include="Source\BibTex\BibTexParser.cs" />
+    <Compile Include="Source\BibTex\BibTexFile.cs" />
+    <Compile Include="Source\BibTex\BibTexRecord.cs" />
+    <Compile Include="Source\BibTex\RecordCollection.cs" />
+    <Compile Include="Source\BibTex\RecordType.cs" />
+    <Compile Include="Source\BibTex\Token.cs" />
+    <Compile Include="Source\BibTex\BibTexTokenizer.cs" />
+    <Compile Include="Source\BibTex\TokenKind.cs" />
     <Compile Include="Source\Client\IsoFileProvider.cs" />
     <Compile Include="Source\Client\PlainTextProvider.cs" />
     <Compile Include="Source\ConnectionFactory.cs" />
