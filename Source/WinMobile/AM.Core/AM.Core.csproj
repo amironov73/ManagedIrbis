@@ -734,6 +734,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\ExcludeFromCodeCoverageAttribute.cs">
       <Link>Compatibility\ExcludeFromCodeCoverageAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\Progress.cs">
+      <Link>Compatibility\Progress.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\MarshalByRefObject.cs">
       <Link>Compatibility\MarshalByRefObject.cs</Link>
     </Compile>

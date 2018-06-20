@@ -26,8 +26,9 @@ namespace ManagedIrbis.BibTex
     /// </summary>
     public enum TokenKind
     {
-        None = -1,
-
-        Qqq
+        /// <summary>
+        ///
+        /// </summary>
+        None = -1
     }
 }

@@ -33,6 +33,16 @@ namespace ManagedIrbis.BibTex
         #region Properties
 
         /// <summary>
+        /// Record type.
+        /// </summary>
+        public string Type { get; set; }
+
+        /// <summary>
+        /// Record tag.
+        /// </summary>
+        public string Tag { get; set; }
+
+        /// <summary>
         /// Поля записи.
         /// </summary>
         [NotNull]
