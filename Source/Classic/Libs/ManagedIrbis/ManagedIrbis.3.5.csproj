@@ -1056,6 +1056,7 @@
   </ItemGroup>
   <!-- END -->
   <ItemGroup>
+    <Compile Include="Properties\LocalAssemblyInfo.cs" />
     <Compile Include="..\..\Common\AssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>

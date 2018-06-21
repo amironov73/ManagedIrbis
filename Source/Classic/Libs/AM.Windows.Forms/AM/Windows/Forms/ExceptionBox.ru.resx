@@ -439,4 +439,10 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Ошибка</value>
   </data>
+  <data name="_saveFileDialog.Filter" xml:space="preserve">
+    <value>Text files|*.txt|All files|*.*</value>
+  </data>
+  <data name="_attachmentsButton.Text" xml:space="preserve">
+    <value>Прикрепленные файлы</value>
+  </data>
 </root>

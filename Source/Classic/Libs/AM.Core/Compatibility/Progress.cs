@@ -33,10 +33,11 @@ namespace System
     {
         #region Events
 
-        /// <summary>
-        /// Raised for each reported progress value.
-        /// </summary>
-        public event EventHandler<T> ProgressChanged;
+        // TODO 3.5 compatibility
+        ///// <summary>
+        ///// Raised for each reported progress value.
+        ///// </summary>
+        //public event EventHandler<T> ProgressChanged;
 
         #endregion
 
@@ -80,11 +81,12 @@ namespace System
                 handler(value);
             }
 
-            EventHandler<T> eventHandler = ProgressChanged;
-            if (!ReferenceEquals(eventHandler, null))
-            {
-                eventHandler.Invoke(this, value);
-            }
+            // TODO 3.5 compatibility
+            //EventHandler<T> eventHandler = ProgressChanged;
+            //if (!ReferenceEquals(eventHandler, null))
+            //{
+            //    eventHandler.Invoke(this, value);
+            //}
         }
 
         #endregion

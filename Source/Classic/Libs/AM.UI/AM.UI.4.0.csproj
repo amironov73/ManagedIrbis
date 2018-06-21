@@ -195,7 +195,7 @@
       <DependentUpon>ExcelForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AM\UI\MoonExcelData.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\LocalAssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -210,7 +210,6 @@
     <EmbeddedResource Include="AM\UI\ExcelForm.resx">
       <DependentUpon>ExcelForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -597,4 +597,22 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Просмотр изображения</value>
   </data>
+  <data name="_toolBar.Text" xml:space="preserve">
+    <value>toolStrip1</value>
+  </data>
+  <data name="_openFileDialog.Filter" xml:space="preserve">
+    <value>Image files|*.bmp;*.jpg;*.gif;*.tif;*.png|All files|*.*</value>
+  </data>
+  <data name="_resetZoomButton.Text" xml:space="preserve">
+    <value>Вернуть масштаб</value>
+  </data>
+  <data name="_zoomOutButton.Text" xml:space="preserve">
+    <value>Уменьшить</value>
+  </data>
+  <data name="_zoomInButton.Text" xml:space="preserve">
+    <value>Увеличить</value>
+  </data>
+  <data name="_saveFileDialog.Filter" xml:space="preserve">
+    <value>Picture files|*.bmp;*.jpg;*.tif;*.png|All files|*.*</value>
+  </data>
 </root>

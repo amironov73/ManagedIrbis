@@ -240,4 +240,13 @@
   <data name="_pasteToolStripButton.Text" xml:space="preserve">
     <value>Вс&amp;тавить</value>
   </data>
+  <data name="_openFileDialog.Filter" xml:space="preserve">
+    <value>RTF files|*.rtf|All files|*.*</value>
+  </data>
+  <data name="_saveFileDialog.Filter" xml:space="preserve">
+    <value>RTF files|*.rtf|All files|*.*</value>
+  </data>
+  <data name="_toolStrip.Text" xml:space="preserve">
+    <value>toolStrip1</value>
+  </data>
 </root>
