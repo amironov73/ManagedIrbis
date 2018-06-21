@@ -2187,6 +2187,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RawRecord.cs">
       <Link>Source\RawRecord.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Readers\DepersonalizedReader.cs">
+      <Link>Source\Readers\DepersonalizedReader.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RecordComparator.cs">
       <Link>Source\RecordComparator.cs</Link>
     </Compile>

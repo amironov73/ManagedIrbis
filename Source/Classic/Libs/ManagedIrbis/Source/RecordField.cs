@@ -1384,10 +1384,10 @@ namespace ManagedIrbis
 
             foreach (SubField subField in SubFields)
             {
-                verifier.Assert
+                verifier.VerifySubObject
                     (
-                        subField.Verify(throwOnError),
-                        "SubField " + subField.Path
+                        subField,
+                        "SubField"
                     );
             }
 

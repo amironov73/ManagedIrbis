@@ -273,6 +273,27 @@ namespace ManagedIrbis.Readers
             return result;
         }
 
+        /// <summary>
+        /// Один и тот же визит?
+        /// </summary>
+        public static bool SameVisit
+            (
+                [NotNull] this VisitInfo first,
+                [NotNull] VisitInfo second
+            )
+        {
+            Code.NotNull(first, "first");
+            Code.NotNull(second, "second");
+
+            bool result = string.CompareOrdinal(first.Database, second.Database) == 0
+              && string.CompareOrdinal(first.Index, second.Inventory) == 0
+              && string.CompareOrdinal(first.Inventory, second.Inventory) == 0
+              && string.CompareOrdinal(first.Barcode, second.Barcode) == 0
+              && string.CompareOrdinal(first.DateGivenString, second.DateGivenString) == 0;
+
+            return result;
+        }
+
         #endregion
     }
 }

@@ -162,6 +162,11 @@ namespace ManagedIrbis
             {
                 if (Code == NoCode)
                 {
+                    if (!ReferenceEquals(Field, null))
+                    {
+                        return Field.Path;
+                    }
+
                     return string.Empty;
                 }
 

@@ -782,6 +782,7 @@
     <Compile Include="Source\Quality\Rules\Require910.cs" />
     <Compile Include="Source\Quality\Rules\Require920.cs" />
     <Compile Include="Source\RawRecord.cs" />
+    <Compile Include="Source\Readers\DepersonalizedReader.cs" />
     <Compile Include="Source\RecordComparator.cs" />
     <Compile Include="Source\RecordComparer.cs" />
     <Compile Include="Source\RecordDifferenceResult.cs" />
