@@ -43,6 +43,7 @@ namespace ManagedIrbis.Readers
     [XmlRoot("reader")]
     [MoonSharpUserData]
     public sealed class DepersonalizedReader
+        : IHandmadeSerializable
     {
         #region Properties
 
@@ -253,6 +254,53 @@ namespace ManagedIrbis.Readers
             }
 
             return result;
+        }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            DateOfBirth = reader.ReadNullableString();
+            Ticket = reader.ReadNullableString();
+            Gender = reader.ReadNullableString();
+            Category = reader.ReadNullableString();
+            RegistrationDateString = reader.ReadNullableString();
+            Visits = reader.ReadList<VisitInfo>();
+        }
+
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer
+                .WriteNullable(DateOfBirth)
+                .WriteNullable(Ticket)
+                .WriteNullable(Gender)
+                .WriteNullable(Category)
+                .WriteNullable(RegistrationDateString)
+                .WriteList(Visits);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString"/>
+        public override string ToString()
+        {
+            return Ticket.ToVisibleString();
         }
 
         #endregion
