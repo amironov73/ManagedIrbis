@@ -43,7 +43,11 @@ namespace ManagedIrbis.Client
     {
         #region Nested classes
 
+#if WINMOBILE
+        [StructLayout(LayoutKind.Sequential)]
+#else
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
+#endif
         struct Layout
         {
             public long Offset;

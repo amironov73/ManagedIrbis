@@ -930,12 +930,19 @@ namespace ManagedIrbis.Pft
             switch (decimalPoints)
             {
                 case 0:
+#if WINMOBILE
+
+                    value = Math.Round(value, decimalPoints);
+
+#else
+
                     value = Math.Round
                         (
                             value,
                             decimalPoints,
                             MidpointRounding.ToEven
                         );
+#endif
                     break;
 
                 //case 1:

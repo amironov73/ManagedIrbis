@@ -63,6 +63,38 @@
             Gets the russian culture.
             </summary>
         </member>
+        <member name="T:System.IProgress`1">
+            <summary>Defines a provider for progress updates.</summary>
+            <typeparam name="T">The type of progress update value.</typeparam>
+        </member>
+        <member name="M:System.IProgress`1.Report(`0)">
+            <summary>Reports a progress update.</summary>
+            <param name="value">The value of the updated progress.</param>
+        </member>
+        <member name="T:System.Progress`1">
+            <summary>
+            Provides an <see cref="T:System.IProgress`1"/> that invokes callbacks
+            for each reported progress value.
+            </summary>
+        </member>
+        <member name="M:System.Progress`1.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:System.Progress`1.#ctor(System.Action{`0})">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:System.Progress`1.OnReport(`0)">
+            <summary>
+            Reports a progress change.
+            </summary>
+        </member>
+        <member name="M:System.Progress`1.System#IProgress{T}#Report(`0)">
+            <inheritdoc cref="M:System.IProgress`1.Report(`0)"/>
+        </member>
         <member name="T:AM.Threading.ScopedLock">
             <summary>
             
@@ -747,7 +779,7 @@
             </returns>
             <typeparam name="T">Array element type.</typeparam>
             <exception cref="T:System.ArgumentNullException">
-            <paramref name="firstArray"/> or 
+            <paramref name="firstArray"/> or
             <paramref name="secondArray"/> is <c>null</c>.
             </exception>
             <exception cref="T:System.ArgumentException">Length of
@@ -824,6 +856,11 @@
             <exception cref="T:System.ArgumentNullException">
             At least one of <paramref name="arrays"/> is <c>null</c>.
             </exception>
+        </member>
+        <member name="M:AM.ArrayUtility.Range``1(``0[],System.Int32,System.Int32)">
+            <summary>
+            Get range of the array.
+            </summary>
         </member>
         <member name="M:AM.ArrayUtility.SplitArray``1(``0[],System.Int32)">
             <summary>
@@ -5921,84 +5958,84 @@
             </summary>
         </member>
         <member name="F:System.ConsoleColor.Black">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleColor.Blue">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleColor.Cyan">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleColor.DarkBlue">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleColor.DarkCyan">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleColor.DarkGray">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleColor.DarkGreen">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleColor.DarkMagenta">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleColor.DarkRed">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleColor.DarkYellow">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleColor.Gray">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleColor.Green">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleColor.Magenta">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleColor.Red">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleColor.White">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleColor.Yellow">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:System.ConsoleKey">
             <summary>
@@ -6006,144 +6043,144 @@
             </summary>
         </member>
         <member name="F:System.ConsoleKey.A">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.Add">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.Applications">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.Attention">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.B">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.Backspace">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.BrowserBack">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.BrowserFavorites">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.BrowserForward">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.BrowserHome">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.BrowserRefresh">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.BrowserSearch">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.BrowserStop">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.C">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.Clear">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.CrSel">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.D">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.D0">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.D1">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.D2">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.D3">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.D4">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.D5">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.D6">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.D7">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.D8">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.D9">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.Decimal">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.Delete">
              <summary>
@@ -6646,9 +6683,9 @@
              </summary>
         </member>
         <member name="F:System.ConsoleKey.Sleep">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleKey.Spacebar">
              <summary>
@@ -6721,34 +6758,34 @@
              </summary>
         </member>
         <member name="F:System.ConsoleKey.Zoom">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:System.ConsoleModifiers">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleModifiers.Alt">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleModifiers.Control">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:System.ConsoleModifiers.Shift">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:System.ConsoleKeyInfo">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="P:System.ConsoleKeyInfo.Key">
             <summary>
@@ -9814,6 +9851,20 @@
             <param name="value">The value to be converted.</param>
             <returns>Converted value.</returns>
         </member>
+        <member name="M:AM.ConversionUtility.FromBase58String(System.String)">
+            <summary>
+            Converts the specified string, which encodes binary data
+            as base-58 digits, to an equivalent 8-bit unsigned
+            integer array.
+            </summary>
+        </member>
+        <member name="M:AM.ConversionUtility.ToBase58String(System.Byte[])">
+            <summary>
+            Converts an array of 8-bit unsigned integers
+            to its equivalent string representation that
+            is encoded with base-58 digits.
+            </summary>
+        </member>
         <member name="M:AM.ConversionUtility.ToBoolean(System.Object)">
             <summary>
             Converts given object to boolean value.
@@ -10901,6 +10952,26 @@
             <summary>
             Arbitrary user data.
             </summary>
+        </member>
+        <member name="T:AM.Ascii85">
+            <summary>
+            Converts between binary data and an Ascii85-encoded string.
+            </summary>
+            <remarks>See <a href="http://en.wikipedia.org/wiki/Ascii85">Ascii85 at Wikipedia</a>.</remarks>
+        </member>
+        <member name="M:AM.Ascii85.Encode(System.Byte[])">
+            <summary>
+            Encodes the specified byte array in Ascii85.
+            </summary>
+            <param name="bytes">The bytes to encode.</param>
+            <returns>An Ascii85-encoded string representing the input byte array.</returns>
+        </member>
+        <member name="M:AM.Ascii85.Decode(System.String)">
+            <summary>
+            Decodes the specified Ascii85 string into the corresponding byte array.
+            </summary>
+            <param name="encoded">The Ascii85 string.</param>
+            <returns>The decoded byte array.</returns>
         </member>
         <member name="T:AM.ProcessorArchitecture">
             <summary>

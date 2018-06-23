@@ -1261,9 +1261,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Reports.ReportCell">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:ManagedIrbis.Reports.IAttributable">
             <summary>
@@ -1276,6 +1276,11 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Reports.ReportCell.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportCell.#ctor(ManagedIrbis.Reports.ReportAttribute[])">
             <summary>
             Constructor.
             </summary>
@@ -1383,6 +1388,16 @@
             Construction.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Reports.ReportBand.#ctor(ManagedIrbis.Reports.ReportCell[])">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportBand.#ctor(ManagedIrbis.Reports.ReportAttribute[])">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Reports.ReportBand.OnAfterRendering(ManagedIrbis.Reports.ReportContext)">
             <summary>
             Called after <see cref="M:ManagedIrbis.Reports.ReportBand.Render(ManagedIrbis.Reports.ReportContext)"/>.
@@ -1414,14 +1429,14 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Reports.ReportBand.RenderAllRecords(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Pft.PftFormatter)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Reports.ReportBand.RenderAllRecords(ManagedIrbis.Reports.ReportContext)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Reports.ReportBand.RenderRecord(ManagedIrbis.Reports.ReportContext,ManagedIrbis.Pft.PftFormatter,System.Int32)">
             <summary>
@@ -3194,6 +3209,24 @@
             Resolves the credentials.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftQuestion">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftQuestion.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftQuestion.#ctor(ManagedIrbis.Pft.Infrastructure.PftToken)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftQuestion.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
+            <inheritdoc />
+        </member>
         <member name="T:ManagedIrbis.Mx.Infrastructrure.HandlerInstance">
             <summary>
             
@@ -4219,6 +4252,94 @@
             <summary>
             Arbitrary user data.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Gdti">
+            <summary>
+            Global Document Type Identifier.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Gdti.Identifier">
+            <summary>
+            Identifier.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Direct.MstRecover64">
+            <summary>
+            MST file recover.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.MstRecover64.BuildIso(ManagedIrbis.Direct.FoundRecord[],System.String,System.String,System.Text.Encoding)">
+            <summary>
+            Build ISO 2709 file from the found records.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.MstRecover64.BuildMst(ManagedIrbis.Direct.FoundRecord[],System.String,System.String)">
+            <summary>
+            Rebuild MST file from the found records.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.MstRecover64.BuildText(ManagedIrbis.Direct.FoundRecord[],System.String,System.String,System.Text.Encoding)">
+            <summary>
+            Build text file from the found records.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.MstRecover64.BuildXrf(ManagedIrbis.Direct.FoundRecord[],System.String)">
+            <summary>
+            Rebuild XRF file from the found records.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.MstRecover64.CheckXrf(System.String,System.String)">
+            <summary>
+            Check XRF and MST.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.MstRecover64.FindRecords(System.String)">
+            <summary>
+            Find records.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Direct.FoundRecord">
+            <summary>
+            Found record info.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.FoundRecord.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Direct.FoundRecord.Mfn">
+            <summary>
+            MFN.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.FoundRecord.Position">
+            <summary>
+            Offset.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.FoundRecord.Length">
+            <summary>
+            Length of the record.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.FoundRecord.FieldCount">
+            <summary>
+            Field count.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.FoundRecord.Version">
+            <summary>
+            Version of the record.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.FoundRecord.Flags">
+            <summary>
+            Flags.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.BibTex.Token">
+             <summary>
+            
+             </summary>
         </member>
         <member name="T:ManagedIrbis.Authentication.AbstractAuthenticator">
             <summary>
@@ -6656,6 +6777,11 @@
             Конструктор
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Direct.NodeRecord.DumpRecord(System.IO.TextWriter)">
+            <summary>
+            Dump the record.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Direct.NodeRecord.ToString">
             <inheritdoc cref="M:System.Object.ToString"/>
         </member>
@@ -6950,6 +7076,21 @@
             <summary>
             Root directory.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Metadata.Onix.OnixRecord">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Metadata.Onix.OnixRecord.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Metadata.Onix.OnixRecord.Fields">
+             <summary>
+            
+             </summary>
         </member>
         <member name="T:ManagedIrbis.Mx.Commands.InfoCommand">
             <summary>
@@ -7569,6 +7710,16 @@
             Arbitrary user data.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Identifiers.Gtin">
+            <summary>
+            Global Trade Item Number.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Gtin.Identifier">
+            <summary>
+            Identifier.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Fields.BookComparer">
             <summary>
             Compare <see cref="T:ManagedIrbis.Fields.BookInfo"/>.
@@ -7588,6 +7739,26 @@
         <member name="P:ManagedIrbis.Fields.BookComparer.Title">
             <summary>
             Compare <see cref="T:ManagedIrbis.Fields.TitleInfo"/>.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Metadata.DublinCore.FieldCollection">
+            <summary>
+            Collection of the <see cref="T:ManagedIrbis.Metadata.DublinCore.DublinField"/>.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Metadata.DublinCore.DublinRecord">
+            <summary>
+            DC record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Metadata.DublinCore.DublinRecord.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Metadata.DublinCore.DublinRecord.Fields">
+            <summary>
+            Fields.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Batch.BatchSearcher">
@@ -8639,9 +8810,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Reports.ReportAttribute">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:ManagedIrbis.Reports.ReportAttribute.BackColor">
             <summary>
@@ -8723,6 +8894,11 @@
             Left justify.
             </summary>
         </member>
+        <member name="F:ManagedIrbis.Reports.ReportAttribute.Number">
+            <summary>
+            Cell is a number.
+            </summary>
+        </member>
         <member name="F:ManagedIrbis.Reports.ReportAttribute.Red">
             <summary>
             Red color.
@@ -8761,6 +8937,31 @@
         <member name="F:ManagedIrbis.Reports.ReportAttribute.WrapText">
             <summary>
             Text wrapping.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportAttribute.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportAttribute.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.ReportAttribute.#ctor(System.String,System.Object)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportAttribute.Name">
+            <summary>
+            Name.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Reports.ReportAttribute.Value">
+            <summary>
+            Value.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Reports.IrbisReport">
@@ -11018,7 +11219,7 @@
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.ProgramCache">
             <summary>
-            
+            Simple cache for PFT scripts.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.ProgramCache.AddProgram(System.String,ManagedIrbis.Pft.Infrastructure.PftProgram)">
@@ -12315,6 +12516,21 @@
             Formatter.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Metadata.Onix.FieldCollection">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Isci">
+            <summary>
+            Industry Standard Coding Identification.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Isci.Identifier">
+            <summary>
+            Identifier.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Biblio.BiblioDictionary">
             <summary>
             
@@ -12567,6 +12783,21 @@
         <member name="P:ManagedIrbis.Biblio.GroupingSubChapter.BookGroup.OtherGroup">
             <summary>
             Group for "other" records.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.BibTex.BibTexFile">
+            <summary>
+            Файл.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.BibTex.BibTexFile.#ctor">
+            <summary>
+            Конструктор.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.BibTex.BibTexFile.Records">
+            <summary>
+            Записи.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Readers.ReaderAddress">
@@ -13125,9 +13356,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Reports.TextCell">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Reports.TextCell.#ctor">
             <summary>
@@ -13135,6 +13366,11 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Reports.TextCell.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Reports.TextCell.#ctor(System.String,ManagedIrbis.Reports.ReportAttribute[])">
             <summary>
             Constructor.
             </summary>
@@ -13799,7 +14035,7 @@
         </member>
         <member name="T:ManagedIrbis.NodeLeader">
             <summary>
-            Лидер записи в N01, L01
+            Record leader of L01/N01 file.
             </summary>
         </member>
         <member name="M:ManagedIrbis.NodeLeader.Read(System.IO.Stream)">
@@ -13808,12 +14044,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.NodeLeader.ToString">
-            <summary>
-            Returns a <see cref="T:System.String"/>
-            that represents this instance.
-            </summary>
-            <returns>A <see cref="T:System.String"/>
-            that represents this instance.</returns>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.NodeLeader.Number">
             <summary>
@@ -14163,7 +14394,7 @@
             Direct reading IRBIS32 databases.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Direct.DirectAccess32.#ctor(System.String)">
+        <member name="M:ManagedIrbis.Direct.DirectAccess32.#ctor(System.String,ManagedIrbis.Direct.DirectAccessMode)">
             <summary>
             Constructor.
             </summary>
@@ -14631,6 +14862,152 @@
             <summary>
             Creates <see cref="T:ManagedIrbis.IrbisConnection"/>
             from the connection string.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.BibTex.KnownTags">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Address">
+            <summary>
+            Адрес издателя (обычно просто город, но может быть полным
+            адресом для малоизвестных издателей).
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Annote">
+            <summary>
+            Аннотация для библиографической записи.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Abstract">
+            <summary>
+            В JabRef: аннотация для библиографической записи.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.BookTitle">
+            <summary>
+            Наименование книги, содержащей данную работу.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Chapter">
+            <summary>
+            Номер и/или заглавие главы.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.CrossReference">
+            <summary>
+            Ключ кросс-ссылки (позволяет использовать другую библио-запись
+            в качестве названия, например, сборника трудов).
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Edition">
+            <summary>
+            Издание (полная строка, например, «1-е, стереотипное»).
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Editor">
+            <summary>
+            Имена редакторов (оформление аналогично авторам).
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Eprint">
+            <summary>
+            A specification of an electronic publication, often
+            a preprint or a technical report.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.HowPublished">
+            <summary>
+            Способ публикации, если нестандартный.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Institution">
+            <summary>
+            Институт, вовлечённый в публикацию, необязательно издатель.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Journal">
+            <summary>
+            Название журнала, содержащего статью.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Key">
+            <summary>
+            Скрытое ключевое поле, задающее порядок сортировки
+            (если "author" и "editor" не заданы).
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Month">
+            <summary>
+            Месяц публикации (может содержать дату).
+            Если не опубликовано - создания.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Note">
+            <summary>
+            Любые заметки в произвольном формате.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Number">
+            <summary>
+            Номер журнала.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Organization">
+            <summary>
+            Организатор конференции.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Pages">
+            <summary>
+            Номера страниц, разделённые запятыми или двойным дефисом.
+            Для книги - общее количество страниц.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Publisher">
+            <summary>
+            Издатель.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.School">
+            <summary>
+            Институт, в котором защищалась диссертация.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Series">
+            <summary>
+            Серия, в которой вышла книга.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Title">
+            <summary>
+            Заглавие (название) работы.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Type">
+            <summary>
+            Тип отчёта, например "Заметки исследователя".
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Url">
+            <summary>
+            WWW-адрес.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Volume">
+            <summary>
+            Том журнала или книги.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.Year">
+            <summary>
+            Год публикации (если не опубликовано - создания).
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.KnownTags.All">
+            <summary>
+            Все вышеперечисленные теги.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Authentication.AuthenticationResult">
@@ -15672,6 +16049,11 @@
             Формирует плоское текстовое представление записи.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.ImportExport.PlainText.WriteRecord(System.IO.TextWriter,ManagedIrbis.MarcRecord)">
+            <summary>
+            Export the record.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Flc.FlcConstants">
             <summary>
             Formal control related constants.
@@ -16343,6 +16725,16 @@
             Arbitrary user data.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Identifiers.Isadn">
+            <summary>
+            International Standard Authority Data Number.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Isadn.Identifier">
+            <summary>
+            Identifier.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Biblio.BiblioProcessor">
             <summary>
             
@@ -16436,6 +16828,11 @@
         <member name="M:ManagedIrbis.Biblio.BiblioUtility.AddTrailingDot(System.String)">
             <summary>
             Add trailing dot to every line in the text.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.BibTex.BibTexTokenizer">
+            <summary>
+            Токенизер.
             </summary>
         </member>
         <member name="T:ManagedIrbis.RecordStatus">
@@ -18544,7 +18941,7 @@
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftRef">
             <summary>
-            
+            ref() function
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftRef.#ctor">
@@ -19379,6 +19776,121 @@
         <member name="M:ManagedIrbis.Infrastructure.EfficientRecordSerializer.Serialize(System.IO.BinaryWriter,ManagedIrbis.MarcRecord)">
             <summary>
             Serialize the <see cref="T:ManagedIrbis.MarcRecord"/>.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Isil">
+            <summary>
+            International Standard Identifier for Libraries and Related Organizations.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Isil.Prefix">
+            <summary>
+            Prefix.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Isil.Identifier">
+            <summary>
+            Identifier.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Metadata.DublinCore.DublinTag">
+            <summary>
+            DC field tag.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Title">
+            <summary>
+            Название/заглавие.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Creator">
+            <summary>
+            Создатель/автор.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Subject">
+            <summary>
+            Тема.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Description">
+            <summary>
+            Описание.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Publisher">
+            <summary>
+            Издатель.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Contributor">
+            <summary>
+            Внесший вклад.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Date">
+            <summary>
+            Дата.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Type">
+            <summary>
+            Тип.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Format">
+            <summary>
+            Формат документа.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Identifier">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Source">
+            <summary>
+            Источник.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Language">
+            <summary>
+            Язык.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Relation">
+            <summary>
+            Отношения.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Coverage">
+            <summary>
+            Покрытие.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Rights">
+            <summary>
+            Авторские права.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Audience">
+            <summary>
+            Аудитория (зрители).
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.Provenance">
+            <summary>
+            Происхождение.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.RightsHolder">
+            <summary>
+            Правообладатель.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Metadata.DublinCore.DublinTag.AllKnown">
+            <summary>
+            Все известные теги.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Biblio.ChapterWithStatistics">
@@ -21382,6 +21894,21 @@
             Arbitrary user data.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Metadata.Onix.OnixField">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:ManagedIrbis.Metadata.Onix.OnixField.Tag">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:ManagedIrbis.Metadata.Onix.OnixField.Value">
+             <summary>
+            
+             </summary>
+        </member>
         <member name="T:ManagedIrbis.Identifiers.Isrc">
             <summary>
             International Standard Recording Code.
@@ -21440,6 +21967,21 @@
         <member name="P:ManagedIrbis.Biblio.ChapterCollection.Parent">
             <summary>
             Parent.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.BibTex.TokenKind">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.TokenKind.None">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:ManagedIrbis.BibTex.BibTexParser">
+            <summary>
+            Парсер.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Batch.BatchRecordReader">
@@ -23484,6 +24026,26 @@
             Identifier.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Identifiers.Imsi">
+            <summary>
+            International mobile subscriber identity.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Imsi.Identifier">
+            <summary>
+            Identifier.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Bici">
+            <summary>
+            Book Item and Component Identifier.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Bici.Identifier">
+            <summary>
+            Identifier.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Biblio.ChapterWithErrors">
             <summary>
             
@@ -25166,6 +25728,16 @@
             Arbitrary user data.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Identifiers.Istc">
+            <summary>
+            International Standard Text Code.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Istc.Identifier">
+            <summary>
+            Identifier.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Biblio.SpecialSettings">
             <summary>
             
@@ -25249,6 +25821,24 @@
         </member>
         <member name="M:ManagedIrbis.Biblio.TermCollection.Verify(System.Boolean)">
             <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="T:ManagedIrbis.BibTex.BibTexField">
+            <summary>
+            Поле.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.BibTex.BibTexField.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.BibTex.BibTexField.Tag">
+            <summary>
+            Тег поля, см. <see cref="T:ManagedIrbis.BibTex.KnownTags"/>.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.BibTex.BibTexField.Value">
+            <summary>
+            Значение поля.
+            </summary>
         </member>
         <member name="T:ManagedIrbis.Worksheet.FieldEditorRepository">
             <summary>
@@ -26239,6 +26829,11 @@
             Attributes for cell, band, report.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Reports.ReportAttributes.GetAttribute(System.String)">
+            <summary>
+            Get the attribute value by name.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Reports.ReportAttributes.Verify(System.Boolean)">
             <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
         </member>
@@ -26367,6 +26962,81 @@
         <member name="P:ManagedIrbis.Reports.ParagraphBand.StyleSpecification">
             <summary>
             Style name.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Readers.DepersonalizedReader">
+            <summary>
+            Обезличенная информация о читателе.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Readers.DepersonalizedReader.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Readers.DepersonalizedReader.AddVisits(System.Collections.Generic.IEnumerable{ManagedIrbis.Readers.VisitInfo})">
+            <summary>
+            Add the visits if not yet.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Readers.DepersonalizedReader.FromReaderInfo(ManagedIrbis.Readers.ReaderInfo)">
+            <summary>
+            Create <see cref="T:ManagedIrbis.Readers.DepersonalizedReader"/>
+            from the <see cref="T:ManagedIrbis.Readers.ReaderInfo"/>.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Readers.DepersonalizedReader.ToMarcRecord">
+            <summary>
+            Convert back to the record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Readers.DepersonalizedReader.RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
+        </member>
+        <member name="M:ManagedIrbis.Readers.DepersonalizedReader.SaveToStream(System.IO.BinaryWriter)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
+        </member>
+        <member name="M:ManagedIrbis.Readers.DepersonalizedReader.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Readers.DepersonalizedReader.DateOfBirth">
+            <summary>
+            Дата рождения. Поле 21.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.DepersonalizedReader.Ticket">
+            <summary>
+            Номер читательского. Поле 30.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.DepersonalizedReader.Gender">
+            <summary>
+            Пол. Поле 23.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.DepersonalizedReader.Category">
+            <summary>
+            Категория. Поле 50.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.DepersonalizedReader.RegistrationDateString">
+            <summary>
+            Дата записи. Поле 51.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.DepersonalizedReader.RegistrationDate">
+            <summary>
+            Дата регистрации
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.DepersonalizedReader.Age">
+            <summary>
+            Возраст, годы
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.DepersonalizedReader.Visits">
+            <summary>
+            Visits.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Quality.Rules.Require900">
@@ -27335,9 +28005,9 @@
         </member>
         <member name="T:ManagedIrbis.Direct.MstControlRecord64">
             <summary>
-            Первая запись в файле документов – управляющая 
-            запись, которая формируется (в момент определения 
-            базы данных или при ее инициализации) и поддерживается 
+            Первая запись в файле документов – управляющая
+            запись, которая формируется (в момент определения
+            базы данных или при ее инициализации) и поддерживается
             автоматически.
             </summary>
         </member>
@@ -27369,7 +28039,7 @@
         </member>
         <member name="P:ManagedIrbis.Direct.MstControlRecord64.NextMfn">
             <summary>
-            Номер записи файла документов, назначаемый 
+            Номер записи файла документов, назначаемый
             для следующей записи, создаваемой в базе данных.
             </summary>
         </member>
@@ -27818,6 +28488,11 @@
         <member name="P:ManagedIrbis.Fields.BookInfo.Link">
             <summary>
             Первая ссылка на внешний ресурс.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.BookInfo.Price">
+            <summary>
+            Цена, общая для всех экземпляров.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Fields.BookInfo.Publishers">
@@ -30241,6 +30916,26 @@
             Prefix.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Identifiers.Umid">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Umid.Value">
+            <summary>
+            Value.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Gsrn">
+            <summary>
+            Global Service Relationship Number.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Gsrn.Identifier">
+            <summary>
+            Identifier.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Fields.AuthorComparer">
             <summary>
             Compare authors.
@@ -30302,6 +30997,89 @@
         <member name="P:ManagedIrbis.Biblio.BiblioTerm.Item">
             <summary>
             
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Client.IsoFileProvider">
+            <summary>
+            Client for ISO 2709 file.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Client.IsoFileProvider.LayoutExtension">
+            <summary>
+            Extension of the layout file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Client.IsoFileProvider.#ctor(System.String,System.Text.Encoding)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Client.IsoFileProvider.DeleteLayout">
+            <summary>
+            Delete the layout file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Client.IsoFileProvider.SaveLayout">
+            <summary>
+            Save the layout file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Client.IsoFileProvider.GetMaxMfn">
+            <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.GetMaxMfn"/>
+        </member>
+        <member name="M:ManagedIrbis.Client.IsoFileProvider.ReadRecord(System.Int32)">
+            <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.ReadRecord(System.Int32)"/>
+        </member>
+        <member name="M:ManagedIrbis.Client.IsoFileProvider.ReadRecordVersion(System.Int32,System.Int32)">
+            <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.ReadRecordVersion(System.Int32,System.Int32)"/>
+        </member>
+        <member name="M:ManagedIrbis.Client.IsoFileProvider.WriteRecord(ManagedIrbis.MarcRecord)">
+            <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.WriteRecord(ManagedIrbis.MarcRecord)"/>
+        </member>
+        <member name="M:ManagedIrbis.Client.IsoFileProvider.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="M:ManagedIrbis.Client.IsoFileProvider.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Client.IsoFileProvider.FilePath">
+            <summary>
+            Text file path.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Client.IsoFileProvider.Encoding">
+            <summary>
+            Encoding
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Client.IsoFileProvider.LayoutPath">
+            <summary>
+            Layout file path.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.BibTex.BibTexRecord">
+            <summary>
+            Запись.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.BibTex.BibTexRecord.#ctor">
+            <summary>
+            Конструктор.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.BibTex.BibTexRecord.Type">
+            <summary>
+            Record type.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.BibTex.BibTexRecord.Tag">
+            <summary>
+            Record tag.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.BibTex.BibTexRecord.Fields">
+            <summary>
+            Поля записи.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Biblio.MixedChapter">
@@ -31342,9 +32120,9 @@
             <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.ExtendedSyntax"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftF">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftF.#ctor">
             <summary>
@@ -32372,6 +33150,36 @@
             Arbitrary user data.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Identifiers.MessageId">
+            <summary>
+            Message-ID.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.MessageId.Identifier">
+            <summary>
+            Identifier.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Iswc">
+            <summary>
+            International Standard Musical Work Code.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Iswc.Identifier">
+            <summary>
+            Identifier.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Isli">
+            <summary>
+            International Standard Link Identifier.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Isli.Identifier">
+            <summary>
+            Identifier.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Biblio.SimpleChapter">
             <summary>
             
@@ -32409,6 +33217,158 @@
         <member name="P:ManagedIrbis.Biblio.SimpleChapter.Order">
             <summary>
             Order.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.BibTex.RecordType">
+            <summary>
+            Тип записи.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.RecordType.Article">
+            <summary>
+            Статья из журнала.
+            </summary>
+            <remarks>
+            Необходимые поля: author, title, journal, year.
+            Дополнительные поля: volume, number, pages, month, note, key.
+            </remarks>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.RecordType.Book">
+            <summary>
+            Определенное издание книги.
+            </summary>
+            <remarks>
+            Необходимые поля: author/editor, title, publisher, year.
+            Дополнительные поля: volume, series, address, edition, month,
+            note, key, pages.
+            </remarks>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.RecordType.Booklet">
+            <summary>
+            Печатная работа, которая не содержит имя издателя
+            или организатора (например, самиздат).
+            </summary>
+            <remarks>
+            Необходимые поля: title.
+            Дополнительные поля: author, howpublished, address, month,
+            year, note, key.
+            </remarks>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.RecordType.Conference">
+            <summary>
+            Труды конференции.
+            </summary>
+            <remarks>
+            Синоним inproceedings, оставлено для совместимости с Scribe.
+            Необходимые поля: author, title, booktitle, year.
+            Дополнительные поля: editor, pages, organization, publisher,
+            address, month, note, key.
+            </remarks>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.RecordType.InBook">
+            <summary>
+            Часть книги, возможно без названия. Может быть главой
+            (частью, параграфом), либо диапазоном страниц.
+            </summary>
+            <remarks>
+            Необходимые поля: author/editor, title, chapter/pages,
+            publisher, year.
+            Дополнительные поля: volume, series, address, edition,
+            month, note, key.
+            </remarks>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.RecordType.InCollection">
+            <summary>
+            Часть книги, имеющая собственное название (например,
+            статья в сборнике).
+            </summary>
+            <remarks>
+            Необходимые поля: author, title, booktitle, year.
+            Дополнительные поля: editor, pages, organization,
+            publisher, address, month, note, key.
+            </remarks>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.RecordType.InProceedings">
+            <summary>
+            Тезис (труд) конференции.
+            </summary>
+            <remarks>
+            Необходимые поля: author, title, booktitle, year.
+            Дополнительные поля: editor, series, pages, organization,
+            publisher, address, month, note, key.
+            </remarks>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.RecordType.Manual">
+            <summary>
+            Техническая документация.
+            </summary>
+            <remarks>
+            Необходимые поля: title.
+            Дополнительные поля: author, organization, address, edition,
+            month, year, note, key.
+            </remarks>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.RecordType.MasterThesis">
+            <summary>
+            Магистерская диссертация.
+            </summary>
+            <remarks>
+            Необходимые поля: author, title, school, year.
+            Дополнительные поля: address, month, note, key.
+            </remarks>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.RecordType.Misc">
+            <summary>
+            Использовать, если другие типы не подходят.
+            </summary>
+            <remarks>
+            Необходимые поля: нет.
+            Дополнительные поля: author, title, howpublished, month,
+            year, note, key.
+            </remarks>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.RecordType.PhdThesis">
+            <summary>
+            Кандидатская диссертация.
+            </summary>
+            <remarks>
+            Необходимые поля: author, title, school, year.
+            Дополнительные поля: address, month, note, key.
+            </remarks>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.RecordType.Proceedings">
+            <summary>
+            Сборник трудов (тезисов) конференции.
+            </summary>
+            <remarks>
+            Необходимые поля: title, year.
+            Дополнительные поля: editor, publisher, organization,
+            address, month, note, key.
+            </remarks>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.RecordType.TechReport">
+            <summary>
+            Отчёт, опубликованный организацией, обычно пронумерованный
+            внутри серии.
+            </summary>
+            <remarks>
+            Необходимые поля: author, title, institution, year.
+            Дополнительные поля: type, number, address, month, note, key.
+            </remarks>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.RecordType.Unpublished">
+            <summary>
+            Документ, имеющий автора и название, но формально
+            не опубликованный (рукопись).
+            </summary>
+            <remarks>
+            Необходимые поля: author, title, note.
+            Дополнительные поля: month, year, key.
+            </remarks>
+        </member>
+        <member name="F:ManagedIrbis.BibTex.RecordType.AllKnown">
+            <summary>
+            All known record types.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Authentication.UserContext">
@@ -32635,6 +33595,11 @@
         <member name="M:ManagedIrbis.Readers.VisitInfoUtility.GetVisits(System.Collections.Generic.IEnumerable{ManagedIrbis.Readers.VisitInfo},System.DateTime)">
             <summary>
             Get visits for given date.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Readers.VisitInfoUtility.SameVisit(ManagedIrbis.Readers.VisitInfo,ManagedIrbis.Readers.VisitInfo)">
+            <summary>
+            Один и тот же визит?
             </summary>
         </member>
         <member name="T:ManagedIrbis.Readers.VisitInfo">
@@ -34381,6 +35346,46 @@
             Children nodes (THEN branch).
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Identifiers.Isrn">
+            <summary>
+            International Standard Technical Report Number.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Isrn.Identifier">
+            <summary>
+            Identifier.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Isan">
+            <summary>
+            International Standard Audiovisual Number.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Isan.Root">
+            <summary>
+            6-byte root.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Isan.Episode">
+            <summary>
+            2-byte episode or part.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Isan.Version">
+            <summary>
+            4-byte version.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Grid">
+            <summary>
+            Global Release Identifier.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Grid.Identifier">
+            <summary>
+            Identifier.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Client.ConnectedFormatter">
             <summary>
             
@@ -34461,6 +35466,11 @@
         <member name="P:ManagedIrbis.Biblio.BiblioFilter.SortExpression">
             <summary>
             Expression for record sorting.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.BibTex.RecordCollection">
+            <summary>
+            Коллекция записей.
             </summary>
         </member>
         <member name="T:ManagedIrbis.SubFieldCode">
@@ -36527,6 +37537,16 @@
             Connected IRBIS client with some local functionality
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Client.SemiConnectedClient.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Client.SemiConnectedClient.#ctor(ManagedIrbis.IIrbisConnection)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Client.SemiConnectedClient.FormatRecord(ManagedIrbis.MarcRecord,System.String)">
             <inheritdoc cref="M:ManagedIrbis.Client.ConnectedClient.FormatRecord(ManagedIrbis.MarcRecord,System.String)"/>
         </member>
@@ -36802,6 +37822,16 @@
             <summary>
             Российские "Правила каталогизации" (РПК).
             (Москва, 2005).
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Identifiers.Coden">
+            <summary>
+            CODEN.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Coden.Identifier">
+            <summary>
+            Identifier.
             </summary>
         </member>
         <member name="T:ManagedIrbis.IrbisVersion">
@@ -37408,7 +38438,7 @@
         </member>
         <member name="M:ManagedIrbis.Pft.PftUtility.FormatLikeF(System.Double,System.Int32,System.Int32)">
             <summary>
-            Format value like function f does.
+            Format value like function f() does.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.PftUtility.FormatTermLink(ManagedIrbis.Pft.Infrastructure.PftContext,ManagedIrbis.Pft.Infrastructure.PftNode,System.String,ManagedIrbis.Search.TermLink)">
@@ -38747,6 +39777,11 @@
         <member name="P:ManagedIrbis.Biblio.BiblioContext.ReportContext">
             <summary>
             Context for report.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.BibTex.FieldCollection">
+            <summary>
+            Коллекция полей записи.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Batch.BatchAccessor">
@@ -41227,6 +42262,24 @@
             Altered records.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftBackslash">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftBackslash.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftBackslash.#ctor(ManagedIrbis.Pft.Infrastructure.PftToken)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftBackslash.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
+            <inheritdoc />
+        </member>
         <member name="T:ManagedIrbis.Mx.Infrastructrure.MxConsole">
             <summary>
             
@@ -41579,6 +42632,43 @@
             Arbitrary user data.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Identifiers.Xri">
+            <summary>
+            Extensible Resource Identifier.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Identifiers.Xri.Identifier">
+            <summary>
+            Identifier.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Metadata.DublinCore.DublinField">
+            <summary>
+            Field of the <see cref="T:ManagedIrbis.Metadata.DublinCore.DublinRecord"/>.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Metadata.DublinCore.DublinField.RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
+        </member>
+        <member name="M:ManagedIrbis.Metadata.DublinCore.DublinField.SaveToStream(System.IO.BinaryWriter)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
+        </member>
+        <member name="M:ManagedIrbis.Metadata.DublinCore.DublinField.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="M:ManagedIrbis.Metadata.DublinCore.DublinField.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Metadata.DublinCore.DublinField.Tag">
+            <summary>
+            Tag.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Metadata.DublinCore.DublinField.Value">
+            <summary>
+            Value.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Biblio.ChapterWithText">
             <summary>
             
@@ -41674,6 +42764,69 @@
         <member name="P:ManagedIrbis.Biblio.DictionaryEntry.References">
             <summary>
             List of references.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Client.PlainTextProvider">
+            <summary>
+            Client for plain text file.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Client.PlainTextProvider.RecordSeparator">
+            <summary>
+            Record separator.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Client.PlainTextProvider.LayoutExtension">
+            <summary>
+            Extension of the layout file.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Client.PlainTextProvider._layout">
+            <summary>
+            Смещения до записей.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Client.PlainTextProvider.#ctor(System.String,System.Text.Encoding)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Client.PlainTextProvider.DeleteLayout">
+            <summary>
+            Delete the layout file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Client.PlainTextProvider.SaveLayout">
+            <summary>
+            Save the layout file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Client.PlainTextProvider.GetMaxMfn">
+            <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.GetMaxMfn"/>
+        </member>
+        <member name="M:ManagedIrbis.Client.PlainTextProvider.ReadRecord(System.Int32)">
+            <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.ReadRecord(System.Int32)"/>
+        </member>
+        <member name="M:ManagedIrbis.Client.PlainTextProvider.ReadRecordVersion(System.Int32,System.Int32)">
+            <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.ReadRecordVersion(System.Int32,System.Int32)"/>
+        </member>
+        <member name="M:ManagedIrbis.Client.PlainTextProvider.WriteRecord(ManagedIrbis.MarcRecord)">
+            <inheritdoc cref="M:ManagedIrbis.Client.IrbisProvider.WriteRecord(ManagedIrbis.MarcRecord)"/>
+        </member>
+        <member name="M:ManagedIrbis.Client.PlainTextProvider.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="M:ManagedIrbis.Client.PlainTextProvider.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Client.PlainTextProvider.FilePath">
+            <summary>
+            Text file path.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Client.PlainTextProvider.LayoutPath">
+            <summary>
+            Layout file path.
             </summary>
         </member>
     </members>
