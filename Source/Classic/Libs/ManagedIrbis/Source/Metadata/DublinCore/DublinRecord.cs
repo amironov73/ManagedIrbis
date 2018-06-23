@@ -21,7 +21,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis.DublinCore
+namespace ManagedIrbis.Metadata.DublinCore
 {
     //
     // https://en.wikipedia.org/wiki/Dublin_Core

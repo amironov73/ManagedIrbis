@@ -108,6 +108,27 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchSearcher.cs">
       <Link>Source\Batch\BatchSearcher.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\BibFrame\BibAgent.cs">
+      <Link>Source\Metadata\BibFrame\BibAgent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\BibFrame\BibEvent.cs">
+      <Link>Source\Metadata\BibFrame\BibEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\BibFrame\BibFrame.cs">
+      <Link>Source\Metadata\BibFrame\BibFrame.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\BibFrame\BibInstance.cs">
+      <Link>Source\Metadata\BibFrame\BibInstance.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\BibFrame\BibItem.cs">
+      <Link>Source\Metadata\BibFrame\BibItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\BibFrame\BibSubject.cs">
+      <Link>Source\Metadata\BibFrame\BibSubject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\BibFrame\BibWork.cs">
+      <Link>Source\Metadata\BibFrame\BibWork.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Biblio\Chapters\MixedChapter.cs">
       <Link>Source\Biblio\Chapters\MixedChapter.cs</Link>
     </Compile>
@@ -261,6 +282,18 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstRecover64.cs">
       <Link>Source\Direct\MstRecover64.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\DublinCore\DublinField.cs">
+      <Link>Source\Metadata\DublinCore\DublinField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\DublinCore\DublinRecord.cs">
+      <Link>Source\Metadata\DublinCore\DublinRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\DublinCore\DublinTag.cs">
+      <Link>Source\Metadata\DublinCore\DublinTag.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\DublinCore\FieldCollection.cs">
+      <Link>Source\Metadata\DublinCore\FieldCollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\AuthorComparer.cs">
       <Link>Source\Fields\AuthorComparer.cs</Link>
     </Compile>
@@ -335,6 +368,24 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Xri.cs">
       <Link>Source\Identifiers\Xri.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\Bibo.cs">
+      <Link>Source\Metadata\Bibo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\HCalendar.cs">
+      <Link>Source\ImportExport\HCalendar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\Hcard.cs">
+      <Link>Source\ImportExport\Hcard.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\Onix\OnixField.cs">
+      <Link>Source\Metadata\Onix\OnixField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\Onix\FieldCollection.cs">
+      <Link>Source\Metadata\Onix\FieldCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\Prism.cs">
+      <Link>Source\Metadata\Prism.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\EfficientRecordSerializer.cs">
       <Link>Source\Infrastructure\EfficientRecordSerializer.cs</Link>
@@ -734,6 +785,9 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Mx\Infrastructrure\BuiltinModule.cs">
       <Link>Source\Mx\Infrastructrure\BuiltinModule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\Onix\OnixRecord.cs">
+      <Link>Source\Metadata\Onix\OnixRecord.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftBackslash.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftBackslash.cs</Link>
@@ -2186,6 +2240,15 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\RawRecord.cs">
       <Link>Source\RawRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Rdf\Doap.cs">
+      <Link>Source\Rdf\Doap.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Rdf\Foaf.cs">
+      <Link>Source\Rdf\Foaf.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Rdf\Rif.cs">
+      <Link>Source\Rdf\Rif.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Readers\DepersonalizedReader.cs">
       <Link>Source\Readers\DepersonalizedReader.cs</Link>

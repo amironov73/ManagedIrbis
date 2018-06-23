@@ -31,7 +31,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedIrbis.DublinCore
+namespace ManagedIrbis.Metadata.DublinCore
 {
     /// <summary>
     /// Field of the <see cref="DublinRecord"/>.

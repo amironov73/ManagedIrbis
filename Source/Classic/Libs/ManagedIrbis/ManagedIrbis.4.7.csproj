@@ -86,6 +86,13 @@
     <Compile Include="Source\Batch\BatchRecordReader.cs" />
     <Compile Include="Source\Batch\BatchRecordWriter.cs" />
     <Compile Include="Source\Batch\BatchSearcher.cs" />
+    <Compile Include="Source\Metadata\BibFrame\BibAgent.cs" />
+    <Compile Include="Source\Metadata\BibFrame\BibEvent.cs" />
+    <Compile Include="Source\Metadata\BibFrame\BibFrame.cs" />
+    <Compile Include="Source\Metadata\BibFrame\BibInstance.cs" />
+    <Compile Include="Source\Metadata\BibFrame\BibItem.cs" />
+    <Compile Include="Source\Metadata\BibFrame\BibSubject.cs" />
+    <Compile Include="Source\Metadata\BibFrame\BibWork.cs" />
     <Compile Include="Source\Biblio\Chapters\MixedChapter.cs" />
     <Compile Include="Source\BibTex\BibTexField.cs" />
     <Compile Include="Source\BibTex\FieldCollection.cs" />
@@ -137,6 +144,10 @@
     <Compile Include="Source\Direct\MappedMstFile64.cs" />
     <Compile Include="Source\Direct\MappedXrfFile64.cs" />
     <Compile Include="Source\Direct\MstRecover64.cs" />
+    <Compile Include="Source\Metadata\DublinCore\DublinField.cs" />
+    <Compile Include="Source\Metadata\DublinCore\DublinRecord.cs" />
+    <Compile Include="Source\Metadata\DublinCore\DublinTag.cs" />
+    <Compile Include="Source\Metadata\DublinCore\FieldCollection.cs" />
     <Compile Include="Source\Fields\AuthorComparer.cs" />
     <Compile Include="Source\Fields\BookComparer.cs" />
     <Compile Include="Source\Fields\BookInfo.cs" />
@@ -162,6 +173,12 @@
     <Compile Include="Source\Identifiers\Pmid.cs" />
     <Compile Include="Source\Identifiers\Umid.cs" />
     <Compile Include="Source\Identifiers\Xri.cs" />
+    <Compile Include="Source\Metadata\Bibo.cs" />
+    <Compile Include="Source\ImportExport\HCalendar.cs" />
+    <Compile Include="Source\ImportExport\Hcard.cs" />
+    <Compile Include="Source\Metadata\Onix\OnixField.cs" />
+    <Compile Include="Source\Metadata\Onix\FieldCollection.cs" />
+    <Compile Include="Source\Metadata\Prism.cs" />
     <Compile Include="Source\Infrastructure\EfficientRecordSerializer.cs" />
     <Compile Include="Source\FastFields.cs" />
     <Compile Include="Source\FieldDifference.cs" />
@@ -295,6 +312,7 @@
     <Compile Include="Source\Mx\Infrastructrure\MxModule.cs" />
     <Compile Include="Source\Mx\Infrastructrure\MxPalette.cs" />
     <Compile Include="Source\Mx\Infrastructrure\BuiltinModule.cs" />
+    <Compile Include="Source\Metadata\Onix\OnixRecord.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftBackslash.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftCsEval.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftEval.cs" />
@@ -779,6 +797,9 @@
     <Compile Include="Source\Quality\Rules\Require910.cs" />
     <Compile Include="Source\Quality\Rules\Require920.cs" />
     <Compile Include="Source\RawRecord.cs" />
+    <Compile Include="Source\Rdf\Doap.cs" />
+    <Compile Include="Source\Rdf\Foaf.cs" />
+    <Compile Include="Source\Rdf\Rif.cs" />
     <Compile Include="Source\Readers\DepersonalizedReader.cs" />
     <Compile Include="Source\RecordComparator.cs" />
     <Compile Include="Source\RecordComparer.cs" />

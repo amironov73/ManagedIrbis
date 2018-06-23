@@ -15,7 +15,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis.DublinCore
+namespace ManagedIrbis.Metadata.DublinCore
 {
     /// <summary>
     /// DC field tag.

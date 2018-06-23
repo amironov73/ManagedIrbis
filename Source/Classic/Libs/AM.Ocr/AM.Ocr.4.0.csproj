@@ -123,9 +123,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <!-- BEGIN -->
-  <ItemGroup>
-    <Folder Include="AM\Ocr\" />
-  </ItemGroup>
+  <ItemGroup />
   <!-- END -->
   <ItemGroup>
     <Compile Include="..\..\Common\AssemblyInfo.cs">
