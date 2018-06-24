@@ -364,6 +364,26 @@ namespace ManagedIrbis.Direct
         }
 
         /// <summary>
+        /// Create 2 database files for IRBIS64.
+        /// </summary>
+        public static void CreateMasterFile64
+            (
+                [NotNull] string path
+            )
+        {
+            Code.NotNullNorEmpty(path, "path");
+
+            string mstFile = Path.ChangeExtension(path, ".mst");
+            FileUtility.DeleteIfExists(mstFile);
+            FileUtility.WriteAllBytes(mstFile, _mstContent64);
+
+            string xrfFile = Path.ChangeExtension(path, ".xrf");
+            FileUtility.DeleteIfExists(xrfFile);
+            FileUtility.WriteAllBytes(xrfFile, _xrfContent64);
+        }
+
+
+        /// <summary>
         /// Open specified file.
         /// </summary>
         [NotNull]

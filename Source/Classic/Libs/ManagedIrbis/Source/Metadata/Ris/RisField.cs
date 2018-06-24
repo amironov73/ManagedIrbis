@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* AbstractMetadataFormat.cs --
+/* RisField.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -17,19 +17,31 @@ using System.Threading.Tasks;
 
 using JetBrains.Annotations;
 
+using MoonSharp.Interpreter;
+
 #endregion
 
-namespace ManagedIrbis.Metadata
+namespace ManagedIrbis.Metadata.Ris
 {
-    //
-    // https://en.wikipedia.org/wiki/Metadata_standard
-    //
-
     /// <summary>
-    /// Абстрактный формат метаданных.
+    /// RIS record field.
     /// </summary>
     [PublicAPI]
-    public abstract class AbstractMetadataFormat
+    [MoonSharpUserData]
+    public sealed class RisField
     {
+        #region Properties
+
+        /// <summary>
+        /// Tag.
+        /// </summary>
+        public string Tag { get; set; }
+
+        /// <summary>
+        /// Value.
+        /// </summary>
+        public string Value { get; set; }
+
+        #endregion
     }
 }

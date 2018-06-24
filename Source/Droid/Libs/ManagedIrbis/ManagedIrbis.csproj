@@ -95,6 +95,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchSearcher.cs">
       <Link>Source\Batch\BatchSearcher.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\Csl.cs">
+      <Link>Source\ImportExport\Csl.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\BibFrame\BibAgent.cs">
       <Link>Source\Metadata\BibFrame\BibAgent.cs</Link>
     </Compile>
@@ -364,6 +367,30 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\Hcard.cs">
       <Link>Source\ImportExport\Hcard.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\EndNote\EndNoteField.cs">
+      <Link>Source\Metadata\EndNote\EndNoteField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\EndNote\EndNoteRecord.cs">
+      <Link>Source\Metadata\EndNote\EndNoteRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\EndNote\EndNoteTag.cs">
+      <Link>Source\Metadata\EndNote\EndNoteTag.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\EndNote\FieldCollection.cs">
+      <Link>Source\Metadata\EndNote\FieldCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\EndNote\ReferenceType.cs">
+      <Link>Source\Metadata\EndNote\ReferenceType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\IsoTimeML.cs">
+      <Link>Source\Metadata\IsoTimeML.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\Mods\MadsRecord.cs">
+      <Link>Source\Metadata\Mods\MadsRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\Mods\ModsRecord.cs">
+      <Link>Source\Metadata\Mods\ModsRecord.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\Onix\OnixField.cs">
       <Link>Source\Metadata\Onix\OnixField.cs</Link>
@@ -679,6 +706,27 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Menus\ReturnMnu.cs">
       <Link>Source\Menus\ReturnMnu.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\Ris\FieldCollection.cs">
+      <Link>Source\Metadata\Ris\FieldCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\Ris\ReferenceType.cs">
+      <Link>Source\Metadata\Ris\ReferenceType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\Ris\RisField.cs">
+      <Link>Source\Metadata\Ris\RisField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\Ris\RisRecord.cs">
+      <Link>Source\Metadata\Ris\RisRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\Ris\RisTag.cs">
+      <Link>Source\Metadata\Ris\RisTag.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\TimeML.cs">
+      <Link>Source\Metadata\TimeML.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\WizFolio.cs">
+      <Link>Source\Metadata\WizFolio.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Monitoring\BlockedRecord.cs">
       <Link>Source\Monitoring\BlockedRecord.cs</Link>

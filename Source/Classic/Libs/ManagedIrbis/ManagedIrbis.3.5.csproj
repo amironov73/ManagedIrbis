@@ -89,6 +89,7 @@
     <Compile Include="Source\Batch\BatchRecordReader.cs" />
     <Compile Include="Source\Batch\BatchRecordWriter.cs" />
     <Compile Include="Source\Batch\BatchSearcher.cs" />
+    <Compile Include="Source\ImportExport\Csl.cs" />
     <Compile Include="Source\Metadata\BibFrame\BibAgent.cs" />
     <Compile Include="Source\Metadata\BibFrame\BibEvent.cs" />
     <Compile Include="Source\Metadata\BibFrame\BibFrame.cs" />
@@ -179,6 +180,14 @@
     <Compile Include="Source\Metadata\Bibo.cs" />
     <Compile Include="Source\ImportExport\HCalendar.cs" />
     <Compile Include="Source\ImportExport\Hcard.cs" />
+    <Compile Include="Source\Metadata\EndNote\EndNoteField.cs" />
+    <Compile Include="Source\Metadata\EndNote\EndNoteRecord.cs" />
+    <Compile Include="Source\Metadata\EndNote\EndNoteTag.cs" />
+    <Compile Include="Source\Metadata\EndNote\FieldCollection.cs" />
+    <Compile Include="Source\Metadata\EndNote\ReferenceType.cs" />
+    <Compile Include="Source\Metadata\IsoTimeML.cs" />
+    <Compile Include="Source\Metadata\Mods\MadsRecord.cs" />
+    <Compile Include="Source\Metadata\Mods\ModsRecord.cs" />
     <Compile Include="Source\Metadata\Onix\OnixField.cs" />
     <Compile Include="Source\Metadata\Onix\FieldCollection.cs" />
     <Compile Include="Source\Metadata\Prism.cs" />
@@ -284,6 +293,13 @@
     <Compile Include="Source\Infrastructure\ResponseBuilder.cs" />
     <Compile Include="Source\Infrastructure\Sockets\TestingSocket.cs" />
     <Compile Include="Source\Menus\ReturnMnu.cs" />
+    <Compile Include="Source\Metadata\Ris\FieldCollection.cs" />
+    <Compile Include="Source\Metadata\Ris\ReferenceType.cs" />
+    <Compile Include="Source\Metadata\Ris\RisField.cs" />
+    <Compile Include="Source\Metadata\Ris\RisRecord.cs" />
+    <Compile Include="Source\Metadata\Ris\RisTag.cs" />
+    <Compile Include="Source\Metadata\TimeML.cs" />
+    <Compile Include="Source\Metadata\WizFolio.cs" />
     <Compile Include="Source\Monitoring\BlockedRecord.cs" />
     <Compile Include="Source\Mx\Commands\BangCommand.cs" />
     <Compile Include="Source\Mx\Commands\ClsCommand.cs" />
