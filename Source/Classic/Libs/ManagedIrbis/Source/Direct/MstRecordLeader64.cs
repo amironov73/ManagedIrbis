@@ -45,7 +45,8 @@ namespace ManagedIrbis.Direct
         public int Mfn { get; set; }
 
         /// <summary>
-        /// Длина записи (всегда четное число).
+        /// Длина записи (в документации сказано, что всегда четное число,
+        /// но по факту это не так).
         /// </summary>
         public int Length { get; set; }
 

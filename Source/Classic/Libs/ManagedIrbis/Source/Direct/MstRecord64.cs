@@ -225,10 +225,6 @@ namespace ManagedIrbis.Direct
                 Dictionary[i] = entry;
             }
 
-            if (recordSize % 2 != 0)
-            {
-                recordSize++;
-            }
             leader.Length = recordSize;
 
             Leader = leader;

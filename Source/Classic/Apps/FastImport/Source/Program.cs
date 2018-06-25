@@ -64,20 +64,26 @@ namespace FastImport
                 using (Stream mstFile = new FileStream(mstFileName,
                     FileMode.Open, FileAccess.ReadWrite, FileShare.None))
                 using (Stream xrfFile = File.OpenWrite(xrfFileName))
-                using (StreamReader stringReader = File.OpenText(inputFileName))
+                using (StreamReader reader = File.OpenText(inputFileName))
                 {
-                    mstFile.Seek(0, SeekOrigin.Current);
-                    long position = mstFile.Position;
+                    MstControlRecord64 control = new MstControlRecord64
+                    {
+                        NextPosition = MstControlRecord64.RecordSize
+                    };
+                    control.Write(mstFile);
+
                     MarcRecord marcRecord;
-                    while ((marcRecord = PlainText.ReadRecord(stringReader)) != null)
+                    while ((marcRecord = PlainText.ReadRecord(reader)) != null)
                     {
                         if (mfn % 100 == 0)
                         {
                             Console.Write(" {0} ", mfn);
                         }
 
-                        mfn++;
-                        position = mstFile.Position;
+                        marcRecord.Mfn = ++mfn;
+                        marcRecord.Version = 1;
+                        marcRecord.Status = RecordStatus.Last;
+                        long position = mstFile.Position;
                         MstRecord64 mstRecord = MstRecord64.EncodeRecord(marcRecord);
                         mstRecord.Prepare();
                         mstRecord.Write(mstFile);
@@ -90,13 +96,8 @@ namespace FastImport
                     {
                         // Update the control record
                         long nextPosition = mstFile.Length;
-                        if (nextPosition % 1 != 0)
-                        {
-                            nextPosition++;
-                        }
-
                         mstFile.Seek(0, SeekOrigin.Begin);
-                        MstControlRecord64 control = MstControlRecord64.Read(mstFile);
+                        control = MstControlRecord64.Read(mstFile);
                         control.Blocked = 0;
                         control.NextMfn = mfn;
                         control.NextPosition = nextPosition;

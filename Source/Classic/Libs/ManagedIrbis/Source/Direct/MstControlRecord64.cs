@@ -38,13 +38,13 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Размер управляющей записи.
         /// </summary>
-        public const int RecordSize = 32;
+        public const int RecordSize = 36;
 
         /// <summary>
         /// Позиция индикатора блокировки базы данных
         /// в управляющей записи.
         /// </summary>
-        public const long LockFlagPosition = 28;
+        public const long LockFlagPosition = 32;
 
         #endregion
 
@@ -53,7 +53,7 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Резерв.
         /// </summary>
-        public int Reserv1 { get; set; }
+        public int CtlMfn { get; set; }
 
         /// <summary>
         /// Номер записи файла документов, назначаемый
@@ -70,17 +70,22 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Резерв.
         /// </summary>
+        public int MftType { get; set; }
+
+        /// <summary>
+        /// Резерв.
+        /// </summary>
+        public int RecCnt { get; set; }
+
+        /// <summary>
+        /// Резерв.
+        /// </summary>
+        public int Reserv1 { get; set; }
+
+        /// <summary>
+        /// Резерв.
+        /// </summary>
         public int Reserv2 { get; set; }
-
-        /// <summary>
-        /// Резерв.
-        /// </summary>
-        public int Reserv3 { get; set; }
-
-        /// <summary>
-        /// Резерв.
-        /// </summary>
-        public int Reserv4 { get; set; }
 
         /// <summary>
         /// Индикатор блокировки базы данных.
@@ -103,12 +108,13 @@ namespace ManagedIrbis.Direct
 
             MstControlRecord64 result = new MstControlRecord64
             {
-                Reserv1 = stream.ReadInt32Network(),
+                CtlMfn = stream.ReadInt32Network(),
                 NextMfn = stream.ReadInt32Network(),
                 NextPosition = stream.ReadInt64Network(),
+                MftType = stream.ReadInt32Network(),
+                RecCnt = stream.ReadInt32Network(),
+                Reserv1 = stream.ReadInt32Network(),
                 Reserv2 = stream.ReadInt32Network(),
-                Reserv3 = stream.ReadInt32Network(),
-                Reserv4 = stream.ReadInt32Network(),
                 Blocked = stream.ReadInt32Network()
             };
 
@@ -125,12 +131,13 @@ namespace ManagedIrbis.Direct
         {
             Code.NotNull(stream, "stream");
 
-            stream.WriteInt32Network(Reserv1);
+            stream.WriteInt32Network(CtlMfn);
             stream.WriteInt32Network(NextMfn);
             stream.WriteInt64Network(NextPosition);
+            stream.WriteInt32Network(MftType);
+            stream.WriteInt32Network(CtlMfn);
+            stream.WriteInt32Network(Reserv1);
             stream.WriteInt32Network(Reserv2);
-            stream.WriteInt32Network(Reserv3);
-            stream.WriteInt32Network(Reserv4);
             stream.WriteInt32Network(Blocked);
         }
 

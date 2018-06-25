@@ -31,8 +31,8 @@ typedef struct RecordLeader
     DWORD   BackRefHigh; // Старшая часть ссылки назад
     DWORD   Base;        // Базовый адрес полей переменной дины
     DWORD   Nvf;         // Число полей переменной длины
-    FLAGS   Status;      // Статус записи
     DWORD   Version;     // Номер версии записи
+    FLAGS   Status;      // Статус записи
 
     if ((Mfn == 0) || (Length == 0))
     {
