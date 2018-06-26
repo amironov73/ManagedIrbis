@@ -45,7 +45,7 @@ namespace FastImport
             }
 
             string inputFileName = args[0]
-                .ThrowIfNull("inputFIleName");
+                .ThrowIfNull("inputFileName");
             string outputFileName = args[1]
                 .ThrowIfNull("outputFileName");
             string mstFileName = Path.ChangeExtension(outputFileName, ".mst")

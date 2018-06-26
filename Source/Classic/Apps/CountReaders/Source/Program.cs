@@ -37,7 +37,55 @@ namespace CountReaders
 {
     class Program
     {
+        private const int MaxAttendance = 50;
+
         private static IrbisConnection connection;
+
+        static void ProcessReader
+            (
+                ReaderInfo reader
+            )
+        {
+            DateTime registration = reader.RegistrationDate;
+            DateTime threshold = registration.AddYears(1);
+            reader.Visits = reader.Visits
+                .Where(v => v.IsVisit && v.DateGiven < threshold)
+                .Where(v => !v.Department.SameString("АБ"))
+                .ToArray();
+        }
+
+        [NotNull]
+        static List<int> AnalyzeAttendance
+            (
+                int year
+            )
+        {
+            string expression = string.Format("RD={0}$", year.ToInvariantString());
+            int[] found = connection.Search(expression);
+            List<MarcRecord> records = new BatchRecordReader
+                (
+                    connection,
+                    connection.Database,
+                    500,
+                    true,
+                    found
+                )
+                .ReadAll(true);
+            ReaderInfo[] readers = records.Select(ReaderInfo.Parse).ToArray();
+            foreach (ReaderInfo reader in readers)
+            {
+                ProcessReader(reader);
+            }
+
+            List<int> result = new List<int> { readers.Length };
+            for (int attendance = 1; attendance < MaxAttendance; attendance++)
+            {
+                int count = readers.Count(r => r.Visits.Length >= attendance);
+                result.Add(count);
+            }
+
+            return result;
+        }
 
         static void AnalyzeYear
             (
@@ -78,13 +126,13 @@ namespace CountReaders
                 {
                     lastVisitDate = registrationDate;
                 }
-                int visitDays = (int) (lastVisitDate - registrationDate).TotalDays;
+                int visitDays = (int)(lastVisitDate - registrationDate).TotalDays;
                 if (visitDays == 0)
                 {
                     visitDays = 1;
                 }
                 int visits = reader.Visits.Length;
-                double rate = (double) visits / visitDays;
+                double rate = (double)visits / visitDays;
                 Console.WriteLine
                     (
                         "{0}\t{1}\t{2}\t{3}\t{4}\t{5:F3}",
@@ -124,9 +172,27 @@ namespace CountReaders
             {
                 using (connection = IrbisConnectionUtility.GetClientFromConfig())
                 {
+                    Console.Write("Посещ.");
+                    Dictionary<int, List<int>> dictionary
+                        = new Dictionary<int, List<int>>();
                     for (int year = 2010; year < 2018; year++)
                     {
-                        AnalyzeYear(year);
+                        List<int> analyzed = AnalyzeAttendance(year);
+                        dictionary.Add(year, analyzed);
+                        Console.Write("\t{0}", year);
+                    }
+
+                    Console.WriteLine();
+
+                    for (int i = 0; i < MaxAttendance; i++)
+                    {
+                        Console.Write("{0}", i);
+                        for (int year = 2010; year < 2018; year++)
+                        {
+                            List<int> list = dictionary[year];
+                            Console.Write("\t{0}", list[i]);
+                        }
+                        Console.WriteLine();
                     }
                 }
             }
