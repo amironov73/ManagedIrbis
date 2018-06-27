@@ -283,6 +283,18 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private static void HtmlEscape(PftContext context, PftNode node, PftNode[] arguments)
+        {
+            string expression = context.GetStringArgument(arguments, 0);
+            if (!string.IsNullOrEmpty(expression))
+            {
+                string result = HtmlText.Encode(expression);
+                context.Write(node, result);
+            }
+        }
+
+        //=================================================
+
         private static void Include(PftContext context, PftNode node, PftNode[] arguments)
         {
             string expression = context.GetStringArgument(arguments, 0);
@@ -612,6 +624,18 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         //=================================================
 
+        private static void RtfEscape(PftContext context, PftNode node, PftNode[] arguments)
+        {
+            string expression = context.GetStringArgument(arguments, 0);
+            if (!string.IsNullOrEmpty(expression))
+            {
+                string result = RichText.Encode(expression, UnicodeRange.Russian);
+                context.Write(node, result);
+            }
+        }
+
+        //=================================================
+
         private static void Search(PftContext context, PftNode node, PftNode[] arguments)
         {
             string expression = context.GetStringArgument(arguments, 0);
@@ -898,6 +922,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("error", Error);
             reg.Add("exit", Exit);
             reg.Add("fatal", Fatal);
+            reg.Add("html", HtmlEscape);
             reg.Add("getenv", GetEnv);
             reg.Add("iocc", IOcc);
             reg.Add("include", Include);
@@ -914,6 +939,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             reg.Add("padRight", PadRight);
             reg.Add("remove", Remove);
             reg.Add("replace", Replace);
+            reg.Add("rtf", RtfEscape);
             reg.Add("size", Size);
             reg.Add("search", Search);
             reg.Add("sort", Sort);

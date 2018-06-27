@@ -205,6 +205,16 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
         }
 
         [TestMethod]
+        public void StandardFunctions_HtmlEscape_1()
+        {
+            Assert.AreEqual
+                (
+                    "Here is &lt;html&gt;",
+                    _Run("html('Here is <html>')").Text
+                );
+        }
+
+        [TestMethod]
         public void StandardFunctions_Insert_1()
         {
             Assert.AreEqual
@@ -397,6 +407,16 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure
                     string.Empty,
                     _Run("replace()").Text
                 );
+        }
+
+        [TestMethod]
+        public void StandardFunctions_RtfEscape_1()
+        {
+            Assert.AreEqual
+            (
+                "Here is \\{RTF\\}",
+                _Run("rtf('Here is {RTF}')").Text
+            );
         }
 
         [TestMethod]
