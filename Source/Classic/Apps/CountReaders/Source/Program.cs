@@ -17,6 +17,7 @@ using System.IO;
 using System.Linq;
 
 using AM;
+using AM.Collections;
 using AM.IO;
 
 using JetBrains.Annotations;
@@ -41,6 +42,24 @@ namespace CountReaders
 
         private static IrbisConnection connection;
 
+        class ByDate : IEqualityComparer<VisitInfo>
+        {
+            public bool Equals(VisitInfo x, VisitInfo y)
+            {
+                return string.Equals
+                    (
+                        x.DateGivenString,
+                        y.DateGivenString,
+                        StringComparison.Ordinal
+                    );
+            }
+
+            public int GetHashCode(VisitInfo obj)
+            {
+                return (obj.DateGivenString ?? string.Empty).GetHashCode();
+            }
+        }
+
         static void ProcessReader
             (
                 ReaderInfo reader
@@ -48,10 +67,88 @@ namespace CountReaders
         {
             DateTime registration = reader.RegistrationDate;
             DateTime threshold = registration.AddYears(1);
-            reader.Visits = reader.Visits
+            List<VisitInfo> visits = reader.Visits
                 .Where(v => v.IsVisit && v.DateGiven < threshold)
-                .Where(v => !v.Department.SameString("АБ"))
-                .ToArray();
+                .Distinct(new ByDate())
+                //.Where(v => !v.Department.SameString("АБ"))
+                .ToList();
+            reader.Visits = visits.ToArray();
+        }
+
+        private static string[] knownCategories =
+        {
+            "1",  // школьник
+            "2",  // учащийся
+            "3",  // студент
+            "4",  // преподаватель ВУЗа
+            "5",  // преподаватель ССУЗ
+            "6",  // учитель школы, воспитатель
+            "7",  // медицинский работник
+            "8",  // экономист, бухгалтер
+            "9",  // юрист
+            "10", // административный работник
+            "11", // ИТР и спец-т с/х
+            "12", // работник культуры и искусства
+            "13", // предприниматель
+            "14", // специалист прочий
+            "15", // рабочий
+            "16", // безработный, пенсионер, домохозяйка, инвалид
+            "17", // прочие
+            "18"  // научный сотрудник
+        };
+
+        static void AnalyzeCategories
+            (
+                int year,
+                int month
+            )
+        {
+            string expression = string.Format
+                (
+                    CultureInfo.InvariantCulture,
+                    "RD={0:0000}{1:00}$",
+                    year,
+                    month
+                );
+            int[] found = connection.Search(expression);
+            List<MarcRecord> records = new BatchRecordReader
+                (
+                    connection,
+                    connection.Database,
+                    500,
+                    true,
+                    found
+                )
+                .ReadAll(true);
+            ReaderInfo[] readers = records.Select(ReaderInfo.Parse).ToArray();
+            DictionaryCounterInt32<string> counter =new DictionaryCounterInt32<string>();
+            foreach (ReaderInfo reader in readers)
+            {
+                string category = reader.Category;
+                if (!string.IsNullOrEmpty(category))
+                {
+                    counter.Increment(category);
+                }
+            }
+
+            CultureInfo culture = CultureInfo.CurrentCulture;
+            DateTimeFormatInfo format = culture.DateTimeFormat;
+            Console.Write("{0} {1}", format.GetAbbreviatedMonthName(month), year);
+            foreach (string category in knownCategories)
+            {
+                Console.Write("\t{0}", counter.GetValue(category));
+            }
+            int others = 0;
+            foreach (string key in counter.Keys)
+            {
+                if (!knownCategories.Contains(key))
+                {
+                    int value = counter[key];
+                    others += value;
+                }
+            }
+
+            Console.WriteLine("\t{0}", others);
         }
 
         [NotNull]
@@ -166,34 +263,50 @@ namespace CountReaders
 
         }
 
+        static void AnalyzeAttendances()
+        {
+            Console.Write("Посещ.");
+            Dictionary<int, List<int>> dictionary
+                = new Dictionary<int, List<int>>();
+            for (int year = 2010; year < 2018; year++)
+            {
+                List<int> analyzed = AnalyzeAttendance(year);
+                dictionary.Add(year, analyzed);
+                Console.Write("\t{0}", year);
+            }
+
+            Console.WriteLine();
+
+            for (int i = 0; i < MaxAttendance; i++)
+            {
+                Console.Write("{0}", i);
+                for (int year = 2010; year < 2018; year++)
+                {
+                    List<int> list = dictionary[year];
+                    Console.Write("\t{0}", list[i]);
+                }
+                Console.WriteLine();
+            }
+        }
+
+        static void AnalyzeCategories()
+        {
+            for (int year = 2010; year <= 2018; year++)
+            {
+                for (int month = 1; month <= 12; month++)
+                {
+                    AnalyzeCategories(year, month);
+                }
+            }
+        }
+
         static void Main()
         {
             try
             {
                 using (connection = IrbisConnectionUtility.GetClientFromConfig())
                 {
-                    Console.Write("Посещ.");
-                    Dictionary<int, List<int>> dictionary
-                        = new Dictionary<int, List<int>>();
-                    for (int year = 2010; year < 2018; year++)
-                    {
-                        List<int> analyzed = AnalyzeAttendance(year);
-                        dictionary.Add(year, analyzed);
-                        Console.Write("\t{0}", year);
-                    }
-
-                    Console.WriteLine();
-
-                    for (int i = 0; i < MaxAttendance; i++)
-                    {
-                        Console.Write("{0}", i);
-                        for (int year = 2010; year < 2018; year++)
-                        {
-                            List<int> list = dictionary[year];
-                            Console.Write("\t{0}", list[i]);
-                        }
-                        Console.WriteLine();
-                    }
+                    AnalyzeCategories();
                 }
             }
             catch (Exception exception)
