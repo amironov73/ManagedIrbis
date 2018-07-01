@@ -9,12 +9,8 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.TextFormatting;
 
@@ -36,6 +32,50 @@ namespace AM.Windows.Media.TextFormatting
     public sealed class SimpleTextRunProperties
         : TextRunProperties
     {
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public SimpleTextRunProperties()
+            : this("Arial", 16)
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public SimpleTextRunProperties
+            (
+                [NotNull] string typeface,
+                double emSize
+            )
+            : this(new Typeface(typeface), emSize)
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public SimpleTextRunProperties
+            (
+                [NotNull] Typeface typeface,
+                double emSize
+            )
+        {
+            Code.NotNull(typeface, "typeface");
+
+            _typeface = typeface;
+            _fontRenderingEmSize = emSize;
+            _textDecorations = new TextDecorationCollection();
+            _foregroundBrush = Brushes.Black;
+            _backgroundBrush = Brushes.White;
+            _cultureInfo = CultureInfo.CurrentCulture;
+            _textEffects = new TextEffectCollection();
+        }
+
+        #endregion
+
         #region Private members
 
         private Typeface _typeface;
@@ -49,51 +89,195 @@ namespace AM.Windows.Media.TextFormatting
 
         #endregion
 
+        #region Public methods
+
+        /// <summary>
+        /// Set the <see cref="Typeface"/>.
+        /// </summary>
+        [NotNull]
+        public SimpleTextRunProperties SetTypeface
+            (
+                [NotNull] Typeface typeface
+            )
+        {
+            Code.NotNull(typeface, "typeface");
+
+            _typeface = typeface;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Set the <see cref="Typeface"/>.
+        /// </summary>
+        [NotNull]
+        public SimpleTextRunProperties SetTypeface
+            (
+                [NotNull] string typeface
+            )
+        {
+            Code.NotNullNorEmpty(typeface, "typeface");
+
+            _typeface = new Typeface(typeface);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Set the <see cref="FontRenderingEmSize"/>.
+        /// </summary>
+        [NotNull]
+        public SimpleTextRunProperties SetFontRenderingEmSize
+            (
+                double emSize
+            )
+        {
+            Code.Positive(emSize, "emSize");
+
+            _fontRenderingEmSize = emSize;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Set the <see cref="FontHintingEmSize"/>.
+        /// </summary>
+        [NotNull]
+        public SimpleTextRunProperties SetFontHintingEmSize
+            (
+                double emSize
+            )
+        {
+            Code.Positive(emSize, "emSize");
+
+            _fontHintingEmSize = emSize;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Set the <see cref="ForegroundBrush"/>.
+        /// </summary>
+        [NotNull]
+        public SimpleTextRunProperties SetForegroundBrush
+            (
+                [NotNull] Brush brush
+            )
+        {
+            Code.NotNull(brush, "brush");
+
+            _foregroundBrush = brush;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Set the <see cref="ForegroundBrush"/>.
+        /// </summary>
+        [NotNull]
+        public SimpleTextRunProperties SetForegroundBrush
+            (
+                Color color
+            )
+        {
+            _foregroundBrush = new SolidColorBrush(color);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Set the <see cref="BackgroundBrush"/>.
+        /// </summary>
+        [NotNull]
+        public SimpleTextRunProperties SetBackgroundBrush
+            (
+                [NotNull] Brush brush
+            )
+        {
+            Code.NotNull(brush, "brush");
+
+            _backgroundBrush = brush;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Set the <see cref="BackgroundBrush"/>.
+        /// </summary>
+        [NotNull]
+        public SimpleTextRunProperties SetBackgroundBrush
+            (
+                Color color
+            )
+        {
+            _backgroundBrush = new SolidColorBrush(color);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Set the <see cref="CultureInfo"/>.
+        /// </summary>
+        [NotNull]
+        public SimpleTextRunProperties SetCultureInfo
+            (
+                [NotNull] CultureInfo culture
+            )
+        {
+            Code.NotNull(culture, "culture");
+
+            _cultureInfo = culture;
+
+            return this;
+        }
+
+        #endregion
+
         #region TextRunProperties members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="TextRunProperties.Typeface" />
         public override Typeface Typeface
         {
             get { return _typeface; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="TextRunProperties.FontRenderingEmSize" />
         public override double FontRenderingEmSize
         {
             get { return _fontRenderingEmSize; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="TextRunProperties.FontHintingEmSize" />
         public override double FontHintingEmSize
         {
             get { return _fontHintingEmSize; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="TextRunProperties.TextDecorations" />
         public override TextDecorationCollection TextDecorations
         {
             get { return _textDecorations; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="TextRunProperties.ForegroundBrush" />
         public override Brush ForegroundBrush
         {
             get { return _foregroundBrush; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="TextRunProperties.BackgroundBrush" />
         public override Brush BackgroundBrush
         {
             get { return _backgroundBrush; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="TextRunProperties.CultureInfo" />
         public override CultureInfo CultureInfo
         {
             get { return _cultureInfo; }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="TextRunProperties.TextEffects" />
         public override TextEffectCollection TextEffects
         {
             get { return _textEffects; }
