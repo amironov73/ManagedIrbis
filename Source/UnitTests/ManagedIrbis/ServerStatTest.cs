@@ -15,7 +15,6 @@ namespace UnitTests.ManagedIrbis
             Assert.IsNull(stat.RunningClients);
             Assert.AreEqual(0, stat.ClientCount);
             Assert.AreEqual(0, stat.TotalCommandCount);
-            Assert.AreEqual(0, stat.Unknown);
         }
 
         [TestMethod]
@@ -50,9 +49,8 @@ namespace UnitTests.ManagedIrbis
             ServerStat stat = ServerStat.Parse(response);
             Assert.AreEqual(10093797, stat.TotalCommandCount);
             Assert.AreEqual(3, stat.ClientCount);
-            Assert.AreEqual(9, stat.Unknown);
             Assert.IsNotNull(stat.RunningClients);
-            Assert.AreEqual(4, stat.RunningClients.Length);
+            Assert.AreEqual(3, stat.RunningClients.Length);
             Assert.AreEqual("Сервер ИРБИС", stat.RunningClients[0].Name);
             Assert.AreEqual("andreevama", stat.RunningClients[1].Name);
             Assert.AreEqual("\"Каталогизатор\"", stat.RunningClients[1].Workstation);

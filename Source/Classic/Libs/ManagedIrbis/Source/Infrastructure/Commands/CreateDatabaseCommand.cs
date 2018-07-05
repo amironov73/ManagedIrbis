@@ -107,7 +107,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             // Response is (ANSI):
             // 0
             // NewDB NEWDB,New database,0 - Создана новая БД NEWDB
-            // CloseDB - 
+            // CloseDB -
             // Exit C:\IRBIS64_2015\workdir\1126_0.ibf
 
             return result;

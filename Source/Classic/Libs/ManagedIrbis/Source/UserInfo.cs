@@ -191,28 +191,53 @@ namespace ManagedIrbis
 
             List<UserInfo> result = new List<UserInfo>();
 
-            response.GetAnsiStrings(2);
-
-            while (true)
+            int userCount = response.RequireInt32();
+            int linesPerUser = response.RequireInt32();
+            for (int i = 0; i < userCount; i++)
             {
-                string[] lines = response.GetAnsiStringsPlus(9);
+                string[] lines = response.GetAnsiStringsPlus(linesPerUser + 1);
                 if (ReferenceEquals(lines, null))
                 {
                     break;
                 }
 
-                UserInfo user = new UserInfo
+                UserInfo user = new UserInfo();
+                if (lines.Length != 0)
                 {
-                    Number = lines[0].EmptyToNull(),
-                    Name = lines[1].EmptyToNull(),
-                    Password = lines[2].EmptyToNull(),
-                    Cataloger = lines[3].EmptyToNull(),
-                    Reader = lines[4].EmptyToNull(),
-                    Circulation = lines[5].EmptyToNull(),
-                    Acquisitions = lines[6].EmptyToNull(),
-                    Provision = lines[7].EmptyToNull(),
-                    Administrator = lines[8].EmptyToNull()
-                };
+                    user.Number = lines[0].EmptyToNull();
+                }
+                if (lines.Length > 1)
+                {
+                    user.Name = lines[1].EmptyToNull();
+                }
+                if (lines.Length > 2)
+                {
+                    user.Password = lines[2].EmptyToNull();
+                }
+                if (lines.Length > 3)
+                {
+                    user.Cataloger = lines[3].EmptyToNull();
+                }
+                if (lines.Length > 4)
+                {
+                    user.Reader = lines[4].EmptyToNull();
+                }
+                if (lines.Length > 5)
+                {
+                    user.Circulation = lines[5].EmptyToNull();
+                }
+                if (lines.Length > 6)
+                {
+                    user.Acquisitions = lines[6].EmptyToNull();
+                }
+                if (lines.Length > 7)
+                {
+                    user.Provision = lines[7].EmptyToNull();
+                }
+                if (lines.Length > 8)
+                {
+                    user.Administrator = lines[8].EmptyToNull();
+                }
                 result.Add(user);
             }
 
@@ -354,7 +379,7 @@ namespace ManagedIrbis
                 (
                     "Number: {0}, Name: {1}, Password: {2}, "
                     + "Cataloger: {3}, Reader: {4}, Circulation: {5}, "
-                    + "Acquisitions: {6}, Provision: {7}, " 
+                    + "Acquisitions: {6}, Provision: {7}, "
                     + "Administrator: {8}",
                     Number.ToVisibleString(),
                     Name.ToVisibleString(),

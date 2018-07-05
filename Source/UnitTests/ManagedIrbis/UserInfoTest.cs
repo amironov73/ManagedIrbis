@@ -107,8 +107,8 @@ namespace UnitTests.ManagedIrbis
             const string cataloger = "Tyler.ini";
 
             ResponseBuilder builder = new ResponseBuilder()
-                .NewLine()
-                .NewLine()
+                .Append(1).NewLine()
+                .Append(9).NewLine()
                 .Append(1).NewLine()
                 .AppendAnsi(name).NewLine()
                 .AppendAnsi(password).NewLine()

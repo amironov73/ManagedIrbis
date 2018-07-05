@@ -140,26 +140,57 @@ namespace ManagedIrbis
             Code.NotNull(response, "response");
 
             List<IrbisProcessInfo> result = new List<IrbisProcessInfo>();
-            while (true)
+            int processCount = response.RequireInt32();
+            int linesPerProcess = response.RequireInt32();
+            for (int i=0; i<processCount; i++)
             {
-                string[] lines = response.GetAnsiStrings(10);
+                string[] lines = response.GetAnsiStrings(linesPerProcess + 1);
                 if (ReferenceEquals(lines, null))
                 {
                     break;
                 }
-                IrbisProcessInfo info = new IrbisProcessInfo
+
+                IrbisProcessInfo info = new IrbisProcessInfo();
+                if (lines.Length != 0)
                 {
-                    ProcessID = lines[0],
-                    State = lines[1],
-                    Number = lines[2],
-                    IPAddress = lines[3],
-                    Name = lines[4],
-                    ClientID = lines[5],
-                    Workstation = lines[6],
-                    Started  = lines[7],
-                    LastCommand = lines[8],
-                    CommandNumber = lines[9]
-                };
+                    info.Number = lines[0].EmptyToNull();
+                }
+                if (lines.Length > 1)
+                {
+                    info.IPAddress = lines[1].EmptyToNull();
+                }
+                if (lines.Length > 2)
+                {
+                    info.Name = lines[2].EmptyToNull();
+                }
+                if (lines.Length > 3)
+                {
+                    info.ClientID = lines[3].EmptyToNull();
+                }
+                if (lines.Length > 4)
+                {
+                    info.Workstation = lines[4].EmptyToNull();
+                }
+                if (lines.Length > 5)
+                {
+                    info.Started = lines[5].EmptyToNull();
+                }
+                if (lines.Length > 6)
+                {
+                    info.LastCommand = lines[6].EmptyToNull();
+                }
+                if (lines.Length > 7)
+                {
+                    info.CommandNumber = lines[7].EmptyToNull();
+                }
+                if (lines.Length > 8)
+                {
+                    info.ProcessID = lines[8].EmptyToNull();
+                }
+                if (lines.Length > 9)
+                {
+                    info.State = lines[9].EmptyToNull();
+                }
                 result.Add(info);
 
             }
