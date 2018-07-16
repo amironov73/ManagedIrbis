@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* AbstractClientSocket.cs -- 
+/* AbstractClientSocket.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -33,7 +33,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Infrastructure
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -102,7 +102,7 @@ namespace ManagedIrbis.Infrastructure
         [NotNull]
         public abstract byte[] ExecuteRequest
             (
-                [NotNull] byte[] request
+                [NotNull] byte[][] request
             );
 
         #endregion

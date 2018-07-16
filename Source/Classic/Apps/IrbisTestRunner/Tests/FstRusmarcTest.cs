@@ -1,5 +1,5 @@
 ﻿/* FstRusmarcTest.cs --
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
@@ -54,16 +54,13 @@ namespace IrbisTestRunner.Tests
             IrbisConnection connection = Connection.ThrowIfNull();
             IrbisProvider provider = new ConnectedClient(connection);
 
-            FstProcessor processor = new FstProcessor(provider);
             FileSpecification specification = new FileSpecification
                 (
                     IrbisPath.MasterFile,
                     "IBIS",
                     "rmarci.fst"
                 );
-            FstFile fstFile = processor
-                .ReadFile(specification)
-                .ThrowIfNull("FstProcessor.ReadFile");
+            FstProcessor processor = new FstProcessor(provider, specification);
 
             MarcRecord record;
             string fileName = Path.Combine
@@ -83,7 +80,7 @@ namespace IrbisTestRunner.Tests
             MarcRecord transformed = processor.TransformRecord
                 (
                     record,
-                    fstFile
+                    processor.File
                 );
             Write(transformed);
         }

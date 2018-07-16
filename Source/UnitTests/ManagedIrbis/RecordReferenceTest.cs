@@ -207,7 +207,8 @@ namespace UnitTests.ManagedIrbis
         [TestMethod]
         public void RecordReference_ReadRecord_2()
         {
-            byte[] rawAnswer = new byte[0], rawRequest = new byte[0];
+            byte[] rawAnswer = new byte[0];
+            byte[][] rawRequest = { new byte[0], new byte[0] };
             Mock<IIrbisConnection> mock = new Mock<IIrbisConnection>();
             Action<SearchReadCommand> callback = command =>
             {
@@ -217,7 +218,7 @@ namespace UnitTests.ManagedIrbis
             IIrbisConnection connection = mock.Object;
             ServerResponse response = new ServerResponse
                 (
-                    connection, 
+                    connection,
                     rawAnswer,
                     rawRequest,
                     true
@@ -254,7 +255,7 @@ namespace UnitTests.ManagedIrbis
                 .Returns(_GetRecord());
 
             IIrbisConnection connection = mock.Object;
-            RecordReference[] references = 
+            RecordReference[] references =
             {
                 new RecordReference
                 {
@@ -289,7 +290,7 @@ namespace UnitTests.ManagedIrbis
                 .Returns((MarcRecord)null);
 
             IIrbisConnection connection = mock.Object;
-            RecordReference[] references = 
+            RecordReference[] references =
             {
                 new RecordReference
                 {
@@ -315,7 +316,7 @@ namespace UnitTests.ManagedIrbis
                 .Returns((MarcRecord)null);
 
             IIrbisConnection connection = mock.Object;
-            RecordReference[] references = 
+            RecordReference[] references =
             {
                 new RecordReference
                 {

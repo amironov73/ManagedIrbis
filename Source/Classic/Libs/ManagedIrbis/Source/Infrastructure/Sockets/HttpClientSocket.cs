@@ -89,13 +89,13 @@ namespace ManagedIrbis.Infrastructure.Sockets
         #region Properties
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public IPAddress ServerAddress { get; private set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public int ServerPort { get; set; }
 
@@ -156,9 +156,9 @@ namespace ManagedIrbis.Infrastructure.Sockets
             return result;
         }
 
-        private byte[] _TransformRequest
+        private byte[][] _TransformRequest
             (
-                [NotNull] byte[] request
+                [NotNull] byte[][] request
             )
         {
             throw new NotImplementedException();
@@ -189,7 +189,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
         /// </summary>
         public override byte[] ExecuteRequest
             (
-                byte[] request
+                byte[][] request
             )
         {
             Code.NotNull(request, "request");
@@ -208,10 +208,12 @@ namespace ManagedIrbis.Infrastructure.Sockets
                 using (TcpClient client = _GetTcpClient())
                 {
                     Socket socket = client.Client;
-                    byte[] transformedRequest
-                        = _TransformRequest(request);
+                    byte[][] transformedRequest = _TransformRequest(request);
 
-                    socket.Send(transformedRequest);
+                    foreach (byte[] bytes in transformedRequest)
+                    {
+                        socket.Send(bytes);
+                    }
 
                     byte[] answer = socket.ReceiveToEnd();
                     byte[] result = _TranswormAnswer(answer);

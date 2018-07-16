@@ -189,7 +189,8 @@ namespace UnitTests.ManagedIrbis.Search
                 .NewLine()
                 .AppendUtf("5695#Джиджилава, З. Lankia. Тени предков / З. Джиджилава // Авторевю. - 2001. - № : 24.- С.44-45.")
                 .NewLine();
-            byte[] rawRequest = new byte[0], rawAnswer = builder.Encode();
+            byte[][] rawRequest = { new byte[0], new byte[0] };
+            byte[] rawAnswer = builder.Encode();
             IrbisConnection connection = new IrbisConnection();
             ServerResponse response = new ServerResponse(connection, rawAnswer, rawRequest, true);
             List<FoundItem> found = FoundItem.ParseServerResponse(response, 0);

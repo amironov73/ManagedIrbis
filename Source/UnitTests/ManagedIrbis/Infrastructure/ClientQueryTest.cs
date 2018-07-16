@@ -56,10 +56,11 @@ namespace UnitTests.ManagedIrbis.Infrastructure
         public void TestClientQuery_EncodePacket()
         {
             ClientQuery query = _GetClientQuery();
-            byte[] packet = query.EncodePacket();
+            byte[][] packet = query.EncodePacket();
 
             Assert.IsNotNull(packet);
-            Assert.IsTrue(packet.Length > 10);
+            Assert.IsTrue(packet.Length == 2);
+            Assert.IsTrue(packet[1].Length > 10);
         }
 
         [TestMethod]

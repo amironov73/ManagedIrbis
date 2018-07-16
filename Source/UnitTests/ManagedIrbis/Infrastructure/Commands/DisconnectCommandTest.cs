@@ -38,8 +38,9 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Commands
             DisconnectCommand command = new DisconnectCommand(connection);
             ResponseBuilder builder = new ResponseBuilder();
             builder.Append(0).NewLine();
-            byte[] bytes = builder.Encode();
-            ServerResponse response = new ServerResponse(connection, bytes, bytes, true);
+            byte[][] request = {new byte[0], new byte[0]};
+            byte[] answer = builder.Encode();
+            ServerResponse response = new ServerResponse(connection, answer, request, true);
             command.CheckResponse(response);
         }
 

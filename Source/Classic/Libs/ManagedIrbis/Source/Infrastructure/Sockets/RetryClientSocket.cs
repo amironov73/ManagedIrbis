@@ -94,10 +94,10 @@ namespace ManagedIrbis.Infrastructure.Sockets
         /// </summary>
         public override byte[] ExecuteRequest
             (
-                byte[] request
+                byte[][] request
             )
         {
-            Func<byte[], byte[]> func 
+            Func<byte[][], byte[]> func
                 = InnerSocket.ThrowIfNull().ExecuteRequest;
 
 

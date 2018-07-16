@@ -41,7 +41,7 @@ namespace UnitTests.ManagedIrbis.Batch
                         command.Records = records;
 
                         byte[] rawAnswer = new byte[0];
-                        byte[] rawRequest = new byte[0];
+                        byte[][] rawRequest = { new byte[0], new byte[0] };
                         ServerResponse response = new ServerResponse
                             (
                                 connection,

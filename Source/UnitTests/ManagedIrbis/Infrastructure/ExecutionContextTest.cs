@@ -51,7 +51,13 @@ namespace UnitTests.ManagedIrbis.Infrastructure
             context.ExceptionHandled = true;
             Assert.IsTrue(context.ExceptionHandled);
 
-            ServerResponse response = new ServerResponse(connection, new byte[0], new byte[0], true);
+            ServerResponse response = new ServerResponse
+                (
+                    connection,
+                    new byte[0],
+                    new [] { new byte[0], new byte[0] },
+                    true
+                );
             context.Response = response;
             Assert.AreSame(response, context.Response);
 

@@ -121,7 +121,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
 
         private void _DumpPackets
             (
-                byte[] request,
+                byte[][] request,
                 byte[] answer
             )
         {
@@ -136,7 +136,13 @@ namespace ManagedIrbis.Infrastructure.Sockets
                         counter
                     )
                 );
-            File.WriteAllBytes(upPath, request);
+            using (FileStream stream = new FileStream(upPath, FileMode.CreateNew))
+            {
+                foreach (byte[] bytes in request)
+                {
+                    stream.Write(bytes, 0, bytes.Length);
+                }
+            }
 
             string downPath = Path.Combine
                 (
@@ -213,7 +219,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
         /// </summary>
         public override byte[] ExecuteRequest
             (
-                byte[] request
+                byte[][] request
             )
         {
             Code.NotNull(request, "request");

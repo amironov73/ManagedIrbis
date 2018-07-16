@@ -346,7 +346,7 @@ namespace ManagedIrbis
         /// Raw last client query.
         /// </summary>
         [CanBeNull]
-        internal byte[] RawClientRequest { get; set; }
+        internal byte[][] RawClientRequest { get; set; }
 
         /// <summary>
         /// Raw last server response.
@@ -1487,7 +1487,7 @@ namespace ManagedIrbis
         // =========================================================
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public virtual void SetRetry
             (

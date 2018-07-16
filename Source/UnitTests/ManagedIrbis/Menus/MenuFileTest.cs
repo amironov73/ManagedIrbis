@@ -177,7 +177,7 @@ namespace UnitTests.ManagedIrbis.Menus
                 .AppendAnsi("Comment for c").NewLine()
                 .AppendAnsi(MenuFile.StopMarker).NewLine();
             IrbisConnection connection = new IrbisConnection();
-            byte[] query = new byte[0];
+            byte[][] query = { new byte[0], new byte[0] };
             byte[] answer = builder.Encode();
             ServerResponse response = new ServerResponse
                 (

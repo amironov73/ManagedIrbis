@@ -109,14 +109,14 @@ namespace UnitTests.ManagedIrbis.Batch
             }
 
             byte[] rawAnswer = new byte[0];
-            byte[] rawRequest = new byte[0];
+            byte[][] rawRequest = { new byte[0], new byte[0] };
             ServerResponse response = new ServerResponse
-            (
-                connection,
-                rawAnswer,
-                rawRequest,
-                true
-            );
+                (
+                    connection,
+                    rawAnswer,
+                    rawRequest,
+                    true
+                );
 
             return response;
         }

@@ -168,7 +168,7 @@ namespace ManagedIrbis.Infrastructure.Commands
 
             Log.Trace("AbstractCommand::Execute");
 
-            byte[] request = query.EncodePacket();
+            byte[][] request = query.EncodePacket();
             byte[] answer = Connection.Socket
                 .ExecuteRequest(request);
 

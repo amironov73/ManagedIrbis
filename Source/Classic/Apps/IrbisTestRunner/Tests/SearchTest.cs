@@ -1,5 +1,5 @@
 ﻿/* SearchTest.cs --
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
@@ -195,7 +195,7 @@ namespace IrbisTestRunner.Tests
 
             MarcRecord record = connection.SearchReadOneRecord("T=A$");
 
-            Write(record.NullableToVisibleString().Substring(0,50));
+            Write(record.ToVisibleString().Substring(0, 50));
         }
 
         [TestMethod]

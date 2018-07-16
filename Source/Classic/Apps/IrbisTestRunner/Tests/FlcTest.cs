@@ -1,5 +1,5 @@
 ﻿/* FlcTest.cs --
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
  */
 
 #region Using directives
@@ -17,6 +17,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
 using ManagedIrbis.Flc;
 using ManagedIrbis.Testing;
 
@@ -94,9 +95,10 @@ namespace IrbisTestRunner.Tests
 
             MarcRecord record = _GetRecord();
             FlcProcessor processor = new FlcProcessor();
+            IrbisProvider provider = new ConnectedClient(connection);
             FlcResult result = processor.CheckRecord
                 (
-                    connection,
+                    provider,
                     record,
                     "@dbnflc"
                 );

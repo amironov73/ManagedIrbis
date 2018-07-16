@@ -49,15 +49,16 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Sockets
         {
             Mock<IIrbisConnection> mock = _GetMock();
             IIrbisConnection connection = mock.Object;
-            byte[] expected = new byte[0];
+            byte[][] expectedRequest = { new byte[0], new byte[0] };
             TestingSocket socket = new TestingSocket(connection)
             {
-                Response = expected,
-                ExpectedRequest = expected
+                Response = new byte[0],
+                ExpectedRequest = expectedRequest
             };
-            byte[] request = new byte[0];
-            byte[] actual = socket.ExecuteRequest(request);
-            CollectionAssert.AreEqual(expected, actual);
+            byte[][] request = { new byte[0], new byte[0] };
+            byte[] expectedAnswer = new byte[0];
+            byte[] actualAnswer = socket.ExecuteRequest(request);
+            CollectionAssert.AreEqual(expectedAnswer, actualAnswer);
             CollectionAssert.AreEqual(request, socket.ActualRequest);
         }
 
@@ -67,13 +68,13 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Sockets
         {
             Mock<IIrbisConnection> mock = _GetMock();
             IIrbisConnection connection = mock.Object;
-            byte[] expected = { 1 };
+            byte[][] expected = { new byte[] { 1 }, new byte[0] };
             TestingSocket socket = new TestingSocket(connection)
             {
-                Response = expected,
+                Response = new byte[] { 1, 2, 3 },
                 ExpectedRequest = expected
             };
-            byte[] request = { 2 };
+            byte[][] request = { new byte[] { 2 }, new byte[0] };
             socket.ExecuteRequest(request);
         }
 
@@ -83,12 +84,12 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Sockets
         {
             Mock<IIrbisConnection> mock = _GetMock();
             IIrbisConnection connection = mock.Object;
-            byte[] expected = { 1 };
+            byte[][] expected = { new byte[] { 1 }, new byte[0] };
             TestingSocket socket = new TestingSocket(connection)
             {
                 ExpectedRequest = expected
             };
-            byte[] request = { 1 };
+            byte[][] request = { new byte[] { 2 }, new byte[0] };
             socket.ExecuteRequest(request);
         }
     }

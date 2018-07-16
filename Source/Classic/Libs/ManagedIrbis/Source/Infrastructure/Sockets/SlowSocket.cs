@@ -30,7 +30,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Infrastructure.Sockets
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -95,7 +95,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
         /// <inheritdoc cref="AbstractClientSocket.ExecuteRequest" />
         public override byte[] ExecuteRequest
             (
-                byte[] request
+                byte[][] request
             )
         {
             Code.NotNull(request, "request");

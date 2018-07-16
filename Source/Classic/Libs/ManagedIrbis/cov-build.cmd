@@ -1,6 +1,6 @@
 @echo off
 
-SET COVERITY=C:\Coverity
+SET COVERITY=D:\Coverity
 SET COVERITY_BIN=%COVERITY%\bin
 SET MSBUILD=C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
 SET PARAMS=/consoleloggerparameters:ErrorsOnly /m

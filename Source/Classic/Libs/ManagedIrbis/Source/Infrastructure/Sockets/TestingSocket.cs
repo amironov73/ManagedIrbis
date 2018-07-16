@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* TestingSocket.cs -- 
+/* TestingSocket.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -24,7 +24,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Infrastructure.Sockets
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -37,7 +37,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
         /// Actual request.
         /// </summary>
         [CanBeNull]
-        public byte[] ActualRequest { get; set; }
+        public byte[][] ActualRequest { get; set; }
 
         /// <summary>
         /// Answer.
@@ -49,7 +49,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
         /// Expected request.
         /// </summary>
         [CanBeNull]
-        public byte[] ExpectedRequest { get; set; }
+        public byte[][] ExpectedRequest { get; set; }
 
         /// <inheritdoc cref="AbstractClientSocket.RequireConnection" />
         public override bool RequireConnection
@@ -85,18 +85,25 @@ namespace ManagedIrbis.Infrastructure.Sockets
         /// <inheritdoc cref="AbstractClientSocket.ExecuteRequest" />
         public override byte[] ExecuteRequest
             (
-                byte[] request
+                byte[][] request
             )
         {
             Code.NotNull(request, "request");
 
             ActualRequest = request;
 
+            // TODO FIX ME
+
             if (!ReferenceEquals(ExpectedRequest, null))
             {
-                if (!ArrayUtility.Coincide(ExpectedRequest, 0, request, 0, request.Length))
+                for (int i = 0; i < ExpectedRequest.Length; i++)
                 {
-                    throw new Exception();
+                    byte[] expected = ExpectedRequest[i];
+                    byte[] actual = request[i];
+                    if (!ArrayUtility.Coincide(expected, 0, actual, 0, actual.Length))
+                    {
+                        throw new Exception();
+                    }
                 }
             }
 

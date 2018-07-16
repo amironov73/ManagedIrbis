@@ -71,7 +71,7 @@ namespace UnitTests.ManagedIrbis
         {
             byte[] bytes = source.SaveToMemory();
 
-            DatabaseInfo target 
+            DatabaseInfo target
                 = bytes.RestoreObjectFromMemory<DatabaseInfo>();
 
             Assert.AreEqual(source.Name, target.Name);
@@ -175,7 +175,7 @@ namespace UnitTests.ManagedIrbis
             .AppendUtf("0").NewLine();
 
             IrbisConnection connection = new IrbisConnection();
-            byte[] query = new byte[0];
+            byte[][] query = { new byte[0], new byte[0] };
             byte[] answer = builder.Encode();
             ServerResponse response = new ServerResponse
                 (
@@ -217,7 +217,7 @@ namespace UnitTests.ManagedIrbis
                 .AppendUtf("0").NewLine();
 
             IrbisConnection connection = new IrbisConnection();
-            byte[] query = new byte[0];
+            byte[][] query = { new byte[0], new byte[0] };
             byte[] answer = builder.Encode();
             ServerResponse response = new ServerResponse
                 (

@@ -102,7 +102,7 @@ namespace IrbisTestRunner.Tests
 
             MarcRecord record = _GetRecord();
             FstFile fstFile = _GetFstFile();
-            FstProcessor processor = new FstProcessor(provider);
+            FstProcessor processor = new FstProcessor(provider, fstFile);
             MarcRecord transformed = processor.TransformRecord
                 (
                     record,

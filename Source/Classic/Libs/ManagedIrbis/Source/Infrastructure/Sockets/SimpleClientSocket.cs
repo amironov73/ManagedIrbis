@@ -123,7 +123,7 @@ namespace ManagedIrbis.Infrastructure
         /// <inheritdoc cref="AbstractClientSocket.ExecuteRequest"/>
         public override byte[] ExecuteRequest
             (
-                byte[] request
+                byte[][] request
             )
         {
             Code.NotNull(request, "request");
@@ -142,7 +142,10 @@ namespace ManagedIrbis.Infrastructure
                 using (TcpClient client = _GetTcpClient())
                 {
                     Socket socket = client.Client;
-                    socket.Send(request);
+                    foreach (byte[] bytes in request)
+                    {
+                        socket.Send(bytes);
+                    }
 
                     MemoryStream stream = Connection.Executive
                         .GetMemoryStream(GetType());

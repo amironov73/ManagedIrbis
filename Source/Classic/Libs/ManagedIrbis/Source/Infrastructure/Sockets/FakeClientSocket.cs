@@ -85,7 +85,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
         /// </summary>
         public override byte[] ExecuteRequest
             (
-                byte[] request
+                byte[][] request
             )
         {
             Code.NotNull(request, "request");

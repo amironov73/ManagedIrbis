@@ -107,7 +107,7 @@ namespace ManagedIrbis.Infrastructure
         /// Raw client request.
         /// </summary>
         [NotNull]
-        public byte[] RawRequest { get; private set; }
+        public byte[][] RawRequest { get; private set; }
 
         /// <summary>
         /// Relax return code check.
@@ -125,7 +125,7 @@ namespace ManagedIrbis.Infrastructure
             (
                 [NotNull] IIrbisConnection connection,
                 [NotNull] byte[] rawAnswer,
-                [NotNull] byte[] rawRequest,
+                [NotNull] byte[][] rawRequest,
                 bool relax
             )
         {
@@ -362,13 +362,13 @@ namespace ManagedIrbis.Infrastructure
                 IIrbisConnection connection
             )
         {
-            byte[] empty = new byte[0];
+            byte[] empty = EmptyArray<byte>.Value;
 
             ServerResponse result = new ServerResponse
                 (
                     connection,
                     empty,
-                    empty,
+                    new [] { empty, empty },
                     true
                 );
 
@@ -701,7 +701,7 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public List<string> RemainingAnsiStrings()
@@ -718,7 +718,7 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public string RemainingAnsiText()
@@ -730,7 +730,7 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public List<string> RemainingUtfStrings()
@@ -747,7 +747,7 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public string RemainingUtfText()

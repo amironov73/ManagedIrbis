@@ -126,7 +126,7 @@ namespace UnitTests.ManagedIrbis.ImportExport
                 .AppendUtf("0#12").NewLine()
                 .AppendUtf("692#^B2008/2009^CO^X!NOZO^D42^E3^Z14.00^G20081218").NewLine()
                 .AppendUtf("200#^AКуда пойти учиться?^EИнформ. - реклам. справ^FЗ. М. Акулова, А. М. Бабич ; ред. А. С. Павловский [и др.]").NewLine();
-            byte[] request = EmptyArray<byte>.Value;
+            byte[][] request = { new byte[0], new byte[0] };
             byte[] answer = builder.Encode();
             IIrbisConnection connection = new IrbisConnection();
             ServerResponse response = new ServerResponse(connection, answer, request, true);
@@ -157,7 +157,7 @@ namespace UnitTests.ManagedIrbis.ImportExport
                 .AppendUtf("#").NewLine()
                 .AppendUtf("0").NewLine()
                 .AppendUtf(IrbisText.WindowsToIrbis("Описание")).NewLine();
-            byte[] request = EmptyArray<byte>.Value;
+            byte[][] request = { new byte[0], new byte[0] };
             byte[] answer = builder.Encode();
             IIrbisConnection connection = new IrbisConnection();
             ServerResponse response = new ServerResponse(connection, answer, request, true);
@@ -186,7 +186,7 @@ namespace UnitTests.ManagedIrbis.ImportExport
                 .AppendUtf("0#12").Delimiter()
                 .AppendUtf("692#^B2008/2009^CO^X!NOZO^D42^E3^Z14.00^G20081218").Delimiter()
                 .AppendUtf("200#^AКуда пойти учиться?^EИнформ. - реклам. справ^FЗ. М. Акулова, А. М. Бабич ; ред. А. С. Павловский [и др.]").NewLine();
-            byte[] request = EmptyArray<byte>.Value;
+            byte[][] request = { new byte[0], new byte[0] };
             byte[] answer = builder.Encode();
             IIrbisConnection connection = new IrbisConnection();
             ServerResponse response = new ServerResponse(connection, answer, request, true);
@@ -213,7 +213,7 @@ namespace UnitTests.ManagedIrbis.ImportExport
                 .AppendUtf("0#12").Delimiter()
                 .AppendUtf("692#^B2008/2009^CO^X!NOZO^D42^E3^Z14.00^G20081218").Delimiter()
                 .AppendUtf("200#^AКуда пойти учиться?^EИнформ. - реклам. справ^FЗ. М. Акулова, А. М. Бабич ; ред. А. С. Павловский [и др.]").NewLine();
-            byte[] request = EmptyArray<byte>.Value;
+            byte[][] request = { new byte[0], new byte[0] };
             byte[] answer = builder.Encode();
             IIrbisConnection connection = new IrbisConnection();
             ServerResponse response = new ServerResponse(connection, answer, request, true);
@@ -229,7 +229,7 @@ namespace UnitTests.ManagedIrbis.ImportExport
             ResponseBuilder builder = new ResponseBuilder();
             builder
                 .AppendUtf("123#32").NewLine().NewLine();
-            byte[] request = EmptyArray<byte>.Value;
+            byte[][] request = { new byte[0], new byte[0] };
             byte[] answer = builder.Encode();
             IIrbisConnection connection = new IrbisConnection();
             ServerResponse response = new ServerResponse(connection, answer, request, true);
@@ -248,7 +248,7 @@ namespace UnitTests.ManagedIrbis.ImportExport
                 .AppendUtf("0#12").Delimiter()
                 .AppendUtf("692#^B2008/2009^CO^X!NOZO^D42^E3^Z14.00^G20081218").Delimiter()
                 .AppendUtf("200#^AКуда пойти учиться?^EИнформ. - реклам. справ^FЗ. М. Акулова, А. М. Бабич ; ред. А. С. Павловский [и др.]").NewLine();
-            byte[] request = EmptyArray<byte>.Value;
+            byte[][] request = { new byte[0], new byte[0] };
             byte[] answer = builder.Encode();
             IIrbisConnection connection = new IrbisConnection();
             ServerResponse response = new ServerResponse(connection, answer, request, true);
@@ -273,7 +273,7 @@ namespace UnitTests.ManagedIrbis.ImportExport
                 .AppendUtf("0#12").AppendUtf("\x1F")
                 .AppendUtf("692#^B2008/2009^CO^X!NOZO^D42^E3^Z14.00^G20081218").AppendUtf("\x1F")
                 .AppendUtf("200#^AКуда пойти учиться?^EИнформ. - реклам. справ^FЗ. М. Акулова, А. М. Бабич ; ред. А. С. Павловский [и др.]").NewLine();
-            byte[] request = EmptyArray<byte>.Value;
+            byte[][] request = { new byte[0], new byte[0] };
             byte[] answer = builder.Encode();
             IIrbisConnection connection = new IrbisConnection();
             ServerResponse response = new ServerResponse(connection, answer, request, true);
@@ -292,7 +292,7 @@ namespace UnitTests.ManagedIrbis.ImportExport
         public void ProtocolText_ParseResponseForAllFormat_2()
         {
             ResponseBuilder builder = new ResponseBuilder();
-            byte[] request = EmptyArray<byte>.Value;
+            byte[][] request = { new byte[0], new byte[0] };
             byte[] answer = builder.Encode();
             IIrbisConnection connection = new IrbisConnection();
             ServerResponse response = new ServerResponse(connection, answer, request, true);

@@ -27,7 +27,7 @@ namespace UnitTests.ManagedIrbis
             throw new NotImplementedException();
         }
 
-        public override byte[] ExecuteRequest(byte[] request)
+        public override byte[] ExecuteRequest(byte[][] request)
         {
             throw new NotImplementedException();
         }

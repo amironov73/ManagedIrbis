@@ -121,7 +121,7 @@ namespace UnitTests.ManagedIrbis
 
             IrbisConnection connection = new IrbisConnection();
             byte[] answer = builder.Encode();
-            byte[] request = new byte[0];
+            byte[][] request = { new byte[0], new byte[0] };
             ServerResponse response = new ServerResponse
                 (
                     connection,

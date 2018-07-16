@@ -106,11 +106,12 @@ namespace UnitTests.ManagedIrbis
                     + "\"Каталогизатор\"\r\n"
                     + "20.11.2017 15:53:40\r\n"
                     + "IRBIS_MAXMFN\r\n"
-                    + "76\r\n" 
+                    + "76\r\n"
                     + "1036\r\n"
                     + "Пассивный\r\n"
                 );
-            byte[] rawAnswer = builder.Encode(), rawRequest = new byte[0];
+            byte[] rawAnswer = builder.Encode();
+            byte[][] rawRequest = { new byte[0], new byte[0] };
             ServerResponse response = new ServerResponse
                 (
                     connection,

@@ -205,7 +205,7 @@ namespace ManagedIrbis.Infrastructure
                     BinaryAttachment request = new BinaryAttachment
                         (
                             "request",
-                            connection.RawClientRequest
+                            connection.RawClientRequest[1]
                         );
                     exception.Attach(request);
                 }

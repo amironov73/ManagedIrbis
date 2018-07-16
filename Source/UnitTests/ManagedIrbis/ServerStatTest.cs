@@ -36,7 +36,7 @@ namespace UnitTests.ManagedIrbis
               "08.11.2017 14:55:35\r\nIRBIS_NOOP\r\n169\r\n");
 
             IrbisConnection connection = new IrbisConnection();
-            byte[] query = new byte[0];
+            byte[][] query = { new byte[0], new byte[0] };
             byte[] answer = builder.Encode();
             ServerResponse response = new ServerResponse
                 (

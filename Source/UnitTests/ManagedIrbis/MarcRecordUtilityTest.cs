@@ -323,7 +323,7 @@ namespace UnitTests.ManagedIrbis
                 builder.NewLine();
             }
             byte[] rawAnswer = builder.Encode();
-            byte[] rawRequest = new byte[0];
+            byte[][] rawRequest = { new byte[0], new byte[0] };
             ServerResponse response = new ServerResponse
                 (
                     connection,
