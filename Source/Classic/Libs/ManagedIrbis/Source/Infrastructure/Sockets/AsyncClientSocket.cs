@@ -72,7 +72,7 @@ namespace ManagedIrbis.Infrastructure
         // Must be async Task method!
         private async Task __Execute
             (
-                byte[] request
+                byte[][] request
             )
         {
             IrbisConnection connection = Connection as IrbisConnection;
@@ -152,7 +152,10 @@ namespace ManagedIrbis.Infrastructure
 
                     Debug.WriteLine("AsyncClientSocket: before Write");
 
-                    stream.Write(request, 0, request.Length);
+                    foreach (byte[] bytes in request)
+                    {
+                        stream.Write(bytes, 0, request.Length);
+                    }
 
                     Debug.WriteLine("AsyncClientSocket: after Write");
 
@@ -206,7 +209,7 @@ namespace ManagedIrbis.Infrastructure
         // so we must create intemediate method
         private async void _Execute
             (
-                byte[] request
+                byte[][] request
             )
         {
             try
@@ -243,7 +246,7 @@ namespace ManagedIrbis.Infrastructure
         /// <see cref="AbstractClientSocket.ExecuteRequest"/>
         public override byte[] ExecuteRequest
             (
-                byte[] request
+                byte[][] request
             )
         {
             Code.NotNull(request, "request");

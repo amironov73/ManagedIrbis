@@ -25,7 +25,7 @@ namespace UnitTests.ManagedIrbis
             _TestPrepareFormat("", "");
             _TestPrepareFormat(" ", " ");
             _TestPrepareFormat("v100,/,v200", "v100,/,v200");
-            _TestPrepareFormat("\tv100\r\n", " v100");
+            _TestPrepareFormat("\tv100\r\n", "v100");
             _TestPrepareFormat
                 (
                     "v100/*comment\r\nv200",
@@ -37,33 +37,34 @@ namespace UnitTests.ManagedIrbis
         public void IrbisFormat_PrepareFormat_2()
         {
             _TestPrepareFormat("\r\n", "");
+            _TestPrepareFormat("/* Comment", "");
         }
 
         [TestMethod]
         public void IrbisFormat_PrepareFormat_3()
         {
             _TestPrepareFormat
-            (
-                "v100 '\t'\r\nv200",
-                "v100 '\t'v200"
-            );
+                (
+                    "v100 '\t'\r\nv200",
+                    "v100 ''v200"
+                );
             _TestPrepareFormat
-            (
-                "v100 \"\t\"\r\nv200",
-                "v100 \"\t\"v200"
-            );
+                (
+                    "v100 \"\t\"\r\nv200",
+                    "v100 \"\"v200"
+                );
             _TestPrepareFormat
-            (
-                "v100 |\t|\r\nv200",
-                "v100 |\t|v200"
-            );
+                (
+                    "v100 |\t|\r\nv200",
+                    "v100 ||v200"
+                );
         }
 
         private void _TestRemoveComments
-        (
-            string text,
-            string expected
-        )
+            (
+                string text,
+                string expected
+            )
         {
             string actual = IrbisFormat.RemoveComments(text);
             Assert.AreEqual(expected, actual);
@@ -79,7 +80,7 @@ namespace UnitTests.ManagedIrbis
             _TestRemoveComments
                 (
                     "v100/*comment\r\nv200",
-                    "v100\nv200"
+                    "v100\r\nv200"
                 );
             _TestRemoveComments
                 (
@@ -104,13 +105,13 @@ namespace UnitTests.ManagedIrbis
             _TestRemoveComments
                 (
                     "v100, '/*not comment' v200, /*comment\r\nv300",
-                    "v100, '/*not comment' v200, \nv300"
+                    "v100, '/*not comment' v200, \r\nv300"
                 );
             _TestRemoveComments
-            (
-                "v100, '/*not comment' v200, /,\r\nv300",
-                "v100, '/*not comment' v200, /,\r\nv300"
-            );
+                (
+                    "v100, '/*not comment' v200, /,\r\nv300",
+                    "v100, '/*not comment' v200, /,\r\nv300"
+                );
         }
 
         [TestMethod]
@@ -123,13 +124,53 @@ namespace UnitTests.ManagedIrbis
         public void IrbisFormat_VerifyFormat_2()
         {
             Assert.IsTrue(IrbisFormat.VerifyFormat("v200^a", false));
+            Assert.IsFalse(IrbisFormat.VerifyFormat("v200^a\tv200^e", false));
         }
 
         [TestMethod]
         [ExpectedException(typeof(VerificationException))]
-        public void IrbisFormat_VerifyFormat_Exception_1()
+        public void IrbisFormat_VerifyFormat_3()
         {
             IrbisFormat.VerifyFormat(null, true);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(VerificationException))]
+        public void IrbisFormat_VerifyFormat_4()
+        {
+            IrbisFormat.VerifyFormat("v200^a /* comment", true);
+        }
+
+        [TestMethod]
+        public void IrbisFormat_VerifyFormat_5()
+        {
+            Assert.IsFalse(IrbisFormat.VerifyFormat("v200^a /* comment", false));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(VerificationException))]
+        public void IrbisFormat_VerifyFormat_6()
+        {
+            IrbisFormat.VerifyFormat("v200^a\n", true);
+        }
+
+        [TestMethod]
+        public void IrbisFormat_VerifyFormat_7()
+        {
+            Assert.IsTrue(IrbisFormat.VerifyFormat("v200^a, |literal|", true));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(VerificationException))]
+        public void IrbisFormat_VerifyFormat_8()
+        {
+            IrbisFormat.VerifyFormat("v200^a, |nonclosed literal", true);
+        }
+
+        [TestMethod]
+        public void IrbisFormat_VerifyFormat_9()
+        {
+            Assert.IsFalse(IrbisFormat.VerifyFormat("v200^a, |nonclosed literal", false));
         }
     }
 }

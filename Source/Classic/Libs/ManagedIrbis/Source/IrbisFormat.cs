@@ -2,19 +2,17 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* IrbisFormat.cs -- common format related stuff
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: moderate
  */
 
 #region Using directives
 
-using System.Diagnostics;
 using System.Text;
 
 using AM;
 using AM.Logging;
-using AM.Text;
 
 using JetBrains.Annotations;
 
@@ -60,16 +58,6 @@ namespace ManagedIrbis
 
         #endregion
 
-        #region Properties
-
-        /// <summary>
-        /// Запрещенные символы.
-        /// </summary>
-        public static char[] ForbiddenCharacters
-            = {'\r', '\n', '\t', '\x1F', '\x1E'};
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -81,7 +69,7 @@ namespace ManagedIrbis
                 [CanBeNull] string text
             )
         {
-            const char ZERO = '\0';
+            const char zero = '\0';
 
             if (string.IsNullOrEmpty(text))
             {
@@ -93,48 +81,42 @@ namespace ManagedIrbis
                 return text;
             }
 
-            StringBuilder result = new StringBuilder(text.Length);
-            TextNavigator navigator = new TextNavigator(text);
-            char state = ZERO;
+            int index = 0, length = text.Length;
+            StringBuilder result = new StringBuilder(length);
+            char state = zero;
 
-            while (!navigator.IsEOF)
+            while (index < length)
             {
-                char c = navigator.ReadChar();
+                char c = text[index];
 
                 switch (state)
                 {
                     case '\'':
-                        if (c == '\'')
-                        {
-                            state = ZERO;
-                        }
-                        result.Append(c);
-                        break;
-
                     case '"':
-                        if (c == '"')
-                        {
-                            state = ZERO;
-                        }
-                        result.Append(c);
-                        break;
-
                     case '|':
-                        if (c == '|')
+                        if (c == state)
                         {
-                            state = ZERO;
+                            state = zero;
                         }
                         result.Append(c);
                         break;
 
                     default:
-                        Debug.Assert(state == ZERO, "state == ZERO");
-
                         if (c == '/')
                         {
-                            if (navigator.PeekChar() == '*')
+                            if (index + 1 < length && text[index + 1] == '*')
                             {
-                                navigator.ReadTo('\r', '\n');
+                                while (index < length)
+                                {
+                                    c = text[index];
+                                    if (c == '\r' || c == '\n')
+                                    {
+                                        result.Append(c);
+                                        break;
+                                    }
+
+                                    index++;
+                                }
                             }
                             else
                             {
@@ -152,6 +134,8 @@ namespace ManagedIrbis
                         }
                         break;
                 }
+
+                index++;
             }
 
             return result.ToString();
@@ -171,74 +155,40 @@ namespace ManagedIrbis
                 [CanBeNull] string text
             )
         {
-            const char ZERO = '\0';
-
             if (string.IsNullOrEmpty(text))
             {
                 return text;
             }
 
             text = RemoveComments(text);
-            if (!string.IsNullOrEmpty(text))
-            {
-                text = text.Replace("\r", string.Empty)
-                    .Replace("\n", string.Empty);
-            }
-
             if (string.IsNullOrEmpty(text))
             {
                 return text;
             }
 
-            StringBuilder result = new StringBuilder(text.Length);
-            TextNavigator navigator = new TextNavigator(text);
-
-            char state = ZERO;
-
-            // Replace all forbidden characters with spaces
-            while (!navigator.IsEOF)
+            int length = text.Length;
+            bool flag = false;
+            for (int i = 0; i < length; i++)
             {
-                char c = navigator.ReadChar();
-
-                switch (state)
+                if (text[i] < ' ')
                 {
-                    case '\'':
-                        if (c == '\'')
-                        {
-                            state = ZERO;
-                        }
-                        result.Append(c);
-                        break;
+                    flag = true;
+                    break;
+                }
+            }
 
-                    case '"':
-                        if (c == '"')
-                        {
-                            state = ZERO;
-                        }
-                        result.Append(c);
-                        break;
+            if (!flag)
+            {
+                return text;
+            }
 
-                    case '|':
-                        if (c == '|')
-                        {
-                            state = ZERO;
-                        }
-                        result.Append(c);
-                        break;
-
-                    default:
-                        Debug.Assert(state == ZERO, "state == ZERO");
-
-                        if (c == '\'' || c == '"' || c == '|')
-                        {
-                            state = c;
-                        }
-                        else if (c < ' ')
-                        {
-                            c = ' ';
-                        }
-                        result.Append(c);
-                        break;
+            StringBuilder result = new StringBuilder(length);
+            for (int i = 0; i < length; i++)
+            {
+                char c = text[i];
+                if (c >= ' ')
+                {
+                    result.Append(c);
                 }
             }
 
@@ -270,7 +220,67 @@ namespace ManagedIrbis
                 return false;
             }
 
-            // TODO more verification logic
+            foreach (char c in text)
+            {
+                if (c < ' ')
+                {
+                    if (throwOnError)
+                    {
+                        throw new VerificationException("containt forbidden symbols");
+                    }
+
+                    return false;
+                }
+            }
+
+            const char zero = '\0';
+            char state = zero;
+            int index = 0, length = text.Length;
+            while (index < length)
+            {
+                char c = text[index];
+
+                switch (state)
+                {
+                    case '\'':
+                    case '"':
+                    case '|':
+                        if (c == state)
+                        {
+                            state = zero;
+                        }
+                        break;
+
+                    default:
+                        if (c == '/' && index + 1 < length && text[index + 1] == '*')
+                        {
+                            if (throwOnError)
+                            {
+                                throw new VerificationException("contains comment");
+                            }
+
+                            return false;
+                        }
+
+                        if (c == '\'' || c == '"' || c == '|')
+                        {
+                            state = c;
+                        }
+                        break;
+                }
+
+                index++;
+            }
+
+            if (state != zero)
+            {
+                if (throwOnError)
+                {
+                    throw new VerificationException("nonclosed literal");
+                }
+
+                return false;
+            }
 
             return true;
         }

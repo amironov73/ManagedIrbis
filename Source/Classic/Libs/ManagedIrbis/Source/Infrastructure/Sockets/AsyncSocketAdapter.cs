@@ -31,7 +31,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Infrastructure
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -75,7 +75,7 @@ namespace ManagedIrbis.Infrastructure
         // Must be async Task method!
         private async Task __Execute
             (
-                byte[] request
+                byte[][] request
             )
         {
             AbstractClientSocket innerSocket = InnerSocket
@@ -93,7 +93,7 @@ namespace ManagedIrbis.Infrastructure
         // so we must create intemediate method
         private async void _Execute
             (
-                byte[] request
+                byte[][] request
             )
         {
             try
@@ -124,13 +124,13 @@ namespace ManagedIrbis.Infrastructure
         /// <inheritdoc cref="AbstractClientSocket.AbortRequest"/>
         public override void AbortRequest()
         {
-            
+
         }
 
         /// <inheritdoc cref="AbstractClientSocket.ExecuteRequest"/>
         public override byte[] ExecuteRequest
             (
-                byte[] request
+                byte[][] request
             )
         {
             Code.NotNull(request, "request");
