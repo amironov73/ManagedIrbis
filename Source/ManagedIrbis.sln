@@ -277,6 +277,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountReaders", "Classic\App
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountGiving", "Classic\Apps\CountGiving\CountGiving.csproj", "{9FCC22FD-3C1B-4874-93F8-17199ACC8EEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iso2Text", "Classic\Apps\Iso2Text\Iso2Text.csproj", "{35697B2A-14D0-4F2C-8C47-B10EBD3E1D39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1349,6 +1351,14 @@ Global
 		{9FCC22FD-3C1B-4874-93F8-17199ACC8EEE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9FCC22FD-3C1B-4874-93F8-17199ACC8EEE}.Release|x86.ActiveCfg = Release|Any CPU
 		{9FCC22FD-3C1B-4874-93F8-17199ACC8EEE}.Release|x86.Build.0 = Release|Any CPU
+		{35697B2A-14D0-4F2C-8C47-B10EBD3E1D39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35697B2A-14D0-4F2C-8C47-B10EBD3E1D39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35697B2A-14D0-4F2C-8C47-B10EBD3E1D39}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{35697B2A-14D0-4F2C-8C47-B10EBD3E1D39}.Debug|x86.Build.0 = Debug|Any CPU
+		{35697B2A-14D0-4F2C-8C47-B10EBD3E1D39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35697B2A-14D0-4F2C-8C47-B10EBD3E1D39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35697B2A-14D0-4F2C-8C47-B10EBD3E1D39}.Release|x86.ActiveCfg = Release|Any CPU
+		{35697B2A-14D0-4F2C-8C47-B10EBD3E1D39}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1485,6 +1495,7 @@ Global
 		{1223C8E1-6B34-4A9A-9D6F-5E734235BD2E} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{A7564985-B713-4FDA-BFB5-8D6944320E0E} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{9FCC22FD-3C1B-4874-93F8-17199ACC8EEE} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{35697B2A-14D0-4F2C-8C47-B10EBD3E1D39} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9210D671-3170-4F79-9CE3-2FE2B1208056}

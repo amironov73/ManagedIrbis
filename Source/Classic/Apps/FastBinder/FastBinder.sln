@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastBinder", "FastBinder.csproj", "{B8E9D8A6-23D7-4461-86A8-439BAFB67869}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8E9D8A6-23D7-4461-86A8-439BAFB67869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8E9D8A6-23D7-4461-86A8-439BAFB67869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8E9D8A6-23D7-4461-86A8-439BAFB67869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8E9D8A6-23D7-4461-86A8-439BAFB67869}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D7D27D18-C6D7-4AB8-A7E3-F7D66447AAD0}
+	EndGlobalSection
+EndGlobal
