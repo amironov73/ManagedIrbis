@@ -245,9 +245,9 @@ namespace ManagedIrbis
 
             DatabaseInfo result = new DatabaseInfo
                 {
-                    PhysicallyDeletedRecords
-                        = _ParseLine(response.GetAnsiString()),
                     LogicallyDeletedRecords
+                        = _ParseLine(response.GetAnsiString()),
+                    PhysicallyDeletedRecords
                         = _ParseLine(response.GetAnsiString()),
                     NonActualizedRecords
                         = _ParseLine(response.GetAnsiString()),

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* DatabaseInfoCommand.cs -- 
+/* DatabaseInfoCommand.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -21,7 +21,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Infrastructure.Commands
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -90,6 +90,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             )
         {
             ServerResponse response = base.Execute(query);
+            response.GetReturnCode();
             Result = DatabaseInfo.ParseServerResponse(response);
             Result.Name = Database;
 

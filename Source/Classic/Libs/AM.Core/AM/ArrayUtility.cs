@@ -460,6 +460,17 @@ namespace AM
         }
 
         /// <summary>
+        /// Безопасное вычисление длины массива.
+        /// </summary>
+        public static int SafeLength
+            (
+                [CanBeNull] this Array array
+            )
+        {
+            return ReferenceEquals(array, null) ? 0 : array.Length;
+        }
+
+        /// <summary>
         /// Разбиение массива на (почти) равные части.
         /// </summary>
         [NotNull]

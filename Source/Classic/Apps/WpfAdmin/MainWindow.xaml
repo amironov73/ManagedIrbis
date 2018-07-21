@@ -1,0 +1,152 @@
+﻿<Window x:Class="WpfAdmin.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAdmin"
+        mc:Ignorable="d"
+        Title="Администратор"
+        Height="400" Width="600"
+        Icon="Admin.ico"
+        Initialized="Window_Initialized">
+    <Window.Resources>
+        <SolidColorBrush x:Key="NameBrush" Color="Beige" />
+        <Style x:Key="NameLabel" TargetType="Label">
+            <Setter Property="Background" Value="{StaticResource NameBrush}" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="0.5" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="ValueBorder" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderThickness" Value="0.5" />
+            <Setter Property="BorderBrush" Value="Black" />
+        </Style>
+        <Style x:Key="ValueBox" TargetType="TextBlock">
+            <Setter Property="Margin" Value="3,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3">
+            <MenuItem Header="База данных">
+                <MenuItem Header="Новая" />
+                <MenuItem Header="Опустошить" />
+                <MenuItem Header="Удалить" />
+                <Separator />
+                <MenuItem Header="Снять блокировку" />
+                <Separator />
+                <MenuItem Header="Выход"/>
+            </MenuItem>
+            <MenuItem Header="Сервер">
+                <MenuItem Header="Версия" />
+                <MenuItem Header="Перезапустить" />
+                <Separator />
+                <MenuItem Header="Список клиентов для доступа к серверу" />
+                <MenuItem Header="Список зарегистрированных клиентов" />
+                <MenuItem Header="Список запущенных процессов" />
+            </MenuItem>
+            <MenuItem Header="Актуализация">
+                <MenuItem Header="Актуализировать словарь" />
+                <MenuItem Header="Создать словарь заново" />
+                <MenuItem Header="Реорганизовать словарь" />
+                <Separator />
+                <MenuItem Header="Реорганизизовать файл документов" />
+            </MenuItem>
+            <MenuItem Header="Сервис">
+                <MenuItem Header="Список удаленных"/>
+                <MenuItem Header="Список неактуализированных"/>
+                <MenuItem Header="Список заблокированныхs"/>
+                <Separator />
+                <MenuItem Header="Выполнить пакетное задание"/>
+            </MenuItem>
+            <MenuItem Header="Инструменты">
+                <MenuItem Header="Редактор РЛ и справочников"/>
+                <MenuItem Header="Редактор INI-файлов и сценариев поиска" />
+            </MenuItem>
+        </Menu>
+        <ListBox x:Name="DatabaseList" Grid.Column="0" Grid.Row="1"
+                 SelectionChanged="DatabaseList_SelectionChanged"/>
+        <Grid Grid.Column="0" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Grid.Row="0">Ключ</Label>
+            <TextBox x:Name="KeyBox" Grid.Column="1" Grid.Row="0"
+                    VerticalContentAlignment="Center"
+                    TextChanged="KeyBox_TextChanged" />
+        </Grid>
+        <GridSplitter Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
+                      Width="3"
+                      HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+        <Grid x:Name="PropertyGrid" Grid.Column="2" Grid.Row="1"
+              Background="LightGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Style="{StaticResource NameLabel}" Grid.Column="0" Grid.Row="0">Имя БД</Label>
+            <Label Style="{StaticResource NameLabel}" Grid.Column="0" Grid.Row="1">Полное название БД</Label>
+            <Label Style="{StaticResource NameLabel}" Grid.Column="0" Grid.Row="2">Максимальный MFN</Label>
+            <Label Style="{StaticResource NameLabel}" Grid.Column="0" Grid.Row="3">Монопольная блокировка</Label>
+            <Label Style="{StaticResource NameLabel}" Grid.Column="0" Grid.Row="4">Записей заблокированных</Label>
+            <Label Style="{StaticResource NameLabel}" Grid.Column="0" Grid.Row="5">Записей удаленных логически</Label>
+            <Label Style="{StaticResource NameLabel}" Grid.Column="0" Grid.Row="6">Записей удаленных физически</Label>
+            <Label Style="{StaticResource NameLabel}" Grid.Column="0" Grid.Row="7">Записей неактуализированных</Label>
+            <Border Style="{StaticResource ValueBorder}" Grid.Column="1" Grid.Row="0" >
+                <TextBlock Style="{StaticResource ValueBox}" Text="{Binding Name}" />
+            </Border>
+            <Border Style="{StaticResource ValueBorder}" Grid.Column="1" Grid.Row="1" >
+                <TextBlock Style="{StaticResource ValueBox}" Text="{Binding Description}" />
+            </Border>
+            <Border Style="{StaticResource ValueBorder}" Grid.Column="1" Grid.Row="2" >
+                <TextBlock Style="{StaticResource ValueBox}" Text="{Binding MaxMfn}" />
+            </Border>
+            <Border Style="{StaticResource ValueBorder}" Grid.Column="1" Grid.Row="3" >
+                <TextBlock Style="{StaticResource ValueBox}" Text="{Binding ExclusiveLock}" />
+            </Border>
+            <Border Style="{StaticResource ValueBorder}" Grid.Column="1" Grid.Row="4" >
+                <TextBlock Style="{StaticResource ValueBox}" Text="{Binding LockedRecords}" />
+            </Border>
+            <Border Style="{StaticResource ValueBorder}" Grid.Column="1" Grid.Row="5" >
+                <TextBlock Style="{StaticResource ValueBox}" Text="{Binding LogicallyDeleted}" />
+            </Border>
+            <Border Style="{StaticResource ValueBorder}" Grid.Column="1" Grid.Row="6" >
+                <TextBlock Style="{StaticResource ValueBox}" Text="{Binding PhysicallyDeleted}" />
+            </Border>
+            <Border Style="{StaticResource ValueBorder}" Grid.Column="1" Grid.Row="7" >
+                <TextBlock Style="{StaticResource ValueBox}" Text="{Binding NonactualizedRecords}" />
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
+
+
+
+
+
+
+
