@@ -9,12 +9,12 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -145,12 +145,12 @@ namespace ManagedIrbis
             }
 
             string[] items = text.Split(ItemDelimiter);
-            int[] result = items
-                // ReSharper disable once ConvertClosureToMethodGroup
-                // Due to .NET 3.5
-                .Select(_ => int.Parse(_))
-                .OrderBy(_ => _)
-                .ToArray();
+            int[] result = new int[items.Length];
+            for (int i = 0; i < items.Length; i++)
+            {
+                result[i] = FastNumber.ParseInt32(items[i]);
+            }
+            Array.Sort(result);
 
             return result;
         }
@@ -166,54 +166,39 @@ namespace ManagedIrbis
         {
             StringBuilder result = new StringBuilder();
 
-            result.AppendFormat
-                (
-                    "Name: {0}", 
-                    Name.ToVisibleString()
-                );
+            result.AppendFormat("Name: {0}", Name.ToVisibleString());
             result.AppendLine();
 
-            result.AppendFormat
-                (
-                    "Description: {0}", 
-                    Description.ToVisibleString()
-                );
+            result.AppendFormat("Description: {0}",
+                Description.ToVisibleString());
             result.AppendLine();
 
             if (!ReferenceEquals(LogicallyDeletedRecords, null))
             {
                 result.Append("Logically deleted records: ");
-                result.AppendLine(NumericUtility.CompressRange
-                    (
-                        LogicallyDeletedRecords
-                    ));
+                result.AppendLine
+                    (NumericUtility.CompressRange(LogicallyDeletedRecords));
             }
 
             if (!ReferenceEquals(PhysicallyDeletedRecords, null))
             {
                 result.Append("Physically deleted records: ");
-                result.AppendLine(NumericUtility.CompressRange
-                    (
-                        PhysicallyDeletedRecords
-                    ));
+                result.AppendLine
+                    (NumericUtility.CompressRange(PhysicallyDeletedRecords));
             }
 
             if (!ReferenceEquals(NonActualizedRecords, null))
             {
                 result.Append("Non-actualized records: ");
-                result.AppendLine(NumericUtility.CompressRange
-                    (
-                        NonActualizedRecords
-                    ));
+                result.AppendLine
+                    (NumericUtility.CompressRange(NonActualizedRecords));
             }
 
             if (!ReferenceEquals(LockedRecords, null))
             {
                 result.Append("Locked records: ");
-                result.AppendLine(NumericUtility.CompressRange
-                    (
-                        LockedRecords
-                    ));
+                result.AppendLine
+                    (NumericUtility.CompressRange(LockedRecords));
             }
 
             result.AppendFormat("Max MFN: {0}", MaxMfn);
@@ -222,11 +207,7 @@ namespace ManagedIrbis
             result.AppendFormat("Read-only: {0}", ReadOnly);
             result.AppendLine();
 
-            result.AppendFormat
-                (
-                    "Database locked: {0}", 
-                    DatabaseLocked
-                );
+            result.AppendFormat("Database locked: {0}", DatabaseLocked);
             result.AppendLine();
 
             return result.ToString();
@@ -388,7 +369,7 @@ namespace ManagedIrbis
             Name = reader.ReadNullableString();
             Description = reader.ReadNullableString();
             MaxMfn = reader.ReadPackedInt32();
-            LogicallyDeletedRecords 
+            LogicallyDeletedRecords
                 = reader.ReadNullableInt32Array();
             PhysicallyDeletedRecords
                 = reader.ReadNullableInt32Array();

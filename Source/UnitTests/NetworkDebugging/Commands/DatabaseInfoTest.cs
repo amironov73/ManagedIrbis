@@ -5,8 +5,7 @@ using ManagedIrbis;
 
 namespace UnitTests.NetworkDebugging.Commands
 {
-    [Ignore]
-    [TestClass]
+    //[TestClass]
     public sealed class DatabaseInfoTest
         : NetworkTestBase
     {

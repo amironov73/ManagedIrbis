@@ -78,7 +78,7 @@
         </Menu>
         <ListBox x:Name="DatabaseList" Grid.Column="0" Grid.Row="1"
                  SelectionChanged="DatabaseList_SelectionChanged"/>
-        <Grid Grid.Column="0" Grid.Row="2">
+        <Grid Grid.Column="0" Grid.Row="2" Grid.RowSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -88,10 +88,10 @@
                     VerticalContentAlignment="Center"
                     TextChanged="KeyBox_TextChanged" />
         </Grid>
-        <GridSplitter Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
+        <GridSplitter Grid.Row="1" Grid.Column="1"
                       Width="3"
                       HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
-        <Grid x:Name="PropertyGrid" Grid.Column="2" Grid.Row="1"
+        <Grid x:Name="PropertyGrid" Grid.Column="2" Grid.Row="1"  Grid.RowSpan="2"
               Background="LightGray">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>

@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using AM;
-
+using AM.IO;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
@@ -44,18 +44,53 @@ namespace WpfAdmin
                 EventArgs e
             )
         {
+            string initialDatabase = null;
+
             using (IrbisConnection connection = GetConnection())
             {
-                // TODO Брать правильный файл
-                databases = connection.ListDatabases("dbnam1.mnu");
+                IniFile iniFile = connection.IniFile;
+                string listFile = "dbnam1.mnu";
+                if (!ReferenceEquals(iniFile, null))
+                {
+                    iniFile.GetValue("MAIN", "DBNNAMECAT", "dbnam1.mnu");
+                    string ext = System.IO.Path.GetExtension(listFile);
+                    if (string.IsNullOrEmpty(ext))
+                    {
+                        listFile += ".mnu";
+                    }
+
+                    initialDatabase = iniFile.GetValue("MAIN", "CURDBN", null);
+                }
+
+                databases = connection.ListDatabases(listFile);
                 foreach (DatabaseInfo database in databases)
                 {
                     DatabaseList.Items.Add(database);
                 }
             }
 
-            // TODO правильно выбирать базу данных
-            DatabaseList.SelectedIndex = 0;
+            int initialIndex = 0;
+            if (!string.IsNullOrEmpty(initialDatabase))
+            {
+                for (int i = 0; i < databases.Length; i++)
+                {
+                    if (initialDatabase.SameString(databases[i].Name))
+                    {
+                        initialIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            if (initialIndex >= 0 && initialIndex < databases.Length)
+            {
+                DatabaseList.SelectedIndex = initialIndex;
+                object selectedItem = DatabaseList.SelectedItem;
+                if (!ReferenceEquals(selectedItem, null))
+                {
+                    DatabaseList.ScrollIntoView(selectedItem);
+                }
+            }
         }
 
         private void DatabaseList_SelectionChanged
