@@ -188,7 +188,7 @@ namespace UnitTests.ManagedIrbis
             DatabaseInfo database = DatabaseInfo.ParseServerResponse(response);
             Assert.AreEqual
                 (
-                    "Name: (null)\nDescription: (null)\nLogically deleted records: 4-6\nPhysically deleted records: 1-3\nNon-actualized records: 7-9\nLocked records: 10-12\nMax MFN: 1000\nRead-only: False\nDatabase locked: False\n",
+                    "Name: (null)\nDescription: (null)\nLogically deleted records: 1-3\nPhysically deleted records: 4-6\nNon-actualized records: 7-9\nLocked records: 10-12\nMax MFN: 1000\nRead-only: False\nDatabase locked: False\n",
                     database.Describe().DosToUnix()
                 );
         }

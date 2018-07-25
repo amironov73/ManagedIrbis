@@ -111,8 +111,32 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstWriter64.cs">
       <Link>Source\Direct\MstWriter64.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Epub\Epub.cs">
+      <Link>Source\Epub\Epub.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FictionBook\FbBinary.cs">
+      <Link>Source\FictionBook\FbBinary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FictionBook\FbBody.cs">
+      <Link>Source\FictionBook\FbBody.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FictionBook\FbDescription.cs">
+      <Link>Source\FictionBook\FbDescription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FictionBook\FbGenre.cs">
+      <Link>Source\FictionBook\FbGenre.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FictionBook\FbTitle.cs">
+      <Link>Source\FictionBook\FbTitle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FictionBook\FictionBook.cs">
+      <Link>Source\FictionBook\FictionBook.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\Csl.cs">
       <Link>Source\ImportExport\Csl.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\MemoryManager.cs">
+      <Link>Source\Infrastructure\MemoryManager.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\BibFrame\BibAgent.cs">
       <Link>Source\Metadata\BibFrame\BibAgent.cs</Link>

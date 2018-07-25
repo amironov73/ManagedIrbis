@@ -10,14 +10,9 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
-using AM.IO;
 using AM.Logging;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -71,7 +66,10 @@ namespace ManagedIrbis.Infrastructure
                 Type consumer
             )
         {
-            return new CountingMemoryStream(MemoryUsage);
+            int memoryUsage = Math.Max(MemoryUsage, 1024);
+
+            return MemoryManager.GetMemoryStream(memoryUsage);
+
         }
 
         /// <inheritdoc cref="AbstractEngine.ReportMemoryUsage" />

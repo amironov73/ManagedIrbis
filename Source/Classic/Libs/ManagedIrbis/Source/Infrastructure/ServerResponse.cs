@@ -295,7 +295,8 @@ namespace ManagedIrbis.Infrastructure
         [NotNull]
         public byte[] GetDump()
         {
-            using (MemoryStream result = new MemoryStream())
+            using (MemoryStream result = Connection.Executive
+                .GetMemoryStream(typeof(ServerResponse)))
             {
                 _stream.Position = _savedPosition;
                 while (true)

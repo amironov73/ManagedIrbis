@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* PftSerializer.cs -- 
+/* PftSerializer.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -31,7 +31,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Serialization
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -397,6 +397,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Serialization
         {
             Code.NotNull(rootNode, "rootNode");
 
+            // TODO Think about MemoryManager.GetMemoryStream
             MemoryStream memory = new MemoryStream();
 
             using (DeflateStream compressor

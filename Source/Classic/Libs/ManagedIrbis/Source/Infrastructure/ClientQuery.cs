@@ -278,7 +278,8 @@ namespace ManagedIrbis.Infrastructure
             }
 
             byte[] body = stream.ToArray();
-            MemoryStream prefix = new MemoryStream();
+            MemoryStream prefix = Connection.Executive
+                .GetMemoryStream(typeof(ClientQuery));
             prefix
                 .EncodeInt32(body.Length)
                 .EncodeDelimiter();

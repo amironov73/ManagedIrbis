@@ -47,6 +47,9 @@
       <HintPath>..\..\..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.IO.RecyclableMemoryStream.1.2.2\lib\net40\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    </Reference>
     <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
       <Private>True</Private>
@@ -83,7 +86,15 @@
     <Compile Include="Source\Batch\BatchRecordWriter.cs" />
     <Compile Include="Source\Batch\BatchSearcher.cs" />
     <Compile Include="Source\Direct\MstWriter64.cs" />
+    <Compile Include="Source\Epub\Epub.cs" />
+    <Compile Include="Source\FictionBook\FbBinary.cs" />
+    <Compile Include="Source\FictionBook\FbBody.cs" />
+    <Compile Include="Source\FictionBook\FbDescription.cs" />
+    <Compile Include="Source\FictionBook\FbGenre.cs" />
+    <Compile Include="Source\FictionBook\FbTitle.cs" />
+    <Compile Include="Source\FictionBook\FictionBook.cs" />
     <Compile Include="Source\ImportExport\Csl.cs" />
+    <Compile Include="Source\Infrastructure\MemoryManager.cs" />
     <Compile Include="Source\Metadata\BibFrame\BibAgent.cs" />
     <Compile Include="Source\Metadata\BibFrame\BibEvent.cs" />
     <Compile Include="Source\Metadata\BibFrame\BibFrame.cs" />

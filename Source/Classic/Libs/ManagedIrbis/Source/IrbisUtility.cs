@@ -17,7 +17,7 @@ using System.Text;
 using AM.Logging;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Infrastructure;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -25,7 +25,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -34,7 +34,7 @@ namespace ManagedIrbis
         #region Public methods
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public static string EncodePercentString
@@ -73,7 +73,7 @@ namespace ManagedIrbis
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public static byte[] DecodePercentString
@@ -87,7 +87,7 @@ namespace ManagedIrbis
             }
 
             int predictedLength = text.Length / 2;
-            using (MemoryStream stream = new MemoryStream(predictedLength))
+            using (MemoryStream stream = MemoryManager.GetMemoryStream(predictedLength))
             {
                 for (int i = 0; i < text.Length; i++)
                 {
