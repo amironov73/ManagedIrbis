@@ -136,6 +136,26 @@ namespace UnitTests.ManagedIrbis.ImportExport
                 MarcRecord record = Iso2709.ReadRecord(stream, IrbisEncoding.Ansi);
                 Assert.IsNotNull(record);
                 Assert.AreEqual(16, record.Fields.Count);
+                Assert.AreEqual("Вып. 13.", record.FM(200, 'a'));
+
+                record = Iso2709.ReadRecord(stream, IrbisEncoding.Ansi);
+                Assert.IsNotNull(record);
+                Assert.AreEqual(15, record.Fields.Count);
+                Assert.AreEqual("Задачи и этюды", record.FM(200, 'a'));
+
+                int count = 0;
+                while (true)
+                {
+                    record = Iso2709.ReadRecord(stream, IrbisEncoding.Ansi);
+                    if (ReferenceEquals(record, null))
+                    {
+                        break;
+                    }
+
+                    count++;
+                }
+
+                Assert.AreEqual(79, count);
             }
         }
 

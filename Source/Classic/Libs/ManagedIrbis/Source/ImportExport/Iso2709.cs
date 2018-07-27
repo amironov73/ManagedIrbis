@@ -43,49 +43,33 @@ namespace ManagedIrbis.ImportExport
         /// <summary>
         /// Record delimiter.
         /// </summary>
-        public const char RecordDelimiter = (char)0x1D;
+        public const byte RecordDelimiter = 0x1D;
 
         /// <summary>
         /// Field delimiter.
         /// </summary>
-        public const char FieldDelimiter = (char)0x1E;
+        public const byte FieldDelimiter = 0x1E;
 
         /// <summary>
         /// Subfield delimiter.
         /// </summary>
-        public const char SubfieldDelimiter = (char)0x1F;
+        public const byte SubfieldDelimiter = 0x1F;
 
         #endregion
 
         #region Private members
 
-        private static int _ToInt
-            (
-                byte[] bytes,
-                int offset,
-                int count
-            )
-        {
-            int result = 0;
-
-            for (; count > 0; count--, offset++)
-            {
-                result = result * 10 + (bytes[offset] - (byte)'0');
-            }
-
-            return result;
-        }
-
         private static void _Encode(char[] chars, int pos, int len, int val)
         {
-            // @@@@@@@@@@@@@
-            len--;
-            for (pos += len; len >= 0; len--)
+            unchecked
             {
-                chars[pos] = (char)(val % 10 + (byte)'0');
-                val /= 10;
-                // @@@@@@@@@@@@
-                pos--;
+                len--;
+                for (pos += len; len >= 0; len--)
+                {
+                    chars[pos] = (char)(val % 10 + (byte)'0');
+                    val /= 10;
+                    pos--;
+                }
             }
         }
 
@@ -121,119 +105,122 @@ namespace ManagedIrbis.ImportExport
 
             MarcRecord result = new MarcRecord();
 
-            byte[] marker = new byte[5];
-
             // Считываем длину записи
-            if (stream.Read(marker, 0, 5) != 5)
+            byte[] marker = new byte[5];
+            if (stream.Read(marker, 0, marker.Length) != marker.Length)
             {
                 return null;
             }
 
-            int recordLength = _ToInt(marker, 0, 5);
+            // а затем и ее остаток
+            int recordLength = FastNumber.ParseInt32(marker, 0, marker.Length);
             byte[] record = new byte[recordLength];
-            int need = recordLength - 5;
-            // А затем и ее остаток
-            if (stream.Read(record, 5, need) != need)
+            int need = recordLength - marker.Length;
+            if (stream.Read(record, marker.Length, need) != need)
             {
                 return null;
             }
 
-            // простая проверка, что мы имеем дело
+            // Простая проверка, что мы имеем дело
             // с нормальной ISO-записью
             if (record[recordLength - 1] != RecordDelimiter)
             {
                 return null;
             }
 
-            // Превращаем в Unicode
-            char[] chars = encoding.GetChars(record, 0, recordLength);
-            int baseAddress = _ToInt(record, 12, 5) - 1;
-            int start = baseAddress;
+            int lengthOfLength = FastNumber.ParseInt32(record, 20, 1);
+            int lengthOfOffset = FastNumber.ParseInt32(record, 21, 1);
+            int additionalData = FastNumber.ParseInt32(record, 22, 1);
+            int directoryLength = 3 + lengthOfLength + lengthOfOffset
+                                  + additionalData;
 
-            // Пошли по полям (при помощи словаря)
-            for (int dic = MarkerLength; ; dic += 12)
+            // Превращаем запись в Unicode
+            char[] chars = encoding.GetChars(record);
+            int indicatorLength = FastNumber.ParseInt32(record, 10, 1);
+            int baseAddress = FastNumber.ParseInt32(record, 12, 5);
+
+            // Пошли по полям при помощи справочника
+            for (int directory = MarkerLength; ; directory += directoryLength)
             {
-                // находим следующее поле
-                // Если нарвались на разделитель, заканчиваем
-                if (record[dic] == FieldDelimiter
-                     || start > recordLength - 4)
+                // Переходим к следующему полю.
+                // Если нарвались на разделитель, значит, справочник закончился
+                if (record[directory] == FieldDelimiter)
                 {
                     break;
                 }
 
-                string tag = new string(chars, dic, 3);
-                RecordField fld = new RecordField(tag);
-                bool isFixed = tag.StartsWith("00");
-                result.Fields.Add(fld);
-                start++;
-                int end;
-                if (isFixed)
+                int tag = FastNumber.ParseInt32(record, directory, 3);
+                int fieldLength = FastNumber.ParseInt32
+                    (
+                        record,
+                        directory + 3,
+                        lengthOfLength
+                    );
+                int fieldOffset = baseAddress + FastNumber.ParseInt32
+                    (
+                        record,
+                        directory + 3 + lengthOfLength,
+                        lengthOfOffset
+                    );
+                RecordField field = new RecordField(tag);
+                result.Fields.Add(field);
+                if (tag < 10)
                 {
-                    for (end = start; ; end++)
-                    {
-                        if (record[end] == FieldDelimiter)
-                        {
-                            break;
-                        }
-                    }
-                    fld.Value = new string(chars, start, end - start);
-                    start = end;
+                    // Фиксированное поле
+                    // не может содержать подполей и индикаторов
+                    field.Value = new string(chars, fieldOffset, fieldLength - 1);
                 }
-                else // not fixed field
+                else
                 {
-                    start += 2;
-                    while (true)
+                    // Поле переменной длины
+                    // Содержит два однобайтных индикатора
+                    // может содерджать подполя
+
+                    // пропускаем индикаторы
+                    int start = fieldOffset + indicatorLength;
+                    int stop = fieldOffset + fieldLength - indicatorLength + 1;
+                    int position = start;
+
+                    // Ищем значение поля до первого разделителя
+                    while (position < stop)
                     {
-                        // находим подполя
-                        if (record[start] == FieldDelimiter)
+                        if (record[start] == SubfieldDelimiter)
                         {
                             break;
                         }
-                        if (record[start] != SubfieldDelimiter)
+                        position++;
+                    }
+
+                    // Если есть текст до первого разделителя, запоминаем его
+                    if (position != start)
+                    {
+                        field.Value = new string(chars, start, position - start);
+                    }
+
+                    // Просматриваем подполя
+                    start = position;
+                    while (start < stop)
+                    {
+                        position = start + 1;
+                        while (position < stop)
                         {
-                            // Нарвались на поле без подполей
-                            for (end = start; ; end++)
+                            if (record[position] == SubfieldDelimiter)
                             {
-                                if (record[end] == FieldDelimiter
-                                     || record[end] == SubfieldDelimiter)
-                                {
-                                    break;
-                                }
+                                break;
                             }
-                            fld.Value = new string
-                                (
-                                    chars,
-                                    start,
-                                    end - start
-                                );
+                            position++;
                         }
-                        else
-                        {
-                            // Декодируем подполя
-                            SubField sub = new SubField (chars[++start]);
-                            fld.SubFields.Add(sub);
-                            start++;
-                            for (end = start; ; end++)
-                            {
-                                if (record[end] == FieldDelimiter
-                                     || record[end] == SubfieldDelimiter)
-                                {
-                                    break;
-                                }
-                            }
-                            sub.Value = new string
-                                (
-                                    chars,
-                                    start,
-                                    end - start
-                                );
-                        }
-                        start = end;
+                        SubField subField = new SubField
+                            (
+                                chars[start + 1],
+                                new string(chars, start + 2, position - start - 2)
+                            );
+                        field.SubFields.Add(subField);
+                        start = position;
                     }
                 }
             }
 
-            result.Modified = false;
             return result;
         }
 
@@ -287,11 +274,12 @@ namespace ManagedIrbis.ImportExport
             int baseAddress = IsoMarker.MarkerLength + dictionaryLength;
             int currentAddress = baseAddress;
             char[] chars = new char[recordLength];
-            //byte[] bytes = new byte[reclen];
 
             // Кодируем маркер
             for (int i = 0; i < baseAddress; i++)
+            {
                 chars[i] = ' ';
+            }
             _Encode(chars, 0, 5, recordLength);
             _Encode(chars, 12, 5, baseAddress);
 
@@ -310,21 +298,26 @@ namespace ManagedIrbis.ImportExport
             chars[23] = '0';
 
             // Кодируем конец справочника
-            chars[baseAddress - 1] = FieldDelimiter;
+            chars[baseAddress - 1] = (char)FieldDelimiter;
             // Проходим по полям
             for (int i = 0; i < record.Fields.Count; i++, dictionaryPosition += 12)
             {
                 // Кодируем справочник
-                RecordField fld = record.Fields[i];
-                _Encode(chars, dictionaryPosition, fld.Tag.ToInvariantString());
+                RecordField field = record.Fields[i];
+                _Encode(chars, dictionaryPosition, field.Tag.ToInvariantString());
                 _Encode(chars, dictionaryPosition + 3, 4, fieldLength[i]);
                 _Encode(chars, dictionaryPosition + 7, 5, currentAddress - baseAddress);
 
                 // Кодируем поле
-                if (fld.IsFixed)
+                if (field.IsFixed)
                 {
-                    // В фиксированном поле не бывает подполей.
-                    currentAddress = _Encode(chars, currentAddress, fld.Value);
+                    // В фиксированном поле не бывает подполей и индикаторов.
+                    currentAddress = _Encode
+                        (
+                            chars,
+                            currentAddress,
+                            field.Value
+                        );
                 }
                 else
                 {
@@ -340,18 +333,22 @@ namespace ManagedIrbis.ImportExport
 
 #endif
 
-                    for (int j = 0; j < fld.SubFields.Count; j++)
+                    for (int j = 0; j < field.SubFields.Count; j++)
                     {
-                        chars[currentAddress++] = SubfieldDelimiter;
-                        chars[currentAddress++] = fld.SubFields[j].Code;
-                        currentAddress = _Encode(chars, currentAddress,
-                            fld.SubFields[j].Value);
+                        chars[currentAddress++] = (char)SubfieldDelimiter;
+                        chars[currentAddress++] = field.SubFields[j].Code;
+                        currentAddress = _Encode
+                            (
+                                chars,
+                                currentAddress,
+                                field.SubFields[j].Value
+                            );
                     }
                 }
-                chars[currentAddress++] = FieldDelimiter;
+                chars[currentAddress++] = (char)FieldDelimiter;
             }
             // Ограничитель записи
-            chars[recordLength - 1] = RecordDelimiter;
+            chars[recordLength - 1] = (char)RecordDelimiter;
 
             // Собственно записываем
             byte[] bytes = encoding.GetBytes(chars);

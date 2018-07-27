@@ -1,0 +1,34 @@
+typedef struct RecordLeader {
+  char RecordLength[5];
+  char RecordStatus;
+  char RecordType;
+  char BibliographicLevel;
+  char ControlType;
+  char EncodingScheme;
+  char IndicatorCount;
+  char SubfieldCodeCount;
+  char BaseAddress[5];
+  char EncodingLevel;
+  char CatalogingRules;
+  char RecordLevel;
+  char LengthOfLength;
+  char LengthOfStart;
+  char ImplementationDefined;
+  char Undefined;
+} RECORD_LEADER;
+
+typedef struct FieldDirectory {
+  char Tag[3]<bgcolor=0xCCCCFF>;
+  char Length[4]<bgcolor=0xCCFFCC>;
+  char Offset[5]<bgcolor=0xFFCCCC>;
+} DIRECTORY;
+
+RECORD_LEADER Leader;
+DIRECTORY Directory[16];
+
+typedef struct RecordField {
+  int Tag;
+  string value;
+} FIELD;
+
+local int baseAddress = Atoi(Leader.BaseAddress);
