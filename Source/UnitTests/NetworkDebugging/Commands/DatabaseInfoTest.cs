@@ -9,7 +9,7 @@ namespace UnitTests.NetworkDebugging.Commands
     public sealed class DatabaseInfoTest
         : NetworkTestBase
     {
-        [TestMethod]
+        //[TestMethod]
         public void DatabaseInfo_1()
         {
             using (IrbisConnection connection = GetConnection())
