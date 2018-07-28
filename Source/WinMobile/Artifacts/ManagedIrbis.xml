@@ -2751,9 +2751,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.AbstractClientSocket">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.AbstractClientSocket.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
@@ -2765,7 +2765,7 @@
             Abort the request.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.AbstractClientSocket.ExecuteRequest(System.Byte[])">
+        <member name="M:ManagedIrbis.Infrastructure.AbstractClientSocket.ExecuteRequest(System.Byte[][])">
             <summary>
             Send request to server and receive answer.
             </summary>
@@ -2801,7 +2801,7 @@
             Abort the request.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Sockets.SmartClientSocket.ExecuteRequest(System.Byte[])">
+        <member name="M:ManagedIrbis.Infrastructure.Sockets.SmartClientSocket.ExecuteRequest(System.Byte[][])">
             <summary>
             Send request to server and receive answer.
             </summary>
@@ -2853,9 +2853,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.Sockets.BrokenSocket">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:ManagedIrbis.Infrastructure.Sockets.BrokenSocket.DefaultProbability">
             <summary>
@@ -2870,8 +2870,8 @@
         <member name="M:ManagedIrbis.Infrastructure.Sockets.BrokenSocket.AbortRequest">
             <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.AbortRequest"/>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Sockets.BrokenSocket.ExecuteRequest(System.Byte[])">
-            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.ExecuteRequest(System.Byte[])"/>
+        <member name="M:ManagedIrbis.Infrastructure.Sockets.BrokenSocket.ExecuteRequest(System.Byte[][])">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.ExecuteRequest(System.Byte[][])"/>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.Sockets.BrokenSocket.Probability">
             <summary>
@@ -4253,6 +4253,11 @@
             Arbitrary user data.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Metadata.EndNote.EndNoteTag">
+             <summary>
+            
+             </summary>
+        </member>
         <member name="T:ManagedIrbis.Identifiers.Gdti">
             <summary>
             Global Document Type Identifier.
@@ -5152,9 +5157,9 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.IrbisConnection.SetRetry(System.Int32,System.Func{System.Exception,System.Boolean})">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.IrbisConnection.SetSocket(ManagedIrbis.Infrastructure.AbstractClientSocket)">
             <summary>
@@ -7105,6 +7110,11 @@
         <member name="M:ManagedIrbis.Mx.Commands.InfoCommand.Execute(ManagedIrbis.Mx.MxExecutive,ManagedIrbis.Mx.MxArgument[])">
             <inheritdoc cref="M:ManagedIrbis.Mx.MxCommand.Execute(ManagedIrbis.Mx.MxExecutive,ManagedIrbis.Mx.MxArgument[])"/>
         </member>
+        <member name="T:ManagedIrbis.Metadata.Ris.RisTag">
+            <summary>
+            RIS field tag.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Menus.ReturnMnu">
             <summary>
             Wrapper for RETURN.MNU.
@@ -7708,6 +7718,26 @@
         <member name="P:ManagedIrbis.Fields.ExternalResource.UserData">
             <summary>
             Arbitrary user data.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Metadata.EndNote.FieldCollection">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Metadata.EndNote.EndNoteRecord">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Metadata.EndNote.EndNoteRecord.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Metadata.EndNote.EndNoteRecord.Fields">
+            <summary>
+            Fields.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Identifiers.Gtin">
@@ -10479,6 +10509,11 @@
             <summary>
             Old field value.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Metadata.EndNote.ReferenceType">
+             <summary>
+            
+             </summary>
         </member>
         <member name="T:ManagedIrbis.Systematization.BbkException">
             <summary>
@@ -14384,6 +14419,11 @@
             Create 5 database files for IRBIS64.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Direct.DirectUtility.CreateMasterFile64(System.String)">
+            <summary>
+            Create 2 database files for IRBIS64.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Direct.DirectUtility.OpenFile(System.String,ManagedIrbis.Direct.DirectAccessMode)">
             <summary>
             Open specified file.
@@ -14541,6 +14581,11 @@
         </member>
         <member name="M:ManagedIrbis.Mx.Commands.BangCommand.Execute(ManagedIrbis.Mx.MxExecutive,ManagedIrbis.Mx.MxArgument[])">
             <inheritdoc cref="M:ManagedIrbis.Mx.MxCommand.Execute(ManagedIrbis.Mx.MxExecutive,ManagedIrbis.Mx.MxArgument[])"/>
+        </member>
+        <member name="T:ManagedIrbis.Metadata.Ris.FieldCollection">
+            <summary>
+            RIS field collection.
+            </summary>
         </member>
         <member name="T:ManagedIrbis.Ibf.Infrastructure.Ast.IbfStat">
             <summary>
@@ -15965,7 +16010,7 @@
             Abort the request.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Sockets.RetryClientSocket.ExecuteRequest(System.Byte[])">
+        <member name="M:ManagedIrbis.Infrastructure.Sockets.RetryClientSocket.ExecuteRequest(System.Byte[][])">
             <summary>
             Send request to server and receive answer.
             </summary>
@@ -16835,6 +16880,11 @@
             Токенизер.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.FictionBook.FbBinary">
+            <summary>
+            Вложенные в файл FictionBook двоичные данные.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.RecordStatus">
             <summary>
             MARC record status
@@ -17488,8 +17538,8 @@
         <member name="M:ManagedIrbis.Infrastructure.SimpleClientSocket.AbortRequest">
             <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.AbortRequest"/>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.SimpleClientSocket.ExecuteRequest(System.Byte[])">
-            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.ExecuteRequest(System.Byte[])"/>
+        <member name="M:ManagedIrbis.Infrastructure.SimpleClientSocket.ExecuteRequest(System.Byte[][])">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.ExecuteRequest(System.Byte[][])"/>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.FileSpecification">
             <summary>
@@ -17593,11 +17643,6 @@
         <member name="F:ManagedIrbis.IrbisFormat.Optimized">
             <summary>
             Optimized format.
-            </summary>
-        </member>
-        <member name="F:ManagedIrbis.IrbisFormat.ForbiddenCharacters">
-            <summary>
-            Запрещенные символы.
             </summary>
         </member>
         <member name="M:ManagedIrbis.IrbisFormat.RemoveComments(System.String)">
@@ -24016,6 +24061,11 @@
             Тираж (цифры), подполе x.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Metadata.Mods.ModsRecord">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Identifiers.Pmid">
             <summary>
             PubMed Identifier.
@@ -24053,6 +24103,11 @@
         </member>
         <member name="M:ManagedIrbis.Biblio.ChapterWithErrors.Render(ManagedIrbis.Biblio.BiblioContext)">
             <inheritdoc cref="M:ManagedIrbis.Biblio.BiblioChapter.Render(ManagedIrbis.Biblio.BiblioContext)"/>
+        </member>
+        <member name="T:ManagedIrbis.FictionBook.FbTitle">
+            <summary>
+            Данные о книге FictionBook.
+            </summary>
         </member>
         <member name="T:ManagedIrbis.Batch.BatchRecordWriter">
             <summary>
@@ -25728,6 +25783,11 @@
             Arbitrary user data.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Metadata.Mods.MadsRecord">
+            <summary>
+            Metadata Authority Description Schema
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Identifiers.Istc">
             <summary>
             International Standard Text Code.
@@ -25838,6 +25898,11 @@
         <member name="P:ManagedIrbis.BibTex.BibTexField.Value">
             <summary>
             Значение поля.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.FictionBook.FbBody">
+            <summary>
+            Тело документа FictionBook.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Worksheet.FieldEditorRepository">
@@ -26774,11 +26839,6 @@
         <member name="P:ManagedIrbis.ServerStat.ClientCount">
             <summary>
             Current client count.
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.ServerStat.Unknown">
-            <summary>
-            Unknown field.
             </summary>
         </member>
         <member name="P:ManagedIrbis.ServerStat.TotalCommandCount">
@@ -28032,7 +28092,7 @@
             Write the control record to specified stream.
             </summary>
         </member>
-        <member name="P:ManagedIrbis.Direct.MstControlRecord64.Reserv1">
+        <member name="P:ManagedIrbis.Direct.MstControlRecord64.CtlMfn">
             <summary>
             Резерв.
             </summary>
@@ -28049,17 +28109,22 @@
             на конец файла MST).
             </summary>
         </member>
+        <member name="P:ManagedIrbis.Direct.MstControlRecord64.MftType">
+            <summary>
+            Резерв.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.MstControlRecord64.RecCnt">
+            <summary>
+            Резерв.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.MstControlRecord64.Reserv1">
+            <summary>
+            Резерв.
+            </summary>
+        </member>
         <member name="P:ManagedIrbis.Direct.MstControlRecord64.Reserv2">
-            <summary>
-            Резерв.
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Direct.MstControlRecord64.Reserv3">
-            <summary>
-            Резерв.
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Direct.MstControlRecord64.Reserv4">
             <summary>
             Резерв.
             </summary>
@@ -28304,9 +28369,9 @@
             <inheritdoc cref="M:ManagedIrbis.Mx.MxCommand.Execute(ManagedIrbis.Mx.MxExecutive,ManagedIrbis.Mx.MxArgument[])"/>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.Sockets.TestingSocket">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Sockets.TestingSocket.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
@@ -28316,8 +28381,8 @@
         <member name="M:ManagedIrbis.Infrastructure.Sockets.TestingSocket.AbortRequest">
             <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.AbortRequest"/>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Sockets.TestingSocket.ExecuteRequest(System.Byte[])">
-            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.ExecuteRequest(System.Byte[])"/>
+        <member name="M:ManagedIrbis.Infrastructure.Sockets.TestingSocket.ExecuteRequest(System.Byte[][])">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.ExecuteRequest(System.Byte[][])"/>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.Sockets.TestingSocket.ActualRequest">
             <summary>
@@ -31675,19 +31740,19 @@
             <inheritdoc cref="P:ManagedIrbis.Infrastructure.Commands.AbstractCommand.GoodReturnCodes"/>
         </member>
         <member name="T:ManagedIrbis.IrbisUtility">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.IrbisUtility.EncodePercentString(System.Byte[])">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.IrbisUtility.DecodePercentString(System.String)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:ManagedIrbis.Search.SearchUtility">
             <summary>
@@ -32595,9 +32660,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.Commands.ListUsersCommand">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.ListUsersCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
@@ -32605,10 +32670,10 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.ListUsersCommand.CreateQuery">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.CreateQuery"/>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.ListUsersCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)"/>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.Commands.ListUsersCommand.Result">
             <summary>
@@ -32688,7 +32753,8 @@
         </member>
         <member name="P:ManagedIrbis.Direct.MstRecordLeader64.Length">
             <summary>
-            Длина записи (всегда четное число).
+            Длина записи (в документации сказано, что всегда четное число,
+            но по факту это не так).
             </summary>
         </member>
         <member name="P:ManagedIrbis.Direct.MstRecordLeader64.Previous">
@@ -33148,6 +33214,21 @@
         <member name="P:ManagedIrbis.Fields.AuthorInfo.UserData">
             <summary>
             Arbitrary user data.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Metadata.EndNote.EndNoteField">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:ManagedIrbis.Metadata.EndNote.EndNoteField.Tag">
+            <summary>
+            Tag.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Metadata.EndNote.EndNoteField.Value">
+            <summary>
+            Value.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Identifiers.MessageId">
@@ -35082,9 +35163,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.Sockets.SlowSocket">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:ManagedIrbis.Infrastructure.Sockets.SlowSocket.DefaultDelay">
             <summary>
@@ -35099,8 +35180,8 @@
         <member name="M:ManagedIrbis.Infrastructure.Sockets.SlowSocket.AbortRequest">
             <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.AbortRequest"/>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.Sockets.SlowSocket.ExecuteRequest(System.Byte[])">
-            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.ExecuteRequest(System.Byte[])"/>
+        <member name="M:ManagedIrbis.Infrastructure.Sockets.SlowSocket.ExecuteRequest(System.Byte[][])">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.ExecuteRequest(System.Byte[][])"/>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.Sockets.SlowSocket.Delay">
             <summary>
@@ -35124,9 +35205,9 @@
             <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)"/>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.Commands.DatabaseInfoCommand">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.DatabaseInfoCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
@@ -35310,6 +35391,21 @@
             Registry.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Metadata.Ris.RisRecord">
+            <summary>
+            RIS record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Metadata.Ris.RisRecord.#ctor">
+            <summary>
+            Construction.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Metadata.Ris.RisRecord.Fields">
+            <summary>
+            Field collection.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Ibf.Infrastructure.Ast.IbfCopyDb">
             <summary>
             Копирование данных из одной базы в другую.
@@ -35473,6 +35569,21 @@
             Коллекция записей.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Infrastructure.MemoryManager">
+            <summary>
+            Memory manager for IRBIS client.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.MemoryManager.GetMemoryStream">
+            <summary>
+            Get the memory stream.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.MemoryManager.GetMemoryStream(System.Int32)">
+            <summary>
+            Get the memory stream.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.SubFieldCode">
             <summary>
             Subfield code related routines.
@@ -35621,7 +35732,7 @@
             Разделитель.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Infrastructure.ServerResponse.#ctor(ManagedIrbis.IIrbisConnection,System.Byte[],System.Byte[],System.Boolean)">
+        <member name="M:ManagedIrbis.Infrastructure.ServerResponse.#ctor(ManagedIrbis.IIrbisConnection,System.Byte[],System.Byte[][],System.Boolean)">
             <summary>
             Constructor.
             </summary>
@@ -35731,24 +35842,24 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.ServerResponse.RemainingAnsiStrings">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.ServerResponse.RemainingAnsiText">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.ServerResponse.RemainingUtfStrings">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.ServerResponse.RemainingUtfText">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.ServerResponse.RequireAnsiString">
             <summary>
@@ -36423,9 +36534,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Serialization.PftSerializer">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Serialization.PftSerializer.Deserialize(System.IO.BinaryReader)">
             <summary>
@@ -37667,6 +37778,26 @@
         </member>
         <member name="M:ManagedIrbis.Mx.Commands.ClsCommand.GetShortHelp">
             <inheritdoc cref="M:ManagedIrbis.Mx.MxCommand.GetShortHelp"/>
+        </member>
+        <member name="T:ManagedIrbis.Metadata.Ris.RisField">
+            <summary>
+            RIS record field.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Metadata.Ris.RisField.Tag">
+            <summary>
+            Tag.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Metadata.Ris.RisField.Value">
+            <summary>
+            Value.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Metadata.Ris.ReferenceType">
+            <summary>
+            RIS reference type.
+            </summary>
         </member>
         <member name="T:ManagedIrbis.Gbl.Infrastructure.Ast.GblNop">
             <summary>
@@ -39410,9 +39541,9 @@
             <inheritdoc cref="M:ManagedIrbis.Mx.MxCommand.Execute(ManagedIrbis.Mx.MxExecutive,ManagedIrbis.Mx.MxArgument[])"/>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.ResponseBuilder">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:ManagedIrbis.Infrastructure.ResponseBuilder.EstimatedSize">
             <summary>
@@ -42827,6 +42958,44 @@
         <member name="P:ManagedIrbis.Client.PlainTextProvider.LayoutPath">
             <summary>
             Layout file path.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.FictionBook.FbDescription">
+            <summary>
+            Заголовок, описывающий документ FictionBook.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Direct.MstWriter64">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.MstWriter64.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.MstWriter64.UpdateControlRecord">
+            <summary>
+            Update control record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.MstWriter64.WriteRecord(ManagedIrbis.MarcRecord)">
+            <summary>
+            Write the record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.MstWriter64.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="P:ManagedIrbis.Direct.MstWriter64.MstFileName">
+            <summary>
+            MST file name.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.MstWriter64.XrfFileName">
+            <summary>
+            XRF file name.
             </summary>
         </member>
     </members>

@@ -862,6 +862,11 @@
             Get range of the array.
             </summary>
         </member>
+        <member name="M:AM.ArrayUtility.SafeLength(System.Array)">
+            <summary>
+            Безопасное вычисление длины массива.
+            </summary>
+        </member>
         <member name="M:AM.ArrayUtility.SplitArray``1(``0[],System.Int32)">
             <summary>
             Разбиение массива на (почти) равные части.
