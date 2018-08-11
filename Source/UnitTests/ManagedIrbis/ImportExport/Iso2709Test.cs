@@ -171,7 +171,22 @@ namespace UnitTests.ManagedIrbis.ImportExport
             }
 
             FileInfo info = new FileInfo(fileName);
-            Assert.AreEqual(4525L, info.Length);
+            Assert.AreEqual(4576L, info.Length);
+        }
+
+        [TestMethod]
+        public void Iso2709_WriteRecord_2()
+        {
+            string fileName = Path.GetTempFileName();
+
+            using (Stream stream = File.OpenWrite(fileName))
+            {
+                MarcRecord record = GetRecord();
+                Iso2709.WriteIso(record, stream, IrbisEncoding.Utf8);
+            }
+
+            FileInfo info = new FileInfo(fileName);
+            Assert.AreEqual(4977L, info.Length);
         }
     }
 }
