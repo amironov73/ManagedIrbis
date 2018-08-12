@@ -233,6 +233,41 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Obtain the server response.
+        /// </summary>
+        [NotNull]
+        protected internal virtual ServerResponse ObtainResponse
+            (
+                [NotNull] ClientQuery query,
+                bool relaxResponse
+            )
+        {
+            Code.NotNull(query, "query");
+
+            Log.Trace("AbstractEngine::ObtainResponse");
+
+            byte[][] request = query.EncodePacket();
+            byte[] answer = Connection.Socket
+                .ExecuteRequest(request);
+
+            Log.Trace
+                (
+                    "AbstractEngine::ObtainResponse: answer.Length="
+                    + answer.Length
+                );
+
+            ServerResponse result = new ServerResponse
+                (
+                    Connection,
+                    answer,
+                    request,
+                    relaxResponse
+                );
+
+            return result;
+        }
+
+        /// <summary>
         /// Standard command execution.
         /// </summary>
         /// <param name="context"></param>

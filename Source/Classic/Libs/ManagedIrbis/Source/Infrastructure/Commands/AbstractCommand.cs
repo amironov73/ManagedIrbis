@@ -166,23 +166,9 @@ namespace ManagedIrbis.Infrastructure.Commands
         {
             Code.NotNull(query, "query");
 
-            Log.Trace("AbstractCommand::Execute");
-
-            byte[][] request = query.EncodePacket();
-            byte[] answer = Connection.Socket
-                .ExecuteRequest(request);
-
-            Log.Trace
+            ServerResponse result = Connection.Executive.ObtainResponse
                 (
-                    "AbstractCommand::Execute: answer.Length="
-                    + answer.Length
-                );
-
-            ServerResponse result = new ServerResponse
-                (
-                    Connection,
-                    answer,
-                    request,
+                    query,
                     RelaxResponse
                 );
 
