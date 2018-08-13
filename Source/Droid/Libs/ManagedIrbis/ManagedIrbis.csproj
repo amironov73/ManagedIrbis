@@ -125,6 +125,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\Csl.cs">
       <Link>Source\ImportExport\Csl.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\FastEngine.cs">
+      <Link>Source\Infrastructure\FastEngine.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\MemoryManager.cs">
       <Link>Source\Infrastructure\MemoryManager.cs</Link>
     </Compile>

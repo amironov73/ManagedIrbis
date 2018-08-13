@@ -94,6 +94,7 @@
     <Compile Include="Source\FictionBook\FbTitle.cs" />
     <Compile Include="Source\FictionBook\FictionBook.cs" />
     <Compile Include="Source\ImportExport\Csl.cs" />
+    <Compile Include="Source\Infrastructure\FastEngine.cs" />
     <Compile Include="Source\Infrastructure\MemoryManager.cs" />
     <Compile Include="Source\Metadata\BibFrame\BibAgent.cs" />
     <Compile Include="Source\Metadata\BibFrame\BibEvent.cs" />

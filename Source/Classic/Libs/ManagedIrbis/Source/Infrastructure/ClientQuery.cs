@@ -13,8 +13,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-
+using System.Linq;
 using AM;
+using AM.IO;
 using AM.Text;
 
 using CodeJam;
@@ -241,8 +242,7 @@ namespace ManagedIrbis.Infrastructure
         [NotNull]
         public byte[][] EncodePacket()
         {
-            MemoryStream stream = Connection.Executive
-                .GetMemoryStream(GetType());
+            ChunkedWriter stream = new ChunkedWriter();
 
             // Query header: 7 lines
             stream
@@ -277,13 +277,12 @@ namespace ManagedIrbis.Infrastructure
                 }
             }
 
-            byte[] body = stream.ToArray();
-            MemoryStream prefix = Connection.Executive
-                .GetMemoryStream(typeof(ClientQuery));
-            prefix
-                .EncodeInt32(body.Length)
-                .EncodeDelimiter();
-            byte[][] result = { prefix.ToArray(), body };
+            byte[][] result = stream.ToArrays(true);
+            int packetLength = result.Sum(item => item.Length);
+            result[0] = IrbisEncoding.Ansi.GetBytes
+                (
+                    packetLength.ToInvariantString() + "\n"
+                );
 
             return result;
         }

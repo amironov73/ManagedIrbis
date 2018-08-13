@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IrbisNetworkUtility.cs -- 
+/* IrbisNetworkUtility.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: moderate
@@ -15,6 +15,7 @@ using System.IO;
 using System.Text;
 
 using AM;
+using AM.IO;
 using AM.Logging;
 using AM.Text;
 
@@ -215,12 +216,94 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Записываем любой объект (диспетчеризация).
+        /// </summary>
+        [NotNull]
+        public static ChunkedWriter EncodeAny
+            (
+                [NotNull] this ChunkedWriter stream,
+                [CanBeNull] object anyObject
+            )
+        {
+            // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
+
+            if (ReferenceEquals(anyObject, null))
+            {
+                // Do nothing
+            }
+            else if (anyObject is bool)
+            {
+                return stream.EncodeBoolean((bool)anyObject);
+            }
+            else if (anyObject is byte)
+            {
+                stream.WriteByte((byte)anyObject);
+                return stream;
+            }
+            else if (anyObject is byte[])
+            {
+                return stream.EncodeBytes((byte[])anyObject);
+            }
+            else if (anyObject is int)
+            {
+                return stream.EncodeInt32((int)anyObject);
+            }
+            else if (anyObject is MarcRecord)
+            {
+                return stream.EncodeRecord((MarcRecord)anyObject);
+            }
+            else if (anyObject is string)
+            {
+                return stream.EncodeString((string)anyObject);
+            }
+            else if (anyObject is TextWithEncoding)
+            {
+                return stream.EncodeTextWithEncoding
+                    (
+                        (TextWithEncoding)anyObject
+                    );
+            }
+            else if (anyObject is FileSpecification)
+            {
+                return stream.EncodeFileSpecification
+                    (
+                        (FileSpecification)anyObject
+                    );
+            }
+            else
+            {
+                return stream.EncodeObject(anyObject);
+            }
+
+            return stream;
+
+            // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
+        }
+
+        /// <summary>
         /// Записываем булево значение в виде 0/1.
         /// </summary>
         [NotNull]
         public static Stream EncodeBoolean
             (
                 [NotNull] this Stream stream,
+                bool value
+            )
+        {
+            byte b = (byte)(value ? '1' : '0');
+
+            stream.WriteByte(b);
+
+            return stream;
+        }
+
+        /// <summary>
+        /// Записываем булево значение в виде 0/1.
+        /// </summary>
+        [NotNull]
+        public static ChunkedWriter EncodeBoolean
+            (
+                [NotNull] this ChunkedWriter stream,
                 bool value
             )
         {
@@ -250,6 +333,24 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Записываем буфер.
+        /// </summary>
+        [NotNull]
+        public static ChunkedWriter EncodeBytes
+            (
+                [NotNull] this ChunkedWriter stream,
+                [CanBeNull] byte[] bytes
+            )
+        {
+            if (!ReferenceEquals(bytes, null))
+            {
+                stream.Write(bytes, 0, bytes.Length);
+            }
+
+            return stream;
+        }
+
+        /// <summary>
         /// Encode line delimiter.
         /// </summary>
         [NotNull]
@@ -264,12 +365,44 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Encode line delimiter.
+        /// </summary>
+        [NotNull]
+        public static ChunkedWriter EncodeDelimiter
+            (
+                [NotNull] this ChunkedWriter stream
+            )
+        {
+            stream.WriteByte((byte)ClientQuery.Delimiter);
+
+            return stream;
+        }
+
+        /// <summary>
         /// Encode <see cref="FileSpecification"/>.
         /// </summary>
         [NotNull]
         public static Stream EncodeFileSpecification
             (
                 [NotNull] this Stream stream,
+                [NotNull] FileSpecification specification
+            )
+        {
+            Code.NotNull(stream, "stream");
+            Code.NotNull(specification, "specification");
+
+            stream.EncodeString(specification.ToString());
+
+            return stream;
+        }
+
+        /// <summary>
+        /// Encode <see cref="FileSpecification"/>.
+        /// </summary>
+        [NotNull]
+        public static ChunkedWriter EncodeFileSpecification
+            (
+                [NotNull] this ChunkedWriter stream,
                 [NotNull] FileSpecification specification
             )
         {
@@ -302,9 +435,43 @@ namespace ManagedIrbis.Infrastructure
         /// Записываем целое.
         /// </summary>
         [NotNull]
+        public static ChunkedWriter EncodeInt32
+            (
+                [NotNull] this ChunkedWriter stream,
+                int value
+            )
+        {
+            string text = value.ToString(CultureInfo.InvariantCulture);
+            byte[] bytes = IrbisEncoding.Ansi.GetBytes(text);
+            stream.Write(bytes, 0, bytes.Length);
+
+            return stream;
+        }
+
+        /// <summary>
+        /// Записываем целое.
+        /// </summary>
+        [NotNull]
         public static Stream EncodeInt64
             (
                 [NotNull] this Stream stream,
+                long value
+            )
+        {
+            string text = value.ToString(CultureInfo.InvariantCulture);
+            byte[] bytes = IrbisEncoding.Ansi.GetBytes(text);
+            stream.Write(bytes, 0, bytes.Length);
+
+            return stream;
+        }
+
+        /// <summary>
+        /// Записываем целое.
+        /// </summary>
+        [NotNull]
+        public static ChunkedWriter EncodeInt64
+            (
+                [NotNull] this ChunkedWriter stream,
                 long value
             )
         {
@@ -336,12 +503,52 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Записываем произвольные объект.
+        /// ToString + кодировка ANSI.
+        /// </summary>
+        [NotNull]
+        public static ChunkedWriter EncodeObject
+            (
+                [NotNull] this ChunkedWriter stream,
+                [CanBeNull] object obj
+            )
+        {
+            if (!ReferenceEquals(obj, null))
+            {
+                string text = obj.ToString();
+                return stream.EncodeString(text);
+            }
+
+            return stream;
+        }
+
+        /// <summary>
         /// Запись в кодировке UTF.
         /// </summary>
         [NotNull]
         public static Stream EncodeRecord
             (
                 [NotNull] this Stream stream,
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(stream, "stream");
+            Code.NotNull(record, "record");
+
+            string text = ProtocolText.EncodeRecord(record);
+            byte[] bytes = IrbisEncoding.Utf8.GetBytes(text);
+            stream.Write(bytes, 0, bytes.Length);
+
+            return stream;
+        }
+
+        /// <summary>
+        /// Запись в кодировке UTF.
+        /// </summary>
+        [NotNull]
+        public static ChunkedWriter EncodeRecord
+            (
+                [NotNull] this ChunkedWriter stream,
                 [NotNull] MarcRecord record
             )
         {
@@ -419,11 +626,50 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Записываем строку в кодировке ANSI.
+        /// </summary>
+        [NotNull]
+        public static ChunkedWriter EncodeString
+            (
+                [NotNull] this ChunkedWriter stream,
+                [CanBeNull] string text
+            )
+        {
+            if (!string.IsNullOrEmpty(text))
+            {
+                byte[] bytes = IrbisEncoding.Ansi.GetBytes(text);
+
+                stream.Write(bytes, 0, bytes.Length);
+            }
+
+            return stream;
+        }
+
+        /// <summary>
         /// Записываем строку в произвольной кодировке.
         /// </summary>
         public static Stream EncodeTextWithEncoding
             (
                 [NotNull] this Stream stream,
+                [CanBeNull] TextWithEncoding text
+            )
+        {
+            if (!ReferenceEquals(text, null))
+            {
+                byte[] bytes = text.ToBytes();
+
+                stream.Write(bytes, 0, bytes.Length);
+            }
+
+            return stream;
+        }
+
+        /// <summary>
+        /// Записываем строку в произвольной кодировке.
+        /// </summary>
+        public static ChunkedWriter EncodeTextWithEncoding
+            (
+                [NotNull] this ChunkedWriter stream,
                 [CanBeNull] TextWithEncoding text
             )
         {
@@ -444,6 +690,21 @@ namespace ManagedIrbis.Infrastructure
         public static Stream EncodeWorkstation
             (
                 [NotNull] this Stream stream,
+                IrbisWorkstation workstation
+            )
+        {
+            stream.WriteByte((byte)workstation);
+
+            return stream;
+        }
+
+        /// <summary>
+        /// Записываем код АРМ.
+        /// </summary>
+        [NotNull]
+        public static ChunkedWriter EncodeWorkstation
+            (
+                [NotNull] this ChunkedWriter stream,
                 IrbisWorkstation workstation
             )
         {

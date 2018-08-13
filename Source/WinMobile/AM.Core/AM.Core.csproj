@@ -335,6 +335,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\ByteNavigator.cs">
       <Link>AM\IO\ByteNavigator.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\ChunkedWriter.cs">
+      <Link>AM\IO\ChunkedWriter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\IO\CompressionUtility.cs">
       <Link>AM\IO\CompressionUtility.cs</Link>
     </Compile>
