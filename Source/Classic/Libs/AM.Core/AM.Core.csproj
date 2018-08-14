@@ -158,6 +158,7 @@
     <Compile Include="AM\IO\BinaryWriterUtility.cs" />
     <Compile Include="AM\IO\ByteNavigator.cs" />
     <Compile Include="AM\IO\ChunkedWriter.cs" />
+    <Compile Include="AM\IO\ChunkedReader.cs" />
     <Compile Include="AM\IO\CompressionUtility.cs" />
     <Compile Include="AM\IO\CountingMemoryStream.cs" />
     <Compile Include="AM\IO\DirectoryUtility.cs" />

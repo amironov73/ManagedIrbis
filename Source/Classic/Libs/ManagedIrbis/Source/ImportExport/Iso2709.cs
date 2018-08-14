@@ -271,6 +271,11 @@ namespace ManagedIrbis.ImportExport
             recordLength += dictionaryLength; // Справочник
             recordLength++; // Разделитель записей
 
+            if (recordLength >= 100000)
+            {
+                throw new IrbisException();
+            }
+
             // Приступаем к кодированию
             int dictionaryPosition = IsoMarker.MarkerLength;
             int baseAddress = IsoMarker.MarkerLength + dictionaryLength;
