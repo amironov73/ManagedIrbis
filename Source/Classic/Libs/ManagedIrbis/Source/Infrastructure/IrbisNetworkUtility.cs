@@ -219,9 +219,9 @@ namespace ManagedIrbis.Infrastructure
         /// Записываем любой объект (диспетчеризация).
         /// </summary>
         [NotNull]
-        public static ChunkedWriter EncodeAny
+        public static ChunkedBuffer EncodeAny
             (
-                [NotNull] this ChunkedWriter stream,
+                [NotNull] this ChunkedBuffer stream,
                 [CanBeNull] object anyObject
             )
         {
@@ -301,9 +301,9 @@ namespace ManagedIrbis.Infrastructure
         /// Записываем булево значение в виде 0/1.
         /// </summary>
         [NotNull]
-        public static ChunkedWriter EncodeBoolean
+        public static ChunkedBuffer EncodeBoolean
             (
-                [NotNull] this ChunkedWriter stream,
+                [NotNull] this ChunkedBuffer stream,
                 bool value
             )
         {
@@ -336,9 +336,9 @@ namespace ManagedIrbis.Infrastructure
         /// Записываем буфер.
         /// </summary>
         [NotNull]
-        public static ChunkedWriter EncodeBytes
+        public static ChunkedBuffer EncodeBytes
             (
-                [NotNull] this ChunkedWriter stream,
+                [NotNull] this ChunkedBuffer stream,
                 [CanBeNull] byte[] bytes
             )
         {
@@ -368,9 +368,9 @@ namespace ManagedIrbis.Infrastructure
         /// Encode line delimiter.
         /// </summary>
         [NotNull]
-        public static ChunkedWriter EncodeDelimiter
+        public static ChunkedBuffer EncodeDelimiter
             (
-                [NotNull] this ChunkedWriter stream
+                [NotNull] this ChunkedBuffer stream
             )
         {
             stream.WriteByte((byte)ClientQuery.Delimiter);
@@ -400,9 +400,9 @@ namespace ManagedIrbis.Infrastructure
         /// Encode <see cref="FileSpecification"/>.
         /// </summary>
         [NotNull]
-        public static ChunkedWriter EncodeFileSpecification
+        public static ChunkedBuffer EncodeFileSpecification
             (
-                [NotNull] this ChunkedWriter stream,
+                [NotNull] this ChunkedBuffer stream,
                 [NotNull] FileSpecification specification
             )
         {
@@ -435,9 +435,9 @@ namespace ManagedIrbis.Infrastructure
         /// Записываем целое.
         /// </summary>
         [NotNull]
-        public static ChunkedWriter EncodeInt32
+        public static ChunkedBuffer EncodeInt32
             (
-                [NotNull] this ChunkedWriter stream,
+                [NotNull] this ChunkedBuffer stream,
                 int value
             )
         {
@@ -469,9 +469,9 @@ namespace ManagedIrbis.Infrastructure
         /// Записываем целое.
         /// </summary>
         [NotNull]
-        public static ChunkedWriter EncodeInt64
+        public static ChunkedBuffer EncodeInt64
             (
-                [NotNull] this ChunkedWriter stream,
+                [NotNull] this ChunkedBuffer stream,
                 long value
             )
         {
@@ -507,9 +507,9 @@ namespace ManagedIrbis.Infrastructure
         /// ToString + кодировка ANSI.
         /// </summary>
         [NotNull]
-        public static ChunkedWriter EncodeObject
+        public static ChunkedBuffer EncodeObject
             (
-                [NotNull] this ChunkedWriter stream,
+                [NotNull] this ChunkedBuffer stream,
                 [CanBeNull] object obj
             )
         {
@@ -546,9 +546,9 @@ namespace ManagedIrbis.Infrastructure
         /// Запись в кодировке UTF.
         /// </summary>
         [NotNull]
-        public static ChunkedWriter EncodeRecord
+        public static ChunkedBuffer EncodeRecord
             (
-                [NotNull] this ChunkedWriter stream,
+                [NotNull] this ChunkedBuffer stream,
                 [NotNull] MarcRecord record
             )
         {
@@ -629,9 +629,9 @@ namespace ManagedIrbis.Infrastructure
         /// Записываем строку в кодировке ANSI.
         /// </summary>
         [NotNull]
-        public static ChunkedWriter EncodeString
+        public static ChunkedBuffer EncodeString
             (
-                [NotNull] this ChunkedWriter stream,
+                [NotNull] this ChunkedBuffer stream,
                 [CanBeNull] string text
             )
         {
@@ -667,9 +667,9 @@ namespace ManagedIrbis.Infrastructure
         /// <summary>
         /// Записываем строку в произвольной кодировке.
         /// </summary>
-        public static ChunkedWriter EncodeTextWithEncoding
+        public static ChunkedBuffer EncodeTextWithEncoding
             (
-                [NotNull] this ChunkedWriter stream,
+                [NotNull] this ChunkedBuffer stream,
                 [CanBeNull] TextWithEncoding text
             )
         {
@@ -702,9 +702,9 @@ namespace ManagedIrbis.Infrastructure
         /// Записываем код АРМ.
         /// </summary>
         [NotNull]
-        public static ChunkedWriter EncodeWorkstation
+        public static ChunkedBuffer EncodeWorkstation
             (
-                [NotNull] this ChunkedWriter stream,
+                [NotNull] this ChunkedBuffer stream,
                 IrbisWorkstation workstation
             )
         {

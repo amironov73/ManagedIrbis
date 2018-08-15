@@ -242,7 +242,7 @@ namespace ManagedIrbis.Infrastructure
         [NotNull]
         public byte[][] EncodePacket()
         {
-            ChunkedWriter stream = new ChunkedWriter();
+            ChunkedBuffer stream = new ChunkedBuffer();
 
             // Query header: 7 lines
             stream
@@ -277,7 +277,7 @@ namespace ManagedIrbis.Infrastructure
                 }
             }
 
-            byte[][] result = stream.ToArrays(true);
+            byte[][] result = stream.ToArrays(1);
             int packetLength = result.Sum(item => item.Length);
             result[0] = IrbisEncoding.Ansi.GetBytes
                 (
