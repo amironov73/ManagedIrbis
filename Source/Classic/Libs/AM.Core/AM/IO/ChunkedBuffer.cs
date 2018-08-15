@@ -32,6 +32,15 @@ namespace AM.IO
     [MoonSharpUserData]
     public sealed class ChunkedBuffer
     {
+        #region Constants
+
+        /// <summary>
+        /// Default chunk size.
+        /// </summary>
+        public const int DefaultChunkSize = 2048;
+
+        #endregion
+
         #region Nested classes
 
         class Chunk
@@ -54,20 +63,28 @@ namespace AM.IO
         #region Properties
 
         /// <summary>
+        /// Chunk size.
+        /// </summary>
+        public int ChunkSize
+        {
+            get { return _chunkSize; }
+        }
+
+        /// <summary>
         /// End of data?
         /// </summary>
         public bool Eof
         {
             get
             {
-                if (ReferenceEquals(_first, null))
+                if (ReferenceEquals(_current, null))
                 {
                     return true;
                 }
 
                 if (ReferenceEquals(_current, _last))
                 {
-                    return _read < _position;
+                    return _read >= _position;
                 }
 
                 return false;
@@ -107,7 +124,7 @@ namespace AM.IO
         /// Constructor.
         /// </summary>
         public ChunkedBuffer()
-            : this(2048)
+            : this(DefaultChunkSize)
         {
         }
 
@@ -129,7 +146,7 @@ namespace AM.IO
         #region Private members
 
         private Chunk _first, _current, _last;
-        private int _chunkSize;
+        private readonly int _chunkSize;
         private int _position, _read;
 
         private bool _Advance()
@@ -206,10 +223,7 @@ namespace AM.IO
             {
                 if (_read >= _chunkSize)
                 {
-                    if (!_Advance())
-                    {
-                        return -1;
-                    }
+                    _Advance();
                 }
             }
 
@@ -255,11 +269,9 @@ namespace AM.IO
             int total = 0;
             do
             {
-                int remaining = _chunkSize - _read;
-                if (ReferenceEquals(_current, _last))
-                {
-                    remaining = _position - _read;
-                }
+                int remaining = ReferenceEquals(_current, _last)
+                    ? _position - _read
+                    : _chunkSize - _read;
 
                 if (remaining <= 0)
                 {
@@ -281,7 +293,7 @@ namespace AM.IO
                 _read += portion;
                 offset += portion;
                 count -= portion;
-
+                total += portion;
             } while (count > 0);
 
             return total;
@@ -308,10 +320,7 @@ namespace AM.IO
             {
                 if (_read >= _chunkSize)
                 {
-                    if (!_Advance())
-                    {
-                        return -1;
-                    }
+                    _Advance();
                 }
             }
 

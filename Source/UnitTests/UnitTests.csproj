@@ -200,6 +200,7 @@
     <Compile Include="AM\IO\NonCloseableTextReaderTest.cs" />
     <Compile Include="AM\IO\StreamUtilityTest.cs" />
     <Compile Include="AM\IO\TextWriterUtilityTest.cs" />
+    <Compile Include="AM\IO\ChunkedBufferTest.cs" />
     <Compile Include="AM\Json\JsonUtilityTest.cs" />
     <Compile Include="AM\Logging\FileLoggerTest.cs" />
     <Compile Include="AM\Logging\LogTest.cs" />
