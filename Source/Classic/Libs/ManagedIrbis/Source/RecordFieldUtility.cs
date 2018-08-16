@@ -19,6 +19,7 @@ using System.Xml;
 using System.Xml.Serialization;
 
 using AM;
+using AM.Text;
 
 using CodeJam;
 
@@ -40,7 +41,7 @@ using Formatting = Newtonsoft.Json.Formatting;
 namespace ManagedIrbis
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -2465,6 +2466,43 @@ namespace ManagedIrbis
                         field => field.SubFields.Count != 0
                     )
                 .ToArray();
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Convert the field to C# source code.
+        /// </summary>
+        [NotNull]
+        public static string ToSourceCode
+            (
+                [NotNull] this RecordField field
+            )
+        {
+            Code.NotNull(field, "field");
+
+            StringBuilder result = new StringBuilder();
+            result.AppendFormat
+                (
+                    "new RecordField({0}",
+                    field.Tag.ToInvariantString()
+                );
+            if (!ReferenceEquals(field.Value, null))
+            {
+                result.AppendFormat
+                    (
+                        ", {0}",
+                        SourceCodeUtility.ToSourceCode(field.Value)
+                    );
+            }
+            foreach (SubField subField in field.SubFields)
+            {
+                result.AppendLine(",");
+                result.Append(subField.ToSourceCode());
+            }
+            result.Append(")");
+
+            return result.ToString();
         }
 
         #endregion

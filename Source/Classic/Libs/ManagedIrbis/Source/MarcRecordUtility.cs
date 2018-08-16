@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-
+using System.Text;
 using AM;
 
 using CodeJam;
@@ -546,6 +546,28 @@ namespace ManagedIrbis
             return result;
 
 #endif
+        }
+
+        /// <summary>
+        /// Convert the record to C# source code.
+        /// </summary>
+        [NotNull]
+        public static string ToSourceCode
+            (
+                [NotNull] this MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            StringBuilder result = new StringBuilder();
+            result.Append("new MarcRecord()");
+            foreach (RecordField field in record.Fields)
+            {
+                result.AppendLine();
+                result.AppendFormat(".AddField({0})", field.ToSourceCode());
+            }
+
+            return result.ToString();
         }
 
         #endregion

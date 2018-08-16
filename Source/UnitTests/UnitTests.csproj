@@ -234,6 +234,7 @@
     <Compile Include="AM\VerifierTest.cs" />
     <Compile Include="AM\Xml\CanaryClass.cs" />
     <Compile Include="AM\Xml\XmlUtilityTest.cs" />
+    <Compile Include="Experiments\IsoExperiments.cs" />
     <Compile Include="ManagedIrbis\AsyncExtensionsTest.cs" />
     <Compile Include="ManagedIrbis\Authentication\IrbisCredentialsTest.cs" />
     <Compile Include="ManagedIrbis\Batch\BatchAccessorTest.cs" />

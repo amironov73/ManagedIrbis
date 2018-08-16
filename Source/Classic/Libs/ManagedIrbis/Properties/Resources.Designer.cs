@@ -77,5 +77,14 @@ namespace ManagedIrbis.Properties {
                 return ResourceManager.GetString("IrbisProvider_NotOverridden", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Record too long.
+        /// </summary>
+        internal static string RecordTooLong {
+            get {
+                return ResourceManager.GetString("RecordTooLong", resourceCulture);
+            }
+        }
     }
 }

@@ -381,6 +381,22 @@ namespace ManagedIrbis
             SubFields.AddRange(subFields);
         }
 
+        /// <summary>
+        /// Конструктор с подполями.
+        /// </summary>
+        public RecordField
+            (
+                int tag,
+                [CanBeNull] string value,
+                [ItemNotNull] params SubField[] subFields
+            )
+            : this()
+        {
+            SetTag(tag);
+            Value = value;
+            SubFields.AddRange(subFields);
+        }
+
         #endregion
 
         #region Private members

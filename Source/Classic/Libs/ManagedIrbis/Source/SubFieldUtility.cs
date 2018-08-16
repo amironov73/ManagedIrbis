@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 using AM;
+using AM.Text;
 
 using CodeJam;
 
@@ -36,7 +37,7 @@ using AM.Json;
 namespace ManagedIrbis
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -571,6 +572,27 @@ namespace ManagedIrbis
             return ReferenceEquals(result, null)
                 ? StringUtility.EmptyArray
                 : result.ToArray();
+        }
+
+        // ==========================================================
+
+        /// <summary>
+        /// Convert the subfield to C# source code.
+        /// </summary>
+        [NotNull]
+        public static string ToSourceCode
+            (
+                [NotNull] this SubField subfield
+            )
+        {
+            Code.NotNull(subfield, "subfield");
+
+            return string.Format
+                (
+                    "new SubField({0}, {1})",
+                    SourceCodeUtility.ToSourceCode(subfield.Code),
+                    SourceCodeUtility.ToSourceCode(subfield.Value)
+                );
         }
 
         // ==========================================================

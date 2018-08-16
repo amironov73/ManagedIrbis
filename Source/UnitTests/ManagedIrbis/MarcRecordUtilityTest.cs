@@ -650,5 +650,45 @@ namespace UnitTests.ManagedIrbis
         //    record = _GetRecord();
         //    Assert.AreEqual("", MarcRecordUtility.ToYaml(record).DosToUnix());
         //}
+
+        [TestMethod]
+        public void MarcRecordUtility_ToSourceCode_1()
+        {
+            MarcRecord record = new MarcRecord();
+            Assert.AreEqual
+                (
+                    "new MarcRecord()",
+                    MarcRecordUtility.ToSourceCode(record)
+                );
+        }
+
+        [TestMethod]
+        public void MarcRecordUtility_ToSourceCode_2()
+        {
+            MarcRecord record = new MarcRecord()
+                .AddField(100, "Field100");
+            Assert.AreEqual
+                (
+                    "new MarcRecord()\n"
+                    + ".AddField(new RecordField(100, \"Field100\"))",
+                    MarcRecordUtility.ToSourceCode(record).DosToUnix()
+                );
+        }
+
+        [TestMethod]
+        public void MarcRecordUtility_ToSourceCode_3()
+        {
+            MarcRecord record = new MarcRecord()
+                .AddField(100, "Field100")
+                .AddField(200, new SubField('a', "SubA"));
+            Assert.AreEqual
+                (
+                    "new MarcRecord()\n"
+                    + ".AddField(new RecordField(100, \"Field100\"))\n"
+                    + ".AddField(new RecordField(200,\n"
+                    + "new SubField('a', \"SubA\")))",
+                    MarcRecordUtility.ToSourceCode(record).DosToUnix()
+                );
+        }
     }
 }

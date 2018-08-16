@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using AM.Text;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
@@ -977,6 +977,80 @@ namespace UnitTests.ManagedIrbis
             Assert.IsTrue(RecordFieldUtility.HaveSubField(source, 'd', 'f'));
             Assert.IsTrue(RecordFieldUtility.HaveSubField(source, 'e', 'q'));
             Assert.IsFalse(RecordFieldUtility.HaveSubField(source, 'f', 'g'));
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_ToSourceCode_1()
+        {
+            RecordField field = new RecordField();
+            Assert.AreEqual
+                (
+                    "new RecordField(0)",
+                    RecordFieldUtility.ToSourceCode(field)
+                );
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_ToSourceCode_2()
+        {
+            RecordField field = new RecordField(100);
+            Assert.AreEqual
+                (
+                    "new RecordField(100)",
+                    RecordFieldUtility.ToSourceCode(field)
+                );
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_ToSourceCode_3()
+        {
+            RecordField field = new RecordField(100, "Some value");
+            Assert.AreEqual
+                (
+                    "new RecordField(100, \"Some value\")",
+                    RecordFieldUtility.ToSourceCode(field)
+                );
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_ToSourceCode_4()
+        {
+            RecordField field = new RecordField(100, "Some value",
+                new SubField('a', "SubFieldA"));
+            Assert.AreEqual
+                (
+                    "new RecordField(100, \"Some value\",\n"
+                    + "new SubField('a', \"SubFieldA\"))",
+                    RecordFieldUtility.ToSourceCode(field).DosToUnix()
+                );
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_ToSourceCode_5()
+        {
+            RecordField field = new RecordField(100, "Some value",
+                new SubField('a', "SubFieldA"), new SubField('b', "SubFieldB"));
+            Assert.AreEqual
+                (
+                    "new RecordField(100, \"Some value\",\n"
+                    + "new SubField('a', \"SubFieldA\"),\n"
+                    + "new SubField('b', \"SubFieldB\"))",
+                    RecordFieldUtility.ToSourceCode(field).DosToUnix()
+                );
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_ToSourceCode_6()
+        {
+            RecordField field = new RecordField(100,
+                new SubField('a', "SubFieldA"), new SubField('b', "SubFieldB"));
+            Assert.AreEqual
+                (
+                    "new RecordField(100,\n"
+                    + "new SubField('a', \"SubFieldA\"),\n"
+                    + "new SubField('b', \"SubFieldB\"))",
+                    RecordFieldUtility.ToSourceCode(field).DosToUnix()
+                );
         }
     }
 }

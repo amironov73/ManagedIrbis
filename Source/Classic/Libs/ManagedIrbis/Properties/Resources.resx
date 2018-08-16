@@ -123,4 +123,7 @@
   <data name="IrbisProvider_NotOverridden" xml:space="preserve">
     <value>not overridden</value>
   </data>
+  <data name="RecordTooLong" xml:space="preserve">
+    <value>Record too long</value>
+  </data>
 </root>

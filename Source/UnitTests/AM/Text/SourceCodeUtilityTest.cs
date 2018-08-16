@@ -23,7 +23,7 @@ namespace UnitTests.AM.Text
             Assert.AreEqual("\\'", SourceCodeUtility.EncodeCharacter('\''));
             Assert.AreEqual("\\\"", SourceCodeUtility.EncodeCharacter('"'));
 
-            Assert.AreEqual("\\x00", SourceCodeUtility.EncodeCharacter((char)0));
+            Assert.AreEqual("\\0", SourceCodeUtility.EncodeCharacter((char)0));
         }
 
         [TestMethod]

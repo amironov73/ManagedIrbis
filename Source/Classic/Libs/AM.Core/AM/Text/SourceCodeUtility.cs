@@ -27,7 +27,7 @@ using MoonSharp.Interpreter;
 namespace AM.Text
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -107,6 +107,7 @@ namespace AM.Text
         {
             switch (value)
             {
+                case '\0': return "\\0";
                 case '\a': return "\\a";
                 case '\b': return "\\b";
                 case '\f': return "\\f";
@@ -141,6 +142,36 @@ namespace AM.Text
             )
         {
             return "'" + EncodeCharacter(value) + "'";
+        }
+
+        /// <summary>
+        /// Convert the text to C# source code.
+        /// </summary>
+        public static string ToSourceCode
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (ReferenceEquals(text, null))
+            {
+                return "null";
+            }
+
+            if (text.Length == 0)
+            {
+                return "\"\"";
+            }
+
+            StringBuilder result = new StringBuilder(text.Length + 2);
+            result.Append('\"');
+            foreach (char c in text)
+            {
+                result.Append(EncodeCharacter(c));
+            }
+            result.Append('\"');
+
+            return result.ToString();
+
         }
 
         /// <summary>

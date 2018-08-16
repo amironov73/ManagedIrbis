@@ -429,5 +429,26 @@ namespace UnitTests.ManagedIrbis
             Assert.AreEqual('a', subField.Code);
             Assert.AreEqual("Value", subField.Value);
         }
+
+        [TestMethod]
+        public void SubFieldUtility_ToSourceCode_1()
+        {
+            SubField subField = new SubField();
+            Assert.AreEqual("new SubField('\\0', null)", SubFieldUtility.ToSourceCode(subField));
+        }
+
+        [TestMethod]
+        public void SubFieldUtility_ToSourceCode_2()
+        {
+            SubField subField = new SubField('a');
+            Assert.AreEqual("new SubField('a', null)", SubFieldUtility.ToSourceCode(subField));
+        }
+
+        [TestMethod]
+        public void SubFieldUtility_ToSourceCode_3()
+        {
+            SubField subField = new SubField('a', "Some text");
+            Assert.AreEqual("new SubField('a', \"Some text\")", SubFieldUtility.ToSourceCode(subField));
+        }
     }
 }

@@ -64,7 +64,7 @@ namespace ManagedIrbis.Direct
                 {
                     MstRecord64 mstRecord = mstFile.ReadRecord(foundRecord.Position);
                     MarcRecord marcRecord = mstRecord.DecodeRecord();
-                    Iso2709.WriteIso(marcRecord, output, encoding);
+                    Iso2709.WriteRecord(marcRecord, output, encoding);
                 }
             }
         }
