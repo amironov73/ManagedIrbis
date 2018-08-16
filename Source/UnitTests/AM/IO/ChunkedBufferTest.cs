@@ -1,6 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.IO;
@@ -354,6 +354,95 @@ namespace UnitTests.AM.IO
             buffer.Rewind();
             byte[] array = buffer.ToBigArray();
             Assert.AreEqual(0, array.Length);
+        }
+
+        [TestMethod]
+        public void ChunkedBuffer_ReadLine_1()
+        {
+            ChunkedBuffer buffer = new ChunkedBuffer(2);
+            string line = buffer.ReadLine(Encoding.ASCII);
+            Assert.IsNull(line);
+            line = buffer.ReadLine(Encoding.ASCII);
+            Assert.IsNull(line);
+        }
+
+        [TestMethod]
+        public void ChunkedBuffer_ReadLine_2()
+        {
+            ChunkedBuffer buffer = new ChunkedBuffer(2);
+            string expected = "Hello";
+            buffer.Write(expected, Encoding.ASCII);
+            string actual = buffer.ReadLine(Encoding.ASCII);
+            Assert.AreEqual(actual, expected);
+            actual = buffer.ReadLine(Encoding.ASCII);
+            Assert.IsNull(actual);
+        }
+
+        [TestMethod]
+        public void ChunkedBuffer_ReadLine_3()
+        {
+            ChunkedBuffer buffer = new ChunkedBuffer(2);
+            buffer.Write("Hello\nworld", Encoding.ASCII);
+            string line = buffer.ReadLine(Encoding.ASCII);
+            Assert.AreEqual("Hello", line);
+            line = buffer.ReadLine(Encoding.ASCII);
+            Assert.AreEqual("world", line);
+            line = buffer.ReadLine(Encoding.ASCII);
+            Assert.IsNull(line);
+        }
+
+        [TestMethod]
+        public void ChunkedBuffer_ReadLine_4()
+        {
+            ChunkedBuffer buffer = new ChunkedBuffer(2);
+            buffer.Write("Hello\r\nworld", Encoding.ASCII);
+            string line = buffer.ReadLine(Encoding.ASCII);
+            Assert.AreEqual("Hello", line);
+            line = buffer.ReadLine(Encoding.ASCII);
+            Assert.AreEqual("world", line);
+            line = buffer.ReadLine(Encoding.ASCII);
+            Assert.IsNull(line);
+        }
+
+        [TestMethod]
+        public void ChunkedBuffer_ReadLine_5()
+        {
+            ChunkedBuffer buffer = new ChunkedBuffer(2);
+            buffer.Write("Hello\rworld", Encoding.ASCII);
+            string line = buffer.ReadLine(Encoding.ASCII);
+            Assert.AreEqual("Hello", line);
+            line = buffer.ReadLine(Encoding.ASCII);
+            Assert.AreEqual("world", line);
+            line = buffer.ReadLine(Encoding.ASCII);
+            Assert.IsNull(line);
+        }
+
+        [TestMethod]
+        public void ChunkedBuffer_ReadLine_6()
+        {
+            ChunkedBuffer buffer = new ChunkedBuffer(2);
+            buffer.Write("Hello\rworld\n", Encoding.ASCII);
+            string line = buffer.ReadLine(Encoding.ASCII);
+            Assert.AreEqual("Hello", line);
+            line = buffer.ReadLine(Encoding.ASCII);
+            Assert.AreEqual("world", line);
+            line = buffer.ReadLine(Encoding.ASCII);
+            Assert.IsNull(line);
+        }
+
+        [TestMethod]
+        public void ChunkedBuffer_ReadLine_7()
+        {
+            ChunkedBuffer buffer = new ChunkedBuffer(2);
+            buffer.Write("\n\r\n\r", Encoding.ASCII);
+            string line = buffer.ReadLine(Encoding.ASCII);
+            Assert.AreEqual(string.Empty, line);
+            line = buffer.ReadLine(Encoding.ASCII);
+            Assert.AreEqual(string.Empty, line);
+            line = buffer.ReadLine(Encoding.ASCII);
+            Assert.AreEqual(string.Empty, line);
+            line = buffer.ReadLine(Encoding.ASCII);
+            Assert.IsNull(line);
         }
     }
 }

@@ -43,6 +43,9 @@ namespace AM.IO
 
         #region Nested classes
 
+        /// <summary>
+        /// Chunk of bytes.
+        /// </summary>
         class Chunk
         {
             public readonly byte[] Buffer;
@@ -325,6 +328,63 @@ namespace AM.IO
             }
 
             return _current.Buffer[_read++];
+        }
+
+        /// <summary>
+        /// Read one line from the current position.
+        /// </summary>
+        [CanBeNull]
+        public string ReadLine
+            (
+                [NotNull] Encoding encoding
+            )
+        {
+            if (Eof)
+            {
+                return null;
+            }
+
+            MemoryStream result = new MemoryStream();
+            byte found = 0;
+            while (found == 0)
+            {
+                byte[] buffer = _current.Buffer;
+                int stop = ReferenceEquals(_current, _last)
+                    ? _position
+                    : _chunkSize;
+                int head = _read;
+                for (; head < stop; head++)
+                {
+                    byte c = buffer[head];
+                    if (c == '\r' || c == '\n')
+                    {
+                        found = c;
+                        break;
+                    }
+                }
+                result.Write(buffer, _read, head - _read);
+                _read = head;
+                if (found != 0)
+                {
+                    _read++;
+                }
+                else
+                {
+                    if (!_Advance())
+                    {
+                        break;
+                    }
+                }
+            }
+            if (found == '\r')
+            {
+                if (Peek() == '\n')
+                {
+                    ReadByte();
+                }
+            }
+
+            return encoding.GetString(result.ToArray());
         }
 
         /// <summary>

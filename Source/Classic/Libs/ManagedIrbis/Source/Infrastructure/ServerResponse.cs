@@ -93,7 +93,7 @@ namespace ManagedIrbis.Infrastructure
             set
             {
                 _returnCode = value;
-                _returnCodeRetrieved = true;
+                ReturnCodeRetrieved = true;
             }
         }
 
@@ -148,7 +148,7 @@ namespace ManagedIrbis.Infrastructure
             CommandCode = RequireAnsiString();
             ClientID = RequireInt32();
             CommandNumber = RequireInt32();
-            AnswerSize = GetInt32(0); // RequireInt32();
+            AnswerSize = GetInt32(0);
             ServerVersion = RequireAnsiString();
 
             // 5 пустых строк
@@ -169,7 +169,7 @@ namespace ManagedIrbis.Infrastructure
 
         private long _savedPosition;
 
-        internal bool _returnCodeRetrieved;
+        internal bool ReturnCodeRetrieved;
 
         #endregion
 
@@ -491,10 +491,10 @@ namespace ManagedIrbis.Infrastructure
                 return _returnCode;
             }
 
-            if (!_returnCodeRetrieved)
+            if (!ReturnCodeRetrieved)
             {
                 _returnCode = RequireInt32();
-                _returnCodeRetrieved = true;
+                ReturnCodeRetrieved = true;
             }
 
             return _returnCode;
@@ -698,7 +698,7 @@ namespace ManagedIrbis.Infrastructure
         /// </summary>
         public void RefuseAnReturnCode()
         {
-            _returnCodeRetrieved = true;
+            ReturnCodeRetrieved = true;
         }
 
         /// <summary>
