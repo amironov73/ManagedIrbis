@@ -246,6 +246,13 @@ namespace ManagedIrbis.ImportExport
             {
                 dictionaryLength += 12; // Одна статья справочника
                 RecordField field = record.Fields[i];
+                if (field.Tag <= 0 || field.Tag >= 1000)
+                {
+                    throw new IrbisException
+                        (
+                            "Wrong field: " + field.Tag.ToInvariantString()
+                        );
+                }
                 int fldlen = 0;
                 if (field.IsFixed)
                 {
@@ -266,7 +273,13 @@ namespace ManagedIrbis.ImportExport
                             );
                     }
                 }
+
                 fldlen++; // Разделитель полей
+                if (fldlen >= 10000)
+                {
+                    throw new IrbisException(Resources.RecordTooLong);
+                }
+
                 fieldLength[i] = fldlen;
                 recordLength += fldlen;
             }

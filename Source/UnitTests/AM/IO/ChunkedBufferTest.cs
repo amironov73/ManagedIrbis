@@ -191,7 +191,7 @@ namespace UnitTests.AM.IO
         }
 
         [TestMethod]
-        public void ChunkedBuffer_Peek_4()
+        public void ChunkedBuffer_ReadByte_1()
         {
             ChunkedBuffer buffer = new ChunkedBuffer(2);
             buffer.WriteByte(1);
@@ -211,7 +211,7 @@ namespace UnitTests.AM.IO
         }
 
         [TestMethod]
-        public void ChunkedBuffer_ReadByte_1()
+        public void ChunkedBuffer_ReadByte_2()
         {
             ChunkedBuffer buffer = new ChunkedBuffer();
             Assert.AreEqual(-1, buffer.Peek());
@@ -220,7 +220,7 @@ namespace UnitTests.AM.IO
         }
 
         [TestMethod]
-        public void ChunkedBuffer_ReadByte_2()
+        public void ChunkedBuffer_ReadByte_3()
         {
             ChunkedBuffer buffer = new ChunkedBuffer();
             buffer.WriteByte(1);
@@ -373,7 +373,7 @@ namespace UnitTests.AM.IO
             string expected = "Hello";
             buffer.Write(expected, Encoding.ASCII);
             string actual = buffer.ReadLine(Encoding.ASCII);
-            Assert.AreEqual(actual, expected);
+            Assert.AreEqual(expected, actual);
             actual = buffer.ReadLine(Encoding.ASCII);
             Assert.IsNull(actual);
         }

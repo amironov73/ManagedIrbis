@@ -120,7 +120,7 @@ namespace UnitTests.ManagedIrbis.ImportExport
             result.Fields.Add(new RecordField(941, "^A0^B32^H107206G^DБИНТ^U2004/7^C19930907"));
             result.Fields.Add(new RecordField(941, "^A0^B33^H107216G^DБИНТ^U2004/7^C19930907"));
             result.Fields.Add(new RecordField(941, "^AU^BЗИ-1^DЖГ^S20140604^125^TЗИ^!КДИ^C20071226^01"));
-            result.Fields.Add(new RecordField(1941, "^AU^BЗИ-1^DЖГ^S20140604^125^TЗИ^!КДИ^C20071226^01"));
+            result.Fields.Add(new RecordField(941, "^AU^BЗИ-1^DЖГ^S20140604^125^TЗИ^!КДИ^C20071226^01"));
             result.Mfn = 1;
 
             return result;
@@ -224,7 +224,7 @@ namespace UnitTests.ManagedIrbis.ImportExport
             }
 
             FileInfo info = new FileInfo(fileName);
-            //Assert.AreEqual(4576L, info.Length);
+            Assert.AreEqual(562L, info.Length);
         }
 
         [TestMethod]
@@ -239,7 +239,22 @@ namespace UnitTests.ManagedIrbis.ImportExport
             }
 
             FileInfo info = new FileInfo(fileName);
-            //Assert.AreEqual(4977L, info.Length);
+            Assert.AreEqual(4977L, info.Length);
+        }
+
+        [TestMethod]
+        public void Iso2709_WriteRecord_3()
+        {
+            string fileName = Path.GetTempFileName();
+
+            using (Stream stream = File.OpenWrite(fileName))
+            {
+                MarcRecord record = new MarcRecord();
+                Iso2709.WriteRecord(record, stream, IrbisEncoding.Ansi);
+            }
+
+            FileInfo info = new FileInfo(fileName);
+            Assert.AreEqual(26L, info.Length);
         }
     }
 }
