@@ -177,6 +177,7 @@
     <Compile Include="AM\IO\NonCloseableTextReader.cs" />
     <Compile Include="AM\IO\NotifyStream.cs" />
     <Compile Include="AM\IO\SafeSaveStream.cs" />
+    <Compile Include="AM\IO\Streamer.cs" />
     <Compile Include="AM\IO\StreamPacker.cs" />
     <Compile Include="AM\IO\TextReaderUtility.cs" />
     <Compile Include="AM\IO\TextWriterUtility.cs" />

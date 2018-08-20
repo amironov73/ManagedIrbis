@@ -371,6 +371,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\IO\SafeSaveStream.cs">
       <Link>AM\IO\SafeSaveStream.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\IO\Streamer.cs">
+      <Link>AM\IO\Streamer.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\IO\StreamPacker.cs">
       <Link>AM\IO\StreamPacker.cs</Link>
     </Compile>
