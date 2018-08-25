@@ -256,5 +256,87 @@ namespace UnitTests.ManagedIrbis.ImportExport
             FileInfo info = new FileInfo(fileName);
             Assert.AreEqual(26L, info.Length);
         }
+
+        private void CopyRecords
+            (
+                [NotNull] string inputFile,
+                [NotNull] string outputFile,
+                [NotNull] Encoding encoding
+            )
+        {
+            using (Stream inputStream = File.OpenRead(inputFile))
+            using (Stream outputStream = File.Create(outputFile))
+            {
+                MarcRecord record;
+                while ((record = Iso2709.ReadRecord(inputStream, encoding)) != null)
+                {
+                    Iso2709.WriteRecord(record, outputStream, encoding);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void Iso2709_RoundTrip_1()
+        {
+            Encoding ansi = IrbisEncoding.Ansi;
+            string originalFile = Path.Combine(TestDataPath, "TEST1.ISO");
+            string firstFile = Path.GetTempFileName();
+            string secondFile = Path.GetTempFileName();
+
+            CopyRecords(originalFile, firstFile, ansi);
+            CopyRecords(firstFile, secondFile, ansi);
+
+            long originalLength = new FileInfo(originalFile).Length;
+            long firstLength = new FileInfo(firstFile).Length;
+            long secondLength = new FileInfo(secondFile).Length;
+            Assert.AreEqual(originalLength, firstLength);
+            Assert.AreEqual(originalLength, secondLength);
+
+            byte[] expected = File.ReadAllBytes(firstFile);
+            byte[] actual = File.ReadAllBytes(secondFile);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Iso2709_RoundTrip_2()
+        {
+            Encoding ansi = IrbisEncoding.Ansi;
+            string firstFile = Path.GetTempFileName();
+            string secondFile = Path.GetTempFileName();
+
+            using (Stream stream = File.Create(firstFile))
+            {
+                MarcRecord record = GetRecord2();
+                Iso2709.WriteRecord(record, stream, ansi);
+            }
+
+            CopyRecords(firstFile, secondFile, ansi);
+
+
+            byte[] expected = File.ReadAllBytes(firstFile);
+            byte[] actual = File.ReadAllBytes(secondFile);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Iso2709_RoundTrip_3()
+        {
+            Encoding utf = IrbisEncoding.Utf8;
+            string firstFile = Path.GetTempFileName();
+            string secondFile = Path.GetTempFileName();
+
+            using (Stream stream = File.Create(firstFile))
+            {
+                MarcRecord record = GetRecord2();
+                Iso2709.WriteRecord(record, stream, utf);
+            }
+
+            CopyRecords(firstFile, secondFile, utf);
+
+
+            byte[] expected = File.ReadAllBytes(firstFile);
+            byte[] actual = File.ReadAllBytes(secondFile);
+            CollectionAssert.AreEqual(expected, actual);
+        }
     }
 }
