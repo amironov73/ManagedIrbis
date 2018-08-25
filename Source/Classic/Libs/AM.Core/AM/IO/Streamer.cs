@@ -258,7 +258,7 @@ namespace AM.IO
                 _position = _limit;
             }
 
-            _stream.CopyTo(result);
+            StreamUtility.AppendTo(_stream, result, 0);
 
             return result.ToArray();
         }
