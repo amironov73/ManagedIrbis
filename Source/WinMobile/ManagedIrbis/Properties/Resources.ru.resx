@@ -120,4 +120,10 @@
   <data name="ArsMagnaProject" xml:space="preserve">
     <value>Проект Ars Magna</value>
   </data>
+  <data name="IrbisProvider_NotOverridden" xml:space="preserve">
+    <value>не переопределено</value>
+  </data>
+  <data name="RecordTooLong" xml:space="preserve">
+    <value>Запись слишком длинная</value>
+  </data>
 </root>

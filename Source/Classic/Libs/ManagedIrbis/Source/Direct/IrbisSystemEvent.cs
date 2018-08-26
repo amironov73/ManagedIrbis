@@ -87,13 +87,13 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public IrbisSystemEvent()
         {
-            bool created;
-
 #if WINMOBILE || PocketPC
 
             throw new NotImplementedException();
 
 #else
+
+            bool created;
 
             StartedEvent = new EventWaitHandle
                 (

@@ -263,6 +263,114 @@
             Decompress the data.
             </summary>
         </member>
+        <member name="T:AM.IO.ChunkedBuffer">
+            <summary>
+            Analog for <see cref="T:System.IO.MemoryStream"/> that uses
+            small chunks to hold the data.
+            </summary>
+        </member>
+        <member name="F:AM.IO.ChunkedBuffer.DefaultChunkSize">
+            <summary>
+            Default chunk size.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ChunkedBuffer.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ChunkedBuffer.#ctor(System.Int32)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ChunkedBuffer.CopyFrom(System.IO.Stream,System.Int32)">
+            <summary>
+            Copy data from the stream.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ChunkedBuffer.Peek">
+            <summary>
+            Peek one byte.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ChunkedBuffer.Read(System.Byte[])">
+            <summary>
+            Read array of bytes.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ChunkedBuffer.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Read bytes.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ChunkedBuffer.ReadByte">
+            <summary>
+            Read one byte.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ChunkedBuffer.ReadLine(System.Text.Encoding)">
+            <summary>
+            Read one line from the current position.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ChunkedBuffer.Rewind">
+            <summary>
+            Rewind to the beginning.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ChunkedBuffer.ToArrays(System.Int32)">
+            <summary>
+            Get internal buffers.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ChunkedBuffer.ToBigArray">
+            <summary>
+            Get all data as one big array of bytes.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ChunkedBuffer.Write(System.Byte[])">
+            <summary>
+            Write a block of bytes to the current stream
+            using data read from a buffer.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ChunkedBuffer.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Write a block of bytes to the current stream
+            using data read from a buffer.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ChunkedBuffer.Write(System.String,System.Text.Encoding)">
+            <summary>
+            Write the text with encoding.
+            </summary>
+        </member>
+        <member name="M:AM.IO.ChunkedBuffer.WriteByte(System.Byte)">
+            <summary>
+            Write a byte to the current stream at the current position.
+            </summary>
+        </member>
+        <member name="P:AM.IO.ChunkedBuffer.ChunkSize">
+            <summary>
+            Chunk size.
+            </summary>
+        </member>
+        <member name="P:AM.IO.ChunkedBuffer.Eof">
+            <summary>
+            End of data?
+            </summary>
+        </member>
+        <member name="P:AM.IO.ChunkedBuffer.Length">
+            <summary>
+            Total length.
+            </summary>
+        </member>
+        <member name="T:AM.IO.ChunkedBuffer.Chunk">
+            <summary>
+            Chunk of bytes.
+            </summary>
+        </member>
         <member name="T:AM.DuplicateKeyException">
             <summary>
             Duplicate key found.
@@ -14232,9 +14340,9 @@
             </summary>
         </member>
         <member name="T:AM.Text.SourceCodeUtility">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.Text.SourceCodeUtility.ToSourceCode(System.Byte)">
             <summary>
@@ -14254,6 +14362,11 @@
         <member name="M:AM.Text.SourceCodeUtility.ToSourceCode(System.Char)">
             <summary>
             Convert the character to C# source code.
+            </summary>
+        </member>
+        <member name="M:AM.Text.SourceCodeUtility.ToSourceCode(System.String)">
+            <summary>
+            Convert the text to C# source code.
             </summary>
         </member>
         <member name="M:AM.Text.SourceCodeUtility.ToSourceCode(System.Char[])">
@@ -15033,6 +15146,59 @@
             </summary>
             <param name="accessor"></param>
             <param name="previousTarget"></param>
+        </member>
+        <member name="T:AM.IO.Streamer">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:AM.IO.Streamer.#ctor(System.IO.Stream,System.Int32)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.IO.Streamer.PeekByte">
+            <summary>
+            Peek one byte.
+            </summary>
+        </member>
+        <member name="M:AM.IO.Streamer.Read(System.Byte[])">
+            <summary>
+            Read some bytes.
+            </summary>
+        </member>
+        <member name="M:AM.IO.Streamer.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Read some bytes.
+            </summary>
+        </member>
+        <member name="M:AM.IO.Streamer.ReadByte">
+            <summary>
+            Read one byte.
+            </summary>
+        </member>
+        <member name="M:AM.IO.Streamer.ReadLine(System.Text.Encoding)">
+            <summary>
+            Read one line.
+            </summary>
+        </member>
+        <member name="M:AM.IO.Streamer.ToArray">
+            <summary>
+            Get the rest of the stream.
+            </summary>
+        </member>
+        <member name="M:AM.IO.Streamer.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="P:AM.IO.Streamer.Eof">
+            <summary>
+            End of the stream?
+            </summary>
+        </member>
+        <member name="P:AM.IO.Streamer.InnerStream">
+            <summary>
+            Inner stream.
+            </summary>
         </member>
         <member name="T:AM.ExceptionUtility">
             <summary>

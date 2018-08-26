@@ -13,6 +13,8 @@ using System;
 using System.IO;
 using System.Text;
 
+using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -241,7 +243,7 @@ namespace AM.IO
                 }
             }
 
-            return encoding.GetString(result.ToArray());
+            return EncodingUtility.GetString(encoding, result.ToArray());
         }
 
         /// <summary>

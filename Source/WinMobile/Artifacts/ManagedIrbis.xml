@@ -6902,6 +6902,11 @@
             Exception occurs.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Infrastructure.AbstractEngine.ObtainResponse(ManagedIrbis.Infrastructure.ClientQuery,System.Boolean)">
+            <summary>
+            Obtain the server response.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Infrastructure.AbstractEngine.StandardExecution(ManagedIrbis.Infrastructure.ExecutionContext)">
             <summary>
             Standard command execution.
@@ -16999,6 +17004,11 @@
             Конструктор с подполями.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.RecordField.#ctor(System.Int32,System.String,ManagedIrbis.SubField[])">
+            <summary>
+            Конструктор с подполями.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.RecordField.SetSubFields(System.String)">
             <summary>
             Sets the sub fields.
@@ -22143,9 +22153,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.SubFieldUtility">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:ManagedIrbis.SubFieldUtility.EmptyArray">
             <summary>
@@ -22242,6 +22252,11 @@
         <member name="M:ManagedIrbis.SubFieldUtility.GetSubFieldValue(System.Collections.Generic.IEnumerable{ManagedIrbis.SubField})">
             <summary>
             Получение значения подполя.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.SubFieldUtility.ToSourceCode(ManagedIrbis.SubField)">
+            <summary>
+            Convert the subfield to C# source code.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Scripting.IrbisScript">
@@ -24235,6 +24250,11 @@
               Looks up a localized string similar to not overridden.
             </summary>
         </member>
+        <member name="P:ManagedIrbis.Properties.Resources.RecordTooLong">
+            <summary>
+              Looks up a localized string similar to Record too long.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Readers.ReaderRegistration">
             <summary>
             Информация о регистрации/перерегистрации читателя.
@@ -25900,6 +25920,43 @@
             Значение поля.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Infrastructure.FastEngine">
+            <summary>
+            Fast and dirty execution engine.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Infrastructure.StandardEngine">
+            <summary>
+            Standard execution engine.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.StandardEngine.#ctor(ManagedIrbis.IIrbisConnection,ManagedIrbis.Infrastructure.AbstractEngine)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.StandardEngine.GetMemoryStream(System.Type)">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractEngine.GetMemoryStream(System.Type)"/>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.StandardEngine.ReportMemoryUsage(System.Type,System.Int32)">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractEngine.ReportMemoryUsage(System.Type,System.Int32)"/>
+        </member>
+        <member name="P:ManagedIrbis.Infrastructure.StandardEngine.MemoryUsage">
+            <summary>
+            Memory usage.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.FastEngine.#ctor(ManagedIrbis.IIrbisConnection,ManagedIrbis.Infrastructure.AbstractEngine)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.FastEngine.ExecuteCommand(ManagedIrbis.Infrastructure.ExecutionContext)">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractEngine.ExecuteCommand(ManagedIrbis.Infrastructure.ExecutionContext)"/>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.FastEngine.ObtainResponse(ManagedIrbis.Infrastructure.ClientQuery,System.Boolean)">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractEngine.ObtainResponse(ManagedIrbis.Infrastructure.ClientQuery,System.Boolean)"/>
+        </member>
         <member name="T:ManagedIrbis.FictionBook.FbBody">
             <summary>
             Тело документа FictionBook.
@@ -26044,9 +26101,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.RecordFieldUtility">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:ManagedIrbis.RecordFieldUtility.EmptyArray">
             <summary>
@@ -26451,6 +26508,11 @@
         <member name="M:ManagedIrbis.RecordFieldUtility.WithSubFields(System.Collections.Generic.IEnumerable{ManagedIrbis.RecordField})">
             <summary>
             Фильтрация полей.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.RecordFieldUtility.ToSourceCode(ManagedIrbis.RecordField)">
+            <summary>
+            Convert the field to C# source code.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Marc.MarcRelatedRecord">
@@ -31574,7 +31636,17 @@
             Записываем любой объект (диспетчеризация).
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeAny(AM.IO.ChunkedBuffer,System.Object)">
+            <summary>
+            Записываем любой объект (диспетчеризация).
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeBoolean(System.IO.Stream,System.Boolean)">
+            <summary>
+            Записываем булево значение в виде 0/1.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeBoolean(AM.IO.ChunkedBuffer,System.Boolean)">
             <summary>
             Записываем булево значение в виде 0/1.
             </summary>
@@ -31584,7 +31656,17 @@
             Записываем буфер.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeBytes(AM.IO.ChunkedBuffer,System.Byte[])">
+            <summary>
+            Записываем буфер.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeDelimiter(System.IO.Stream)">
+            <summary>
+            Encode line delimiter.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeDelimiter(AM.IO.ChunkedBuffer)">
             <summary>
             Encode line delimiter.
             </summary>
@@ -31594,12 +31676,27 @@
             Encode <see cref="T:ManagedIrbis.Infrastructure.FileSpecification"/>.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeFileSpecification(AM.IO.ChunkedBuffer,ManagedIrbis.Infrastructure.FileSpecification)">
+            <summary>
+            Encode <see cref="T:ManagedIrbis.Infrastructure.FileSpecification"/>.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeInt32(System.IO.Stream,System.Int32)">
             <summary>
             Записываем целое.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeInt32(AM.IO.ChunkedBuffer,System.Int32)">
+            <summary>
+            Записываем целое.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeInt64(System.IO.Stream,System.Int64)">
+            <summary>
+            Записываем целое.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeInt64(AM.IO.ChunkedBuffer,System.Int64)">
             <summary>
             Записываем целое.
             </summary>
@@ -31610,7 +31707,18 @@
             ToString + кодировка ANSI.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeObject(AM.IO.ChunkedBuffer,System.Object)">
+            <summary>
+            Записываем произвольные объект.
+            ToString + кодировка ANSI.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeRecord(System.IO.Stream,ManagedIrbis.MarcRecord)">
+            <summary>
+            Запись в кодировке UTF.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeRecord(AM.IO.ChunkedBuffer,ManagedIrbis.MarcRecord)">
             <summary>
             Запись в кодировке UTF.
             </summary>
@@ -31625,12 +31733,27 @@
             Записываем строку в кодировке ANSI.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeString(AM.IO.ChunkedBuffer,System.String)">
+            <summary>
+            Записываем строку в кодировке ANSI.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeTextWithEncoding(System.IO.Stream,AM.Text.TextWithEncoding)">
             <summary>
             Записываем строку в произвольной кодировке.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeTextWithEncoding(AM.IO.ChunkedBuffer,AM.Text.TextWithEncoding)">
+            <summary>
+            Записываем строку в произвольной кодировке.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeWorkstation(System.IO.Stream,ManagedIrbis.IrbisWorkstation)">
+            <summary>
+            Записываем код АРМ.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.IrbisNetworkUtility.EncodeWorkstation(AM.IO.ChunkedBuffer,ManagedIrbis.IrbisWorkstation)">
             <summary>
             Записываем код АРМ.
             </summary>
@@ -35157,7 +35280,7 @@
             Разбор 2709.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.ImportExport.Iso2709.WriteIso(ManagedIrbis.MarcRecord,System.IO.Stream,System.Text.Encoding)">
+        <member name="M:ManagedIrbis.ImportExport.Iso2709.WriteRecord(ManagedIrbis.MarcRecord,System.IO.Stream,System.Text.Encoding)">
             <summary>
             Выводит запись в ISO-поток.
             </summary>
@@ -38127,6 +38250,11 @@
         <member name="M:ManagedIrbis.MarcRecordUtility.ToYaml(ManagedIrbis.MarcRecord)">
             <summary>
             Convert the <see cref="T:ManagedIrbis.MarcRecord"/> to YAML.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.MarcRecordUtility.ToSourceCode(ManagedIrbis.MarcRecord)">
+            <summary>
+            Convert the record to C# source code.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Pooling.IrbisConnectionPool">
@@ -41986,27 +42114,6 @@
         <member name="P:ManagedIrbis.Identifiers.Doi.UserData">
             <summary>
             Arbitrary user data.
-            </summary>
-        </member>
-        <member name="T:ManagedIrbis.Infrastructure.StandardEngine">
-            <summary>
-            Standard execution engine.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Infrastructure.StandardEngine.#ctor(ManagedIrbis.IIrbisConnection,ManagedIrbis.Infrastructure.AbstractEngine)">
-            <summary>
-            Constructor.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Infrastructure.StandardEngine.GetMemoryStream(System.Type)">
-            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractEngine.GetMemoryStream(System.Type)"/>
-        </member>
-        <member name="M:ManagedIrbis.Infrastructure.StandardEngine.ReportMemoryUsage(System.Type,System.Int32)">
-            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractEngine.ReportMemoryUsage(System.Type,System.Int32)"/>
-        </member>
-        <member name="P:ManagedIrbis.Infrastructure.StandardEngine.MemoryUsage">
-            <summary>
-            Memory usage.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.SharpRunner">
