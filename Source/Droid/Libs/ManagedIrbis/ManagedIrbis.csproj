@@ -131,6 +131,12 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\MemoryManager.cs">
       <Link>Source\Infrastructure\MemoryManager.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Magazines\BindingSpecification.cs">
+      <Link>Source\Magazines\BindingSpecification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Magazines\BindingManager.cs">
+      <Link>Source\Magazines\BindingManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\BibFrame\BibAgent.cs">
       <Link>Source\Metadata\BibFrame\BibAgent.cs</Link>
     </Compile>

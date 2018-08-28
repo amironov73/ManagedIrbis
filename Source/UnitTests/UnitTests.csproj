@@ -529,6 +529,8 @@
     <Compile Include="ManagedIrbis\IrbisUtilityTest.cs" />
     <Compile Include="ManagedIrbis\LanguageFileTest.cs" />
     <Compile Include="ManagedIrbis\LocalizationManagerTest.cs" />
+    <Compile Include="ManagedIrbis\Magazines\BindingManagerTest.cs" />
+    <Compile Include="ManagedIrbis\Magazines\BindingSpecificationTest.cs" />
     <Compile Include="ManagedIrbis\Magazines\MagazineArticleInfoTest.cs" />
     <Compile Include="ManagedIrbis\Magazines\MagazineCumulationTest.cs" />
     <Compile Include="ManagedIrbis\Magazines\MagazineInfoTest.cs" />

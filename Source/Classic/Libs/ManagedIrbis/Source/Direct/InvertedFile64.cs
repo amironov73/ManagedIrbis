@@ -33,7 +33,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Direct
 {
     /// <summary>
-    /// Read inverted (index) file of IRBIS32 database.
+    /// Read inverted (index) file of IRBIS64 database.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]

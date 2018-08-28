@@ -89,9 +89,9 @@ namespace ManagedIrbis.Direct
         /// Write the control record to specified stream.
         /// </summary>
         public void Write
-        (
-            [NotNull] Stream stream
-        )
+            (
+                [NotNull] Stream stream
+            )
         {
             Code.NotNull(stream, "stream");
 
