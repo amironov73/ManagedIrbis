@@ -99,7 +99,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
         #region PftNode members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="PftNode.Execute" />
         public override void Execute
             (
                 PftContext context
@@ -112,23 +112,20 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             string expression = context.Evaluate(Children);
             if (!string.IsNullOrEmpty(expression))
             {
-                if (!string.IsNullOrEmpty(expression))
+                if (expression != _text)
                 {
-                    if (expression != _text)
-                    {
-                        _text = expression;
-                        _method = SharpRunner.CompileSnippet
-                            (
-                                expression,
-                                "PftNode node, PftContext context",
-                                err => context.WriteLine(this, err)
-                            );
-                    }
+                    _text = expression;
+                    _method = SharpRunner.CompileSnippet
+                        (
+                            expression,
+                            "PftNode node, PftContext context",
+                            err => context.WriteLine(this, err)
+                        );
+                }
 
-                    if (!ReferenceEquals(_method, null))
-                    {
-                        _method.Invoke(null, new object[] {this, context});
-                    }
+                if (!ReferenceEquals(_method, null))
+                {
+                    _method.Invoke(null, new object[] { this, context });
                 }
             }
 

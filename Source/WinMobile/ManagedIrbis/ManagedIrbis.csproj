@@ -2553,6 +2553,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Reservations\ReservationUtility.cs">
       <Link>Source\Reservations\ReservationUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\CommonSearches.cs">
+      <Link>Source\Search\CommonSearches.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Search\FoundLine.cs">
       <Link>Source\Search\FoundLine.cs</Link>
     </Compile>

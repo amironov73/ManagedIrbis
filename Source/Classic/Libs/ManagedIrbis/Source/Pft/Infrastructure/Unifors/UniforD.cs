@@ -25,7 +25,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
     //
     // Форматирование документа из другой БД – &uf('D')
     //
-    // Назначение: Форматирование документа из другой БД 
+    // Назначение: Форматирование документа из другой БД
     // (REF на другую БД – отношение «от одного к одному»).
     //
     // Формат (передаваемая строка):
@@ -169,15 +169,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     {
                         nestedContext.Provider.Database = database;
                         nestedContext.Output = context.Output;
-                        if (found.Length != 0)
+                        int mfn = found[0];
+                        MarcRecord record = nestedContext.Provider.ReadRecord(mfn);
+                        if (!ReferenceEquals(record, null))
                         {
-                            int mfn = found[0];
-                            MarcRecord record = nestedContext.Provider.ReadRecord(mfn);
-                            if (!ReferenceEquals(record, null))
-                            {
-                                nestedContext.Record = record;
-                                program.Execute(nestedContext);
-                            }
+                            nestedContext.Record = record;
+                            program.Execute(nestedContext);
                         }
                     }
                     finally

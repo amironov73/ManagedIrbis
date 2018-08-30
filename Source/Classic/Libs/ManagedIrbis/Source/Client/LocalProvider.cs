@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* LocalProvider.cs -- 
+/* LocalProvider.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -43,7 +43,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Client
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -259,9 +259,9 @@ namespace ManagedIrbis.Client
             return result;
         }
 
+        [NotNull]
         private DirectAccess64 _GetAccessor()
         {
-
             if (ReferenceEquals(_accessor, null))
             {
                 string fileName = Path.Combine
@@ -420,10 +420,7 @@ namespace ManagedIrbis.Client
                 try
                 {
                     accessor = _GetAccessor();
-                    if (!ReferenceEquals(accessor, null))
-                    {
-                        result = accessor.GetMaxMfn();
-                    }
+                    result = accessor.GetMaxMfn();
                 }
                 catch (Exception exception)
                 {
@@ -571,10 +568,7 @@ namespace ManagedIrbis.Client
                 try
                 {
                     accessor = _GetAccessor();
-                    if (accessor != null)
-                    {
-                        result = accessor.ReadRecord(mfn);
-                    }
+                    result = accessor.ReadRecord(mfn);
                 }
                 catch (Exception exception)
                 {

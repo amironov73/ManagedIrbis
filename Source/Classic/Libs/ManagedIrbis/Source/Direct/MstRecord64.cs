@@ -90,9 +90,9 @@ namespace ManagedIrbis.Direct
         {
             StringBuilder result = new StringBuilder();
 
-            foreach ( MstDictionaryEntry64 entry in Dictionary )
+            foreach (MstDictionaryEntry64 entry in Dictionary)
             {
-                result.AppendLine ( entry.ToString () );
+                result.AppendLine (entry.ToString ());
             }
 
             return result.ToString ();
@@ -106,9 +106,9 @@ namespace ManagedIrbis.Direct
         /// Decode the field.
         /// </summary>
         [NotNull]
-        public RecordField DecodeField
+        public static RecordField DecodeField
             (
-                MstDictionaryEntry64 entry
+                [NotNull] MstDictionaryEntry64 entry
             )
         {
             RecordField result = RecordField.Parse

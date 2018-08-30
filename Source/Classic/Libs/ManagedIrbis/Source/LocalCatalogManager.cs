@@ -235,7 +235,7 @@ namespace ManagedIrbis
             }
 
             string targetName = Path.GetFileName(directory);
-            if (string.IsNullOrEmpty(ibisName))
+            if (string.IsNullOrEmpty(targetName))
             {
                 Log.Error
                     (

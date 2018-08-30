@@ -63,13 +63,13 @@ namespace ManagedIrbis.Direct
         public int Base { get; set; }
 
         /// <summary>
-        /// Число полей в записи (т.е. число входов
+        /// Число полей в записи (т. е. число входов
         /// в справочнике).
         /// </summary>
         public int Nvf { get; set; }
 
         /// <summary>
-        /// Индикатор записи (логически удаленная и т.п.).
+        /// Индикатор записи (логически удаленная и т. п.).
         /// </summary>
         public int Status { get; set; }
 

@@ -2237,8 +2237,9 @@ namespace ManagedIrbis
         // ==========================================================
 
         /// <summary>
-        /// Парсинг текстового представления поля
+        /// Парсинг текстового представления поля.
         /// </summary>
+        [NotNull]
         public static RecordField Parse
             (
                 string tag,

@@ -55,15 +55,8 @@ namespace ManagedIrbis.Pft.Infrastructure
 
                     foreach (string body in lines)
                     {
-                        RecordField field = RecordFieldUtility.Parse
-                            (
-                                tag,
-                                body
-                            );
-                        if (!ReferenceEquals(field, null))
-                        {
-                            context.Record.Fields.Add(field);
-                        }
+                        RecordField field = RecordFieldUtility.Parse(tag, body);
+                        context.Record.Fields.Add(field);
                     }
                 }
             }

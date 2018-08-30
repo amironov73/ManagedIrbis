@@ -37,6 +37,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
         // ================================================================
 
+        [NotNull]
         private static string _GetGlobal
             (
                 [NotNull] PftContext context,
@@ -79,8 +80,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 if (context.Globals.HaveVariable(index))
                 {
-                    string item = _GetGlobal(context, index)
-                        ?? string.Empty;
+                    string item = _GetGlobal(context, index);
                     string[] lines = item.SplitLines();
                     result.AddRange(lines);
                 }
@@ -545,8 +545,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 if (context.Globals.HaveVariable(index))
                 {
-                    string item = _GetGlobal(context, index)
-                        ?? string.Empty;
+                    string item = _GetGlobal(context, index);
                     if (!dictionary.ContainsKey(item))
                     {
                         list.Add(item);

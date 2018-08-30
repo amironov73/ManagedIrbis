@@ -236,7 +236,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // Неописанная функция
         // &unifor('+3H')
         // Кривая реализация htmlspecialchars
-        // заменяет 
+        // заменяет
         // & на &quot; (здесь ошибка -- надо на &amp;)
         // " на &quot;
         // < на &lt;
@@ -442,15 +442,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     return;
                 }
 
-                PftProgram program = new PftProgram();
+                PftProgram program;
                 try
                 {
                     // TODO some caching
 
-                    if (count != 0)
-                    {
-                        program = PftUtility.CompileProgram(format);
-                    }
+                    program = PftUtility.CompileProgram(format);
                 }
                 catch (Exception exception)
                 {
@@ -596,9 +593,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // Определённым образом укороченное значение подполя ^B
         // - в том случае, если термин превышает указанное количество символов.
         // Вторая часть правила позволяет уменьшить необходимость
-        // перебора терминов словаря при поиске записей по ссылке на 
+        // перебора терминов словаря при поиске записей по ссылке на
         // конкретную страницу текста в случае длинных путей и имён
-        // файлов (таких, что длина термина превышает 250 символов). 
+        // файлов (таких, что длина термина превышает 250 символов).
         // Укорочение происходит таким образом, чтобы в поисковом
         // термине фигурировал номер страницы.
         //

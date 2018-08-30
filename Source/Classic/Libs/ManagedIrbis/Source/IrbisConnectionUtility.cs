@@ -54,7 +54,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -506,7 +506,8 @@ namespace ManagedIrbis
                 (
                     IrbisPath.Data,
                     listFile
-                );
+                )
+                .ThrowIfNull("menuFile");
             string[] lines = menuFile.SplitLines();
             DatabaseInfo[] result = DatabaseInfo.ParseMenu(lines);
 
@@ -1082,7 +1083,8 @@ namespace ManagedIrbis
                 as LoggingClientSocket;
             if (!ReferenceEquals(oldSocket, null))
             {
-                AbstractClientSocket newSocket = oldSocket.InnerSocket;
+                AbstractClientSocket newSocket = oldSocket.InnerSocket
+                    .ThrowIfNull("oldSocket.InnerSocket");
                 connection.SetSocket(newSocket);
             }
 
@@ -1194,7 +1196,7 @@ namespace ManagedIrbis
 
         // ========================================================
 
-#if !UAP 
+#if !UAP
 
         /// <summary>
         /// Require minimal client version.
