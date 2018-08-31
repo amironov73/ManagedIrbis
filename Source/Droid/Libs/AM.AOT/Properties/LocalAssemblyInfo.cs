@@ -1,8 +1,8 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* AssemblyInfo.cs
- * Ars Magna project, http://arsmagna.ru
+/* LocalAssemblyInfo.cs -- local information about assembly
+ * Ars Magna project, http://arsmagna.ru 
  * -------------------------------------------------------
  * Status: poor
  */
@@ -11,26 +11,18 @@
 
 using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security;
 
 #endregion
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ManagedIrbis")]
-[assembly: AssemblyDescription("Managed runtime for IRBIS system")]
+[assembly: AssemblyTitle("AM.AOT")]
+[assembly: AssemblyDescription("ArsMagna automatic text processing")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("ManagedIrbis")]
+[assembly: AssemblyProduct("AM.AOT")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7d0f7e61-2c17-4903-b53d-0f534c5718e1")]
-
-[assembly: AllowPartiallyTrustedCallers]
-
-#if FW4
-
-[assembly: SecurityRules(SecurityRuleSet.Level1)]
-
-#endif
+[assembly: Guid("24f5c3fa-69f3-485c-a71f-5308265d66e9")]
