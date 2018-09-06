@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Iso2709.cs --
+/* Iso2709.cs -- ISO 2709 format record import and export
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -30,7 +30,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.ImportExport
 {
     /// <summary>
-    ///
+    /// ISO 2709 format record import and export.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]

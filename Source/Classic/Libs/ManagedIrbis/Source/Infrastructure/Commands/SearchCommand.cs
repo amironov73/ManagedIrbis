@@ -247,11 +247,12 @@ namespace ManagedIrbis.Infrastructure.Commands
                     int count = found.Count;
                     Found.ThrowIfNull().AddRange(found);
 
-                    Debug.Assert
-                        (
-                            count != 0,
-                            "Found.Count == 0 in SubCommand"
-                        );
+                    // FIXME
+                    //Debug.Assert
+                    //    (
+                    //        count != 0,
+                    //        "Found.Count == 0 in SubCommand"
+                    //    );
 
                     firstRecord += count;
                 }
@@ -444,7 +445,7 @@ namespace ManagedIrbis.Infrastructure.Commands
                     && FirstRecord == 1
                     && NumberOfRecords == 0)
                 {
-                    Debug.Assert 
+                    Debug.Assert
                         (
                             foundList.Count == expected,
                             "Found.Count != expected in total"

@@ -57,6 +57,11 @@ namespace ManagedIrbis.Search
         /// </summary>
         public const string InventoryPrefix = "IN=";
 
+        /// <summary>
+        /// Шифр документа в базе.
+        /// </summary>
+        public const string IndexPrefix = "I=";
+
         #endregion
 
         #region Public methods
@@ -66,7 +71,7 @@ namespace ManagedIrbis.Search
         /// (или штрих-кодом или радио-меткой).
         /// Запись может отсуствовать, это не будет считаться ошибкой.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Запись либо <c>null</c>.</returns>
         public static MarcRecord ByInventory
             (
                 [NotNull] this IIrbisConnection connection,
@@ -79,6 +84,25 @@ namespace ManagedIrbis.Search
             return SingleOrDefault(connection, InventoryPrefix, inventory);
         }
 
+        /// <summary>
+        /// Поиск единственной записи с указанным шифром.
+        /// Запись должна существовать.
+        /// </summary>
+        /// <exception cref="IrbisException">
+        /// Запись не найдена либо найдено больше одной записи.
+        /// </exception>
+        /// <returns>Запись.</returns>
+        public static MarcRecord ByIndex
+            (
+                [NotNull] this IIrbisConnection connection,
+                [NotNull] string index
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(index, "index");
+
+            return Required(connection, IndexPrefix, index);
+        }
 
         /// <summary>
         /// Поиск первой попавшейся записи, удовлетворяющей указанному условию.

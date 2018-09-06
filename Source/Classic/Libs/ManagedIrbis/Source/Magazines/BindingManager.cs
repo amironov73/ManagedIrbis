@@ -24,7 +24,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Fields;
-
+using ManagedIrbis.Search;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -94,25 +94,76 @@ namespace ManagedIrbis.Magazines
             NumberRangeCollection collection = NumberRangeCollection.Parse(specification.IssueNumbers);
             string longDescription = string.Format("Подшивка N{0} {1} ({2})", specification.BindingNumber,
                 specification.Description, specification.IssueNumbers);
-            string reference = string.Format("{0}/{1}/{2}", specification.MagazineIndex, specification.Year,
+            string bindingIndex = string.Format("{0}/{1}/{2}", specification.MagazineIndex, specification.Year,
                 longDescription);
 
-            MarcRecord mainRecord = Connection.SearchReadOneRecord("\"I={0}\"", specification.MagazineIndex);
-            if (ReferenceEquals(mainRecord, null))
-            {
-                throw new IrbisException("Main record not found");
-            }
+            MarcRecord mainRecord = Connection.ByIndex(specification.MagazineIndex);
 
-            // MagazineInfo magazine = MagazineInfo.Parse(mainRecord);
+            MagazineInfo magazine = MagazineInfo.Parse(mainRecord);
 
             foreach (NumberText numberText in collection)
             {
                 // Создание записей, если их еще нет.
-                MarcRecord issue = new MarcRecord();
+                MarcRecord issueRecord = new MarcRecord
+                {
+                    Database = Connection.Database
+                };
+
+                string issueIndex = string.Format
+                    (
+                        "{0}/{1}/{2}",
+                        specification.MagazineIndex,
+                        specification.Year,
+                        numberText
+                    );
+                issueRecord
+                    .AddField(933, specification.MagazineIndex)
+                    .AddField(903, issueIndex)
+                    .AddField(934, specification.Year)
+                    .AddField(936, numberText)
+                    .AddField(920, "NJP")
+                    .AddField
+                        (
+                            new RecordField(910)
+                                .AddSubField('a', "0")
+                                .AddSubField('b', specification.Complect)
+                                .AddSubField('c', "?")
+                                .AddSubField('d', specification.Fond)
+                                .AddSubField('p', bindingIndex)
+                                .AddSubField('i', specification.Inventory)
+                        )
+                    .AddField
+                        (
+                            new RecordField(463)
+                                .AddSubField('w', bindingIndex)
+                        );
+
+                Connection.WriteRecord(issueRecord);
             }
 
             // Создание записи подшивки, если ее еще нет
-            MarcRecord binding = new MarcRecord();
+            MarcRecord bindingRecord = new MarcRecord
+            {
+                Database = Connection.Database
+            };
+
+            bindingRecord
+                .AddField(933, specification.MagazineIndex)
+                .AddField(903, bindingIndex)
+                .AddField(904, specification.Year)
+                .AddField(936, longDescription)
+                .AddField(931, specification.IssueNumbers)
+                .AddField(920, "NJK")
+                .AddField
+                    (
+                        new RecordField(910)
+                            .AddSubField('a', "0")
+                            .AddSubField('b', specification.Inventory)
+                            .AddSubField('c', "?")
+                            .AddSubField('d', specification.Fond)
+                    );
+
+            Connection.WriteRecord(bindingRecord);
 
             // Обновление кумуляции
             mainRecord.AddField
