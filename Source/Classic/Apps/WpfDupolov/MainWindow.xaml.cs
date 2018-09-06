@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
+using AM;
 
 using ManagedIrbis;
 using ManagedIrbis.Search;
+
 using Microsoft.Win32;
 
 namespace WpfDupolov
@@ -24,7 +18,6 @@ namespace WpfDupolov
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow
-        : Window
     {
         public MainWindow()
         {
@@ -238,7 +231,7 @@ namespace WpfDupolov
 
                 Task task = new Task(_engine.Process);
                 task.ContinueWith(StopEngine);
-                AppendLog("ЗАДАЧА ЗАПУЩЕНА");
+                AppendLog("ЗАДАЧА ЗАПУЩЕНА: " + DateTime.Now.ToLongUniformString());
                 task.Start();
             }
             catch (Exception ex)
@@ -249,7 +242,7 @@ namespace WpfDupolov
 
         public void StopEngine(Task task)
         {
-            AppendLog("ЗАДАЧА ЗАВЕРШЕНА");
+            AppendLog("ЗАДАЧА ЗАВЕРШЕНА: " + DateTime.Now.ToLongUniformString());
             _engine = null;
             if (!ReferenceEquals(task.Exception, null))
             {

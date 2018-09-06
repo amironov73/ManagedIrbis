@@ -32,6 +32,9 @@
         <ComboBox Name="termBox" Grid.Row="1" Grid.Column="1" />
         <CheckBox Name="dumpBox" Grid.Row="2"  Grid.Column="0" Grid.ColumnSpan="2"
                   Padding="0.1cm"
+                  VerticalAlignment="Center"
+                  VerticalContentAlignment="Center"
+                  Margin="0.1cm 0 0 0"
                   IsChecked="False">
             Выводить дамп записей
         </CheckBox>

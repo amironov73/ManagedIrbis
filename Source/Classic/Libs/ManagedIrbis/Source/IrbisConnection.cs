@@ -292,8 +292,8 @@ namespace ManagedIrbis
             Host = ConnectionSettings.DefaultHost;
             Port = ConnectionSettings.DefaultPort;
             Database = ConnectionSettings.DefaultDatabase;
-            Username = "111";
-            Password = "111";
+            //Username = "111";
+            //Password = "111";
             Workstation = ConnectionSettings.DefaultWorkstation;
 
             Executive = new StandardEngine(this, null);

@@ -71,6 +71,13 @@
     <Compile Include="..\..\Common\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AM\Windows\Irbis\ExtendedLoginBox.xaml.cs">
+      <DependentUpon>ExtendedLoginBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Irbis\LoginBox.xaml.cs">
+      <DependentUpon>LoginBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AM\Windows\Irbis\LoginCenter.cs" />
     <Compile Include="AM\Windows\Media\TextFormatting\SimpleTextParagraphProperties.cs" />
     <Compile Include="AM\Windows\Media\TextFormatting\SimpleTextRunProperties.cs" />
     <Compile Include="AM\Windows\Media\TextFormatting\SimpleTextSource.cs" />
@@ -104,9 +111,23 @@
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
       <Name>AM.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ManagedIrbis\ManagedIrbis.csproj">
+      <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
+      <Name>ManagedIrbis</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="BlueBook.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="AM\Windows\Irbis\ExtendedLoginBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AM\Windows\Irbis\LoginBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

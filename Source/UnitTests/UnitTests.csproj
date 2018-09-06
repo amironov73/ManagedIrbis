@@ -110,11 +110,14 @@
     <Reference Include="Moq, Version=4.7.142.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.7.142\lib\net45\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Serialization" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -236,6 +239,7 @@
     <Compile Include="AM\Xml\CanaryClass.cs" />
     <Compile Include="AM\Xml\XmlUtilityTest.cs" />
     <Compile Include="Experiments\IsoExperiments.cs" />
+    <Compile Include="Experiments\LoginCenterExperiments.cs" />
     <Compile Include="ManagedIrbis\AsyncExtensionsTest.cs" />
     <Compile Include="ManagedIrbis\Authentication\IrbisCredentialsTest.cs" />
     <Compile Include="ManagedIrbis\Batch\BatchAccessorTest.cs" />
@@ -890,6 +894,10 @@
     <ProjectReference Include="..\Classic\Libs\AM.Core\AM.Core.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
       <Name>AM.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Classic\Libs\AM.Windows\AM.Windows.csproj">
+      <Project>{bd529d46-f534-4a24-8ca8-e452b56b7873}</Project>
+      <Name>AM.Windows</Name>
     </ProjectReference>
     <ProjectReference Include="..\Classic\Libs\ManagedIrbis\ManagedIrbis.csproj">
       <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
