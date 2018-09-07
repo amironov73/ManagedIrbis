@@ -146,7 +146,7 @@ namespace ManagedIrbis
             get { return _password; }
             set
             {
-                Code.NotNullNorEmpty(value, "value");
+                Code.NotNull(value, "value");
 
                 ThrowIfConnected();
                 _password = value;
@@ -1823,10 +1823,16 @@ namespace ManagedIrbis
             Host = reader.ReadNullableString()
                 .ThrowIfNull("Host");
             Port = reader.ReadPackedInt32();
-            Username = reader.ReadNullableString()
-                .ThrowIfNull("Username");
-            Password = reader.ReadNullableString()
-                .ThrowIfNull("Password");
+            string username = reader.ReadNullableString();
+            if (!string.IsNullOrEmpty(username))
+            {
+                Username = username;
+            }
+            string password = reader.ReadNullableString();
+            if (!ReferenceEquals(password, null))
+            {
+                Password = password;
+            }
             Database = reader.ReadNullableString()
                 .ThrowIfNull("Database");
             Workstation = (IrbisWorkstation)reader.ReadPackedInt32();

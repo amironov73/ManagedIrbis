@@ -91,12 +91,13 @@
     <Compile Include="Source\Batch\BatchSearcher.cs" />
     <Compile Include="Source\Direct\MstWriter64.cs" />
     <Compile Include="Source\Epub\Epub.cs" />
+    <Compile Include="Source\FictionBook\FbAuthor.cs" />
     <Compile Include="Source\FictionBook\FbBinary.cs" />
     <Compile Include="Source\FictionBook\FbBody.cs" />
     <Compile Include="Source\FictionBook\FbDescription.cs" />
     <Compile Include="Source\FictionBook\FbGenre.cs" />
     <Compile Include="Source\FictionBook\FbTitle.cs" />
-    <Compile Include="Source\FictionBook\FictionBook.cs" />
+    <Compile Include="Source\FictionBook\FbDocument.cs" />
     <Compile Include="Source\ImportExport\Csl.cs" />
     <Compile Include="Source\Infrastructure\FastEngine.cs" />
     <Compile Include="Source\Infrastructure\MemoryManager.cs" />

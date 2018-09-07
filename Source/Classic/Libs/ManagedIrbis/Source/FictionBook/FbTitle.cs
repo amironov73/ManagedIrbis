@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml.Serialization;
 
 using AM;
 using AM.Logging;
@@ -34,5 +35,44 @@ namespace ManagedIrbis.FictionBook
     [MoonSharpUserData]
     public sealed class FbTitle
     {
+        #region Properties
+
+        /// <summary>
+        /// Автор.
+        /// </summary>
+        [XmlElement("author")]
+        public FbAuthor[] Author { get; set; }
+
+        /// <summary>
+        /// Жанр.
+        /// </summary>
+        [XmlElement("genre")]
+        public string[] Genres { get; set; }
+
+        /// <summary>
+        /// Заглавие книги.
+        /// </summary>
+        [XmlElement("book-title")]
+        public string Title { get; set; }
+
+        ///// <summary>
+        ///// Аннотация.
+        ///// </summary>
+        //[XmlElement("annotation")]
+        //public string Annotation { get; set; }
+
+        /// <summary>
+        /// Ключевые слова.
+        /// </summary>
+        [XmlElement("keywords")]
+        public string Keywords { get; set; }
+
+        /// <summary>
+        /// Язык.
+        /// </summary>
+        [XmlElement("lang")]
+        public string Language { get; set; }
+
+        #endregion
     }
 }

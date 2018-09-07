@@ -303,6 +303,7 @@
     <Compile Include="ManagedIrbis\Extensibility\ExtensionManagerTest.cs" />
     <Compile Include="ManagedIrbis\Extensibility\IrbisExtensionTest.cs" />
     <Compile Include="ManagedIrbis\FastFieldsTest.cs" />
+    <Compile Include="ManagedIrbis\FictionBook\FictionBookTest.cs" />
     <Compile Include="ManagedIrbis\FieldDifferenceTest.cs" />
     <Compile Include="ManagedIrbis\FieldReferenceTest.cs" />
     <Compile Include="ManagedIrbis\Fields\ArrivalsInfoTest.cs" />

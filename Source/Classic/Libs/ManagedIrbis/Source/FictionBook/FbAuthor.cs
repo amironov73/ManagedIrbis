@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* FbBody.cs --
+/* FbAuthor.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -29,19 +29,31 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.FictionBook
 {
     /// <summary>
-    /// Тело документа FictionBook.
+    /// Данные об авторе FictionBook.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class FbBody
+    public sealed class FbAuthor
     {
         #region Properties
 
         /// <summary>
-        /// Name.
+        /// Имя.
         /// </summary>
-        [XmlAttribute("name")]
-        public string Name { get; set; }
+        [XmlElement("first-name")]
+        public string FirstName { get; set; }
+
+        /// <summary>
+        /// Отчество.
+        /// </summary>
+        [XmlElement("middle-name")]
+        public string MiddleName { get; set; }
+
+        /// <summary>
+        /// Фамилия.
+        /// </summary>
+        [XmlElement("last-name")]
+        public string LastName { get; set; }
 
         #endregion
     }

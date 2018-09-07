@@ -68,12 +68,9 @@ namespace AM.Xml
         /// <summary>
         /// Deserialize object from file.
         /// </summary>
-        /// <param name="fileName">File name.</param>
-        /// <param name="serializer">Serializer.</param>
-        /// <returns>Object.</returns>
         public static object Deserialize
             (
-                [NotNull] string fileName, 
+                [NotNull] string fileName,
                 [NotNull] XmlSerializer serializer
             )
         {
@@ -89,9 +86,6 @@ namespace AM.Xml
         /// <summary>
         /// Deserialize object from file.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
         public static T Deserialize<T>
             (
                 [NotNull] string fileName

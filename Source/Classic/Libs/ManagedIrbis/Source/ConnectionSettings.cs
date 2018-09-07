@@ -49,23 +49,23 @@ namespace ManagedIrbis
         #region Constants
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const string DefaultHost = "127.0.0.1";
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const string DefaultDatabase = "IBIS";
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const IrbisWorkstation DefaultWorkstation
             = IrbisWorkstation.Cataloger;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const int DefaultPort = 6666;
 
@@ -293,8 +293,16 @@ namespace ManagedIrbis
 
             connection.Host = _Select(Host, connection.Host);
             connection.Port = _Select(Port, connection.Port);
-            connection.Username = _Select(Username, connection.Username);
-            connection.Password = _Select(Password, connection.Password);
+            string username = _Select(Username, connection.Username);
+            if (!string.IsNullOrEmpty(username))
+            {
+                connection.Username = username;
+            }
+            string password = _Select(Password, connection.Password);
+            if (!ReferenceEquals(password, null))
+            {
+                connection.Password = password;
+            }
             connection.Database = _Select(Database, connection.Database);
             connection.Workstation = (IrbisWorkstation)_Select
                 (

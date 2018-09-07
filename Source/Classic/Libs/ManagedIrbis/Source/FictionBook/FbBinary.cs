@@ -14,7 +14,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
-
+using System.Xml.Serialization;
 using AM;
 using AM.Logging;
 using AM.Text;
@@ -34,5 +34,20 @@ namespace ManagedIrbis.FictionBook
     [MoonSharpUserData]
     public sealed class FbBinary
     {
+        #region Properties
+
+        /// <summary>
+        /// Content type.
+        /// </summary>
+        [XmlAttribute("content-type")]
+        public string ContentType { get; set; }
+
+        /// <summary>
+        /// Id.
+        /// </summary>
+        [XmlAttribute("id")]
+        public string Id { get; set; }
+
+        #endregion
     }
 }

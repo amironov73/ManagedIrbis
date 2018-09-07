@@ -114,6 +114,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Epub\Epub.cs">
       <Link>Source\Epub\Epub.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FictionBook\FbAuthor.cs">
+      <Link>Source\FictionBook\FbAuthor.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FictionBook\FbBinary.cs">
       <Link>Source\FictionBook\FbBinary.cs</Link>
     </Compile>
@@ -129,8 +132,8 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FictionBook\FbTitle.cs">
       <Link>Source\FictionBook\FbTitle.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FictionBook\FictionBook.cs">
-      <Link>Source\FictionBook\FictionBook.cs</Link>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\FictionBook\FbDocument.cs">
+      <Link>Source\FictionBook\FbDocument.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\Csl.cs">
       <Link>Source\ImportExport\Csl.cs</Link>

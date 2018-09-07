@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* FictionBook.cs --
+/* FbDocument.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -14,10 +14,15 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml.Serialization;
 
 using AM;
 using AM.Logging;
 using AM.Text;
+using AM.Xml;
+using CodeJam;
+
+using JetBrains.Annotations;
 
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Pft.Infrastructure.Ast;
@@ -251,7 +256,58 @@ namespace ManagedIrbis.FictionBook
     // и смело переходите в раздел English.
     //
 
-    class FictionBook
+    /// <summary>
+    /// Корневой элемент.
+    /// </summary>
+    [XmlRoot("FictionBook", Namespace = "http://www.gribuser.ru/xml/fictionbook/2.0")]
+    public sealed class FbDocument
     {
+        #region Properties
+
+        /// <summary>
+        /// Стили.
+        /// </summary>
+        [XmlElement("stylesheet")]
+        public string Stylesheet { get; set; }
+
+        /// <summary>
+        /// Описание.
+        /// </summary>
+        [XmlElement("description")]
+        public FbDescription Description { get; set; }
+
+        /// <summary>
+        /// Тело.
+        /// </summary>
+        [XmlElement("body")]
+        public FbBody[] Body { get; set; }
+
+        /// <summary>
+        /// Двоичные данные (рисунки).
+        /// </summary>
+        [XmlElement("binary")]
+        public FbBinary[] Binary { get; set; }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Загрузка книги из указанного sфайла.
+        /// </summary>
+        [NotNull]
+        public static FbDocument LoadBook
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            FbDocument result = XmlUtility.Deserialize<FbDocument>(fileName);
+
+            return result;
+        }
+
+        #endregion
     }
 }
