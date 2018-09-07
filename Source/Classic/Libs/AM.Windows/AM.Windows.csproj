@@ -71,6 +71,9 @@
     <Compile Include="..\..\Common\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AM\Windows\Irbis\DictionaryForm.xaml.cs">
+      <DependentUpon>DictionaryForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AM\Windows\Irbis\ExtendedLoginBox.xaml.cs">
       <DependentUpon>ExtendedLoginBox.xaml</DependentUpon>
     </Compile>
@@ -120,6 +123,10 @@
     <Resource Include="BlueBook.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AM\Windows\Irbis\DictionaryForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AM\Windows\Irbis\ExtendedLoginBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

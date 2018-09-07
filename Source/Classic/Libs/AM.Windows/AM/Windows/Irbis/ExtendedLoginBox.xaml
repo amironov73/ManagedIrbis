@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AM.Windows.Irbis"
         mc:Ignorable="d"
-        WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen"
+        WindowStyle="ToolWindow"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterScreen"
         Title="Вход" Height="200" Width="300">
     <Grid>
         <Grid.ColumnDefinitions>
