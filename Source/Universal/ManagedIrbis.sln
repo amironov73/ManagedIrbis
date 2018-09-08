@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
+# Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Core", "Libs\AM.Core\AM.Core.csproj", "{E791C80D-3460-4D13-A1F3-4B3846B1D754}"
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestfulIrbis", "Libs\RestfulIrbis\RestfulIrbis.csproj", "{D33132C3-6302-41B6-BDD8-53A25D004992}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.AOT", "Libs\AM.AOT\AM.AOT.csproj", "{B0FB5A24-2A7C-4722-A1D3-E6344D34F067}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisUI", "Libs\IrbisUI\IrbisUI.csproj", "{5DE5BB90-AACF-412A-986F-FBD10FA7021D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,8 +89,27 @@ Global
 		{B0FB5A24-2A7C-4722-A1D3-E6344D34F067}.Release|x64.Build.0 = Release|x64
 		{B0FB5A24-2A7C-4722-A1D3-E6344D34F067}.Release|x86.ActiveCfg = Release|x86
 		{B0FB5A24-2A7C-4722-A1D3-E6344D34F067}.Release|x86.Build.0 = Release|x86
+		{5DE5BB90-AACF-412A-986F-FBD10FA7021D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DE5BB90-AACF-412A-986F-FBD10FA7021D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DE5BB90-AACF-412A-986F-FBD10FA7021D}.Debug|ARM.ActiveCfg = Debug|ARM
+		{5DE5BB90-AACF-412A-986F-FBD10FA7021D}.Debug|ARM.Build.0 = Debug|ARM
+		{5DE5BB90-AACF-412A-986F-FBD10FA7021D}.Debug|x64.ActiveCfg = Debug|x64
+		{5DE5BB90-AACF-412A-986F-FBD10FA7021D}.Debug|x64.Build.0 = Debug|x64
+		{5DE5BB90-AACF-412A-986F-FBD10FA7021D}.Debug|x86.ActiveCfg = Debug|x86
+		{5DE5BB90-AACF-412A-986F-FBD10FA7021D}.Debug|x86.Build.0 = Debug|x86
+		{5DE5BB90-AACF-412A-986F-FBD10FA7021D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DE5BB90-AACF-412A-986F-FBD10FA7021D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DE5BB90-AACF-412A-986F-FBD10FA7021D}.Release|ARM.ActiveCfg = Release|ARM
+		{5DE5BB90-AACF-412A-986F-FBD10FA7021D}.Release|ARM.Build.0 = Release|ARM
+		{5DE5BB90-AACF-412A-986F-FBD10FA7021D}.Release|x64.ActiveCfg = Release|x64
+		{5DE5BB90-AACF-412A-986F-FBD10FA7021D}.Release|x64.Build.0 = Release|x64
+		{5DE5BB90-AACF-412A-986F-FBD10FA7021D}.Release|x86.ActiveCfg = Release|x86
+		{5DE5BB90-AACF-412A-986F-FBD10FA7021D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9844C433-510A-4FAD-91EE-1A8446038406}
 	EndGlobalSection
 EndGlobal

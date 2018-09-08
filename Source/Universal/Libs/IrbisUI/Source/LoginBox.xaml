@@ -1,0 +1,39 @@
+﻿<ContentDialog
+    x:Class="IrbisUI.LoginBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:IrbisUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Вход"
+    PrimaryButtonText="Выполнить"
+    PrimaryButtonClick="LoginBox_OnPrimaryButtonClick"
+    SecondaryButtonText="Отменить"
+    SecondaryButtonClick="LoginBox_OnSecondaryButtonClick"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="1" Grid.Column="1"
+                   Padding="0 0 10 0">Имя пользователя</TextBlock>
+        <TextBox x:Name="loginBox"
+                 Grid.Row="1" Grid.Column="2" />
+        <TextBlock Grid.Row="3" Grid.Column="1">Пароль</TextBlock>
+        <PasswordBox x:Name="passwordBox"
+                     Grid.Row="3" Grid.Column="2" />
+    </Grid>
+</ContentDialog>
