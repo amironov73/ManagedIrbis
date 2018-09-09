@@ -238,6 +238,7 @@
     <Compile Include="AM\VerifierTest.cs" />
     <Compile Include="AM\Xml\CanaryClass.cs" />
     <Compile Include="AM\Xml\XmlUtilityTest.cs" />
+    <Compile Include="Experiments\FoundPanelExperiments.cs" />
     <Compile Include="Experiments\IsoExperiments.cs" />
     <Compile Include="Experiments\LoginCenterExperiments.cs" />
     <Compile Include="Experiments\DictionaryFormExperiments.cs" />
@@ -303,7 +304,10 @@
     <Compile Include="ManagedIrbis\Extensibility\ExtensionManagerTest.cs" />
     <Compile Include="ManagedIrbis\Extensibility\IrbisExtensionTest.cs" />
     <Compile Include="ManagedIrbis\FastFieldsTest.cs" />
-    <Compile Include="ManagedIrbis\FictionBook\FictionBookTest.cs" />
+    <Compile Include="ManagedIrbis\FictionBook\FbAuthorTest.cs" />
+    <Compile Include="ManagedIrbis\FictionBook\FbDocumentTest.cs" />
+    <Compile Include="ManagedIrbis\FictionBook\FbTitleTest.cs" />
+    <Compile Include="ManagedIrbis\FictionBook\FbDescriptionTest.cs" />
     <Compile Include="ManagedIrbis\FieldDifferenceTest.cs" />
     <Compile Include="ManagedIrbis\FieldReferenceTest.cs" />
     <Compile Include="ManagedIrbis\Fields\ArrivalsInfoTest.cs" />

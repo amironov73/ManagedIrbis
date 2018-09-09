@@ -1,5 +1,4 @@
-﻿
-using System.Windows;
+﻿using System.Windows;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

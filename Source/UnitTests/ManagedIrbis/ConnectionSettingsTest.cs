@@ -457,7 +457,7 @@ namespace UnitTests.ManagedIrbis
                 (
                     "factory={0};",
                     typeof(MyFactory).AssemblyQualifiedName
-            );
+                );
 
             ConnectionSettings settings = new ConnectionSettings()
                 .ParseConnectionString(connectionString);

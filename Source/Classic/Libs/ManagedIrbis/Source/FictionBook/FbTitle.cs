@@ -9,16 +9,9 @@
 
 #region Using directives
 
-using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
 using AM;
-using AM.Logging;
-using AM.Text;
 
 using JetBrains.Annotations;
 
@@ -72,6 +65,16 @@ namespace ManagedIrbis.FictionBook
         /// </summary>
         [XmlElement("lang")]
         public string Language { get; set; }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return Title.ToVisibleString();
+        }
 
         #endregion
     }

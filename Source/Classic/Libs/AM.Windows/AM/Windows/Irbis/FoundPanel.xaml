@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="AM.Windows.Irbis.FoundPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:AM.Windows.Irbis"
+             mc:Ignorable="d"
+             SizeChanged="Window_OnSizeChanged"
+             d:DesignHeight="200"
+             d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <ComboBox x:Name="sortBox" Width="150"/>
+        </StackPanel>
+        <ListView x:Name="linesGrid" Grid.Row="1">
+            <ListView.View>
+                <GridView x:Name="gridView">
+                    <GridView.Columns>
+                        <GridViewColumn Header="MFN" Width="80" DisplayMemberBinding="{Binding Path=Mfn}"/>
+                        <GridViewColumn Width="30" DisplayMemberBinding="{Binding Path=Selected}"/>
+                        <GridViewColumn Width="30" DisplayMemberBinding="{Binding Path=Icon}"/>
+                        <GridViewColumn Header="Description" Width="100" DisplayMemberBinding="{Binding Path=Description}"/>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>

@@ -77,6 +77,9 @@
     <Compile Include="AM\Windows\Irbis\ExtendedLoginBox.xaml.cs">
       <DependentUpon>ExtendedLoginBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AM\Windows\Irbis\FoundPanel.xaml.cs">
+      <DependentUpon>FoundPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AM\Windows\Irbis\LoginBox.xaml.cs">
       <DependentUpon>LoginBox.xaml</DependentUpon>
     </Compile>
@@ -128,6 +131,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AM\Windows\Irbis\ExtendedLoginBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AM\Windows\Irbis\FoundPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

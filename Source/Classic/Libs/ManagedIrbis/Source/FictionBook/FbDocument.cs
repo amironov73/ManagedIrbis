@@ -309,5 +309,15 @@ namespace ManagedIrbis.FictionBook
         }
 
         #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return Description.ToVisibleString();
+        }
+
+        #endregion
     }
 }

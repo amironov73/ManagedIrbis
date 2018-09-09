@@ -1,5 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis.FictionBook;
@@ -7,7 +7,7 @@ using ManagedIrbis.FictionBook;
 namespace UnitTests.ManagedIrbis.FictionBook
 {
     [TestClass]
-    public class FictionBookTest
+    public class FbDocumentTest
         : Common.CommonUnitTest
     {
         private string GetFileName()
@@ -20,7 +20,7 @@ namespace UnitTests.ManagedIrbis.FictionBook
         }
 
         [TestMethod]
-        public void FictionBook_LoadBook_1()
+        public void FbDocument_LoadBook_1()
         {
             string fileName = GetFileName();
             FbDocument doc = FbDocument.LoadBook(fileName);
@@ -58,6 +58,52 @@ namespace UnitTests.ManagedIrbis.FictionBook
             Assert.AreEqual("tolstoy_port.png", doc.Binary[0].Id);
             Assert.AreEqual("image/jpeg", doc.Binary[1].ContentType);
             Assert.AreEqual("cover.jpg", doc.Binary[1].Id);
+        }
+
+        [TestMethod]
+        public void FbDocument_ToString_1()
+        {
+            FbDocument document = new FbDocument();
+            Assert.AreEqual("(null)", document.ToString());
+        }
+
+        [TestMethod]
+        public void FbDocument_ToString_2()
+        {
+            FbDocument document = new FbDocument
+            {
+                Description = new FbDescription()
+            };
+            Assert.AreEqual("(null)", document.ToString());
+        }
+
+        [TestMethod]
+        public void FbDocument_ToString_3()
+        {
+            FbDocument document = new FbDocument
+            {
+                Description = new FbDescription
+                {
+                    Title = new FbTitle()
+                }
+            };
+            Assert.AreEqual("(null)", document.ToString());
+        }
+
+        [TestMethod]
+        public void FbDocument_ToString_4()
+        {
+            FbDocument document = new FbDocument
+            {
+                Description = new FbDescription
+                {
+                    Title = new FbTitle
+                    {
+                        Title = "Война и мир"
+                    }
+                }
+            };
+            Assert.AreEqual("Война и мир", document.ToString());
         }
     }
 }
