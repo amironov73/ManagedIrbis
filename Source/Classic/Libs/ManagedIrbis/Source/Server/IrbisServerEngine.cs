@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IrbisSocketServer.cs -- 
+/* IrbisSocketServer.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -36,7 +37,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Server
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -44,6 +45,18 @@ namespace ManagedIrbis.Server
         : IDisposable
     {
         #region Properties
+
+        /// <summary>
+        /// Contexts.
+        /// </summary>
+        [NotNull]
+        public NonNullCollection<ServerContext> Contexts { get; private set; }
+
+        /// <summary>
+        /// System data directory path.
+        /// </summary>
+        [NotNull]
+        public string DataPath { get; private set; }
 
         /// <summary>
         /// Ini file.
@@ -58,6 +71,12 @@ namespace ManagedIrbis.Server
         public TcpListener Listener { get; private set; }
 
         /// <summary>
+        /// System root directory path.
+        /// </summary>
+        [NotNull]
+        public string SystemPath { get; private set; }
+
+        /// <summary>
         /// Stop signal.
         /// </summary>
         [NotNull]
@@ -68,6 +87,12 @@ namespace ManagedIrbis.Server
         /// </summary>
         [NotNull]
         public NonNullCollection<IrbisServerWorker> Workers { get; private set; }
+
+        /// <summary>
+        /// System work directory path.
+        /// </summary>
+        [NotNull]
+        public string WorkDir { get; private set; }
 
         #endregion
 
@@ -81,9 +106,20 @@ namespace ManagedIrbis.Server
                 [NotNull] ServerIniFile iniFile
             )
         {
+            Log.Trace("IrbisServerEngine::Constructor enter");
+
             Code.NotNull(iniFile, "iniFile");
 
             IniFile = iniFile;
+            SystemPath = IniFile.SystemPath.ThrowIfNull("SystemPath");
+            Log.Trace("SysPath=" + SystemPath);
+            _VerifyDirReadable(SystemPath);
+            DataPath = IniFile.DataPath.ThrowIfNull("DataPath");
+            Log.Trace("DataPath=" + DataPath);
+            _VerifyDirReadable(DataPath);
+            WorkDir = IniFile.WorkDir.ThrowIfNull("WorkDir");
+            _VerifyDirReadable(WorkDir);
+            _VerifyDirWriteable(WorkDir);
 
             StopSignal = new ManualResetEvent(false);
 
@@ -94,12 +130,31 @@ namespace ManagedIrbis.Server
                 );
             Listener = new TcpListener(endPoint);
 
+            Contexts = new NonNullCollection<ServerContext>();
             Workers = new NonNullCollection<IrbisServerWorker>();
+
+            Log.Trace("IrbisServerEngine::Constructor leave");
         }
 
         #endregion
 
         #region Private members
+
+        private void _VerifyDirReadable
+            (
+                [NotNull] string path
+            )
+        {
+            // TODO Implement
+        }
+
+        private void _VerifyDirWriteable
+            (
+                [NotNull] string path
+            )
+        {
+            // TODO implement
+        }
 
 #if DESKTOP
 
@@ -108,12 +163,16 @@ namespace ManagedIrbis.Server
                 IAsyncResult asyncResult
             )
         {
+            Log.Trace("IrbisServerEngine::_HandleClient enter");
+
             TcpListener listener = (TcpListener) asyncResult.AsyncState;
             TcpClient client = listener.EndAcceptTcpClient(asyncResult);
             IrbisServerSocket socket = new IrbisServerSocket(client);
             IrbisServerWorker worker = new IrbisServerWorker(this, socket);
             Workers.Add(worker);
             worker.Task.Start();
+
+            Log.Trace("IrbisServerEngine::_HandleClient leave");
         }
 
 #elif NETCORE
@@ -141,6 +200,8 @@ namespace ManagedIrbis.Server
         /// </summary>
         public void MainLoop()
         {
+            Log.Trace("IrbisServerEngine::MainLoop enter");
+
             Listener.Start();
 
             while (true)
@@ -156,6 +217,7 @@ namespace ManagedIrbis.Server
 
                 if (StopSignal.WaitOne(0))
                 {
+                    Log.Trace("IrbisServerEngine::MainLoop: break signal 1");
                     break;
                 }
 
@@ -178,6 +240,7 @@ namespace ManagedIrbis.Server
                 if (index == 1
                     || index < 0)
                 {
+                    Log.Trace("IrbisServerEngine::MainLoop: break signal 2");
                     break;
                 }
 
@@ -189,6 +252,8 @@ namespace ManagedIrbis.Server
 #endif
 
             }
+
+            Log.Trace("IrbisServerEngine::MainLoop leave");
         }
 
         /// <summary>

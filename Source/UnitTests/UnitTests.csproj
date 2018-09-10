@@ -242,6 +242,7 @@
     <Compile Include="Experiments\IsoExperiments.cs" />
     <Compile Include="Experiments\LoginCenterExperiments.cs" />
     <Compile Include="Experiments\DictionaryFormExperiments.cs" />
+    <Compile Include="Experiments\ServerExperiments.cs" />
     <Compile Include="ManagedIrbis\AsyncExtensionsTest.cs" />
     <Compile Include="ManagedIrbis\Authentication\IrbisCredentialsTest.cs" />
     <Compile Include="ManagedIrbis\Batch\BatchAccessorTest.cs" />

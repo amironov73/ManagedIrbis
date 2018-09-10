@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ServerUtility.cs -- 
+/* ServerUtility.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -35,7 +35,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Server
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -160,6 +160,22 @@ namespace ManagedIrbis.Server
             }
 
             throw new IrbisException();
+        }
+
+        /// <summary>
+        /// Get server version.
+        /// </summary>
+        [NotNull]
+        public static IrbisVersion GetServerVersion()
+        {
+            IrbisVersion result = new IrbisVersion
+            {
+                Version = "64.2012.1",
+                Organization = "Open source version",
+                MaxClients = int.MaxValue
+            };
+
+            return result;
         }
 
         #endregion

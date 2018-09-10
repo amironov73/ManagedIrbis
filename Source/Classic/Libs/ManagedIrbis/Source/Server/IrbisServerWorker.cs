@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IrbisServerWorker.cs -- 
+/* IrbisServerWorker.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -33,13 +33,18 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Server
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public class IrbisServerWorker
     {
         #region Properties
+
+        /// <summary>
+        /// Context.
+        /// </summary>
+        public ServerContext Context { get; set; }
 
         /// <summary>
         /// Server.
@@ -57,7 +62,7 @@ namespace ManagedIrbis.Server
         /// Task.
         /// </summary>
         [NotNull]
-        public Task Task { get; private set; } 
+        public Task Task { get; private set; }
 
         #endregion
 
@@ -94,7 +99,7 @@ namespace ManagedIrbis.Server
         /// </summary>
         public void DoWork()
         {
-            
+
         }
 
         #endregion
