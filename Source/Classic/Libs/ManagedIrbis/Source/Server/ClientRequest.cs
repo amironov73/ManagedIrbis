@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ServerCommand.cs --
+/* ClientRequest.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -14,45 +14,36 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Infrastructure;
-
 using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis.Server.Commands
+namespace ManagedIrbis.Server
 {
     /// <summary>
-    ///
+    /// Client request.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public abstract class ServerCommand
+    public sealed class ClientRequest
     {
         #region Properties
-
-        /// <summary>
-        /// Код команды.
-        /// </summary>
-        [NotNull]
-        public abstract string CommandCode { get; }
-
-        /// <summary>
-        /// Context.
-        /// </summary>
-        public ServerContext Context { get; set; }
 
         #endregion
 
@@ -61,38 +52,49 @@ namespace ManagedIrbis.Server.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        protected ServerCommand
-            (
-                [NotNull] ServerContext context
-            )
+        public ClientRequest()
         {
-            Code.NotNull(context, "context");
-
-            Context = context;
         }
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
         #region Public methods
 
         /// <summary>
-        /// Execute the command.
+        ///
         /// </summary>
-        public virtual void Execute
-            (
-                [NotNull] ClientQuery query
-            )
+        [CanBeNull]
+        public string GetAnsiString()
         {
-            // Nothing to do here?
+            throw new NotImplementedException();
         }
 
-        #endregion
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull]
+        public string RequireAnsiString()
+        {
+            throw new NotImplementedException();
+        }
 
-        #region Object members
+        /// <summary>
+        ///
+        /// </summary>
+        [CanBeNull]
+        public string GetUtfString()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull]
+        public string RequireUtfString()
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
     }

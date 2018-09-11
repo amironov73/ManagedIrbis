@@ -29,7 +29,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Server.Commands;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -69,6 +69,12 @@ namespace ManagedIrbis.Server
         /// </summary>
         [NotNull]
         public TcpListener Listener { get; private set; }
+
+        /// <summary>
+        /// Command mapper.
+        /// </summary>
+        [NotNull]
+        public CommandMapper Mapper { get; private set; }
 
         /// <summary>
         /// System root directory path.
@@ -132,6 +138,7 @@ namespace ManagedIrbis.Server
 
             Contexts = new NonNullCollection<ServerContext>();
             Workers = new NonNullCollection<IrbisServerWorker>();
+            Mapper = new CommandMapper(this);
 
             Log.Trace("IrbisServerEngine::Constructor leave");
         }

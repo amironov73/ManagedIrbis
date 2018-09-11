@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ReadFileCommand.cs -- 
+/* ReadFileCommand.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -35,22 +35,32 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Server.Commands
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public class ReadFileCommand
         : ServerCommand
     {
+        #region Properties
+
+        /// <inheritdoc cref="ServerCommand.CommandCode" />
+        public override string CommandCode
+        {
+            get { return "l"; }
+        }
+
+        #endregion
+
         #region Construction
 
         /// <summary>
         /// Constructor.
         /// </summary>
         public ReadFileCommand
-        (
-            [NotNull] ServerContext context
-        )
+            (
+                [NotNull] ServerContext context
+            )
             : base(context)
         {
         }

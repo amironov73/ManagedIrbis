@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ReadRecordCommand.cs -- 
+/* ReadRecordCommand.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -35,13 +35,23 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Server.Commands
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public class ReadRecordCommand
         : ServerCommand
     {
+        #region Properties
+
+        /// <inheritdoc cref="ServerCommand.CommandCode" />
+        public override string CommandCode
+        {
+            get { return "C"; }
+        }
+
+        #endregion
+
         #region Construction
 
         /// <summary>
