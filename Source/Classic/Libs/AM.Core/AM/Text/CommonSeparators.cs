@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* CommonSeparators.cs -- 
+/* CommonSeparators.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -48,6 +48,11 @@ namespace AM.Text
         /// Dot.
         /// </summary>
         public static readonly char[] Dot = { '.' };
+
+        /// <summary>
+        /// Equal sign.
+        /// </summary>
+        public static readonly char[] EqualSign = { '=' };
 
         /// <summary>
         /// Minus sign.

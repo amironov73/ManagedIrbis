@@ -59,9 +59,10 @@ namespace ManagedIrbis.Server.Commands
         /// </summary>
         public SearchCommand
             (
+                [NotNull] ClientRequest request,
                 [NotNull] ServerContext context
             )
-            : base(context)
+            : base(request, context)
         {
         }
 

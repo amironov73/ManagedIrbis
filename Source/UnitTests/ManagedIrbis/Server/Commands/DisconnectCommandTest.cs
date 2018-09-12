@@ -21,6 +21,8 @@ using ManagedIrbis.Server.Commands;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Moq;
+
 namespace UnitTests.ManagedIrbis.Server.Commands
 {
     [TestClass]
@@ -30,8 +32,10 @@ namespace UnitTests.ManagedIrbis.Server.Commands
         [TestMethod]
         public void DisconnectCommand_Construction_1()
         {
+            Mock<ClientRequest> mock = new Mock<ClientRequest>();
+            ClientRequest request = mock.Object;
             ServerContext context = _GetContext();
-            DisconnectCommand command = new DisconnectCommand(context);
+            DisconnectCommand command = new DisconnectCommand(request, context);
             Assert.AreSame(context, command.Context);
         }
     }

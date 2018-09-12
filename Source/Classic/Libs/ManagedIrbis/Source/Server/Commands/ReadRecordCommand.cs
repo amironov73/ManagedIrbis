@@ -59,9 +59,10 @@ namespace ManagedIrbis.Server.Commands
         /// </summary>
         public ReadRecordCommand
             (
+                [NotNull] ClientRequest request,
                 [NotNull] ServerContext context
             )
-            : base(context)
+            : base(request, context)
         {
         }
 

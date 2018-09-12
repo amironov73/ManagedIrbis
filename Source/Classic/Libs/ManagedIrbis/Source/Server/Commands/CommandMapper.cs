@@ -36,6 +36,9 @@ using MoonSharp.Interpreter;
 
 namespace ManagedIrbis.Server.Commands
 {
+    /// <summary>
+    /// Maps codes to command
+    /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     public class CommandMapper
@@ -75,10 +78,54 @@ namespace ManagedIrbis.Server.Commands
         [NotNull]
         public virtual ServerCommand MapCommand
             (
+                [NotNull] ClientRequest request,
                 [NotNull] ServerContext context
             )
         {
-            throw new NotImplementedException();
+            Code.NotNull(request, "request");
+            Code.NotNull(context, "context");
+
+            ServerCommand result;
+
+            if (ReferenceEquals(request.CommandCode1, null)
+                || request.CommandCode1 != request.CommandCode2)
+            {
+                throw new IrbisException();
+            }
+
+            string commandCode = request.CommandCode1.ToUpperInvariant();
+
+            switch (commandCode)
+            {
+                case "A":
+                    result = new ConnectCommand(request, context);
+                    break;
+
+                case "B":
+                    result = new DisconnectCommand(request, context);
+                    break;
+
+                case "C":
+                    result = new ReadRecordCommand(request, context);
+                    break;
+
+                case "D":
+                    result = new WriteRecordCommand(request, context);
+                    break;
+
+                case "K":
+                    result = new SearchCommand(request, context);
+                    break;
+
+                case "L":
+                    result = new ReadFileCommand(request, context);
+                    break;
+
+                default:
+                    throw new IrbisException();
+            }
+
+            return result;
         }
 
         #endregion

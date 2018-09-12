@@ -50,6 +50,12 @@ namespace ManagedIrbis.Server.Commands
         public abstract string CommandCode { get; }
 
         /// <summary>
+        /// Client request.
+        /// </summary>
+        [NotNull]
+        public ClientRequest Request { get; set; }
+
+        /// <summary>
         /// Context.
         /// </summary>
         public ServerContext Context { get; set; }
@@ -63,11 +69,14 @@ namespace ManagedIrbis.Server.Commands
         /// </summary>
         protected ServerCommand
             (
+                [NotNull] ClientRequest request,
                 [NotNull] ServerContext context
             )
         {
+            Code.NotNull(request, "request");
             Code.NotNull(context, "context");
 
+            Request = request;
             Context = context;
         }
 

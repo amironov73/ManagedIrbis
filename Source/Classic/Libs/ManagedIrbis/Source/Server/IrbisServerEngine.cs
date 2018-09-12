@@ -29,7 +29,10 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Menus;
 using ManagedIrbis.Server.Commands;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -51,6 +54,12 @@ namespace ManagedIrbis.Server
         /// </summary>
         [NotNull]
         public NonNullCollection<ServerContext> Contexts { get; private set; }
+
+        /// <summary>
+        /// MNU file with standard _server_ INI file names.
+        /// </summary>
+        [NotNull]
+        public MenuFile ClientIni { get; private set; }
 
         /// <summary>
         /// System data directory path.
@@ -89,6 +98,13 @@ namespace ManagedIrbis.Server
         public ManualResetEvent StopSignal { get; private set; }
 
         /// <summary>
+        /// Known users.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public UserInfo[] Users { get; private set; }
+
+        /// <summary>
         /// Workers.
         /// </summary>
         [NotNull]
@@ -111,21 +127,48 @@ namespace ManagedIrbis.Server
             (
                 [NotNull] ServerIniFile iniFile
             )
+            : this(iniFile, null)
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public IrbisServerEngine
+            (
+                [NotNull] ServerIniFile iniFile,
+                [CanBeNull] string rootPathOverride
+            )
         {
             Log.Trace("IrbisServerEngine::Constructor enter");
 
             Code.NotNull(iniFile, "iniFile");
 
             IniFile = iniFile;
-            SystemPath = IniFile.SystemPath.ThrowIfNull("SystemPath");
+            SystemPath = rootPathOverride
+                         ?? IniFile.SystemPath.ThrowIfNull("SystemPath");
             Log.Trace("SysPath=" + SystemPath);
             _VerifyDirReadable(SystemPath);
-            DataPath = IniFile.DataPath.ThrowIfNull("DataPath");
+            DataPath = ReferenceEquals(rootPathOverride, null)
+                ? IniFile.DataPath.ThrowIfNull("DataPath")
+                : Path.Combine(rootPathOverride, "Datai");
             Log.Trace("DataPath=" + DataPath);
             _VerifyDirReadable(DataPath);
-            WorkDir = IniFile.WorkDir.ThrowIfNull("WorkDir");
+            WorkDir = ReferenceEquals(rootPathOverride, null)
+                ? IniFile.WorkDir.ThrowIfNull("WorkDir")
+                : Path.Combine(rootPathOverride, "workdir");
+            if (!Directory.Exists(WorkDir))
+            {
+                Directory.CreateDirectory(WorkDir);
+            }
             _VerifyDirReadable(WorkDir);
             _VerifyDirWriteable(WorkDir);
+
+            string fileName = Path.Combine(SystemPath, "client_ini.mnu");
+            ClientIni = MenuFile.ParseLocalFile(fileName, IrbisEncoding.Ansi);
+            string clientList = IniFile.ClientList ?? "client_m.mnu";
+            clientList = Path.Combine(DataPath, clientList);
+            Users = UserInfo.ParseFile(clientList, ClientIni);
 
             StopSignal = new ManualResetEvent(false);
 

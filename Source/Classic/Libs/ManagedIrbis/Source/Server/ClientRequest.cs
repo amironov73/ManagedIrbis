@@ -41,18 +41,68 @@ namespace ManagedIrbis.Server
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class ClientRequest
+    public class ClientRequest
     {
         #region Properties
+
+        /// <summary>
+        /// Общая длина запроса в байтах.
+        /// </summary>
+        public int RequestLength { get; set; }
+
+        /// <summary>
+        /// Код команды (первая копия).
+        /// </summary>
+        public string CommandCode1 { get; set; }
+
+        /// <summary>
+        /// Код АРМ.
+        /// </summary>
+        public string Workstation { get; set; }
+
+        /// <summary>
+        /// Код команды (вторая копия).
+        /// </summary>
+        public string CommandCode2 { get; set; }
+
+        /// <summary>
+        /// Идентификатор клиента.
+        /// </summary>
+        public string ClientId { get; set; }
+
+        /// <summary>
+        /// Номер команды.
+        /// </summary>
+        public string CommandNumber { get; set; }
+
+        /// <summary>
+        /// Пароль.
+        /// </summary>
+        public string Password { get; set; }
+
+        /// <summary>
+        /// Логин.
+        /// </summary>
+        public string Login { get; set; }
 
         #endregion
 
         #region Construction
 
         /// <summary>
-        /// Constructor.
+        /// Constructor for mocking.
         /// </summary>
         public ClientRequest()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public ClientRequest
+            (
+                [NotNull] TcpClient connection
+            )
         {
         }
 

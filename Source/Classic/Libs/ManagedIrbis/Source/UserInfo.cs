@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -19,13 +20,13 @@ using System.Xml.Serialization;
 using AM;
 using AM.IO;
 using AM.Runtime;
-
+using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis.Infrastructure;
-
+using ManagedIrbis.Menus;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -133,6 +134,86 @@ namespace ManagedIrbis
 
         #region Private members
 
+        private static void _DecodePair
+            (
+                [NotNull] UserInfo user,
+                [NotNull] MenuFile clientIni,
+                char code,
+                [CanBeNull] string value
+            )
+        {
+            if (ReferenceEquals(value, null))
+            {
+                value = GetStandardIni(clientIni, code);
+            }
+
+            value = value.EmptyToNull();
+
+            switch (code)
+            {
+                case 'C':
+                    user.Cataloger = value;
+                    break;
+
+                case 'R':
+                    user.Reader = value;
+                    break;
+
+                case 'B':
+                    user.Circulation = value;
+                    break;
+
+                case 'M':
+                    user.Acquisitions = value;
+                    break;
+
+                case 'K':
+                    user.Provision = value;
+                    break;
+
+                case 'A':
+                    user.Administrator = value;
+                    break;
+
+                //default:
+                //    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private static void _DecodeLine
+            (
+                [NotNull] UserInfo user,
+                [NotNull] MenuFile clientIni,
+                [NotNull] string line
+            )
+        {
+            string[] pairs = line.Split(CommonSeparators.Semicolon);
+            Dictionary<char, string> dictionary = new Dictionary<char, string>();
+            foreach (string pair in pairs)
+            {
+                string[] parts = StringUtility.SplitString
+                    (
+                        pair,
+                        CommonSeparators.EqualSign,
+                        2
+                    );
+                if (parts.Length != 2 || parts[0].Length != 0)
+                {
+                    continue;
+                }
+
+                dictionary[char.ToUpper(parts[0][0])] = parts[1];
+            }
+
+            char[] codes = { 'C', 'R', 'B', 'M', 'K', 'A' };
+            foreach (char code in codes)
+            {
+                string value;
+                dictionary.TryGetValue(code, out value);
+                _DecodePair(user, clientIni, code, value);
+            }
+        }
+
         [NotNull]
         private string _FormatPair
             (
@@ -176,6 +257,55 @@ namespace ManagedIrbis
                     _FormatPair("K", Provision, "irbisk.ini"),
                     _FormatPair("A", Administrator, "irbisa.ini")
                 );
+        }
+
+        /// <summary>
+        /// Get standard INI-file name from client_ini.mnu
+        /// for the workstation code.
+        /// </summary>
+        [NotNull]
+        public static string GetStandardIni
+            (
+                [NotNull] MenuFile clientIni,
+                char workstation
+            )
+        {
+            Code.NotNull(clientIni, "clientIni");
+
+            var entries = clientIni.Entries;
+            MenuEntry result;
+            IrbisWorkstation code = (IrbisWorkstation)char.ToUpper(workstation);
+            switch (code)
+            {
+                case IrbisWorkstation.Cataloger:
+                    result = entries.GetItem(0);
+                    break;
+
+                case IrbisWorkstation.Reader:
+                    result = entries.GetItem(1);
+                    break;
+
+                case IrbisWorkstation.Circulation:
+                    result = entries.GetItem(2);
+                    break;
+
+                case IrbisWorkstation.Acquisitions:
+                    result = entries.GetItem(3);
+                    break;
+
+                case IrbisWorkstation.Provision:
+                    result = entries.GetItem(4);
+                    break;
+
+                case IrbisWorkstation.Administrator:
+                    result = entries.GetItem(5);
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return result.ThrowIfNull().Code.ThrowIfNull();
         }
 
         /// <summary>
@@ -239,6 +369,51 @@ namespace ManagedIrbis
                     user.Administrator = lines[8].EmptyToNull();
                 }
                 result.Add(user);
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Parse the MNU-file.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static UserInfo[] ParseFile
+            (
+                [NotNull] string fileName,
+                [NotNull] MenuFile clientIni
+            )
+        {
+            Code.FileExists(fileName, "fileName");
+
+            List<UserInfo> result = new List<UserInfo>();
+            using (StreamReader reader = new StreamReader(fileName, IrbisEncoding.Ansi))
+            {
+                while (true)
+                {
+                    string line1 = reader.ReadLine();
+                    if (ReferenceEquals(line1, null) || line1.SafeStarts("***"))
+                    {
+                        break;
+                    }
+
+                    string line2 = reader.ReadLine(), line3 = reader.ReadLine();
+                    if (ReferenceEquals(line2, null) || ReferenceEquals(line3, null))
+                    {
+                        break;
+                    }
+
+                    // TODO handle encrypted passwords
+
+                    UserInfo user = new UserInfo
+                    {
+                        Name = line1,
+                        Password = line2
+                    };
+                    _DecodeLine(user, clientIni, line3);
+                    result.Add(user);
+                }
             }
 
             return result.ToArray();

@@ -60,9 +60,10 @@ namespace ManagedIrbis.Server.Commands
         /// </summary>
         public DisconnectCommand
             (
+                [NotNull] ClientRequest request,
                 [NotNull] ServerContext context
             )
-            : base(context)
+            : base(request, context)
         {
         }
 

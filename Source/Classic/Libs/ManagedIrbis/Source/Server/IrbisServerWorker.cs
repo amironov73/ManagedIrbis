@@ -59,6 +59,11 @@ namespace ManagedIrbis.Server
         public IrbisServerSocket Socket { get; private set; }
 
         /// <summary>
+        /// Client request.
+        /// </summary>
+        public ClientRequest Request { get; private set; }
+
+        /// <summary>
         /// Task.
         /// </summary>
         [NotNull]
@@ -99,7 +104,9 @@ namespace ManagedIrbis.Server
         /// </summary>
         public void DoWork()
         {
+            Request = new ClientRequest(Socket.Client);
 
+            // TODO dispose the Socket
         }
 
         #endregion
