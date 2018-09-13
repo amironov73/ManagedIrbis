@@ -15,7 +15,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-
+using System.Windows.Threading;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -33,7 +33,28 @@ namespace AM.Windows
     [MoonSharpUserData]
     public static class WpfUtility
     {
+        #region Private members
+
+        private static void _DoNothing()
+        {
+            // Nothing to do here
+        }
+
+        #endregion
+
         #region Public methods
+
+        /// <summary>
+        /// Analog for WinForms Apllication.DoEvents.
+        /// </summary>
+        public static void DoEvents()
+        {
+            Application.Current.Dispatcher.Invoke
+                (
+                    DispatcherPriority.Background,
+                    new Action(_DoNothing)
+                );
+        }
 
         /// <summary>
         /// List of (recursive) children of the given type.

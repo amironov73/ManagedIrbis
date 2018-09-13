@@ -71,6 +71,7 @@
     <Compile Include="..\..\Common\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AM\Threading\WpfEventLoop.cs" />
     <Compile Include="AM\Windows\Irbis\DictionaryForm.xaml.cs">
       <DependentUpon>DictionaryForm.xaml</DependentUpon>
     </Compile>

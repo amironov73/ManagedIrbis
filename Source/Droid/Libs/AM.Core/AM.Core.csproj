@@ -662,6 +662,12 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Threading\BusyState.cs">
       <Link>AM\Threading\BusyState.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Threading\EventLoop.cs">
+      <Link>AM\Threading\EventLoop.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Threading\EventLoopCallback.cs">
+      <Link>AM\Threading\EventLoopCallback.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Threading\ScopedLock.cs">
       <Link>AM\Threading\ScopedLock.cs</Link>
     </Compile>

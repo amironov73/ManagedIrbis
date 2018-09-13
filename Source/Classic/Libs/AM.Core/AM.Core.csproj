@@ -271,6 +271,8 @@
     <Compile Include="AM\Text\UnicodeRange.cs" />
     <Compile Include="AM\Threading\BusyGuard.cs" />
     <Compile Include="AM\Threading\BusyState.cs" />
+    <Compile Include="AM\Threading\EventLoop.cs" />
+    <Compile Include="AM\Threading\EventLoopCallback.cs" />
     <Compile Include="AM\Threading\ScopedLock.cs" />
     <Compile Include="AM\Threading\ScopedLockFactory.cs" />
     <Compile Include="AM\Threading\StateGuard.cs" />

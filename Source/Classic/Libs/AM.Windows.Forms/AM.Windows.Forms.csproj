@@ -67,6 +67,7 @@
   </ItemGroup>
   <!-- BEGIN -->
   <ItemGroup>
+    <Compile Include="AM\Threading\WinFormsEventLoop.cs" />
     <Compile Include="AM\Windows\Forms\ApplicationUtility.cs" />
     <Compile Include="AM\Windows\Forms\AttachmentBox.cs">
       <SubType>Form</SubType>
