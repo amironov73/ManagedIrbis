@@ -388,7 +388,8 @@ namespace ManagedIrbis
             Code.FileExists(fileName, "fileName");
 
             List<UserInfo> result = new List<UserInfo>();
-            using (StreamReader reader = new StreamReader(fileName, IrbisEncoding.Ansi))
+            using (StreamReader reader
+                = TextReaderUtility.OpenRead(fileName, IrbisEncoding.Ansi))
             {
                 while (true)
                 {

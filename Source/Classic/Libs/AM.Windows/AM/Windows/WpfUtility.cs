@@ -47,6 +47,9 @@ namespace AM.Windows
         /// <summary>
         /// Analog for WinForms Apllication.DoEvents.
         /// </summary>
+        /// <remarks>
+        /// Borrowed from https://stackoverflow.com/questions/4502037/where-is-the-application-doevents-in-wpf
+        /// </remarks>
         public static void DoEvents()
         {
             Application.Current.Dispatcher.Invoke
