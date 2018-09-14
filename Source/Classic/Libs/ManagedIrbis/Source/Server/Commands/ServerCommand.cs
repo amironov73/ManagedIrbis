@@ -56,6 +56,12 @@ namespace ManagedIrbis.Server.Commands
         public ClientRequest Request { get; set; }
 
         /// <summary>
+        /// Server response.
+        /// </summary>
+        [NotNull]
+        public ServerResponse Response { get; set; }
+
+        /// <summary>
         /// Context.
         /// </summary>
         public ServerContext Context { get; set; }
@@ -70,14 +76,17 @@ namespace ManagedIrbis.Server.Commands
         protected ServerCommand
             (
                 [NotNull] ClientRequest request,
-                [NotNull] ServerContext context
+                [NotNull] ServerContext context,
+                [NotNull] ServerResponse response
             )
         {
             Code.NotNull(request, "request");
             Code.NotNull(context, "context");
+            Code.NotNull(response, "response");
 
             Request = request;
             Context = context;
+            Response = response;
         }
 
         #endregion

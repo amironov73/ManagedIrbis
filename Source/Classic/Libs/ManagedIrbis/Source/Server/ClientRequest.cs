@@ -85,6 +85,12 @@ namespace ManagedIrbis.Server
         /// </summary>
         public string Login { get; set; }
 
+        /// <summary>
+        /// Пакет с клиентским запросом.
+        /// </summary>
+        [NotNull]
+        public MemoryStream Memory { get; private set; }
+
         #endregion
 
         #region Construction
@@ -94,6 +100,8 @@ namespace ManagedIrbis.Server
         /// </summary>
         public ClientRequest()
         {
+            // To make Resharper happy
+            Memory = new MemoryStream();
         }
 
         /// <summary>
@@ -104,6 +112,32 @@ namespace ManagedIrbis.Server
                 [NotNull] TcpClient connection
             )
         {
+            Code.NotNull(connection, "connection");
+
+            Memory = new MemoryStream();
+            NetworkStream stream = connection.GetStream();
+            while (true)
+            {
+                byte[] buffer = new byte[50 * 1024];
+                int read = stream.Read(buffer, 0, buffer.Length);
+                if (read <= 0)
+                {
+                    break;
+                }
+                Memory.Write(buffer, 0, read);
+            }
+
+            RequestLength = GetInt32();
+            CommandCode1 = RequireAnsiString();
+            Workstation = RequireAnsiString();
+            CommandCode2 = RequireAnsiString();
+            ClientId = RequireAnsiString();
+            CommandNumber = RequireAnsiString();
+            Password = GetAnsiString();
+            Login = GetAnsiString();
+            GetAnsiString();
+            GetAnsiString();
+            GetAnsiString();
         }
 
         #endregion
@@ -111,12 +145,34 @@ namespace ManagedIrbis.Server
         #region Public methods
 
         /// <summary>
+        /// Get string without encoding.
+        /// </summary>
+        [NotNull]
+        public byte[] GetString()
+        {
+            MemoryStream result = new MemoryStream();
+
+            while (true)
+            {
+                int next = Memory.ReadByte();
+                if (next < 0 || next == 0x0A)
+                {
+                    break;
+                }
+                result.WriteByte((byte)next);
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
         ///
         /// </summary>
         [CanBeNull]
         public string GetAnsiString()
         {
-            throw new NotImplementedException();
+            byte[] bytes = GetString();
+            return IrbisEncoding.Ansi.GetString(bytes);
         }
 
         /// <summary>
@@ -125,7 +181,13 @@ namespace ManagedIrbis.Server
         [NotNull]
         public string RequireAnsiString()
         {
-            throw new NotImplementedException();
+            string result = GetAnsiString();
+            if (string.IsNullOrEmpty(result))
+            {
+                throw new IrbisException();
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -134,7 +196,8 @@ namespace ManagedIrbis.Server
         [CanBeNull]
         public string GetUtfString()
         {
-            throw new NotImplementedException();
+            byte[] bytes = GetString();
+            return IrbisEncoding.Utf8.GetString(bytes);
         }
 
         /// <summary>
@@ -143,7 +206,24 @@ namespace ManagedIrbis.Server
         [NotNull]
         public string RequireUtfString()
         {
-            throw new NotImplementedException();
+            string result = GetUtfString();
+            if (string.IsNullOrEmpty(result))
+            {
+                throw new IrbisException();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public int GetInt32()
+        {
+            byte[] line = GetString();
+            int result = FastNumber.ParseInt32(line, 0, line.Length);
+
+            return result;
         }
 
         #endregion

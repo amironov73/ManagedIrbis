@@ -2703,6 +2703,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\IrbisServerEngine.cs">
       <Link>Source\Server\IrbisServerEngine.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerResponse.cs">
+      <Link>Source\Server\ServerResponse.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerUtility.cs">
       <Link>Source\Server\ServerUtility.cs</Link>
     </Compile>

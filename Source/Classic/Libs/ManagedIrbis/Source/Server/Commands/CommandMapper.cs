@@ -79,11 +79,13 @@ namespace ManagedIrbis.Server.Commands
         public virtual ServerCommand MapCommand
             (
                 [NotNull] ClientRequest request,
-                [NotNull] ServerContext context
+                [NotNull] ServerContext context,
+                [NotNull] ServerResponse response
             )
         {
             Code.NotNull(request, "request");
             Code.NotNull(context, "context");
+            Code.NotNull(response, "response");
 
             ServerCommand result;
 
@@ -98,27 +100,27 @@ namespace ManagedIrbis.Server.Commands
             switch (commandCode)
             {
                 case "A":
-                    result = new ConnectCommand(request, context);
+                    result = new ConnectCommand(request, context, response);
                     break;
 
                 case "B":
-                    result = new DisconnectCommand(request, context);
+                    result = new DisconnectCommand(request, context, response);
                     break;
 
                 case "C":
-                    result = new ReadRecordCommand(request, context);
+                    result = new ReadRecordCommand(request, context, response);
                     break;
 
                 case "D":
-                    result = new WriteRecordCommand(request, context);
+                    result = new WriteRecordCommand(request, context, response);
                     break;
 
                 case "K":
-                    result = new SearchCommand(request, context);
+                    result = new SearchCommand(request, context, response);
                     break;
 
                 case "L":
-                    result = new ReadFileCommand(request, context);
+                    result = new ReadFileCommand(request, context, response);
                     break;
 
                 default:

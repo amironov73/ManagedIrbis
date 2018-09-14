@@ -13,7 +13,6 @@ using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Client;
-using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
 using ManagedIrbis.Search;
 using ManagedIrbis.Server;
@@ -35,7 +34,8 @@ namespace UnitTests.ManagedIrbis.Server.Commands
             Mock<ClientRequest> mock = new Mock<ClientRequest>();
             ClientRequest request = mock.Object;
             ServerContext context = _GetContext();
-            ConnectCommand command = new ConnectCommand(request, context);
+            ServerResponse response = new ServerResponse();
+            ConnectCommand command = new ConnectCommand(request, context, response);
             Assert.AreSame(context, command.Context);
         }
     }

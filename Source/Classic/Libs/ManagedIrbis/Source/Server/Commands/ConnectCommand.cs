@@ -60,9 +60,10 @@ namespace ManagedIrbis.Server.Commands
         public ConnectCommand
             (
                 [NotNull] ClientRequest request,
-                [NotNull] ServerContext context
+                [NotNull] ServerContext context,
+                [NotNull] ServerResponse response
             )
-            : base(request, context)
+            : base(request, context, response)
         {
         }
 

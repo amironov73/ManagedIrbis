@@ -950,6 +950,7 @@
     <Compile Include="Source\Server\ServerContext.cs" />
     <Compile Include="Source\Server\ServerIniFile.cs" />
     <Compile Include="Source\Server\IrbisServerEngine.cs" />
+    <Compile Include="Source\Server\ServerResponse.cs" />
     <Compile Include="Source\Server\ServerUtility.cs" />
     <Compile Include="Source\StatDefinition.cs" />
     <Compile Include="Source\Statistics\IrbisPing.cs" />
