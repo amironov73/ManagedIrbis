@@ -31,12 +31,9 @@ namespace UnitTests.ManagedIrbis.Server.Commands
         [TestMethod]
         public void DisconnectCommand_Construction_1()
         {
-            Mock<ClientRequest> mock = new Mock<ClientRequest>();
-            ClientRequest request = mock.Object;
-            ServerContext context = _GetContext();
-            ServerResponse response = new ServerResponse();
-            DisconnectCommand command = new DisconnectCommand(request, context, response);
-            Assert.AreSame(context, command.Context);
+            WorkData data = new WorkData();
+            DisconnectCommand command = new DisconnectCommand(data);
+            Assert.AreSame(data, command.Data);
         }
     }
 }

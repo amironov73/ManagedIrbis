@@ -31,12 +31,9 @@ namespace UnitTests.ManagedIrbis.Server.Commands
         [TestMethod]
         public void SearchCommand_Construction_1()
         {
-            Mock<ClientRequest> mock = new Mock<ClientRequest>();
-            ClientRequest request = mock.Object;
-            ServerContext context = _GetContext();
-            ServerResponse response = new ServerResponse();
-            SearchCommand command = new SearchCommand(request, context, response);
-            Assert.AreSame(context, command.Context);
+            WorkData data = new WorkData();
+            SearchCommand command = new SearchCommand(data);
+            Assert.AreSame(data, command.Data);
         }
     }
 }

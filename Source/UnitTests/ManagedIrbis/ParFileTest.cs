@@ -130,10 +130,10 @@ namespace UnitTests.ManagedIrbis
                 + "10=IBIS" + Environment.NewLine;
 
             TextReader reader = new StringReader(text);
-            Dictionary<string, string> dictionary
+            Dictionary<int, string> dictionary
                 = ParFile.ReadDictionary(reader);
             Assert.AreEqual(10, dictionary.Count);
-            Assert.AreEqual("IBIS", dictionary["1"]);
+            Assert.AreEqual("IBIS", dictionary[1]);
         }
 
         [TestMethod]
@@ -153,10 +153,10 @@ namespace UnitTests.ManagedIrbis
                 + "10=IBIS" + Environment.NewLine;
 
             TextReader reader = new StringReader(text);
-            Dictionary<string, string> dictionary
+            Dictionary<int, string> dictionary
                 = ParFile.ReadDictionary(reader);
             Assert.AreEqual(10, dictionary.Count);
-            Assert.AreEqual("IBIS", dictionary["1"]);
+            Assert.AreEqual("IBIS", dictionary[1]);
         }
 
         [TestMethod]
@@ -176,10 +176,10 @@ namespace UnitTests.ManagedIrbis
                 + "10=IBIS" + Environment.NewLine;
 
             TextReader reader = new StringReader(text);
-            Dictionary<string, string> dictionary
+            Dictionary<int, string> dictionary
                 = ParFile.ReadDictionary(reader);
             Assert.AreEqual(10, dictionary.Count);
-            Assert.AreEqual("IBIS", dictionary["1"]);
+            Assert.AreEqual("IBIS", dictionary[1]);
         }
 
         [TestMethod]
@@ -199,10 +199,10 @@ namespace UnitTests.ManagedIrbis
                 + "10=IBIS" + Environment.NewLine;
 
             TextReader reader = new StringReader(text);
-            Dictionary<string, string> dictionary
+            Dictionary<int, string> dictionary
                 = ParFile.ReadDictionary(reader);
             Assert.AreEqual(10, dictionary.Count);
-            Assert.AreEqual("IBIS", dictionary["1"]);
+            Assert.AreEqual("IBIS", dictionary[1]);
         }
 
         [TestMethod]
@@ -221,10 +221,10 @@ namespace UnitTests.ManagedIrbis
                 + "10=IBIS" + Environment.NewLine;
 
             TextReader reader = new StringReader(text);
-            Dictionary<string, string> dictionary
+            Dictionary<int, string> dictionary
                 = ParFile.ReadDictionary(reader);
             Assert.AreEqual(10, dictionary.Count);
-            Assert.AreEqual("IBIS", dictionary["1"]);
+            Assert.AreEqual("IBIS", dictionary[1]);
         }
 
         [TestMethod]
@@ -259,10 +259,10 @@ namespace UnitTests.ManagedIrbis
         public void ParFile_ToDictionary_1()
         {
             ParFile parFile = _GetParFile();
-            Dictionary<string, string> dictionary
+            Dictionary<int, string> dictionary
                 = parFile.ToDictionary();
             Assert.AreEqual(11, dictionary.Count);
-            Assert.AreEqual(".\\datai\\ibis\\", dictionary["1"]);
+            Assert.AreEqual(".\\datai\\ibis\\", dictionary[1]);
         }
 
         [TestMethod]

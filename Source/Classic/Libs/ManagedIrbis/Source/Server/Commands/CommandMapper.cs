@@ -78,16 +78,13 @@ namespace ManagedIrbis.Server.Commands
         [NotNull]
         public virtual ServerCommand MapCommand
             (
-                [NotNull] ClientRequest request,
-                [NotNull] ServerContext context,
-                [NotNull] ServerResponse response
+                [NotNull] WorkData data
             )
         {
-            Code.NotNull(request, "request");
-            Code.NotNull(context, "context");
-            Code.NotNull(response, "response");
+            Code.NotNull(data, "data");
 
             ServerCommand result;
+            ClientRequest request = data.Request;
 
             if (ReferenceEquals(request.CommandCode1, null)
                 || request.CommandCode1 != request.CommandCode2)
@@ -100,27 +97,27 @@ namespace ManagedIrbis.Server.Commands
             switch (commandCode)
             {
                 case "A":
-                    result = new ConnectCommand(request, context, response);
+                    result = new ConnectCommand(data);
                     break;
 
                 case "B":
-                    result = new DisconnectCommand(request, context, response);
+                    result = new DisconnectCommand(data);
                     break;
 
                 case "C":
-                    result = new ReadRecordCommand(request, context, response);
+                    result = new ReadRecordCommand(data);
                     break;
 
                 case "D":
-                    result = new WriteRecordCommand(request, context, response);
+                    result = new WriteRecordCommand(data);
                     break;
 
                 case "K":
-                    result = new SearchCommand(request, context, response);
+                    result = new SearchCommand(data);
                     break;
 
                 case "L":
-                    result = new ReadFileCommand(request, context, response);
+                    result = new ReadFileCommand(data);
                     break;
 
                 default:

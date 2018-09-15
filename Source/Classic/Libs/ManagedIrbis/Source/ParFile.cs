@@ -12,13 +12,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Xml.Serialization;
 
 using AM;
 using AM.IO;
 using AM.Logging;
 using AM.Runtime;
+using AM.Text;
 
 using CodeJam;
 
@@ -234,17 +234,13 @@ namespace ManagedIrbis
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
         /// Разбор PAR-файла на строчки вида 1=.\datai\ibis.
         /// </summary>
         [NotNull]
-        public static Dictionary<string, string> ReadDictionary
+        public static Dictionary<int, string> ReadDictionary
             (
                 [NotNull] TextReader reader
             )
@@ -252,9 +248,7 @@ namespace ManagedIrbis
             Code.NotNull(reader, "reader");
 
             string line;
-            char[] separator = { '=' };
-            Dictionary<string, string> result
-                = new Dictionary<string, string>(11);
+            Dictionary<int, string> result = new Dictionary<int, string>(11);
             while ((line = reader.ReadLine()) != null)
             {
                 line = line.Trim();
@@ -263,17 +257,13 @@ namespace ManagedIrbis
                     continue;
                 }
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
-                string[] parts = line.Split(separator, 2);
-
-#else
-
-                // TODO Implement properly
-
-                string[] parts = line.Split(separator);
-
-#endif
+                string[] parts = StringUtility.SplitString
+                    (
+                        line,
+                        CommonSeparators.EqualSign,
+                        2
+                    );
 
                 if (parts.Length != 2)
                 {
@@ -285,36 +275,10 @@ namespace ManagedIrbis
 
                     throw new FormatException();
                 }
-                string key = parts[0].Trim();
+
+                int key = FastNumber.ParseInt32(parts[0].Trim());
                 string value = parts[1].Trim();
-                if (string.IsNullOrEmpty(key)
-                    || string.IsNullOrEmpty(value))
-                {
-                    Log.Error
-                        (
-                            "ParFile::ReadDictionary: "
-                            + "format error"
-                        );
-
-                    throw new FormatException();
-                }
                 result.Add(key, value);
-            }
-
-            foreach (string key in Enumerable.Range(1, 10)
-                .Select(n => NumericUtility.ToInvariantString(n)))
-            {
-                if (!result.ContainsKey(key))
-                {
-                    Log.Error
-                        (
-                            "ParFile::ReadDictionary: "
-                            + "key not found: "
-                            + key.ToVisibleString()
-                        );
-
-                    throw new FormatException();
-                }
             }
 
             return result;
@@ -352,25 +316,24 @@ namespace ManagedIrbis
         {
             Code.NotNull(reader, "reader");
 
-            Dictionary<string, string> dictionary
-                = ReadDictionary(reader);
+            Dictionary<int, string> dictionary = ReadDictionary(reader);
 
             ParFile result = new ParFile
             {
-                XrfPath = dictionary["1"],
-                MstPath = dictionary["2"],
-                CntPath = dictionary["3"],
-                N01Path = dictionary["4"],
-                N02Path = dictionary["5"],
-                L01Path = dictionary["6"],
-                L02Path = dictionary["7"],
-                IfpPath = dictionary["8"],
-                AnyPath = dictionary["9"],
-                PftPath = dictionary["10"]
+                XrfPath = dictionary[1],
+                MstPath = dictionary[2],
+                CntPath = dictionary[3],
+                N01Path = dictionary[4],
+                N02Path = dictionary[5],
+                L01Path = dictionary[6],
+                L02Path = dictionary[7],
+                IfpPath = dictionary[8],
+                AnyPath = dictionary[9],
+                PftPath = dictionary[10]
             };
-            if (dictionary.ContainsKey("11"))
+            if (dictionary.ContainsKey(11))
             {
-                result.ExtPath = dictionary["11"];
+                result.ExtPath = dictionary[11];
             }
 
             return result;
@@ -380,23 +343,25 @@ namespace ManagedIrbis
         /// Преобразование в словарь.
         /// </summary>
         [NotNull]
-        public Dictionary<string, string> ToDictionary()
+        public Dictionary<int, string> ToDictionary()
         {
-            Dictionary<string, string> result
-                = new Dictionary<string, string>(11)
+            Dictionary<int, string> result = new Dictionary<int, string>(11)
                 {
-                    {"1", XrfPath},
-                    {"2", MstPath},
-                    {"3", CntPath},
-                    {"4", N01Path},
-                    {"5", N02Path},
-                    {"6", L01Path},
-                    {"7", L02Path},
-                    {"8", IfpPath},
-                    {"9", AnyPath},
-                    {"10", PftPath},
-                    {"11", ExtPath}
+                    {1, XrfPath},
+                    {2, MstPath},
+                    {3, CntPath},
+                    {4, N01Path},
+                    {5, N02Path},
+                    {6, L01Path},
+                    {7, L02Path},
+                    {8, IfpPath},
+                    {9, AnyPath},
+                    {10, PftPath}
                 };
+            if (!string.IsNullOrEmpty(ExtPath))
+            {
+                result.Add(11, ExtPath);
+            }
 
             return result;
         }

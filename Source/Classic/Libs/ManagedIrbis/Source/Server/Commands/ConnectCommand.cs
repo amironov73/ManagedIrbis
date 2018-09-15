@@ -44,12 +44,6 @@ namespace ManagedIrbis.Server.Commands
     {
         #region Properties
 
-        /// <inheritdoc cref="ServerCommand.CommandCode" />
-        public override string CommandCode
-        {
-            get { return "A"; }
-        }
-
         #endregion
 
         #region Construction
@@ -59,11 +53,9 @@ namespace ManagedIrbis.Server.Commands
         /// </summary>
         public ConnectCommand
             (
-                [NotNull] ClientRequest request,
-                [NotNull] ServerContext context,
-                [NotNull] ServerResponse response
+                [NotNull] WorkData data
             )
-            : base(request, context, response)
+            : base(data)
         {
         }
 

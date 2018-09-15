@@ -2678,8 +2678,8 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\IrbisServerSocket.cs">
       <Link>Source\Server\IrbisServerSocket.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\IrbisServerWorker.cs">
-      <Link>Source\Server\IrbisServerWorker.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerWorker.cs">
+      <Link>Source\Server\ServerWorker.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerConfiguration.cs">
       <Link>Source\Server\ServerConfiguration.cs</Link>
@@ -2698,6 +2698,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerUtility.cs">
       <Link>Source\Server\ServerUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\WorkData.cs">
+      <Link>Source\Server\WorkData.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\StatDefinition.cs">
       <Link>Source\StatDefinition.cs</Link>

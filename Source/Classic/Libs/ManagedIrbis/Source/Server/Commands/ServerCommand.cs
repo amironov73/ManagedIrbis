@@ -44,27 +44,10 @@ namespace ManagedIrbis.Server.Commands
         #region Properties
 
         /// <summary>
-        /// Код команды.
+        /// Data.
         /// </summary>
         [NotNull]
-        public abstract string CommandCode { get; }
-
-        /// <summary>
-        /// Client request.
-        /// </summary>
-        [NotNull]
-        public ClientRequest Request { get; set; }
-
-        /// <summary>
-        /// Server response.
-        /// </summary>
-        [NotNull]
-        public ServerResponse Response { get; set; }
-
-        /// <summary>
-        /// Context.
-        /// </summary>
-        public ServerContext Context { get; set; }
+        public WorkData Data { get; private set; }
 
         #endregion
 
@@ -75,18 +58,12 @@ namespace ManagedIrbis.Server.Commands
         /// </summary>
         protected ServerCommand
             (
-                [NotNull] ClientRequest request,
-                [NotNull] ServerContext context,
-                [NotNull] ServerResponse response
+                [NotNull] WorkData data
             )
         {
-            Code.NotNull(request, "request");
-            Code.NotNull(context, "context");
-            Code.NotNull(response, "response");
+            Code.NotNull(data, "data");
 
-            Request = request;
-            Context = context;
-            Response = response;
+            Data = data;
         }
 
         #endregion

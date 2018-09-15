@@ -837,7 +837,7 @@
     <Compile Include="ManagedIrbis\Server\Commands\SearchCommandTest.cs" />
     <Compile Include="ManagedIrbis\Server\Commands\WriteRecordCommandTest.cs" />
     <Compile Include="ManagedIrbis\Server\IrbisServerEngineTest.cs" />
-    <Compile Include="ManagedIrbis\Server\IrbisServerWorkerTest.cs" />
+    <Compile Include="ManagedIrbis\Server\ServerWorkerTest.cs" />
     <Compile Include="ManagedIrbis\Server\ServerConfigurationTest.cs" />
     <Compile Include="ManagedIrbis\Server\ServerContextTest.cs" />
     <Compile Include="ManagedIrbis\Server\ServerIniFileTest.cs" />

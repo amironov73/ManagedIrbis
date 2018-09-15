@@ -109,11 +109,12 @@ namespace ManagedIrbis.Server
         /// </summary>
         public ClientRequest
             (
-                [NotNull] TcpClient connection
+                [NotNull] WorkData data
             )
         {
-            Code.NotNull(connection, "connection");
+            Code.NotNull(data, "data");
 
+            TcpClient connection = data.Socket.Client;
             Memory = new MemoryStream();
             NetworkStream stream = connection.GetStream();
             while (true)

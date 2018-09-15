@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IrbisServerWorker.cs --
+/* ServerWorker.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -37,37 +37,15 @@ namespace ManagedIrbis.Server
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class IrbisServerWorker
+    public class ServerWorker
     {
         #region Properties
 
         /// <summary>
-        /// Context.
-        /// </summary>
-        public ServerContext Context { get; set; }
-
-        /// <summary>
-        /// Server.
+        /// All the data.
         /// </summary>
         [NotNull]
-        public IrbisServerEngine Engine { get; private set; }
-
-        /// <summary>
-        /// Socket.
-        /// </summary>
-        [NotNull]
-        public IrbisServerSocket Socket { get; private set; }
-
-        /// <summary>
-        /// Client request.
-        /// </summary>
-        public ClientRequest Request { get; private set; }
-
-        /// <summary>
-        /// Task.
-        /// </summary>
-        [NotNull]
-        public Task Task { get; private set; }
+        public WorkData Data { get; private set; }
 
         #endregion
 
@@ -76,19 +54,15 @@ namespace ManagedIrbis.Server
         /// <summary>
         /// Constructor.
         /// </summary>
-        public IrbisServerWorker
+        public ServerWorker
             (
-                [NotNull] IrbisServerEngine engine,
-                [NotNull] IrbisServerSocket socket
+                [NotNull] WorkData data
             )
         {
-            Code.NotNull(engine, "engine");
-            Code.NotNull(socket, "socket");
+            Code.NotNull(data, "data");
 
-            Engine = engine;
-            Socket = socket;
-
-            Task = new Task(DoWork);
+            Data = data;
+            data.Task = new Task(DoWork);
         }
 
         #endregion
@@ -104,9 +78,20 @@ namespace ManagedIrbis.Server
         /// </summary>
         public void DoWork()
         {
-            Request = new ClientRequest(Socket.Client);
-
-            // TODO dispose the Socket
+            try
+            {
+                Data.Request = new ClientRequest(Data);
+                Data.Response = new ServerResponse(Data.Request);
+                Data.Command = Data.Engine.Mapper.MapCommand(Data);
+            }
+            finally
+            {
+                Data.Socket.Dispose();
+                lock (Data.Engine.SyncRoot)
+                {
+                    Data.Engine.Workers.Remove(this);
+                }
+            }
         }
 
         #endregion

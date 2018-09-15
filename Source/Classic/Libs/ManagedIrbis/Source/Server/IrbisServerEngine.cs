@@ -29,7 +29,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
 using ManagedIrbis.Server.Commands;
 
@@ -50,6 +50,12 @@ namespace ManagedIrbis.Server
         #region Properties
 
         /// <summary>
+        /// Object for synchronization.
+        /// </summary>
+        [NotNull]
+        public object SyncRoot { get; private set; }
+
+        /// <summary>
         /// Contexts.
         /// </summary>
         [NotNull]
@@ -66,6 +72,18 @@ namespace ManagedIrbis.Server
         /// </summary>
         [NotNull]
         public string DataPath { get; private set; }
+
+        /// <summary>
+        /// Path for Deposit directory.
+        /// </summary>
+        [NotNull]
+        public string DepositPath { get; private set; }
+
+        /// <summary>
+        /// Path for Deposit_USER directory.
+        /// </summary>
+        [NotNull]
+        public string DepositUserPath { get; private set; }
 
         /// <summary>
         /// Ini file.
@@ -108,7 +126,7 @@ namespace ManagedIrbis.Server
         /// Workers.
         /// </summary>
         [NotNull]
-        public NonNullCollection<IrbisServerWorker> Workers { get; private set; }
+        public NonNullCollection<ServerWorker> Workers { get; private set; }
 
         /// <summary>
         /// System work directory path.
@@ -144,6 +162,7 @@ namespace ManagedIrbis.Server
 
             Code.NotNull(iniFile, "iniFile");
 
+            SyncRoot = new object();
             IniFile = iniFile;
             SystemPath = rootPathOverride
                          ?? IniFile.SystemPath.ThrowIfNull("SystemPath");
@@ -154,6 +173,8 @@ namespace ManagedIrbis.Server
                 : Path.Combine(rootPathOverride, "Datai");
             Log.Trace("DataPath=" + DataPath);
             _VerifyDirReadable(DataPath);
+            DepositPath = Path.Combine(DataPath, "Deposit");
+            DepositUserPath = Path.Combine(DataPath, "Deposit_USER");
             WorkDir = ReferenceEquals(rootPathOverride, null)
                 ? IniFile.WorkDir.ThrowIfNull("WorkDir")
                 : Path.Combine(rootPathOverride, "workdir");
@@ -180,7 +201,7 @@ namespace ManagedIrbis.Server
             Listener = new TcpListener(endPoint);
 
             Contexts = new NonNullCollection<ServerContext>();
-            Workers = new NonNullCollection<IrbisServerWorker>();
+            Workers = new NonNullCollection<ServerWorker>();
             Mapper = new CommandMapper(this);
 
             Log.Trace("IrbisServerEngine::Constructor leave");
@@ -189,6 +210,17 @@ namespace ManagedIrbis.Server
         #endregion
 
         #region Private members
+
+        private string _GetDepositFile(string fileName)
+        {
+            string result = Path.GetFullPath(Path.Combine(DepositPath, fileName));
+            if (!File.Exists(result))
+            {
+                result = null;
+            }
+
+            return result;
+        }
 
         private void _VerifyDirReadable
             (
@@ -206,40 +238,45 @@ namespace ManagedIrbis.Server
             // TODO implement
         }
 
-#if DESKTOP
-
         private void _HandleClient
             (
+#if DESKTOP
                 IAsyncResult asyncResult
+#elif NETCORE || ANDROID || UAP
+                Task<TcpClient> task
+#endif
             )
         {
             Log.Trace("IrbisServerEngine::_HandleClient enter");
 
-            TcpListener listener = (TcpListener) asyncResult.AsyncState;
+#if DESKTOP
+
+            TcpListener listener = (TcpListener)asyncResult.AsyncState;
             TcpClient client = listener.EndAcceptTcpClient(asyncResult);
-            IrbisServerSocket socket = new IrbisServerSocket(client);
-            IrbisServerWorker worker = new IrbisServerWorker(this, socket);
-            Workers.Add(worker);
-            worker.Task.Start();
+
+#elif NETCORE || ANDROID || UAP
+
+            TcpClient client = task.Result;
+
+#endif
+            WorkData data = new WorkData
+            {
+                Engine = this,
+                Socket = new IrbisServerSocket(client),
+            };
+
+            ServerWorker worker = new ServerWorker(data);
+            data.Worker = worker;
+
+            lock (SyncRoot)
+            {
+                Workers.Add(worker);
+            }
+
+            data.Task.Start();
 
             Log.Trace("IrbisServerEngine::_HandleClient leave");
         }
-
-#elif NETCORE
-
-        private void _HandleClient
-            (
-                Task<TcpClient> task
-            )
-        {
-            TcpClient client = task.Result;
-            IrbisServerSocket socket = new IrbisServerSocket(client);
-            IrbisServerWorker worker = new IrbisServerWorker(this, socket);
-            Workers.Add(worker);
-            worker.Task.Start();
-        }
-
-#endif
 
         #endregion
 
@@ -294,7 +331,7 @@ namespace ManagedIrbis.Server
                     break;
                 }
 
-#elif NETCORE
+#elif NETCORE || ANDROID || UAP
 
                 Task<TcpClient> task = Listener.AcceptTcpClientAsync();
                 task.ContinueWith (_HandleClient);
@@ -307,12 +344,90 @@ namespace ManagedIrbis.Server
         }
 
         /// <summary>
+        /// Resolve the file path.
+        /// </summary>
+        [CanBeNull]
+        public string ResolveFile
+            (
+                [NotNull] FileSpecification specification
+            )
+        {
+            Code.NotNull(specification, "specification");
+
+            string fileName = specification.FileName;
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return null;
+            }
+
+            string result;
+            string database = specification.Database;
+            int path = (int)specification.Path;
+            if (path == 0)
+            {
+                result = Path.Combine(SystemPath, fileName);
+            }
+            else if (path == 1)
+            {
+                result = Path.Combine(DataPath, fileName);
+            }
+            else
+            {
+                result = Path.GetFullPath(Path.Combine(DepositUserPath, fileName));
+                if (File.Exists(result))
+                {
+                    return result;
+                }
+
+                if (string.IsNullOrEmpty(database))
+                {
+                    return _GetDepositFile(fileName);
+                }
+
+                string parPath = Path.Combine(DataPath, database + ".par");
+                if (!File.Exists(parPath))
+                {
+                    result = _GetDepositFile(fileName);
+                }
+                else
+                {
+                    Dictionary<int, string> dictionary;
+                    using (StreamReader reader
+                        = TextReaderUtility.OpenRead(parPath, IrbisEncoding.Ansi))
+                    {
+                        dictionary = ParFile.ReadDictionary(reader);
+                    }
+
+                    if (!dictionary.ContainsKey(path))
+                    {
+                        result = _GetDepositFile(fileName);
+                    }
+                    else
+                    {
+                        result = Path.GetFullPath(Path.Combine
+                            (
+                                Path.Combine(DataPath, dictionary[path]),
+                                fileName
+                            ));
+                        if (!File.Exists(result))
+                        {
+                            result = _GetDepositFile(fileName);
+                        }
+                    }
+                }
+            }
+
+            return result;
+
+        }
+
+        /// <summary>
         /// Wait for workers (if any).
         /// </summary>
         public void WaitForWorkers()
         {
             Task[] tasks = Workers
-                .Select(worker => worker.Task)
+                .Select(worker => worker.Data.Task)
                 .ToArray();
 
             if (tasks.Length != 0)
