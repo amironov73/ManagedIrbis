@@ -9,23 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Logging;
-using AM.Runtime;
-
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -118,6 +101,10 @@ namespace ManagedIrbis.Server.Commands
 
                 case "L":
                     result = new ReadFileCommand(data);
+                    break;
+
+                case "N":
+                    result = new NopCommand(data);
                     break;
 
                 default:

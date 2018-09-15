@@ -46,9 +46,8 @@ namespace UnitTests.ManagedIrbis.Server.Commands
                 Id = "1234567",
                 LastActivity = new DateTime(2017, 12, 11, 17, 30, 0),
                 Password = "password",
-                Engine = engine,
                 Username = "username",
-                Workstation = IrbisWorkstation.Administrator,
+                Workstation = "A",
                 UserData = "User data"
             };
         }

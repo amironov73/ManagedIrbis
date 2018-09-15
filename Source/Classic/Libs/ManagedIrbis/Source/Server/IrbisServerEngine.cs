@@ -29,6 +29,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
 using ManagedIrbis.Server.Commands;
@@ -281,6 +282,126 @@ namespace ManagedIrbis.Server
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Before execute the command.
+        /// </summary>
+        public void OnBeforeExecute
+            (
+                [NotNull] WorkData data
+            )
+        {
+            Code.NotNull(data, "data");
+
+            // TODO implement
+        }
+
+        /// <summary>
+        /// After command execution.
+        /// </summary>
+        public void OnAfterExecute
+            (
+                [NotNull] WorkData data
+            )
+        {
+            Code.NotNull(data, "data");
+
+            // TODO implement
+        }
+
+        /// <summary>
+        /// Create the context.
+        /// </summary>
+        [NotNull]
+        public ServerContext CreateContext
+            (
+                [NotNull] string clientId
+            )
+        {
+            Code.NotNullNorEmpty(clientId, "clientId");
+
+            ServerContext result = new ServerContext
+            {
+                Id = clientId,
+                Connected = DateTime.Now
+            };
+            lock (SyncRoot)
+            {
+                Contexts.Add(result);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Destroy the context.
+        /// </summary>
+        public void DestroyContext
+            (
+                [NotNull] ServerContext context
+            )
+        {
+            lock (SyncRoot)
+            {
+                Contexts.Remove(context);
+            }
+        }
+
+        /// <summary>
+        /// Find context for the client.
+        /// </summary>
+        [CanBeNull]
+        public ServerContext FindContext
+            (
+                [NotNull] string clientId
+            )
+        {
+            Code.NotNullNorEmpty(clientId, "clientId");
+
+            lock (SyncRoot)
+            {
+                foreach (ServerContext context in Contexts)
+                {
+                    if (context.Id == clientId)
+                    {
+                        return context;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Find context for the client.
+        /// </summary>
+        [NotNull]
+        public ServerContext RequireContext
+            (
+                [NotNull] WorkData data
+            )
+        {
+            Code.NotNull(data, "data");
+
+            ClientRequest request = data.Request.ThrowIfNull();
+            string clientId = request.ClientId.ThrowIfNull();
+            ServerContext result = FindContext(clientId);
+            if (ReferenceEquals(result, null))
+            {
+                // Клиент не выполнил вход на сервер
+                throw new IrbisException(-3334);
+            }
+
+            if (result.Username != request.Login
+                || result.Password != request.Password
+                || result.Workstation != request.Workstation)
+            {
+                // Неправильный уникальный идентификатор клиента
+                throw new IrbisException(-3335);
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Process loop.

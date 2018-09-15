@@ -49,9 +49,8 @@ namespace UnitTests.ManagedIrbis.Server
                 Id = "1234567",
                 LastActivity = new DateTime(2017, 12, 11, 17, 30, 0),
                 Password = "password",
-                Engine = engine,
                 Username = "username",
-                Workstation = IrbisWorkstation.Administrator,
+                Workstation = "A",
                 UserData = "User data"
             };
         }
@@ -66,9 +65,8 @@ namespace UnitTests.ManagedIrbis.Server
             Assert.IsNull(context.Id);
             Assert.AreEqual(DateTime.MinValue, context.LastActivity);
             Assert.IsNull(context.Password);
-            Assert.IsNull(context.Engine);
             Assert.IsNull(context.Username);
-            Assert.AreEqual(0, (int)context.Workstation);
+            Assert.IsNull(context.Workstation);
             Assert.IsNull(context.UserData);
         }
 
@@ -95,16 +93,10 @@ namespace UnitTests.ManagedIrbis.Server
             context.Password = password;
             Assert.AreEqual(password, context.Password);
 
-            IniFile iniFile = new IniFile(_GetFileName());
-            ServerIniFile serverIni = new ServerIniFile(iniFile);
-            IrbisServerEngine engine = new IrbisServerEngine(serverIni);
-            context.Engine = engine;
-            Assert.AreSame(engine, context.Engine);
-
             string username = "username";
             context.Username = username;
             Assert.AreEqual(username, context.Username);
-            IrbisWorkstation workstation = IrbisWorkstation.Administrator;
+            string workstation = "A";
             context.Workstation = workstation;
             Assert.AreEqual(workstation, context.Workstation);
             string userData = "User Data";
@@ -124,7 +116,6 @@ namespace UnitTests.ManagedIrbis.Server
             Assert.AreEqual(first.Id, second.Id);
             Assert.AreEqual(first.LastActivity, second.LastActivity);
             Assert.AreEqual(first.Password, second.Password);
-            Assert.IsNull(second.Engine);
             Assert.AreEqual(first.Username, second.Username);
             Assert.AreEqual(first.Workstation, second.Workstation);
             Assert.IsNull(second.UserData);
@@ -157,7 +148,7 @@ namespace UnitTests.ManagedIrbis.Server
             Assert.AreEqual("<context />", XmlUtility.SerializeShort(context));
 
             context = _GetContext();
-            Assert.AreEqual("<context><address>127.0.0.1</address><commandCount>123</commandCount><connected>2017-12-11T17:29:00</connected><id>1234567</id><lastActivity>2017-12-11T17:30:00</lastActivity><password>password</password><username>username</username><workstation>Administrator</workstation></context>", XmlUtility.SerializeShort(context));
+            Assert.AreEqual("<context><address>127.0.0.1</address><commandCount>123</commandCount><connected>2017-12-11T17:29:00</connected><id>1234567</id><lastActivity>2017-12-11T17:30:00</lastActivity><password>password</password><username>username</username><workstation>A</workstation></context>", XmlUtility.SerializeShort(context));
         }
 
         [TestMethod]
@@ -167,7 +158,7 @@ namespace UnitTests.ManagedIrbis.Server
             Assert.AreEqual("{}", JsonUtility.SerializeShort(context));
 
             context = _GetContext();
-            Assert.AreEqual("{'address':'127.0.0.1','commandCount':123,'connected':'2017-12-11T17:29:00','id':'1234567','lastActivity':'2017-12-11T17:30:00','password':'password','username':'username','workstation':65}", JsonUtility.SerializeShort(context));
+            Assert.AreEqual("{'address':'127.0.0.1','commandCount':123,'connected':'2017-12-11T17:29:00','id':'1234567','lastActivity':'2017-12-11T17:30:00','password':'password','username':'username','workstation':'A'}", JsonUtility.SerializeShort(context));
         }
 
         [TestMethod]

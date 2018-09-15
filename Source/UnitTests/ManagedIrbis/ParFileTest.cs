@@ -136,28 +136,28 @@ namespace UnitTests.ManagedIrbis
             Assert.AreEqual("IBIS", dictionary[1]);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(FormatException))]
-        public void ParFile_ReadDictionary_Exception_1()
-        {
-            string text = "1=IBIS" + Environment.NewLine
-                + "2=IBIS" + Environment.NewLine
-                + Environment.NewLine
-                + "3=" + Environment.NewLine
-                + "4=IBIS" + Environment.NewLine
-                + "5=IBIS" + Environment.NewLine
-                + "6=IBIS" + Environment.NewLine
-                + "7=IBIS" + Environment.NewLine
-                + "8=IBIS" + Environment.NewLine
-                + "9=IBIS" + Environment.NewLine
-                + "10=IBIS" + Environment.NewLine;
+        //[TestMethod]
+        //[ExpectedException(typeof(FormatException))]
+        //public void ParFile_ReadDictionary_Exception_1()
+        //{
+        //    string text = "1=IBIS" + Environment.NewLine
+        //        + "2=IBIS" + Environment.NewLine
+        //        + Environment.NewLine
+        //        + "3=" + Environment.NewLine
+        //        + "4=IBIS" + Environment.NewLine
+        //        + "5=IBIS" + Environment.NewLine
+        //        + "6=IBIS" + Environment.NewLine
+        //        + "7=IBIS" + Environment.NewLine
+        //        + "8=IBIS" + Environment.NewLine
+        //        + "9=IBIS" + Environment.NewLine
+        //        + "10=IBIS" + Environment.NewLine;
 
-            TextReader reader = new StringReader(text);
-            Dictionary<int, string> dictionary
-                = ParFile.ReadDictionary(reader);
-            Assert.AreEqual(10, dictionary.Count);
-            Assert.AreEqual("IBIS", dictionary[1]);
-        }
+        //    TextReader reader = new StringReader(text);
+        //    Dictionary<int, string> dictionary
+        //        = ParFile.ReadDictionary(reader);
+        //    Assert.AreEqual(10, dictionary.Count);
+        //    Assert.AreEqual("IBIS", dictionary[1]);
+        //}
 
         [TestMethod]
         [ExpectedException(typeof(FormatException))]
@@ -182,50 +182,50 @@ namespace UnitTests.ManagedIrbis
             Assert.AreEqual("IBIS", dictionary[1]);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(FormatException))]
-        public void ParFile_ReadDictionary_Exception_3()
-        {
-            string text = "1=IBIS" + Environment.NewLine
-                + "2=IBIS" + Environment.NewLine
-                + Environment.NewLine
-                + "3 = " + Environment.NewLine
-                + "4=IBIS" + Environment.NewLine
-                + "5=IBIS" + Environment.NewLine
-                + "6=IBIS" + Environment.NewLine
-                + "7=IBIS" + Environment.NewLine
-                + "8=IBIS" + Environment.NewLine
-                + "9=IBIS" + Environment.NewLine
-                + "10=IBIS" + Environment.NewLine;
+        //[TestMethod]
+        //[ExpectedException(typeof(FormatException))]
+        //public void ParFile_ReadDictionary_Exception_3()
+        //{
+        //    string text = "1=IBIS" + Environment.NewLine
+        //        + "2=IBIS" + Environment.NewLine
+        //        + Environment.NewLine
+        //        + "3 = " + Environment.NewLine
+        //        + "4=IBIS" + Environment.NewLine
+        //        + "5=IBIS" + Environment.NewLine
+        //        + "6=IBIS" + Environment.NewLine
+        //        + "7=IBIS" + Environment.NewLine
+        //        + "8=IBIS" + Environment.NewLine
+        //        + "9=IBIS" + Environment.NewLine
+        //        + "10=IBIS" + Environment.NewLine;
 
-            TextReader reader = new StringReader(text);
-            Dictionary<int, string> dictionary
-                = ParFile.ReadDictionary(reader);
-            Assert.AreEqual(10, dictionary.Count);
-            Assert.AreEqual("IBIS", dictionary[1]);
-        }
+        //    TextReader reader = new StringReader(text);
+        //    Dictionary<int, string> dictionary
+        //        = ParFile.ReadDictionary(reader);
+        //    Assert.AreEqual(10, dictionary.Count);
+        //    Assert.AreEqual("IBIS", dictionary[1]);
+        //}
 
-        [TestMethod]
-        [ExpectedException(typeof(FormatException))]
-        public void ParFile_ReadDictionary_Exception_4()
-        {
-            string text = "1=IBIS" + Environment.NewLine
-                + "2=IBIS" + Environment.NewLine
-                + Environment.NewLine
-                + "4=IBIS" + Environment.NewLine
-                + "5=IBIS" + Environment.NewLine
-                + "6=IBIS" + Environment.NewLine
-                + "7=IBIS" + Environment.NewLine
-                + "8=IBIS" + Environment.NewLine
-                + "9=IBIS" + Environment.NewLine
-                + "10=IBIS" + Environment.NewLine;
+        //[TestMethod]
+        //[ExpectedException(typeof(FormatException))]
+        //public void ParFile_ReadDictionary_Exception_4()
+        //{
+        //    string text = "1=IBIS" + Environment.NewLine
+        //        + "2=IBIS" + Environment.NewLine
+        //        + Environment.NewLine
+        //        + "4=IBIS" + Environment.NewLine
+        //        + "5=IBIS" + Environment.NewLine
+        //        + "6=IBIS" + Environment.NewLine
+        //        + "7=IBIS" + Environment.NewLine
+        //        + "8=IBIS" + Environment.NewLine
+        //        + "9=IBIS" + Environment.NewLine
+        //        + "10=IBIS" + Environment.NewLine;
 
-            TextReader reader = new StringReader(text);
-            Dictionary<int, string> dictionary
-                = ParFile.ReadDictionary(reader);
-            Assert.AreEqual(10, dictionary.Count);
-            Assert.AreEqual("IBIS", dictionary[1]);
-        }
+        //    TextReader reader = new StringReader(text);
+        //    Dictionary<int, string> dictionary
+        //        = ParFile.ReadDictionary(reader);
+        //    Assert.AreEqual(10, dictionary.Count);
+        //    Assert.AreEqual("IBIS", dictionary[1]);
+        //}
 
         [TestMethod]
         public void ParFile_Verify_1()

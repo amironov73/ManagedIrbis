@@ -60,5 +60,45 @@ namespace ManagedIrbis.Server.Commands
         }
 
         #endregion
+
+        #region ServerCommand members
+
+        /// <inheritdoc cref="ServerCommand.Execute" />
+        public override void Execute()
+        {
+            IrbisServerEngine engine = Data.Engine.ThrowIfNull();
+            engine.OnBeforeExecute(Data);
+
+            try
+            {
+                ClientRequest request = Data.Request.ThrowIfNull();
+                string clientId = request.ClientId.ThrowIfNull();
+                ServerContext context = engine.FindContext(clientId);
+                if (!ReferenceEquals(context, null))
+                {
+                    // Клиент с таким идентификатором уже зарегистрирован
+                    throw new IrbisException(-3337);
+                }
+
+                string username = request.RequireAnsiString();
+                string password = request.RequireAnsiString();
+
+                context = Data.Engine.CreateContext(clientId);
+                Data.Context = context;
+                context.Address = Data.Socket.Client.Client.RemoteEndPoint.ToString();
+                context.Username = username;
+                context.Password = password;
+
+                SendResponse();
+            }
+            catch (IrbisException exception)
+            {
+                SendError(exception.ErrorCode);
+            }
+
+            engine.OnAfterExecute(Data);
+        }
+
+        #endregion
     }
 }

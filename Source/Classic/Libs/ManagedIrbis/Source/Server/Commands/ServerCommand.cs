@@ -75,15 +75,44 @@ namespace ManagedIrbis.Server.Commands
         #region Public methods
 
         /// <summary>
-        /// Execute the command.
+        /// Отправка клиенту кода ошибки.
         /// </summary>
-        public virtual void Execute
+        public void SendError
             (
-                [NotNull] ClientQuery query
+                int errorCode
             )
         {
-            // Nothing to do here?
+            if (errorCode >= 0)
+            {
+                errorCode = -8888;
+            }
+
+            // TODO implement
         }
+
+        /// <summary>
+        /// Отправка клиенту нормального ответа.
+        /// </summary>
+        public void SendResponse()
+        {
+            // TODO implement
+        }
+
+        /// <summary>
+        /// Update the context.
+        /// </summary>
+        public void UpdateContext()
+        {
+            ServerContext context = Data.Context.ThrowIfNull();
+            context.LastActivity = DateTime.Now;
+            context.LastCommand = Data.Request.CommandCode1;
+            context.CommandCount++;
+        }
+
+        /// <summary>
+        /// Execute the command.
+        /// </summary>
+        public abstract void Execute();
 
         #endregion
 

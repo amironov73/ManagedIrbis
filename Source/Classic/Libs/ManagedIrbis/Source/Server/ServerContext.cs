@@ -10,18 +10,11 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
-using AM.Collections;
 using AM.IO;
 using AM.Runtime;
 
@@ -86,20 +79,19 @@ namespace ManagedIrbis.Server
         public DateTime LastActivity { get; set; }
 
         /// <summary>
+        /// Last command code.
+        /// </summary>
+        [XmlElement("lastCommand")]
+        [JsonProperty("lastCommand", NullValueHandling = NullValueHandling.Ignore)]
+        public string LastCommand { get;set; }
+
+        /// <summary>
         /// Password.
         /// </summary>
         [CanBeNull]
         [XmlElement("password")]
         [JsonProperty("password", NullValueHandling = NullValueHandling.Ignore)]
         public string Password { get; set; }
-
-        /// <summary>
-        /// Server.
-        /// </summary>
-        [CanBeNull]
-        [XmlIgnore]
-        [JsonIgnore]
-        public IrbisServerEngine Engine { get; set; }
 
         /// <summary>
         /// User name.
@@ -114,7 +106,7 @@ namespace ManagedIrbis.Server
         /// </summary>
         [XmlElement("workstation")]
         [JsonProperty("workstation")]
-        public IrbisWorkstation Workstation { get; set; }
+        public string Workstation { get; set; }
 
         /// <summary>
         /// Arbitrary user data.
@@ -123,14 +115,6 @@ namespace ManagedIrbis.Server
         [XmlIgnore]
         [JsonIgnore]
         public object UserData { get; set; }
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
@@ -169,7 +153,7 @@ namespace ManagedIrbis.Server
         [ExcludeFromCodeCoverage]
         public bool ShouldSerializeWorkstation()
         {
-            return Workstation != IrbisWorkstation.None;
+            return !string.IsNullOrEmpty(Workstation);
         }
 
         #endregion
@@ -189,9 +173,10 @@ namespace ManagedIrbis.Server
             Connected = reader.ReadDateTime();
             Id = reader.ReadNullableString();
             LastActivity = reader.ReadDateTime();
+            LastCommand = reader.ReadNullableString();
             Password = reader.ReadNullableString();
             Username = reader.ReadNullableString();
-            Workstation = (IrbisWorkstation) reader.ReadPackedInt32();
+            Workstation = reader.ReadNullableString();
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -208,9 +193,10 @@ namespace ManagedIrbis.Server
                 .Write(Connected)
                 .WriteNullable(Id)
                 .Write(LastActivity)
+                .WriteNullable(LastCommand)
                 .WriteNullable(Password)
                 .WriteNullable(Username)
-                .WritePackedInt32((int)Workstation);
+                .WriteNullable(Workstation);
         }
 
         #endregion
@@ -227,7 +213,7 @@ namespace ManagedIrbis.Server
                 = new Verifier<ServerContext>(this, throwOnError);
 
             verifier
-                .NotNull(Engine, "Engine");
+                .NotNullNorEmpty(Id, "Id");
 
             return verifier.Result;
         }
