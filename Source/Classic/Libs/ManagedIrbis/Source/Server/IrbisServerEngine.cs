@@ -404,6 +404,188 @@ namespace ManagedIrbis.Server
         }
 
         /// <summary>
+        /// Find the specified user.
+        /// </summary>
+        [CanBeNull]
+        public UserInfo FindUser
+            (
+                [NotNull] string username
+            )
+        {
+            Code.NotNullNorEmpty(username, "username");
+
+            lock (SyncRoot)
+            {
+                foreach (UserInfo user in Users)
+                {
+                    if (user.Name.SameString(username))
+                    {
+                        return user;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Get name of the default INI file for specified client type.
+        /// </summary>
+        public string GetDefaultIniName
+            (
+                [CanBeNull] string proposed,
+                int index
+            )
+        {
+            if (!string.IsNullOrEmpty(proposed))
+            {
+                return proposed;
+            }
+
+            MenuEntry entry = ClientIni.Entries.GetItem(index);
+            return ReferenceEquals(entry, null)
+                ? null
+                : entry.Code;
+        }
+
+        /// <summary>
+        /// Fix INI file.
+        /// </summary>
+        public void FixIniFile
+            (
+                [NotNull] IniFile iniFile
+            )
+        {
+            Code.NotNull(iniFile, "iniFile");
+
+            while (true)
+            {
+                IniFile.Section found = null;
+
+                foreach (var section in iniFile.GetSections())
+                {
+                    if (section.Name.SafeStarts("@"))
+                    {
+                        found = section;
+                        break;
+                    }
+                }
+
+                if (ReferenceEquals(found, null))
+                {
+                    break;
+                }
+
+                string sectionName = found.Name;
+                if (!string.IsNullOrEmpty(sectionName))
+                {
+                    string filename = sectionName.Substring(1);
+                    string ext = Path.GetExtension(filename);
+                    if (string.IsNullOrEmpty(ext))
+                    {
+                        filename = filename + ".ini";
+                    }
+                    filename = Path.Combine(SystemPath, filename);
+                    if (File.Exists(filename))
+                    {
+                        IniFile substitute = new IniFile(filename, IrbisEncoding.Ansi, false);
+                        foreach (IniFile.Section section in substitute.GetSections())
+                        {
+                            iniFile.MergeSection(section);
+                        }
+                    }
+
+                    iniFile.RemoveSection(sectionName);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get user INI-file.
+        /// </summary>
+        [NotNull]
+        public string GetUserIniFile
+            (
+                [NotNull] UserInfo user,
+                [NotNull] string workstation
+            )
+        {
+            Code.NotNull(user, "user");
+            Code.NotNullNorEmpty(workstation, "workstation");
+
+            string filename;
+            switch (workstation)
+            {
+                case "a":
+                case "A":
+                    filename = GetDefaultIniName(user.Administrator, 5);
+                    break;
+
+                case "b":
+                case "B":
+                    filename = GetDefaultIniName(user.Circulation, 2);
+                    break;
+
+                case "c":
+                case "C":
+                    filename = GetDefaultIniName(user.Cataloger, 0);
+                    break;
+
+                case "k":
+                case "K":
+                    filename = GetDefaultIniName(user.Provision, 4);
+                    break;
+
+                case "m":
+                case "M":
+                    filename = GetDefaultIniName(user.Cataloger, 0);
+                    break;
+
+                case "r":
+                case "R":
+                    filename = GetDefaultIniName(user.Reader, 1);
+                    break;
+
+                case "p":
+                case "P":
+                    filename = GetDefaultIniName(user.Acquisitions, 3);
+                    break;
+
+                default:
+                    // Недопустимый клиент
+                    throw new IrbisException(-3338);
+            }
+
+            if (string.IsNullOrEmpty(filename))
+            {
+                return string.Empty;
+            }
+
+            string result;
+            try
+            {
+                string ext = Path.GetExtension(filename);
+                if (string.IsNullOrEmpty(ext))
+                {
+                    filename = filename + ".ini";
+                }
+                filename = Path.Combine(SystemPath, filename);
+                IniFile iniFile = new IniFile(filename, IrbisEncoding.Ansi, false);
+                FixIniFile(iniFile);
+                StringWriter writer = new StringWriter();
+                iniFile.Save(writer);
+                result = writer.ToString();
+            }
+            catch(Exception exception)
+            {
+                Log.TraceException("IrbisServerEngine::GetUserIniFile", exception);
+                return string.Empty;
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Process loop.
         /// </summary>
         public void MainLoop()

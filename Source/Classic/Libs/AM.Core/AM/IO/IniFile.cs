@@ -698,10 +698,7 @@ namespace AM.IO
         {
             _sections = new NonNullCollection<Section>();
 
-            Log.Trace
-                (
-                    "IniFile::Constructor"
-                );
+            Log.Trace("IniFile::Constructor");
         }
 
         /// <summary>
@@ -940,6 +937,15 @@ namespace AM.IO
         }
 
         /// <summary>
+        /// Get all the sections.
+        /// </summary>
+        [NotNull]
+        public Section[] GetSections()
+        {
+            return _sections.ToArray();
+        }
+
+        /// <summary>
         /// Get value from the given section and key.
         /// </summary>
         [CanBeNull]
@@ -975,6 +981,33 @@ namespace AM.IO
                 : section.GetValue(keyName, defaultValue);
 
             return result;
+        }
+
+        /// <summary>
+        /// Merge the section.
+        /// </summary>
+        public void MergeSection
+            (
+                [NotNull] Section section
+            )
+        {
+            Code.NotNull(section, "section");
+
+            Section found = GetSection(section.Name);
+            if (ReferenceEquals(found, null))
+            {
+                _sections.Add(section);
+            }
+            else
+            {
+                foreach (string key in section.Keys)
+                {
+                    if (!found.ContainsKey(key))
+                    {
+                        found[key] = section[key];
+                    }
+                }
+            }
         }
 
         /// <summary>

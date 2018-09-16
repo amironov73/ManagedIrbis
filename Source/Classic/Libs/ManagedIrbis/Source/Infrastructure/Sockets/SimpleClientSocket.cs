@@ -146,6 +146,7 @@ namespace ManagedIrbis.Infrastructure
                     {
                         socket.Send(bytes);
                     }
+                    socket.Shutdown(SocketShutdown.Send);
 
                     MemoryStream stream = Connection.Executive
                         .GetMemoryStream(GetType());

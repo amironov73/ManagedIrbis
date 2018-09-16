@@ -65,6 +65,11 @@ namespace ManagedIrbis.Server
         public Task Task { get; set; }
 
         /// <summary>
+        /// User info.
+        /// </summary>
+        public UserInfo User { get; set; }
+
+        /// <summary>
         /// Worker.
         /// </summary>
         public ServerWorker Worker { get; set; }

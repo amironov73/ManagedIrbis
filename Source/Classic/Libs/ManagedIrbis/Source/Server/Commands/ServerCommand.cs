@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,6 +49,14 @@ namespace ManagedIrbis.Server.Commands
         /// </summary>
         [NotNull]
         public WorkData Data { get; private set; }
+
+        /// <summary>
+        /// Send version to the client.
+        /// </summary>
+        public virtual bool SendVersion
+        {
+            get { return false; }
+        }
 
         #endregion
 
@@ -95,7 +104,20 @@ namespace ManagedIrbis.Server.Commands
         /// </summary>
         public void SendResponse()
         {
-            // TODO implement
+            ServerResponse response = Data.Response.ThrowIfNull();
+            string versionString = null;
+            if (SendVersion)
+            {
+                IrbisVersion serverVersion = ServerUtility.GetServerVersion();
+                versionString = serverVersion.Version;
+            }
+            byte[][] packet = response.Encode(versionString);
+            TcpClient client = Data.Socket.Client.ThrowIfNull();
+            Socket socket = client.Client;
+            foreach (byte[] bytes in packet)
+            {
+                socket.Send(bytes);
+            }
         }
 
         /// <summary>

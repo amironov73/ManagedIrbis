@@ -197,7 +197,7 @@ namespace ManagedIrbis
                         CommonSeparators.EqualSign,
                         2
                     );
-                if (parts.Length != 2 || parts[0].Length != 0)
+                if (parts.Length != 2 || parts[0].Length != 1)
                 {
                     continue;
                 }

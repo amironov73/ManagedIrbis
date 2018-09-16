@@ -10,17 +10,9 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
+using AM.Logging;
 
 using CodeJam;
 
@@ -83,6 +75,11 @@ namespace ManagedIrbis.Server
                 Data.Request = new ClientRequest(Data);
                 Data.Response = new ServerResponse(Data.Request);
                 Data.Command = Data.Engine.Mapper.MapCommand(Data);
+                Data.Command.Execute();
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException("ServerWorker::DoWork", exception);
             }
             finally
             {

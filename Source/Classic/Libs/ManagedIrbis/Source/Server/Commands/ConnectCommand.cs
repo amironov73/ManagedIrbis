@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using AM;
 using AM.Collections;
 using AM.IO;
+using AM.Logging;
 using AM.Runtime;
 
 using CodeJam;
@@ -43,6 +44,12 @@ namespace ManagedIrbis.Server.Commands
         : ServerCommand
     {
         #region Properties
+
+        /// <inheritdoc cref="ServerCommand.SendVersion" />
+        public override bool SendVersion
+        {
+            get { return true; }
+        }
 
         #endregion
 
@@ -83,17 +90,45 @@ namespace ManagedIrbis.Server.Commands
                 string username = request.RequireAnsiString();
                 string password = request.RequireAnsiString();
 
+                UserInfo userInfo = engine.FindUser(username);
+                if (ReferenceEquals(userInfo, null))
+                {
+                    throw new IrbisException(-3333);
+                }
+
+                if (password != userInfo.Password)
+                {
+                    throw new IrbisException(-4444);
+                }
+
+                Data.User = userInfo;
+                string iniFile = engine.GetUserIniFile(userInfo, request.Workstation);
+
                 context = Data.Engine.CreateContext(clientId);
                 Data.Context = context;
-                context.Address = Data.Socket.Client.Client.RemoteEndPoint.ToString();
+                context.Address = ServerUtility.GetRemoteAddress(Data.Socket);
                 context.Username = username;
                 context.Password = password;
+                context.Workstation = request.Workstation;
+
+                ServerResponse response = Data.Response.ThrowIfNull();
+                // Код возврата
+                response.WriteInt32(0).NewLine();
+                // Интервал подтверждения
+                response.WriteInt32(engine.IniFile.ClientTimeLive).NewLine();
+                // INI-файл
+                response.WriteAnsiString(iniFile).NewLine();
 
                 SendResponse();
             }
             catch (IrbisException exception)
             {
                 SendError(exception.ErrorCode);
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException("ConnectCommand::Execute", exception);
+                SendError(-8888);
             }
 
             engine.OnAfterExecute(Data);

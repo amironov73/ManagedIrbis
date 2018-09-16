@@ -113,20 +113,19 @@ namespace ManagedIrbis.Server
                 [CanBeNull] string version
             )
         {
-            byte[][] result = new byte[3][];
+            Encoding ansi = IrbisEncoding.Ansi;
+            byte[][] result = new byte[4][];
             result[0] = _prefix.ToArray();
+            result[1] = ansi.GetBytes(FastNumber.Int64ToString(Memory.Length) + "\r\n");
             if (string.IsNullOrEmpty(version))
             {
-                result[1] = new byte[] { 0x0D, 0x0A };
+                result[2] = new byte[] { 0x0D, 0x0A };
             }
             else
             {
-                result[1] = IrbisEncoding.Ansi.GetBytes
-                    (
-                        version + "\r\n"
-                    );
+                result[2] = ansi.GetBytes(version + "\r\n");
             }
-            result[2] = Memory.ToArray();
+            result[3] = Memory.ToArray();
 
             return result;
         }

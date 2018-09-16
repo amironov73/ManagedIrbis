@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -176,6 +177,27 @@ namespace ManagedIrbis.Server
             };
 
             return result;
+        }
+
+        /// <summary>
+        /// Get remote address.
+        /// </summary>
+        [NotNull]
+        public static string GetRemoteAddress
+            (
+                [NotNull] IrbisServerSocket socket
+            )
+        {
+            Code.NotNull(socket, "socket");
+
+            EndPoint endPoint = socket.Client.Client.RemoteEndPoint;
+            IPEndPoint ip = endPoint as IPEndPoint;
+            if (!ReferenceEquals(ip, null))
+            {
+                return ip.Address.ToString();
+            }
+
+            return endPoint.ToString();
         }
 
         #endregion

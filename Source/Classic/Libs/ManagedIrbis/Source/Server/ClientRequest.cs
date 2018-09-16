@@ -128,6 +128,7 @@ namespace ManagedIrbis.Server
                 Memory.Write(buffer, 0, read);
             }
 
+            Memory.Position = 0;
             RequestLength = GetInt32();
             CommandCode1 = RequireAnsiString();
             Workstation = RequireAnsiString();

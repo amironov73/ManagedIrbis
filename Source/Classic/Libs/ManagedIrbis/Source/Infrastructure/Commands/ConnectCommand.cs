@@ -28,9 +28,9 @@ namespace ManagedIrbis.Infrastructure.Commands
     // Если код возврата равен ZERO,
     // то следующие строки - это ini-файл определенный
     // на сервере для данного пользователя.
-    // 
+    //
     // Если код возврата не равен ZERO - только одна строка.
-    // 
+    //
     // Коды возврата:
     // ZERO
     // CLIENT_ALREADY_EXISTS  - пользователь
@@ -188,7 +188,7 @@ namespace ManagedIrbis.Infrastructure.Commands
             }
 
             ServerResponse result;
-            
+
             while (true)
             {
                 result = base.Execute(query);

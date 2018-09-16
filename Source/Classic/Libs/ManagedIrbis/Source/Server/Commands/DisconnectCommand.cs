@@ -9,7 +9,10 @@
 
 #region Using directives
 
+using System;
+
 using AM;
+using AM.Logging;
 
 using JetBrains.Annotations;
 
@@ -57,10 +60,11 @@ namespace ManagedIrbis.Server.Commands
 
             try
             {
-                ClientRequest request = Data.Request.ThrowIfNull();
                 ServerContext context = engine.RequireContext(Data);
                 Data.Context = context;
 
+                ServerResponse response = Data.Response.ThrowIfNull();
+                response.WriteInt32(0).NewLine();
                 SendResponse();
 
                 engine.DestroyContext(context);
@@ -68,6 +72,11 @@ namespace ManagedIrbis.Server.Commands
             catch (IrbisException exception)
             {
                 SendError(exception.ErrorCode);
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException("ConnectCommand::Execute", exception);
+                SendError(-8888);
             }
 
             engine.OnAfterExecute(Data);

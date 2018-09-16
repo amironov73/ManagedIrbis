@@ -457,8 +457,7 @@ namespace ManagedIrbis
                         "IrbisConnection::Connect"
                     );
 
-                ConnectCommand command
-                    = CommandFactory.GetConnectCommand();
+                ConnectCommand command = CommandFactory.GetConnectCommand();
                 ClientQuery query = command.CreateQuery();
                 ServerResponse response = command.Execute(query);
                 command.CheckResponse(response);
