@@ -61,6 +61,9 @@ namespace UnitTests.Experiments
                     connection.NoOp();
 
                     Task.Delay(100).Wait();
+                    int maxMfn = connection.GetMaxMfn("IBIS");
+
+                    Task.Delay(100).Wait();
                     connection.Dispose();
                 }
                 catch (Exception exception)

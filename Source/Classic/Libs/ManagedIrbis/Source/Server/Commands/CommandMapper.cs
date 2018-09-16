@@ -107,6 +107,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new NopCommand(data);
                     break;
 
+                case "O":
+                    result = new GetMaxMfnCommand(data);
+                    break;
+
                 default:
                     throw new IrbisException();
             }

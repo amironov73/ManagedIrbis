@@ -30,6 +30,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Direct;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
 using ManagedIrbis.Server.Commands;
@@ -580,6 +581,46 @@ namespace ManagedIrbis.Server
             {
                 Log.TraceException("IrbisServerEngine::GetUserIniFile", exception);
                 return string.Empty;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get database access.
+        /// </summary>
+        [NotNull]
+        public DirectAccess64 GetDatabase
+            (
+                [NotNull] string database
+            )
+        {
+            Code.NotNullNorEmpty(database, "database");
+
+            string parPath = Path.Combine(DataPath, database + ".par");
+            if (!File.Exists(parPath))
+            {
+                throw new IrbisException(-5555);
+            }
+
+            DirectAccess64 result;
+            try
+            {
+                ParFile parFile = ParFile.ParseFile(parPath);
+                string mstFile = parFile.MstPath.ThrowIfNull();
+                mstFile = Path.Combine(SystemPath, mstFile);
+                mstFile = Path.Combine(mstFile, database + ".mst");
+                mstFile = Path.GetFullPath(mstFile);
+                if (!File.Exists(mstFile))
+                {
+                    throw new IrbisException(-5555);
+                }
+                result = new DirectAccess64(mstFile, DirectAccessMode.ReadOnly);
+            }
+            catch(Exception exception)
+            {
+                Log.TraceException("IrbisServerEngine::GetDatabase", exception);
+                throw;
             }
 
             return result;

@@ -2716,6 +2716,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\DisconnectCommand.cs">
       <Link>Source\Server\Commands\DisconnectCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\GetMaxMfnCommand.cs">
+      <Link>Source\Server\Commands\GetMaxMfnCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\NopCommand.cs">
       <Link>Source\Server\Commands\NopCommand.cs</Link>
     </Compile>
