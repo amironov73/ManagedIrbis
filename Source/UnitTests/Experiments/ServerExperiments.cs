@@ -64,6 +64,9 @@ namespace UnitTests.Experiments
                     int maxMfn = connection.GetMaxMfn("IBIS");
 
                     Task.Delay(100).Wait();
+                    MarcRecord record = connection.ReadRecord(1);
+
+                    Task.Delay(100).Wait();
                     connection.Dispose();
                 }
                 catch (Exception exception)

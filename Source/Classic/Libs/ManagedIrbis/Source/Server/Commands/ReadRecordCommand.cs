@@ -10,23 +10,14 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
+using AM.Logging;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Direct;
 
 using MoonSharp.Interpreter;
 
@@ -42,10 +33,6 @@ namespace ManagedIrbis.Server.Commands
     public class ReadRecordCommand
         : ServerCommand
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -61,26 +48,103 @@ namespace ManagedIrbis.Server.Commands
 
         #endregion
 
+        #region Private members
+
+        /// <summary>
+        /// Кодирование записи в клиентское представление.
+        /// </summary>
+        public static string EncodeRecord
+            (
+                MarcRecord record
+            )
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.AppendFormat
+                (
+                    "{0}#{1}",
+                    record.Mfn.ToInvariantString(),
+                    ((int) record.Status).ToInvariantString()
+                );
+            result.Append("\r\n");
+            result.AppendFormat
+                (
+                    "0#{0}",
+                    record.Version.ToInvariantString()
+                );
+            result.Append("\r\n");
+
+            foreach (RecordField field in record.Fields)
+            {
+                result.AppendFormat
+                    (
+                        "{0}#",
+                        field.Tag.ToInvariantString()
+                    );
+                result.Append(field.Value);
+
+                foreach (SubField subField in field.SubFields)
+                {
+                    result.AppendFormat
+                        (
+                            "{0}{1}{2}",
+                            SubField.Delimiter,
+                            subField.Code,
+                            subField.Value
+                        );
+                }
+
+                result.Append("\r\n");
+            }
+
+            return result.ToString();
+        }
+
+        #endregion
+
         #region ServerCommand members
 
         /// <inheritdoc cref="ServerCommand.Execute" />
         public override void Execute()
         {
+            // TODO перейти на RawRecord, если не требуется форматирование
+
             IrbisServerEngine engine = Data.Engine.ThrowIfNull();
             engine.OnBeforeExecute(Data);
 
             try
             {
-                ClientRequest request = Data.Request.ThrowIfNull();
                 ServerContext context = engine.RequireContext(Data);
                 Data.Context = context;
                 UpdateContext();
 
+                ClientRequest request = Data.Request.ThrowIfNull();
+                string database = request.RequireAnsiString();
+                int mfn = request.GetInt32();
+
+                // TODO lock
+                // TODO format
+
+                MarcRecord record;
+                using (DirectAccess64 direct = engine.GetDatabase(database))
+                {
+                    record = direct.ReadRecord(mfn);
+                }
+
+                ServerResponse response = Data.Response.ThrowIfNull();
+                response.WriteInt32(0).NewLine();
+                string recordText = EncodeRecord(record);
+                response.WriteUtfString(recordText);
                 SendResponse();
             }
             catch (IrbisException exception)
             {
                 SendError(exception.ErrorCode);
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException("ReadRecordCommand::Execute", exception);
+                SendError(-8888);
             }
 
             engine.OnAfterExecute(Data);
