@@ -708,7 +708,7 @@ namespace AM.IO
             (
                 [NotNull] string fileName
             )
-            : this (fileName, null, false)
+            : this(fileName, null, false)
         {
         }
 
@@ -1011,6 +1011,30 @@ namespace AM.IO
         }
 
         /// <summary>
+        /// Update the section.
+        /// </summary>
+        public void UpdateSection
+            (
+                [NotNull] Section section
+            )
+        {
+            Code.NotNull(section, "section");
+
+            Section found = GetSection(section.Name);
+            if (ReferenceEquals(found, null))
+            {
+                _sections.Add(section);
+            }
+            else
+            {
+                foreach (string key in section.Keys)
+                {
+                    found[key] = section[key];
+                }
+            }
+        }
+
+        /// <summary>
         /// Remove specified section.
         /// </summary>
         [NotNull]
@@ -1100,7 +1124,7 @@ namespace AM.IO
         {
             Code.NotNull(reader, "reader");
 
-            char[] separators = {'='};
+            char[] separators = { '=' };
             _sections.Clear();
             Section section = null;
 

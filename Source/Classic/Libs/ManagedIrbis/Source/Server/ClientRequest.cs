@@ -9,22 +9,12 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Logging;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -171,6 +161,29 @@ namespace ManagedIrbis.Server
         ///
         /// </summary>
         [CanBeNull]
+        public string GetAutoString()
+        {
+            byte[] bytes = GetString();
+            int index = 0, count = bytes.Length;
+            Encoding encoding = IrbisEncoding.Ansi;
+
+            if (count != 0)
+            {
+                if (bytes[0] == (byte) '!')
+                {
+                    encoding = IrbisEncoding.Utf8;
+                    index = 1;
+                    count--;
+                }
+            }
+
+            return encoding.GetString(bytes, index, count);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [CanBeNull]
         public string GetAnsiString()
         {
             byte[] bytes = GetString();
@@ -190,6 +203,36 @@ namespace ManagedIrbis.Server
             }
 
             return result;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull]
+        public string[] RemainingAnsiStrings()
+        {
+            List<string> result = new List<string>();
+
+            while (Memory.Position < Memory.Length)
+            {
+                string line = GetAnsiString();
+                result.Add(line);
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull]
+        public string RemainingAnsiText()
+        {
+            int remaining = (int) (Memory.Length - Memory.Position);
+            byte[] bytes = new byte[remaining];
+            Memory.Read(bytes, 0, remaining);
+
+            return IrbisEncoding.Ansi.GetString(bytes);
         }
 
         /// <summary>
@@ -215,6 +258,36 @@ namespace ManagedIrbis.Server
             }
 
             return result;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull]
+        public string[] RemainingUtfStrings()
+        {
+            List<string> result = new List<string>();
+
+            while (Memory.Position < Memory.Length)
+            {
+                string line = GetUtfString();
+                result.Add(line);
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull]
+        public string RemainingUtfText()
+        {
+            int remaining = (int) (Memory.Length - Memory.Position);
+            byte[] bytes = new byte[remaining];
+            Memory.Read(bytes, 0, remaining);
+
+            return IrbisEncoding.Utf8.GetString(bytes);
         }
 
         /// <summary>

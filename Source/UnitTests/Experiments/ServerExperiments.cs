@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -153,6 +154,22 @@ namespace UnitTests.Experiments
                 Assert.AreEqual(expected.Version, actual.Version);
                 Assert.AreEqual(1, actual.ConnectedClients);
                 Assert.AreEqual(expected.MaxClients, actual.MaxClients);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
+
+        [TestMethod]
+        public void Server_UpdateIniFile_1()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                List<string> lines = new List<string>();
+                lines.Add("[MIRON]");
+                lines.Add(string.Format("LastAccess={0}", DateTime.Now));
+                connection.UpdateIniFile(lines.ToArray());
             });
             if (!ReferenceEquals(ex, null))
             {

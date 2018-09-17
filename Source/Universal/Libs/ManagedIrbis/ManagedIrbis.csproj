@@ -2719,6 +2719,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\GetMaxMfnCommand.cs">
       <Link>Source\Server\Commands\GetMaxMfnCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ServerVersionCommand.cs">
+      <Link>Source\Server\Commands\ServerVersionCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\NopCommand.cs">
       <Link>Source\Server\Commands\NopCommand.cs</Link>
     </Compile>
@@ -2733,6 +2736,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ServerCommand.cs">
       <Link>Source\Server\Commands\ServerCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\UpdateIniFileCommand.cs">
+      <Link>Source\Server\Commands\UpdateIniFileCommand.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\WriteRecordCommand.cs">
       <Link>Source\Server\Commands\WriteRecordCommand.cs</Link>

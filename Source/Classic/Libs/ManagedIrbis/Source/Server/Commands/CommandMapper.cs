@@ -83,6 +83,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new ServerVersionCommand(data);
                     break;
 
+                case "8":
+                    result = new UpdateIniFileCommand(data);
+                    break;
+
                 case "A":
                     result = new ConnectCommand(data);
                     break;
