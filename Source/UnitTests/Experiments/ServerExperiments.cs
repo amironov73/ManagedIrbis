@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AM.IO;
 using JetBrains.Annotations;
 using ManagedIrbis;
+using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Server;
 
 namespace UnitTests.Experiments
@@ -170,6 +171,48 @@ namespace UnitTests.Experiments
                 lines.Add("[MIRON]");
                 lines.Add(string.Format("LastAccess={0}", DateTime.Now));
                 connection.UpdateIniFile(lines.ToArray());
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
+
+        [TestMethod]
+        public void Server_ReadFile_1()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                FileSpecification specification = new FileSpecification
+                    (
+                        IrbisPath.MasterFile,
+                        "IBIS",
+                        "dumb.fst"
+                    );
+                string expected = "201 0 (v200 /)\r\n";
+                string actual = connection.ReadTextFile(specification);
+                Assert.AreEqual(expected, actual);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
+
+        [TestMethod]
+        public void Server_ReadFile_2()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                FileSpecification specification = new FileSpecification
+                    (
+                        IrbisPath.MasterFile,
+                        "IBIS",
+                        "dumb.fst"
+                    );
+                byte[] expected = IrbisEncoding.Ansi.GetBytes("201 0 (v200 /)\r\n");
+                byte[] actual = connection.ReadBinaryFile(specification);
+                CollectionAssert.AreEqual(expected, actual);
             });
             if (!ReferenceEquals(ex, null))
             {

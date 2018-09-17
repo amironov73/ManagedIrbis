@@ -10,19 +10,10 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
+using AM.Logging;
 
 using JetBrains.Annotations;
 
@@ -42,7 +33,16 @@ namespace ManagedIrbis.Server.Commands
     public class ReadFileCommand
         : ServerCommand
     {
-        #region Properties
+        #region Constants
+
+        /// <summary>
+        /// Preamble for binary files.
+        /// </summary>
+        public static byte[] Preamble =
+        {
+            73, 82, 66, 73, 83, 95, 66, 73, 78, 65, 82, 89, 95, 68,
+            65, 84, 65
+        };
 
         #endregion
 
@@ -71,16 +71,56 @@ namespace ManagedIrbis.Server.Commands
 
             try
             {
-                ClientRequest request = Data.Request.ThrowIfNull();
                 ServerContext context = engine.RequireContext(Data);
                 Data.Context = context;
                 UpdateContext();
+
+                ClientRequest request = Data.Request.ThrowIfNull();
+                ServerResponse response = Data.Response.ThrowIfNull();
+                string[] lines = request.RemainingAnsiStrings();
+                foreach (string line in lines)
+                {
+                    try
+                    {
+                        FileSpecification specification = FileSpecification.Parse(line);
+                        string filename = engine.ResolveFile(specification);
+                        if (string.IsNullOrEmpty(filename))
+                        {
+                            response.NewLine();
+                        }
+                        else
+                        {
+                            byte[] content = File.ReadAllBytes(filename);
+                            if (specification.BinaryFile)
+                            {
+                                response.Memory.Write(Preamble, 0, Preamble.Length);
+                                response.Memory.Write(content, 0, content.Length);
+                            }
+                            else
+                            {
+                                IrbisText.WindowsToIrbis(content);
+                                response.Memory.Write(content, 0, content.Length);
+                                response.NewLine();
+                            }
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        Log.TraceException("ReadFileCommand::Execute", exception);
+                        response.NewLine();
+                    }
+                }
 
                 SendResponse();
             }
             catch (IrbisException exception)
             {
                 SendError(exception.ErrorCode);
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException("ReadFileCommand::Execute", exception);
+                SendError(-8888);
             }
 
             engine.OnAfterExecute(Data);

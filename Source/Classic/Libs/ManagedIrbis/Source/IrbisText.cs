@@ -23,7 +23,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -282,6 +282,29 @@ namespace ManagedIrbis
                 );
 
             return result;
+        }
+
+        /// <summary>
+        /// Convert standard line endings to IRBIS.
+        /// </summary>
+        public static void WindowsToIrbis
+            (
+                [NotNull] byte[] bytes
+            )
+        {
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                byte b = bytes[i];
+                if (b == 0x0D)
+                {
+                    bytes[i] = 0x1F;
+                }
+
+                if (b == 0x0A)
+                {
+                    bytes[i] = 0x01E;
+                }
+            }
         }
 
         #endregion

@@ -750,7 +750,7 @@ namespace ManagedIrbis.Server
                     {
                         result = Path.GetFullPath(Path.Combine
                             (
-                                Path.Combine(DataPath, dictionary[path]),
+                                Path.Combine(SystemPath, dictionary[path]),
                                 fileName
                             ));
                         if (!File.Exists(result))
