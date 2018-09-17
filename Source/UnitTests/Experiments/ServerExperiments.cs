@@ -219,5 +219,26 @@ namespace UnitTests.Experiments
                 throw ex;
             }
         }
+
+        [TestMethod]
+        public void Server_ListFiles_1()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                FileSpecification specification = new FileSpecification
+                    (
+                        IrbisPath.MasterFile,
+                        "IBIS",
+                        "*.fst"
+                    );
+                string[] expected = { "dumb.fst", "empty.fst", "empty2.fst", "ibis.fst" };
+                string[] actual = connection.ListFiles(specification);
+                CollectionAssert.AreEqual(expected, actual);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
     }
 }

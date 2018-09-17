@@ -79,6 +79,10 @@ namespace ManagedIrbis.Server.Commands
 
             switch (commandCode)
             {
+                case "!":
+                    result = new ListFilesCommand(data);
+                    break;
+
                 case "1":
                     result = new ServerVersionCommand(data);
                     break;

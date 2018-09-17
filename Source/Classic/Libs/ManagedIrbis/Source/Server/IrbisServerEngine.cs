@@ -762,7 +762,6 @@ namespace ManagedIrbis.Server
             }
 
             return result;
-
         }
 
         /// <summary>
