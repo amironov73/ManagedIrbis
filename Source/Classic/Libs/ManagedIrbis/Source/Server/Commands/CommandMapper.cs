@@ -79,6 +79,10 @@ namespace ManagedIrbis.Server.Commands
 
             switch (commandCode)
             {
+                case "1":
+                    result = new ServerVersionCommand(data);
+                    break;
+
                 case "A":
                     result = new ConnectCommand(data);
                     break;
