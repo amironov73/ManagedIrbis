@@ -107,6 +107,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new WriteRecordCommand(data);
                     break;
 
+                case "G":
+                    result = new FormatRecordCommand(data);
+                    break;
+
                 case "K":
                     result = new SearchCommand(data);
                     break;

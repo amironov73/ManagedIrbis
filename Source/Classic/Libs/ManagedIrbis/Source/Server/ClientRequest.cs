@@ -183,6 +183,21 @@ namespace ManagedIrbis.Server
         /// <summary>
         ///
         /// </summary>
+        [NotNull]
+        public string RequireAutoString()
+        {
+            string result = GetAutoString();
+            if (string.IsNullOrEmpty(result))
+            {
+                throw new IrbisException();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
         [CanBeNull]
         public string GetAnsiString()
         {

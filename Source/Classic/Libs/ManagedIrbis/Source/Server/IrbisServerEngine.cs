@@ -29,7 +29,7 @@ using AM.Runtime;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Client;
 using ManagedIrbis.Direct;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
@@ -457,7 +457,7 @@ namespace ManagedIrbis.Server
         }
 
         /// <summary>
-        /// Fix INI file.
+        /// Раскрываем ссылки на INI-файлы.
         /// </summary>
         public void FixIniFile
             (
@@ -594,15 +594,17 @@ namespace ManagedIrbis.Server
         }
 
         /// <summary>
-        /// Get database access.
+        /// Get MST file path for the database.
         /// </summary>
         [NotNull]
-        public DirectAccess64 GetDatabase
+        public string GetMstFile
             (
                 [NotNull] string database
             )
         {
             Code.NotNullNorEmpty(database, "database");
+
+            // TODO cache
 
             string parPath = Path.Combine(DataPath, database + ".par");
             if (!File.Exists(parPath))
@@ -610,7 +612,7 @@ namespace ManagedIrbis.Server
                 throw new IrbisException(-5555);
             }
 
-            DirectAccess64 result;
+            string result;
             try
             {
                 ParFile parFile = ParFile.ParseFile(parPath);
@@ -622,11 +624,69 @@ namespace ManagedIrbis.Server
                 {
                     throw new IrbisException(-5555);
                 }
+                result = mstFile;
+            }
+            catch(Exception exception)
+            {
+                Log.TraceException("IrbisServerEngine::GetMstFile", exception);
+                throw;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get database access.
+        /// </summary>
+        [NotNull]
+        public DirectAccess64 GetDatabase
+            (
+                [NotNull] string database
+            )
+        {
+            Code.NotNullNorEmpty(database, "database");
+
+            // TODO cache
+
+            string mstFile = GetMstFile(database);
+            DirectAccess64 result;
+            try
+            {
                 result = new DirectAccess64(mstFile, DirectAccessMode.ReadOnly);
             }
             catch(Exception exception)
             {
                 Log.TraceException("IrbisServerEngine::GetDatabase", exception);
+                throw;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get provider for specified database.
+        /// </summary>
+        [NotNull]
+        public LocalProvider GetProvider
+            (
+                [NotNull] string database
+            )
+        {
+            Code.NotNullNorEmpty(database, "database");
+
+            // TODO cache
+
+            GetMstFile(database);
+
+            LocalProvider result;
+            try
+            {
+                result = new LocalProvider(SystemPath, DirectAccessMode.ReadOnly, false);
+                result.Database = database;
+            }
+            catch(Exception exception)
+            {
+                Log.TraceException("IrbisServerEngine::GetProvider", exception);
                 throw;
             }
 

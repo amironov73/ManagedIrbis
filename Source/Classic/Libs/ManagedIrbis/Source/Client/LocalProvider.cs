@@ -436,6 +436,7 @@ namespace ManagedIrbis.Client
                         && !_persistentAccessor)
                     {
                         accessor.Dispose();
+                        _accessor = null;
                     }
                 }
             }
@@ -584,6 +585,7 @@ namespace ManagedIrbis.Client
                         && !_persistentAccessor)
                     {
                         accessor.Dispose();
+                        _accessor = null;
                     }
                 }
             }
@@ -637,6 +639,7 @@ namespace ManagedIrbis.Client
                         && !_persistentAccessor)
                     {
                         accessor.Dispose();
+                        _accessor = null;
                     }
                 }
 
@@ -675,6 +678,7 @@ namespace ManagedIrbis.Client
                         && !_persistentAccessor)
                     {
                         accessor.Dispose();
+                        _accessor = null;
                     }
                 }
             }
@@ -747,6 +751,7 @@ namespace ManagedIrbis.Client
                 //            && !_persistentAccessor)
                 //        {
                 //            accessor.Dispose();
+                //            _accessor = null;
                 //        }
                 //    }
             }
@@ -788,6 +793,7 @@ namespace ManagedIrbis.Client
                     && !_persistentAccessor)
                 {
                     accessor.Dispose();
+                    _accessor = null;
                 }
             }
 
@@ -837,6 +843,7 @@ namespace ManagedIrbis.Client
                     && !_persistentAccessor)
                 {
                     accessor.Dispose();
+                    _accessor = null;
                 }
             }
 

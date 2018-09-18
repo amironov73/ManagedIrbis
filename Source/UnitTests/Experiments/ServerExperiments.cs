@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.IO;
+
 using JetBrains.Annotations;
+
 using ManagedIrbis;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Server;
@@ -234,6 +236,76 @@ namespace UnitTests.Experiments
                 string[] expected = { "dumb.fst", "empty.fst", "empty2.fst", "ibis.fst" };
                 string[] actual = connection.ListFiles(specification);
                 CollectionAssert.AreEqual(expected, actual);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
+
+        [TestMethod]
+        public void Server_FormatRecord_1()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                string expected = "Куда пойти учиться? : Информ. - реклам. справ / З. М. Акулова, А. М. Бабич ; ред. А. С. Павловский [и др.]";
+                string actual = connection.FormatRecord
+                    (
+                        "v200^a, | : |v200^e, | / |v200^f ",
+                        1
+                    );
+                Assert.AreEqual(expected, actual);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
+
+        [TestMethod]
+        public void Server_FormatRecord_2()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                string[] expected =
+                {
+                    "Куда пойти учиться? : Информ. - реклам. справ / З. М. Акулова, А. М. Бабич ; ред. А. С. Павловский [и др.]",
+                    "Энергетическая и информационная электроника : Сб. / ред. В. А. Лабунцов [и др.]"
+                };
+                string[] actual = connection.FormatRecords
+                    (
+                        "IBIS",
+                        "v200^a, | : |v200^e, | / |v200^f ",
+                        new [] { 1, 3 }
+                    );
+                CollectionAssert.AreEqual(expected, actual);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
+
+        [TestMethod]
+        public void Server_FormatRecord_3()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                MarcRecord record = new MarcRecord();
+                record.AddField(new RecordField(200, new[]
+                {
+                    new SubField('a', "Куда пойти учиться?"),
+                    new SubField('e', "Информ. - реклам. справ"),
+                    new SubField('f', "З. М. Акулова, А. М. Бабич ; ред. А. С. Павловский [и др.]")
+                }));
+
+                string expected = "Куда пойти учиться? : Информ. - реклам. справ / З. М. Акулова, А. М. Бабич ; ред. А. С. Павловский [и др.]";
+                string actual = connection.FormatRecord
+                    (
+                        "v200^a, | : |v200^e, | / |v200^f ",
+                        record
+                    );
+                Assert.AreEqual(expected, actual);
             });
             if (!ReferenceEquals(ex, null))
             {

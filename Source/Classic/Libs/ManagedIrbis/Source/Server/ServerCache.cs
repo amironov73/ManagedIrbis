@@ -155,6 +155,23 @@ namespace ManagedIrbis.Server
             }
         }
 
+        /// <summary>
+        /// Get ANSI encoded text file.
+        /// </summary>
+        [NotNull]
+        public string GetAnsiFile
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            byte[] bytes = GetFile(fileName);
+            string result = IrbisEncoding.Ansi.GetString(bytes);
+
+            return result;
+        }
+
         #endregion
     }
 }
