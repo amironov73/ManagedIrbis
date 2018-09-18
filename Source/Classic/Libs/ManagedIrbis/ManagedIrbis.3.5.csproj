@@ -956,6 +956,7 @@
     <Compile Include="Source\Server\Commands\UpdateIniFileCommand.cs" />
     <Compile Include="Source\Server\Commands\WriteRecordCommand.cs" />
     <Compile Include="Source\Server\IrbisServerSocket.cs" />
+    <Compile Include="Source\Server\ServerCache.cs" />
     <Compile Include="Source\Server\ServerWorker.cs" />
     <Compile Include="Source\Server\ServerConfiguration.cs" />
     <Compile Include="Source\Server\ServerContext.cs" />

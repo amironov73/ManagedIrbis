@@ -64,6 +64,12 @@ namespace ManagedIrbis.Server
         public NonNullCollection<ServerContext> Contexts { get; private set; }
 
         /// <summary>
+        /// Cache.
+        /// </summary>
+        [NotNull]
+        public ServerCache Cache { get; private set; }
+
+        /// <summary>
         /// MNU file with standard _server_ INI file names.
         /// </summary>
         [NotNull]
@@ -165,6 +171,7 @@ namespace ManagedIrbis.Server
             Code.NotNull(iniFile, "iniFile");
 
             SyncRoot = new object();
+            Cache = new ServerCache();
             IniFile = iniFile;
             SystemPath = rootPathOverride
                          ?? IniFile.SystemPath.ThrowIfNull("SystemPath");

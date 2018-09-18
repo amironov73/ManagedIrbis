@@ -90,7 +90,8 @@ namespace ManagedIrbis.Server.Commands
                         }
                         else
                         {
-                            byte[] content = File.ReadAllBytes(filename);
+                            //byte[] content = File.ReadAllBytes(filename);
+                            byte[] content = engine.Cache.GetFile(filename);
                             if (specification.BinaryFile)
                             {
                                 response.Memory.Write(Preamble, 0, Preamble.Length);

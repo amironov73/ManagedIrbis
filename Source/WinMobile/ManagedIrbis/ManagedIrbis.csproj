@@ -2703,6 +2703,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\IrbisServerSocket.cs">
       <Link>Source\Server\IrbisServerSocket.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerCache.cs">
+      <Link>Source\Server\ServerCache.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerWorker.cs">
       <Link>Source\Server\ServerWorker.cs</Link>
     </Compile>

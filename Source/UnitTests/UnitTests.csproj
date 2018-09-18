@@ -842,6 +842,7 @@
     <Compile Include="ManagedIrbis\Server\ServerContextTest.cs" />
     <Compile Include="ManagedIrbis\Server\ServerIniFileTest.cs" />
     <Compile Include="ManagedIrbis\Server\ServerUtilityTest.cs" />
+    <Compile Include="ManagedIrbis\Server\ServerCacheTest.cs" />
     <Compile Include="ManagedIrbis\StatDefinitionTest.cs" />
     <Compile Include="ManagedIrbis\Statistics\PingDataTest.cs" />
     <Compile Include="ManagedIrbis\SubFieldCollectionTest.cs" />
