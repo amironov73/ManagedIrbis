@@ -96,7 +96,11 @@ namespace ManagedIrbis.Server.Commands
                 errorCode = -8888;
             }
 
-            // TODO implement
+            ClientRequest request = Data.Request.ThrowIfNull();
+            ServerResponse response = new ServerResponse(request);
+            Data.Response = response;
+            response.WriteInt32(errorCode).NewLine();
+            SendResponse();
         }
 
         /// <summary>

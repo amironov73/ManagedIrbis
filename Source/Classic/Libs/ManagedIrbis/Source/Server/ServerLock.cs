@@ -12,7 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-
+using System.Threading.Tasks;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -91,7 +91,12 @@ namespace ManagedIrbis.Source.Server
                     break;
                 }
 
+#if FW35
+                _mutex.Close();
+#else
                 _mutex.Dispose();
+#endif
+
                 if (timeout > 0)
                 {
                     int timeSpent = (int) (DateTime.Now - startTime).TotalMilliseconds;
@@ -101,7 +106,11 @@ namespace ManagedIrbis.Source.Server
                     }
                 }
 
+#if UAP
+                Task.Delay(100).Wait();
+#else
                 Thread.Sleep(100);
+#endif
             }
 
             lock (Sync)
@@ -125,7 +134,11 @@ namespace ManagedIrbis.Source.Server
         /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
+#if FW35
+            _mutex.Close();
+#else
             _mutex.Dispose();
+#endif
 
             lock (Sync)
             {

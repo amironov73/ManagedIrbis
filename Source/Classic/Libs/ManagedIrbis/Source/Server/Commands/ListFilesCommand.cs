@@ -192,7 +192,7 @@ namespace ManagedIrbis.Server.Commands
             }
             catch (Exception exception)
             {
-                Log.TraceException("GetMaxMfnCommand::Execute", exception);
+                Log.TraceException("ListFilesMfnCommand::Execute", exception);
                 SendError(-8888);
             }
 

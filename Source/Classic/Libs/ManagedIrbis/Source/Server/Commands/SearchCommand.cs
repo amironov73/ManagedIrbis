@@ -10,23 +10,14 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
+using AM.Logging;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Client;
+using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
 
@@ -43,6 +34,11 @@ namespace ManagedIrbis.Server.Commands
         : ServerCommand
     {
         #region Properties
+
+        /// <summary>
+        /// Search parameters.
+        /// </summary>
+        public SearchParameters Parameters { get; private set; }
 
         #endregion
 
@@ -71,16 +67,82 @@ namespace ManagedIrbis.Server.Commands
 
             try
             {
-                ClientRequest request = Data.Request.ThrowIfNull();
                 ServerContext context = engine.RequireContext(Data);
                 Data.Context = context;
                 UpdateContext();
+
+                ClientRequest request = Data.Request.ThrowIfNull();
+                Parameters = new SearchParameters
+                {
+                    Database = request.RequireAnsiString(),
+                    SearchExpression = request.GetUtfString(),
+                    NumberOfRecords = request.GetInt32(),
+                    FirstRecord = request.GetInt32(),
+                    FormatSpecification = request.GetAutoString(),
+                    MinMfn = request.GetInt32(),
+                    MaxMfn = request.GetInt32(),
+                    SequentialSpecification = request.GetAutoString()
+                };
+
+                ServerResponse response = Data.Response.ThrowIfNull();
+                using (LocalProvider provider = engine.GetProvider(Parameters.Database))
+                {
+                    int[] found = provider.Search(Parameters.SearchExpression);
+                    response.WriteInt32(0).NewLine();
+                    response.WriteInt32(found.Length).NewLine();
+                    int howMany = found.Length;
+                    if (Parameters.NumberOfRecords > 0
+                        && Parameters.NumberOfRecords < howMany)
+                    {
+                        howMany = Parameters.NumberOfRecords;
+                    }
+
+                    if (Parameters.FirstRecord == 0)
+                    {
+                        response.WriteInt32(found.Length);
+                    }
+                    else
+                    {
+                        int shift = Parameters.FirstRecord - 1;
+                        if (howMany + shift > found.Length)
+                        {
+                            howMany = found.Length - shift;
+                        }
+                        for (int i = 0; i < howMany; i++)
+                        {
+                            int mfn = found[i + shift];
+                            response.WriteInt32(mfn);
+                            if (!string.IsNullOrEmpty(Parameters.FormatSpecification))
+                            {
+                                response.WriteUtfString("#");
+                                MarcRecord record = provider.ReadRecord(mfn);
+                                if (!ReferenceEquals(record, null))
+                                {
+                                    string text = provider.FormatRecord
+                                        (
+                                            record,
+                                            Parameters.FormatSpecification
+                                        );
+                                    text = IrbisText.WindowsToIrbis(text);
+                                    response.WriteUtfString(text);
+                                }
+                            }
+
+                            response.NewLine();
+                        }
+                    }
+                }
 
                 SendResponse();
             }
             catch (IrbisException exception)
             {
                 SendError(exception.ErrorCode);
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException("SearchCommand::Execute", exception);
+                SendError(-8888);
             }
 
             engine.OnAfterExecute(Data);

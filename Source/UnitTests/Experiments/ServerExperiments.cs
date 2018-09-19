@@ -12,6 +12,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Search;
 using ManagedIrbis.Server;
 
 namespace UnitTests.Experiments
@@ -306,6 +307,83 @@ namespace UnitTests.Experiments
                         record
                     );
                 Assert.AreEqual(expected, actual);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
+
+        [TestMethod]
+        public void Server_Search_1()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                int[] found = connection.Search("K=БИЗНЕС");
+                Assert.AreEqual(1, found.Length);
+                Assert.AreEqual(192, found[0]);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
+
+        [TestMethod]
+        public void Server_Search_2()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                int[] found = connection.Search("K=БИЗНЕС$");
+                Assert.AreEqual(2, found.Length);
+                Assert.AreEqual(192, found[0]);
+                Assert.AreEqual(63, found[1]);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
+
+        [TestMethod]
+        public void Server_Search_3()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                int found = connection.SearchCount("K=БИЗНЕС$");
+                Assert.AreEqual(2, found);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
+
+        [TestMethod]
+        public void Server_Search_4()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                FoundItem[] found = connection.SearchFormat("K=БИЗНЕС$", "v200^a");
+                Assert.AreEqual(2, found.Length);
+                Assert.AreEqual(192, found[0].Mfn);
+                Assert.AreEqual("Информационные технологии для менеджеров", found[0].Text);
+                Assert.AreEqual(63, found[1].Mfn);
+                Assert.AreEqual("Английский для бизнесменов", found[1].Text);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
+
+        [TestMethod]
+        public void Server_Search_5()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                int[] found = connection.Search("\"K=НЕТ ТАКОГО СЛОВА\"");
+                Assert.AreEqual(0, found.Length);
             });
             if (!ReferenceEquals(ex, null))
             {
