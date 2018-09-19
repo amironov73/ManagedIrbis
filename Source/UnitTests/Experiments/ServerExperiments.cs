@@ -390,5 +390,53 @@ namespace UnitTests.Experiments
                 throw ex;
             }
         }
+
+        [TestMethod]
+        public void Server_ReadTerms_1()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                TermParameters parameters = new TermParameters
+                {
+                    Database = "IBIS",
+                    StartTerm = "K=АГРАРНОЕ",
+                    NumberOfTerms = 10
+                };
+                TermInfo[] terms = connection.ReadTerms(parameters);
+                Assert.AreEqual(10, terms.Length);
+                Assert.AreEqual(8, terms[0].Count);
+                Assert.AreEqual("K=АГРАРНОЕ", terms[0].Text);
+                Assert.AreEqual(2, terms[1].Count);
+                Assert.AreEqual("K=АГРАРНОЕ ПРАВО", terms[1].Text);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
+
+        [TestMethod]
+        public void Server_ReadTerms_2()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                TermParameters parameters = new TermParameters
+                {
+                    Database = "IBIS",
+                    StartTerm = "K=АГРАР",
+                    NumberOfTerms = 10
+                };
+                TermInfo[] terms = connection.ReadTerms(parameters);
+                Assert.AreEqual(10, terms.Length);
+                Assert.AreEqual(8, terms[0].Count);
+                Assert.AreEqual("K=АГРАРНОЕ", terms[0].Text);
+                Assert.AreEqual(2, terms[1].Count);
+                Assert.AreEqual("K=АГРАРНОЕ ПРАВО", terms[1].Text);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
     }
 }

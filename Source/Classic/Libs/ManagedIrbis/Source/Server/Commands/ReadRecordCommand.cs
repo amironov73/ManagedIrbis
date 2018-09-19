@@ -17,6 +17,7 @@ using AM.Logging;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
 using ManagedIrbis.Direct;
 
 using MoonSharp.Interpreter;
@@ -64,7 +65,7 @@ namespace ManagedIrbis.Server.Commands
                 (
                     "{0}#{1}",
                     record.Mfn.ToInvariantString(),
-                    ((int) record.Status).ToInvariantString()
+                    ((int)record.Status).ToInvariantString()
                 );
             result.Append("\r\n");
             result.AppendFormat
@@ -109,6 +110,10 @@ namespace ManagedIrbis.Server.Commands
         {
             // TODO перейти на RawRecord, если не требуется форматирование
 
+            // В случае физически удаленной записи возвращается 2 строки:
+            // 1-я строка - ZERO
+            // 2-я строка – UTF-8(ЗАПИСЬ ФИЗИЧЕСКИ УДАЛЕНА)
+
             IrbisServerEngine engine = Data.Engine.ThrowIfNull();
             engine.OnBeforeExecute(Data);
 
@@ -121,20 +126,45 @@ namespace ManagedIrbis.Server.Commands
                 ClientRequest request = Data.Request.ThrowIfNull();
                 string database = request.RequireAnsiString();
                 int mfn = request.GetInt32();
-
-                // TODO lock
-                // TODO format
+                int needLock = request.GetInt32();
+                string format = request.GetAutoString();
+                string formatted = null;
 
                 MarcRecord record;
-                using (DirectAccess64 direct = engine.GetDatabase(database))
+                using (LocalProvider provider = engine.GetProvider(database))
                 {
-                    record = direct.ReadRecord(mfn);
+                    record = provider.ReadRecord(mfn);
+                    if (!string.IsNullOrEmpty(format)
+                        && !ReferenceEquals(record, null))
+                    {
+                        formatted = provider.FormatRecord(record, format);
+                        formatted = IrbisText.WindowsToIrbis(formatted);
+                    }
+                }
+
+                if (needLock != 0)
+                {
+                    using (DirectAccess64 direct = engine.GetDatabase(database))
+                    {
+                        direct.Xrf.LockRecord(mfn, true);
+                    }
                 }
 
                 ServerResponse response = Data.Response.ThrowIfNull();
                 response.WriteInt32(0).NewLine();
-                string recordText = EncodeRecord(record);
-                response.WriteUtfString(recordText);
+                if (!ReferenceEquals(record, null))
+                {
+                    string recordText = EncodeRecord(record);
+                    response.WriteUtfString(recordText).NewLine();
+                }
+
+                if (!string.IsNullOrEmpty(formatted))
+                {
+                    response.WriteUtfString("#").NewLine();
+                    response.WriteInt32(0).NewLine();
+                    response.WriteUtfString(formatted).NewLine();
+                }
+
                 SendResponse();
             }
             catch (IrbisException exception)

@@ -111,6 +111,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new FormatRecordCommand(data);
                     break;
 
+                case "H":
+                    result = new ReadTermsCommand(data);
+                    break;
+
                 case "K":
                     result = new SearchCommand(data);
                     break;
