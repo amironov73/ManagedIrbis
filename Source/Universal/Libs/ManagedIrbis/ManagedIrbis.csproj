@@ -2734,6 +2734,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ReadTermsCommand.cs">
       <Link>Source\Server\Commands\ReadTermsCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\RestartServerCommand.cs">
+      <Link>Source\Server\Commands\RestartServerCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ServerVersionCommand.cs">
       <Link>Source\Server\Commands\ServerVersionCommand.cs</Link>
     </Compile>

@@ -83,6 +83,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new ListFilesCommand(data);
                     break;
 
+                case "+8":
+                    result = new RestartServerCommand(data);
+                    break;
+
                 case "0":
                     result = new DatabaseInfoCommand(data);
                     break;
