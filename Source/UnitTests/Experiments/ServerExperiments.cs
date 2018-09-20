@@ -438,5 +438,26 @@ namespace UnitTests.Experiments
                 throw ex;
             }
         }
+
+        [TestMethod]
+        public void Server_ReadPostings_1()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                PostingParameters parameters = new PostingParameters
+                {
+                    Database = "IBIS",
+                    Term = "K=АГРАРНОЕ",
+                    FirstPosting = 1,
+                    NumberOfPostings = 10
+                };
+                TermPosting[] postings = connection.ReadPostings(parameters);
+                Assert.AreEqual(8, postings.Length);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
     }
 }

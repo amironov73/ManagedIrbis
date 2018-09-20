@@ -115,6 +115,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new ReadTermsCommand(data);
                     break;
 
+                case "I":
+                    result = new ReadPostingsCommand(data);
+                    break;
+
                 case "K":
                     result = new SearchCommand(data);
                     break;
@@ -129,6 +133,10 @@ namespace ManagedIrbis.Server.Commands
 
                 case "O":
                     result = new GetMaxMfnCommand(data);
+                    break;
+
+                case "P":
+                    result = new ReadTermsCommand(data) { ReverseOrder = true };
                     break;
 
                 default:

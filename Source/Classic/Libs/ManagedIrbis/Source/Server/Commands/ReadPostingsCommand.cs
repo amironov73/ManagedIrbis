@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ReadTermsCommand.cs --
+/* ReadPostingsCommand.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -31,24 +31,15 @@ namespace ManagedIrbis.Server.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class ReadTermsCommand
+    public class ReadPostingsCommand
         : ServerCommand
     {
-        #region Properties
-
-        /// <summary>
-        /// Reverse order.
-        /// </summary>
-        public bool ReverseOrder { get;set; }
-
-        #endregion
-
         #region Construction
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ReadTermsCommand
+        public ReadPostingsCommand
             (
                 [NotNull] WorkData data
             )
@@ -73,44 +64,44 @@ namespace ManagedIrbis.Server.Commands
                 UpdateContext();
 
                 ClientRequest request = Data.Request.ThrowIfNull();
-                TermParameters parameters = new TermParameters
+                PostingParameters parameters = new PostingParameters
                 {
                     Database = request.RequireAnsiString(),
-                    StartTerm = request.RequireUtfString(),
-                    NumberOfTerms = request.GetInt32(),
-                    Format = request.GetUtfString()
+                    NumberOfPostings = request.GetInt32(),
+                    FirstPosting = request.GetInt32(),
+                    Format = request.GetAutoString(),
+                    Term = request.RequireUtfString()
                 };
 
-                if (parameters.NumberOfTerms == 0)
-                {
-                    parameters.NumberOfTerms = IrbisConstants.MaxPostings;
-                }
+                // TODO shift and number
+                // TODO format
+                // TODO list of terms
 
-                TermInfo[] terms;
                 int returnCode = 0;
+                TermLink[] links;
                 using (DirectAccess64 direct = engine.GetDatabase(parameters.Database))
                 {
-                    terms = direct.ReadTerms(parameters);
+                    links = direct.ReadLinks(parameters.Term);
                 }
 
-                if (terms.Length != 0
-                    && terms[0].Text != parameters.StartTerm)
+                if (links.Length == 0)
                 {
                     returnCode = (int) IrbisReturnCode.TermNotExist;
                 }
-                if (terms.Length < parameters.NumberOfTerms)
-                {
-                    returnCode = (int) IrbisReturnCode.LastTermInList;
-                }
-
-                // TODO format
-                // TODO reverse order
 
                 ServerResponse response = Data.Response.ThrowIfNull();
                 response.WriteInt32(returnCode).NewLine();
-                foreach (TermInfo term in terms)
+                foreach (TermLink link in links)
                 {
-                    response.WriteUtfString(term.ToString()).NewLine();
+                    string line = string.Format
+                        (
+                            "{0}#{1}#{2}#{3}",
+                            link.Mfn,
+                            link.Tag,
+                            link.Occurrence,
+                            link.Index
+                        );
+                    response.WriteUtfString(line).NewLine();
                 }
                 SendResponse();
             }
@@ -120,7 +111,7 @@ namespace ManagedIrbis.Server.Commands
             }
             catch (Exception exception)
             {
-                Log.TraceException("ReadTermsCommand::Execute", exception);
+                Log.TraceException("ReadPostingsCommand::Execute", exception);
                 SendError(-8888);
             }
 

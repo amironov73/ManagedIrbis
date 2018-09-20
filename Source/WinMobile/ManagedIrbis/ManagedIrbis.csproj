@@ -2679,6 +2679,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ListFilesCommand.cs">
       <Link>Source\Server\Commands\ListFilesCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ReadPostingsCommand.cs">
+      <Link>Source\Server\Commands\ReadPostingsCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ReadTermsCommand.cs">
       <Link>Source\Server\Commands\ReadTermsCommand.cs</Link>
     </Compile>

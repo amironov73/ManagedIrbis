@@ -946,6 +946,7 @@
     <Compile Include="Source\Server\Commands\FormatRecordCommand.cs" />
     <Compile Include="Source\Server\Commands\GetMaxMfnCommand.cs" />
     <Compile Include="Source\Server\Commands\ListFilesCommand.cs" />
+    <Compile Include="Source\Server\Commands\ReadPostingsCommand.cs" />
     <Compile Include="Source\Server\Commands\ReadTermsCommand.cs" />
     <Compile Include="Source\Server\Commands\ServerVersionCommand.cs" />
     <Compile Include="Source\Server\Commands\NopCommand.cs" />
