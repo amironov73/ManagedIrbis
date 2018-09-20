@@ -1,6 +1,6 @@
 librarian
 secret
-C=INI\MIRONC.INI; 
+C=INI\MIRONC.INI; A=INI\MIRONA.INI;
 rdr
 rdr
 C=; R=INI\RDR_R.INI; B=; M=; K=; A=; 

@@ -413,6 +413,31 @@ namespace ManagedIrbis.Server
         }
 
         /// <summary>
+        /// Find administrator context for the user.
+        /// </summary>
+        [NotNull]
+        public ServerContext RequireAdministratorContext
+            (
+                [NotNull] WorkData data
+            )
+        {
+            Code.NotNull(data, "data");
+
+            ServerContext result = RequireContext(data);
+            if (string.IsNullOrEmpty(result.Workstation))
+            {
+                result.Workstation = data.Request.Workstation;
+            }
+            if (result.Workstation != "A")
+            {
+                // Требуется вход администратора
+                throw new IrbisException(-3338);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Find the specified user.
         /// </summary>
         [CanBeNull]

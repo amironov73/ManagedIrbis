@@ -98,6 +98,52 @@ namespace ManagedIrbis.Direct
         #region Public methods
 
         /// <summary>
+        /// Get database info.
+        /// </summary>
+        [NotNull]
+        public DatabaseInfo GetDatabaseInfo()
+        {
+            int maxMfn = GetMaxMfn();
+            List<int> logicallyDeleted = new List<int>();
+            List<int> physicallyDeleted = new List<int>();
+            List<int> nonActualized = new List<int>();
+            List<int> lockedRecords = new List<int>();
+
+            for (int mfn = 1; mfn <= maxMfn; mfn++)
+            {
+                XrfRecord64 record = Xrf.ReadRecord(mfn);
+                if ((record.Status & RecordStatus.LogicallyDeleted) != 0)
+                {
+                    logicallyDeleted.Add(mfn);
+                }
+                if ((record.Status & RecordStatus.PhysicallyDeleted) != 0)
+                {
+                    physicallyDeleted.Add(mfn);
+                }
+                if ((record.Status & RecordStatus.NonActualized) != 0)
+                {
+                    nonActualized.Add(mfn);
+                }
+                if ((record.Status & RecordStatus.Locked) != 0)
+                {
+                    lockedRecords.Add(mfn);
+                }
+            }
+
+            DatabaseInfo result = new DatabaseInfo
+            {
+                MaxMfn = maxMfn,
+                DatabaseLocked = Mst.ReadDatabaseLockedFlag(),
+                LogicallyDeletedRecords = logicallyDeleted.ToArray(),
+                PhysicallyDeletedRecords = physicallyDeleted.ToArray(),
+                NonActualizedRecords = nonActualized.ToArray(),
+                LockedRecords = lockedRecords.ToArray()
+            };
+
+            return result;
+        }
+
+        /// <summary>
         /// Get max MFN for database. Not next MFN!
         /// </summary>
         public int GetMaxMfn()

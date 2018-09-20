@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-
+using AM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.IO;
@@ -69,7 +69,7 @@ namespace UnitTests.Experiments
                             Port = 6666,
                             Username = "librarian",
                             Password = "secret",
-                            Workstation = IrbisWorkstation.Cataloger
+                            Workstation = IrbisWorkstation.Administrator
                         };
                         connection.Connect();
 
@@ -453,6 +453,25 @@ namespace UnitTests.Experiments
                 };
                 TermPosting[] postings = connection.ReadPostings(parameters);
                 Assert.AreEqual(8, postings.Length);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
+
+        [TestMethod]
+        public void Server_DatabaseInfo_1()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                DatabaseInfo info = connection.GetDatabaseInfo("IBIS");
+                Assert.AreEqual(332, info.MaxMfn);
+                Assert.IsFalse(info.DatabaseLocked);
+                Assert.AreEqual(0, info.LogicallyDeletedRecords.SafeLength());
+                Assert.AreEqual(0, info.PhysicallyDeletedRecords.SafeLength());
+                Assert.AreEqual(0, info.NonActualizedRecords.SafeLength());
+                Assert.AreEqual(0, info.LockedRecords.SafeLength());
             });
             if (!ReferenceEquals(ex, null))
             {

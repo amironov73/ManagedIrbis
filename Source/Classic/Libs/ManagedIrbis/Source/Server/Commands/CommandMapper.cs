@@ -83,6 +83,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new ListFilesCommand(data);
                     break;
 
+                case "0":
+                    result = new DatabaseInfoCommand(data);
+                    break;
+
                 case "1":
                     result = new ServerVersionCommand(data);
                     break;
