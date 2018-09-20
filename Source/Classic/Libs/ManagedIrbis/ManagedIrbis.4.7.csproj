@@ -955,6 +955,7 @@
     <Compile Include="Source\Server\Commands\ReadRecordCommand.cs" />
     <Compile Include="Source\Server\Commands\SearchCommand.cs" />
     <Compile Include="Source\Server\Commands\ServerCommand.cs" />
+    <Compile Include="Source\Server\Commands\UnlockRecordsCommand.cs" />
     <Compile Include="Source\Server\Commands\UpdateIniFileCommand.cs" />
     <Compile Include="Source\Server\Commands\WriteRecordCommand.cs" />
     <Compile Include="Source\Server\IrbisServerSocket.cs" />

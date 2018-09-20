@@ -2752,6 +2752,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ServerCommand.cs">
       <Link>Source\Server\Commands\ServerCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\UnlockRecordsCommand.cs">
+      <Link>Source\Server\Commands\UnlockRecordsCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\UpdateIniFileCommand.cs">
       <Link>Source\Server\Commands\UpdateIniFileCommand.cs</Link>
     </Compile>

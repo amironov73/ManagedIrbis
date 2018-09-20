@@ -143,6 +143,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new ReadTermsCommand(data) { ReverseOrder = true };
                     break;
 
+                case "Q":
+                    result = new UnlockRecordsCommand(data);
+                    break;
+
                 default:
                     throw new IrbisException();
             }
