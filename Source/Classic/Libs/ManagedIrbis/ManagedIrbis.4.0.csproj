@@ -958,6 +958,7 @@
     <Compile Include="Source\Server\IrbisServerSocket.cs" />
     <Compile Include="Source\Server\ServerCache.cs" />
     <Compile Include="Source\Server\ServerLock.cs" />
+    <Compile Include="Source\Server\ServerSetup.cs" />
     <Compile Include="Source\Server\ServerWorker.cs" />
     <Compile Include="Source\Server\ServerConfiguration.cs" />
     <Compile Include="Source\Server\ServerContext.cs" />

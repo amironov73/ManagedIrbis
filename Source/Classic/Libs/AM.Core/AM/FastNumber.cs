@@ -35,6 +35,8 @@ namespace AM
                 int number
             )
         {
+            // TODO не работает с отрицательными числами!
+
             char[] buffer = new char[10];
             int offset = 9;
             if (number == 0)

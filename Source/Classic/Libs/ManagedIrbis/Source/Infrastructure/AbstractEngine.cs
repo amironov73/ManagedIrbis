@@ -270,8 +270,6 @@ namespace ManagedIrbis.Infrastructure
         /// <summary>
         /// Standard command execution.
         /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
         protected ServerResponse StandardExecution
             (
                 [NotNull] ExecutionContext context

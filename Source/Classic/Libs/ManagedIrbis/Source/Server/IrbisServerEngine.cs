@@ -143,6 +143,11 @@ namespace ManagedIrbis.Server
         [NotNull]
         public string WorkDir { get; private set; }
 
+        /// <summary>
+        /// IP port number.
+        /// </summary>
+        public int PortNumber { get; private set; }
+
         #endregion
 
         #region Construction
@@ -152,28 +157,17 @@ namespace ManagedIrbis.Server
         /// </summary>
         public IrbisServerEngine
             (
-                [NotNull] ServerIniFile iniFile
-            )
-            : this(iniFile, null)
-        {
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public IrbisServerEngine
-            (
-                [NotNull] ServerIniFile iniFile,
-                [CanBeNull] string rootPathOverride
+                [NotNull] ServerSetup setup
             )
         {
             Log.Trace("IrbisServerEngine::Constructor enter");
 
-            Code.NotNull(iniFile, "iniFile");
+            Code.NotNull(setup, "setup");
 
             SyncRoot = new object();
             Cache = new ServerCache();
-            IniFile = iniFile;
+            IniFile = setup.IniFile;
+            string rootPathOverride = setup.RootPathOverride;
             SystemPath = rootPathOverride
                          ?? IniFile.SystemPath.ThrowIfNull("SystemPath");
             Log.Trace("SysPath=" + SystemPath);
@@ -203,12 +197,18 @@ namespace ManagedIrbis.Server
 
             StopSignal = new ManualResetEvent(false);
 
+            int ipPort = setup.PortNumberOverride;
+            if (ipPort <= 0)
+            {
+                ipPort = IniFile.IPPort;
+            }
             IPEndPoint endPoint = new IPEndPoint
                 (
                     IPAddress.Any,
-                    IniFile.IPPort
+                    ipPort
                 );
             Listener = new TcpListener(endPoint);
+            PortNumber = ipPort;
 
             Contexts = new NonNullCollection<ServerContext>();
             Workers = new NonNullCollection<ServerWorker>();

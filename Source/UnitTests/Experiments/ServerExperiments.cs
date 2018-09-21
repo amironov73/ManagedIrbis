@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using AM;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using AM;
 using AM.IO;
 
 using JetBrains.Annotations;
@@ -29,7 +30,12 @@ namespace UnitTests.Experiments
             string fileName = Path.Combine(serverRootPath, "irbis_server.ini");
             IniFile simpleIni = new IniFile(fileName, IrbisEncoding.Ansi, false);
             ServerIniFile serverIni = new ServerIniFile(simpleIni);
-            IrbisServerEngine engine = new IrbisServerEngine(serverIni, serverRootPath);
+            ServerSetup setup = new ServerSetup(serverIni)
+            {
+                RootPathOverride = serverRootPath,
+                PortNumberOverride = new Random().Next(50000, 60000)
+            };
+            IrbisServerEngine engine = new IrbisServerEngine(setup);
             Assert.IsNotNull(engine.IniFile);
             Assert.IsNotNull(engine.ClientIni);
             Assert.IsNotNull(engine.Contexts);
@@ -66,7 +72,7 @@ namespace UnitTests.Experiments
                         IrbisConnection connection = new IrbisConnection
                         {
                             Host = "127.0.0.1",
-                            Port = 6666,
+                            Port = engine.PortNumber,
                             Username = "librarian",
                             Password = "secret",
                             Workstation = IrbisWorkstation.Administrator

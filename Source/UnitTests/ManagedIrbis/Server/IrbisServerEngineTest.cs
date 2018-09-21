@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -35,7 +36,8 @@ namespace UnitTests.ManagedIrbis.Server
         public void IrbisServerEngine_Construction_1()
         {
             ServerIniFile iniFile = _GetIniFile();
-            IrbisServerEngine engine = new IrbisServerEngine(iniFile);
+            ServerSetup setup = new ServerSetup(iniFile);
+            IrbisServerEngine engine = new IrbisServerEngine(setup);
             Assert.AreSame(iniFile, engine.IniFile);
             Assert.IsNotNull(engine.StopSignal);
             Assert.IsNotNull(engine.Listener);
@@ -48,7 +50,13 @@ namespace UnitTests.ManagedIrbis.Server
         public void IrbisServerEngine_MainLoop_1()
         {
             ServerIniFile iniFile = _GetIniFile();
-            IrbisServerEngine engine = new IrbisServerEngine(iniFile);
+            string serverRootPath = Irbis64RootPath;
+            ServerSetup setup = new ServerSetup(iniFile)
+            {
+                RootPathOverride = serverRootPath,
+                PortNumberOverride = new Random().Next(50000, 60000)
+            };
+            IrbisServerEngine engine = new IrbisServerEngine(setup);
 
             Task mainLoop = Task.Factory.StartNew
                 (

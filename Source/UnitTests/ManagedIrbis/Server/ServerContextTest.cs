@@ -37,9 +37,10 @@ namespace UnitTests.ManagedIrbis.Server
         [NotNull]
         private ServerContext _GetContext()
         {
-            IniFile iniFile = new IniFile(_GetFileName());
-            ServerIniFile serverIni = new ServerIniFile(iniFile);
-            IrbisServerEngine engine = new IrbisServerEngine(serverIni);
+            //IniFile iniFile = new IniFile(_GetFileName());
+            //ServerIniFile serverIni = new ServerIniFile(iniFile);
+            //ServerSetup setup = new ServerSetup(serverIni);
+            //IrbisServerEngine engine = new IrbisServerEngine(setup);
 
             return new ServerContext
             {

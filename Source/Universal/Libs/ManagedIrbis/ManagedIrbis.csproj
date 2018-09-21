@@ -2773,6 +2773,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerLock.cs">
       <Link>Source\Server\ServerLock.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerSetup.cs">
+      <Link>Source\Server\ServerSetup.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerWorker.cs">
       <Link>Source\Server\ServerWorker.cs</Link>
     </Compile>

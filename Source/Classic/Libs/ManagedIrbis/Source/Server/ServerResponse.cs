@@ -169,7 +169,7 @@ namespace ManagedIrbis.Server
                 int value
             )
         {
-            string line = FastNumber.Int32ToString(value);
+            string line = value.ToInvariantString();
 
             return WriteAnsiString(line);
         }
