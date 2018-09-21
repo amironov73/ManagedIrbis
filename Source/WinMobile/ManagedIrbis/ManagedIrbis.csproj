@@ -2661,11 +2661,20 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\ClientRequest.cs">
       <Link>Source\Server\ClientRequest.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ActualizeRecordCommand.cs">
+      <Link>Source\Server\Commands\ActualizeRecordCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\CommandMapper.cs">
       <Link>Source\Server\Commands\CommandMapper.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ConnectCommand.cs">
       <Link>Source\Server\Commands\ConnectCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\CreateDatabaseCommand.cs">
+      <Link>Source\Server\Commands\CreateDatabaseCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\CreateDictionaryCommand.cs">
+      <Link>Source\Server\Commands\CreateDictionaryCommand.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\DatabaseInfoCommand.cs">
       <Link>Source\Server\Commands\DatabaseInfoCommand.cs</Link>

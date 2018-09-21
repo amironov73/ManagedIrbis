@@ -115,6 +115,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new WriteRecordCommand(data);
                     break;
 
+                case "F":
+                    result = new ActualizeRecordCommand(data);
+                    break;
+
                 case "G":
                     result = new FormatRecordCommand(data);
                     break;
@@ -149,6 +153,14 @@ namespace ManagedIrbis.Server.Commands
 
                 case "Q":
                     result = new UnlockRecordsCommand(data);
+                    break;
+
+                case "T":
+                    result = new CreateDatabaseCommand(data);
+                    break;
+
+                case "Z":
+                    result = new CreateDictionaryCommand(data);
                     break;
 
                 default:
