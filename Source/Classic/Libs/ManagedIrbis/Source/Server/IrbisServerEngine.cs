@@ -59,6 +59,11 @@ namespace ManagedIrbis.Server
         public object SyncRoot { get; private set; }
 
         /// <summary>
+        /// Момент старта движка.
+        /// </summary>
+        public DateTime StartedAt { get; private set; }
+
+        /// <summary>
         /// Contexts.
         /// </summary>
         [NotNull]
@@ -725,6 +730,8 @@ namespace ManagedIrbis.Server
         public void MainLoop()
         {
             Log.Trace("IrbisServerEngine::MainLoop enter");
+
+            StartedAt = DateTime.Now;
 
             Listener.Start();
 

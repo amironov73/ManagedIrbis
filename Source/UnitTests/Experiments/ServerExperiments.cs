@@ -484,5 +484,37 @@ namespace UnitTests.Experiments
                 throw ex;
             }
         }
+
+        [TestMethod]
+        public void Server_ListUsers_1()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                UserInfo[] users = connection.ListUsers();
+                Assert.AreEqual(2, users.Length);
+                Assert.AreEqual("librarian", users[0].Name);
+                Assert.AreEqual("secret", users[0].Password);
+                Assert.AreEqual("rdr", users[1].Name);
+                Assert.AreEqual("rdr", users[1].Password);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
+
+        [TestMethod]
+        public void Server_ListProcesses_1()
+        {
+            Exception ex = _RunAction(connection =>
+            {
+                IrbisProcessInfo[] processes = connection.ListProcesses();
+                Assert.AreEqual(2, processes.Length);
+            });
+            if (!ReferenceEquals(ex, null))
+            {
+                throw ex;
+            }
+        }
     }
 }

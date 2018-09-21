@@ -59,12 +59,49 @@ namespace ManagedIrbis.Server.Commands
                 Data.Context = context;
                 UpdateContext();
 
-                ClientRequest request = Data.Request.ThrowIfNull();
+                // Типичный ответ сервера
 
-                // TODO implement
+                // 0              // Общий код возврата
+                // 2              // Количество известных системе пользователей
+                // 8              // Строк на одного пользователя
+                // 1              // Номер по порядку
+                // librarian      // Логин
+                // secret         // Пароль
+                // INI\MIRONC.INI // INI для Каталогизатора
+                // irbisr.ini     // INI для Читателя
+                // irbisb.ini     // INI для Книговыдачи
+                // irbisp.ini     // INI для Комплектатора
+                // irbisk.ini     // INI для Книгообеспеченности
+                // irbisa.ini     // INI для Администратора
+                // 2              // Номер по порядку
+                // rdr            // Логин
+                // rdr            // Пароль
+                //                // Каталогизатор запрещен
+                // INI\RDR_R.INI  // INI для Читателя
+                //                // Книговыдача запрещена
+                //                // Комплектатор запрещен
+                //                // Книгообеспеченность запрещена
+                //                // Администратор запрещен
 
+                UserInfo[] users = engine.Users;
                 ServerResponse response = Data.Response.ThrowIfNull();
                 response.WriteInt32(0).NewLine();
+                // Количество известных системе пользователей
+                response.WriteInt32(users.Length).NewLine();
+                response.WriteInt32(8).NewLine(); // Строк на одного пользователя
+                int index = 1;
+                foreach (UserInfo user in users)
+                {
+                    response.WriteInt32(index++).NewLine();
+                    response.WriteAnsiString(user.Name).NewLine();
+                    response.WriteAnsiString(user.Password).NewLine();
+                    response.WriteAnsiString(user.Cataloger).NewLine();
+                    response.WriteAnsiString(user.Reader).NewLine();
+                    response.WriteAnsiString(user.Circulation).NewLine();
+                    response.WriteAnsiString(user.Acquisitions).NewLine();
+                    response.WriteAnsiString(user.Provision).NewLine();
+                    response.WriteAnsiString(user.Administrator).NewLine();
+                }
                 SendResponse();
             }
             catch (IrbisException exception)
