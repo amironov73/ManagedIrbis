@@ -83,8 +83,16 @@ namespace ManagedIrbis.Server.Commands
                     result = new ListFilesCommand(data);
                     break;
 
+                case "+3":
+                    result = new ListProcessesCommand(data);
+                    break;
+
                 case "+8":
                     result = new RestartServerCommand(data);
+                    break;
+
+                case "+9":
+                    result = new ListUsersCommand(data);
                     break;
 
                 case "0":
@@ -93,6 +101,10 @@ namespace ManagedIrbis.Server.Commands
 
                 case "1":
                     result = new ServerVersionCommand(data);
+                    break;
+
+                case "2":
+                    result = new GblCommand(data);
                     break;
 
                 case "8":
@@ -120,7 +132,7 @@ namespace ManagedIrbis.Server.Commands
                     break;
 
                 case "G":
-                    result = new FormatRecordCommand(data);
+                    result = new FormatCommand(data);
                     break;
 
                 case "H":
@@ -144,7 +156,7 @@ namespace ManagedIrbis.Server.Commands
                     break;
 
                 case "O":
-                    result = new GetMaxMfnCommand(data);
+                    result = new MaxMfnCommand(data);
                     break;
 
                 case "P":
@@ -157,6 +169,10 @@ namespace ManagedIrbis.Server.Commands
 
                 case "T":
                     result = new CreateDatabaseCommand(data);
+                    break;
+
+                case "W":
+                    result = new DeleteDatabaseCommand(data);
                     break;
 
                 case "Z":

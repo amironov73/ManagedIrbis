@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* CreateDictionaryCommand.cs --
+/* ListProcessesCommand.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -27,7 +27,7 @@ namespace ManagedIrbis.Server.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class CreateDictionaryCommand
+    public class ListProcessesCommand
         : ServerCommand
     {
         #region Construction
@@ -35,7 +35,7 @@ namespace ManagedIrbis.Server.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public CreateDictionaryCommand
+        public ListProcessesCommand
             (
                 [NotNull] WorkData data
             )
@@ -60,7 +60,6 @@ namespace ManagedIrbis.Server.Commands
                 UpdateContext();
 
                 ClientRequest request = Data.Request.ThrowIfNull();
-                string database = request.RequireAnsiString();
 
                 // TODO implement
 
@@ -74,7 +73,7 @@ namespace ManagedIrbis.Server.Commands
             }
             catch (Exception exception)
             {
-                Log.TraceException("CreateDictionaryCommand::Execute", exception);
+                Log.TraceException("ListProcessesCommand::Execute", exception);
                 SendError(-8888);
             }
 

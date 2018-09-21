@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* GetMaxMfnCommand.cs --
+/* ListUsersCommand.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -16,8 +16,6 @@ using AM.Logging;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Direct;
-
 using MoonSharp.Interpreter;
 
 #endregion
@@ -29,7 +27,7 @@ namespace ManagedIrbis.Server.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class GetMaxMfnCommand
+    public class ListUsersCommand
         : ServerCommand
     {
         #region Construction
@@ -37,7 +35,7 @@ namespace ManagedIrbis.Server.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public GetMaxMfnCommand
+        public ListUsersCommand
             (
                 [NotNull] WorkData data
             )
@@ -57,21 +55,16 @@ namespace ManagedIrbis.Server.Commands
 
             try
             {
-                ServerContext context = engine.RequireContext(Data);
+                ServerContext context = engine.RequireAdministratorContext(Data);
                 Data.Context = context;
                 UpdateContext();
 
                 ClientRequest request = Data.Request.ThrowIfNull();
-                string database = request.RequireAnsiString();
 
-                int result;
-                using (DirectAccess64 direct = engine.GetDatabase(database))
-                {
-                    result = direct.GetMaxMfn();
-                }
+                // TODO implement
 
                 ServerResponse response = Data.Response.ThrowIfNull();
-                response.WriteInt32(result).NewLine();
+                response.WriteInt32(0).NewLine();
                 SendResponse();
             }
             catch (IrbisException exception)
@@ -80,7 +73,7 @@ namespace ManagedIrbis.Server.Commands
             }
             catch (Exception exception)
             {
-                Log.TraceException("GetMaxMfnCommand::Execute", exception);
+                Log.TraceException("ListUsersCommand::Execute", exception);
                 SendError(-8888);
             }
 

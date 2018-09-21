@@ -2725,14 +2725,26 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\DatabaseInfoCommand.cs">
       <Link>Source\Server\Commands\DatabaseInfoCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\DeleteDatabaseCommand.cs">
+      <Link>Source\Server\Commands\DeleteDatabaseCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\DisconnectCommand.cs">
       <Link>Source\Server\Commands\DisconnectCommand.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\FormatRecordCommand.cs">
-      <Link>Source\Server\Commands\FormatRecordCommand.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\FormatCommand.cs">
+      <Link>Source\Server\Commands\FormatCommand.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\GetMaxMfnCommand.cs">
-      <Link>Source\Server\Commands\GetMaxMfnCommand.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\GblCommand.cs">
+      <Link>Source\Server\Commands\GblCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ListProcessesCommand.cs">
+      <Link>Source\Server\Commands\ListProcessesCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ListUsersCommand.cs">
+      <Link>Source\Server\Commands\ListUsersCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\MaxMfnCommand.cs">
+      <Link>Source\Server\Commands\MaxMfnCommand.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ListFilesCommand.cs">
       <Link>Source\Server\Commands\ListFilesCommand.cs</Link>

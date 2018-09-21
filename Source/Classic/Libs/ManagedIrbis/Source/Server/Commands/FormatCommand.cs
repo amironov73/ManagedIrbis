@@ -30,7 +30,7 @@ namespace ManagedIrbis.Server.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class FormatRecordCommand
+    public class FormatCommand
         : ServerCommand
     {
         #region Construction
@@ -38,7 +38,7 @@ namespace ManagedIrbis.Server.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public FormatRecordCommand
+        public FormatCommand
             (
                 [NotNull] WorkData data
             )

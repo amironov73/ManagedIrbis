@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* CreateDictionaryCommand.cs --
+/* GblCommand.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -27,7 +27,7 @@ namespace ManagedIrbis.Server.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class CreateDictionaryCommand
+    public class GblCommand
         : ServerCommand
     {
         #region Construction
@@ -35,7 +35,7 @@ namespace ManagedIrbis.Server.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public CreateDictionaryCommand
+        public GblCommand
             (
                 [NotNull] WorkData data
             )
@@ -55,12 +55,11 @@ namespace ManagedIrbis.Server.Commands
 
             try
             {
-                ServerContext context = engine.RequireAdministratorContext(Data);
+                ServerContext context = engine.RequireContext(Data);
                 Data.Context = context;
                 UpdateContext();
 
                 ClientRequest request = Data.Request.ThrowIfNull();
-                string database = request.RequireAnsiString();
 
                 // TODO implement
 
@@ -74,7 +73,7 @@ namespace ManagedIrbis.Server.Commands
             }
             catch (Exception exception)
             {
-                Log.TraceException("CreateDictionaryCommand::Execute", exception);
+                Log.TraceException("GblCommand::Execute", exception);
                 SendError(-8888);
             }
 
