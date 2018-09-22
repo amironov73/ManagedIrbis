@@ -964,9 +964,12 @@
     <Compile Include="Source\Server\Commands\ReadRecordCommand.cs" />
     <Compile Include="Source\Server\Commands\SearchCommand.cs" />
     <Compile Include="Source\Server\Commands\ServerCommand.cs" />
+    <Compile Include="Source\Server\Commands\UnlockDatabaseCommand.cs" />
     <Compile Include="Source\Server\Commands\UnlockRecordsCommand.cs" />
     <Compile Include="Source\Server\Commands\UpdateIniFileCommand.cs" />
+    <Compile Include="Source\Server\Commands\UpdateUserListCommand.cs" />
     <Compile Include="Source\Server\Commands\WriteRecordCommand.cs" />
+    <Compile Include="Source\Server\Commands\WriteRecordsCommand.cs" />
     <Compile Include="Source\Server\IrbisServerSocket.cs" />
     <Compile Include="Source\Server\ServerCache.cs" />
     <Compile Include="Source\Server\ServerLock.cs" />

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ReloadDictionaryCommand.cs --
+/* UpdateUserListCommand.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -27,7 +27,7 @@ namespace ManagedIrbis.Server.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class ReloadDictionaryCommand
+    public class UpdateUserListCommand
         : ServerCommand
     {
         #region Construction
@@ -35,7 +35,7 @@ namespace ManagedIrbis.Server.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ReloadDictionaryCommand
+        public UpdateUserListCommand
             (
                 [NotNull] WorkData data
             )
@@ -60,7 +60,7 @@ namespace ManagedIrbis.Server.Commands
                 UpdateContext();
 
                 ClientRequest request = Data.Request.ThrowIfNull();
-                string database = request.RequireAnsiString();
+                string[] lines = request.RemainingAnsiStrings();
 
                 // TODO implement
 
@@ -74,7 +74,7 @@ namespace ManagedIrbis.Server.Commands
             }
             catch (Exception exception)
             {
-                Log.TraceException("ReloadDictionaryCommand::Execute", exception);
+                Log.TraceException("UpdateUserListCommand::Execute", exception);
                 SendError(-8888);
             }
 

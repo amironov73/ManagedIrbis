@@ -87,6 +87,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new ListProcessesCommand(data);
                     break;
 
+                case "+7":
+                    result = new UpdateUserListCommand(data);
+                    break;
+
                 case "+8":
                     result = new RestartServerCommand(data);
                     break;
@@ -105,6 +109,10 @@ namespace ManagedIrbis.Server.Commands
 
                 case "2":
                     result = new GblCommand(data);
+                    break;
+
+                case "6":
+                    result = new WriteRecordsCommand(data);
                     break;
 
                 case "7":
@@ -173,6 +181,10 @@ namespace ManagedIrbis.Server.Commands
 
                 case "T":
                     result = new CreateDatabaseCommand(data);
+                    break;
+
+                case "U":
+                    result = new UnlockDatabaseCommand(data);
                     break;
 
                 case "V":

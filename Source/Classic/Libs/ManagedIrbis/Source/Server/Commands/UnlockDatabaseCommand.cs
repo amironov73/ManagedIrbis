@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ReloadDictionaryCommand.cs --
+/* UnlockDatabaseCommand.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -27,7 +27,7 @@ namespace ManagedIrbis.Server.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class ReloadDictionaryCommand
+    public class UnlockDatabaseCommand
         : ServerCommand
     {
         #region Construction
@@ -35,7 +35,7 @@ namespace ManagedIrbis.Server.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ReloadDictionaryCommand
+        public UnlockDatabaseCommand
             (
                 [NotNull] WorkData data
             )
@@ -74,7 +74,7 @@ namespace ManagedIrbis.Server.Commands
             }
             catch (Exception exception)
             {
-                Log.TraceException("ReloadDictionaryCommand::Execute", exception);
+                Log.TraceException("UnlockDatabaseCommand::Execute", exception);
                 SendError(-8888);
             }
 

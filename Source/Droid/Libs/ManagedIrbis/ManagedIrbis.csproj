@@ -2735,14 +2735,23 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ServerCommand.cs">
       <Link>Source\Server\Commands\ServerCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\UnlockDatabaseCommand.cs">
+      <Link>Source\Server\Commands\UnlockDatabaseCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\UnlockRecordsCommand.cs">
       <Link>Source\Server\Commands\UnlockRecordsCommand.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\UpdateIniFileCommand.cs">
       <Link>Source\Server\Commands\UpdateIniFileCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\UpdateUserListCommand.cs">
+      <Link>Source\Server\Commands\UpdateUserListCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\WriteRecordCommand.cs">
       <Link>Source\Server\Commands\WriteRecordCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\WriteRecordsCommand.cs">
+      <Link>Source\Server\Commands\WriteRecordsCommand.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\IrbisServerSocket.cs">
       <Link>Source\Server\IrbisServerSocket.cs</Link>

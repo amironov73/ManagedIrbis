@@ -247,6 +247,12 @@ namespace ManagedIrbis.Server.Commands
                 response.WriteInt32(9).NewLine();
                 int index = 1;
 
+#if UAP
+                int processId = 111; // TODO implement
+#else
+                int processId = Process.GetCurrentProcess().Id;
+#endif
+
                 // Сначала идет сервер
                 response.WriteAnsiString("*").NewLine();
                 response.WriteAnsiString("Local IP address").NewLine();
@@ -256,7 +262,7 @@ namespace ManagedIrbis.Server.Commands
                 response.WriteAnsiString(_FormatTime(engine.StartedAt)).NewLine();
                 response.WriteAnsiString("*****").NewLine();
                 response.WriteAnsiString("*****").NewLine();
-                response.WriteInt32(Process.GetCurrentProcess().Id).NewLine();
+                response.WriteInt32(processId).NewLine();
                 response.WriteAnsiString("Активный").NewLine();
 
                 foreach (ServerContext ctx in contexts)
@@ -269,7 +275,7 @@ namespace ManagedIrbis.Server.Commands
                     response.WriteAnsiString(_FormatTime(ctx.Connected)).NewLine();
                     response.WriteAnsiString(_TranslateCommand(ctx.LastCommand)).NewLine();
                     response.WriteInt32(ctx.CommandCount).NewLine();
-                    response.WriteInt32(Process.GetCurrentProcess().Id).NewLine();
+                    response.WriteInt32(processId).NewLine();
                     response.WriteAnsiString("Активный").NewLine();
                 }
                 SendResponse();

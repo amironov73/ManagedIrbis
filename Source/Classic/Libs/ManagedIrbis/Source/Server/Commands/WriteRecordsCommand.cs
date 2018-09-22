@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ReloadDictionaryCommand.cs --
+/* WriteRecordsCommand.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -27,7 +27,7 @@ namespace ManagedIrbis.Server.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class ReloadDictionaryCommand
+    public class WriteRecordsCommand
         : ServerCommand
     {
         #region Construction
@@ -35,7 +35,7 @@ namespace ManagedIrbis.Server.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ReloadDictionaryCommand
+        public WriteRecordsCommand
             (
                 [NotNull] WorkData data
             )
@@ -55,12 +55,14 @@ namespace ManagedIrbis.Server.Commands
 
             try
             {
-                ServerContext context = engine.RequireAdministratorContext(Data);
+                ServerContext context = engine.RequireContext(Data);
                 Data.Context = context;
                 UpdateContext();
 
                 ClientRequest request = Data.Request.ThrowIfNull();
-                string database = request.RequireAnsiString();
+                int lockFlag = request.GetInt32();
+                int actualizeFlag = request.GetInt32();
+                string[] lines = request.RemainingUtfStrings(); // encoded records
 
                 // TODO implement
 
@@ -74,7 +76,7 @@ namespace ManagedIrbis.Server.Commands
             }
             catch (Exception exception)
             {
-                Log.TraceException("ReloadDictionaryCommand::Execute", exception);
+                Log.TraceException("WriteRecordsCommand::Execute", exception);
                 SendError(-8888);
             }
 

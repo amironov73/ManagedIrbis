@@ -55,7 +55,7 @@ namespace ManagedIrbis.Server.Commands
 
             try
             {
-                ServerContext context = engine.RequireContext(Data);
+                ServerContext context = engine.RequireAdministratorContext(Data);
                 Data.Context = context;
                 UpdateContext();
 
