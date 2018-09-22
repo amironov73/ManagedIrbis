@@ -175,6 +175,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new CreateDatabaseCommand(data);
                     break;
 
+                case "V":
+                    result = new RecordPostingsCommand(data);
+                    break;
+
                 case "W":
                     result = new DeleteDatabaseCommand(data);
                     break;

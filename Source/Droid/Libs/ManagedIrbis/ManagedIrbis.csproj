@@ -2705,6 +2705,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ReadTermsCommand.cs">
       <Link>Source\Server\Commands\ReadTermsCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\RecordPostingsCommand.cs">
+      <Link>Source\Server\Commands\RecordPostingsCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ReloadDictionaryCommand.cs">
       <Link>Source\Server\Commands\ReloadDictionaryCommand.cs</Link>
     </Compile>
