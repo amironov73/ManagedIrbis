@@ -2725,6 +2725,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\DatabaseInfoCommand.cs">
       <Link>Source\Server\Commands\DatabaseInfoCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\DatabaseStatCommand.cs">
+      <Link>Source\Server\Commands\DatabaseStatCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\DeleteDatabaseCommand.cs">
       <Link>Source\Server\Commands\DeleteDatabaseCommand.cs</Link>
     </Compile>
@@ -2749,11 +2752,20 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ListFilesCommand.cs">
       <Link>Source\Server\Commands\ListFilesCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\PrintTableCommand.cs">
+      <Link>Source\Server\Commands\PrintTableCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ReadPostingsCommand.cs">
       <Link>Source\Server\Commands\ReadPostingsCommand.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ReadTermsCommand.cs">
       <Link>Source\Server\Commands\ReadTermsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ReloadDictionaryCommand.cs">
+      <Link>Source\Server\Commands\ReloadDictionaryCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ReloadMasterFileCommand.cs">
+      <Link>Source\Server\Commands\ReloadMasterFileCommand.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\RestartServerCommand.cs">
       <Link>Source\Server\Commands\RestartServerCommand.cs</Link>

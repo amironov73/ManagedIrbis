@@ -107,6 +107,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new GblCommand(data);
                     break;
 
+                case "7":
+                    result = new PrintTableCommand(data);
+                    break;
+
                 case "8":
                     result = new UpdateIniFileCommand(data);
                     break;
@@ -173,6 +177,14 @@ namespace ManagedIrbis.Server.Commands
 
                 case "W":
                     result = new DeleteDatabaseCommand(data);
+                    break;
+
+                case "X":
+                    result = new ReloadMasterFileCommand(data);
+                    break;
+
+                case "Y":
+                    result = new ReloadDictionaryCommand(data);
                     break;
 
                 case "Z":
