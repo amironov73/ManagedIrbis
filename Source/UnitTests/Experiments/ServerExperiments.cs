@@ -42,7 +42,6 @@ namespace UnitTests.Experiments
             Assert.IsNotNull(engine.DataPath);
             Assert.IsNotNull(engine.Listener);
             Assert.IsNotNull(engine.Mapper);
-            Assert.IsNotNull(engine.StopSignal);
             Assert.IsNotNull(engine.SystemPath);
             Assert.IsNotNull(engine.Users);
             Assert.IsNotNull(engine.WorkDir);
@@ -82,11 +81,11 @@ namespace UnitTests.Experiments
                         action(connection);
 
                         connection.Dispose();
-                        engine.StopSignal.Set();
+                        engine.CancelProcessing();
                     }
                     catch (Exception ex)
                     {
-                        engine.StopSignal.Set();
+                        engine.CancelProcessing();
                         result = ex;
                     }
                 });

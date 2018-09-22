@@ -39,7 +39,6 @@ namespace UnitTests.ManagedIrbis.Server
             ServerSetup setup = new ServerSetup(iniFile);
             IrbisServerEngine engine = new IrbisServerEngine(setup);
             Assert.AreSame(iniFile, engine.IniFile);
-            Assert.IsNotNull(engine.StopSignal);
             Assert.IsNotNull(engine.Listener);
             Assert.IsNotNull(engine.Workers);
             Assert.AreEqual(0, engine.Workers.Count);
@@ -73,7 +72,7 @@ namespace UnitTests.ManagedIrbis.Server
                     }
                 );
             Task.Delay(100);
-            engine.StopSignal.Set();
+            engine.CancelProcessing();
             engine.WaitForWorkers();
 
             //engine.Dispose();

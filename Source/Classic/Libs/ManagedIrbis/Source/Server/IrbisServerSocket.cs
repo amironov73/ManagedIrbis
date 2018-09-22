@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IrbisServerSocket.cs -- 
+/* IrbisServerSocket.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using AM;
@@ -34,7 +35,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Server
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -58,17 +59,21 @@ namespace ManagedIrbis.Server
         /// </summary>
         public IrbisServerSocket
             (
-                [NotNull] TcpClient client
+                [NotNull] TcpClient client,
+                CancellationToken token
             )
         {
             Code.NotNull(client, "client");
 
             Client = client;
+            _token = token;
         }
 
         #endregion
 
         #region Private members
+
+        private CancellationToken _token;
 
         #endregion
 

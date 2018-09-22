@@ -2763,6 +2763,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\WriteRecordsCommand.cs">
       <Link>Source\Server\Commands\WriteRecordsCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\IrbisServerListener.cs">
+      <Link>Source\Server\IrbisServerListener.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\IrbisServerSocket.cs">
       <Link>Source\Server\IrbisServerSocket.cs</Link>
     </Compile>

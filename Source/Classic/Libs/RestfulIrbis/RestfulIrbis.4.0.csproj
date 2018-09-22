@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\..\Binaries\Debug40\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CLASSIC;DESKTOP;FW4;FW40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\..\..\Binaries\Debug40\RestfulIrbis.xml</DocumentationFile>
@@ -28,7 +28,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\..\Binaries\Release40\</OutputPath>
-    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4</DefineConstants>
+    <DefineConstants>TRACE;CLASSIC;DESKTOP;FW4;FW40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\..\..\Binaries\Release40\RestfulIrbis.xml</DocumentationFile>

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IrbisSocketServer.cs --
+/* IrbisServerSocket.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -15,7 +15,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -109,7 +108,7 @@ namespace ManagedIrbis.Server
         /// TCP listener.
         /// </summary>
         [NotNull]
-        public TcpListener Listener { get; private set; }
+        public IrbisServerListener Listener { get; private set; }
 
         /// <summary>
         /// Command mapper.
@@ -123,11 +122,11 @@ namespace ManagedIrbis.Server
         [NotNull]
         public string SystemPath { get; private set; }
 
-        /// <summary>
-        /// Stop signal.
-        /// </summary>
-        [NotNull]
-        public ManualResetEvent StopSignal { get; private set; }
+        ///// <summary>
+        ///// Stop signal.
+        ///// </summary>
+        //[NotNull]
+        //public ManualResetEvent StopSignal { get; private set; }
 
         /// <summary>
         /// Known users.
@@ -169,6 +168,9 @@ namespace ManagedIrbis.Server
 
             Code.NotNull(setup, "setup");
 
+            _cancellation = new CancellationTokenSource();
+            // StopSignal = new ManualResetEvent(false);
+
             SyncRoot = new object();
             Cache = new ServerCache();
             IniFile = setup.IniFile;
@@ -176,12 +178,12 @@ namespace ManagedIrbis.Server
             SystemPath = rootPathOverride
                          ?? IniFile.SystemPath.ThrowIfNull("SystemPath");
             Log.Trace("SysPath=" + SystemPath);
-            _VerifyDirReadable(SystemPath);
+            _VerifyDirectoryReadable(SystemPath);
             DataPath = ReferenceEquals(rootPathOverride, null)
                 ? IniFile.DataPath.ThrowIfNull("DataPath")
                 : Path.Combine(rootPathOverride, "Datai");
             Log.Trace("DataPath=" + DataPath);
-            _VerifyDirReadable(DataPath);
+            _VerifyDirectoryReadable(DataPath);
             DepositPath = Path.Combine(DataPath, "Deposit");
             DepositUserPath = Path.Combine(DataPath, "Deposit_USER");
             WorkDir = ReferenceEquals(rootPathOverride, null)
@@ -191,16 +193,14 @@ namespace ManagedIrbis.Server
             {
                 Directory.CreateDirectory(WorkDir);
             }
-            _VerifyDirReadable(WorkDir);
-            _VerifyDirWriteable(WorkDir);
+            _VerifyDirectoryReadable(WorkDir);
+            _VerifyDirectoryWriteable(WorkDir);
 
             string fileName = Path.Combine(SystemPath, "client_ini.mnu");
             ClientIni = MenuFile.ParseLocalFile(fileName, IrbisEncoding.Ansi);
             string clientList = IniFile.ClientList ?? "client_m.mnu";
             clientList = Path.Combine(DataPath, clientList);
             Users = UserInfo.ParseFile(clientList, ClientIni);
-
-            StopSignal = new ManualResetEvent(false);
 
             int ipPort = setup.PortNumberOverride;
             if (ipPort <= 0)
@@ -212,7 +212,7 @@ namespace ManagedIrbis.Server
                     IPAddress.Any,
                     ipPort
                 );
-            Listener = new TcpListener(endPoint);
+            Listener = new IrbisServerListener(endPoint, _cancellation.Token);
             PortNumber = ipPort;
 
             Contexts = new NonNullCollection<ServerContext>();
@@ -226,6 +226,8 @@ namespace ManagedIrbis.Server
 
         #region Private members
 
+        private CancellationTokenSource _cancellation;
+
         private string _GetDepositFile(string fileName)
         {
             string result = Path.GetFullPath(Path.Combine(DepositPath, fileName));
@@ -237,7 +239,7 @@ namespace ManagedIrbis.Server
             return result;
         }
 
-        private void _VerifyDirReadable
+        private void _VerifyDirectoryReadable
             (
                 [NotNull] string path
             )
@@ -245,7 +247,7 @@ namespace ManagedIrbis.Server
             // TODO Implement
         }
 
-        private void _VerifyDirWriteable
+        private void _VerifyDirectoryWriteable
             (
                 [NotNull] string path
             )
@@ -253,31 +255,25 @@ namespace ManagedIrbis.Server
             // TODO implement
         }
 
+#if FW45 || NETCORE || ANDROID || UAP
+
         private void _HandleClient
             (
-#if DESKTOP
-                IAsyncResult asyncResult
-#elif NETCORE || ANDROID || UAP
-                Task<TcpClient> task
-#endif
+                [NotNull] IrbisServerSocket socket
             )
         {
             Log.Trace("IrbisServerEngine::_HandleClient enter");
 
-#if DESKTOP
+            if (_cancellation.IsCancellationRequested)
+            {
+                socket.Dispose();
+                return;
+            }
 
-            TcpListener listener = (TcpListener)asyncResult.AsyncState;
-            TcpClient client = listener.EndAcceptTcpClient(asyncResult);
-
-#elif NETCORE || ANDROID || UAP
-
-            TcpClient client = task.Result;
-
-#endif
             WorkData data = new WorkData
             {
                 Engine = this,
-                Socket = new IrbisServerSocket(client),
+                Socket = socket
             };
 
             ServerWorker worker = new ServerWorker(data);
@@ -292,6 +288,7 @@ namespace ManagedIrbis.Server
 
             Log.Trace("IrbisServerEngine::_HandleClient leave");
         }
+#endif
 
         #endregion
 
@@ -712,8 +709,10 @@ namespace ManagedIrbis.Server
             LocalProvider result;
             try
             {
-                result = new LocalProvider(SystemPath, DirectAccessMode.ReadOnly, false);
-                result.Database = database;
+                result = new LocalProvider(SystemPath, DirectAccessMode.ReadOnly, false)
+                {
+                    Database = database
+                };
             }
             catch(Exception exception)
             {
@@ -724,6 +723,8 @@ namespace ManagedIrbis.Server
             return result;
         }
 
+        //=====================================================================
+
         /// <summary>
         /// Process loop.
         /// </summary>
@@ -731,61 +732,44 @@ namespace ManagedIrbis.Server
         {
             Log.Trace("IrbisServerEngine::MainLoop enter");
 
+#if FW45 || NETCORE || ANDROID || UAP
+
             StartedAt = DateTime.Now;
 
             Listener.Start();
 
             while (true)
             {
-#if WINMOBILE || PocketPC
-
-                if (StopSignal.WaitOne(0, false))
-                {
-                    break;
-                }
-
-#else
-
-                if (StopSignal.WaitOne(0))
+                if (_cancellation.IsCancellationRequested)
                 {
                     Log.Trace("IrbisServerEngine::MainLoop: break signal 1");
                     break;
                 }
 
-#endif
-
-#if DESKTOP
-
-                IAsyncResult socketResult = Listener.BeginAcceptTcpClient
-                    (
-                        _HandleClient,
-                        Listener
-                    );
-
-                WaitHandle[] handles =
+                try
                 {
-                    socketResult.AsyncWaitHandle,
-                    StopSignal
-                };
-                int index = WaitHandle.WaitAny(handles);
-                if (index == 1
-                    || index < 0)
-                {
-                    Log.Trace("IrbisServerEngine::MainLoop: break signal 2");
-                    break;
+                    Task<IrbisServerSocket> task = Listener.AcceptClientAsync();
+                    task.Wait(_cancellation.Token);
+                    if (_cancellation.IsCancellationRequested)
+                    {
+                        Log.Trace("IrbisServerEngine::MainLoop: break signal 2");
+                        break;
+                    }
+
+                    IrbisServerSocket socket = task.Result;
+                    _HandleClient(socket);
                 }
-
-#elif NETCORE || ANDROID || UAP
-
-                Task<TcpClient> task = Listener.AcceptTcpClientAsync();
-                task.ContinueWith (_HandleClient);
-
-#endif
-
+                catch (Exception exception)
+                {
+                    Log.TraceException("IrbisServerEngine::MainLoop", exception);
+                }
             }
 
+#endif
             Log.Trace("IrbisServerEngine::MainLoop leave");
         }
+
+        //=====================================================================
 
         /// <summary>
         /// Resolve the file path.
@@ -865,6 +849,14 @@ namespace ManagedIrbis.Server
         }
 
         /// <summary>
+        /// Cancel <see cref="MainLoop"/> processing.
+        /// </summary>
+        public void CancelProcessing()
+        {
+            _cancellation.Cancel();
+        }
+
+        /// <summary>
         /// Wait for workers (if any).
         /// </summary>
         public void WaitForWorkers()
@@ -886,7 +878,7 @@ namespace ManagedIrbis.Server
         /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
-            Listener.Stop(); // ???
+            Listener.Dispose();
         }
 
         #endregion

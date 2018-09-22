@@ -107,7 +107,7 @@ namespace ManagedIrbis.Server.Commands
                     result = new ServerVersionCommand(data);
                     break;
 
-                case "2":
+                case "5":
                     result = new GblCommand(data);
                     break;
 
