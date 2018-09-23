@@ -2753,11 +2753,11 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\WriteRecordsCommand.cs">
       <Link>Source\Server\Commands\WriteRecordsCommand.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\IrbisServerListener.cs">
-      <Link>Source\Server\IrbisServerListener.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\IrbisServerListener.cs">
+      <Link>Source\Server\Sockets\IrbisServerListener.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\IrbisServerSocket.cs">
-      <Link>Source\Server\IrbisServerSocket.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\IrbisServerSocket.cs">
+      <Link>Source\Server\Sockets\IrbisServerSocket.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerCache.cs">
       <Link>Source\Server\ServerCache.cs</Link>
@@ -2788,6 +2788,18 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerUtility.cs">
       <Link>Source\Server\ServerUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\Tcp4Listener.cs">
+      <Link>Source\Server\Sockets\Tcp4Listener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\Tcp4Socket.cs">
+      <Link>Source\Server\Sockets\Tcp4Socket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\Tcp6Listener.cs">
+      <Link>Source\Server\Sockets\Tcp6Listener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\Tcp6Socket.cs">
+      <Link>Source\Server\Sockets\Tcp6Socket.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\WorkData.cs">
       <Link>Source\Server\WorkData.cs</Link>

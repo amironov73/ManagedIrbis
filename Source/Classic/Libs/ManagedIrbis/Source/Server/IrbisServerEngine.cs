@@ -34,6 +34,7 @@ using ManagedIrbis.Direct;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
 using ManagedIrbis.Server.Commands;
+using ManagedIrbis.Server.Sockets;
 
 using MoonSharp.Interpreter;
 
@@ -214,7 +215,7 @@ namespace ManagedIrbis.Server
                 );
             Listeners = new[]
             {
-                new IrbisServerListener(endPoint, _cancellation.Token)
+                new Tcp4Listener(endPoint, _cancellation.Token)
             };
             PortNumber = ipPort;
 

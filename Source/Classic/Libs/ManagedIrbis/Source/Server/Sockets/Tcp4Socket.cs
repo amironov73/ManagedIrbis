@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IrbisServerSocket.cs --
+/* Tcp4Socket.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,21 +9,10 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -33,15 +22,15 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis.Server
+namespace ManagedIrbis.Server.Sockets
 {
     /// <summary>
-    ///
+    /// Простейшее подключение через TCP/IP v4.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class IrbisServerSocket
-        : IDisposable
+    public class Tcp4Socket
+        : IrbisServerSocket
     {
         #region Properties
 
@@ -58,7 +47,7 @@ namespace ManagedIrbis.Server
         /// <summary>
         /// Construction.
         /// </summary>
-        public IrbisServerSocket
+        public Tcp4Socket
             (
                 [NotNull] TcpClient client,
                 CancellationToken token
@@ -78,13 +67,10 @@ namespace ManagedIrbis.Server
 
         #endregion
 
-        #region Public methods
+        #region IrbisServerSocket members
 
-        /// <summary>
-        /// Get remote address.
-        /// </summary>
-        [NotNull]
-        public virtual string GetRemoteAddress()
+        /// <inheritdoc cref="IrbisServerSocket.GetRemoteAddress" />
+        public override string GetRemoteAddress()
         {
             EndPoint endPoint = Client.Client.RemoteEndPoint;
             IPEndPoint ip = endPoint as IPEndPoint;
@@ -96,12 +82,44 @@ namespace ManagedIrbis.Server
             return endPoint.ToString();
         }
 
-        #endregion
+        /// <inheritdoc cref="IrbisServerSocket.ReceiveAll" />
+        public override MemoryStream ReceiveAll()
+        {
+            MemoryStream result = new MemoryStream();
+            NetworkStream stream = Client.GetStream();
 
-        #region IDisposable
+            while (true)
+            {
+                byte[] buffer = new byte[50 * 1024];
+                int read = stream.Read(buffer, 0, buffer.Length);
+                if (read <= 0)
+                {
+                    break;
+                }
+                result.Write(buffer, 0, read);
+            }
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
-        public void Dispose()
+            result.Position = 0;
+
+            return result;
+        }
+
+        /// <inheritdoc cref="IrbisServerSocket.Send" />
+        public override void Send
+            (
+                byte[][] data
+            )
+        {
+            Socket socket = Client.Client;
+
+            foreach (byte[] bytes in data)
+            {
+                socket.Send(bytes);
+            }
+        }
+
+        /// <inheritdoc cref="IrbisServerSocket.Dispose"/>
+        public override void Dispose()
         {
 #if UAP
 
@@ -113,10 +131,6 @@ namespace ManagedIrbis.Server
 
 #endif
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

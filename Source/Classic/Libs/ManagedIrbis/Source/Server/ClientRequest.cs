@@ -19,7 +19,7 @@ using AM;
 using CodeJam;
 
 using JetBrains.Annotations;
-
+using ManagedIrbis.Server.Sockets;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -104,21 +104,8 @@ namespace ManagedIrbis.Server
         {
             Code.NotNull(data, "data");
 
-            TcpClient connection = data.Socket.Client;
-            Memory = new MemoryStream();
-            NetworkStream stream = connection.GetStream();
-            while (true)
-            {
-                byte[] buffer = new byte[50 * 1024];
-                int read = stream.Read(buffer, 0, buffer.Length);
-                if (read <= 0)
-                {
-                    break;
-                }
-                Memory.Write(buffer, 0, read);
-            }
-
-            Memory.Position = 0;
+            IrbisServerSocket socket = data.Socket;
+            Memory = socket.ReceiveAll();
             RequestLength = GetInt32();
             CommandCode1 = RequireAnsiString();
             Workstation = RequireAnsiString();

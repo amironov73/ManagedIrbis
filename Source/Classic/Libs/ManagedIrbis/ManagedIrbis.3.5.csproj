@@ -976,8 +976,8 @@
     <Compile Include="Source\Server\Commands\UpdateUserListCommand.cs" />
     <Compile Include="Source\Server\Commands\WriteRecordCommand.cs" />
     <Compile Include="Source\Server\Commands\WriteRecordsCommand.cs" />
-    <Compile Include="Source\Server\IrbisServerListener.cs" />
-    <Compile Include="Source\Server\IrbisServerSocket.cs" />
+    <Compile Include="Source\Server\Sockets\IrbisServerListener.cs" />
+    <Compile Include="Source\Server\Sockets\IrbisServerSocket.cs" />
     <Compile Include="Source\Server\ServerCache.cs" />
     <Compile Include="Source\Server\ServerLock.cs" />
     <Compile Include="Source\Server\ServerSetup.cs" />
@@ -988,6 +988,10 @@
     <Compile Include="Source\Server\IrbisServerEngine.cs" />
     <Compile Include="Source\Server\ServerResponse.cs" />
     <Compile Include="Source\Server\ServerUtility.cs" />
+    <Compile Include="Source\Server\Sockets\Tcp4Listener.cs" />
+    <Compile Include="Source\Server\Sockets\Tcp4Socket.cs" />
+    <Compile Include="Source\Server\Sockets\Tcp6Listener.cs" />
+    <Compile Include="Source\Server\Sockets\Tcp6Socket.cs" />
     <Compile Include="Source\Server\WorkData.cs" />
     <Compile Include="Source\StatDefinition.cs" />
     <Compile Include="Source\Statistics\IrbisPing.cs" />

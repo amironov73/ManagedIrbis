@@ -28,7 +28,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Infrastructure;
-
+using ManagedIrbis.Server.Sockets;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -116,12 +116,8 @@ namespace ManagedIrbis.Server.Commands
                 versionString = serverVersion.Version;
             }
             byte[][] packet = response.Encode(versionString);
-            TcpClient client = Data.Socket.Client.ThrowIfNull();
-            Socket socket = client.Client;
-            foreach (byte[] bytes in packet)
-            {
-                socket.Send(bytes);
-            }
+            IrbisServerSocket socket = Data.Socket;
+            socket.Send(packet);
         }
 
         /// <summary>

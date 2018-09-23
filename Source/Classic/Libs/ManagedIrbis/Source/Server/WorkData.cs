@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Server.Commands;
+using ManagedIrbis.Server.Sockets;
 
 using MoonSharp.Interpreter;
 
