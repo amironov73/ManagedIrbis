@@ -40,7 +40,8 @@ namespace UnitTests.Experiments
             Assert.IsNotNull(engine.ClientIni);
             Assert.IsNotNull(engine.Contexts);
             Assert.IsNotNull(engine.DataPath);
-            Assert.IsNotNull(engine.Listener);
+            Assert.IsNotNull(engine.Listeners);
+            Assert.AreEqual(1, engine.Listeners.Length);
             Assert.IsNotNull(engine.Mapper);
             Assert.IsNotNull(engine.SystemPath);
             Assert.IsNotNull(engine.Users);

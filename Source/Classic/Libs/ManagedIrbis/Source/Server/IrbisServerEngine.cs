@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IrbisServerSocket.cs --
+/* IrbisServerEngine.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -108,7 +108,7 @@ namespace ManagedIrbis.Server
         /// TCP listener.
         /// </summary>
         [NotNull]
-        public IrbisServerListener Listener { get; private set; }
+        public IrbisServerListener[] Listeners { get; private set; }
 
         /// <summary>
         /// Command mapper.
@@ -212,7 +212,10 @@ namespace ManagedIrbis.Server
                     IPAddress.Any,
                     ipPort
                 );
-            Listener = new IrbisServerListener(endPoint, _cancellation.Token);
+            Listeners = new[]
+            {
+                new IrbisServerListener(endPoint, _cancellation.Token)
+            };
             PortNumber = ipPort;
 
             Contexts = new NonNullCollection<ServerContext>();
@@ -255,7 +258,7 @@ namespace ManagedIrbis.Server
             // TODO implement
         }
 
-#if FW45 || NETCORE || ANDROID || UAP
+#if DESKTOP || NETCORE || ANDROID || UAP
 
         private void _HandleClient
             (
@@ -732,11 +735,14 @@ namespace ManagedIrbis.Server
         {
             Log.Trace("IrbisServerEngine::MainLoop enter");
 
-#if FW45 || NETCORE || ANDROID || UAP
+#if DESKTOP || NETCORE || ANDROID || UAP
 
             StartedAt = DateTime.Now;
 
-            Listener.Start();
+            foreach (IrbisServerListener listener in Listeners)
+            {
+                listener.Start();
+            }
 
             while (true)
             {
@@ -748,21 +754,36 @@ namespace ManagedIrbis.Server
 
                 try
                 {
-                    Task<IrbisServerSocket> task = Listener.AcceptClientAsync();
-                    task.Wait(_cancellation.Token);
+                    int taskCount = Listeners.Length;
+                    Task<IrbisServerSocket>[] tasks = new Task<IrbisServerSocket>[taskCount];
+                    for (int i = 0; i < taskCount; i++)
+                    {
+                        tasks[i] = Listeners[i].AcceptClientAsync();
+                    }
+
+                    int ready = Task.WaitAny(tasks, _cancellation.Token);
                     if (_cancellation.IsCancellationRequested)
                     {
                         Log.Trace("IrbisServerEngine::MainLoop: break signal 2");
                         break;
                     }
 
-                    IrbisServerSocket socket = task.Result;
+                    IrbisServerSocket socket = tasks[ready].Result;
                     _HandleClient(socket);
+                }
+                catch (OperationCanceledException)
+                {
+                    Log.Trace("IrbisServerEngine::MainLoop: break signal 3");
                 }
                 catch (Exception exception)
                 {
                     Log.TraceException("IrbisServerEngine::MainLoop", exception);
                 }
+            }
+
+            foreach (IrbisServerListener listener in Listeners)
+            {
+                listener.Stop();
             }
 
 #endif
@@ -878,7 +899,11 @@ namespace ManagedIrbis.Server
         /// <inheritdoc cref="IDisposable.Dispose"/>
         public void Dispose()
         {
-            Listener.Dispose();
+            foreach (IrbisServerListener listener in Listeners)
+            {
+                listener.Stop();
+                listener.Dispose();
+            }
         }
 
         #endregion

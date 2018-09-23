@@ -93,7 +93,7 @@ namespace ManagedIrbis.Server.Commands
 
                 context = Data.Engine.CreateContext(clientId);
                 Data.Context = context;
-                context.Address = ServerUtility.GetRemoteAddress(Data.Socket);
+                context.Address = Data.Socket.GetRemoteAddress();
                 context.Username = username;
                 context.Password = password;
                 context.Workstation = request.Workstation;

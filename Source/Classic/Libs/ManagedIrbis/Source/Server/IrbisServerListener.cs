@@ -10,36 +10,18 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Logging;
-using AM.Runtime;
 
 using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Client;
-using ManagedIrbis.Direct;
-using ManagedIrbis.Infrastructure;
-using ManagedIrbis.Menus;
-using ManagedIrbis.Server.Commands;
-
 using MoonSharp.Interpreter;
 
 #endregion
-
 
 namespace ManagedIrbis.Server
 {
@@ -51,16 +33,6 @@ namespace ManagedIrbis.Server
     public class IrbisServerListener
         : IDisposable
     {
-        #region Properties
-
-        /// <summary>
-        /// Listener.
-        /// </summary>
-        [NotNull]
-        public TcpListener Listener { get; private set; }
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -74,7 +46,7 @@ namespace ManagedIrbis.Server
         {
             Code.NotNull(endPoint, "endPoint");
 
-            Listener = new TcpListener(endPoint);
+            _listener = new TcpListener(endPoint);
             _token = token;
         }
 
@@ -84,6 +56,8 @@ namespace ManagedIrbis.Server
 
         private CancellationToken _token;
 
+        private readonly TcpListener _listener;
+
         #endregion
 
         #region Public methods
@@ -91,25 +65,48 @@ namespace ManagedIrbis.Server
         /// <summary>
         /// Accept the client.
         /// </summary>
-        public Task<IrbisServerSocket> AcceptClientAsync()
+        public virtual Task<IrbisServerSocket> AcceptClientAsync()
         {
 #if FW35 || FW40
 
-            throw new NotImplementedException();
+            TaskCompletionSource<IrbisServerSocket> result
+                = new TaskCompletionSource<IrbisServerSocket>();
+            Task<TcpClient> task = Task<TcpClient>.Factory.FromAsync
+                (
+                    Listener.BeginAcceptTcpClient,
+                    Listener.EndAcceptTcpClient,
+                    Listener
+                );
+            task.ContinueWith
+                (
+                    s1 =>
+                    {
+                        TcpClient client = s1.Result;
+                        IrbisServerSocket socket
+                            = new IrbisServerSocket(client, _token);
+                        result.SetResult(socket);
+                    },
+                    _token
+                );
+
+            return result.Task;
 
 #else
 
             TaskCompletionSource<IrbisServerSocket> result
                 = new TaskCompletionSource<IrbisServerSocket>();
-            Task<TcpClient> task = Listener.AcceptTcpClientAsync();
-            task.ContinueWith(s1 =>
-                {
-                    TcpClient client = s1.Result;
-                    IrbisServerSocket socket
-                        = new IrbisServerSocket(client, _token);
-                    result.SetResult(socket);
-                },
-                _token);
+            Task<TcpClient> task = _listener.AcceptTcpClientAsync();
+            task.ContinueWith
+                (
+                    s1 =>
+                    {
+                        TcpClient client = s1.Result;
+                        IrbisServerSocket socket
+                            = new IrbisServerSocket(client, _token);
+                        result.SetResult(socket);
+                    },
+                    _token
+                );
 
             return result.Task;
 
@@ -119,9 +116,17 @@ namespace ManagedIrbis.Server
         /// <summary>
         /// Start to listen.
         /// </summary>
-        public void Start()
+        public virtual void Start()
         {
-            Listener.Start();
+            _listener.Start();
+        }
+
+        /// <summary>
+        /// Stop to listen.
+        /// </summary>
+        public virtual void Stop()
+        {
+            _listener.Stop();
         }
 
         #endregion
@@ -129,9 +134,9 @@ namespace ManagedIrbis.Server
         #region IDisposable members
 
         /// <inheritdoc cref="IDisposable.Dispose" />
-        public void Dispose()
+        public virtual void Dispose()
         {
-            Listener.Stop();
+            _listener.Stop();
         }
 
         #endregion

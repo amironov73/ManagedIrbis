@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -78,6 +79,22 @@ namespace ManagedIrbis.Server
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Get remote address.
+        /// </summary>
+        [NotNull]
+        public virtual string GetRemoteAddress()
+        {
+            EndPoint endPoint = Client.Client.RemoteEndPoint;
+            IPEndPoint ip = endPoint as IPEndPoint;
+            if (!ReferenceEquals(ip, null))
+            {
+                return ip.Address.ToString();
+            }
+
+            return endPoint.ToString();
+        }
 
         #endregion
 

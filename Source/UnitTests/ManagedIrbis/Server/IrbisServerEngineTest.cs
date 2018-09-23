@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 
 using AM.IO;
@@ -8,10 +7,6 @@ using AM.IO;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
-using ManagedIrbis.Client;
-using ManagedIrbis.Infrastructure;
-using ManagedIrbis.Menus;
-using ManagedIrbis.Search;
 using ManagedIrbis.Server;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -32,14 +27,30 @@ namespace UnitTests.ManagedIrbis.Server
             return result;
         }
 
+        [NotNull]
+        private IrbisServerEngine _GetEngine
+            (
+                [NotNull] ServerIniFile iniFile
+            )
+        {
+            string serverRootPath = Irbis64RootPath;
+            ServerSetup setup = new ServerSetup(iniFile)
+            {
+                RootPathOverride = serverRootPath,
+                PortNumberOverride = new Random().Next(50000, 60000)
+            };
+            IrbisServerEngine result = new IrbisServerEngine(setup);
+            return result;
+        }
+
         [TestMethod]
         public void IrbisServerEngine_Construction_1()
         {
             ServerIniFile iniFile = _GetIniFile();
-            ServerSetup setup = new ServerSetup(iniFile);
-            IrbisServerEngine engine = new IrbisServerEngine(setup);
+            IrbisServerEngine engine = _GetEngine(iniFile);
             Assert.AreSame(iniFile, engine.IniFile);
-            Assert.IsNotNull(engine.Listener);
+            Assert.IsNotNull(engine.Listeners);
+            Assert.AreEqual(1, engine.Listeners.Length);
             Assert.IsNotNull(engine.Workers);
             Assert.AreEqual(0, engine.Workers.Count);
             engine.Dispose();
@@ -49,13 +60,7 @@ namespace UnitTests.ManagedIrbis.Server
         public void IrbisServerEngine_MainLoop_1()
         {
             ServerIniFile iniFile = _GetIniFile();
-            string serverRootPath = Irbis64RootPath;
-            ServerSetup setup = new ServerSetup(iniFile)
-            {
-                RootPathOverride = serverRootPath,
-                PortNumberOverride = new Random().Next(50000, 60000)
-            };
-            IrbisServerEngine engine = new IrbisServerEngine(setup);
+            IrbisServerEngine engine = _GetEngine(iniFile);
 
             Task mainLoop = Task.Factory.StartNew
                 (
@@ -75,7 +80,7 @@ namespace UnitTests.ManagedIrbis.Server
             engine.CancelProcessing();
             engine.WaitForWorkers();
 
-            //engine.Dispose();
+            engine.Dispose();
         }
     }
 }
