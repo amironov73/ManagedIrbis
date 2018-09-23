@@ -207,8 +207,16 @@ namespace ManagedIrbis.Server.Commands
                     result = new CreateDictionaryCommand(data);
                     break;
 
+                //===================================================
+
+                case "STOP":
+                    result = new StopServerCommand(data);
+                    break;
+
+                //===================================================
+
                 default:
-                    throw new IrbisException();
+                    throw new IrbisException("Unknown command: " + commandCode);
             }
 
             return result;

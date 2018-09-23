@@ -21,7 +21,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis.Source.Server
+namespace ManagedIrbis.Server
 {
     /// <summary>
     /// Установка блокировок баз данных.

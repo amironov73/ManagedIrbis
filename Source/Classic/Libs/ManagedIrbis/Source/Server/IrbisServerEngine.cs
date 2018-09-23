@@ -784,6 +784,7 @@ namespace ManagedIrbis.Server
                 catch (OperationCanceledException)
                 {
                     Log.Trace("IrbisServerEngine::MainLoop: break signal 3");
+                    break;
                 }
                 catch (Exception exception)
                 {

@@ -115,17 +115,23 @@ namespace ManagedIrbis.Server.Sockets
 #endif
 
             task.ContinueWith
-            (
-                s1 =>
-                {
-                    TcpClient client = s1.Result;
-                    IrbisServerSocket socket = new Tcp6Socket(client, _token);
-                    result.SetResult(socket);
-                },
-                _token
-            );
+                (
+                    s1 =>
+                    {
+                        TcpClient client = s1.Result;
+                        IrbisServerSocket socket = new Tcp6Socket(client, _token);
+                        result.SetResult(socket);
+                    },
+                    _token
+                );
 
             return result.Task;
+        }
+
+        /// <inheritdoc cref="IrbisServerListener.GetLocalAddress" />
+        public override string GetLocalAddress()
+        {
+            return _listener.LocalEndpoint.ToString();
         }
 
         /// <inheritdoc cref="IrbisServerListener.Start" />

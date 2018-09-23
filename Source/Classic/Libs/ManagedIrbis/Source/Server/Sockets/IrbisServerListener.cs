@@ -34,7 +34,14 @@ namespace ManagedIrbis.Server.Sockets
         /// <summary>
         /// Accept the client.
         /// </summary>
+        [NotNull]
         public abstract Task<IrbisServerSocket> AcceptClientAsync();
+
+        /// <summary>
+        /// Get local address.
+        /// </summary>
+        [NotNull]
+        public abstract string GetLocalAddress();
 
         /// <summary>
         /// Start to listen.

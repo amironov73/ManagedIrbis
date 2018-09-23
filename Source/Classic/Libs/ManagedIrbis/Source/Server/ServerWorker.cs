@@ -72,10 +72,24 @@ namespace ManagedIrbis.Server
         {
             try
             {
-                Data.Request = new ClientRequest(Data);
+                ClientRequest request = new ClientRequest(Data);
+                Data.Request = request;
+
+                Log.Trace("ServerWorker::DoWork: request: address="
+                          + Data.Socket.GetRemoteAddress()
+                          + ", command=" + request.CommandCode1
+                          + ", login=" + request.Login
+                          + ", workstation=" + request.Workstation);
+
                 Data.Response = new ServerResponse(Data.Request);
                 Data.Command = Data.Engine.Mapper.MapCommand(Data);
                 Data.Command.Execute();
+
+                Log.Trace("ServerWorker::DoWork: success: address="
+                          + Data.Socket.GetRemoteAddress()
+                          + ", command=" + request.CommandCode1
+                          + ", login=" + request.Login
+                          + ", workstation=" + request.Workstation);
             }
             catch (Exception exception)
             {

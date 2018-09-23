@@ -2738,6 +2738,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ServerCommand.cs">
       <Link>Source\Server\Commands\ServerCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\StopServerCommand.cs">
+      <Link>Source\Server\Commands\StopServerCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\UnlockDatabaseCommand.cs">
       <Link>Source\Server\Commands\UnlockDatabaseCommand.cs</Link>
     </Compile>

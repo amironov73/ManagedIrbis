@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* ParsedCommandLine.cs -- command line parsing result
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
@@ -201,9 +201,28 @@ namespace AM.CommandLine
             Code.NotNullNorEmpty(name, "name");
 
             CommandLineSwitch found = GetSwitch(name);
-            string result = found == null
+            string result = ReferenceEquals(found, null)
                 ? defaultValue
                 : found.Value;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get value of the switch.
+        /// </summary>
+        public T GetValue<T>
+            (
+                [NotNull] string name,
+                [CanBeNull] T defaultValue
+            )
+        {
+            Code.NotNullNorEmpty(name, "name");
+
+            CommandLineSwitch found = GetSwitch(name);
+            T result = ReferenceEquals(found, null)
+                ? defaultValue
+                : ConversionUtility.ConvertTo<T>(found.Value);
 
             return result;
         }
