@@ -45,6 +45,16 @@ namespace ManagedIrbis.Server
         /// </summary>
         public int PortNumberOverride { get; set; }
 
+        /// <summary>
+        /// Use TCP/IP v4 (enabled by default).
+        /// </summary>
+        public bool UseTcpIpV4 { get; set; }
+
+        /// <summary>
+        /// Use TCP/IP v6.
+        /// </summary>
+        public bool UseTcpIpV6 { get; set; }
+
         #endregion
 
         #region Construction
@@ -60,6 +70,7 @@ namespace ManagedIrbis.Server
             Code.NotNull(iniFile, "iniFile");
 
             IniFile = iniFile;
+            UseTcpIpV4 = true;
         }
 
         #endregion

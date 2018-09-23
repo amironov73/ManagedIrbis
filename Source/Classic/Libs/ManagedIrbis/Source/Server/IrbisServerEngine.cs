@@ -203,21 +203,30 @@ namespace ManagedIrbis.Server
             clientList = Path.Combine(DataPath, clientList);
             Users = UserInfo.ParseFile(clientList, ClientIni);
 
-            int ipPort = setup.PortNumberOverride;
-            if (ipPort <= 0)
+            int portNumber = setup.PortNumberOverride;
+            if (portNumber <= 0)
             {
-                ipPort = IniFile.IPPort;
+                portNumber = IniFile.IPPort;
             }
-            IPEndPoint endPoint = new IPEndPoint
-                (
-                    IPAddress.Any,
-                    ipPort
-                );
-            Listeners = new[]
+
+            List<IrbisServerListener> listeners = new List<IrbisServerListener>();
+            if(setup.UseTcpIpV4)
             {
-                new Tcp4Listener(endPoint, _cancellation.Token)
+                listeners.Add
+                    (
+                        Tcp4Listener.ForPort(portNumber, _cancellation.Token)
+                    );
             };
-            PortNumber = ipPort;
+            if (setup.UseTcpIpV6)
+            {
+                listeners.Add
+                    (
+                        Tcp6Listener.ForPort(portNumber, _cancellation.Token)
+                    );
+            }
+
+            Listeners = listeners.ToArray();
+            PortNumber = portNumber;
 
             Contexts = new NonNullCollection<ServerContext>();
             Workers = new NonNullCollection<ServerWorker>();
@@ -868,6 +877,14 @@ namespace ManagedIrbis.Server
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Get the cancellation token.
+        /// </summary>
+        public CancellationToken GetCancellationToken()
+        {
+            return _cancellation.Token;
         }
 
         /// <summary>

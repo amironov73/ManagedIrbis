@@ -60,54 +60,61 @@ namespace ManagedIrbis.Server.Sockets
 
         #endregion
 
+        #region Public methods
+
+        /// <summary>
+        /// Create listener for the given port.
+        /// </summary>
+        [NotNull]
+        public static Tcp4Listener ForPort
+            (
+                int portNumber,
+                CancellationToken token
+            )
+        {
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, portNumber);
+            Tcp4Listener result = new Tcp4Listener(endPoint, token);
+
+            return result;
+        }
+
+        #endregion
+
         #region IrbisServerListener methods
 
         /// <inheritdoc cref="IrbisServerListener.AcceptClientAsync"/>
         public override Task<IrbisServerSocket> AcceptClientAsync()
         {
-#if FW35 || FW40
-
             TaskCompletionSource<IrbisServerSocket> result
                 = new TaskCompletionSource<IrbisServerSocket>();
+
+#if FW35 || FW40
+
             Task<TcpClient> task = Task<TcpClient>.Factory.FromAsync
                 (
-                    Listener.BeginAcceptTcpClient,
-                    Listener.EndAcceptTcpClient,
-                    Listener
+                    _listener.BeginAcceptTcpClient,
+                    _listener.EndAcceptTcpClient,
+                    _listener
                 );
-            task.ContinueWith
-                (
-                    s1 =>
-                    {
-                        TcpClient client = s1.Result;
-                        IrbisServerSocket socket
-                            = new IrbisServerSocket(client, _token);
-                        result.SetResult(socket);
-                    },
-                    _token
-                );
-
-            return result.Task;
 
 #else
 
-            TaskCompletionSource<IrbisServerSocket> result
-                = new TaskCompletionSource<IrbisServerSocket>();
             Task<TcpClient> task = _listener.AcceptTcpClientAsync();
-            task.ContinueWith
-                (
-                    s1 =>
-                    {
-                        TcpClient client = s1.Result;
-                        IrbisServerSocket socket = new Tcp4Socket(client, _token);
-                        result.SetResult(socket);
-                    },
-                    _token
-                );
-
-            return result.Task;
 
 #endif
+
+            task.ContinueWith
+            (
+                s1 =>
+                {
+                    TcpClient client = s1.Result;
+                    IrbisServerSocket socket = new Tcp4Socket(client, _token);
+                    result.SetResult(socket);
+                },
+                _token
+            );
+
+            return result.Task;
         }
 
         /// <inheritdoc cref="IrbisServerListener.Start" />
@@ -133,6 +140,5 @@ namespace ManagedIrbis.Server.Sockets
         }
 
         #endregion
-
     }
 }
