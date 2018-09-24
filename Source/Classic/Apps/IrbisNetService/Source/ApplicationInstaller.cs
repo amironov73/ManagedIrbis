@@ -48,7 +48,9 @@ namespace IrbisNetService
                 DisplayName = IrbisService.IrbisNet + " v" + version,
                 ServiceName = IrbisService.IrbisNet,
                 StartType = ServiceStartMode.Automatic,
+#if FW4
                 DelayedAutoStart = true
+#endif
             };
 
             Installers.Add(processInstaller);

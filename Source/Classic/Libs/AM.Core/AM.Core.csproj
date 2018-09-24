@@ -110,6 +110,7 @@
     <Compile Include="AM\Collections\StringDictionary.cs" />
     <Compile Include="AM\Collections\TreeNode.cs" />
     <Compile Include="AM\Collections\Triplet.cs" />
+    <Compile Include="AM\Collections\ValuePair.cs" />
     <Compile Include="AM\Collections\VirtualList.cs" />
     <Compile Include="AM\Collections\XRange.cs" />
     <Compile Include="AM\CommandLine\CommandLineParser.cs" />

@@ -232,6 +232,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\Triplet.cs">
       <Link>AM\Collections\Triplet.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\ValuePair.cs">
+      <Link>AM\Collections\ValuePair.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\VirtualList.cs">
       <Link>AM\Collections\VirtualList.cs</Link>
     </Compile>
