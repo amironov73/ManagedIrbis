@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedIrbis.Web.4.0", "Cla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsmiRegistration.4.0", "Classic\Apps\OsmiRegistration\OsmiRegistration.4.0.csproj", "{B356FF37-DBBE-411F-B40D-7F4852DBF425}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisNetServer.4.0", "Classic\Apps\IrbisNetServer\IrbisNetServer.4.0.csproj", "{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -201,6 +203,14 @@ Global
 		{B356FF37-DBBE-411F-B40D-7F4852DBF425}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B356FF37-DBBE-411F-B40D-7F4852DBF425}.Release|x86.ActiveCfg = Release|Any CPU
 		{B356FF37-DBBE-411F-B40D-7F4852DBF425}.Release|x86.Build.0 = Release|Any CPU
+		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Debug|x86.Build.0 = Debug|Any CPU
+		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Release|x86.ActiveCfg = Release|Any CPU
+		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

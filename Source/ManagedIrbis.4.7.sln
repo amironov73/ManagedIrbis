@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Web.4.7", "Classic\Libs\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedIrbis.Web.4.7", "Classic\Libs\ManagedIrbis.Web\ManagedIrbis.Web.4.7.csproj", "{91CEF828-1675-4B97-9C01-412E197EF902}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisNetServer.4.7", "Classic\Apps\IrbisNetServer\IrbisNetServer.4.7.csproj", "{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -211,6 +213,14 @@ Global
 		{91CEF828-1675-4B97-9C01-412E197EF902}.Release|Any CPU.Build.0 = Release|Any CPU
 		{91CEF828-1675-4B97-9C01-412E197EF902}.Release|x86.ActiveCfg = Release|Any CPU
 		{91CEF828-1675-4B97-9C01-412E197EF902}.Release|x86.Build.0 = Release|Any CPU
+		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Debug|x86.Build.0 = Debug|Any CPU
+		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Release|x86.ActiveCfg = Release|Any CPU
+		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

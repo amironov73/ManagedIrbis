@@ -79,3 +79,8 @@ Utils\TransProject.exe "Source\Classic\Apps\mx64\mx64.csproj" "Source\Classic\Ap
 Utils\TransProject.exe "Source\Classic\Apps\mx64\mx64.csproj" "Source\Classic\Apps\mx64\mx64.4.0.csproj"
 Utils\TransProject.exe "Source\Classic\Apps\mx64\mx64.csproj" "Source\Classic\Apps\mx64\mx64.4.6.csproj"
 Utils\TransProject.exe "Source\Classic\Apps\mx64\mx64.csproj" "Source\Classic\Apps\mx64\mx64.4.7.csproj"
+
+Utils\TransProject.exe "Source\Classic\Apps\IrbisNetServer\IrbisNetServer.csproj" "Source\Classic\Apps\IrbisNetServer\IrbisNetServer.3.5.csproj"
+Utils\TransProject.exe "Source\Classic\Apps\IrbisNetServer\IrbisNetServer.csproj" "Source\Classic\Apps\IrbisNetServer\IrbisNetServer.4.0.csproj"
+Utils\TransProject.exe "Source\Classic\Apps\IrbisNetServer\IrbisNetServer.csproj" "Source\Classic\Apps\IrbisNetServer\IrbisNetServer.4.6.csproj"
+Utils\TransProject.exe "Source\Classic\Apps\IrbisNetServer\IrbisNetServer.csproj" "Source\Classic\Apps\IrbisNetServer\IrbisNetServer.4.7.csproj"
