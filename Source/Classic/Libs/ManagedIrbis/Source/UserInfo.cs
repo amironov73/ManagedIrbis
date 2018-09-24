@@ -175,8 +175,8 @@ namespace ManagedIrbis
                     user.Administrator = value;
                     break;
 
-                //default:
-                //    throw new ArgumentOutOfRangeException();
+                    //default:
+                    //    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -375,6 +375,48 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Parse the MNU-file from the stream.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static UserInfo[] ParseStream
+            (
+                [NotNull] TextReader reader,
+                [NotNull] MenuFile clientIni
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            List<UserInfo> result = new List<UserInfo>();
+            while (true)
+            {
+                string line1 = reader.ReadLine();
+                if (ReferenceEquals(line1, null) || line1.SafeStarts("***"))
+                {
+                    break;
+                }
+
+                string line2 = reader.ReadLine(), line3 = reader.ReadLine();
+                if (ReferenceEquals(line2, null) || ReferenceEquals(line3, null))
+                {
+                    break;
+                }
+
+                // TODO handle encrypted passwords
+
+                UserInfo user = new UserInfo
+                {
+                    Name = line1,
+                    Password = line2
+                };
+                _DecodeLine(user, clientIni, line3);
+                result.Add(user);
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
         /// Parse the MNU-file.
         /// </summary>
         [NotNull]
@@ -387,37 +429,11 @@ namespace ManagedIrbis
         {
             Code.FileExists(fileName, "fileName");
 
-            List<UserInfo> result = new List<UserInfo>();
             using (StreamReader reader
                 = TextReaderUtility.OpenRead(fileName, IrbisEncoding.Ansi))
             {
-                while (true)
-                {
-                    string line1 = reader.ReadLine();
-                    if (ReferenceEquals(line1, null) || line1.SafeStarts("***"))
-                    {
-                        break;
-                    }
-
-                    string line2 = reader.ReadLine(), line3 = reader.ReadLine();
-                    if (ReferenceEquals(line2, null) || ReferenceEquals(line3, null))
-                    {
-                        break;
-                    }
-
-                    // TODO handle encrypted passwords
-
-                    UserInfo user = new UserInfo
-                    {
-                        Name = line1,
-                        Password = line2
-                    };
-                    _DecodeLine(user, clientIni, line3);
-                    result.Add(user);
-                }
+                return ParseStream(reader, clientIni);
             }
-
-            return result.ToArray();
         }
 
         /// <summary>

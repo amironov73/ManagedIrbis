@@ -29,6 +29,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Menus;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -53,6 +55,15 @@ namespace ManagedIrbis.Server
         /// Inclusion end sign.
         /// </summary>
         public const char InclusionEnd = '\x1D';
+
+        /// <summary>
+        /// Признак того, что client_m.mnu зашифрован.
+        /// </summary>
+        public static byte[] EncryptionMark =
+        {
+            0x49, 0x72, 0x62, 0x69, 0x73, 0x36, 0x34, 0x5F,
+            0x43, 0x72, 0x79, 0x70, 0x74, 0x65, 0x64
+        };
 
         #endregion
 
@@ -177,6 +188,42 @@ namespace ManagedIrbis.Server
             };
 
             return result;
+        }
+
+        /// <summary>
+        /// Загрузка client_m.mnu с учетом того,
+        /// что тот может быть зашифрован.
+        /// </summary>
+        [NotNull]
+        public static UserInfo[] LoadClientList
+            (
+                [NotNull] string fileName,
+                [NotNull] MenuFile clientIni
+            )
+        {
+            Code.FileExists(fileName, "fileName");
+
+            byte[] rawContent = FileUtility.ReadAllBytes(fileName);
+            if (!ArrayUtility.Coincide(rawContent, 0, EncryptionMark,
+                0, EncryptionMark.Length))
+            {
+                return UserInfo.ParseFile(fileName, clientIni);
+            }
+
+            int shift = EncryptionMark.Length;
+            int length = rawContent.Length - shift;
+            for (int i = 0; i < length; i++)
+            {
+                byte mask = i % 2 == 0 ? (byte)0xE6 : (byte)0x14;
+                rawContent[i + shift] = (byte) (rawContent[i + shift] ^ mask);
+            }
+
+            string decryptedText = IrbisEncoding.Ansi.GetString(rawContent,
+                shift, length);
+            using (StringReader reader = new StringReader(decryptedText))
+            {
+                return UserInfo.ParseStream(reader, clientIni);
+            }
         }
 
         #endregion

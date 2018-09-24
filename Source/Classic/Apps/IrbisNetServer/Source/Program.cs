@@ -51,6 +51,8 @@ namespace IrbisNetServer
                     tee?.Loggers.Add(new FileLogger(logPath));
                 }
 
+                Log.SetLogger(new TimeStampLogger(Log.Logger.ThrowIfNull()));
+
                 string iniPath = parsed.GetArgument(0, "irbis_server.ini")
                     .ThrowIfNull("iniPath");
                 iniPath = Path.GetFullPath(iniPath);
@@ -75,6 +77,7 @@ namespace IrbisNetServer
                 using (Engine = new IrbisServerEngine(Setup))
                 {
                     Log.Trace(ServerUtility.GetServerVersion().ToString());
+                    Log.Trace("BUILD: " + IrbisConnection.ClientVersion);
 
                     foreach (IrbisServerListener listener in Engine.Listeners)
                     {

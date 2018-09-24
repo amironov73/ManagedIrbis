@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* EnvironmentUtility.cs -- program environment study routines
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
@@ -12,7 +12,8 @@
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-
+using System.Runtime.InteropServices;
+using AM.Reflection;
 using JetBrains.Annotations;
 
 #endregion
@@ -36,7 +37,7 @@ namespace AM
             [DebuggerStepThrough]
             get
             {
-                return (IntPtr.Size == 4);
+                return IntPtr.Size == 4;
             }
         }
 
@@ -50,8 +51,46 @@ namespace AM
             [DebuggerStepThrough]
             get
             {
-                return (IntPtr.Size == 8);
+                return IntPtr.Size == 8;
             }
+        }
+
+        /// <summary>
+        /// Running on Microsoft CLR?
+        /// </summary>
+        public static bool IsMicrosoftClr()
+        {
+            return RuntimeEnvironment.GetRuntimeDirectory().Contains("Microsoft");
+        }
+
+        /// <summary>
+        /// Running on Mono?
+        /// </summary>
+        public static bool IsMono ()
+        {
+            return !ReferenceEquals(Type.GetType ("Mono.Runtime"), null);
+        }
+
+        /// <summary>
+        /// Get .NET Core version.
+        /// </summary>
+        [CanBeNull]
+        public static string NetCoreVersion()
+        {
+            var assembly = typeof(System.Runtime.GCSettings).Bridge().Assembly;
+            var assemblyPath = assembly.CodeBase.Split
+                (
+                    new[] { '/', '\\' },
+                    StringSplitOptions.RemoveEmptyEntries
+                );
+            int netCoreAppIndex = Array.IndexOf(assemblyPath, "Microsoft.NETCore.App");
+            if (netCoreAppIndex > 0
+                && netCoreAppIndex < assemblyPath.Length - 2)
+            {
+                return assemblyPath[netCoreAppIndex + 1];
+            }
+
+            return null;
         }
 
         /// <summary>

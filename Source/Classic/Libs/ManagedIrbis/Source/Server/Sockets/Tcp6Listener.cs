@@ -52,12 +52,6 @@ namespace ManagedIrbis.Server.Sockets
             }
 
             _listener = new TcpListener(endPoint);
-            //_listener.Server.SetSocketOption
-            //  (
-            //      SocketOptionLevel.IPv6,
-            //      SocketOptionName.IPv6Only,
-            //      true
-            //  );
             _token = token;
         }
 

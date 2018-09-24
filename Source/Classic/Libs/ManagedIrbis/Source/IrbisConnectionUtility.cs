@@ -1542,6 +1542,21 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <summary>
+        /// Расширенная команда: остановка сервера.
+        /// </summary>
+        public static void StopServer
+            (
+                [NotNull] this IIrbisConnection connection
+            )
+        {
+            Code.NotNull(connection, "connection");
+
+            connection.ExecuteArbitraryCommand("STOP");
+        }
+
+        // ========================================================
+
+        /// <summary>
         /// Undelete given record (mark as live on the server).
         /// </summary>
         public static void UndeleteRecord

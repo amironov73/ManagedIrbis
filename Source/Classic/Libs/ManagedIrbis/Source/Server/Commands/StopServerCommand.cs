@@ -23,7 +23,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Server.Commands
 {
     /// <summary>
-    ///
+    /// Нестандартная команда: остановка сервера.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]

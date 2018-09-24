@@ -189,6 +189,7 @@
     <Compile Include="AM\Logging\Log.cs" />
     <Compile Include="AM\Logging\NullLogger.cs" />
     <Compile Include="AM\Logging\TeeLogger.cs" />
+    <Compile Include="AM\Logging\TimeStampLogger.cs" />
     <Compile Include="AM\Logging\TraceLogger.cs" />
     <Compile Include="AM\Mathematics\MathUtility.cs" />
     <Compile Include="AM\MessageEventArgs.cs" />

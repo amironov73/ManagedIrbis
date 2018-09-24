@@ -201,7 +201,7 @@ namespace ManagedIrbis.Server
             ClientIni = MenuFile.ParseLocalFile(fileName, IrbisEncoding.Ansi);
             string clientList = IniFile.ClientList ?? "client_m.mnu";
             clientList = Path.Combine(DataPath, clientList);
-            Users = UserInfo.ParseFile(clientList, ClientIni);
+            Users = ServerUtility.LoadClientList(clientList, ClientIni);
 
             int portNumber = setup.PortNumberOverride;
             if (portNumber <= 0)

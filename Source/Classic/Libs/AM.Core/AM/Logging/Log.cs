@@ -18,7 +18,7 @@ using JetBrains.Annotations;
 namespace AM.Logging
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static class Log
     {
@@ -29,10 +29,6 @@ namespace AM.Logging
         /// </summary>
         [CanBeNull]
         public static IAmLogger Logger { get; private set; }
-
-        #endregion
-
-        #region Construction
 
         #endregion
 

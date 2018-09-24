@@ -472,6 +472,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Logging\TeeLogger.cs">
       <Link>AM\Logging\TeeLogger.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Logging\TimeStampLogger.cs">
+      <Link>AM\Logging\TimeStampLogger.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Logging\TraceLogger.cs">
       <Link>AM\Logging\TraceLogger.cs</Link>
     </Compile>
