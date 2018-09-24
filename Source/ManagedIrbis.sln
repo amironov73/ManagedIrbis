@@ -285,6 +285,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfDupolov", "Classic\Apps\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisNetServer", "Classic\Apps\IrbisNetServer\IrbisNetServer.csproj", "{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisNetService", "Classic\Apps\IrbisNetService\IrbisNetService.csproj", "{B14268C2-AABA-403E-9B75-0E2156A63D58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1389,6 +1391,14 @@ Global
 		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Release|x86.ActiveCfg = Release|Any CPU
 		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1}.Release|x86.Build.0 = Release|Any CPU
+		{B14268C2-AABA-403E-9B75-0E2156A63D58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B14268C2-AABA-403E-9B75-0E2156A63D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B14268C2-AABA-403E-9B75-0E2156A63D58}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B14268C2-AABA-403E-9B75-0E2156A63D58}.Debug|x86.Build.0 = Debug|Any CPU
+		{B14268C2-AABA-403E-9B75-0E2156A63D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B14268C2-AABA-403E-9B75-0E2156A63D58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B14268C2-AABA-403E-9B75-0E2156A63D58}.Release|x86.ActiveCfg = Release|Any CPU
+		{B14268C2-AABA-403E-9B75-0E2156A63D58}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1529,6 +1539,7 @@ Global
 		{48EC6C07-998D-40D1-9F96-0F80DD0425EE} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{024C3C30-2889-49D9-ACFD-9CFDF85B4AAA} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{B14268C2-AABA-403E-9B75-0E2156A63D58} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9210D671-3170-4F79-9CE3-2FE2B1208056}

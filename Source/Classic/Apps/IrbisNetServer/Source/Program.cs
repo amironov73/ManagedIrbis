@@ -55,6 +55,11 @@ namespace IrbisNetServer
 
                 Log.SetLogger(new TimeStampLogger(Log.Logger.ThrowIfNull()));
 
+                if (parsed.HaveSwitch("nolog"))
+                {
+                    Log.SetLogger(null);
+                }
+
                 string iniPath = parsed.GetArgument(0, "irbis_server.ini")
                     .ThrowIfNull("iniPath");
                 iniPath = Path.GetFullPath(iniPath);
