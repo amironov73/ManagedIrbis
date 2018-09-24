@@ -55,6 +55,11 @@ namespace ManagedIrbis.Server
         /// </summary>
         public bool UseTcpIpV6 { get; set; }
 
+        /// <summary>
+        /// Port number for HTTP listener.
+        /// </summary>
+        public int HttpPort { get; set; }
+
         #endregion
 
         #region Construction

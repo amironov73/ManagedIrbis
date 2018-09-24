@@ -1542,7 +1542,7 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <summary>
-        /// Расширенная команда: остановка сервера.
+        /// Расширенная команда: полная остановка сервера.
         /// </summary>
         public static void StopServer
             (
@@ -1551,7 +1551,21 @@ namespace ManagedIrbis
         {
             Code.NotNull(connection, "connection");
 
-            connection.ExecuteArbitraryCommand("STOP");
+            //
+            // Команда предназначена для тестирования сервера.
+            // Выполняется в конце тестового прогона.
+            //
+
+            ServerResponse response = connection.ExecuteArbitraryCommand("STOP");
+            IrbisConnection ourConnection = connection as IrbisConnection;
+            if (response.ReturnCode >= 0
+                && !ReferenceEquals(ourConnection, null))
+            {
+                // Если команда выполнена успешно,
+                // не надо пытаться отключиться от сервера,
+                // все равно не получится -- он не ответит.
+                ourConnection._connected = false;
+            }
         }
 
         // ========================================================

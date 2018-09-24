@@ -160,6 +160,7 @@ namespace ManagedIrbis.Server
         /// <summary>
         /// Constructor.
         /// </summary>
+        // ReSharper disable once NotNullMemberIsNotInitialized
         public IrbisServerEngine
             (
                 [NotNull] ServerSetup setup
@@ -170,7 +171,6 @@ namespace ManagedIrbis.Server
             Code.NotNull(setup, "setup");
 
             _cancellation = new CancellationTokenSource();
-            // StopSignal = new ManualResetEvent(false);
 
             SyncRoot = new object();
             Cache = new ServerCache();
@@ -202,35 +202,11 @@ namespace ManagedIrbis.Server
             string clientList = IniFile.ClientList ?? "client_m.mnu";
             clientList = Path.Combine(DataPath, clientList);
             Users = ServerUtility.LoadClientList(clientList, ClientIni);
-
-            int portNumber = setup.PortNumberOverride;
-            if (portNumber <= 0)
-            {
-                portNumber = IniFile.IPPort;
-            }
-
-            List<IrbisServerListener> listeners = new List<IrbisServerListener>();
-            if(setup.UseTcpIpV4)
-            {
-                listeners.Add
-                    (
-                        Tcp4Listener.ForPort(portNumber, _cancellation.Token)
-                    );
-            };
-            if (setup.UseTcpIpV6)
-            {
-                listeners.Add
-                    (
-                        Tcp6Listener.ForPort(portNumber, _cancellation.Token)
-                    );
-            }
-
-            Listeners = listeners.ToArray();
-            PortNumber = portNumber;
-
             Contexts = new NonNullCollection<ServerContext>();
             Workers = new NonNullCollection<ServerWorker>();
             Mapper = new CommandMapper(this);
+
+            _BuildListeners(setup);
 
             Log.Trace("IrbisServerEngine::Constructor leave");
         }
@@ -241,7 +217,68 @@ namespace ManagedIrbis.Server
 
         private CancellationTokenSource _cancellation;
 
-        private string _GetDepositFile(string fileName)
+        private void _BuildListeners
+            (
+                [NotNull] ServerSetup setup
+            )
+        {
+            bool usePortOverride = true;
+            int portNumber = setup.PortNumberOverride;
+            if (portNumber <= 0)
+            {
+                usePortOverride = false;
+                portNumber = IniFile.IPPort;
+            }
+
+            List<IrbisServerListener> listeners = new List<IrbisServerListener>();
+            if (setup.UseTcpIpV4)
+            {
+                listeners.Add
+                    (
+                        Tcp4Listener.ForPort(portNumber, _cancellation.Token)
+                    );
+
+                if (!usePortOverride)
+                {
+                    for (int i = 1; i < 10; i++)
+                    {
+                        string parameterName = "IP_PORT" + i;
+                        portNumber = IniFile.GetValue(parameterName, 0);
+                        if (portNumber > 0)
+                        {
+                            listeners.Add
+                                (
+                                    Tcp4Listener.ForPort(portNumber, _cancellation.Token)
+                                );
+                        }
+                    }
+                }
+            }
+
+            if (setup.UseTcpIpV6)
+            {
+                listeners.Add
+                    (
+                        Tcp6Listener.ForPort(portNumber, _cancellation.Token)
+                    );
+            }
+
+            if (setup.HttpPort > 0)
+            {
+                listeners.Add
+                    (
+                        HttpServerListener.ForPort(setup.HttpPort, _cancellation.Token)
+                    );
+            }
+
+            Listeners = listeners.ToArray();
+            PortNumber = portNumber;
+        }
+
+        private string _GetDepositFile
+            (
+                [NotNull] string fileName
+            )
         {
             string result = Path.GetFullPath(Path.Combine(DepositPath, fileName));
             if (!File.Exists(result))
@@ -625,7 +662,7 @@ namespace ManagedIrbis.Server
                 iniFile.Save(writer);
                 result = writer.ToString();
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 Log.TraceException("IrbisServerEngine::GetUserIniFile", exception);
                 return string.Empty;
@@ -667,7 +704,7 @@ namespace ManagedIrbis.Server
                 }
                 result = mstFile;
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 Log.TraceException("IrbisServerEngine::GetMstFile", exception);
                 throw;
@@ -695,7 +732,7 @@ namespace ManagedIrbis.Server
             {
                 result = new DirectAccess64(mstFile, DirectAccessMode.ReadOnly);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 Log.TraceException("IrbisServerEngine::GetDatabase", exception);
                 throw;
@@ -727,7 +764,7 @@ namespace ManagedIrbis.Server
                     Database = database
                 };
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 Log.TraceException("IrbisServerEngine::GetProvider", exception);
                 throw;

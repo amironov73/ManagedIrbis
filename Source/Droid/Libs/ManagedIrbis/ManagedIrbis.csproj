@@ -2759,6 +2759,12 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\WriteRecordsCommand.cs">
       <Link>Source\Server\Commands\WriteRecordsCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\HttpServerListener.cs">
+      <Link>Source\Server\Sockets\HttpServerListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\HttpServerSocket.cs">
+      <Link>Source\Server\Sockets\HttpServerSocket.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\IrbisServerListener.cs">
       <Link>Source\Server\Sockets\IrbisServerListener.cs</Link>
     </Compile>

@@ -209,6 +209,9 @@ namespace ManagedIrbis.Server.Commands
 
                 //===================================================
 
+                // Расширенные команды,
+                // не поддерживаемые стандартным сервером
+
                 case "STOP":
                     result = new StopServerCommand(data);
                     break;

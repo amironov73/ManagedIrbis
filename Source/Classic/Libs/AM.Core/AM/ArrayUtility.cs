@@ -83,15 +83,15 @@ namespace AM
             (
                 [NotNull] T[] array
             )
-            where T: ICloneable
+            where T : ICloneable
         {
             Code.NotNull(array, "array");
 
-            T[] result = (T[]) array.Clone();
+            T[] result = (T[])array.Clone();
 
             for (int i = 0; i < array.Length; i++)
             {
-                result[i] = (T) array[i].Clone();
+                result[i] = (T)array[i].Clone();
             }
 
             return result;
@@ -109,7 +109,7 @@ namespace AM
                 int secondOffset,
                 int length
             )
-            where T: IEquatable<T>
+            where T : IEquatable<T>
         {
             Code.NotNull(firstArray, "firstArray");
             Code.NotNull(secondArray, "secondArray");
@@ -365,6 +365,47 @@ namespace AM
         }
 
         /// <summary>
+        /// Searches for the specified pattern
+        /// and returns the index of its first occurrence
+        /// in a one-dimensional array.
+        /// </summary>
+        public static int IndexOf
+            (
+                [NotNull] byte[] data,
+                [NotNull] byte[] pattern
+            )
+        {
+            Code.NotNull(data, "data");
+            Code.NotNull(pattern, "pattern");
+
+            int patternLength = pattern.Length;
+            int dataLength = data.Length - patternLength;
+            if (patternLength == 0 || dataLength < 0)
+            {
+                return -1;
+            }
+
+            for (int i = 0; i <= dataLength; i++)
+            {
+                bool found = true;
+                for (int j = 0; j < patternLength; j++)
+                {
+                    if (data[i + j] != pattern[j])
+                    {
+                        found = false;
+                        break;
+                    }
+                }
+                if (found)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        /// <summary>
         /// Determines whether the specified array is null or empty
         /// (has zero length).
         /// </summary>
@@ -439,6 +480,8 @@ namespace AM
                 int length
             )
         {
+            // TODO GetSpan?
+
             Code.NotNull(input, "input");
             Code.Nonnegative(offset, "offset");
 

@@ -13,7 +13,9 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+
 using AM.Reflection;
+
 using JetBrains.Annotations;
 
 #endregion
@@ -60,7 +62,15 @@ namespace AM
         /// </summary>
         public static bool IsMicrosoftClr()
         {
+#if UAP
+
+            return true;
+
+#else
+
             return RuntimeEnvironment.GetRuntimeDirectory().Contains("Microsoft");
+
+#endif
         }
 
         /// <summary>
@@ -77,6 +87,8 @@ namespace AM
         [CanBeNull]
         public static string NetCoreVersion()
         {
+#if !UAP
+
             var assembly = typeof(System.Runtime.GCSettings).Bridge().Assembly;
             var assemblyPath = assembly.CodeBase.Split
                 (
@@ -89,6 +101,8 @@ namespace AM
             {
                 return assemblyPath[netCoreAppIndex + 1];
             }
+
+#endif
 
             return null;
         }

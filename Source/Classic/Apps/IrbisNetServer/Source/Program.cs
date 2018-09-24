@@ -20,6 +20,7 @@ using AM;
 using AM.CommandLine;
 using AM.IO;
 using AM.Logging;
+
 using ManagedIrbis;
 using ManagedIrbis.Server;
 using ManagedIrbis.Server.Sockets;
@@ -31,6 +32,7 @@ namespace IrbisNetServer
     class Program
     {
         private static ServerSetup Setup;
+
         private static IrbisServerEngine Engine;
 
         static void Main(string[] args)
@@ -69,9 +71,16 @@ namespace IrbisNetServer
                 {
                     Setup.UseTcpIpV4 = false;
                 }
+
                 if (parsed.HaveSwitch("ipv6"))
                 {
                     Setup.UseTcpIpV6 = true;
+                }
+
+                int httpPort = parsed.GetValue("http", 0);
+                if (httpPort > 0)
+                {
+                    Setup.HttpPort = httpPort;
                 }
 
                 using (Engine = new IrbisServerEngine(Setup))
