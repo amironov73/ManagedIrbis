@@ -965,6 +965,7 @@
     <Compile Include="Source\Server\Commands\ReloadDictionaryCommand.cs" />
     <Compile Include="Source\Server\Commands\ReloadMasterFileCommand.cs" />
     <Compile Include="Source\Server\Commands\RestartServerCommand.cs" />
+    <Compile Include="Source\Server\Commands\ServerStatCommand.cs" />
     <Compile Include="Source\Server\Commands\ServerVersionCommand.cs" />
     <Compile Include="Source\Server\Commands\NopCommand.cs" />
     <Compile Include="Source\Server\Commands\ReadFileCommand.cs" />

@@ -83,6 +83,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new ListFilesCommand(data);
                     break;
 
+                case "+1":
+                    result = new ServerStatCommand(data);
+                    break;
+
                 case "+3":
                     result = new ListProcessesCommand(data);
                     break;
