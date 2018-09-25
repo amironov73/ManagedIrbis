@@ -45,7 +45,7 @@ namespace AM.Logging
         /// </summary>
         public static void ApplyDefaultsForConsoleApplication()
         {
-#if CLASSIC || DESKTOP
+#if CLASSIC || DESKTOP || NETCORE
 
             TeeLogger root = new TeeLogger();
             Logger = root;

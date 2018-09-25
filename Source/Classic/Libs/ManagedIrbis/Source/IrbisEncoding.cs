@@ -14,7 +14,7 @@ using System.Text;
 
 using AM;
 using AM.Logging;
-
+using AM.Text;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -60,17 +60,29 @@ namespace ManagedIrbis
 
         #endregion
 
+        #region Construction
+
+        static IrbisEncoding()
+        {
+            EncodingUtility.RegisterRequiredProviders();
+            _ansi = EncodingUtility.Windows1251;
+            _oem = EncodingUtility.Cp866;
+            _utf8 = new UTF8Encoding
+                (
+                    false, // don't emit UTF-8 prefix
+                    true   // throw on invalid bytes
+                );
+        }
+
+        #endregion
+
         #region Private members
 
-        private static Encoding _ansi = Encoding.GetEncoding(1251);
+        private static Encoding _ansi;
 
-        private static Encoding _oem = Encoding.GetEncoding(866);
+        private static Encoding _oem;
 
-        private static Encoding _utf8 = new UTF8Encoding
-            (
-                false, // don't emit UTF-8 prefix
-                true   // throw on invalid bytes
-            );
+        private static Encoding _utf8;
 
         #endregion
 
