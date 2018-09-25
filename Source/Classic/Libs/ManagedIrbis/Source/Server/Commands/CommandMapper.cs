@@ -179,6 +179,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new UnlockRecordsCommand(data);
                     break;
 
+                case "S":
+                    result = new TruncateDatabaseCommand(data);
+                    break;
+
                 case "T":
                     result = new CreateDatabaseCommand(data);
                     break;
