@@ -212,6 +212,74 @@
             Convert HTML to plain text by stripping tags.
             </summary>
         </member>
+        <member name="T:AM.Logging.TimeStampLogger">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:AM.Logging.IAmLogger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AM.Logging.IAmLogger.Debug(System.String)">
+            <summary>
+            Debug.
+            </summary>
+        </member>
+        <member name="M:AM.Logging.IAmLogger.Error(System.String)">
+            <summary>
+            Error.
+            </summary>
+        </member>
+        <member name="M:AM.Logging.IAmLogger.Fatal(System.String)">
+            <summary>
+            Fatal error.
+            </summary>
+        </member>
+        <member name="M:AM.Logging.IAmLogger.Info(System.String)">
+            <summary>
+            Information message.
+            </summary>
+        </member>
+        <member name="M:AM.Logging.IAmLogger.Trace(System.String)">
+            <summary>
+            Trace.
+            </summary>
+        </member>
+        <member name="M:AM.Logging.IAmLogger.Warn(System.String)">
+            <summary>
+            Warning.
+            </summary>
+        </member>
+        <member name="M:AM.Logging.TimeStampLogger.#ctor(AM.Logging.IAmLogger)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Logging.TimeStampLogger.Debug(System.String)">
+            <inheritdoc cref="M:AM.Logging.IAmLogger.Debug(System.String)"/>
+        </member>
+        <member name="M:AM.Logging.TimeStampLogger.Error(System.String)">
+            <inheritdoc cref="M:AM.Logging.IAmLogger.Error(System.String)"/>
+        </member>
+        <member name="M:AM.Logging.TimeStampLogger.Fatal(System.String)">
+            <inheritdoc cref="M:AM.Logging.IAmLogger.Fatal(System.String)"/>
+        </member>
+        <member name="M:AM.Logging.TimeStampLogger.Info(System.String)">
+            <inheritdoc cref="M:AM.Logging.IAmLogger.Info(System.String)"/>
+        </member>
+        <member name="M:AM.Logging.TimeStampLogger.Trace(System.String)">
+            <inheritdoc cref="M:AM.Logging.IAmLogger.Trace(System.String)"/>
+        </member>
+        <member name="M:AM.Logging.TimeStampLogger.Warn(System.String)">
+            <inheritdoc cref="M:AM.Logging.IAmLogger.Warn(System.String)"/>
+        </member>
+        <member name="P:AM.Logging.TimeStampLogger.Inner">
+            <summary>
+            Inner logger.
+            </summary>
+        </member>
         <member name="T:AM.IO.DirectoryUtility">
             <summary>
             Directory manipulation routines.
@@ -941,6 +1009,13 @@
         <member name="M:AM.ArrayUtility.GetSpan``1(``0[],System.Int32)">
             <summary>
             Get span of the array.
+            </summary>
+        </member>
+        <member name="M:AM.ArrayUtility.IndexOf(System.Byte[],System.Byte[])">
+            <summary>
+            Searches for the specified pattern
+            and returns the index of its first occurrence
+            in a one-dimensional array.
             </summary>
         </member>
         <member name="M:AM.ArrayUtility.IsNullOrEmpty(System.Array)">
@@ -2513,41 +2588,6 @@
             
             </summary>
         </member>
-        <member name="T:AM.Logging.IAmLogger">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:AM.Logging.IAmLogger.Debug(System.String)">
-            <summary>
-            Debug.
-            </summary>
-        </member>
-        <member name="M:AM.Logging.IAmLogger.Error(System.String)">
-            <summary>
-            Error.
-            </summary>
-        </member>
-        <member name="M:AM.Logging.IAmLogger.Fatal(System.String)">
-            <summary>
-            Fatal error.
-            </summary>
-        </member>
-        <member name="M:AM.Logging.IAmLogger.Info(System.String)">
-            <summary>
-            Information message.
-            </summary>
-        </member>
-        <member name="M:AM.Logging.IAmLogger.Trace(System.String)">
-            <summary>
-            Trace.
-            </summary>
-        </member>
-        <member name="M:AM.Logging.IAmLogger.Warn(System.String)">
-            <summary>
-            Warning.
-            </summary>
-        </member>
         <member name="M:AM.Logging.TeeLogger.#ctor">
             <summary>
             Constructor.
@@ -3915,6 +3955,59 @@
             For compatibility only.
             </summary>
         </member>
+        <member name="T:AM.Threading.EventLoop">
+            <summary>
+            Event loop.
+            </summary>
+            <remarks>
+            Inspired by https://docs.python.org/3/library/asyncio-eventloop.html
+            </remarks>
+        </member>
+        <member name="F:AM.Threading.EventLoop._factory">
+            <summary>
+            Factory
+            </summary>
+        </member>
+        <member name="M:AM.Threading.EventLoop.CallSoon``1(AM.Threading.EventLoopCallback{``0},``0)">
+            <summary>
+            Call the callback as soon as possible.
+            </summary>
+        </member>
+        <member name="M:AM.Threading.EventLoop.Close">
+            <summary>
+            Close the event loop.
+            </summary>
+        </member>
+        <member name="M:AM.Threading.EventLoop.GetEventLoop">
+            <summary>
+            Get global event loop.
+            </summary>
+        </member>
+        <member name="M:AM.Threading.EventLoop.Idle">
+            <summary>
+            Idle state.
+            </summary>
+        </member>
+        <member name="M:AM.Threading.EventLoop.RunForever">
+            <summary>
+            Run until <see cref="M:AM.Threading.EventLoop.Stop"/> is called.
+            </summary>
+        </member>
+        <member name="M:AM.Threading.EventLoop.SetEventLoop(System.Func{AM.Threading.EventLoop})">
+            <summary>
+            Set global event loop.
+            </summary>
+        </member>
+        <member name="M:AM.Threading.EventLoop.Stop">
+            <summary>
+            Stop.
+            </summary>
+        </member>
+        <member name="P:AM.Threading.EventLoop.IsRunning">
+            <summary>
+            Whether the loop is running?
+            </summary>
+        </member>
         <member name="T:AM.Sequence">
             <summary>
             Inspired by LINQ Sequence.cs.
@@ -4138,6 +4231,26 @@
         <member name="P:AM.Data.ColumnHeaderAttribute.Header">
             <summary>
             Column header text.
+            </summary>
+        </member>
+        <member name="T:AM.Collections.ValuePair`2">
+            <summary>
+            Simple container that holds pair of objects of given types.
+            </summary>
+        </member>
+        <member name="F:AM.Collections.ValuePair`2.First">
+            <summary>
+            First item.
+            </summary>
+        </member>
+        <member name="F:AM.Collections.ValuePair`2.Second">
+            <summary>
+            Second item.
+            </summary>
+        </member>
+        <member name="M:AM.Collections.ValuePair`2.#ctor(`0,`1)">
+            <summary>
+            Constructor.
             </summary>
         </member>
         <member name="T:AM.Collections.DictionaryUtility">
@@ -5429,11 +5542,6 @@
             <summary>
             Content of the attachment.
             </summary>
-        </member>
-        <member name="T:System.Threading.Tasks.Task">
-             <summary>
-            
-             </summary>
         </member>
         <member name="T:MoonSharp.Interpreter.MoonSharpUserDataAttribute">
             <summary>
@@ -7666,17 +7774,11 @@
             <summary>
             Deserialize object from file.
             </summary>
-            <param name="fileName">File name.</param>
-            <param name="serializer">Serializer.</param>
-            <returns>Object.</returns>
         </member>
         <member name="M:AM.Xml.XmlUtility.Deserialize``1(System.String)">
             <summary>
             Deserialize object from file.
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="fileName"></param>
-            <returns></returns>
         </member>
         <member name="M:AM.Xml.XmlUtility.DeserializeString``1(System.String)">
             <summary>
@@ -8154,6 +8256,11 @@
             Dot.
             </summary>
         </member>
+        <member name="F:AM.Text.CommonSeparators.EqualSign">
+            <summary>
+            Equal sign.
+            </summary>
+        </member>
         <member name="F:AM.Text.CommonSeparators.Minus">
             <summary>
             Minus sign.
@@ -8307,9 +8414,9 @@
             <returns></returns>
         </member>
         <member name="T:AM.Logging.Log">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.Logging.Log.ApplyDefaultsForConsoleApplication">
             <summary>
@@ -10737,6 +10844,11 @@
             Get value of the switch.
             </summary>
         </member>
+        <member name="M:AM.CommandLine.ParsedCommandLine.GetValue``1(System.String,``0)">
+            <summary>
+            Get value of the switch.
+            </summary>
+        </member>
         <member name="M:AM.CommandLine.ParsedCommandLine.GetValues(System.String,System.String[])">
             <summary>
             Get array of values of the switch.
@@ -11728,6 +11840,11 @@
             Get section with given name.
             </summary>
         </member>
+        <member name="M:AM.IO.IniFile.GetSections">
+            <summary>
+            Get all the sections.
+            </summary>
+        </member>
         <member name="M:AM.IO.IniFile.GetValue(System.String,System.String,System.String)">
             <summary>
             Get value from the given section and key.
@@ -11736,6 +11853,16 @@
         <member name="M:AM.IO.IniFile.GetValue``1(System.String,System.String,``0)">
             <summary>
             Get value from the given section and key.
+            </summary>
+        </member>
+        <member name="M:AM.IO.IniFile.MergeSection(AM.IO.IniFile.Section)">
+            <summary>
+            Merge the section.
+            </summary>
+        </member>
+        <member name="M:AM.IO.IniFile.UpdateSection(AM.IO.IniFile.Section)">
+            <summary>
+            Update the section.
             </summary>
         </member>
         <member name="M:AM.IO.IniFile.RemoveSection(System.String)">
@@ -14108,6 +14235,21 @@
             
             </summary>
         </member>
+        <member name="M:AM.ActionUtility.NoAction">
+            <summary>
+            Takes no action.
+            </summary>
+        </member>
+        <member name="M:AM.ActionUtility.NoActionWithArgument(System.Object)">
+            <summary>
+            Takes no action.
+            </summary>
+        </member>
+        <member name="M:AM.ActionUtility.NoActionFunction``1">
+            <summary>
+            Takes no action.
+            </summary>
+        </member>
         <member name="M:AM.ActionUtility.SafeCall(System.Action)">
             <summary>
             Call the <paramref name="action"/> if not <c>null</c>.
@@ -14267,6 +14409,21 @@
             Program environment study routines.
             </summary>
         </member>
+        <member name="M:AM.EnvironmentUtility.IsMicrosoftClr">
+            <summary>
+            Running on Microsoft CLR?
+            </summary>
+        </member>
+        <member name="M:AM.EnvironmentUtility.IsMono">
+            <summary>
+            Running on Mono?
+            </summary>
+        </member>
+        <member name="M:AM.EnvironmentUtility.NetCoreVersion">
+            <summary>
+            Get .NET Core version.
+            </summary>
+        </member>
         <member name="P:AM.EnvironmentUtility.Is32Bit">
             <summary>
             Gets a value indicating whether system is 32-bit.
@@ -14289,6 +14446,11 @@
         <member name="P:AM.EnvironmentUtility.Uptime">
             <summary>
             System uptime.
+            </summary>
+        </member>
+        <member name="T:AM.Threading.EventLoopCallback`1">
+            <summary>
+            Callback function for <see cref="T:AM.Threading.EventLoop"/>.
             </summary>
         </member>
         <member name="T:AM.Text.Output.NullOutput">
@@ -15212,7 +15374,7 @@
         </member>
         <member name="M:AM.ExceptionUtility.Unwrap(System.Exception)">
             <summary>
-            Unwrap the <see cref="!:AggregateException"/>
+            Unwrap the <see cref="T:System.AggregateException"/>
             (or do nothing if not aggregate).
             </summary>
         </member>

@@ -17,36 +17,61 @@ using System;
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable InconsistentNaming
 
-namespace System.Threading.Tasks
+namespace System.Threading
 {
-    /// <summary>
-    ///
-    /// </summary>
-    public sealed class Task
+    public class CancellationTokenSource : IDisposable
     {
-        public Task()
+        public bool IsCancellationRequested { get { return false; } }
+
+        public CancellationToken Token { get { return new CancellationToken(); } }
+
+        public void Cancel()
         {
-            throw new NotImplementedException();
         }
 
-        public Task(Action action)
+        public void Dispose()
         {
-            throw new NotImplementedException();
-        }
-
-        public void Start()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void WaitAll
-            (
-                Task[] tasks
-            )
-        {
-            throw new NotImplementedException();
         }
     }
+
+    public struct CancellationToken
+    {
+        public bool IsCancellationRequested { get { return true; } }
+
+        public bool CanBeCanceled { get { return true; } }
+    }
 }
+
+//namespace System.Threading.Tasks
+//{
+    ///// <summary>
+    /////
+    ///// </summary>
+    //public sealed class Task
+    //{
+    //    public Task()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public Task(Action action)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public void Start()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public static void WaitAll
+    //        (
+    //            Task[] tasks
+    //        )
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
+//}
 
 #endif

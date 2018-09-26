@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -71,6 +71,10 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TaskParallel, Version=3.0.0.0, Culture=neutral, PublicKeyToken=961e8a38a128a442, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\TaskParallel\TaskParallel.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <!-- BEGIN -->
   <ItemGroup>
@@ -914,9 +918,6 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\System.cs">
       <Link>Compatibility\System.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\Tasks.cs">
-      <Link>Compatibility\Tasks.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\Threading.cs">
       <Link>Compatibility\Threading.cs</Link>
     </Compile>
@@ -929,6 +930,9 @@
   </ItemGroup>
   <!-- END -->
   <ItemGroup>
+    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\Tasks.cs">
+      <Link>Compatibility\Tasks.cs</Link>
+    </Compile>
     <Compile Include="Properties\LocalAssemblyInfo.cs" />
     <Compile Include="..\..\Classic\Common\AssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>

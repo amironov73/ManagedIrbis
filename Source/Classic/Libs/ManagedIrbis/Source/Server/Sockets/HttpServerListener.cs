@@ -84,6 +84,12 @@ namespace ManagedIrbis.Server.Sockets
         /// <inheritdoc cref="IrbisServerListener.AcceptClientAsync"/>
         public override Task<IrbisServerSocket> AcceptClientAsync()
         {
+#if WINMOBILE || POCKETPC
+
+            return new Task<IrbisServerSocket>(AM.ActionUtility.NoActionFunction<IrbisServerSocket>);
+
+#else
+
             TaskCompletionSource<IrbisServerSocket> result
                 = new TaskCompletionSource<IrbisServerSocket>();
 
@@ -114,6 +120,8 @@ namespace ManagedIrbis.Server.Sockets
                 );
 
             return result.Task;
+
+#endif
         }
 
         /// <inheritdoc cref="IrbisServerListener.GetLocalAddress" />

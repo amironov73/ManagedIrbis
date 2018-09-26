@@ -75,7 +75,7 @@ namespace ManagedIrbis.Server.Commands
                 throw new IrbisException();
             }
 
-            string commandCode = request.CommandCode1.ToUpperInvariant();
+            string commandCode = AM.StringUtility.ToUpperInvariant(request.CommandCode1);
 
             switch (commandCode)
             {

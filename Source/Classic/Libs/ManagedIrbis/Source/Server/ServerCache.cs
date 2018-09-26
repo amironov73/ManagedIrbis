@@ -13,6 +13,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+using AM.IO;
+using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -124,7 +127,7 @@ namespace ManagedIrbis.Server
                 Entry entry;
                 if (!_dictionary.TryGetValue(fileName, out entry))
                 {
-                    byte[] content = File.ReadAllBytes(fileName);
+                    byte[] content = FileUtility.ReadAllBytes(fileName);
                     entry = new Entry
                     {
                         Content = content,
@@ -142,7 +145,7 @@ namespace ManagedIrbis.Server
                     if (entry.ModificationTime < modified)
                     {
                         MemoryUsage -= entry.Content.Length;
-                        entry.Content = File.ReadAllBytes(fileName);
+                        entry.Content = FileUtility.ReadAllBytes(fileName);
                         MemoryUsage += entry.Content.Length;
                         entry.ModificationTime = modified;
                     }
@@ -167,7 +170,7 @@ namespace ManagedIrbis.Server
             Code.NotNullNorEmpty(fileName, "fileName");
 
             byte[] bytes = GetFile(fileName);
-            string result = IrbisEncoding.Ansi.GetString(bytes);
+            string result = EncodingUtility.GetString(IrbisEncoding.Ansi, bytes);
 
             return result;
         }

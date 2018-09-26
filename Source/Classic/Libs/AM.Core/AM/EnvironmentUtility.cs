@@ -62,7 +62,7 @@ namespace AM
         /// </summary>
         public static bool IsMicrosoftClr()
         {
-#if UAP
+#if UAP || WINMOBILE
 
             return true;
 
@@ -87,7 +87,7 @@ namespace AM
         [CanBeNull]
         public static string NetCoreVersion()
         {
-#if !UAP
+#if !UAP && !WINMOBILE
 
             var assembly = typeof(System.Runtime.GCSettings).Bridge().Assembly;
             var assemblyPath = assembly.CodeBase.Split

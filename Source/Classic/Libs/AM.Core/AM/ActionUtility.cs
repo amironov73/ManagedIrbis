@@ -29,6 +29,31 @@ namespace AM
         #region Public methods
 
         /// <summary>
+        /// Takes no action.
+        /// </summary>
+        public static void NoAction()
+        {
+        }
+
+        /// <summary>
+        /// Takes no action.
+        /// </summary>
+        public static void NoActionWithArgument
+            (
+                [CanBeNull] object argument
+            )
+        {
+        }
+
+        /// <summary>
+        /// Takes no action.
+        /// </summary>
+        public static T NoActionFunction<T>()
+        {
+            return default(T);
+        }
+
+        /// <summary>
         /// Call the <paramref name="action"/> if not <c>null</c>.
         /// </summary>
         public static void SafeCall

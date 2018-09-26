@@ -322,9 +322,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.IrbisConnectionUtility">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.IrbisConnectionUtility.ActualizeDatabase(ManagedIrbis.IIrbisConnection,System.String)">
             <summary>
@@ -547,6 +547,11 @@
         <member name="M:ManagedIrbis.IrbisConnectionUtility.SequentialSearchRaw(ManagedIrbis.IIrbisConnection,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.String)">
             <summary>
             Raw sequential search.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.IrbisConnectionUtility.StopServer(ManagedIrbis.IIrbisConnection)">
+            <summary>
+            Расширенная команда: полная остановка сервера.
             </summary>
         </member>
         <member name="M:ManagedIrbis.IrbisConnectionUtility.UndeleteRecord(ManagedIrbis.IIrbisConnection,System.Int32)">
@@ -1019,6 +1024,58 @@
             <summary>
             Fields.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.Sockets.IrbisServerSocket">
+            <summary>
+            Абстрактный сокет, обслуживающий подключение клиента.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.IrbisServerSocket.GetRemoteAddress">
+            <summary>
+            Get remote address.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.IrbisServerSocket.ReceiveAll">
+            <summary>
+            Receive all the data.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.IrbisServerSocket.Send(System.Byte[][])">
+            <summary>
+            Send the data.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.IrbisServerSocket.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Sockets.IrbisServerListener">
+            <summary>
+            Абстрактный слушатель, его задача -- выдать сокет
+            с подключенным клиентом.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.IrbisServerListener.AcceptClientAsync">
+            <summary>
+            Accept the client.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.IrbisServerListener.GetLocalAddress">
+            <summary>
+            Get local address.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.IrbisServerListener.Start">
+            <summary>
+            Start to listen.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.IrbisServerListener.Stop">
+            <summary>
+            Stop to listen.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.IrbisServerListener.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
         </member>
         <member name="T:ManagedIrbis.Search.TermParameters">
             <summary>
@@ -4346,6 +4403,22 @@
             
              </summary>
         </member>
+        <member name="T:ManagedIrbis.Infrastructure.SimpleClientSocketV6">
+            <summary>
+            Client socket implementation for TCP/IP v6.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.SimpleClientSocketV6.#ctor(ManagedIrbis.IrbisConnection)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.SimpleClientSocketV6.AbortRequest">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.AbortRequest"/>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.SimpleClientSocketV6.ExecuteRequest(System.Byte[][])">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.ExecuteRequest(System.Byte[][])"/>
+        </member>
         <member name="T:ManagedIrbis.Authentication.AbstractAuthenticator">
             <summary>
             Credentials.
@@ -5538,34 +5611,114 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Server.Commands.ReadFileCommand">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:ManagedIrbis.Server.Commands.ServerCommand">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
-        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.#ctor(ManagedIrbis.Server.ServerContext)">
+        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.#ctor(ManagedIrbis.Server.WorkData)">
             <summary>
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)">
+        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.SendError(System.Int32)">
+            <summary>
+            Отправка клиенту кода ошибки.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.SendResponse">
+            <summary>
+            Отправка клиенту нормального ответа.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.UpdateContext">
+            <summary>
+            Update the context.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.Execute">
             <summary>
             Execute the command.
             </summary>
         </member>
-        <member name="P:ManagedIrbis.Server.Commands.ServerCommand.Context">
+        <member name="P:ManagedIrbis.Server.Commands.ServerCommand.Data">
             <summary>
-            Context.
+            Data.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Server.Commands.ReadFileCommand.#ctor(ManagedIrbis.Server.ServerContext)">
+        <member name="P:ManagedIrbis.Server.Commands.ServerCommand.SendVersion">
+            <summary>
+            Send version to the client.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Server.Commands.ReadFileCommand.Preamble">
+            <summary>
+            Preamble for binary files.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ReadFileCommand.#ctor(ManagedIrbis.Server.WorkData)">
             <summary>
             Constructor.
             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ReadFileCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.GblCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.GblCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.GblCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.FormatCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.FormatCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.FormatCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.DatabaseInfoCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.DatabaseInfoCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.DatabaseInfoCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.ActualizeRecordCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ActualizeRecordCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ActualizeRecordCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
         </member>
         <member name="T:ManagedIrbis.Search.TermInfoEx">
             <summary>
@@ -6911,8 +7064,6 @@
             <summary>
             Standard command execution.
             </summary>
-            <param name="context"></param>
-            <returns></returns>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.AbstractEngine.GetMemoryStream(System.Type)">
             <summary>
@@ -8675,6 +8826,32 @@
             File content.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Server.Commands.ServerStatCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ServerStatCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ServerStatCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.ReloadMasterFileCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ReloadMasterFileCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ReloadMasterFileCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
         <member name="T:ManagedIrbis.Search.Infrastructure.SearchLevel0">
             <summary>
             Term, reference or parenthesis.
@@ -8712,6 +8889,83 @@
         </member>
         <member name="P:ManagedIrbis.Search.Infrastructure.SearchLevel0.Value">
             <inheritdoc cref="P:ManagedIrbis.Search.Infrastructure.ISearchTree.Value"/>
+        </member>
+        <member name="T:ManagedIrbis.Search.CommonSearches">
+            <summary>
+            Наиболее распространенные поиски.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Search.CommonSearches.KeywordPrefix">
+            <summary>
+            Ключевые слова.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Search.CommonSearches.AuthorPrefix">
+            <summary>
+            Индивидуальный автор, редактор, составитель.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Search.CommonSearches.CollectivePrefix">
+            <summary>
+            Коллектив или мероприятие.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Search.CommonSearches.TitlePrefix">
+            <summary>
+            Заглавие.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Search.CommonSearches.InventoryPrefix">
+            <summary>
+            Инвентарный номер, штрих-код или радиометка.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Search.CommonSearches.IndexPrefix">
+            <summary>
+            Шифр документа в базе.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Search.CommonSearches.ByInventory(ManagedIrbis.IIrbisConnection,System.String)">
+            <summary>
+            Поиск единственной записи, содержащей экземпляр с указанным номером
+            (или штрих-кодом или радио-меткой).
+            Запись может отсуствовать, это не будет считаться ошибкой.
+            </summary>
+            <returns>Запись либо <c>null</c>.</returns>
+        </member>
+        <member name="M:ManagedIrbis.Search.CommonSearches.ByIndex(ManagedIrbis.IIrbisConnection,System.String)">
+            <summary>
+            Поиск единственной записи с указанным шифром.
+            Запись должна существовать.
+            </summary>
+            <exception cref="T:ManagedIrbis.IrbisException">
+            Запись не найдена либо найдено больше одной записи.
+            </exception>
+            <returns>Запись.</returns>
+        </member>
+        <member name="M:ManagedIrbis.Search.CommonSearches.FirstOrDefault(ManagedIrbis.IIrbisConnection,System.String,System.String)">
+            <summary>
+            Поиск первой попавшейся записи, удовлетворяющей указанному условию.
+            Запись может отсуствовать, это не будет считаться ошибкой.
+            </summary>
+            <returns>Найденную запись либо <c>null</c>.</returns>
+        </member>
+        <member name="M:ManagedIrbis.Search.CommonSearches.SingleOrDefault(ManagedIrbis.IIrbisConnection,System.String,System.String)">
+            <summary>
+            Поиск единственной записи, удовлетворяющей указанному условию.
+            Запись может отсуствовать, это не будет считаться ошибкой.
+            </summary>
+            <returns>Найденную запись либо <c>null</c>.</returns>
+            <exception cref="T:ManagedIrbis.IrbisException">Если найдено более одной записи.</exception>
+        </member>
+        <member name="M:ManagedIrbis.Search.CommonSearches.Required(ManagedIrbis.IIrbisConnection,System.String,System.String)">
+            <summary>
+            Поиск единственной записи, удовлетворяющей данному условию.
+            Запись должна существовать.
+            </summary>
+            <returns>Найденную запись.</returns>
+            <exception cref="T:ManagedIrbis.IrbisException">Найдено более одной записи,
+            либо вообще ничего не найдено.</exception>
         </member>
         <member name="T:ManagedIrbis.Reports.ReportTester">
             <summary>
@@ -11067,10 +11321,37 @@
             Файл заголовков табличной формы ИРБИС64.
             </summary>
         </member>
-        <member name="T:ManagedIrbis.Server.ServerUtility">
+        <member name="T:ManagedIrbis.Server.Sockets.Tcp4Socket">
             <summary>
-            
+            Простейшее подключение через TCP/IP v4.
             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp4Socket.#ctor(System.Net.Sockets.TcpClient,System.Threading.CancellationToken)">
+            <summary>
+            Construction.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp4Socket.GetRemoteAddress">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerSocket.GetRemoteAddress"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp4Socket.ReceiveAll">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerSocket.ReceiveAll"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp4Socket.Send(System.Byte[][])">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerSocket.Send(System.Byte[][])"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp4Socket.Dispose">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerSocket.Dispose"/>
+        </member>
+        <member name="P:ManagedIrbis.Server.Sockets.Tcp4Socket.Client">
+            <summary>
+            Client.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.ServerUtility">
+             <summary>
+            
+             </summary>
         </member>
         <member name="F:ManagedIrbis.Server.ServerUtility.InclusionStart">
             <summary>
@@ -11080,6 +11361,11 @@
         <member name="F:ManagedIrbis.Server.ServerUtility.InclusionEnd">
             <summary>
             Inclusion end sign.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Server.ServerUtility.EncryptionMark">
+            <summary>
+            Признак того, что client_m.mnu зашифрован.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Server.ServerUtility.ExpandInclusion(System.String,System.String,System.String[])">
@@ -11092,15 +11378,29 @@
             Find file on path.
             </summary>
         </member>
-        <member name="T:ManagedIrbis.Server.Commands.DisconnectCommand">
+        <member name="M:ManagedIrbis.Server.ServerUtility.GetServerVersion">
             <summary>
-            
+            Get server version.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Server.Commands.DisconnectCommand.#ctor(ManagedIrbis.Server.ServerContext)">
+        <member name="M:ManagedIrbis.Server.ServerUtility.LoadClientList(System.String,ManagedIrbis.Menus.MenuFile)">
+            <summary>
+            Загрузка client_m.mnu с учетом того,
+            что тот может быть зашифрован.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.DisconnectCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.DisconnectCommand.#ctor(ManagedIrbis.Server.WorkData)">
             <summary>
             Constructor.
             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.DisconnectCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
         </member>
         <member name="T:ManagedIrbis.Reports.ReportTest">
             <summary>
@@ -12069,7 +12369,7 @@
         </member>
         <member name="T:ManagedIrbis.Direct.InvertedFile64">
             <summary>
-            Read inverted (index) file of IRBIS32 database.
+            Read inverted (index) file of IRBIS64 database.
             </summary>
         </member>
         <member name="F:ManagedIrbis.Direct.InvertedFile64.NodeLength">
@@ -12840,6 +13140,31 @@
             Записи.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Magazines.BindingManager">
+            <summary>
+            Менеджер подшивок.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Magazines.BindingManager.#ctor(ManagedIrbis.IIrbisConnection)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Magazines.BindingManager.BindMagazines(ManagedIrbis.Magazines.BindingSpecification)">
+            <summary>
+            Create or update binding according the specification.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Magazines.BindingManager.Unbind(System.String)">
+            <summary>
+            Расшитие и удаление подшивки по ее индексу.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Magazines.BindingManager.Connection">
+            <summary>
+            Connection.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Readers.ReaderAddress">
             <summary>
             Адрес читателя: поле 13 в базе RDR.
@@ -13234,6 +13559,32 @@
             <summary>
             Data.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.StopServerCommand">
+            <summary>
+            Нестандартная команда: остановка сервера.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.StopServerCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.StopServerCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.PrintTableCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.PrintTableCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.PrintTableCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
         </member>
         <member name="T:ManagedIrbis.Search.SearchManager">
             <summary>
@@ -14563,7 +14914,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftCsEval.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftCsEval.PrettyPrint(ManagedIrbis.Pft.Infrastructure.Text.PftPrettyPrinter)">
             <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.PrettyPrint(ManagedIrbis.Pft.Infrastructure.Text.PftPrettyPrinter)"/>
@@ -15229,35 +15580,62 @@
             Отслеживаемый пул подключений.
             </summary>
         </member>
-        <member name="T:ManagedIrbis.Server.IrbisServerWorker">
+        <member name="T:ManagedIrbis.Server.Sockets.Tcp4Listener">
             <summary>
-            
+            Простой слушатель для TCP/IP v4.
+            Выдает подключение клиента <see cref="T:ManagedIrbis.Server.Sockets.Tcp4Socket"/>.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Server.IrbisServerWorker.#ctor(ManagedIrbis.Server.IrbisServerEngine,ManagedIrbis.Server.IrbisServerSocket)">
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp4Listener.#ctor(System.Net.IPEndPoint,System.Threading.CancellationToken)">
             <summary>
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Server.IrbisServerWorker.DoWork">
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp4Listener.ForPort(System.Int32,System.Threading.CancellationToken)">
             <summary>
-            Do the work.
+            Create listener for the given port.
             </summary>
         </member>
-        <member name="P:ManagedIrbis.Server.IrbisServerWorker.Engine">
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp4Listener.AcceptClientAsync">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerListener.AcceptClientAsync"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp4Listener.GetLocalAddress">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerListener.GetLocalAddress"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp4Listener.Start">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerListener.Start"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp4Listener.Stop">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerListener.Stop"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp4Listener.Dispose">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerListener.Dispose"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.ReloadDictionaryCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ReloadDictionaryCommand.#ctor(ManagedIrbis.Server.WorkData)">
             <summary>
-            Server.
+            Constructor.
             </summary>
         </member>
-        <member name="P:ManagedIrbis.Server.IrbisServerWorker.Socket">
+        <member name="M:ManagedIrbis.Server.Commands.ReloadDictionaryCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.RecordPostingsCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.RecordPostingsCommand.#ctor(ManagedIrbis.Server.WorkData)">
             <summary>
-            Socket.
+            Constructor.
             </summary>
         </member>
-        <member name="P:ManagedIrbis.Server.IrbisServerWorker.Task">
-            <summary>
-            Task.
-            </summary>
+        <member name="M:ManagedIrbis.Server.Commands.RecordPostingsCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
         </member>
         <member name="T:ManagedIrbis.Search.SearchParameters">
             <summary>
@@ -16163,6 +16541,11 @@
             Constructor.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Direct.DirectAccess64.GetDatabaseInfo">
+            <summary>
+            Get database info.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Direct.DirectAccess64.GetMaxMfn">
             <summary>
             Get max MFN for database. Not next MFN!
@@ -16888,6 +17271,16 @@
         <member name="T:ManagedIrbis.FictionBook.FbBinary">
             <summary>
             Вложенные в файл FictionBook двоичные данные.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.FictionBook.FbBinary.ContentType">
+            <summary>
+            Content type.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.FictionBook.FbBinary.Id">
+            <summary>
+            Id.
             </summary>
         </member>
         <member name="T:ManagedIrbis.RecordStatus">
@@ -17864,9 +18257,25 @@
             Encode.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.UserInfo.GetStandardIni(ManagedIrbis.Menus.MenuFile,System.Char)">
+            <summary>
+            Get standard INI-file name from client_ini.mnu
+            for the workstation code.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.UserInfo.Parse(ManagedIrbis.Infrastructure.ServerResponse)">
             <summary>
             Разбор ответа сервера.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.UserInfo.ParseStream(System.IO.TextReader,ManagedIrbis.Menus.MenuFile)">
+            <summary>
+            Parse the MNU-file from the stream.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.UserInfo.ParseFile(System.String,ManagedIrbis.Menus.MenuFile)">
+            <summary>
+            Parse the MNU-file.
             </summary>
         </member>
         <member name="M:ManagedIrbis.UserInfo.ShouldSerializeCataloger">
@@ -17974,6 +18383,51 @@
         <member name="P:ManagedIrbis.Tables.SrwFile.Keys">
             <summary>
             Key definitions.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.ServerResponse">
+            <summary>
+            Server response.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerResponse.#ctor">
+            <summary>
+            Constructor for mocking.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerResponse.#ctor(ManagedIrbis.Server.ClientRequest)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerResponse.Encode(System.String)">
+            <summary>
+            Кодирование ответа.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerResponse.NewLine">
+            <summary>
+            Write line break.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerResponse.WriteAnsiString(System.String)">
+            <summary>
+            Write ANSI string.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerResponse.WriteInt32(System.Int32)">
+            <summary>
+            Write integer.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerResponse.WriteUtfString(System.String)">
+            <summary>
+            Write UTF string.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerResponse.Memory">
+            <summary>
+            Memory.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Server.ServerIniFile">
@@ -18274,6 +18728,32 @@
             не уничтожаются (следите за объемом физической памяти
             на диске и количеством файлов в директории).
             </remarks>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.RestartServerCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.RestartServerCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.RestartServerCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.ReadPostingsCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ReadPostingsCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ReadPostingsCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
         </member>
         <member name="T:ManagedIrbis.Search.SearchSyntaxException">
             <summary>
@@ -20389,22 +20869,24 @@
             Path for UpperCaseTable (without extension).
             </summary>
         </member>
-        <member name="T:ManagedIrbis.Server.IrbisServerSocket">
+        <member name="T:ManagedIrbis.Server.Commands.CommandMapper">
             <summary>
-            
+            Maps codes to command
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Server.IrbisServerSocket.#ctor(System.Net.Sockets.TcpClient)">
+        <member name="M:ManagedIrbis.Server.Commands.CommandMapper.#ctor(ManagedIrbis.Server.IrbisServerEngine)">
             <summary>
-            Construction.
+            Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Server.IrbisServerSocket.Dispose">
-            <inheritdoc cref="M:System.IDisposable.Dispose"/>
-        </member>
-        <member name="P:ManagedIrbis.Server.IrbisServerSocket.Client">
+        <member name="M:ManagedIrbis.Server.Commands.CommandMapper.MapCommand(ManagedIrbis.Server.WorkData)">
             <summary>
-            Client.
+            Map the command.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.Commands.CommandMapper.Engine">
+            <summary>
+            Engine.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Reservations.ReservationInfo">
@@ -22039,6 +22521,39 @@
             Парсер.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.FictionBook.FbDocument">
+            <summary>
+            Корневой элемент.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.FictionBook.FbDocument.LoadBook(System.String)">
+            <summary>
+            Загрузка книги из указанного sфайла.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.FictionBook.FbDocument.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.FictionBook.FbDocument.Stylesheet">
+            <summary>
+            Стили.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.FictionBook.FbDocument.Description">
+            <summary>
+            Описание.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.FictionBook.FbDocument.Body">
+            <summary>
+            Тело.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.FictionBook.FbDocument.Binary">
+            <summary>
+            Двоичные данные (рисунки).
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Batch.BatchRecordReader">
             <summary>
             Batch reader for <see cref="T:ManagedIrbis.MarcRecord"/>.
@@ -22510,6 +23025,58 @@
             <summary>
             Roundtrip time.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.UnlockDatabaseCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.UnlockDatabaseCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.UnlockDatabaseCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.TruncateDatabaseCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.TruncateDatabaseCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.TruncateDatabaseCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.MaxMfnCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.MaxMfnCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.MaxMfnCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.DatabaseStatCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.DatabaseStatCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.DatabaseStatCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
         </member>
         <member name="T:ManagedIrbis.Reservations.HistoryInfo">
             <summary>
@@ -24124,6 +24691,34 @@
             Данные о книге FictionBook.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.FictionBook.FbTitle.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.FictionBook.FbTitle.Author">
+            <summary>
+            Автор.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.FictionBook.FbTitle.Genres">
+            <summary>
+            Жанр.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.FictionBook.FbTitle.Title">
+            <summary>
+            Заглавие книги.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.FictionBook.FbTitle.Keywords">
+            <summary>
+            Ключевые слова.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.FictionBook.FbTitle.Language">
+            <summary>
+            Язык.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Batch.BatchRecordWriter">
             <summary>
             Batch writer for <see cref="T:ManagedIrbis.MarcRecord"/>.
@@ -24591,25 +25186,93 @@
             How to sort result.
             </summary>
         </member>
-        <member name="T:ManagedIrbis.Server.Commands.SearchCommand">
+        <member name="T:ManagedIrbis.Server.Sockets.HttpServerSocket">
             <summary>
-            
+            Обслуживание клиентов, подключившихся посредством HTTP.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Server.Commands.SearchCommand.#ctor(ManagedIrbis.Server.ServerContext)">
+        <member name="F:ManagedIrbis.Server.Sockets.HttpServerSocket.TwoNewLines">
+            <summary>
+            Два перевода строки. Означают начало данных.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Server.Sockets.HttpServerSocket.EndRequest">
+            <summary>
+            Строка "IRBIS_END_REQUEST". Означает конец данных.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.HttpServerSocket.#ctor(System.Net.Sockets.TcpClient,System.Threading.CancellationToken)">
+            <summary>
+            Construction.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.HttpServerSocket.ReceiveAll">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerSocket.ReceiveAll"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.HttpServerSocket.Send(System.Byte[][])">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerSocket.Send(System.Byte[][])"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.UpdateIniFileCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.UpdateIniFileCommand.#ctor(ManagedIrbis.Server.WorkData)">
             <summary>
             Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.UpdateIniFileCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.SearchCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.SearchCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.SearchCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="P:ManagedIrbis.Server.Commands.SearchCommand.Parameters">
+            <summary>
+            Search parameters.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Server.Commands.ReadRecordCommand">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
-        <member name="M:ManagedIrbis.Server.Commands.ReadRecordCommand.#ctor(ManagedIrbis.Server.ServerContext)">
+        <member name="M:ManagedIrbis.Server.Commands.ReadRecordCommand.#ctor(ManagedIrbis.Server.WorkData)">
             <summary>
             Constructor.
             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ReadRecordCommand.EncodeRecord(ManagedIrbis.MarcRecord)">
+            <summary>
+            Кодирование записи в клиентское представление.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ReadRecordCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.ServerVersionCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ServerVersionCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ServerVersionCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
         </member>
         <member name="T:ManagedIrbis.Reservations.ReservationClaim">
             <summary>
@@ -25962,6 +26625,11 @@
             Тело документа FictionBook.
             </summary>
         </member>
+        <member name="P:ManagedIrbis.FictionBook.FbBody.Name">
+            <summary>
+            Name.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Worksheet.FieldEditorRepository">
             <summary>
             
@@ -26470,7 +27138,7 @@
         </member>
         <member name="M:ManagedIrbis.RecordFieldUtility.Parse(System.String,System.String)">
             <summary>
-            Парсинг текстового представления поля
+            Парсинг текстового представления поля.
             </summary>
         </member>
         <member name="M:ManagedIrbis.RecordFieldUtility.Parse(System.String)">
@@ -26838,18 +27506,103 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Server.IrbisServerEngine">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
-        <member name="M:ManagedIrbis.Server.IrbisServerEngine.#ctor(ManagedIrbis.Server.ServerIniFile)">
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.#ctor(ManagedIrbis.Server.ServerSetup)">
             <summary>
             Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.OnBeforeExecute(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Before execute the command.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.OnAfterExecute(ManagedIrbis.Server.WorkData)">
+            <summary>
+            After command execution.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.CreateContext(System.String)">
+            <summary>
+            Create the context.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.DestroyContext(ManagedIrbis.Server.ServerContext)">
+            <summary>
+            Destroy the context.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.FindContext(System.String)">
+            <summary>
+            Find context for the client.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.RequireContext(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Find context for the client.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.RequireAdministratorContext(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Find administrator context for the user.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.FindUser(System.String)">
+            <summary>
+            Find the specified user.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.GetDefaultIniName(System.String,System.Int32)">
+            <summary>
+            Get name of the default INI file for specified client type.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.FixIniFile(AM.IO.IniFile)">
+            <summary>
+            Раскрываем ссылки на INI-файлы.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.GetUserIniFile(ManagedIrbis.UserInfo,System.String)">
+            <summary>
+            Get user INI-file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.GetMstFile(System.String)">
+            <summary>
+            Get MST file path for the database.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.GetDatabase(System.String)">
+            <summary>
+            Get database access.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.GetProvider(System.String)">
+            <summary>
+            Get provider for specified database.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Server.IrbisServerEngine.MainLoop">
             <summary>
             Process loop.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.ResolveFile(ManagedIrbis.Infrastructure.FileSpecification)">
+            <summary>
+            Resolve the file path.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.GetCancellationToken">
+            <summary>
+            Get the cancellation token.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.CancelProcessing">
+            <summary>
+            Cancel <see cref="M:ManagedIrbis.Server.IrbisServerEngine.MainLoop"/> processing.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Server.IrbisServerEngine.WaitForWorkers">
@@ -26860,24 +27613,204 @@
         <member name="M:ManagedIrbis.Server.IrbisServerEngine.Dispose">
             <inheritdoc cref="M:System.IDisposable.Dispose"/>
         </member>
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.SyncRoot">
+            <summary>
+            Object for synchronization.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.StartedAt">
+            <summary>
+            Момент старта движка.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.Contexts">
+            <summary>
+            Contexts.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.Cache">
+            <summary>
+            Cache.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.ClientIni">
+            <summary>
+            MNU file with standard _server_ INI file names.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.DataPath">
+            <summary>
+            System data directory path.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.DepositPath">
+            <summary>
+            Path for Deposit directory.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.DepositUserPath">
+            <summary>
+            Path for Deposit_USER directory.
+            </summary>
+        </member>
         <member name="P:ManagedIrbis.Server.IrbisServerEngine.IniFile">
             <summary>
             Ini file.
             </summary>
         </member>
-        <member name="P:ManagedIrbis.Server.IrbisServerEngine.Listener">
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.Listeners">
             <summary>
             TCP listener.
             </summary>
         </member>
-        <member name="P:ManagedIrbis.Server.IrbisServerEngine.StopSignal">
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.Mapper">
             <summary>
-            Stop signal.
+            Command mapper.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.SystemPath">
+            <summary>
+            System root directory path.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.Users">
+            <summary>
+            Known users.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Server.IrbisServerEngine.Workers">
             <summary>
             Workers.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.WorkDir">
+            <summary>
+            System work directory path.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.PortNumber">
+            <summary>
+            IP port number.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.ClientRequest">
+            <summary>
+            Client request.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ClientRequest.#ctor">
+            <summary>
+            Constructor for mocking.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ClientRequest.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ClientRequest.GetString">
+            <summary>
+            Get string without encoding.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ClientRequest.GetAutoString">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ClientRequest.RequireAutoString">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ClientRequest.GetAnsiString">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ClientRequest.RequireAnsiString">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ClientRequest.RemainingAnsiStrings">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ClientRequest.RemainingAnsiText">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ClientRequest.GetUtfString">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ClientRequest.RequireUtfString">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ClientRequest.RemainingUtfStrings">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ClientRequest.RemainingUtfText">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ClientRequest.GetInt32">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ClientRequest.RequestLength">
+            <summary>
+            Общая длина запроса в байтах.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ClientRequest.CommandCode1">
+            <summary>
+            Код команды (первая копия).
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ClientRequest.Workstation">
+            <summary>
+            Код АРМ.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ClientRequest.CommandCode2">
+            <summary>
+            Код команды (вторая копия).
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ClientRequest.ClientId">
+            <summary>
+            Идентификатор клиента.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ClientRequest.CommandNumber">
+            <summary>
+            Номер команды.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ClientRequest.Password">
+            <summary>
+            Пароль.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ClientRequest.Login">
+            <summary>
+            Логин.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ClientRequest.Memory">
+            <summary>
+            Пакет с клиентским запросом.
             </summary>
         </member>
         <member name="T:ManagedIrbis.ServerStat">
@@ -27871,9 +28804,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.IrbisText">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:ManagedIrbis.IrbisText.IrbisDelimiter">
             <summary>
@@ -27921,6 +28854,11 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.IrbisText.WindowsToIrbis(System.String)">
+            <summary>
+            Convert standard line endings to IRBIS.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.IrbisText.WindowsToIrbis(System.Byte[])">
             <summary>
             Convert standard line endings to IRBIS.
             </summary>
@@ -28260,9 +29198,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Client.LocalProvider">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Client.LocalProvider.#ctor">
             <summary>
@@ -28651,6 +29589,83 @@
             <summary>
             Год издания.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Magazines.BindingSpecification">
+            <summary>
+            Спецификация подшивки.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Magazines.BindingSpecification.MagazineIndex">
+            <summary>
+            Шифр журнала.
+            </summary>
+            <remarks>
+            Например, "Л680583".
+            </remarks>
+        </member>
+        <member name="P:ManagedIrbis.Magazines.BindingSpecification.Year">
+            <summary>
+            Год.
+            </summary>
+            <remarks>
+            Например, "2017".
+            </remarks>
+        </member>
+        <member name="P:ManagedIrbis.Magazines.BindingSpecification.VolumeNumber">
+            <summary>
+            Номер тома.
+            </summary>
+            <remarks>
+            Например, "123".
+            </remarks>
+        </member>
+        <member name="P:ManagedIrbis.Magazines.BindingSpecification.IssueNumbers">
+            <summary>
+            Номера выпусков.
+            </summary>
+            <remarks>
+            Например, "1-27,29-58,60-72".
+            </remarks>
+        </member>
+        <member name="P:ManagedIrbis.Magazines.BindingSpecification.Description">
+            <summary>
+            Описание.
+            </summary>
+            <remarks>
+            Например, "янв.-июнь"
+            </remarks>
+        </member>
+        <member name="P:ManagedIrbis.Magazines.BindingSpecification.BindingNumber">
+            <summary>
+            Номер подшивки.
+            </summary>
+            <remarks>
+            Например, "6284".
+            </remarks>
+        </member>
+        <member name="P:ManagedIrbis.Magazines.BindingSpecification.Inventory">
+            <summary>
+            Инвентарный номер подшивки.
+            </summary>
+            <remarks>
+            Например, "Г6284".
+            </remarks>
+        </member>
+        <member name="P:ManagedIrbis.Magazines.BindingSpecification.Fond">
+            <summary>
+            Фонд подшивки.
+            </summary>
+            <remarks>
+            Например, "ФП".
+            </remarks>
+        </member>
+        <member name="P:ManagedIrbis.Magazines.BindingSpecification.Complect">
+            <summary>
+            Номер комплекта.
+            </summary>
+            <remarks>
+            Например, "1".
+            </remarks>
         </member>
         <member name="T:ManagedIrbis.Worksheet.WorksheetPage">
             <summary>
@@ -29118,15 +30133,77 @@
             модельного поля с меткой 991.
             </summary>
         </member>
-        <member name="T:ManagedIrbis.Server.Commands.WriteRecordCommand">
+        <member name="T:ManagedIrbis.Server.ServerLock">
             <summary>
-            
+            Установка блокировок баз данных.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Server.Commands.WriteRecordCommand.#ctor(ManagedIrbis.Server.ServerContext)">
+        <member name="F:ManagedIrbis.Server.ServerLock.MutexPrefix">
+            <summary>
+            Prefix for mutex name.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Server.ServerLock.LockList">
+            <summary>
+            List of locks.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerLock.#ctor(System.String,System.Boolean,System.Int32)">
             <summary>
             Constructor.
             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerLock.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerLock.Database">
+            <summary>
+            Database name.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerLock.Write">
+            <summary>
+            Lock for write.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.WriteRecordCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.WriteRecordCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.WriteRecordCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.ListFilesCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ListFilesCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ListFilesCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.CreateDictionaryCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.CreateDictionaryCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.CreateDictionaryCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
         </member>
         <member name="T:ManagedIrbis.Search.Infrastructure.SearchTokenList">
             <summary>
@@ -31877,6 +32954,56 @@
             
              </summary>
         </member>
+        <member name="T:ManagedIrbis.Server.WorkData">
+            <summary>
+            All the data for client request handling cycle.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.WorkData.Command">
+            <summary>
+            Command.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.WorkData.Context">
+            <summary>
+            Context.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.WorkData.Engine">
+            <summary>
+            Engine
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.WorkData.Response">
+            <summary>
+            Response.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.WorkData.Request">
+            <summary>
+            Request.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.WorkData.Socket">
+            <summary>
+            Socket.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.WorkData.Task">
+            <summary>
+            Task.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.WorkData.User">
+            <summary>
+            User info.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.WorkData.Worker">
+            <summary>
+            Worker.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Search.SearchUtility">
             <summary>
             
@@ -32894,13 +34021,13 @@
         </member>
         <member name="P:ManagedIrbis.Direct.MstRecordLeader64.Nvf">
             <summary>
-            Число полей в записи (т.е. число входов
+            Число полей в записи (т. е. число входов
             в справочнике).
             </summary>
         </member>
         <member name="P:ManagedIrbis.Direct.MstRecordLeader64.Status">
             <summary>
-            Индикатор записи (логически удаленная и т.п.).
+            Индикатор записи (логически удаленная и т. п.).
             </summary>
         </member>
         <member name="P:ManagedIrbis.Direct.MstRecordLeader64.Version">
@@ -32914,24 +34041,24 @@
             </summary>
         </member>
         <member name="F:ManagedIrbis.ConnectionSettings.DefaultHost">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:ManagedIrbis.ConnectionSettings.DefaultDatabase">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:ManagedIrbis.ConnectionSettings.DefaultWorkstation">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:ManagedIrbis.ConnectionSettings.DefaultPort">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.ConnectionSettings.#ctor">
             <summary>
@@ -34482,6 +35609,53 @@
             Tables.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Server.Sockets.Tcp6Socket">
+            <summary>
+            Простейшее подключение через TCP/IP v6.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp6Socket.#ctor(System.Net.Sockets.TcpClient,System.Threading.CancellationToken)">
+            <summary>
+            Construction.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp6Socket.GetRemoteAddress">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerSocket.GetRemoteAddress"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp6Socket.ReceiveAll">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerSocket.ReceiveAll"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp6Socket.Send(System.Byte[][])">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerSocket.Send(System.Byte[][])"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp6Socket.Dispose">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerSocket.Dispose"/>
+        </member>
+        <member name="P:ManagedIrbis.Server.Sockets.Tcp6Socket.Client">
+            <summary>
+            Client.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.ServerWorker">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerWorker.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerWorker.DoWork">
+            <summary>
+            Do the work.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerWorker.Data">
+            <summary>
+            All the data.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Search.SearchResult">
             <summary>
             Search result.
@@ -35251,9 +36425,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.ImportExport.Iso2709">
-             <summary>
-            
-             </summary>
+            <summary>
+            ISO 2709 format record import and export.
+            </summary>
         </member>
         <member name="F:ManagedIrbis.ImportExport.Iso2709.MarkerLength">
             <summary>
@@ -36339,9 +37513,9 @@
             <remarks>List can be empty.</remarks>
         </member>
         <member name="T:ManagedIrbis.Server.ServerContext">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Server.ServerContext.ShouldSerializeCommandCount">
             <summary>
@@ -36400,14 +37574,14 @@
             Last activity time.
             </summary>
         </member>
+        <member name="P:ManagedIrbis.Server.ServerContext.LastCommand">
+            <summary>
+            Last command code.
+            </summary>
+        </member>
         <member name="P:ManagedIrbis.Server.ServerContext.Password">
             <summary>
             Password.
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Server.ServerContext.Engine">
-            <summary>
-            Server.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Server.ServerContext.Username">
@@ -36425,15 +37599,170 @@
             Arbitrary user data.
             </summary>
         </member>
-        <member name="T:ManagedIrbis.Server.Commands.ConnectCommand">
-            <summary>
+        <member name="T:ManagedIrbis.Server.ServerSetup">
+             <summary>
             
-            </summary>
+             </summary>
         </member>
-        <member name="M:ManagedIrbis.Server.Commands.ConnectCommand.#ctor(ManagedIrbis.Server.ServerContext)">
+        <member name="M:ManagedIrbis.Server.ServerSetup.#ctor(ManagedIrbis.Server.ServerIniFile)">
             <summary>
             Constructor.
             </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerSetup.IniFile">
+            <summary>
+            Server INI-file.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerSetup.RootPathOverride">
+            <summary>
+            Override for root path.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerSetup.PortNumberOverride">
+            <summary>
+            TCP port number override.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerSetup.UseTcpIpV4">
+            <summary>
+            Use TCP/IP v4 (enabled by default).
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerSetup.UseTcpIpV6">
+            <summary>
+            Use TCP/IP v6.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerSetup.HttpPort">
+            <summary>
+            Port number for HTTP listener.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.ServerCache">
+            <summary>
+            Simple cache for files.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Server.ServerCache.DefaultLimit">
+            <summary>
+            Default memory limit.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerCache.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerCache.Clear">
+            <summary>
+            Clear the cache.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerCache.GetFile(System.String)">
+            <summary>
+            Get file content.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerCache.GetAnsiFile(System.String)">
+            <summary>
+            Get ANSI encoded text file.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerCache.MemoryLimit">
+            <summary>
+            Memory usage limit, bytes.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerCache.MemoryUsage">
+            <summary>
+            Memory usage, bytes.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.Sockets.HttpServerListener">
+            <summary>
+            Слушает протокол HTTP.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.HttpServerListener.#ctor(System.Net.IPEndPoint,System.Threading.CancellationToken)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.HttpServerListener.ForPort(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Create listener for the given port.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.HttpServerListener.AcceptClientAsync">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerListener.AcceptClientAsync"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.HttpServerListener.GetLocalAddress">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerListener.GetLocalAddress"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.HttpServerListener.Start">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerListener.Start"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.HttpServerListener.Stop">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerListener.Stop"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.HttpServerListener.Dispose">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerListener.Dispose"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.UpdateUserListCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.UpdateUserListCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.UpdateUserListCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.NopCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.NopCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.NopCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.ListUsersCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ListUsersCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ListUsersCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.ConnectCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ConnectCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ConnectCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="P:ManagedIrbis.Server.Commands.ConnectCommand.SendVersion">
+            <inheritdoc cref="P:ManagedIrbis.Server.Commands.ServerCommand.SendVersion"/>
         </member>
         <member name="T:ManagedIrbis.Search.Infrastructure.SearchLevel5">
             <summary>
@@ -38456,6 +39785,68 @@
             Result of the command.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Server.Sockets.Tcp6Listener">
+            <summary>
+            Простой слушатель для TCP/IP v6.
+            Выдает подключение клиента <see cref="T:ManagedIrbis.Server.Sockets.Tcp6Socket"/>.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp6Listener.#ctor(System.Net.IPEndPoint,System.Threading.CancellationToken)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp6Listener.ForPort(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Create listener for the given port.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp6Listener.AcceptClientAsync">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerListener.AcceptClientAsync"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp6Listener.GetLocalAddress">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerListener.GetLocalAddress"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp6Listener.Start">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerListener.Start"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp6Listener.Stop">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerListener.Stop"/>
+        </member>
+        <member name="M:ManagedIrbis.Server.Sockets.Tcp6Listener.Dispose">
+            <inheritdoc cref="M:ManagedIrbis.Server.Sockets.IrbisServerListener.Dispose"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.UnlockRecordsCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.UnlockRecordsCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.UnlockRecordsCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.ReadTermsCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ReadTermsCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ReadTermsCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="P:ManagedIrbis.Server.Commands.ReadTermsCommand.ReverseOrder">
+            <summary>
+            Reverse order.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Search.Infrastructure.SearchLevel4">
             <summary>
             level3 * level3
@@ -40043,6 +41434,29 @@
             Коллекция полей записи.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.FictionBook.FbAuthor">
+            <summary>
+            Данные об авторе FictionBook.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.FictionBook.FbAuthor.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.FictionBook.FbAuthor.FirstName">
+            <summary>
+            Имя.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.FictionBook.FbAuthor.MiddleName">
+            <summary>
+            Отчество.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.FictionBook.FbAuthor.LastName">
+            <summary>
+            Фамилия.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Batch.BatchAccessor">
             <summary>
             
@@ -40763,6 +42177,58 @@
             <summary>
             Statistics.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.WriteRecordsCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.WriteRecordsCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.WriteRecordsCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.ListProcessesCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ListProcessesCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ListProcessesCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.DeleteDatabaseCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.DeleteDatabaseCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.DeleteDatabaseCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.CreateDatabaseCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.CreateDatabaseCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.CreateDatabaseCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
         </member>
         <member name="T:ManagedIrbis.Search.Infrastructure.SearchQueryParser">
             <summary>
@@ -42240,9 +43706,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.Commands.ServerVersionCommand">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.ServerVersionCommand.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
@@ -42250,10 +43716,10 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.ServerVersionCommand.CreateQuery">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.CreateQuery"/>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.Commands.ServerVersionCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)">
-            <inheritdoc />
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.Commands.AbstractCommand.Execute(ManagedIrbis.Infrastructure.ClientQuery)"/>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.Commands.ServerVersionCommand.Result">
             <summary>
@@ -42355,7 +43821,7 @@
             Файл перекрестных ссылок XRF представляет собой
             таблицу ссылок на записи файла документов.
             Первая ссылка соответствует записи файла документов
-            с номером 1, вторая – 2  и тд.
+            с номером 1, вторая – 2  и т. д.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Direct.XrfFile64.#ctor(System.String,ManagedIrbis.Direct.DirectAccessMode)">
@@ -43070,6 +44536,14 @@
         <member name="T:ManagedIrbis.FictionBook.FbDescription">
             <summary>
             Заголовок, описывающий документ FictionBook.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.FictionBook.FbDescription.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.FictionBook.FbDescription.Title">
+            <summary>
+            Данные о книге.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Direct.MstWriter64">

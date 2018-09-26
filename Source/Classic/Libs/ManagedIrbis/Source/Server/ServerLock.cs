@@ -13,6 +13,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
+using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -76,13 +79,19 @@ namespace ManagedIrbis.Server
         {
             Code.NotNullNorEmpty(database, "database");
 
+#if WINMOBILE || POCKETPC
+
+            throw new NotImplementedException();
+
+#else
+
             Database = database;
             Write = write;
             DateTime startTime = DateTime.Now;
 
             while (true)
             {
-                string mutexName = MutexPrefix + database.ToUpperInvariant();
+                string mutexName = MutexPrefix + StringUtility.ToUpperInvariant(database);
                 bool createNew;
                 _mutex = new Mutex(false, mutexName, out createNew);
 
@@ -117,6 +126,8 @@ namespace ManagedIrbis.Server
             {
                 LockList.Add(this);
             }
+
+#endif
         }
 
         #endregion
@@ -134,10 +145,14 @@ namespace ManagedIrbis.Server
         /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
-#if FW35
+#if FW35 || WINMOBILE || POCKETPC
+
             _mutex.Close();
+
 #else
+
             _mutex.Dispose();
+
 #endif
 
             lock (Sync)

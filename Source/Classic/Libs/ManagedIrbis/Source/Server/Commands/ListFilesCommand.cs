@@ -143,12 +143,25 @@ namespace ManagedIrbis.Server.Commands
                 return StringUtility.EmptyArray;
             }
 
+#if WINMOBILE || POCKETPC
+
+            string[] result = Directory.GetFiles
+                (
+                    directory, 
+                    pattern
+                );
+
+#else
+
             string[] result = Directory.GetFiles
                 (
                     directory,
                     pattern,
                     SearchOption.TopDirectoryOnly
                 );
+
+#endif
+
             result = result
                 .Select(fname => Path.GetFileName(fname))
                 .OrderBy(_ => _)

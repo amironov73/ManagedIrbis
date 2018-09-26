@@ -15,6 +15,7 @@ using System.Net.Sockets;
 using System.Text;
 
 using AM;
+using AM.Text;
 
 using CodeJam;
 
@@ -189,7 +190,7 @@ namespace ManagedIrbis.Server
         public string GetAnsiString()
         {
             byte[] bytes = GetString();
-            return IrbisEncoding.Ansi.GetString(bytes);
+            return EncodingUtility.GetString(IrbisEncoding.Ansi, bytes);
         }
 
         /// <summary>
@@ -234,7 +235,7 @@ namespace ManagedIrbis.Server
             byte[] bytes = new byte[remaining];
             Memory.Read(bytes, 0, remaining);
 
-            return IrbisEncoding.Ansi.GetString(bytes);
+            return EncodingUtility.GetString(IrbisEncoding.Ansi, bytes);
         }
 
         /// <summary>
@@ -244,7 +245,7 @@ namespace ManagedIrbis.Server
         public string GetUtfString()
         {
             byte[] bytes = GetString();
-            return IrbisEncoding.Utf8.GetString(bytes);
+            return EncodingUtility.GetString(IrbisEncoding.Utf8, bytes);
         }
 
         /// <summary>
@@ -289,7 +290,7 @@ namespace ManagedIrbis.Server
             byte[] bytes = new byte[remaining];
             Memory.Read(bytes, 0, remaining);
 
-            return IrbisEncoding.Utf8.GetString(bytes);
+            return EncodingUtility.GetString(IrbisEncoding.Utf8, bytes);
         }
 
         /// <summary>
