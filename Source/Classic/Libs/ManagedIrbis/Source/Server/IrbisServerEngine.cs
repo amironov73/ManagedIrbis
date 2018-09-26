@@ -65,6 +65,11 @@ namespace ManagedIrbis.Server
         public DateTime StartedAt { get; private set; }
 
         /// <summary>
+        /// Whether the engine paused client request processing.
+        /// </summary>
+        public bool Paused { get; set; }
+
+        /// <summary>
         /// Contexts.
         /// </summary>
         [NotNull]
@@ -171,6 +176,11 @@ namespace ManagedIrbis.Server
 
             Code.NotNull(setup, "setup");
 
+            if (setup.Break)
+            {
+                Debugger.Launch();
+            }
+
             _cancellation = new CancellationTokenSource();
 
             SyncRoot = new object();
@@ -271,6 +281,28 @@ namespace ManagedIrbis.Server
                         HttpServerListener.ForPort(setup.HttpPort, _cancellation.Token)
                     );
             }
+
+#if FW46 || NETCORE
+
+            if (!string.IsNullOrEmpty(setup.PipeName))
+            {
+                int instanceCount = setup.PipeInstanceCount;
+                if (instanceCount <= 0)
+                {
+                    instanceCount = 3;
+                }
+                listeners.Add
+                    (
+                        new PipeListener
+                            (
+                                setup.PipeName,
+                                instanceCount,
+                                _cancellation.Token
+                            )
+                    );
+            }
+
+#endif
 
             Listeners = listeners.ToArray();
             PortNumber = portNumber;
@@ -800,6 +832,12 @@ namespace ManagedIrbis.Server
                     break;
                 }
 
+                if (Paused)
+                {
+                    SpinWait.SpinUntil(() => Paused, 100);
+                    continue;
+                }
+
                 try
                 {
                     int taskCount = Listeners.Length;
@@ -940,6 +978,17 @@ namespace ManagedIrbis.Server
         public CancellationToken GetCancellationToken()
         {
             return _cancellation.Token;
+        }
+
+        /// <summary>
+        /// Get the workers count.
+        /// </summary>
+        public int GetWorkerCount()
+        {
+            lock (SyncRoot)
+            {
+                return Workers.Count;
+            }
         }
 
         /// <summary>

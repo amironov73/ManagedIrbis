@@ -65,6 +65,16 @@ namespace ManagedIrbis.Server
         /// </summary>
         public string PipeName { get; set; }
 
+        /// <summary>
+        /// Instance count for Windows pipe server.
+        /// </summary>
+        public int PipeInstanceCount { get; set; }
+
+        /// <summary>
+        /// Вызвать отладчик в конструкторе.
+        /// </summary>
+        public bool Break { get; set; }
+
         #endregion
 
         #region Construction

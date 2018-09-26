@@ -10,11 +10,15 @@
 #region Using directives
 
 using System;
+using System.Diagnostics;
 using System.ServiceProcess;
+using System.Threading.Tasks;
 
 using AM.Logging;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Server;
 
 #endregion
 
@@ -36,6 +40,19 @@ namespace IrbisNetService
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Engine.
+        /// </summary>
+        [CanBeNull]
+        public IrbisServerEngine Engine { get; private set; }
+
+        [CanBeNull]
+        public Task WorkTask { get; private set; }
+
+        #endregion
+
         #region Construction
 
         /// <summary>
@@ -44,6 +61,68 @@ namespace IrbisNetService
         public IrbisService()
         {
             ServiceName = IrbisNet;
+            AutoLog = true;
+        }
+
+        #endregion
+
+        #region Private members
+
+        private void _CreateEngine
+            (
+                string[] args
+            )
+        {
+            if (ReferenceEquals(Engine, null))
+            {
+                try
+                {
+                    Engine = ServerUtility.CreateEngine(args);
+                    WorkTask = Task.Factory.StartNew(Engine.MainLoop);
+                }
+                catch (Exception exception)
+                {
+                    EventLog.WriteEntry
+                        (
+                            "Exception: " + exception,
+                            EventLogEntryType.Error
+                        );
+
+                    Engine = null;
+                    WorkTask = null;
+                    Stop();
+                }
+            }
+        }
+
+        private void _DestroyEngine()
+        {
+            IrbisServerEngine engine = Engine;
+            if (!ReferenceEquals(engine, null))
+            {
+                engine.CancelProcessing();
+                Task workTask = WorkTask;
+                if (!ReferenceEquals(workTask, null))
+                {
+                    int count = 0;
+
+                    while (engine.GetWorkerCount() != 0)
+                    {
+                        if (count > 50)
+                        {
+                            break;
+                        }
+
+                        RequestAdditionalTime(100);
+                        workTask.Wait(100);
+                    }
+                }
+
+                engine.Dispose();
+            }
+
+            WorkTask = null;
+            Engine = null;
         }
 
         #endregion
@@ -58,6 +137,11 @@ namespace IrbisNetService
             try
             {
                 base.OnContinue();
+
+                if (!ReferenceEquals(Engine, null))
+                {
+                    Engine.Paused = true;
+                }
             }
             catch (Exception exception)
             {
@@ -75,6 +159,11 @@ namespace IrbisNetService
             try
             {
                 base.OnPause();
+
+                if (!ReferenceEquals(Engine, null))
+                {
+                    Engine.Paused = true;
+                }
             }
             catch (Exception exception)
             {
@@ -91,6 +180,8 @@ namespace IrbisNetService
 
             try
             {
+                _DestroyEngine();
+
                 base.OnShutdown();
             }
             catch (Exception exception)
@@ -112,6 +203,11 @@ namespace IrbisNetService
             try
             {
                 base.OnStart(args);
+
+                string message = "Arguments: " + string.Join(" ", args);
+                EventLog.WriteEntry(message, EventLogEntryType.Information);
+
+                _CreateEngine(args);
             }
             catch (Exception exception)
             {
@@ -128,6 +224,8 @@ namespace IrbisNetService
 
             try
             {
+                _DestroyEngine();
+
                 base.OnStop();
             }
             catch (Exception exception)

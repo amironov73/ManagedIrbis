@@ -31,8 +31,6 @@ namespace IrbisNetServer
 {
     class Program
     {
-        private static ServerSetup Setup;
-
         private static IrbisServerEngine Engine;
 
         static void Main(string[] args)
@@ -43,61 +41,9 @@ namespace IrbisNetServer
             {
                 Log.ApplyDefaultsForConsoleApplication();
 
-                CommandLineParser parser = new CommandLineParser();
-                ParsedCommandLine parsed = parser.Parse(args);
-
-                string logPath = parsed.GetValue("log", null);
-                if (!string.IsNullOrEmpty(logPath))
+                using (Engine = ServerUtility.CreateEngine(args))
                 {
-                    TeeLogger tee = Log.Logger as TeeLogger;
-                    tee?.Loggers.Add(new FileLogger(logPath));
-                }
-
-                Log.SetLogger(new TimeStampLogger(Log.Logger.ThrowIfNull()));
-
-                if (parsed.HaveSwitch("nolog"))
-                {
-                    Log.SetLogger(null);
-                }
-
-                string iniPath = parsed.GetArgument(0, "irbis_server.ini")
-                    .ThrowIfNull("iniPath");
-                iniPath = Path.GetFullPath(iniPath);
-
-                IniFile iniFile = new IniFile(iniPath, IrbisEncoding.Ansi, false);
-                ServerIniFile serverIniFile = new ServerIniFile(iniFile);
-                Setup = new ServerSetup(serverIniFile)
-                {
-                    RootPathOverride = parsed.GetValue("root", null),
-                    PortNumberOverride = parsed.GetValue("port", 0)
-                };
-
-                if (parsed.HaveSwitch("noipv4"))
-                {
-                    Setup.UseTcpIpV4 = false;
-                }
-
-                if (parsed.HaveSwitch("ipv6"))
-                {
-                    Setup.UseTcpIpV6 = true;
-                }
-
-                int httpPort = parsed.GetValue("http", 0);
-                if (httpPort > 0)
-                {
-                    Setup.HttpPort = httpPort;
-                }
-
-                using (Engine = new IrbisServerEngine(Setup))
-                {
-                    Log.Trace(ServerUtility.GetServerVersion().ToString());
-                    Log.Trace("BUILD: " + IrbisConnection.ClientVersion);
-
-                    foreach (IrbisServerListener listener in Engine.Listeners)
-                    {
-                        Log.Trace("Listening " + listener.GetLocalAddress());
-                    }
-
+                    ServerUtility.DumpEngineSettings(Engine);
                     Log.Trace("Entering server main loop");
                     Engine.MainLoop();
                     Log.Trace("Leaved server main loop");

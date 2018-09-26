@@ -15,11 +15,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
+using AM.CommandLine;
 using AM.IO;
 using AM.Logging;
 using AM.Runtime;
@@ -30,6 +32,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Menus;
+using ManagedIrbis.Server.Sockets;
 
 using MoonSharp.Interpreter;
 
@@ -68,6 +71,100 @@ namespace ManagedIrbis.Server
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Create the engine.
+        /// </summary>
+        [NotNull]
+        public static IrbisServerEngine CreateEngine
+            (
+                [NotNull] string[] arguments
+            )
+        {
+            Code.NotNull(arguments, "arguments");
+
+            CommandLineParser parser = new CommandLineParser();
+            ParsedCommandLine parsed = parser.Parse(arguments);
+            ServerSetup setup;
+
+            string logPath = parsed.GetValue("log", null);
+            if (!string.IsNullOrEmpty(logPath))
+            {
+                TeeLogger tee = Log.Logger as TeeLogger;
+                if (!ReferenceEquals(tee, null))
+                {
+                    tee.Loggers.Add(new FileLogger(logPath));
+                }
+            }
+
+            if (!ReferenceEquals(Log.Logger, null))
+            {
+                Log.SetLogger(new TimeStampLogger(Log.Logger.ThrowIfNull()));
+            }
+
+            if (parsed.HaveSwitch("nolog"))
+            {
+                Log.SetLogger(null);
+            }
+
+            string iniPath = Path.GetDirectoryName(RuntimeUtility.ExecutableFileName)
+                .ThrowIfNull("executablePath");
+            iniPath = Path.Combine(iniPath, "irbis_server.ini");
+            iniPath = parsed.GetArgument(0, iniPath).ThrowIfNull("iniPath");
+            iniPath = Path.GetFullPath(iniPath);
+
+            IniFile iniFile = new IniFile(iniPath, IrbisEncoding.Ansi, false);
+            ServerIniFile serverIniFile = new ServerIniFile(iniFile);
+            setup = new ServerSetup(serverIniFile)
+            {
+                RootPathOverride = parsed.GetValue("root", null),
+                PortNumberOverride = parsed.GetValue("port", 0)
+            };
+
+            if (parsed.HaveSwitch("noipv4"))
+            {
+                setup.UseTcpIpV4 = false;
+            }
+
+            if (parsed.HaveSwitch("ipv6"))
+            {
+                setup.UseTcpIpV6 = true;
+            }
+
+            int httpPort = parsed.GetValue("http", 0);
+            if (httpPort > 0)
+            {
+                setup.HttpPort = httpPort;
+            }
+
+            if (parsed.HaveSwitch("break"))
+            {
+                setup.Break = true;
+            }
+
+            IrbisServerEngine result = new IrbisServerEngine(setup);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Dump engine settings.
+        /// </summary>
+        public static void DumpEngineSettings
+            (
+                [NotNull] IrbisServerEngine engine
+            )
+        {
+            Code.NotNull(engine, "engine");
+
+            Log.Trace(GetServerVersion().ToString());
+            Log.Trace("BUILD: " + IrbisConnection.ClientVersion);
+
+            foreach (IrbisServerListener listener in engine.Listeners)
+            {
+                Log.Trace("Listening " + listener.GetLocalAddress());
+            }
+        }
 
         /// <summary>
         /// Expand inclusion.
