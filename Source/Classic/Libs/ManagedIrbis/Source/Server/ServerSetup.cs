@@ -60,6 +60,11 @@ namespace ManagedIrbis.Server
         /// </summary>
         public int HttpPort { get; set; }
 
+        /// <summary>
+        /// Name of the Windows pipe server.
+        /// </summary>
+        public string PipeName { get; set; }
+
         #endregion
 
         #region Construction

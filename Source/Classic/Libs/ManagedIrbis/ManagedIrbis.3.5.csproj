@@ -103,6 +103,7 @@
     <Compile Include="Source\ImportExport\Csl.cs" />
     <Compile Include="Source\Infrastructure\FastEngine.cs" />
     <Compile Include="Source\Infrastructure\MemoryManager.cs" />
+    <Compile Include="Source\Infrastructure\Sockets\PipeClientSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\SimpleClientSocketV6.cs" />
     <Compile Include="Source\Magazines\BindingSpecification.cs" />
     <Compile Include="Source\Magazines\BindingManager.cs" />
@@ -994,6 +995,8 @@
     <Compile Include="Source\Server\IrbisServerEngine.cs" />
     <Compile Include="Source\Server\ServerResponse.cs" />
     <Compile Include="Source\Server\ServerUtility.cs" />
+    <Compile Include="Source\Server\Sockets\PipeListener.cs" />
+    <Compile Include="Source\Server\Sockets\PipeSocket.cs" />
     <Compile Include="Source\Server\Sockets\Tcp4Listener.cs" />
     <Compile Include="Source\Server\Sockets\Tcp4Socket.cs" />
     <Compile Include="Source\Server\Sockets\Tcp6Listener.cs" />

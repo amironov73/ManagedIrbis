@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* TaskUtility.cs -- 
+/* TaskUtility.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -89,7 +89,7 @@ namespace AM.Threading.Tasks
         {
             Code.NotNull(task, "task");
 
-#if CLASSIC
+#if CLASSIC || ANDROID || NETCORE
 
             task.Dispose();
 

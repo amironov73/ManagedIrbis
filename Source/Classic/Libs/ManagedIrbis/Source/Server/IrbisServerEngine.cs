@@ -24,6 +24,7 @@ using AM.Collections;
 using AM.IO;
 using AM.Logging;
 using AM.Runtime;
+using AM.Threading.Tasks;
 
 using CodeJam;
 
@@ -802,7 +803,8 @@ namespace ManagedIrbis.Server
                 try
                 {
                     int taskCount = Listeners.Length;
-                    Task<IrbisServerSocket>[] tasks = new Task<IrbisServerSocket>[taskCount];
+                    Task<IrbisServerSocket>[] tasks
+                        = new Task<IrbisServerSocket>[taskCount];
                     for (int i = 0; i < taskCount; i++)
                     {
                         tasks[i] = Listeners[i].AcceptClientAsync();
@@ -816,7 +818,22 @@ namespace ManagedIrbis.Server
                     }
 
                     IrbisServerSocket socket = tasks[ready].Result;
+
+                    // Do we really need this?
+                    for (int i = 0; i < taskCount; i++)
+                    {
+                        if (i != ready)
+                        {
+                            TaskUtility.DisposeTask(tasks[i]);
+                        }
+                    }
+
                     _HandleClient(socket);
+                }
+                catch (AggregateException)
+                {
+                    Log.Trace("IrbisServerEngine::MainLoop: break signal 3");
+                    break;
                 }
                 catch (OperationCanceledException)
                 {

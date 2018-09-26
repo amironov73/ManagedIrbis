@@ -134,6 +134,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\MemoryManager.cs">
       <Link>Source\Infrastructure\MemoryManager.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\PipeClientSocket.cs">
+      <Link>Source\Infrastructure\Sockets\PipeClientSocket.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SimpleClientSocketV6.cs">
       <Link>Source\Infrastructure\Sockets\SimpleClientSocketV6.cs</Link>
     </Compile>
@@ -2806,6 +2809,12 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\ServerUtility.cs">
       <Link>Source\Server\ServerUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\PipeListener.cs">
+      <Link>Source\Server\Sockets\PipeListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\PipeSocket.cs">
+      <Link>Source\Server\Sockets\PipeSocket.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\Tcp4Listener.cs">
       <Link>Source\Server\Sockets\Tcp4Listener.cs</Link>
