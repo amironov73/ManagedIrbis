@@ -158,7 +158,12 @@ namespace ManagedIrbis.Server
             Code.NotNull(engine, "engine");
 
             Log.Trace(GetServerVersion().ToString());
+
+#if !UAP
+
             Log.Trace("BUILD: " + IrbisConnection.ClientVersion);
+
+#endif
 
             foreach (IrbisServerListener listener in engine.Listeners)
             {

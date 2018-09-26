@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if CLASSIC || ANDROID || DROID || NETCORE || WINMOBILE
-
 #region Using directives
 
 using System;
@@ -48,7 +46,7 @@ namespace AM.Runtime
         {
             get
             {
-#if WINMOBILE
+#if WINMOBILE || UAP
 
                 throw new NotImplementedException();
 
@@ -80,7 +78,7 @@ namespace AM.Runtime
         {
             get
             {
-#if WINMOBILE
+#if WINMOBILE || UAP
 
                 throw new NotImplementedException();
 
@@ -140,7 +138,7 @@ namespace AM.Runtime
         {
             Code.NotNull(type, "type");
 
-#if !WINMOBILE && !PocketPC
+#if !WINMOBILE && !PocketPC && !UAP
 
             try
             {
@@ -164,5 +162,3 @@ namespace AM.Runtime
         #endregion
     }
 }
-
-#endif

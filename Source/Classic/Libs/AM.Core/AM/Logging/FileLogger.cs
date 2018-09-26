@@ -7,13 +7,11 @@
  * Status: poor
  */
 
-#if CLASSIC || DESKTOP || NETCORE || DROID || UWP
-
 #region Using directives
 
 using System.IO;
 using System.Text;
-
+using AM.IO;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -25,7 +23,7 @@ using MoonSharp.Interpreter;
 namespace AM.Logging
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -72,17 +70,11 @@ namespace AM.Logging
         {
             if (!ReferenceEquals(line, null))
             {
-                using (StreamWriter writer
-#if NETCORE
-                    = new StreamWriter
+                using (StreamWriter writer = TextWriterUtility.Append
                     (
-                        new FileStream (FileName, FileMode.Append),
+                        FileName,
                         Encoding.UTF8
-                    )
-#else
-                    = new StreamWriter(FileName, true)
-#endif
-                    )
+                    ))
                 {
                     writer.WriteLine(line);
                 }
@@ -152,5 +144,3 @@ namespace AM.Logging
         #endregion
     }
 }
-
-#endif

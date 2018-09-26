@@ -50,7 +50,7 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Known codes.
         /// </summary>
-        public const string KnownCodes = "124abcdefghikluv";
+        public const string KnownCodes = "1249abcdefghikluv";
 
         #endregion
 
@@ -315,6 +315,15 @@ namespace ManagedIrbis.Readers
         public string Price { get; set; }
 
         /// <summary>
+        /// Примечание в произвольной форме, введенное оператором АРМ "Книговыдача".
+        /// Подполе 9 (появилось в 2018.1).
+        /// </summary>
+        [CanBeNull]
+        [XmlAttribute("comment")]
+        [JsonProperty("comment", NullValueHandling = NullValueHandling.Ignore)]
+        public string Comment { get; set; }
+
+        /// <summary>
         /// Поле, в котором хранится посещение/выдача.
         /// </summary>
         [CanBeNull]
@@ -382,6 +391,7 @@ namespace ManagedIrbis.Readers
             Responsible = FM('i');
             TimeIn = FM('1');
             TimeOut = FM('2');
+            Comment = FM('9');
         }
 
         #endregion
@@ -475,7 +485,7 @@ namespace ManagedIrbis.Readers
         }
 
         /// <summary>
-        /// Формирование поля 40 
+        /// Формирование поля 40
         /// из данных о выдаче/посещении.
         /// </summary>
         [NotNull]
@@ -496,7 +506,8 @@ namespace ManagedIrbis.Readers
                 .AddNonEmptySubField('c', Description)
                 .AddNonEmptySubField('i', Responsible)
                 .AddNonEmptySubField('1', TimeIn)
-                .AddNonEmptySubField('2', TimeOut);
+                .AddNonEmptySubField('2', TimeOut)
+                .AddNonEmptySubField('9', Comment);
 
             return result;
         }
