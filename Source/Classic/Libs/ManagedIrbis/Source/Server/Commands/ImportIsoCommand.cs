@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* DatabaseStatCommand.cs --
+/* ImportIsoCommand.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -27,7 +27,7 @@ namespace ManagedIrbis.Server.Commands
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class DatabaseStatCommand
+    public class ImportIsoCommand
         : ServerCommand
     {
         #region Construction
@@ -35,7 +35,7 @@ namespace ManagedIrbis.Server.Commands
         /// <summary>
         /// Constructor.
         /// </summary>
-        public DatabaseStatCommand
+        public ImportIsoCommand
             (
                 [NotNull] WorkData data
             )
@@ -73,7 +73,7 @@ namespace ManagedIrbis.Server.Commands
             }
             catch (Exception exception)
             {
-                Log.TraceException("DatabaseStatCommand::Execute", exception);
+                Log.TraceException("ImportIsoCommand::Execute", exception);
                 SendError(-8888);
             }
 

@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -111,6 +112,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new ServerVersionCommand(data);
                     break;
 
+                case "2":
+                    result = new DatabaseStatCommand(data);
+                    break;
+
                 case "3":
                     result = new FormatIsoGroupCommand(data);
                     break;
@@ -131,6 +136,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new UpdateIniFileCommand(data);
                     break;
 
+                case "9":
+                    result = new ImportIsoCommand(data);
+                    break;
+
                 case "A":
                     result = new ConnectCommand(data);
                     break;
@@ -146,6 +155,10 @@ namespace ManagedIrbis.Server.Commands
                 case "D":
                     result = new WriteRecordCommand(data);
                     break;
+
+                case "E":
+                    // Альтернативная разблокировка записи
+                    throw new NotImplementedException();
 
                 case "F":
                     result = new ActualizeRecordCommand(data);
