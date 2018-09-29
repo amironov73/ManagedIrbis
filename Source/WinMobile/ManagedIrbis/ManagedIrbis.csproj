@@ -2674,6 +2674,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ActualizeRecordCommand.cs">
       <Link>Source\Server\Commands\ActualizeRecordCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\BackupCommand.cs">
+      <Link>Source\Server\Commands\BackupCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\CommandMapper.cs">
       <Link>Source\Server\Commands\CommandMapper.cs</Link>
     </Compile>

@@ -945,6 +945,7 @@
     <Compile Include="Source\ServerStat.cs" />
     <Compile Include="Source\Server\ClientRequest.cs" />
     <Compile Include="Source\Server\Commands\ActualizeRecordCommand.cs" />
+    <Compile Include="Source\Server\Commands\BackupCommand.cs" />
     <Compile Include="Source\Server\Commands\CommandMapper.cs" />
     <Compile Include="Source\Server\Commands\ConnectCommand.cs" />
     <Compile Include="Source\Server\Commands\CreateDatabaseCommand.cs" />

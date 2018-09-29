@@ -188,6 +188,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new ReadFileCommand(data);
                     break;
 
+                case "M":
+                    result = new BackupCommand(data);
+                    break;
+
                 case "N":
                     result = new NopCommand(data);
                     break;
