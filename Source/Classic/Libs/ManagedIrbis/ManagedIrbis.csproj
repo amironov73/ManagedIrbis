@@ -954,6 +954,7 @@
     <Compile Include="Source\Server\Commands\FormatCommand.cs" />
     <Compile Include="Source\Server\Commands\FormatIsoGroupCommand.cs" />
     <Compile Include="Source\Server\Commands\GblCommand.cs" />
+    <Compile Include="Source\Server\Commands\GblVirtualCommand.cs" />
     <Compile Include="Source\Server\Commands\ImportIsoCommand.cs" />
     <Compile Include="Source\Server\Commands\ListProcessesCommand.cs" />
     <Compile Include="Source\Server\Commands\ListUsersCommand.cs" />

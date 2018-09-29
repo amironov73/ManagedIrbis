@@ -176,6 +176,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new ReadPostingsCommand(data);
                     break;
 
+                case "J":
+                    result = new GblVirtualCommand(data);
+                    break;
+
                 case "K":
                     result = new SearchCommand(data);
                     break;

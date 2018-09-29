@@ -2707,6 +2707,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\GblCommand.cs">
       <Link>Source\Server\Commands\GblCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\GblVirtualCommand.cs">
+      <Link>Source\Server\Commands\GblVirtualCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\ImportIsoCommand.cs">
       <Link>Source\Server\Commands\ImportIsoCommand.cs</Link>
     </Compile>
