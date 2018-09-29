@@ -2743,6 +2743,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\FormatCommand.cs">
       <Link>Source\Server\Commands\FormatCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\FormatIsoGroupCommand.cs">
+      <Link>Source\Server\Commands\FormatIsoGroupCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\GblCommand.cs">
       <Link>Source\Server\Commands\GblCommand.cs</Link>
     </Compile>
