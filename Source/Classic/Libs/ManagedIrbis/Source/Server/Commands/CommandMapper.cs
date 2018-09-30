@@ -13,8 +13,6 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Properties;
-
 using MoonSharp.Interpreter;
 
 #endregion
@@ -66,7 +64,7 @@ namespace ManagedIrbis.Server.Commands
                 [NotNull] string commandCode
             )
         {
-            throw new IrbisException(Resources.UnknownCommand + commandCode);
+            throw new IrbisException("Unknown command: " + commandCode);
         }
 
         /// <summary>
