@@ -126,4 +126,7 @@
   <data name="RecordTooLong" xml:space="preserve">
     <value>Record too long</value>
   </data>
+  <data name="UnknownCommand" xml:space="preserve">
+    <value>Unknown command: </value>
+  </data>
 </root>

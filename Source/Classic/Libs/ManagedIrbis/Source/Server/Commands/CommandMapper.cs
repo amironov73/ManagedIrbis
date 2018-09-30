@@ -9,10 +9,11 @@
 
 #region Using directives
 
-using System;
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Properties;
 
 using MoonSharp.Interpreter;
 
@@ -57,6 +58,18 @@ namespace ManagedIrbis.Server.Commands
         #region Public methods
 
         /// <summary>
+        /// Throws the exception.
+        /// </summary>
+        public virtual ServerCommand UnknownCommand
+            (
+                [NotNull] WorkData data,
+                [NotNull] string commandCode
+            )
+        {
+            throw new IrbisException(Resources.UnknownCommand + commandCode);
+        }
+
+        /// <summary>
         /// Map the command.
         /// </summary>
         [NotNull]
@@ -94,7 +107,8 @@ namespace ManagedIrbis.Server.Commands
 
                 case "+2":
                     // ???
-                    throw new NotImplementedException();
+                    result = UnknownCommand(data, commandCode);
+                    break;
 
                 case "+3":
                     result = new ListProcessesCommand(data);
@@ -104,7 +118,8 @@ namespace ManagedIrbis.Server.Commands
                 case "+5":
                 case "+6":
                     // ???
-                    throw new NotImplementedException();
+                    result = UnknownCommand(data, commandCode);
+                    break;
 
                 case "+7":
                     result = new UpdateUserListCommand(data);
@@ -136,7 +151,8 @@ namespace ManagedIrbis.Server.Commands
 
                 case "4":
                     // ???
-                    throw new NotImplementedException();
+                    result = UnknownCommand(data, commandCode);
+                    break;
 
                 case "5":
                     result = new GblCommand(data);
@@ -176,7 +192,8 @@ namespace ManagedIrbis.Server.Commands
 
                 case "E":
                     // Альтернативная разблокировка записи
-                    throw new NotImplementedException();
+                    result = UnknownCommand(data, commandCode);
+                    break;
 
                 case "F":
                     result = new ActualizeRecordCommand(data);
@@ -274,7 +291,8 @@ namespace ManagedIrbis.Server.Commands
                 //===================================================
 
                 default:
-                    throw new IrbisException("Unknown command: " + commandCode);
+                    result = UnknownCommand(data, commandCode);
+                    break;
             }
 
             return result;

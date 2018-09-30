@@ -86,5 +86,14 @@ namespace ManagedIrbis.Properties {
                 return ResourceManager.GetString("RecordTooLong", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown command: .
+        /// </summary>
+        internal static string UnknownCommand {
+            get {
+                return ResourceManager.GetString("UnknownCommand", resourceCulture);
+            }
+        }
     }
 }
