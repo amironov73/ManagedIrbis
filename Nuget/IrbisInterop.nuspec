@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>IrbisInterop</id>
-    <version>1.8.11.2700</version>
+    <version>1.8.12.2800</version>
     <title>Wrapper for IRBIS64.DLL</title>
     <authors>Mironov Alexey</authors>
     <owners></owners>
@@ -25,8 +25,8 @@
       <dependency id="JetBrains.Annotations" version="10.2.1" />
       <dependency id="MoonSharp" version="2.0.0.0" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
-      <dependency id="ArsMagna.Core" version="1.8.11" />
-      <dependency id="ManagedIrbis" version="1.8.11" />
+      <dependency id="ArsMagna.Core" version="1.8.12" />
+      <dependency id="ManagedIrbis" version="1.8.12" />
     </dependencies>
     <references></references>
     <tags></tags>
