@@ -84,13 +84,27 @@ namespace ManagedIrbis.Server.Commands
                     result = new ListFilesCommand(data);
                     break;
 
+                case "#":
+                    result = new GetDatabaseLockCommand(data);
+                    break;
+
                 case "+1":
                     result = new ServerStatCommand(data);
                     break;
 
+                case "+2":
+                    // ???
+                    throw new NotImplementedException();
+
                 case "+3":
                     result = new ListProcessesCommand(data);
                     break;
+
+                case "+4":
+                case "+5":
+                case "+6":
+                    // ???
+                    throw new NotImplementedException();
 
                 case "+7":
                     result = new UpdateUserListCommand(data);
@@ -119,6 +133,10 @@ namespace ManagedIrbis.Server.Commands
                 case "3":
                     result = new FormatIsoGroupCommand(data);
                     break;
+
+                case "4":
+                    // ???
+                    throw new NotImplementedException();
 
                 case "5":
                     result = new GblCommand(data);
@@ -206,6 +224,10 @@ namespace ManagedIrbis.Server.Commands
 
                 case "Q":
                     result = new UnlockRecordsCommand(data);
+                    break;
+
+                case "R":
+                    result = new FullTextSearchCommand(data);
                     break;
 
                 case "S":
