@@ -2668,6 +2668,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\ServerStat.cs">
       <Link>Source\ServerStat.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\BanMaster.cs">
+      <Link>Source\Server\BanMaster.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Server\ClientRequest.cs">
       <Link>Source\Server\ClientRequest.cs</Link>
     </Compile>

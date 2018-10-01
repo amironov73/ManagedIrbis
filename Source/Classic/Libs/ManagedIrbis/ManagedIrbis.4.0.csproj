@@ -937,6 +937,7 @@
     <Compile Include="Source\Search\TermInfoEx.cs" />
     <Compile Include="Source\Search\TermParameters.cs" />
     <Compile Include="Source\ServerStat.cs" />
+    <Compile Include="Source\Server\BanMaster.cs" />
     <Compile Include="Source\Server\ClientRequest.cs" />
     <Compile Include="Source\Server\Commands\ActualizeRecordCommand.cs" />
     <Compile Include="Source\Server\Commands\BackupCommand.cs" />

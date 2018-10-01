@@ -129,12 +129,6 @@ namespace ManagedIrbis.Server
         [NotNull]
         public string SystemPath { get; private set; }
 
-        ///// <summary>
-        ///// Stop signal.
-        ///// </summary>
-        //[NotNull]
-        //public ManualResetEvent StopSignal { get; private set; }
-
         /// <summary>
         /// Known users.
         /// </summary>
@@ -158,6 +152,11 @@ namespace ManagedIrbis.Server
         /// IP port number.
         /// </summary>
         public int PortNumber { get; private set; }
+
+        /// <summary>
+        /// Ban list.
+        /// </summary>
+        public BanMaster BanList { get; private set; }
 
         #endregion
 
@@ -216,6 +215,7 @@ namespace ManagedIrbis.Server
             Contexts = new NonNullCollection<ServerContext>();
             Workers = new NonNullCollection<ServerWorker>();
             Mapper = new CommandMapper(this);
+            BanList = new BanMaster();
 
             _BuildListeners(setup);
 
@@ -348,6 +348,12 @@ namespace ManagedIrbis.Server
             Log.Trace("IrbisServerEngine::_HandleClient enter");
 
             if (_cancellation.IsCancellationRequested)
+            {
+                socket.Dispose();
+                return;
+            }
+
+            if (BanList.IsBanned(socket))
             {
                 socket.Dispose();
                 return;

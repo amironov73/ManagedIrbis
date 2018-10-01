@@ -67,7 +67,7 @@ namespace AM.IO
         /// </returns>
         public static int Compare
             (
-                [NotNull] string first, 
+                [NotNull] string first,
                 [NotNull] string second
             )
         {
@@ -96,8 +96,8 @@ namespace AM.IO
         /// </param>
         /// <param name="targetName">Name of the target file.
         /// </param>
-        /// <param name="overwrite"><c>true</c> if the 
-        /// destination file can be overwritten; otherwise, 
+        /// <param name="overwrite"><c>true</c> if the
+        /// destination file can be overwritten; otherwise,
         /// <c>false</c>.</param>
         public static void Copy
             (
@@ -131,7 +131,7 @@ namespace AM.IO
         /// </summary>
         /// <param name="sourcePath">The source path.</param>
         /// <param name="targetPath">The target path.</param>
-        /// <param name="backup">If set to <c>true</c> 
+        /// <param name="backup">If set to <c>true</c>
         /// create backup copy of destination file.</param>
         /// <returns><c>true</c> if file copied; <c>false</c> otherwise.
         /// </returns>
@@ -196,7 +196,7 @@ namespace AM.IO
         /// Creates backup copy for given file.
         /// </summary>
         /// <param name="path">The path.</param>
-        /// <param name="rename">If set to <c>true</c> 
+        /// <param name="rename">If set to <c>true</c>
         /// given file will be renamed; otherwise it will be copied.</param>
         /// <returns>Name of the backup file.</returns>
         [NotNull]
@@ -452,7 +452,7 @@ namespace AM.IO
 
 #if WINMOBILE
 
-            using (FileStream stream 
+            using (FileStream stream
                 = new FileStream(fileName, FileMode.Create))
             {
                 stream.Write(bytes, 0, bytes.Length);
@@ -461,6 +461,33 @@ namespace AM.IO
 #else
 
             File.WriteAllBytes(fileName, bytes);
+
+#endif
+        }
+
+        /// <summary>
+        /// Write all lines to the file.
+        /// </summary>
+        /// <remarks>For WinMobile compatibility.</remarks>
+        [MethodImpl(Aggressive)]
+        public static void WriteAllLines
+            (
+                [NotNull] string fileName,
+                [NotNull] string[] lines,
+                [NotNull] Encoding encoding
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNull(lines, "lines");
+            Code.NotNull(encoding, "encoding");
+
+#if WINMOBILE || PocketPC
+
+            FileHelper.WriteAllLines(fileName, lines, encoding);
+
+#else
+
+            File.WriteAllLines(fileName, lines, encoding);
 
 #endif
         }
