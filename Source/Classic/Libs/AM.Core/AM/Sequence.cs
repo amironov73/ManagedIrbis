@@ -1,8 +1,8 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Sequence.cs -- 
- * Ars Magna project, http://arsmagna.ru 
+/* Sequence.cs --
+ * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
@@ -111,6 +111,70 @@ namespace AM
             {
                 yield return item;
             }
+        }
+
+        /// <summary>
+        /// Get next item from the sequence.
+        /// </summary>
+        [CanBeNull]
+        public static T GetNextItem<T>
+            (
+                [NotNull] this IEnumerator<T> sequence,
+                [CanBeNull] T defaultValue
+            )
+        {
+            Code.NotNull(sequence, "sequence");
+
+            if (sequence.MoveNext())
+            {
+                return sequence.Current;
+            }
+
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// Get next item from the sequence.
+        /// </summary>
+        [CanBeNull]
+        public static T GetNextItem<T>
+            (
+                [NotNull] this IEnumerator<T> sequence
+            )
+        {
+            return GetNextItem(sequence, default(T));
+        }
+
+        /// <summary>
+        /// Get next item from the sequence.
+        /// </summary>
+        [CanBeNull]
+        public static T GetNextItem<T>
+            (
+                [NotNull] this IEnumerator sequence,
+                [CanBeNull] T defaultValue
+            )
+        {
+            Code.NotNull(sequence, "sequence");
+
+            if (sequence.MoveNext())
+            {
+                return (T)sequence.Current;
+            }
+
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// Get next item from the sequence.
+        /// </summary>
+        [CanBeNull]
+        public static T GetNextItem<T>
+            (
+                [NotNull] this IEnumerator sequence
+            )
+        {
+            return GetNextItem(sequence, default(T));
         }
 
         /// <summary>

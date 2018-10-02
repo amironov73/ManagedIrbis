@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* GblNode.cs -- 
+/* GblNode.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -38,7 +38,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Gbl.Infrastructure
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -118,6 +118,18 @@ namespace ManagedIrbis.Gbl.Infrastructure
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Initialize the node.
+        /// </summary>
+        public virtual void Initialize
+            (
+                [NotNull] GblContext context,
+                [NotNull] GblParser parser
+            )
+        {
+            // Nothing to do here
+        }
 
         /// <summary>
         /// Execute the node.

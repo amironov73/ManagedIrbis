@@ -125,6 +125,12 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FictionBook\FbDocument.cs">
       <Link>Source\FictionBook\FbDocument.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\GblProgram.cs">
+      <Link>Source\Gbl\Infrastructure\GblProgram.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\GblParser.cs">
+      <Link>Source\Gbl\Infrastructure\GblParser.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\Csl.cs">
       <Link>Source\ImportExport\Csl.cs</Link>
     </Compile>
