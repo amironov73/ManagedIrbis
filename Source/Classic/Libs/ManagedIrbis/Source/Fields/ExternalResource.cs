@@ -32,6 +32,7 @@ using Newtonsoft.Json;
 
 #endregion
 
+// ReSharper disable StringLiteralTypo
 // ReSharper disable ConvertClosureToMethodGroup
 
 namespace ManagedIrbis.Fields
@@ -68,7 +69,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [SubField('a')]
         [XmlAttribute("filename")]
-        [JsonProperty("filename")]
+        [JsonProperty("filename", NullValueHandling = NullValueHandling.Ignore)]
         [Description("Имя файла")]
         [DisplayName("Имя файла")]
         public string FileName { get; set; }
@@ -79,7 +80,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [SubField('i')]
         [XmlAttribute("url")]
-        [JsonProperty("url")]
+        [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
         [Description("URL")]
         [DisplayName("URL")]
         public string Url { get; set; }
@@ -90,7 +91,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [SubField('t')]
         [XmlAttribute("description")]
-        [JsonProperty("description")]
+        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         [Description("Текст для ссылки")]
         [DisplayName("Текст для ссылки")]
         public string Description { get; set; }
@@ -101,7 +102,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [SubField('n')]
         [XmlAttribute("fileCount")]
-        [JsonProperty("fileCount")]
+        [JsonProperty("fileCount", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [Description("Количество файлов")]
         [DisplayName("Количество файлов")]
         public int? FileCount { get; set; }
@@ -112,7 +113,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [SubField('m')]
         [XmlAttribute("nameTemplate")]
-        [JsonProperty("nameTemplate")]
+        [JsonProperty("nameTemplate", NullValueHandling = NullValueHandling.Ignore)]
         [Description("Имя-шаблон первого файла")]
         [DisplayName("Имя-шаблон первого файла")]
         public string NameTemplate { get; set; }
@@ -123,7 +124,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [SubField('h')]
         [XmlAttribute("fileType")]
-        [JsonProperty("fileType")]
+        [JsonProperty("fileType", NullValueHandling = NullValueHandling.Ignore)]
         [Description("Тип внешнего файла")]
         [DisplayName("Тип внешнего файла")]
         public string FileType { get; set; }
@@ -134,7 +135,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [SubField('k')]
         [XmlAttribute("textbook")]
-        [JsonProperty("textbook")]
+        [JsonProperty("textbook", NullValueHandling = NullValueHandling.Ignore)]
         [Description("Признак электронного учебника")]
         [DisplayName("Признак электронного учебника")]
         public string Textbook { get; set; }
@@ -146,7 +147,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [SubField('d')]
         [XmlAttribute("access")]
-        [JsonProperty("access")]
+        [JsonProperty("access", NullValueHandling = NullValueHandling.Ignore)]
         [Description("Уровень доступа")]
         [DisplayName("Уровень доступа")]
         public string AccessLevel { get; set; }
@@ -156,7 +157,7 @@ namespace ManagedIrbis.Fields
         /// </summary>
         [SubField('l')]
         [XmlAttribute("lan")]
-        [JsonProperty("lan")]
+        [JsonProperty("lan", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [Description("Доступен только в ЛВС")]
         [DisplayName("Доступен только в ЛВС")]
         public bool LanOnly { get; set; }
@@ -167,7 +168,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [SubField('1')]
         [XmlAttribute("inputDate")]
-        [JsonProperty("inputDate")]
+        [JsonProperty("inputDate", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [Description("Дата ввода информации")]
         [DisplayName("Дата ввода информации")]
         public DateTime? InputDate { get; set; }
@@ -177,7 +178,7 @@ namespace ManagedIrbis.Fields
         /// </summary>
         [SubField('2')]
         [XmlAttribute("fileSize")]
-        [JsonProperty("fileSize")]
+        [JsonProperty("fileSize", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [Description("Размер файла")]
         [DisplayName("Размер файла")]
         public long FileSize { get; set; }
@@ -199,7 +200,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [SubField('5')]
         [XmlAttribute("lastCheck")]
-        [JsonProperty("lastCheck")]
+        [JsonProperty("lastCheck", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [Description("Дата последней проверки")]
         [DisplayName("Дата последней проверки")]
         public DateTime? LastCheck { get; set; }
@@ -210,7 +211,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [SubField('6')]
         [XmlAttribute("imageSize")]
-        [JsonProperty("imageSize")]
+        [JsonProperty("imageSize", NullValueHandling = NullValueHandling.Ignore)]
         [Description("Размеры изображения")]
         [DisplayName("Размеры изображения")]
         public string ImageSize { get; set; }
@@ -221,7 +222,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [SubField('x')]
         [XmlAttribute("issn")]
-        [JsonProperty("issn")]
+        [JsonProperty("issn", NullValueHandling = NullValueHandling.Ignore)]
         [Description("ISSN")]
         [DisplayName("ISSN")]
         public string Issn { get; set; }
@@ -243,7 +244,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [SubField('f')]
         [XmlAttribute("provider")]
-        [JsonProperty("provider")]
+        [JsonProperty("provider", NullValueHandling = NullValueHandling.Ignore)]
         [Description("Код поставщика информации")]
         [DisplayName("Код поставщика информации")]
         public string Provider { get; set; }
@@ -254,7 +255,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [SubField('e')]
         [XmlAttribute("price")]
-        [JsonProperty("price")]
+        [JsonProperty("price", NullValueHandling = NullValueHandling.Ignore)]
         [Description("Цена")]
         [DisplayName("Цена")]
         public string Price { get; set; }
@@ -276,7 +277,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [SubField('p')]
         [XmlAttribute("remarks")]
-        [JsonProperty("remarks")]
+        [JsonProperty("remarks", NullValueHandling = NullValueHandling.Ignore)]
         [Description("Примечания в свободной форме")]
         [DisplayName("Примечания в свободной форме")]
         public string Remarks { get; set; }
@@ -287,7 +288,7 @@ namespace ManagedIrbis.Fields
         [CanBeNull]
         [SubField('s')]
         [XmlAttribute("system")]
-        [JsonProperty("system")]
+        [JsonProperty("system", NullValueHandling = NullValueHandling.Ignore)]
         [Description("Электронная библиотечная система")]
         [DisplayName("Электронная библиотечная система")]
         public string System { get; set; }
@@ -330,15 +331,11 @@ namespace ManagedIrbis.Fields
         /// </summary>
         public ExternalResource
             (
-                string url
+                [CanBeNull] string url
             )
         {
             Url = url;
         }
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
