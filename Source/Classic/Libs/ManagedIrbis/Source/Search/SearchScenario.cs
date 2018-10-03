@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 
 using AM;
@@ -52,6 +53,22 @@ namespace ManagedIrbis.Search
     // где NN - порядковый номер вида поиска по словарю
     // в общем списке (начиная с 0).
 
+    //
+    // Начиная с 2018.1
+    //
+    // Для иерархического представления списка видов поиска введены
+    // новые параметры для описания вида поиска ItemIdentN и ItemIdentUpN.
+    //
+    // ItemIdentN - определяет идентификатор вида поиска, целое число
+    // больше 0, обязателен для элементов группирования или видов поиска,
+    // у которых есть нижестоящие элементы;
+    // ItemIdentUpN - определяет идентификатор вышестоящего элемента
+    // группирования или вида поиска. Для определения элементов
+    // группирования, т.е. элементов списка, которые не являются
+    // собственно видами поиска, а служат только для группирования
+    // других элементов списка необходимо в качестве префикса
+    // указать ItemPrefN=-.
+    //
 
     /// <summary>
     /// Search scenario
@@ -179,17 +196,62 @@ namespace ManagedIrbis.Search
         [JsonProperty("format")]
         public string Format { get; set; }
 
-        #endregion
+        /// <summary>
+        /// Идентификатор вида поиска, целое число больше 0.
+        /// </summary>
+        [XmlAttribute("identifier")]
+        [JsonProperty("identifier", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int Identifier { get; set; }
 
-        #region Construction
+        /// <summary>
+        /// Идентификатор вышестоящего элемента группирования или вида поиска.
+        /// </summary>
+        [XmlAttribute("parent")]
+        [JsonProperty("parent", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int Parent { get; set; }
 
-        #endregion
-
-        #region Private members
+        /// <summary>
+        /// Вложенные элементы.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public SearchScenario[] Children { get; set; }
 
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Arrange the scenarios.
+        /// </summary>
+        [NotNull][ItemNotNull]
+        public static SearchScenario[] Arrange
+            (
+                [NotNull][ItemNotNull] SearchScenario[] scenarios
+            )
+        {
+            Code.NotNull(scenarios, "scenarios");
+
+            if (scenarios.All(s => s.Parent == 0))
+            {
+                return scenarios;
+            }
+
+            SearchScenario[] topLevel = scenarios
+                .Where(s => s.Parent == 0).ToArray();
+            foreach (SearchScenario root in topLevel)
+            {
+                int rootId = root.Identifier;
+                if (rootId != 0)
+                {
+                    root.Children = scenarios
+                        .Where(s => s.Parent == rootId).ToArray();
+                }
+            }
+
+            return topLevel;
+        }
 
         /// <summary>
         /// Clone the <see cref="SearchScenario"/>.
@@ -222,17 +284,12 @@ namespace ManagedIrbis.Search
                 return new SearchScenario[0];
             }
 
-            List<SearchScenario> result
-                = new List<SearchScenario>(count);
+            List<SearchScenario> result = new List<SearchScenario>(count);
 
             for (int i = 0; i < count; i++)
             {
 
-                string name = section.GetValue
-                    (
-                        "ItemName" + i,
-                        null
-                    );
+                string name = section.GetValue("ItemName" + i, null);
                 if (string.IsNullOrEmpty(name))
                 {
                     Log.Error
@@ -251,67 +308,18 @@ namespace ManagedIrbis.Search
                 SearchScenario scenario = new SearchScenario
                 {
                     Name = name,
-
-                    Prefix = section.GetValue
-                        (
-                            "ItemPref" + i,
-                            string.Empty
-                        ),
-
-                    DictionaryType = (DictionaryType)section
-                        .GetValue
-                        (
-                            "ItemDictionType" + i,
-                            0
-                        ),
-
-                    Advance = section.GetValue
-                        (
-                            "ItemAdv" + i, 
-                            null
-                        ),
-
-                    Format = section.GetValue
-                        (
-                            "ItemPft" + i, 
-                            null
-                        ),
-
-                    Hint = section.GetValue
-                        (
-                            "ItemHint" + i,
-                            null
-                        ),
-
-                    Logic = (SearchLogicType)section
-                        .GetValue
-                        (
-                            "ItemLogic" + i, 
-                            0
-                        ),
-
-                    MenuName = section.GetValue
-                        (
-                            "ItemMenu" + i,
-                            null
-                        ),
-
-                    ModByDicAuto = section.GetValue
-                        (
-                            "ItemModByDicAuto" + i,
-                            null
-                        ),
-
-                    Correction = section.GetValue
-                        (
-                            "ModByDic" + i,
-                            null
-                        ),
-
-                    Truncation = Convert.ToBoolean
-                        (
-                            section.GetValue("ItemTranc" + i, 0)
-                        )
+                    Prefix = section.GetValue("ItemPref" + i, string.Empty),
+                    DictionaryType = (DictionaryType)section.GetValue("ItemDictionType" + i, 0),
+                    Advance = section.GetValue("ItemAdv" + i, null),
+                    Format = section.GetValue("ItemPft" + i, null),
+                    Hint = section.GetValue("ItemHint" + i, null),
+                    Logic = (SearchLogicType)section.GetValue("ItemLogic" + i, 0),
+                    MenuName = section.GetValue("ItemMenu" + i, null),
+                    ModByDicAuto = section.GetValue("ItemModByDicAuto" + i, null),
+                    Correction = section.GetValue("ModByDic" + i, null),
+                    Truncation = Convert.ToBoolean(section.GetValue("ItemTranc" + i, 0)),
+                    Identifier = section.GetValue("ItemIdent" + i, 0),
+                    Parent = section.GetValue("ItemIdentUp" + i, 0)
                 };
 
                 result.Add(scenario);
@@ -344,6 +352,8 @@ namespace ManagedIrbis.Search
             Advance = reader.ReadNullableString();
             Format = reader.ReadNullableString();
             Truncation = reader.ReadBoolean();
+            Identifier = reader.ReadPackedInt32();
+            Parent = reader.ReadPackedInt32();
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
@@ -367,6 +377,9 @@ namespace ManagedIrbis.Search
                 .WriteNullable(Advance)
                 .WriteNullable(Format)
                 .Write(Truncation);
+            writer
+                .WritePackedInt32(Identifier)
+                .WritePackedInt32(Parent);
         }
 
         #endregion

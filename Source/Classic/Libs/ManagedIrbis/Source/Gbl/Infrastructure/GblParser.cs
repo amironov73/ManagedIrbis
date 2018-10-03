@@ -91,6 +91,14 @@ namespace ManagedIrbis.Gbl.Infrastructure
                             node = new GblChac();
                             break;
 
+                        case "CONTEXTIN":
+                            node = new GblContextIn();
+                            break;
+
+                        case "CONTEXTOUT":
+                            node = new GblContextOut();
+                            break;
+
                         case "CORREC":
                             node = new GblCorrec();
                             break;

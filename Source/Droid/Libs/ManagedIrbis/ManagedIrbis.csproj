@@ -125,6 +125,12 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FictionBook\FbDocument.cs">
       <Link>Source\FictionBook\FbDocument.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblContextIn.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblContextIn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblContextOut.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblContextOut.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\GblProgram.cs">
       <Link>Source\Gbl\Infrastructure\GblProgram.cs</Link>
     </Compile>
