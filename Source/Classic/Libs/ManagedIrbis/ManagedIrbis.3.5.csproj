@@ -103,6 +103,8 @@
     <Compile Include="Source\Fields\FullTextInfo.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblContextIn.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblContextOut.cs" />
+    <Compile Include="Source\Gbl\Infrastructure\Ast\GblNested.cs" />
+    <Compile Include="Source\Gbl\Infrastructure\Ast\GblRefreshDb.cs" />
     <Compile Include="Source\Gbl\Infrastructure\GblProgram.cs" />
     <Compile Include="Source\Gbl\Infrastructure\GblParser.cs" />
     <Compile Include="Source\ImportExport\Csl.cs" />

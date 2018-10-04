@@ -139,6 +139,10 @@ namespace ManagedIrbis.Gbl.Infrastructure
                             node = new GblRep();
                             break;
 
+                        case "REFRESHDB":
+                            node = new GblRefreshDb();
+                            break;
+
                         case "REPEAT":
                             node = new GblRepeat();
                             break;
@@ -156,6 +160,12 @@ namespace ManagedIrbis.Gbl.Infrastructure
                         //    break;
 
                         default:
+                            if (first[0] == '@')
+                            {
+                                node = new GblNested();
+                                break;
+                            }
+
                             throw new IrbisException();
                     }
 
