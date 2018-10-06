@@ -96,6 +96,22 @@ namespace ManagedIrbis.Server
         public string DataPath { get { return GetValue("DATAPATH"); } }
 
         /// <summary>
+        /// Отменена монопольная блокировка при операциях редактирования
+        /// и актуализации записей, что позволило распараллелить
+        /// процессы сохранения записи и ее актуализации, что в свою
+        /// очередь привело к повышению производительности сервера
+        /// (особенно это заметно в режиме отложенной актуализации
+        /// Delayed_RecIfUpdate=1). Монопольная блокировка применяется
+        /// только в администраторских режимах обслуживания БД,
+        /// а именно: реорганизации файла документов и словаря, создании
+        /// словаря заново, копировании и восстановлении файла документов.
+        /// </summary>
+        public bool DelayedUpdate
+        {
+            get { return GetBoolean("Delayed_RecIfUpdate", false); }
+        }
+
+        /// <summary>
         /// Шифровать профили клиентов.
         /// </summary>
         /// <remarks>
@@ -135,12 +151,11 @@ namespace ManagedIrbis.Server
         {
             get
             {
-                string address = GetValue("IP_ADDRESS")
-                    .ThrowIfNull("IP_ADDRESS");
+                string address = GetValue("IP_ADDRESS").ThrowIfNull("IP_ADDRESS");
                 IPAddress result = IPAddress.Parse(address);
 
                 return result;
-            } 
+            }
         }
 
         /// <summary>
@@ -366,6 +381,27 @@ namespace ManagedIrbis.Server
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Get boolean value.
+        /// </summary>
+        public bool GetBoolean
+            (
+                [NotNull] string keyName,
+                bool defaultValue
+            )
+        {
+            Code.NotNullNorEmpty(keyName, "keyName");
+
+            bool result = defaultValue;
+            string text = GetValue(keyName);
+            if (!string.IsNullOrEmpty(text))
+            {
+                result = ConversionUtility.ToBoolean(text);
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Get value.

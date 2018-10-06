@@ -24,6 +24,7 @@ using AM.Collections;
 using AM.IO;
 using AM.Logging;
 using AM.Runtime;
+using AM.Threading;
 using AM.Threading.Tasks;
 
 using CodeJam;
@@ -158,6 +159,12 @@ namespace ManagedIrbis.Server
         /// </summary>
         public BanMaster BanList { get; private set; }
 
+        /// <summary>
+        /// Delayed update task.
+        /// </summary>
+        [CanBeNull]
+        public Task DelayedUpdater { get; private set; }
+
         #endregion
 
         #region Construction
@@ -216,6 +223,8 @@ namespace ManagedIrbis.Server
             Workers = new NonNullCollection<ServerWorker>();
             Mapper = new CommandMapper(this);
             BanList = new BanMaster();
+
+            DelayedUpdater = Task.Factory.StartNew(_DelayedUpdater);
 
             _BuildListeners(setup);
 
@@ -320,6 +329,30 @@ namespace ManagedIrbis.Server
             }
 
             return result;
+        }
+
+        private void _DelayedUpdater()
+        {
+            while (true)
+            {
+                if (_cancellation.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                try
+                {
+                    ThreadUtility.Sleep(100);
+                }
+                catch (Exception exception)
+                {
+                    Log.TraceException
+                        (
+                            "IrbisServerEngine::_DelayedUpdater",
+                            exception
+                        );
+                }
+            }
         }
 
         private void _VerifyDirectoryReadable
@@ -1031,6 +1064,12 @@ namespace ManagedIrbis.Server
             {
                 listener.Stop();
                 listener.Dispose();
+            }
+
+            Task updater = DelayedUpdater;
+            if (!ReferenceEquals(updater, null))
+            {
+                updater.Wait(3000);
             }
         }
 
