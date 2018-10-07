@@ -91,6 +91,7 @@
     </Compile>
     <Compile Include="AM\AOT\AmericanNames.cs" />
     <Compile Include="AM\AOT\EnglishNames.cs" />
+    <Compile Include="AM\AOT\JapaneseNames.cs" />
     <Compile Include="AM\AOT\RussianNames.cs" />
     <Compile Include="Properties\LocalAssemblyInfo.cs" />
   </ItemGroup>
