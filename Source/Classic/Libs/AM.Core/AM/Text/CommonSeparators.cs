@@ -30,6 +30,11 @@ namespace AM.Text
         #region Properties
 
         /// <summary>
+        /// Circumflex accent.
+        /// </summary>
+        public static readonly char[] Circumflex = { '^' };
+
+        /// <summary>
         /// Comma.
         /// </summary>
         public static readonly char[] Comma = { ',' };

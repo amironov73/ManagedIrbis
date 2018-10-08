@@ -75,9 +75,12 @@ namespace ManagedIrbis.Gbl.Infrastructure
         {
             Code.NotNull(context, "context");
 
-            foreach (GblNode node in Nodes)
+            while (context.Advance())
             {
-                node.Execute(context);
+                foreach (GblNode node in Nodes)
+                {
+                    node.Execute(context);
+                }
             }
         }
 

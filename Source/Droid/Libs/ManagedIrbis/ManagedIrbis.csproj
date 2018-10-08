@@ -134,6 +134,12 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblContextOut.cs">
       <Link>Source\Gbl\Infrastructure\Ast\GblContextOut.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblFieldCommand.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblFieldCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblInternal.cs">
+      <Link>Source\Gbl\Infrastructure\Ast\GblInternal.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblNested.cs">
       <Link>Source\Gbl\Infrastructure\Ast\GblNested.cs</Link>
     </Compile>
@@ -145,6 +151,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\GblParser.cs">
       <Link>Source\Gbl\Infrastructure\GblParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\RecordSource.cs">
+      <Link>Source\Gbl\Infrastructure\RecordSource.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\Csl.cs">
       <Link>Source\ImportExport\Csl.cs</Link>

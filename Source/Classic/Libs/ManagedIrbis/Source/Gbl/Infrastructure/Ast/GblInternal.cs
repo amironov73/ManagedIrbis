@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* GblContext.cs --
+/* GblInternal.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -28,46 +28,50 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Client;
-
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedIrbis.Gbl.Infrastructure
+namespace ManagedIrbis.Gbl.Infrastructure.Ast
 {
     /// <summary>
     ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class GblContext
+    internal sealed class GblInternal
+        : GblNode
     {
+        #region Constants
+
+        #endregion
+
         #region Properties
 
         /// <summary>
-        /// Current record.
+        /// Command code.
         /// </summary>
         [CanBeNull]
-        public MarcRecord CurrentRecord { get; set; }
-
-        /// <summary>
-        /// Provider.
-        /// </summary>
-        [NotNull]
-        public IrbisProvider Provider { get; set; }
-
-        /// <summary>
-        /// Record source.
-        /// </summary>
-        [NotNull]
-        public RecordSource RecordSource { get; set; }
+        public string Command { get; set; }
 
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public GblInternal
+            (
+                [CanBeNull] string command
+            )
+        {
+            Code.NotNullNorEmpty(command, "command");
+
+            Command = command;
+        }
 
         #endregion
 
@@ -77,19 +81,36 @@ namespace ManagedIrbis.Gbl.Infrastructure
 
         #region Public methods
 
-        /// <summary>
-        /// Go to next record.
-        /// </summary>
-        public bool Advance()
-        {
-            CurrentRecord = RecordSource.GetNextRecord();
+        #endregion
 
-            return !ReferenceEquals(CurrentRecord, null);
+        #region GblNode members
+
+        /// <summary>
+        /// Execute the node.
+        /// </summary>
+        public override void Execute
+            (
+                GblContext context
+            )
+        {
+            Code.NotNull(context, "context");
+
+            OnBeforeExecution(context);
+
+            // Nothing to do here
+
+            OnAfterExecution(context);
         }
 
         #endregion
 
         #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return Command;
+        }
 
         #endregion
     }

@@ -29,6 +29,9 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Client;
+using ManagedIrbis.Pft;
+using ManagedIrbis.Pft.Infrastructure;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -146,6 +149,36 @@ namespace ManagedIrbis.Gbl.Infrastructure
             // Nothing to do here
 
             OnAfterExecution(context);
+        }
+
+        /// <summary>
+        /// Format current record.
+        /// </summary>
+        [CanBeNull]
+        public virtual string FormatRecord
+            (
+                [NotNull] GblContext context,
+                [CanBeNull] string script
+            )
+        {
+            Code.NotNull(context, "context");
+
+            if (string.IsNullOrEmpty(script))
+            {
+                return null;
+            }
+
+            string result;
+            IrbisProvider provider = context.Provider.ThrowIfNull();
+            MarcRecord record = context.CurrentRecord.ThrowIfNull();
+            using (PftFormatter formatter = new PftFormatter())
+            {
+                formatter.SetProvider(provider);
+                formatter.ParseProgram(script);
+                result = formatter.FormatRecord(record);
+            }
+
+            return result;
         }
 
         #endregion

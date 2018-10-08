@@ -115,13 +115,13 @@ namespace ManagedIrbis.Gbl.Infrastructure
                             node = new GblEmpty();
                             break;
 
-                        //case "END":
-                        //    node = new GblEnd();
-                        //    break;
+                        case "END":
+                            node = new GblInternal("END");
+                            break;
 
-                        //case "FI":
-                        //    node = new GblIf();
-                        //    break;
+                        case "FI":
+                            node = new GblInternal("FI");
+                            break;
 
                         case "IF":
                             node = new GblIf();
@@ -155,9 +155,9 @@ namespace ManagedIrbis.Gbl.Infrastructure
                             node = new GblUndor();
                             break;
 
-                        //case "UNTIL":
-                        //    node = new GblUntil();
-                        //    break;
+                        case "UNTIL":
+                            node = new GblInternal("UNTIL");
+                            break;
 
                         default:
                             if (first[0] == '@')

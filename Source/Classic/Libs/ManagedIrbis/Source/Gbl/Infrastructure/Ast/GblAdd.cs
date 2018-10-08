@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* GblAdd.cs -- 
+/* GblAdd.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -79,7 +79,7 @@ namespace ManagedIrbis.Gbl.Infrastructure.Ast
     [PublicAPI]
     [MoonSharpUserData]
     public sealed class GblAdd
-        : GblNode
+        : GblFieldCommand
     {
         #region Constants
 
@@ -108,9 +108,7 @@ namespace ManagedIrbis.Gbl.Infrastructure.Ast
 
         #region GblNode members
 
-        /// <summary>
-        /// Execute the node.
-        /// </summary>
+        /// <inheritdoc cref="GblNode.Execute" />
         public override void Execute
             (
                 GblContext context
@@ -120,7 +118,22 @@ namespace ManagedIrbis.Gbl.Infrastructure.Ast
 
             OnBeforeExecution(context);
 
-            // Nothing to do here
+            MarcRecord record = context.CurrentRecord.ThrowIfNull();
+            string value = FormatRecord(context, Format1);
+            if (!string.IsNullOrEmpty(value))
+            {
+                Log.Trace("GBL::ADD: " + value);
+
+
+                if (SubfieldCode == SubField.NoCode)
+                {
+                    record.AddField(FieldTag, value);
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
 
             OnAfterExecution(context);
         }
