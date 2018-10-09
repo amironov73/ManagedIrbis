@@ -998,6 +998,7 @@
     <Compile Include="Source\Server\Commands\UpdateUserListCommand.cs" />
     <Compile Include="Source\Server\Commands\WriteRecordCommand.cs" />
     <Compile Include="Source\Server\Commands\WriteRecordsCommand.cs" />
+    <Compile Include="Source\Server\ServerWatchdog.cs" />
     <Compile Include="Source\Server\Sockets\HttpServerListener.cs" />
     <Compile Include="Source\Server\Sockets\HttpServerSocket.cs" />
     <Compile Include="Source\Server\Sockets\IrbisServerListener.cs" />

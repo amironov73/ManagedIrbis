@@ -9,16 +9,8 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
@@ -89,6 +81,8 @@ namespace ManagedIrbis.Infrastructure.Sockets
             TcpClient result = new TcpClient();
 
             // TODO some setup
+            result.NoDelay = true;
+            result.LingerState = new LingerOption(false, 0);
 
 #if UAP
 

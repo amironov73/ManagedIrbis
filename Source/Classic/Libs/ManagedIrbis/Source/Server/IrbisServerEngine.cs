@@ -14,8 +14,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,7 +21,6 @@ using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Logging;
-using AM.Runtime;
 using AM.Threading;
 using AM.Threading.Tasks;
 
@@ -165,6 +162,12 @@ namespace ManagedIrbis.Server
         [CanBeNull]
         public Task DelayedUpdater { get; private set; }
 
+        /// <summary>
+        /// Watchdog.
+        /// </summary>
+        [CanBeNull]
+        public ServerWatchdog Watchdog { get; private set; }
+
         #endregion
 
         #region Construction
@@ -225,6 +228,8 @@ namespace ManagedIrbis.Server
             BanList = new BanMaster();
 
             DelayedUpdater = Task.Factory.StartNew(_DelayedUpdater);
+            Watchdog = new ServerWatchdog(this);
+            Watchdog.Task.Start();
 
             _BuildListeners(setup);
 
@@ -1070,6 +1075,11 @@ namespace ManagedIrbis.Server
             if (!ReferenceEquals(updater, null))
             {
                 updater.Wait(3000);
+            }
+
+            if (!ReferenceEquals(Watchdog, null))
+            {
+                Watchdog.Task.Wait(3000);
             }
         }
 

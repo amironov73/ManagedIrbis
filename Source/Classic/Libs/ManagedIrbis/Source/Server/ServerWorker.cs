@@ -55,6 +55,7 @@ namespace ManagedIrbis.Server
             Code.NotNull(data, "data");
 
             Data = data;
+            data.Started = DateTime.Now;
             data.Task = new Task(DoWork);
         }
 

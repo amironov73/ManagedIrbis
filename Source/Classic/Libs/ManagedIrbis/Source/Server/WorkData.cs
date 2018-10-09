@@ -9,7 +9,9 @@
 
 #region Using directives
 
+using System;
 using System.Threading.Tasks;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis.Server.Commands;
@@ -74,6 +76,11 @@ namespace ManagedIrbis.Server
         /// Worker.
         /// </summary>
         public ServerWorker Worker { get; set; }
+
+        /// <summary>
+        /// Worker started at...
+        /// </summary>
+        public DateTime Started { get; set; }
 
         #endregion
     }
