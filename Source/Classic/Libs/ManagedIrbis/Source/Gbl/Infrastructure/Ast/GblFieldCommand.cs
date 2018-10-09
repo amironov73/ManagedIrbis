@@ -9,28 +9,14 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Logging;
-using AM.Runtime;
 using AM.Text;
 
 using CodeJam;
 
 using JetBrains.Annotations;
-using ManagedIrbis.Pft.Infrastructure;
-using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
+using MoonSharp.Interpreter;
 
 #endregion
 
@@ -120,7 +106,8 @@ namespace ManagedIrbis.Gbl.Infrastructure.Ast
                 FieldTag = NumericUtility.ParseInt32(fieldSpecification);
             }
 
-            Repeat = RepeatSpecification.Parse(Parameter2);
+            string parameter2 = Parameter2.ThrowIfNull();
+            Repeat = RepeatSpecification.Parse(parameter2);
         }
 
         /// <summary>

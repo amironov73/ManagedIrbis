@@ -180,6 +180,30 @@ namespace ManagedIrbis.Gbl.Infrastructure
             return nodes.ToArray();
         }
 
+        private int _FindClosingNode
+            (
+                [NotNull] GblNode[] nodes,
+                int startIndex,
+                [NotNull] string nodeKind
+            )
+        {
+            // TODO handle nested
+            for (int j = startIndex + 1; j < nodes.Length; j++)
+            {
+                GblNode node = nodes[j];
+                GblInternal special = node as GblInternal;
+                if (!ReferenceEquals(special, null))
+                {
+                    if (special.Command.SameString(nodeKind))
+                    {
+                        return j;
+                    }
+                }
+            }
+
+            return -1;
+        }
+
         [NotNull]
         private GblNode[] _ArrangeNodes
             (
@@ -187,9 +211,22 @@ namespace ManagedIrbis.Gbl.Infrastructure
             )
         {
             List<GblNode> result = new List<GblNode>();
-            foreach (GblNode node in nodes)
+            for (int index = 0; index < nodes.Length; index++)
             {
-                // switch through
+                GblNode node = nodes[index];
+
+                GblIf ifNode = node as GblIf;
+                if (!ReferenceEquals(ifNode, null))
+                {
+                    int edge = _FindClosingNode(nodes, index + 1, "FI");
+                    if (edge < 0)
+                    {
+                        throw new IrbisException();
+                    }
+
+                    ifNode.Children.AddRange(nodes.Segment(index + 1, edge - index - 2));
+                    index = edge;
+                }
 
                 result.Add(node);
             }

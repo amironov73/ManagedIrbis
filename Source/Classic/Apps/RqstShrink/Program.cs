@@ -50,9 +50,10 @@ namespace RqstShrink
                     connectionString = parsed.PositionalArguments[0];
                 }
 
-                using (IrbisConnection connection
-                    = new IrbisConnection(connectionString))
+                using (IrbisConnection connection = new IrbisConnection(connectionString))
                 {
+                    int maxMfn = connection.GetMaxMfn();
+
                     string expression = RequestPrefixes.Unfulfilled /* I=0 */
                                         + " + "
                                         + RequestPrefixes.Reserved; /* I=2 */
@@ -85,10 +86,15 @@ namespace RqstShrink
                             goodRecords.Length
                         );
 
+                    if (goodRecords.Length == maxMfn)
+                    {
+                        Console.WriteLine("No truncation needed, exiting");
+                        return 0;
+                    }
+
                     connection.TruncateDatabase(connection.Database);
 
                     Console.WriteLine("Database truncated");
-
 
                     using (BatchRecordWriter writer = new BatchRecordWriter
                         (

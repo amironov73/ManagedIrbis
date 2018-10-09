@@ -1970,6 +1970,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforA.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforA.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforAmpersand.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforAmpersand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforB.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforB.cs</Link>
     </Compile>

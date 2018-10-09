@@ -140,10 +140,13 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+3U", UniforPlus3.ConvertToUtf);
             Registry.Add("+3W", UniforPlus3.ConvertToAnsi);
             Registry.Add("+3+", UniforPlus3.ReplacePlus);
-            Registry.Add("+4", UniforPlus4.GetField);
-            Registry.Add("+5", UniforPlus5.GetMenuEntry);
-            Registry.Add("+6", UniforPlus6.GetRecordStatus);
-            Registry.Add("+7", UniforPlus7.ClearGlobals);
+            Registry.Add("+4",  UniforPlus4.GetField);
+            Registry.Add("+5",  UniforPlus5.GetMenuEntry);
+            Registry.Add("+6",  UniforPlus6.GetRecordStatus);
+            Registry.Add("+61", UniforPlus6.GetRecordStatus);
+            Registry.Add("+62", UniforPlus6.GetRecordStatus);
+            Registry.Add("+63", UniforPlus6.GetRecordStatus);
+            Registry.Add("+7",  UniforPlus7.ClearGlobals);
             Registry.Add("+7A", UniforPlus7.UnionGlobals);
             Registry.Add("+7G", UniforPlus7.DistinctGlobal);
             Registry.Add("+7M", UniforPlus7.MultiplyGlobals);
@@ -152,7 +155,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+7T", UniforPlus7.SortGlobal);
             Registry.Add("+7U", UniforPlus7.AppendGlobal);
             Registry.Add("+7W", UniforPlus7.WriteGlobal);
-            Registry.Add("+8", UniforPlus8.ExecuteNativeMethod);
+            Registry.Add("+8",  UniforPlus8.ExecuteNativeMethod);
             Registry.Add("+90", UniforPlus9.GetIndex);
             Registry.Add("+91", UniforPlus9.GetFileName);
             Registry.Add("+92", UniforPlus9.GetDirectoryName);
@@ -208,6 +211,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("!", UniforBang. CleanDoubleText);
             Registry.Add("=", UniforEqual.CompareWithMask);
             Registry.Add("[", UniforSquareBracket.CleanContextMarkup);
+            Registry.Add("&", UniforAmpersand.Unknown);
         }
 
         #endregion
