@@ -42,6 +42,14 @@ namespace ManagedIrbis.Gbl.Infrastructure
         /// </summary>
         public abstract void Reset();
 
+        /// <summary>
+        /// Write back the modified record.
+        /// </summary>
+        public abstract void WriteRecord
+            (
+                [NotNull] MarcRecord record
+            );
+
         #endregion
     }
 }

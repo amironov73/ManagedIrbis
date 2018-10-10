@@ -105,6 +105,7 @@
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblInternal.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblNested.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblRefreshDb.cs" />
+    <Compile Include="Source\Gbl\Infrastructure\GblLogger.cs" />
     <Compile Include="Source\Gbl\Infrastructure\GblProgram.cs" />
     <Compile Include="Source\Gbl\Infrastructure\GblParser.cs" />
     <Compile Include="Source\Gbl\Infrastructure\RecordSource.cs" />

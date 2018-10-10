@@ -65,9 +65,23 @@ namespace ManagedIrbis.Gbl.Infrastructure
         [NotNull]
         public RecordSource RecordSource { get; set; }
 
+        /// <summary>
+        /// Logger.
+        /// </summary>
+        [NotNull]
+        public GblLogger Logger { get; set; }
+
         #endregion
 
         #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public GblContext()
+        {
+            Logger = new GblLogger();
+        }
 
         #endregion
 

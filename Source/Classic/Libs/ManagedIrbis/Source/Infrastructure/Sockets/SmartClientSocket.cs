@@ -86,7 +86,8 @@ namespace ManagedIrbis.Infrastructure.Sockets
 
 #if UAP
 
-            Task task = result.ConnectAsync(_address, Connection.Port);
+            System.Threading.Tasks.Task task
+                = result.ConnectAsync(_address, Connection.Port);
             task.Wait();
 
 #else

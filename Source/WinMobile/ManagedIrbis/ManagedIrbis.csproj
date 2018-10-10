@@ -160,6 +160,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblRefreshDb.cs">
       <Link>Source\Gbl\Infrastructure\Ast\GblRefreshDb.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\GblLogger.cs">
+      <Link>Source\Gbl\Infrastructure\GblLogger.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\GblProgram.cs">
       <Link>Source\Gbl\Infrastructure\GblProgram.cs</Link>
     </Compile>

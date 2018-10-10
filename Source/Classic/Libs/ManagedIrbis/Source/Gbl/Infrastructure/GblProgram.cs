@@ -9,6 +9,8 @@
 
 #region Using directives
 
+using AM.Logging;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -77,9 +79,24 @@ namespace ManagedIrbis.Gbl.Infrastructure
 
             while (context.Advance())
             {
+                MarcRecord record = context.CurrentRecord;
+                if (ReferenceEquals(record, null))
+                {
+                    Log.Warn("GblProgram::Execute: current record = null");
+                    break;
+                }
+
                 foreach (GblNode node in Nodes)
                 {
                     node.Execute(context);
+                }
+
+                record = context.CurrentRecord;
+                if (!ReferenceEquals(record, null)
+                    && record.Modified)
+                {
+                    context.Logger.WriteLine("Record updated: {0}", record.Mfn);
+                    context.RecordSource.WriteRecord(record);
                 }
             }
         }
