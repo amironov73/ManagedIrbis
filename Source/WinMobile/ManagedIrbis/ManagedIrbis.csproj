@@ -2059,6 +2059,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusH.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusH.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlushBackslash.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlushBackslash.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusI.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusI.cs</Link>
     </Compile>
