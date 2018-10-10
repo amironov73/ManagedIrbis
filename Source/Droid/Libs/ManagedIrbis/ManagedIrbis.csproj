@@ -1985,6 +1985,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforC.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforC.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforColon.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforColon.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforEqual.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforEqual.cs</Link>
     </Compile>
@@ -2044,9 +2047,6 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusH.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusH.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlushBackslash.cs">
-      <Link>Source\Pft\Infrastructure\Unifors\UniforPlushBackslash.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusI.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusI.cs</Link>

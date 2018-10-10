@@ -114,7 +114,6 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("X", UniforX.RemoveAngleBrackets);
             Registry.Add("Y", UniforY.FreeExemplars);
             Registry.Add("Z", UniforZ.GenerateExemplars);
-            Registry.Add("+\\", UniforPlusBackslash.ConvertBackslashes);
             Registry.Add("+0", UniforPlus0.FormatAll);
             Registry.Add("+1", UniforPlus1.ClearGlobals);
             Registry.Add("+1A", UniforPlus1.AddGlobals);
@@ -213,6 +212,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("=", UniforEqual.CompareWithMask);
             Registry.Add("[", UniforSquareBracket.CleanContextMarkup);
             Registry.Add("&", UniforAmpersand.Unknown);
+            Registry.Add(":", UniforColon.CheckRights);
         }
 
         #endregion

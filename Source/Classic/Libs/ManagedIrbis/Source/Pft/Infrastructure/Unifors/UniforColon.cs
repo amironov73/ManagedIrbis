@@ -1,7 +1,7 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* UniforPlusBackslash.cs --
+/* UniforColon.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -18,21 +18,14 @@ using JetBrains.Annotations;
 namespace ManagedIrbis.Pft.Infrastructure.Unifors
 {
     //
-    // Неописанный UNIFOR, используемый при выводе поля 951
-    // в Group951.pft:
-    //
-    // 'var imgPrefix2=",,',&uf('+\0',if g1^A<>'' then g1^A else g1^I fi),'";',/
-    //
-    // &uf('+\0C:\Path\File.ext')
-    // выводит
-    // C:\\Path\\File.ext
-    //
+    // Неописанный UNIFOR, используемый при выводе полных текстов
+    // в right_ft.pft
 
-    static class UniforPlushBackslash
+    static class UniforColon
     {
         #region Public methods
 
-        public static void DoubleBackslashes
+        public static void CheckRights
             (
                 [NotNull] PftContext context,
                 [CanBeNull] PftNode node,
@@ -44,17 +37,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            TextNavigator navigator = new TextNavigator(expression);
-            char command = navigator.ReadChar();
-            string output = navigator.GetRemainingText();
-            if (command == '0')
-            {
-                if (!string.IsNullOrEmpty(output))
-                {
-                    output = output.Replace(@"\", @"\\");
-                }
-            }
-
+            string output = "0";
             context.WriteAndSetFlag(node, output);
         }
 
