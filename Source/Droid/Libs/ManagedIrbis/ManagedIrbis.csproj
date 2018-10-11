@@ -101,6 +101,24 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstWriter64.cs">
       <Link>Source\Direct\MstWriter64.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Drm\AccessElement.cs">
+      <Link>Source\Drm\AccessElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Drm\AccessRight.cs">
+      <Link>Source\Drm\AccessRight.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Drm\AccessKind.cs">
+      <Link>Source\Drm\AccessKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Drm\LimitKind.cs">
+      <Link>Source\Drm\LimitKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Drm\RightRecord.cs">
+      <Link>Source\Drm\RightRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Drm\ValidityPeriod.cs">
+      <Link>Source\Drm\ValidityPeriod.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Epub\Epub.cs">
       <Link>Source\Epub\Epub.cs</Link>
     </Compile>

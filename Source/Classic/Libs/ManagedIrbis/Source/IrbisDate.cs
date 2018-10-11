@@ -255,9 +255,9 @@ namespace ManagedIrbis
         /// Неявное преобразование
         /// </summary>
         [NotNull]
-        public static implicit operator string 
-            ( 
-                [NotNull] IrbisDate date 
+        public static implicit operator string
+            (
+                [NotNull] IrbisDate date
             )
         {
             Code.NotNull(date, "date");
@@ -276,6 +276,23 @@ namespace ManagedIrbis
             Code.NotNull(date, "date");
 
             return date.Date;
+        }
+
+        /// <summary>
+        /// Safely parse the text.
+        /// </summary>
+        [CanBeNull]
+        public static IrbisDate SafeParse
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return null;
+            }
+
+            return new IrbisDate(text);
         }
 
         #endregion
