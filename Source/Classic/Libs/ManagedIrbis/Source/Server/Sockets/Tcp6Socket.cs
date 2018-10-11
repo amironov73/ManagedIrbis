@@ -55,6 +55,12 @@ namespace ManagedIrbis.Server.Sockets
         {
             Code.NotNull(client, "client");
 
+            client.Client.SetSocketOption
+                (
+                    SocketOptionLevel.Socket,
+                    SocketOptionName.KeepAlive,
+                    true
+                );
             Client = client;
             _token = token;
         }

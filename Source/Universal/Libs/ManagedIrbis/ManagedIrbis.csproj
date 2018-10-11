@@ -178,6 +178,18 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Epub\Epub.cs">
       <Link>Source\Epub\Epub.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\EventDb\EventDates.cs">
+      <Link>Source\EventDb\EventDates.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\EventDb\EventDescription.cs">
+      <Link>Source\EventDb\EventDescription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\EventDb\EventTimes.cs">
+      <Link>Source\EventDb\EventTimes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\EventDb\EventTitle.cs">
+      <Link>Source\EventDb\EventTitle.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FictionBook\FbAuthor.cs">
       <Link>Source\FictionBook\FbAuthor.cs</Link>
     </Compile>

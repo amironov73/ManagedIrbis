@@ -79,6 +79,14 @@ namespace ManagedIrbis.Infrastructure
             TcpClient result = new TcpClient(AddressFamily.InterNetworkV6);
 
             // TODO some setup
+            result.Client.SetSocketOption
+                (
+                    SocketOptionLevel.Socket,
+                    SocketOptionName.KeepAlive,
+                    true
+                );
+            result.NoDelay = true;
+            result.LingerState = new LingerOption(false, 0);
 
 #if UAP
 
