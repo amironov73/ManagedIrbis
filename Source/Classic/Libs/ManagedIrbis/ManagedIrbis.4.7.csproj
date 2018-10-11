@@ -97,8 +97,11 @@
     <Compile Include="Source\Drm\RightRecord.cs" />
     <Compile Include="Source\Drm\ValidityPeriod.cs" />
     <Compile Include="Source\Epub\Epub.cs" />
+    <Compile Include="Source\EventDb\EventCodes.cs" />
     <Compile Include="Source\EventDb\EventDates.cs" />
     <Compile Include="Source\EventDb\EventDescription.cs" />
+    <Compile Include="Source\EventDb\EventLocation.cs" />
+    <Compile Include="Source\EventDb\EventStatus.cs" />
     <Compile Include="Source\EventDb\EventTimes.cs" />
     <Compile Include="Source\EventDb\EventTitle.cs" />
     <Compile Include="Source\FictionBook\FbAuthor.cs" />

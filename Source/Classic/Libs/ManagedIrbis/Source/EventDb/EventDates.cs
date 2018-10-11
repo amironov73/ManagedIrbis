@@ -28,7 +28,7 @@ namespace ManagedIrbis.EventDb
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class EventDates
+    public sealed class EventDates
     {
         #region Constants
 

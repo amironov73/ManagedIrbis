@@ -1,7 +1,7 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* EventTitle.cs --
+/* EventStatus.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -24,68 +24,61 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.EventDb
 {
     /// <summary>
-    /// Название мероприятие
+    /// Статус мероприятия. Поле 997.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class EventTitle
+    public sealed class EventStatus
     {
         #region Constants
 
         /// <summary>
         /// Known subfield codes.
         /// </summary>
-        public const string KnownCodes = "0abr";
+        public const string KnownCodes = "abc";
 
         /// <summary>
-        /// Тег поля.
+        /// Field tag.
         /// </summary>
-        public const int Tag = 972;
+        public const int Tag = 997;
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Название мероприятия. Подполе a.
+        /// Статус мероприятия. Подполе a.
         /// </summary>
         [CanBeNull]
         [SubField('a')]
-        [XmlAttribute("title")]
-        [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
-        public string Title { get; set; }
+        [XmlAttribute("status")]
+        [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
+        public string Status { get; set; }
 
         /// <summary>
-        /// Подзаголовок. Подполе b.
+        /// Текст. Подполе b.
         /// </summary>
         [CanBeNull]
         [SubField('b')]
-        [XmlAttribute("subtitle")]
-        [JsonProperty("subtitle", NullValueHandling = NullValueHandling.Ignore)]
-        public string Subtitle { get; set; }
+        [XmlAttribute("text")]
+        [JsonProperty("text", NullValueHandling = NullValueHandling.Ignore)]
+        public string Text { get; set; }
 
         /// <summary>
-        /// Аббревиатура названия. Подполе r.
+        /// Первоначальная дата (для перенесенных мероприятий). Подполе c.
         /// </summary>
         [CanBeNull]
-        [SubField('r')]
-        [XmlAttribute("abbreviation")]
-        [JsonProperty("abbreviation", NullValueHandling = NullValueHandling.Ignore)]
-        public string Abbreviation { get; set; }
-
-        /// <summary>
-        /// Номер пункта мероприятия в плане.
-        /// </summary>
-        [CanBeNull]
-        [SubField('0')]
-        [XmlAttribute("number")]
-        [JsonProperty("number", NullValueHandling = NullValueHandling.Ignore)]
-        public string Number { get; set; }
+        [SubField('c')]
+        [XmlAttribute("initial-date")]
+        [JsonProperty("initialDate")]
+        public IrbisDate InitialDate { get; set; }
 
         /// <summary>
         /// Associated <see cref="RecordField"/>.
         /// </summary>
         [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
         public RecordField Field { get; set; }
 
         /// <summary>
@@ -104,7 +97,7 @@ namespace ManagedIrbis.EventDb
         /// Parse the field.
         /// </summary>
         [CanBeNull]
-        public static EventTitle Parse
+        public static EventStatus Parse
             (
                 [CanBeNull] RecordField field
             )
@@ -114,12 +107,11 @@ namespace ManagedIrbis.EventDb
                 return null;
             }
 
-            EventTitle result = new EventTitle
+            EventStatus result = new EventStatus
             {
-                Title = field.GetFirstSubFieldValue('a'),
-                Subtitle = field.GetFirstSubFieldValue('b'),
-                Abbreviation = field.GetFirstSubFieldValue('r'),
-                Number = field.GetFirstSubFieldValue('0'),
+                Status = field.GetFirstSubFieldValue('a'),
+                Text = field.GetFirstSubFieldValue('b'),
+                InitialDate = IrbisDate.SafeParse(field.GetFirstSubFieldValue('c')),
                 Field = field
             };
 

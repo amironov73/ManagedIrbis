@@ -28,7 +28,7 @@ namespace ManagedIrbis.EventDb
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class EventDescription
+    public sealed class EventDescription
     {
         #region Properties
 
@@ -37,15 +37,23 @@ namespace ManagedIrbis.EventDb
         /// </summary>
         [CanBeNull]
         [XmlElement("title")]
-        [JsonProperty("title")]
+        [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
         public EventTitle Title { get; set; }
+
+        /// <summary>
+        /// Коды. Поле 900.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("codes")]
+        [JsonProperty("codes", NullValueHandling = NullValueHandling.Ignore)]
+        public EventCodes Codes { get; set; }
 
         /// <summary>
         /// Даты. Поле 30.
         /// </summary>
         [CanBeNull]
         [XmlElement("dates")]
-        [JsonProperty("dates")]
+        [JsonProperty("dates", NullValueHandling = NullValueHandling.Ignore)]
         public EventDates Dates { get; set; }
 
         /// <summary>
@@ -53,8 +61,40 @@ namespace ManagedIrbis.EventDb
         /// </summary>
         [CanBeNull]
         [XmlElement("times")]
-        [JsonProperty("times")]
+        [JsonProperty("times", NullValueHandling = NullValueHandling.Ignore)]
         public EventTimes Times { get; set; }
+
+        /// <summary>
+        /// Место проведения мероприятия. Поле 210.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("location")]
+        [JsonProperty("location", NullValueHandling = NullValueHandling.Ignore)]
+        public EventLocation Location { get; set; }
+
+        /// <summary>
+        /// Статус мероприятия. Поле 997.
+        /// </summary>
+        [CanBeNull]
+        [XmlElement("status")]
+        [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
+        public EventStatus Status { get; set; }
+
+        /// <summary>
+        /// Associated <see cref="MarcRecord"/>.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public MarcRecord Record { get; set; }
+
+        /// <summary>
+        /// Arbitrary user data.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public object UserData { get; set; }
 
         #endregion
 
@@ -74,8 +114,12 @@ namespace ManagedIrbis.EventDb
             EventDescription result = new EventDescription
             {
                 Title = EventTitle.Parse(record.Fields.GetFirstField(972)),
+                Codes = EventCodes.Parse(record.Fields.GetFirstField(900)),
                 Dates = EventDates.Parse(record.Fields.GetFirstField(30)),
-                Times = EventTimes.Parse(record.Fields.GetFirstField(31))
+                Times = EventTimes.Parse(record.Fields.GetFirstField(31)),
+                Location = EventLocation.Parse(record.Fields.GetFirstField(210)),
+                Status = EventStatus.Parse(record.Fields.GetFirstField(997)),
+                Record = record
             };
 
             return result;

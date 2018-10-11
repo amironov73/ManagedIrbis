@@ -122,11 +122,20 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Epub\Epub.cs">
       <Link>Source\Epub\Epub.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\EventDb\EventCodes.cs">
+      <Link>Source\EventDb\EventCodes.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\EventDb\EventDates.cs">
       <Link>Source\EventDb\EventDates.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\EventDb\EventDescription.cs">
       <Link>Source\EventDb\EventDescription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\EventDb\EventLocation.cs">
+      <Link>Source\EventDb\EventLocation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\EventDb\EventStatus.cs">
+      <Link>Source\EventDb\EventStatus.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\EventDb\EventTimes.cs">
       <Link>Source\EventDb\EventTimes.cs</Link>
