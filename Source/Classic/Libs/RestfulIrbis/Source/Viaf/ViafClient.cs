@@ -1,7 +1,7 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ViafRequester.cs --
+/* ViafClient.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -17,6 +17,7 @@ using JetBrains.Annotations;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 using RestSharp;
 
 #endregion
@@ -25,6 +26,21 @@ using RestSharp;
 
 namespace RestfulIrbis.Viaf
 {
+    //
+    // VIAF (англ. Virtual International Authority File - Виртуальный
+    // международный авторитетный файл) - виртуальный каталог
+    // международного нормативного контроля (информации о произведениях
+    // и их авторах). В разработке проекта участвовало несколько
+    // крупнейших мировых библиотек, в том числе Немецкая национальная
+    // библиотека, Библиотека Конгресса США.
+    //
+    // VIAF является международно признанной системой классификации.
+    // Это совместный проект нескольких национальных библиотек и управляется
+    // Онлайновым компьютерным библиотечным центром (OCLC).
+    // Проект был инициирован Немецкой национальной библиотекой
+    // и Библиотекой Конгресса США. Проект основан в 2000 году.
+    //
+
     /// <summary>
     /// VIAF requester.
     /// </summary>

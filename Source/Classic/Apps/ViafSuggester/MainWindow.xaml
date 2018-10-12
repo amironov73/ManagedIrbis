@@ -1,0 +1,31 @@
+﻿<Window x:Class="ViafSuggester.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ViafSuggester"
+        mc:Ignorable="d"
+        Icon="VIAF.ico"
+        Title="VIAF" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label>Фамилия, наименование</Label>
+            <TextBox x:Name="termBox" Grid.Column="1" />
+            <Button x:Name="goButton" Grid.Column="2"
+                    Padding="0.3cm 0"
+                    Click="GoButton_OnClick"
+                    >Поиск</Button>
+        </Grid>
+        <TextBox x:Name="resultBox" Grid.Row="1"
+                 VerticalScrollBarVisibility="Visible"></TextBox>
+    </Grid>
+</Window>
