@@ -83,7 +83,7 @@ namespace AM.Json
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static void Include
             (
@@ -103,7 +103,7 @@ namespace AM.Json
 
             foreach (JValue value in values)
             {
-                JProperty property = (JProperty) value.Parent;
+                JProperty property = (JProperty)value.Parent;
                 resolver(property);
             }
 
@@ -111,7 +111,7 @@ namespace AM.Json
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static void Include
             (
@@ -136,7 +136,7 @@ namespace AM.Json
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static void Include
             (
@@ -330,7 +330,7 @@ namespace AM.Json
 
             // TODO use path for searching
 
-            JObject obj = (JObject) property.Value;
+            JObject obj = (JObject)property.Value;
             string newName = obj["name"].Value<string>();
             string fileName = obj["file"].Value<string>();
             string text = File.ReadAllText(fileName);
@@ -341,9 +341,9 @@ namespace AM.Json
 #endif
         }
 
-            /// <summary>
-            /// Serialize to short string.
-            /// </summary>
+        /// <summary>
+        /// Serialize to short string.
+        /// </summary>
         [NotNull]
         public static string SerializeShort
             (
@@ -374,6 +374,135 @@ namespace AM.Json
 
 #endif
         }
+
+        //=====================================================================
+
+        /// <summary>
+        ///
+        /// </summary>
+        [CanBeNull]
+        public static JProperty SelectProperty
+            (
+                [CanBeNull] this JObject obj,
+                [NotNull] string path
+            )
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return null;
+            }
+
+            JProperty result = (JProperty)obj.SelectToken(path);
+
+            return result;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [CanBeNull]
+        public static JValue SelectValue
+            (
+                [CanBeNull] this JObject obj,
+                [NotNull] string path
+            )
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return null;
+            }
+
+            JValue result = (JValue)obj.SelectToken(path);
+
+            return result;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [CanBeNull]
+        public static JArray SelectArray
+            (
+                [CanBeNull] this JObject obj,
+                [NotNull] string path
+            )
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return null;
+            }
+
+            JArray result = (JArray)obj.SelectToken(path);
+
+            return result;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [CanBeNull]
+        public static string GetString
+            (
+                [CanBeNull] this JObject obj,
+                [NotNull] string path
+            )
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return null;
+            }
+
+            JValue result = obj.SelectValue(path);
+
+            return ReferenceEquals(result, null)
+                ? null
+                : result.Value<string>();
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull]
+        public static T[] GetArray<T>
+            (
+                [CanBeNull] this JObject obj,
+                [NotNull] string path
+            )
+        {
+            if (ReferenceEquals(obj, null))
+            {
+                return new T[0];
+            }
+
+            JArray result = obj.SelectArray(path);
+
+            return ReferenceEquals(result, null)
+                ? new T[0]
+                : result.Values<T>().ToArray();
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull]
+        public static T[] GetValues<T>
+            (
+                [CanBeNull] this JToken token
+            )
+        {
+            if (ReferenceEquals(token, null))
+            {
+                return new T[0];
+            }
+
+            if (token.HasValues)
+            {
+                return token.Values<T>().ToArray();
+            }
+
+            return new[] { token.Value<T>() };
+        }
+
 
         #endregion
     }

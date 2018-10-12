@@ -7,8 +7,6 @@
  * Status: poor
  */
 
-#if FW4 || NETCORE
-
 #region Using directives
 
 using CodeJam;
@@ -118,7 +116,7 @@ namespace RestfulIrbis.Viaf
         /// Get Authority Cluster Data.
         /// </summary>
         [NotNull]
-        public JObject GetAuthorityClusterData
+        public ViafData GetAuthorityClusterData
             (
                 [NotNull] string recordId
             )
@@ -129,7 +127,8 @@ namespace RestfulIrbis.Viaf
             request.AddUrlSegment("id", recordId);
             request.AddHeader("Accept", "application/json");
             IRestResponse response = Connection.Execute(request);
-            JObject result = JObject.Parse(response.Content);
+            JObject obj = JObject.Parse(response.Content);
+            ViafData result = ViafData.Parse(obj);
 
             return result;
         }
@@ -138,4 +137,3 @@ namespace RestfulIrbis.Viaf
     }
 }
 
-#endif

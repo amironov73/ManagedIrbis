@@ -96,6 +96,21 @@
     <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\Viaf\ViafClient.cs">
       <Link>Source\Viaf\ViafClient.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\Viaf\ViafData.cs">
+      <Link>Source\Viaf\ViafData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\Viaf\ViafHeadingElement.cs">
+      <Link>Source\Viaf\ViafHeadingElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\Viaf\ViafLink.cs">
+      <Link>Source\Viaf\ViafLink.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\Viaf\ViafMainHeading.cs">
+      <Link>Source\Viaf\ViafMainHeading.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\Viaf\ViafSource.cs">
+      <Link>Source\Viaf\ViafSource.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\Viaf\ViafSuggestResponse.cs">
       <Link>Source\Viaf\ViafSuggestResponse.cs</Link>
     </Compile>
