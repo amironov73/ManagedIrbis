@@ -1,13 +1,13 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* OsmiUtility.cs -- 
+/* OsmiUtility.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
 
-#if !PORTABLE
+#if !UAP
 
 #region Using directives
 
@@ -43,7 +43,7 @@ using CM=System.Configuration.ConfigurationManager;
 namespace RestfulIrbis.OsmiCards
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static class OsmiUtility
     {
@@ -132,7 +132,7 @@ namespace RestfulIrbis.OsmiCards
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static string UrlEncode
             (
