@@ -87,6 +87,9 @@
     <Compile Include="Source\OsmiCards\OsmiUtility.cs" />
     <Compile Include="Source\OsmiCards\OsmiValue.cs" />
     <Compile Include="Source\RestUtility.cs" />
+    <Compile Include="Source\Viaf\ViafClient.cs" />
+    <Compile Include="Source\Viaf\ViafSuggestResponse.cs" />
+    <Compile Include="Source\Viaf\ViafSuggestResult.cs" />
   </ItemGroup>
   <!-- END -->
   <ItemGroup>

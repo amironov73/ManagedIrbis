@@ -141,6 +141,15 @@
     <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\RestUtility.cs">
       <Link>Source\RestUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\Viaf\ViafClient.cs">
+      <Link>Source\Viaf\ViafClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\Viaf\ViafSuggestResponse.cs">
+      <Link>Source\Viaf\ViafSuggestResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\RestfulIrbis\Source\Viaf\ViafSuggestResult.cs">
+      <Link>Source\Viaf\ViafSuggestResult.cs</Link>
+    </Compile>
   </ItemGroup>
   <!-- END -->
   <ItemGroup>
