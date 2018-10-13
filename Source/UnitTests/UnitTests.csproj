@@ -206,6 +206,7 @@
     <Compile Include="AM\IO\ChunkedBufferTest.cs" />
     <Compile Include="AM\IO\StreamerTest.cs" />
     <Compile Include="AM\Json\JsonUtilityTest.cs" />
+    <Compile Include="AM\Json\SingleOrArrayTest.cs" />
     <Compile Include="AM\Logging\FileLoggerTest.cs" />
     <Compile Include="AM\Logging\LogTest.cs" />
     <Compile Include="AM\Logging\TeeLoggerTest.cs" />

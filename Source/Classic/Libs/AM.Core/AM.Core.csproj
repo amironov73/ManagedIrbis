@@ -184,6 +184,7 @@
     <Compile Include="AM\ISynchronize.cs" />
     <Compile Include="AM\IVerifiable.cs" />
     <Compile Include="AM\Json\JsonUtility.cs" />
+    <Compile Include="AM\Json\SingleOrArray.cs" />
     <Compile Include="AM\Logging\ConsoleLogger.cs" />
     <Compile Include="AM\Logging\DebugLogger.cs" />
     <Compile Include="AM\Logging\FileLogger.cs" />

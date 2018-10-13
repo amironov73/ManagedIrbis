@@ -454,6 +454,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Json\JsonUtility.cs">
       <Link>AM\Json\JsonUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Json\SingleOrArray.cs">
+      <Link>AM\Json\SingleOrArray.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Logging\ConsoleLogger.cs">
       <Link>AM\Logging\ConsoleLogger.cs</Link>
     </Compile>

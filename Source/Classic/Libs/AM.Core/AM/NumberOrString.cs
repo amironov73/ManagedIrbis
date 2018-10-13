@@ -437,7 +437,7 @@ namespace AM
         /// <summary>
         /// Represent as visible string.
         /// </summary>
-         public string ToVisibleString()
+        public string ToVisibleString()
         {
             if (ReferenceEquals(_value, null))
             {
