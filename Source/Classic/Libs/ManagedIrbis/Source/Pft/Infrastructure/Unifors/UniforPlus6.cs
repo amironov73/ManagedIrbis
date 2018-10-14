@@ -56,8 +56,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             string result;
 
-            if (expression == "+6"
-                || expression == "+60") // TODO check this
+            if (expression == string.Empty
+                || expression == "0") // TODO check this
             {
                 result = "1";
                 if (!ReferenceEquals(context.Record, null)
@@ -66,15 +66,15 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     result = "0";
                 }
             }
-            else if (expression == "61")
+            else if (expression == "1")
             {
                 result = "1"; // TODO implement properly
             }
-            else if (expression == "62")
+            else if (expression == "2")
             {
                 result = "0"; // TODO implement properly
             }
-            else if (expression == "63")
+            else if (expression == "3")
             {
                 // Full-text actualization status
                 result = "0"; // TODO implement properly

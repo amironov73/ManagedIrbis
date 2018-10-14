@@ -132,19 +132,21 @@ namespace ManagedIrbis.Server
         [NotNull]
         public byte[] GetString()
         {
-            MemoryStream result = new MemoryStream();
-
-            while (true)
+            using (MemoryStream result = new MemoryStream())
             {
-                int next = Memory.ReadByte();
-                if (next < 0 || next == 0x0A)
+                while (true)
                 {
-                    break;
-                }
-                result.WriteByte((byte)next);
-            }
+                    int next = Memory.ReadByte();
+                    if (next < 0 || next == 0x0A)
+                    {
+                        break;
+                    }
 
-            return result.ToArray();
+                    result.WriteByte((byte) next);
+                }
+
+                return result.ToArray();
+            }
         }
 
         /// <summary>

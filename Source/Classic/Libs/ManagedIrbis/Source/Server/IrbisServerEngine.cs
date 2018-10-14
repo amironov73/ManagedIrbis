@@ -651,10 +651,13 @@ namespace ManagedIrbis.Server
                     filename = Path.Combine(SystemPath, filename);
                     if (File.Exists(filename))
                     {
-                        IniFile substitute = new IniFile(filename, IrbisEncoding.Ansi, false);
-                        foreach (IniFile.Section section in substitute.GetSections())
+                        using (IniFile substitute
+                            = new IniFile(filename, IrbisEncoding.Ansi, false))
                         {
-                            iniFile.MergeSection(section);
+                            foreach (IniFile.Section section in substitute.GetSections())
+                            {
+                                iniFile.MergeSection(section);
+                            }
                         }
                     }
 

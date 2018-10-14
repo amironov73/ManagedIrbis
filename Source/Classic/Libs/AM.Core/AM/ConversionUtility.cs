@@ -10,9 +10,8 @@
 #region Using directives
 
 using System;
-using System.ComponentModel;
-using System.Reflection;
 using System.Text;
+
 using AM.Logging;
 
 using CodeJam;
@@ -276,7 +275,7 @@ namespace AM
                 char c = input[i];
 
                 int digit58 = -1;
-                if (c >= 0 && c < 128)
+                if (c < 128)
                 {
                     digit58 = INDEXES[c];
                 }

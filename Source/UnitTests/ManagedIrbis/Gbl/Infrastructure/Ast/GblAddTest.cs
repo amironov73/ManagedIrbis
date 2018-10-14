@@ -30,7 +30,10 @@ namespace UnitTests.ManagedIrbis.Gbl.Infrastructure.Ast
         [TestMethod]
         public void GblAdd_Execute_1()
         {
-            GblContext context = new GblContext();
+            GblContext context = new GblContext()
+            {
+                CurrentRecord = new MarcRecord()
+            };
             GblAdd add = new GblAdd();
             add.Execute(context);
         }

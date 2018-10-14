@@ -213,37 +213,40 @@ namespace AM.IO
                 return null;
             }
 
-            MemoryStream result = new MemoryStream();
-            byte found = 0;
-            while (found == 0)
+            using (MemoryStream result = new MemoryStream())
             {
-                while (_position < _limit)
+                byte found = 0;
+                while (found == 0)
                 {
-                    byte one = _buffer[_position++];
-                    if (one == '\r' || one == '\n')
+                    while (_position < _limit)
                     {
-                        found = one;
+                        byte one = _buffer[_position++];
+                        if (one == '\r' || one == '\n')
+                        {
+                            found = one;
+                            break;
+                        }
+
+                        result.WriteByte(one);
+                    }
+
+                    if (found == 0 && !_Advance())
+                    {
                         break;
                     }
-                    result.WriteByte(one);
                 }
 
-                if (found == 0 && !_Advance())
+                if (found == '\r')
                 {
-                    break;
+                    int peek = PeekByte();
+                    if (peek == '\n')
+                    {
+                        ReadByte();
+                    }
                 }
-            }
 
-            if (found == '\r')
-            {
-                int peek = PeekByte();
-                if (peek == '\n')
-                {
-                    ReadByte();
-                }
+                return EncodingUtility.GetString(encoding, result.ToArray());
             }
-
-            return EncodingUtility.GetString(encoding, result.ToArray());
         }
 
         /// <summary>

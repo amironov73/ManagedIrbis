@@ -118,7 +118,7 @@ namespace UnitTests.ManagedIrbis.Search
         public void SearchScenario_ToXml_1()
         {
             SearchScenario scenario = new SearchScenario();
-            Assert.AreEqual("<search type=\"Standard\" truncation=\"false\" logic=\"Or\" />", XmlUtility.SerializeShort(scenario));
+            Assert.AreEqual("<search type=\"Standard\" truncation=\"false\" logic=\"Or\" identifier=\"0\" parent=\"0\" />", XmlUtility.SerializeShort(scenario));
 
             scenario = new SearchScenario
             {
@@ -127,7 +127,7 @@ namespace UnitTests.ManagedIrbis.Search
                 Truncation = true,
                 Logic = SearchLogicType.OrAndNot
             };
-            Assert.AreEqual("<search name=\"Author\" prefix=\"A\" type=\"Standard\" truncation=\"true\" logic=\"OrAndNot\" />", XmlUtility.SerializeShort(scenario));
+            Assert.AreEqual("<search name=\"Author\" prefix=\"A\" type=\"Standard\" truncation=\"true\" logic=\"OrAndNot\" identifier=\"0\" parent=\"0\" />", XmlUtility.SerializeShort(scenario));
         }
 
         [TestMethod]

@@ -48,7 +48,7 @@ namespace AM.Reflection
     ///         }
     ///     }
     /// }
-    /// 
+    ///
     /// class Program
     /// {
     ///     static void Main ( string [] args )
@@ -70,7 +70,7 @@ namespace AM.Reflection
         #region Events
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="target"></param>
         /// <param name="value"></param>
@@ -81,7 +81,7 @@ namespace AM.Reflection
             );
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="accessor"></param>
         /// <param name="previousTarget"></param>
@@ -269,7 +269,7 @@ namespace AM.Reflection
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [CanBeNull]
         protected virtual V OnGettingValue
@@ -277,16 +277,17 @@ namespace AM.Reflection
                 [CanBeNull] V value
             )
         {
-            if (GettingValue != null)
+            AccessHandler handler = GettingValue;
+            if (!ReferenceEquals(handler, null))
             {
-                GettingValue(Target, value);
+                handler(Target, value);
             }
 
             return value;
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [CanBeNull]
         protected virtual V OnSettingValue
@@ -294,16 +295,17 @@ namespace AM.Reflection
                 [CanBeNull] V value
             )
         {
-            if (SettingValue != null)
+            AccessHandler handler = SettingValue;
+            if (!ReferenceEquals(handler, null))
             {
-                SettingValue(Target, value);
+                handler(Target, value);
             }
 
             return value;
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         protected virtual void OnTargetChanged
             (
@@ -311,9 +313,10 @@ namespace AM.Reflection
             )
         {
             _CreateDelegates();
-            if (TargetChanged != null)
+            TargetHandler handler = TargetChanged;
+            if (!ReferenceEquals(handler, null))
             {
-                TargetChanged(this, previousTarget);
+                handler(this, previousTarget);
             }
         }
 

@@ -346,47 +346,51 @@ namespace AM.IO
                 return null;
             }
 
-            MemoryStream result = new MemoryStream();
-            byte found = 0;
-            while (found == 0)
+            using (MemoryStream result = new MemoryStream())
             {
-                byte[] buffer = _current.Buffer;
-                int stop = ReferenceEquals(_current, _last)
-                    ? _position
-                    : _chunkSize;
-                int head = _read;
-                for (; head < stop; head++)
+                byte found = 0;
+                while (found == 0)
                 {
-                    byte c = buffer[head];
-                    if (c == '\r' || c == '\n')
+                    byte[] buffer = _current.Buffer;
+                    int stop = ReferenceEquals(_current, _last)
+                        ? _position
+                        : _chunkSize;
+                    int head = _read;
+                    for (; head < stop; head++)
                     {
-                        found = c;
-                        break;
+                        byte c = buffer[head];
+                        if (c == '\r' || c == '\n')
+                        {
+                            found = c;
+                            break;
+                        }
                     }
-                }
-                result.Write(buffer, _read, head - _read);
-                _read = head;
-                if (found != 0)
-                {
-                    _read++;
-                }
-                else
-                {
-                    if (!_Advance())
-                    {
-                        break;
-                    }
-                }
-            }
-            if (found == '\r')
-            {
-                if (Peek() == '\n')
-                {
-                    ReadByte();
-                }
-            }
 
-            return EncodingUtility.GetString(encoding, result.ToArray());
+                    result.Write(buffer, _read, head - _read);
+                    _read = head;
+                    if (found != 0)
+                    {
+                        _read++;
+                    }
+                    else
+                    {
+                        if (!_Advance())
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                if (found == '\r')
+                {
+                    if (Peek() == '\n')
+                    {
+                        ReadByte();
+                    }
+                }
+
+                return EncodingUtility.GetString(encoding, result.ToArray());
+            }
         }
 
         /// <summary>
