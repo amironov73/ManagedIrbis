@@ -62,6 +62,11 @@ namespace ManagedIrbis.Direct
         #region Properties
 
         /// <summary>
+        /// Index file is fragmented.
+        /// </summary>
+        public bool Fragmented { get; private set; }
+
+        /// <summary>
         /// File name.
         /// </summary>
         [NotNull]
@@ -79,10 +84,20 @@ namespace ManagedIrbis.Direct
         public Stream Ifp { get; private set; }
 
         /// <summary>
+        /// Additional IFP files.
+        /// </summary>
+        public Stream[] AdditionalIfp { get; private set; }
+
+        /// <summary>
         /// Control record of the IFP file.
         /// </summary>
         [NotNull]
         public IfpControlRecord64 IfpControlRecord { get; private set; }
+
+        /// <summary>
+        /// Additional control records.
+        /// </summary>
+        public IfpControlRecord64[] AdditionalControlRecord { get; set; }
 
         /// <summary>
         /// L01 node file.
@@ -91,10 +106,20 @@ namespace ManagedIrbis.Direct
         public Stream L01 { get; private set; }
 
         /// <summary>
+        /// Additional L01 node files.
+        /// </summary>
+        public Stream[] AdditionalL01 { get; private set; }
+
+        /// <summary>
         /// N01 node file.
         /// </summary>
         [NotNull]
         public Stream N01 { get; private set; }
+
+        /// <summary>
+        /// Additional N01
+        /// </summary>
+        public Stream[] AdditionalN01 { get; private set; }
 
         #endregion
 
