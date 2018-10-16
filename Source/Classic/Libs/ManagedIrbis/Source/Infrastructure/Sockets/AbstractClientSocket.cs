@@ -38,6 +38,7 @@ namespace ManagedIrbis.Infrastructure
     [PublicAPI]
     [MoonSharpUserData]
     public abstract class AbstractClientSocket
+        : IDisposable
     {
         #region Properties
 
@@ -104,6 +105,16 @@ namespace ManagedIrbis.Infrastructure
             (
                 [NotNull] byte[][] request
             );
+
+        #endregion
+
+        #region IDisposable members
+
+        /// <inheritdoc cref="IDisposable.Dispose" />
+        public virtual void Dispose()
+        {
+            // Nothing to do here
+        }
 
         #endregion
     }

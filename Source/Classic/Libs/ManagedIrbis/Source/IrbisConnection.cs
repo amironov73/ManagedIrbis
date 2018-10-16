@@ -1790,11 +1790,14 @@ namespace ManagedIrbis
 
             Disposing.Raise(this);
 
+            if (_disposed)
+            {
+                Log.Warn("IrbisConnection::Dispose: already disposed");
+            }
+
             if (_connected)
             {
-                DisconnectCommand command
-                    = CommandFactory.GetDisconnectCommand();
-
+                DisconnectCommand command = CommandFactory.GetDisconnectCommand();
                 ExecuteCommand(command);
             }
 
@@ -1803,6 +1806,8 @@ namespace ManagedIrbis
                 _iniFile.Dispose();
                 _iniFile = null;
             }
+
+            Socket.Dispose();
 
             _disposed = true;
         }

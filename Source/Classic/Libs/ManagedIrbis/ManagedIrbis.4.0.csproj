@@ -121,6 +121,7 @@
     <Compile Include="Source\ImportExport\Csl.cs" />
     <Compile Include="Source\Infrastructure\FastEngine.cs" />
     <Compile Include="Source\Infrastructure\MemoryManager.cs" />
+    <Compile Include="Source\Infrastructure\Sockets\KeepAliveSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\MutliprotocolSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\PipeClientSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\SimpleClientSocketV6.cs" />
