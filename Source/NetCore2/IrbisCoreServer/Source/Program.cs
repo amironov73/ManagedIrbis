@@ -36,7 +36,7 @@ namespace NetCoreServer
                     ServerUtility.DumpEngineSettings(Engine);
                     Log.Trace("Entering server main loop");
                     Engine.MainLoop();
-                    Log.Trace("Leaved server main loop");
+                    Log.Trace("Leaving server main loop");
                 }
             }
             catch (Exception exception)
