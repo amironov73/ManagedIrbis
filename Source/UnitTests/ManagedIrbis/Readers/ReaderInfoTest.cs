@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM.Runtime;
 
@@ -27,7 +26,7 @@ namespace UnitTests.ManagedIrbis.Readers
         }
 
         [TestMethod]
-        public void ReaderInfoSerialization_1()
+        public void ReaderInfo_Serialization_1()
         {
             ReaderInfo readerInfo = new ReaderInfo();
             _TestSerialization(readerInfo);

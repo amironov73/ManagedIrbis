@@ -13,6 +13,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+
 using AM;
 using AM.Collections;
 using AM.IO;
@@ -469,14 +470,10 @@ namespace ManagedIrbis.Readers
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
-        /// Parse the specified field.
+        /// Parse the specified record.
         /// </summary>
         [NotNull]
         public static ReaderInfo Parse
@@ -523,7 +520,7 @@ namespace ManagedIrbis.Readers
                     Rights = record.FM(29),
                     Remarks = record.FM(33),
                     PhotoFile = record.FM(950),
-                    
+
                     Visits = record.Fields
                         .GetField(40)
                         .Select(field => VisitInfo.Parse(field))
@@ -564,9 +561,9 @@ namespace ManagedIrbis.Readers
         [CanBeNull]
         [ItemNotNull]
         public static ReaderInfo[] ReadFromFile
-        (
-            [NotNull] string fileName
-        )
+            (
+                [NotNull] string fileName
+            )
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
@@ -580,10 +577,10 @@ namespace ManagedIrbis.Readers
         /// Сохранение в файле.
         /// </summary>
         public static void SaveToFile
-        (
-            [NotNull] string fileName,
-            [NotNull] [ItemNotNull] ReaderInfo[] readers
-        )
+            (
+                [NotNull] string fileName,
+                [NotNull] [ItemNotNull] ReaderInfo[] readers
+            )
         {
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(readers, "readers");
@@ -693,7 +690,7 @@ namespace ManagedIrbis.Readers
         {
             return string.Format
                 (
-                    "{0} - {1}", 
+                    "{0} - {1}",
                     Ticket.ToVisibleString(),
                     FullName.ToVisibleString()
                 );

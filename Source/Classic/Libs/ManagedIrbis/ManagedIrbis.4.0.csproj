@@ -857,6 +857,7 @@
     <Compile Include="Source\Rdf\Doap.cs" />
     <Compile Include="Source\Rdf\Foaf.cs" />
     <Compile Include="Source\Rdf\Rif.cs" />
+    <Compile Include="Source\Readers\ArchiveReaderInfo.cs" />
     <Compile Include="Source\Readers\DepersonalizedReader.cs" />
     <Compile Include="Source\RecordComparator.cs" />
     <Compile Include="Source\RecordComparer.cs" />

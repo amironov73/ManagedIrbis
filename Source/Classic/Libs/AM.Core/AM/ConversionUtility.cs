@@ -10,6 +10,7 @@
 #region Using directives
 
 using System;
+using System.Reflection;
 using System.Text;
 
 using AM.Logging;

@@ -2414,6 +2414,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Rdf\Rif.cs">
       <Link>Source\Rdf\Rif.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\ArchiveReaderInfo.cs">
+      <Link>Source\Readers\ArchiveReaderInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Readers\DepersonalizedReader.cs">
       <Link>Source\Readers\DepersonalizedReader.cs</Link>
     </Compile>
