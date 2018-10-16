@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* UniforK.cs -- 
+/* UniforK.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using AM.Logging;
 using AM.Text;
 
 using CodeJam;
@@ -93,7 +94,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     (
                         specification
                     );
-                if (!ReferenceEquals(menu, null))
+                if (ReferenceEquals(menu, null))
+                {
+                    Log.Warn("Missing menu file: " + specification);
+                }
+                else
                 {
                     string output = null;
 

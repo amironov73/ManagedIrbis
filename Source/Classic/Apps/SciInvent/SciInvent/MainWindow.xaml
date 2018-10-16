@@ -1,0 +1,33 @@
+﻿<Window x:Class="SciInvent.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SciInvent"
+        mc:Ignorable="d"
+        Title="Инвентаризация учебного фонда"
+        Height="450" Width="800" Initialized="Window_Initialized" Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <ToolBar>
+            <ToolBarPanel Orientation="Horizontal">
+                <MenuItem Header="Считать данные из файла"
+                          x:Name="ReadDataButton"
+                          Click="ReadDataButton_OnClick"></MenuItem>
+                <MenuItem Header="Список отошедших"
+                          x:Name="GoodBooksButton"
+                          Click="GoodBooksButton_OnClick"></MenuItem>
+                <MenuItem Header="Список отсуствующих"
+                          x:Name="MissingBooksButton"
+                          Click="MissingBooksButton_OnClick"></MenuItem>
+            </ToolBarPanel>
+        </ToolBar>
+        <TextBox x:Name="LogBox"
+                 VerticalScrollBarVisibility="Visible"
+                 TextWrapping="Wrap"
+                 Grid.Row="1"></TextBox>
+    </Grid>
+</Window>

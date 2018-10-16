@@ -10,19 +10,13 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
-using AM.Collections;
 using AM.IO;
 using AM.Logging;
 using AM.Parameters;
-using AM.Runtime;
 using AM.Threading;
 
 using CodeJam;
@@ -126,6 +120,18 @@ namespace ManagedIrbis.Client
             }
         }
 
+        /// <summary>
+        /// Fallback path.
+        /// </summary>
+        [CanBeNull]
+        public string FallBackPath { get; set; }
+
+        /// <summary>
+        /// Fall-forward path.
+        /// </summary>
+        [CanBeNull]
+        public string FallForwardPath { get; set;}
+
         #endregion
 
         #region Construction
@@ -191,7 +197,8 @@ namespace ManagedIrbis.Client
         [CanBeNull]
         private string _ExpandPath
             (
-                [NotNull] FileSpecification fileSpecification
+                [NotNull] FileSpecification fileSpecification,
+                bool forReading
             )
         {
             string fileName = fileSpecification.FileName;
@@ -201,6 +208,17 @@ namespace ManagedIrbis.Client
             }
 
             string result = null;
+
+            if (forReading
+                && !string.IsNullOrEmpty(FallForwardPath))
+            {
+                string probe = Path.Combine(FallForwardPath, fileName);
+                if (File.Exists(fileName))
+                {
+                    return probe;
+                }
+            }
+
             string database = fileSpecification.Database ?? Database;
 
             switch (fileSpecification.Path)
@@ -249,6 +267,17 @@ namespace ManagedIrbis.Client
                 case (IrbisPath)11:
                     result = fileName;
                     break;
+            }
+
+            if (forReading
+                && string.IsNullOrEmpty(result)
+                && !string.IsNullOrEmpty(FallBackPath))
+            {
+                string probe = Path.Combine(FallBackPath, fileName);
+                if (File.Exists(fileName))
+                {
+                    result = probe;
+                }
             }
 
             if (string.IsNullOrEmpty(result))
@@ -357,7 +386,7 @@ namespace ManagedIrbis.Client
 
             using (new BusyGuard(BusyState))
             {
-                string resultPath = _ExpandPath(fileSpecification);
+                string resultPath = _ExpandPath(fileSpecification, true);
                 bool result = File.Exists(resultPath);
 
                 return result;
@@ -396,7 +425,11 @@ namespace ManagedIrbis.Client
                     IrbisPath.System,
                     IrbisAlphabetTable.FileName
                 );
-            string path = _ExpandPath(specification);
+            string path = _ExpandPath(specification, true);
+            if (ReferenceEquals(path, null))
+            {
+                return new IrbisAlphabetTable();
+            }
 
             return File.Exists(path)
                 ? IrbisAlphabetTable.ParseLocalFile(path)
@@ -526,14 +559,36 @@ namespace ManagedIrbis.Client
             using (new BusyGuard(BusyState))
             {
                 string result = string.Empty;
+                string fileName = fileSpecification.FileName
+                    .ThrowIfNull("fileSpecification.FileName");
                 try
                 {
-                    string resultPath = _ExpandPath(fileSpecification);
-                    result = File.ReadAllText
-                        (
-                            resultPath,
-                            IrbisEncoding.Ansi
-                        );
+                    string resultPath = _ExpandPath(fileSpecification, true);
+                    if (string.IsNullOrEmpty(resultPath)
+                       && !string.IsNullOrEmpty(FallBackPath))
+                    {
+                        string probe = Path.Combine(FallBackPath, fileName);
+                        if (File.Exists(probe))
+                        {
+                            resultPath = probe;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(resultPath)
+                        && !File.Exists(resultPath)
+                        && !string.IsNullOrEmpty(FallBackPath))
+                    {
+                        string probe = Path.Combine(FallBackPath, fileName);
+                        if (File.Exists(probe))
+                        {
+                            resultPath = probe;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(resultPath))
+                    {
+                        result = File.ReadAllText(resultPath, IrbisEncoding.Ansi);
+                    }
                 }
                 catch (Exception exception)
                 {

@@ -25,11 +25,13 @@ using BLToolkit.Data.Linq;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Client;
 using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
 
 #endregion
 
+// ReSharper disable StringLiteralTypo
 // ReSharper disable LocalizableElement
 
 namespace Irbis2istu2
@@ -57,6 +59,22 @@ namespace Irbis2istu2
         }
 
         [NotNull]
+        private static PftFormatter _GetFormatter
+            (
+                [NotNull] PftProgram program
+            )
+        {
+            PftFormatter result = new PftFormatter
+            {
+                Program = program
+            };
+            LocalProvider provider = (LocalProvider) result.Context.Provider;
+            provider.FallForwardPath = ".";
+
+            return result;
+        }
+
+        [NotNull]
         private static string _GetTitle
             (
                 [NotNull] MarcRecord record
@@ -68,10 +86,7 @@ namespace Irbis2istu2
                 _titleProgram = PftUtility.CompileProgram(source);
             }
 
-            PftFormatter formatter = new PftFormatter
-            {
-                Program = _titleProgram
-            };
+            PftFormatter formatter = _GetFormatter(_titleProgram);
             string result = formatter.FormatRecord(record);
 
             return result.Limit(250);
@@ -89,10 +104,7 @@ namespace Irbis2istu2
                 _briefProgram = PftUtility.CompileProgram(source);
             }
 
-            PftFormatter formatter = new PftFormatter
-            {
-                Program = _briefProgram
-            };
+            PftFormatter formatter = _GetFormatter(_briefProgram);
             string result = formatter.FormatRecord(record);
 
             return result.Limit(500);
@@ -110,10 +122,7 @@ namespace Irbis2istu2
                 _headingProgram = PftUtility.CompileProgram(source);
             }
 
-            PftFormatter formatter = new PftFormatter
-            {
-                Program = _headingProgram
-            };
+            PftFormatter formatter = _GetFormatter(_headingProgram);
             string result = formatter.FormatRecord(record).Limit(128);
 
             return result.EmptyToNull();
@@ -131,10 +140,7 @@ namespace Irbis2istu2
                 _authorsProgram = PftUtility.CompileProgram(source);
             }
 
-            PftFormatter formatter = new PftFormatter
-            {
-                Program = _authorsProgram
-            };
+            PftFormatter formatter = _GetFormatter(_authorsProgram);
             string merged = formatter.FormatRecord(record);
             string[] lines = merged.SplitLines().NonEmptyLines().ToArray();
             string result = string.Join("; ", lines).Limit(200);
@@ -184,10 +190,7 @@ namespace Irbis2istu2
                 _exemplarsProgram = PftUtility.CompileProgram(source);
             }
 
-            PftFormatter formatter = new PftFormatter
-            {
-                Program = _exemplarsProgram
-            };
+            PftFormatter formatter = _GetFormatter(_exemplarsProgram);
             string result = formatter.FormatRecord(record);
 
             return result.SafeToInt32();
@@ -205,10 +208,7 @@ namespace Irbis2istu2
                 _linkProgram = PftUtility.CompileProgram(source);
             }
 
-            PftFormatter formatter = new PftFormatter
-            {
-                Program = _linkProgram
-            };
+            PftFormatter formatter = _GetFormatter(_linkProgram);
             string result = formatter.FormatRecord(record).Limit(200);
 
             return result.EmptyToNull();
@@ -226,10 +226,7 @@ namespace Irbis2istu2
                 _typeProgram = PftUtility.CompileProgram(source);
             }
 
-            PftFormatter formatter = new PftFormatter
-            {
-                Program = _typeProgram
-            };
+            PftFormatter formatter = _GetFormatter(_typeProgram);
             string formatted = formatter.FormatRecord(record);
             string result = formatted.Contains("1")
                 ? "электронный"
@@ -246,7 +243,7 @@ namespace Irbis2istu2
         {
             const string recordSeparator = "*****";
 
-            MarcRecord result = new MarcRecord()
+            MarcRecord result = new MarcRecord
             {
                 Mfn = mfn,
                 Database = "ISTU"
@@ -417,10 +414,12 @@ namespace Irbis2istu2
                     _database
                         .SetCommand("EXECUTE [upload_done]")
                         .ExecuteNonQuery();
+                    Console.WriteLine("[upload_done]");
 
                     _database
                         .SetCommand("insert into [FlagTable] default values")
                         .ExecuteNonQuery();
+                    Console.WriteLine("[FlagTable]");
                 }
 
                 _stopwatch.Stop();
