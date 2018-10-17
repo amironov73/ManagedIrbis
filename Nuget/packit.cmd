@@ -89,6 +89,9 @@ IF %8==core2 copy %BIN%\%BUILD%Core2\%1.*                              lib\netst
 
 IF %1==ManagedIrbis (
 mkdir content
+copy %BIN%\%BUILD%35\Microsoft.IO.RecyclableMemoryStream.*  lib\net35 > nul
+copy %BIN%\%BUILD%40\Microsoft.IO.RecyclableMemoryStream.*  lib\net40 > nul
+copy %BIN%\%BUILD%45\Microsoft.IO.RecyclableMemoryStream.*  lib\net45 > nul
 del lib\net35\ManagedIrbis.Isis.*
 del lib\net40\ManagedIrbis.Isis.*
 del lib\net45\ManagedIrbis.Isis.*
