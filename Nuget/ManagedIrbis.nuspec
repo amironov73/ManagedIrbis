@@ -26,6 +26,7 @@
       <dependency id="MoonSharp" version="2.0.0.0" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
       <dependency id="ArsMagna.Core" version="1.8.12" />
+      <dependency id="Microsoft.IO.RecyclableMemoryStream" version="1.2.2" />
     </dependencies>
     <references></references>
     <tags></tags>

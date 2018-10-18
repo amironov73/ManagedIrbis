@@ -72,6 +72,15 @@ namespace ManagedIrbis.Infrastructure
 
         }
 
+        /// <inheritdoc cref="AbstractEngine.RecycleMemoryStream" />
+        public override void RecycleMemoryStream
+            (
+                MemoryStream stream
+            )
+        {
+            MemoryManager.RecycleMemoryStream(stream);
+        }
+
         /// <inheritdoc cref="AbstractEngine.ReportMemoryUsage" />
         public override void ReportMemoryUsage
             (

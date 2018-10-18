@@ -396,6 +396,20 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Recycle the memory stream.
+        /// </summary>
+        public virtual void RecycleMemoryStream
+            (
+                [CanBeNull] MemoryStream stream
+            )
+        {
+            if (!ReferenceEquals(stream, null))
+            {
+                stream.Dispose();
+            }
+        }
+
+        /// <summary>
         /// Report memory usage.
         /// </summary>
         public virtual void ReportMemoryUsage

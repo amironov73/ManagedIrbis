@@ -155,14 +155,15 @@ namespace ManagedIrbis.Infrastructure
                     }
                     socket.Shutdown(SocketShutdown.Send);
 
-                    MemoryStream stream = Connection.Executive
+                    MemoryStream memory = Connection.Executive
                         .GetMemoryStream(GetType());
-                    byte[] result = socket.ReceiveToEnd(stream);
+                    byte[] result = socket.ReceiveToEnd(memory);
                     Connection.Executive.ReportMemoryUsage
                         (
                             GetType(),
                             result.Length
                         );
+                    Connection.Executive.RecycleMemoryStream(memory);
 
                     if (!ReferenceEquals(connection, null))
                     {

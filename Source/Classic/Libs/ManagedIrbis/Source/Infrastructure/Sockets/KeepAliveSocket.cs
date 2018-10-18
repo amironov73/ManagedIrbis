@@ -130,6 +130,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
                         GetType(),
                         result.Length
                     );
+                Connection.Executive.RecycleMemoryStream(stream);
 
                 return result;
             }

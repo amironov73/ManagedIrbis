@@ -86,8 +86,8 @@ namespace ManagedIrbis.Infrastructure
                 new byte[] {49, 10}
             };
 
-            MemoryStream stream = GetMemoryStream(GetType());
-            stream
+            MemoryStream memory = GetMemoryStream(GetType());
+            memory
                 .EncodeString(query.CommandCode)      .EncodeDelimiter()
                 .EncodeWorkstation(query.Workstation) .EncodeDelimiter()
                 .EncodeString(query.CommandCode)      .EncodeDelimiter()
@@ -101,27 +101,27 @@ namespace ManagedIrbis.Infrastructure
                 .EncodeDelimiter()
                 .EncodeDelimiter();
 
-            list.Add(stream.ToArray());
-            stream.Dispose();
+            list.Add(memory.ToArray());
+            RecycleMemoryStream(memory);
 
             if (query.Arguments.Count != 0)
             {
                 int countMinus1 = query.Arguments.Count - 1;
                 for (int i = 0; i < countMinus1; i++)
                 {
-                    stream = GetMemoryStream(GetType());
-                    stream.EncodeAny(query.Arguments[i]);
-                    stream.EncodeDelimiter();
-                    list.Add(stream.ToArray());
-                    stream.Dispose();
+                    memory = GetMemoryStream(GetType());
+                    memory.EncodeAny(query.Arguments[i]);
+                    memory.EncodeDelimiter();
+                    list.Add(memory.ToArray());
+                    RecycleMemoryStream(memory);
                 }
                 for (int i = countMinus1; i < query.Arguments.Count; i++)
                 {
-                    stream = GetMemoryStream(GetType());
-                    stream.EncodeAny(query.Arguments[i]);
+                    memory = GetMemoryStream(GetType());
+                    memory.EncodeAny(query.Arguments[i]);
                     // DO NOT add delimiter to the last line!
-                    list.Add(stream.ToArray());
-                    stream.Dispose();
+                    list.Add(memory.ToArray());
+                    RecycleMemoryStream(memory);
                 }
             }
 

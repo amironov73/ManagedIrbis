@@ -89,6 +89,20 @@ namespace ManagedIrbis.Infrastructure
 
         }
 
+        /// <summary>
+        /// Recycle the memory stream.
+        /// </summary>
+        public static void RecycleMemoryStream
+            (
+                [CanBeNull] MemoryStream stream
+            )
+        {
+            if (!ReferenceEquals(stream, null))
+            {
+                stream.Dispose();
+            }
+        }
+
         #endregion
     }
 }

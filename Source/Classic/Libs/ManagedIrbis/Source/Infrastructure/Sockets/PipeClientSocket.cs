@@ -110,6 +110,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
 
                 byte[] result = memory.ToArray();
                 Connection.Executive.ReportMemoryUsage(GetType(), result.Length);
+                Connection.Executive.RecycleMemoryStream(memory);
 
                 return result;
             }
