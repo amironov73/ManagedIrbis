@@ -1,0 +1,43 @@
+﻿<Window x:Class="VitalInfo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VitalInfo"
+        mc:Ignorable="d"
+        Icon="VitalInfo.ico"
+        Title="Информация о системе"
+        Height="300" Width="400" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
+    <Grid Margin="0.3cm">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Margin="0.1cm" FontWeight="Bold">IPv4-адрес</TextBlock>
+            <TextBlock x:Name="Address4Box" Grid.Column="1" Grid.Row="0" Margin="0.1cm" TextWrapping="Wrap"/>
+            <TextBlock Grid.Column="0" Grid.Row="1" Margin="0.1cm" FontWeight="Bold">IPv6-адрес</TextBlock>
+            <TextBlock x:Name="Address6Box" Grid.Column="1" Grid.Row="1" Margin="0.1cm" TextWrapping="Wrap"/>
+            <TextBlock Grid.Column="0" Grid.Row="2" Margin="0.1cm" FontWeight="Bold">Имя пользователя</TextBlock>
+            <TextBlock x:Name="UserNameBox" Grid.Column="1" Grid.Row="2" Margin="0.1cm" TextWrapping="Wrap"/>
+            <TextBlock Grid.Column="0" Grid.Row="3" Margin="0.1cm" FontWeight="Bold">Домен</TextBlock>
+            <TextBlock x:Name="DomainNameBox" Grid.Column="1" Grid.Row="3" Margin="0.1cm" TextWrapping="Wrap"/>
+            <TextBlock Grid.Column="0" Grid.Row="4" Margin="0.1cm" FontWeight="Bold">Операционная система</TextBlock>
+            <TextBlock x:Name="OperatingSystemBox" Grid.Column="1" Grid.Row="4" Margin="0.1cm" TextWrapping="Wrap"/>
+            <TextBlock Grid.Column="0" Grid.Row="5" Margin="0.1cm" FontWeight="Bold">Оперативная память</TextBlock>
+            <TextBlock x:Name="MemoryBox" Grid.Column="1" Grid.Row="5" Margin="0.1cm" TextWrapping="Wrap"/>
+            <TextBlock Grid.Column="0" Grid.Row="6" Margin="0.1cm" FontWeight="Bold">Дисковая память</TextBlock>
+            <TextBlock x:Name="DisksBox" Grid.Column="1" Grid.Row="6" Margin="0.1cm" TextWrapping="Wrap"/>
+        </Grid>
+    </Grid>
+</Window>
