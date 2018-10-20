@@ -167,6 +167,12 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\FullTextInfo.cs">
       <Link>Source\Fields\FullTextInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\ZaprInfo.cs">
+      <Link>Source\Fields\ZaprInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\ZaprRecord.cs">
+      <Link>Source\Fields\ZaprRecord.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblContextIn.cs">
       <Link>Source\Gbl\Infrastructure\Ast\GblContextIn.cs</Link>
     </Compile>

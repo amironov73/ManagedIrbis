@@ -109,6 +109,8 @@
     <Compile Include="Source\FictionBook\FbTitle.cs" />
     <Compile Include="Source\FictionBook\FbDocument.cs" />
     <Compile Include="Source\Fields\FullTextInfo.cs" />
+    <Compile Include="Source\Fields\ZaprInfo.cs" />
+    <Compile Include="Source\Fields\ZaprRecord.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblContextIn.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblContextOut.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblFieldCommand.cs" />
