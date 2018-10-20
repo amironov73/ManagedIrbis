@@ -109,13 +109,18 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 {
                     return;
                 }
-                int index = parts[1].IndexOf(separator, 1);
+                int index = parts[1].IndexOf
+                    (
+                        separator,
+                        1,
+                        StringComparison.InvariantCulture
+                    );
                 if (index < 0)
                 {
                     return;
                 }
 
-                query = parts[1].Substring(1, index - 1);
+                query = parts[1].Substring(1, index - 1); //-V3057
                 parts = StringUtility.SplitString
                     (
                         parts[1].Substring(index + 1),

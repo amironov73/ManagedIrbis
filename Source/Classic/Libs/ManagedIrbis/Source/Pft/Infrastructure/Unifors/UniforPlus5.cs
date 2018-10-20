@@ -82,8 +82,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             }
 
             string fileName = navigator.GetRemainingText();
-            if (command == TextNavigator.EOF
-                || string.IsNullOrEmpty(fileName))
+            if (string.IsNullOrEmpty(fileName))
             {
                 return;
             }

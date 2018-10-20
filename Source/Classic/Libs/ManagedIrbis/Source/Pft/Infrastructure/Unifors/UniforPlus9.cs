@@ -1176,7 +1176,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         // Присутствует в версиях ИРБИС с 2010.1.
         //
         // Формат (передаваемая строка):
-        // 
+        //
         // +9J<полный путь и имя файла>
         //
         // Имя файла может задаваться в виде маски, в этом случае использоваться
@@ -1273,7 +1273,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
 
-            string first = expression.Substring(1, position - 1);
+            string first = expression.Substring(1, position - 1); //-V3057
             string second = expression.Substring(position + 1);
             if (string.IsNullOrEmpty(second))
             {
@@ -1381,7 +1381,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 string output;
 
                 // если найдено точное совпадение термина, вернем следующий термин
-                // при поиске в обратном направлении всегда возвращается предыдущий термин 
+                // при поиске в обратном направлении всегда возвращается предыдущий термин
                 if (terms.Length == 2 && (terms[0].Text == startTerm || reverseOrder))
                 {
                     output = terms[1].Text;

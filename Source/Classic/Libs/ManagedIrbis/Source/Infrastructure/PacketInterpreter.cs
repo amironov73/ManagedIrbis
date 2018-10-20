@@ -92,40 +92,45 @@ namespace ManagedIrbis.Infrastructure
         [CanBeNull]
         public string GetAnsiString()
         {
-            MemoryStream memory = new MemoryStream();
-
-            while (true)
+            using (MemoryStream memory = new MemoryStream())
             {
-                int code = Stream.ReadByte();
-                if (code < 0)
+                while (true)
                 {
-                    return null;
-                }
-                if (code == 0x0D)
-                {
-                    code = Stream.ReadByte();
+                    int code = Stream.ReadByte();
+                    if (code < 0)
+                    {
+                        return null;
+                    }
+
+                    if (code == 0x0D)
+                    {
+                        code = Stream.ReadByte();
+                        if (code == 0x0A)
+                        {
+                            break;
+                        }
+
+                        memory.WriteByte(0x0D);
+                    }
+
                     if (code == 0x0A)
                     {
                         break;
                     }
-                    memory.WriteByte(0x0D);
+
+                    memory.WriteByte((byte) code);
                 }
-                if (code == 0x0A)
-                {
-                    break;
-                }
-                memory.WriteByte((byte)code);
+
+                byte[] bytes = memory.ToArray();
+
+                string result = EncodingUtility.GetString
+                    (
+                        IrbisEncoding.Ansi,
+                        bytes
+                    );
+
+                return result;
             }
-
-            byte[] bytes = memory.ToArray();
-
-            string result = EncodingUtility.GetString
-                (
-                    IrbisEncoding.Ansi,
-                    bytes
-                );
-
-            return result;
         }
 
         /// <summary>
@@ -141,16 +146,22 @@ namespace ManagedIrbis.Infrastructure
             {
                 case 'A': // Строка ANSI
                     return GetAnsiString();
+
                 case 'U': // Строка UTF8
                     return GetUtfString();
+
                 case 'I': // Целое число
                     return GetInt32();
+
                 case 'R': // Запись с разделителями 1F-1E
                     break;
+
                 case 'M': // Запись с разделителями 0A-0D
                     break;
+
                 case 'T': // Текст до конца пакета (ANSI)
                     return RemainingAnsiText();
+
                 case 'L': // Строки UTF8 до конца
                     return RemainingUtfText();
             }
@@ -164,36 +175,41 @@ namespace ManagedIrbis.Infrastructure
         [CanBeNull]
         public string GetUtfString()
         {
-            MemoryStream memory = new MemoryStream();
-
-            while (true)
+            using (MemoryStream memory = new MemoryStream())
             {
-                int code = _stream.ReadByte();
-                if (code < 0)
+                while (true)
                 {
-                    return null;
-                }
-                if (code == 0x0D)
-                {
-                    code = Stream.ReadByte();
+                    int code = _stream.ReadByte();
+                    if (code < 0)
+                    {
+                        return null;
+                    }
+
+                    if (code == 0x0D)
+                    {
+                        code = Stream.ReadByte();
+                        if (code == 0x0A)
+                        {
+                            break;
+                        }
+
+                        memory.WriteByte(0x0D);
+                    }
+
                     if (code == 0x0A)
                     {
                         break;
                     }
-                    memory.WriteByte(0x0D);
+
+                    memory.WriteByte((byte) code);
                 }
-                if (code == 0x0A)
-                {
-                    break;
-                }
-                memory.WriteByte((byte)code);
+
+                byte[] buffer = memory.ToArray();
+                string result = IrbisEncoding.Utf8
+                    .GetString(buffer, 0, buffer.Length);
+
+                return result;
             }
-
-            byte[] buffer = memory.ToArray();
-            string result = IrbisEncoding.Utf8
-                .GetString(buffer, 0, buffer.Length);
-
-            return result;
         }
 
         /// <summary>
@@ -234,8 +250,7 @@ namespace ManagedIrbis.Infrastructure
             Code.NotNullNorEmpty(specification, "specification");
 
             List<string> result = new List<string>();
-            PacketInterpreter interpreter
-                = new PacketInterpreter(packet);
+            PacketInterpreter interpreter = new PacketInterpreter(packet);
             foreach (char code in specification)
             {
                 object o = interpreter.GetObject(code);
@@ -247,7 +262,7 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public List<string> RemainingAnsiStrings()
@@ -264,30 +279,34 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public string RemainingAnsiText()
         {
-            MemoryStream memory = new MemoryStream();
-
-            while (true)
+            using (MemoryStream memory = new MemoryStream())
             {
-                int code = Stream.ReadByte();
-                if (code < 0)
+
+                while (true)
                 {
-                    break;
+                    int code = Stream.ReadByte();
+                    if (code < 0)
+                    {
+                        break;
+                    }
+
+                    memory.WriteByte((byte) code);
                 }
-                memory.WriteByte((byte)code);
+
+                byte[] buffer = memory.ToArray();
+                string result = IrbisEncoding.Ansi
+                    .GetString(buffer, 0, buffer.Length);
+
+                return result;
             }
-
-            byte[] buffer = memory.ToArray();
-            string result = IrbisEncoding.Ansi.GetString(buffer, 0, buffer.Length);
-
-            return result;
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public List<string> RemainingUtfStrings()
@@ -304,26 +323,29 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public string RemainingUtfText()
         {
-            MemoryStream memory = new MemoryStream();
-
-            while (true)
+            using (MemoryStream memory = new MemoryStream())
             {
-                int code = Stream.ReadByte();
-                if (code < 0)
+                while (true)
                 {
-                    break;
+                    int code = Stream.ReadByte();
+                    if (code < 0)
+                    {
+                        break;
+                    }
+
+                    memory.WriteByte((byte) code);
                 }
-                memory.WriteByte((byte)code);
+
+                byte[] buffer = memory.ToArray();
+                string result = IrbisEncoding.Utf8
+                    .GetString(buffer, 0, buffer.Length);
+
+                return result;
             }
-
-            byte[] buffer = memory.ToArray();
-            string result = IrbisEncoding.Utf8.GetString(buffer, 0, buffer.Length);
-
-            return result;
         }
 
         /// <summary>

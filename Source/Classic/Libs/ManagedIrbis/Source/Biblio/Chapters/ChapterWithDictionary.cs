@@ -336,7 +336,7 @@ namespace ManagedIrbis.Biblio
 
             string[] keys = Dictionary.Keys.ToArray();
             string[] items = keys.Select(k => CleanOrder(k)).ToArray();
-            Array.Sort(items, keys);
+            Array.Sort(items, keys); //-V3066
             StringBuilder builder = new StringBuilder();
             foreach (string key in keys)
             {

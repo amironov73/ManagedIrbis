@@ -70,7 +70,7 @@ namespace ManagedIrbis.Direct
         public DirectAccess32
             (
                 [NotNull] string masterFile,
-                DirectAccessMode mode
+                DirectAccessMode mode //-V3117
             )
         {
             Code.NotNullNorEmpty(masterFile, "masterFile");
