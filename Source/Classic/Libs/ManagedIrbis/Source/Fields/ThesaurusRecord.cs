@@ -32,7 +32,7 @@ namespace ManagedIrbis.Fields
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class ThesaurusRecord
+    public sealed class ThesaurusRecord
     {
         #region Properties
 
