@@ -51,4 +51,9 @@ ManagedIrbis currently supports:
 [![Build status](https://api.travis-ci.org/amironov73/ManagedIrbis.svg)](https://travis-ci.org/amironov73/ManagedIrbis/)
 [![Coverity](https://img.shields.io/coverity/scan/11008.svg)](https://scan.coverity.com/projects/managedirbis)
 [![Codecov](https://img.shields.io/codecov/c/github/amironov73/ManagedIrbis.svg)](https://codecov.io/gh/amironov73/ManagedIrbis)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Famironov73%2FManagedIrbis.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Famironov73%2FManagedIrbis?ref=badge_shield)
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Famironov73%2FManagedIrbis.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Famironov73%2FManagedIrbis?ref=badge_large)
