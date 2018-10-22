@@ -2969,6 +2969,12 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Statistics\PingStatistics.cs">
       <Link>Source\Statistics\PingStatistics.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Systematization\BbkRecord.cs">
+      <Link>Source\Systematization\BbkRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Systematization\BbkReference.cs">
+      <Link>Source\Systematization\BbkReference.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\TableDefinition.cs">
       <Link>Source\TableDefinition.cs</Link>
     </Compile>

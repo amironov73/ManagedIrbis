@@ -1046,6 +1046,8 @@
     <Compile Include="Source\Statistics\IrbisPing.cs" />
     <Compile Include="Source\Statistics\PingData.cs" />
     <Compile Include="Source\Statistics\PingStatistics.cs" />
+    <Compile Include="Source\Systematization\BbkRecord.cs" />
+    <Compile Include="Source\Systematization\BbkReference.cs" />
     <Compile Include="Source\TableDefinition.cs" />
     <Compile Include="Source\Reports\Bands\ReportBand.cs" />
     <Compile Include="Source\Tables\AcquisitionTable.cs" />
