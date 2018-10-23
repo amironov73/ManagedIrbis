@@ -2983,6 +2983,15 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Statistics\PingStatistics.cs">
       <Link>Source\Statistics\PingStatistics.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Systematization\AthrbGuidelines.cs">
+      <Link>Source\Systematization\AthrbGuidelines.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Systematization\AthrbHeading.cs">
+      <Link>Source\Systematization\AthrbHeading.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Systematization\AthrbRecord.cs">
+      <Link>Source\Systematization\AthrbRecord.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Systematization\BbkRecord.cs">
       <Link>Source\Systematization\BbkRecord.cs</Link>
     </Compile>

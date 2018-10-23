@@ -1048,6 +1048,9 @@
     <Compile Include="Source\Statistics\IrbisPing.cs" />
     <Compile Include="Source\Statistics\PingData.cs" />
     <Compile Include="Source\Statistics\PingStatistics.cs" />
+    <Compile Include="Source\Systematization\AthrbGuidelines.cs" />
+    <Compile Include="Source\Systematization\AthrbHeading.cs" />
+    <Compile Include="Source\Systematization\AthrbRecord.cs" />
     <Compile Include="Source\Systematization\BbkRecord.cs" />
     <Compile Include="Source\Systematization\BbkReference.cs" />
     <Compile Include="Source\TableDefinition.cs" />
