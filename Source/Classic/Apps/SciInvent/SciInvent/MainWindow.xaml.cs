@@ -70,21 +70,30 @@ namespace SciInvent
             string[] lines = File.ReadAllLines(fileName)
                 .NonEmptyLines().ToArray();
             WriteLine("Прочитано строк: {0}", lines.Length);
+            Task.Factory.StartNew
+                (
+                    () =>
+                    {
+                        BookLogic.MarkBooks(lines);
+                    },
+                    TaskCreationOptions.LongRunning
+                );
         }
 
         private void GoodBooksButton_OnClick(object sender, RoutedEventArgs e)
         {
-
+            Task.Factory.StartNew
+                (
+                    BookLogic.ListGoodBooks,
+                    TaskCreationOptions.LongRunning
+                );
         }
 
         private void MissingBooksButton_OnClick(object sender, RoutedEventArgs e)
         {
             Task.Factory.StartNew
                 (
-                    () =>
-                    {
-                        BookLogic.ListMissingBooks();
-                    },
+                    BookLogic.ListMissingBooks,
                     TaskCreationOptions.LongRunning
                 );
         }

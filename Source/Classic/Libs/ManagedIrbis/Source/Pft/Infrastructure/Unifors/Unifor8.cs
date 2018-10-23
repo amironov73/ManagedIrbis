@@ -115,7 +115,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         separator,
                         1
 #if !UAP
-                        StringComparison.InvariantCulture
+                        , StringComparison.InvariantCulture
 #endif
                     );
                 if (index < 0)

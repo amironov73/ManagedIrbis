@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+
 using AM;
 using AM.Configuration;
 
 using BLToolkit.Data;
 using BLToolkit.Data.Linq;
 using BLToolkit.DataAccess;
+using BLToolkit.EditableObjects;
 using BLToolkit.Mapping;
 
 using JetBrains.Annotations;
@@ -27,12 +30,14 @@ namespace SciInvent
     [PublicAPI]
     [TableName("podsob")]
     public class PodsobRecord
+        : EditableObject
     {
         #region Properties
 
         ///<summary>
         /// Инвентарный номер книги.
         ///</summary>
+        [PrimaryKey]
         [MapField("INVENT")]
         public long Inventory { get; set; }
 
@@ -135,6 +140,7 @@ namespace SciInvent
     [PublicAPI]
     [TableName("translator")]
     public class TranslatorRecord
+        : EditableObject
     {
         #region Properties
 
@@ -202,6 +208,7 @@ namespace SciInvent
     [PublicAPI]
     [TableName("uchtrans")]
     public class UchRecord
+        : EditableObject
     {
         #region Properties
 
@@ -314,7 +321,145 @@ namespace SciInvent
             return true;
         }
 
-        public static string ListMissingBooks()
+        public static RecordField FindBarcode
+            (
+                MarcRecord record,
+                string barcode
+            )
+        {
+            foreach (RecordField field in record.Fields.GetField(910))
+            {
+                if (field.GetFirstSubFieldValue('h').SameString(barcode))
+                {
+                    return field;
+                }
+            }
+
+            return null;
+        }
+
+        public static void MarkBook
+            (
+                string barcode
+            )
+        {
+            string inventory = null;
+            RecordField field = null;
+            MarcRecord record = Irbis.SearchReadOneRecord("\"BAR={0}\"", barcode);
+            Table<TranslatorRecord> translator = Db.GetTable<TranslatorRecord>();
+            TranslatorRecord found = translator.FirstOrDefault(b => b.Barcode == barcode);
+            if (!ReferenceEquals(found, null))
+            {
+                inventory = found.Inventory.ToInvariantString();
+            }
+            else
+            {
+                if (!ReferenceEquals(record, null))
+                {
+                    field = FindBarcode(record, barcode);
+                    if (!ReferenceEquals(field, null))
+                    {
+                        inventory = field.GetFirstSubFieldValue('b');
+                    }
+                }
+            }
+
+            if (string.IsNullOrEmpty(inventory))
+            {
+                WriteLine("Неизвестный штрих-код: " + barcode);
+                return;
+            }
+
+            Table<PodsobRecord> podsob = Db.GetTable<PodsobRecord>();
+            long longInventory = inventory.SafeToInt64();
+            PodsobRecord book = podsob
+                .FirstOrDefault(p => p.Inventory == longInventory);
+            if (!ReferenceEquals(book, null))
+            {
+                book.Seen = DateTime.Now;
+                Db.Update(book);
+            }
+
+            if (!ReferenceEquals(record, null) && !ReferenceEquals(field, null))
+            {
+                field.SetSubField('s', IrbisDate.TodayText);
+                Irbis.WriteRecord(record);
+            }
+        }
+
+        public static void MarkBooks
+            (
+                string[] barcodes
+            )
+        {
+            foreach (string barcode in barcodes)
+            {
+                WriteLine(barcode);
+
+                MarkBook(barcode);
+            }
+
+            WriteLine("Обработка завершена");
+        }
+
+        public static void ListGoodBooks()
+        {
+            Clear();
+            Table<PodsobRecord> podsob = Db.GetTable<PodsobRecord>();
+            PodsobRecord[] seenBooks = podsob
+                .Where(r => r.Ticket == "Ж" && r.Seen != null)
+                .ToArray();
+            WriteLine("Всего книг: {0}", seenBooks.Length);
+            List<PodsobRecord> bookList = new List<PodsobRecord>(seenBooks.Length);
+            for (int i = 0; i < seenBooks.Length; i++)
+            {
+                if (i % 100 == 0)
+                {
+                    WriteLine("Обработано: {0}", i);
+                }
+
+                PodsobRecord book = seenBooks[i];
+                if (!ResolveByInventory(book))
+                {
+                    WriteLine("Неизвестный номер {0}", book.Inventory);
+                }
+                else
+                {
+                    bookList.Add(book);
+                }
+            }
+
+            string fileName = "good.csv";
+            WriteLine("Запись файла " + fileName);
+            CreateBookList(fileName, "Проверенные книги", bookList);
+            WriteLine("Обработка завершена");
+        }
+
+        public static void CreateBookList
+            (
+                string fileName,
+                string title,
+                IEnumerable<PodsobRecord> books
+            )
+        {
+            using (TextWriter writer = File.CreateText(fileName))
+            {
+                writer.WriteLine(title);
+                writer.WriteLine();
+
+                foreach (PodsobRecord book in books)
+                {
+                    writer.WriteLine
+                        (
+                            "{0};{1}",
+                            book.Inventory,
+                            book.Description
+                        );
+                }
+            }
+        }
+
+        public static void ListMissingBooks()
         {
             Clear();
             Table<PodsobRecord> podsob = Db.GetTable<PodsobRecord>();
@@ -322,7 +467,7 @@ namespace SciInvent
                 .Where(r => r.Ticket == "Ж" && r.Seen == null)
                 .ToArray();
             WriteLine("Всего книг: {0}", missingBooks.Length);
-            missingBooks = missingBooks.Take(200).ToArray();
+            List<PodsobRecord> bookList = new List<PodsobRecord>(missingBooks.Length);
             for (int i = 0; i < missingBooks.Length; i++)
             {
                 if (i % 100 == 0)
@@ -330,13 +475,21 @@ namespace SciInvent
                     WriteLine("Обработано: {0}", i);
                 }
 
-                if (!ResolveByInventory(missingBooks[i]))
+                PodsobRecord book = missingBooks[i];
+                if (!ResolveByInventory(book))
                 {
-                    WriteLine("Неизвестный номер {0}", missingBooks[i].Inventory);
+                    WriteLine("Неизвестный номер {0}", book.Inventory);
+                }
+                else
+                {
+                    bookList.Add(book);
                 }
             }
 
-            return null;
+            string fileName = "missing.csv";
+            WriteLine("Запись файла " + fileName);
+            CreateBookList(fileName, "Отсутствующие книги", bookList);
+            WriteLine("Обработка завершена");
         }
 
         public static void Disconnect()
