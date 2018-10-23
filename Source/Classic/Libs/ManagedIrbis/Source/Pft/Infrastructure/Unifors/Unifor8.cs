@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 using AM;
@@ -112,8 +113,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 int index = parts[1].IndexOf
                     (
                         separator,
-                        1,
+                        1
+#if !UAP
                         StringComparison.InvariantCulture
+#endif
                     );
                 if (index < 0)
                 {
