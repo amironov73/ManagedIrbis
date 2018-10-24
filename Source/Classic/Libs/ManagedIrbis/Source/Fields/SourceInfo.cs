@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SourceInfo.cs -- 
+/* SourceInfo.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -43,12 +43,12 @@ namespace ManagedIrbis.Fields
         #region Constants
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const int Tag463 = 463;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const int Tag963 = 963;
 
@@ -60,7 +60,7 @@ namespace ManagedIrbis.Fields
         /// Заглавие. 463^c.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'c')]
+        [Field(463, 'c')]
         [XmlElement("title")]
         [JsonProperty("title")]
         [Description("Заглавие")]
@@ -71,7 +71,7 @@ namespace ManagedIrbis.Fields
         /// Год издания. 463^j.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'j')]
+        [Field(463, 'j')]
         [XmlElement("year")]
         [JsonProperty("year")]
         [Description("Год издания")]
@@ -82,7 +82,7 @@ namespace ManagedIrbis.Fields
         /// Издательство. 463^g.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'g')]
+        [Field(463, 'g')]
         [XmlElement("publisher")]
         [JsonProperty("publisher")]
         [Description("Издательство")]
@@ -93,7 +93,7 @@ namespace ManagedIrbis.Fields
         /// Город. 463^d.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'd')]
+        [Field(463, 'd')]
         [XmlElement("city")]
         [JsonProperty("city")]
         [Description("Город")]
@@ -104,7 +104,7 @@ namespace ManagedIrbis.Fields
         /// Местоположение - единица измерения. 463^1.
         /// </summary>
         [CanBeNull]
-        [Field("463", '1')]
+        [Field(463, '1')]
         [XmlElement("unit")]
         [JsonProperty("unit")]
         [Description("Местоположение - единица измерения")]
@@ -115,7 +115,7 @@ namespace ManagedIrbis.Fields
         /// Местоположение - страницы. 463^s.
         /// </summary>
         [CanBeNull]
-        [Field("463", 's')]
+        [Field(463, 's')]
         [XmlElement("position")]
         [JsonProperty("position")]
         [Description("Местоположение - страницы")]
@@ -126,7 +126,7 @@ namespace ManagedIrbis.Fields
         /// Номер статьи. 463^n.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'n')]
+        [Field(463, 'n')]
         [XmlElement("articleNumber")]
         [JsonProperty("articleNumber")]
         [Description("Номер статьи")]
@@ -137,7 +137,7 @@ namespace ManagedIrbis.Fields
         /// Наличие иллюстраций. 463^0.
         /// </summary>
         [CanBeNull]
-        [Field("463", '0')]
+        [Field(463, '0')]
         [XmlElement("illustrations")]
         [JsonProperty("illustrations")]
         [Description("Наличие иллюстраций")]
@@ -148,7 +148,7 @@ namespace ManagedIrbis.Fields
         /// Примечание. 463^p.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'p')]
+        [Field(463, 'p')]
         [XmlElement("comments")]
         [JsonProperty("comments")]
         [Description("Примечание")]
@@ -159,7 +159,7 @@ namespace ManagedIrbis.Fields
         /// Обозначение и № 1-й единицы деления (том). 463^v.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'v')]
+        [Field(463, 'v')]
         [XmlElement("volumeNumber")]
         [JsonProperty("volumeNumber")]
         [Description("Обозначение и № 1-й единицы деления (том)")]
@@ -170,7 +170,7 @@ namespace ManagedIrbis.Fields
         /// Заглавие 1-й единицы деления (том). 463^a.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'a')]
+        [Field(463, 'a')]
         [XmlElement("volumeTitle")]
         [JsonProperty("volumeTitle")]
         [Description("Заглавие 1-й единицы деления (том)")]
@@ -181,7 +181,7 @@ namespace ManagedIrbis.Fields
         /// Параллельное заглавие 1-й единицы деления (том). 463^r.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'r')]
+        [Field(463, 'r')]
         [XmlElement("parallelVolumeTitle")]
         [JsonProperty("parallelVolumeTitle")]
         [Description("Параллельное заглавие 1-й единицы деления (том)")]
@@ -192,7 +192,7 @@ namespace ManagedIrbis.Fields
         /// Обозначение и № 2-й единицы деления (выпуск). 463^h.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'h')]
+        [Field(463, 'h')]
         [XmlElement("secondLevelNumber")]
         [JsonProperty("secondLevelNumber")]
         [Description("Обозначение и № 2-й единицы деления (выпуск)")]
@@ -203,7 +203,7 @@ namespace ManagedIrbis.Fields
         /// Заглавие 2-й единицы деления (выпуск). 463^i.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'i')]
+        [Field(463, 'i')]
         [XmlElement("secondLevelTitle")]
         [JsonProperty("secondLevelTitle")]
         [Description("Заглавие 2-й единицы деления (выпуск)")]
@@ -214,7 +214,7 @@ namespace ManagedIrbis.Fields
         /// Обозначение и № 3-й единицы деления (часть). 463^k.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'k')]
+        [Field(463, 'k')]
         [XmlElement("thirdLevelNumber")]
         [JsonProperty("thirdLevelNumber")]
         [Description("Обозначение и № 3-й единицы деления (часть)")]
@@ -225,7 +225,7 @@ namespace ManagedIrbis.Fields
         /// Заглавие 3-й единицы деления (часть). 463^l.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'l')]
+        [Field(463, 'l')]
         [XmlElement("thirdLevelTitle")]
         [JsonProperty("thirdLevelTitle")]
         [Description("Заглавие 3-й единицы деления (часть)")]
@@ -236,7 +236,7 @@ namespace ManagedIrbis.Fields
         /// Заглавие - сокращение по ГОСТ. 463^7.
         /// </summary>
         [CanBeNull]
-        [Field("463", '7')]
+        [Field(463, '7')]
         [XmlElement("abbreviation")]
         [JsonProperty("abbreviation")]
         [Description("Заглавие - сокращение по ГОСТ")]
@@ -247,7 +247,7 @@ namespace ManagedIrbis.Fields
         /// Параллельное заглавие 1. 463^x.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'x')]
+        [Field(463, 'x')]
         [XmlElement("parallelTitle1")]
         [JsonProperty("parallelTitle1")]
         [Description("Параллельное заглавие 1")]
@@ -258,7 +258,7 @@ namespace ManagedIrbis.Fields
         /// Параллельное заглавие 2. 463^y.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'y')]
+        [Field(463, 'y')]
         [XmlElement("parallelTitle2")]
         [JsonProperty("parllelTitle2")]
         [Description("Параллельное заглавие 2")]
@@ -269,7 +269,7 @@ namespace ManagedIrbis.Fields
         /// Параллельное заглавие 3. 463^z.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'z')]
+        [Field(463, 'z')]
         [XmlElement("parallelTitle3")]
         [JsonProperty("parallelTitle3")]
         [Description("Параллельное заглавие 3")]
@@ -280,7 +280,7 @@ namespace ManagedIrbis.Fields
         /// Шифр документа в БД. 463^w.
         /// </summary>
         [CanBeNull]
-        [Field("463", 'w')]
+        [Field(463, 'w')]
         [XmlElement("index")]
         [JsonProperty("index")]
         [Description("Шифр документа в БД")]
@@ -291,7 +291,7 @@ namespace ManagedIrbis.Fields
         /// 1-й автор - Заголовок описания. 963^x.
         /// </summary>
         [CanBeNull]
-        [Field("963", 'x')]
+        [Field(963, 'x')]
         [XmlElement("")]
         [JsonProperty("")]
         [Description("1-й автор - Заголовок описания")]
@@ -302,7 +302,7 @@ namespace ManagedIrbis.Fields
         /// Роль (Инвертирование ФИО допустимо?). 963^9.
         /// </summary>
         [CanBeNull]
-        [Field("963", '9')]
+        [Field(963, '9')]
         [XmlElement("cantBeInverted")]
         [JsonProperty("cantBeInverted")]
         [Description("Роль (Инвертирование ФИО допустимо?)")]
@@ -313,7 +313,7 @@ namespace ManagedIrbis.Fields
         /// Коллектив или мероприятие - Заголовок описания. 963^b.
         /// </summary>
         [CanBeNull]
-        [Field("963", 'b')]
+        [Field(963, 'b')]
         [XmlElement("collective")]
         [JsonProperty("collective")]
         [Description("Коллектив или мероприятие - Заголовок описания")]
@@ -324,7 +324,7 @@ namespace ManagedIrbis.Fields
         /// Сокращение коллектива по ГОСТ. 963^7.
         /// </summary>
         [CanBeNull]
-        [Field("963", '7')]
+        [Field(963, '7')]
         [XmlElement("collectiveAbbreviation")]
         [JsonProperty("collectiveAbbreviation")]
         [Description("Сокращение коллектива по ГОСТ")]
@@ -335,7 +335,7 @@ namespace ManagedIrbis.Fields
         /// Сведения, относящиеся к заглавию. 963^e.
         /// </summary>
         [CanBeNull]
-        [Field("963", 'e')]
+        [Field(963, 'e')]
         [XmlElement("subtitle")]
         [JsonProperty("subtitle")]
         [Description("Сведения, относящиеся к заглавию")]
@@ -346,7 +346,7 @@ namespace ManagedIrbis.Fields
         /// Сведения об ответственности. 963^f.
         /// </summary>
         [CanBeNull]
-        [Field("963", 'f')]
+        [Field(963, 'f')]
         [XmlElement("responsibility")]
         [JsonProperty("responsibility")]
         [Description("Сведения об ответственности")]
@@ -357,7 +357,7 @@ namespace ManagedIrbis.Fields
         /// ISBN или ISSN. 963^i.
         /// </summary>
         [CanBeNull]
-        [Field("963", 'i')]
+        [Field(963, 'i')]
         [XmlElement("isbn")]
         [JsonProperty("isbn")]
         [Description("ISBN или ISSN")]
@@ -368,7 +368,7 @@ namespace ManagedIrbis.Fields
         /// Сведения об издании. 963^p.
         /// </summary>
         [CanBeNull]
-        [Field("963", 'p')]
+        [Field(963, 'p')]
         [XmlElement("reprint")]
         [JsonProperty("reprint")]
         [Description("Сведения об издании")]
@@ -379,7 +379,7 @@ namespace ManagedIrbis.Fields
         /// Обозначение и № в серии. 963^v.
         /// </summary>
         [CanBeNull]
-        [Field("963", 'v')]
+        [Field(963, 'v')]
         [XmlElement("seriesNumber")]
         [JsonProperty("seriesNumber")]
         [Description("Обозначение и № в серии")]
@@ -390,7 +390,7 @@ namespace ManagedIrbis.Fields
         /// Заглавие серии. 963^a.
         /// </summary>
         [CanBeNull]
-        [Field("963", 'a')]
+        [Field(963, 'a')]
         [XmlElement("seriesTitle")]
         [JsonProperty("seriesTitle")]
         [Description("Заглавие серии")]
@@ -401,7 +401,7 @@ namespace ManagedIrbis.Fields
         /// Сведения об ответственности серии. 963^o.
         /// </summary>
         [CanBeNull]
-        [Field("963", 'o')]
+        [Field(963, 'o')]
         [XmlElement("seriesResponsibility")]
         [JsonProperty("seriesResponsibility")]
         [Description("Сведения об ответственности серии")]

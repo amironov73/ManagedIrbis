@@ -1233,6 +1233,7 @@
     <None Include="Source\Gbl\GBL protocol.docx" />
     <None Include="Source\Reports\Docs\ReportBands.cd" />
     <None Include="Source\Reports\Docs\ReportCells.cd" />
+    <None Include="SuppressionFile.suppress" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.csproj">

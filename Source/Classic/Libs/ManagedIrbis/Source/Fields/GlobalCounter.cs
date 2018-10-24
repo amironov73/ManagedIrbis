@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* GlobalCounter.cs -- 
+/* GlobalCounter.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -80,7 +80,7 @@ namespace ManagedIrbis.Fields
         /// Индекс глобального счетчика. Поле 1.
         /// </summary>
         [CanBeNull]
-        [Field("1")]
+        [Field(1)]
         [XmlAttribute("index")]
         [JsonProperty("index", NullValueHandling = NullValueHandling.Ignore)]
         public string Index { get; set; }
@@ -89,7 +89,7 @@ namespace ManagedIrbis.Fields
         /// Текущее значение глобального счетчика. Поле 2.
         /// </summary>
         [CanBeNull]
-        [Field("2")]
+        [Field(2)]
         [XmlAttribute("value")]
         [JsonProperty("value", NullValueHandling = NullValueHandling.Ignore)]
         public string Value { get; set; }
@@ -155,7 +155,7 @@ namespace ManagedIrbis.Fields
         /// Шаблон глобального счетчика. Поле 3.
         /// </summary>
         [CanBeNull]
-        [Field("3")]
+        [Field(3)]
         [XmlAttribute("template")]
         [JsonProperty("template", NullValueHandling = NullValueHandling.Ignore)]
         public string Template { get; set; }

@@ -27,7 +27,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -125,7 +125,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 .WriteLine("throw new PftBreakException(null);")
                 .DecreaseIndent()
                 .WriteIndent()
-                .WriteLine("}");
+                .WriteLine("}"); //-V3010
 
             compiler.EndMethod(this);
             compiler.MarkReady(this);

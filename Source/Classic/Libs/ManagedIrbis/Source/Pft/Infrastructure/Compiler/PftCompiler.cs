@@ -719,8 +719,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             DecreaseIndent();
             WriteIndent();
             WriteLine("{");
-            WriteIndent();
-            WriteLine("}");
+            WriteIndent(); //-V3010
+            WriteLine("}"); //-V3010
             WriteLine();
 
             return result;
@@ -750,9 +750,9 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
                 throw new PftCompilerException();
             }
 
-            WriteIndent();
+            WriteIndent(); //-V3010
             WriteLine
-                (
+                ( //-V3010
                     "// {0}: {1}",
                     PftNode.SimplifyTypeName(node.GetType().Name),
                     CompilerUtility.ShortenText(node.ToString())
@@ -766,23 +766,23 @@ namespace ManagedIrbis.Pft.Infrastructure.Compiler
             {
                 returnType = "double";
             }
-            WriteIndent();
+            WriteIndent(); //-V3010
             WriteLine
-                (
+                ( //-V3010
                     "public {0} {1}{2}()",
                     returnType,
                     NodeMethodPrefix,
                     info.Id
                 );
-            WriteIndent();
-            WriteLine("{");
+            WriteIndent(); //-V3010
+            WriteLine("{"); //-V3010
             IncreaseIndent();
 
             if (Debug)
             {
-                WriteIndent();
+                WriteIndent(); //-V3010
                 WriteLine
-                    (
+                    ( //-V3010
                         "DebuggerHook({0});",
                         info.Id
                     );

@@ -60,7 +60,7 @@ namespace ManagedIrbis.Requests
         /// Поле 201.
         /// </summary>
         [CanBeNull]
-        [Field("201")]
+        [Field(201)]
         [XmlAttribute("bookDescription")]
         [JsonProperty("bookDescription")]
         public string BookDescription { get; set; }
@@ -70,7 +70,7 @@ namespace ManagedIrbis.Requests
         /// Поле 903.
         /// </summary>
         [CanBeNull]
-        [Field("903")]
+        [Field(903)]
         [XmlAttribute("bookCode")]
         [JsonProperty("bookCode")]
         public string BookCode { get; set; }
@@ -80,7 +80,7 @@ namespace ManagedIrbis.Requests
         /// Поле 40.
         /// </summary>
         [CanBeNull]
-        [Field("40")]
+        [Field(40)]
         [XmlAttribute("requestDate")]
         [JsonProperty("requestDate")]
         public string RequestDate { get; set; }
@@ -89,7 +89,7 @@ namespace ManagedIrbis.Requests
         /// Дата выполнения заказа.
         /// </summary>
         [CanBeNull]
-        [Field("41")]
+        [Field(41)]
         [XmlAttribute("fulfillmentDate")]
         [JsonProperty("fulfillmentDate")]
         public string FulfillmentDate { get; set; }
@@ -98,7 +98,7 @@ namespace ManagedIrbis.Requests
         /// Дата бронирования.
         /// </summary>
         [CanBeNull]
-        [Field("43")]
+        [Field(43)]
         [XmlAttribute("reservationDate")]
         [JsonProperty("reservationDate")]
         public string ReservationDate { get; set; }
@@ -108,7 +108,7 @@ namespace ManagedIrbis.Requests
         /// Поле 30.
         /// </summary>
         [CanBeNull]
-        [Field("30")]
+        [Field(30)]
         [XmlAttribute("readerID")]
         [JsonProperty("readerID")]
         // ReSharper disable once InconsistentNaming
@@ -119,7 +119,7 @@ namespace ManagedIrbis.Requests
         /// Поле 31.
         /// </summary>
         [CanBeNull]
-        [Field("31")]
+        [Field(31)]
         [XmlAttribute("readerDescription")]
         [JsonProperty("readerDescription")]
         public string ReaderDescription { get; set; }
@@ -130,7 +130,7 @@ namespace ManagedIrbis.Requests
         /// Как правило, IBIS.
         /// </summary>
         [CanBeNull]
-        [Field("1")]
+        [Field(1)]
         [XmlAttribute("database")]
         [JsonProperty("database")]
         public string Database { get; set; }
@@ -142,7 +142,7 @@ namespace ManagedIrbis.Requests
         /// Подполе B: дата.
         /// </summary>
         [CanBeNull]
-        [Field("44")]
+        [Field(44)]
         [XmlAttribute("rejectInfo")]
         [JsonProperty("rejectInfo")]
         public string RejectInfo { get; set; }
@@ -153,7 +153,7 @@ namespace ManagedIrbis.Requests
         /// Часто равно *.
         /// </summary>
         [CanBeNull]
-        [Field("102")]
+        [Field(102)]
         [XmlAttribute("department")]
         [JsonProperty("department")]
         public string Department { get; set; }
@@ -164,7 +164,7 @@ namespace ManagedIrbis.Requests
         /// Берется из логина.
         /// </summary>
         [CanBeNull]
-        [Field("50")]
+        [Field(50)]
         [XmlAttribute("responsiblePerson")]
         [JsonProperty("responsiblePerson")]
         public string ResponsiblePerson { get; set; }

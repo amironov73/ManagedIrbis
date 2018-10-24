@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ReservationInfo.cs -- 
+/* ReservationInfo.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -51,7 +51,7 @@ namespace ManagedIrbis.Reservations
         /// Читальный зал.
         /// </summary>
         [CanBeNull]
-        [Field("10")]
+        [Field(10)]
         [XmlAttribute("room")]
         [JsonProperty("room")]
         [Description("Читальный зал")]
@@ -62,7 +62,7 @@ namespace ManagedIrbis.Reservations
         /// Номер компьютера.
         /// </summary>
         [CanBeNull]
-        [Field("11")]
+        [Field(11)]
         [XmlAttribute("number")]
         [JsonProperty("number")]
         [Description("Номер")]
@@ -76,7 +76,7 @@ namespace ManagedIrbis.Reservations
         /// See <see cref="ReservationStatus"/>.
         /// </remarks>
         [CanBeNull]
-        [Field("12")]
+        [Field(12)]
         [XmlAttribute("status")]
         [JsonProperty("status")]
         [Description("Статус")]
@@ -87,7 +87,7 @@ namespace ManagedIrbis.Reservations
         /// Описание, например: "AutoCAD, MathCAD".
         /// </summary>
         [CanBeNull]
-        [Field("13")]
+        [Field(13)]
         [XmlAttribute("description")]
         [JsonProperty("description")]
         [Description("Описание")]
@@ -98,7 +98,7 @@ namespace ManagedIrbis.Reservations
         /// Заявки на резервирование.
         /// </summary>
         [NotNull]
-        [Field("20")]
+        [Field(20)]
         [XmlElement("claim")]
         [JsonProperty("claims")]
         [Description("Заявки")]
@@ -109,7 +109,7 @@ namespace ManagedIrbis.Reservations
         /// История выдач.
         /// </summary>
         [NotNull]
-        [Field("30")]
+        [Field(30)]
         [XmlElement("history")]
         [JsonProperty("history")]
         [Description("История")]

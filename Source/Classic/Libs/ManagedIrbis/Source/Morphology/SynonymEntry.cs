@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SynonymEntry.cs -- 
+/* SynonymEntry.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -33,7 +33,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Morphology
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [XmlRoot("word")]
@@ -55,7 +55,7 @@ namespace ManagedIrbis.Morphology
         /// Main word. Field 10.
         /// </summary>
         [CanBeNull]
-        [Field("10")]
+        [Field(10)]
         [XmlAttribute("main")]
         [JsonProperty("main", NullValueHandling = NullValueHandling.Ignore)]
         public string MainWord { get; set; }
@@ -64,7 +64,7 @@ namespace ManagedIrbis.Morphology
         /// Synonyms. Field 11.
         /// </summary>
         [CanBeNull]
-        [Field("11")]
+        [Field(11)]
         [XmlElement("synonym")]
         [JsonProperty("synonyms", NullValueHandling = NullValueHandling.Ignore)]
         public string[] Synonyms { get; set; }
@@ -73,7 +73,7 @@ namespace ManagedIrbis.Morphology
         /// Language code. Field 12.
         /// </summary>
         [CanBeNull]
-        [Field("12")]
+        [Field(12)]
         [XmlAttribute("language")]
         [JsonProperty("language", NullValueHandling = NullValueHandling.Ignore)]
         public string Language { get; set; }
@@ -82,7 +82,7 @@ namespace ManagedIrbis.Morphology
         /// Worksheet code. Field 920.
         /// </summary>
         [CanBeNull]
-        [Field("920")]
+        [Field(920)]
         [XmlAttribute("worksheet")]
         [JsonProperty("worksheet", NullValueHandling = NullValueHandling.Ignore)]
         public string Worksheet { get; set; }

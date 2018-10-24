@@ -9,8 +9,6 @@
 
 #region Using directives
 
-using System.Xml.Serialization;
-
 using AM;
 
 using CodeJam;
@@ -41,7 +39,7 @@ namespace ManagedIrbis.Fields
         /// Поле 1001.
         /// </summary>
         [CanBeNull]
-        [Field("1001")]
+        [Field(1001)]
         public string FoundCount { get; set; }
 
         /// <summary>
@@ -49,7 +47,7 @@ namespace ManagedIrbis.Fields
         /// Поле 907.
         /// </summary>
         [CanBeNull]
-        [Field("907")]
+        [Field(907)]
         public string Moment { get; set; }
 
         /// <summary>
@@ -57,7 +55,7 @@ namespace ManagedIrbis.Fields
         /// Поле 1002.
         /// </summary>
         [CanBeNull]
-        [Field("1002")]
+        [Field(1002)]
         public string Ticket { get; set; }
 
         /// <summary>
@@ -65,7 +63,7 @@ namespace ManagedIrbis.Fields
         /// Поле 1100.
         /// </summary>
         [CanBeNull]
-        [Field("1100")]
+        [Field(1100)]
         public string IpAddress { get; set; }
 
         /// <summary>
@@ -73,7 +71,7 @@ namespace ManagedIrbis.Fields
         /// Поле 2221.
         /// </summary>
         [CanBeNull]
-        [Field("2221")]
+        [Field(2221)]
         public string DatabaseProfile { get; set; }
 
         /// <summary>
@@ -81,7 +79,7 @@ namespace ManagedIrbis.Fields
         /// Поле 2222.
         /// </summary>
         [CanBeNull]
-        [Field("2222")]
+        [Field(2222)]
         public string GatewayCommand { get; set; }
 
         /// <summary>
@@ -89,7 +87,7 @@ namespace ManagedIrbis.Fields
         /// Поле 2223.
         /// </summary>
         [CanBeNull]
-        [Field("2223")]
+        [Field(2223)]
         public string StartNumber { get; set; }
 
         /// <summary>
@@ -97,7 +95,7 @@ namespace ManagedIrbis.Fields
         /// Поле 2224.
         /// </summary>
         [CanBeNull]
-        [Field("2224")]
+        [Field(2224)]
         public string Portion { get; set; }
 
         /// <summary>
@@ -105,7 +103,7 @@ namespace ManagedIrbis.Fields
         /// Поле 2225.
         /// </summary>
         [CanBeNull]
-        [Field("2225")]
+        [Field(2225)]
         public string EncodedId { get; set; }
 
         /// <summary>
@@ -113,7 +111,7 @@ namespace ManagedIrbis.Fields
         /// Поле 2226.
         /// </summary>
         [CanBeNull]
-        [Field("2226")]
+        [Field(2226)]
         public string SearchQuery { get; set; }
 
         /// <summary>
@@ -121,7 +119,7 @@ namespace ManagedIrbis.Fields
         /// Поле 2227.
         /// </summary>
         [CanBeNull]
-        [Field("2227")]
+        [Field(2227)]
         public string Words { get; set; }
 
         /// <summary>
@@ -129,7 +127,7 @@ namespace ManagedIrbis.Fields
         /// Поле 2228.
         /// </summary>
         [CanBeNull]
-        [Field("2228")]
+        [Field(2228)]
         public string Prefix { get; set; }
 
         /// <summary>
@@ -137,7 +135,7 @@ namespace ManagedIrbis.Fields
         /// Поле 2229.
         /// </summary>
         [CanBeNull]
-        [Field("2229")]
+        [Field(2229)]
         public string Key { get; set; }
 
         /// <summary>
@@ -145,7 +143,7 @@ namespace ManagedIrbis.Fields
         /// Поле 1007.
         /// </summary>
         [CanBeNull]
-        [Field("1007")]
+        [Field(1007)]
         public string SortOrder { get; set; }
 
         /// <summary>
@@ -153,7 +151,7 @@ namespace ManagedIrbis.Fields
         /// Поле 1008.
         /// </summary>
         [CanBeNull]
-        [Field("1008")]
+        [Field(1008)]
         public string SortKind { get; set; }
 
         /// <summary>
@@ -161,7 +159,7 @@ namespace ManagedIrbis.Fields
         /// Поле 1009.
         /// </summary>
         [CanBeNull]
-        [Field("1009")]
+        [Field(1009)]
         public string Format { get; set; }
 
         /// <summary>
@@ -169,7 +167,7 @@ namespace ManagedIrbis.Fields
         /// Поле 1010.
         /// </summary>
         [CanBeNull]
-        [Field("1010")]
+        [Field(1010)]
         public string LinkCount { get; set; }
 
         /// <summary>
@@ -177,7 +175,7 @@ namespace ManagedIrbis.Fields
         /// Поле 1011.
         /// </summary>
         [CanBeNull]
-        [Field("1011")]
+        [Field(1011)]
         public string RequestMfn { get; set; }
 
         /// <summary>
@@ -185,7 +183,7 @@ namespace ManagedIrbis.Fields
         /// Поле 1012.
         /// </summary>
         [CanBeNull]
-        [Field("1012")]
+        [Field(1012)]
         public string DictionaryPortion { get; set; }
 
         /// <summary>
@@ -193,7 +191,7 @@ namespace ManagedIrbis.Fields
         /// Поле 1013.
         /// </summary>
         [CanBeNull]
-        [Field("1013")]
+        [Field(1013)]
         public string SequentialSearch { get; set; }
 
         /// <summary>
@@ -201,7 +199,7 @@ namespace ManagedIrbis.Fields
         /// Поле 3331.
         /// </summary>
         [CanBeNull]
-        [Field("3331")]
+        [Field(3331)]
         public string DatabaseName { get; set; }
 
         /// <summary>
@@ -209,7 +207,7 @@ namespace ManagedIrbis.Fields
         /// Поле 3334.
         /// </summary>
         [CanBeNull]
-        [Field("3334")]
+        [Field(3334)]
         public string Department { get; set; }
 
         /// <summary>
@@ -217,7 +215,7 @@ namespace ManagedIrbis.Fields
         /// Поле 3335.
         /// </summary>
         [CanBeNull]
-        [Field("3335")]
+        [Field(3335)]
         public string FulltextQuery { get; set; }
 
         /// <summary>
@@ -225,7 +223,7 @@ namespace ManagedIrbis.Fields
         /// Поле 3337.
         /// </summary>
         [CanBeNull]
-        [Field("3337")]
+        [Field(3337)]
         public string FulltextPrefix { get; set; }
 
         #endregion

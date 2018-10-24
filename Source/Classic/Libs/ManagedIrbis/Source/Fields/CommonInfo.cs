@@ -9,22 +9,11 @@
 
 #region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Logging;
-using AM.Runtime;
-using AM.Text;
 
 using CodeJam;
 
@@ -67,7 +56,7 @@ namespace ManagedIrbis.Fields
         /// Заглавие. 461^c.
         /// </summary>
         [CanBeNull]
-        [Field("461", 'c')]
+        [Field(461, 'c')]
         [XmlElement("title")]
         [JsonProperty("title")]
         [Description("Заглавие")]
@@ -78,7 +67,7 @@ namespace ManagedIrbis.Fields
         /// Роль (Нехарактерное заглавие, доб.карточка?). 461^u.
         /// </summary>
         [CanBeNull]
-        [Field("461", 'u')]
+        [Field(461, 'u')]
         [XmlElement("specific")]
         [JsonProperty("specific")]
         [Description("Роль (Нехарактерное заглавие, доб.карточка?)")]
@@ -89,7 +78,7 @@ namespace ManagedIrbis.Fields
         /// Общее обозначение материала. 461^2.
         /// </summary>
         [CanBeNull]
-        [Field("461", '2')]
+        [Field(461, '2')]
         [XmlElement("general")]
         [JsonProperty("general")]
         [Description("Общее обозначение материала")]
@@ -100,7 +89,7 @@ namespace ManagedIrbis.Fields
         /// Сведения, относящиеся к заглавию. 461^e.
         /// </summary>
         [CanBeNull]
-        [Field("461", 'e')]
+        [Field(461, 'e')]
         [XmlElement("subtitle")]
         [JsonProperty("subtitle")]
         [Description("Сведения, относящиеся к заглавию")]
@@ -111,7 +100,7 @@ namespace ManagedIrbis.Fields
         /// Сведения об ответственности. 461^f.
         /// </summary>
         [CanBeNull]
-        [Field("461", 'f')]
+        [Field(461, 'f')]
         [XmlElement("responsibility")]
         [JsonProperty("responsibility")]
         [Description("Сведения об ответственности")]
@@ -122,7 +111,7 @@ namespace ManagedIrbis.Fields
         /// Издательство. 461^g.
         /// </summary>
         [CanBeNull]
-        [Field("461", 'g')]
+        [Field(461, 'g')]
         [XmlElement("publisher")]
         [JsonProperty("publisher")]
         [Description("Издательство")]
@@ -133,7 +122,7 @@ namespace ManagedIrbis.Fields
         /// Город. 461^d.
         /// </summary>
         [CanBeNull]
-        [Field("461", 'd')]
+        [Field(461, 'd')]
         [XmlElement("city")]
         [JsonProperty("city")]
         [Description("Город")]
@@ -144,7 +133,7 @@ namespace ManagedIrbis.Fields
         /// Год начала издания. 461^h.
         /// </summary>
         [CanBeNull]
-        [Field("461", 'h')]
+        [Field(461, 'h')]
         [XmlElement("beginningYear")]
         [JsonProperty("beginningYear")]
         [Description("Год начала издания")]
@@ -155,7 +144,7 @@ namespace ManagedIrbis.Fields
         /// Год окончания издания. 461^z.
         /// </summary>
         [CanBeNull]
-        [Field("461", 'z')]
+        [Field(461, 'z')]
         [XmlElement("endingYear")]
         [JsonProperty("endingYear")]
         [Description("Год окончания издания")]
@@ -166,7 +155,7 @@ namespace ManagedIrbis.Fields
         /// ISBN. 461^i.
         /// </summary>
         [CanBeNull]
-        [Field("461", 'i')]
+        [Field(461, 'i')]
         [XmlElement("isbn")]
         [JsonProperty("isbn")]
         [Description("ISBN")]
@@ -177,7 +166,7 @@ namespace ManagedIrbis.Fields
         /// ISSN. 461^j.
         /// </summary>
         [CanBeNull]
-        [Field("461", 'j')]
+        [Field(461, 'j')]
         [XmlElement("issn")]
         [JsonProperty("issn")]
         [Description("ISSN")]
@@ -188,7 +177,7 @@ namespace ManagedIrbis.Fields
         /// Сведения об издании. 461^p.
         /// </summary>
         [CanBeNull]
-        [Field("461", 'p')]
+        [Field(461, 'p')]
         [XmlElement("reprint")]
         [JsonProperty("reprint")]
         [Description("Сведения об издании")]
@@ -199,7 +188,7 @@ namespace ManagedIrbis.Fields
         /// Перевод заглавия. 461^a.
         /// </summary>
         [CanBeNull]
-        [Field("461", 'a')]
+        [Field(461, 'a')]
         [XmlElement("translation")]
         [JsonProperty("translation")]
         [Description("Перевод заглавия")]
@@ -210,7 +199,7 @@ namespace ManagedIrbis.Fields
         /// 1-й автор - Заголовок описания. 461^x.
         /// </summary>
         [CanBeNull]
-        [Field("461", 'x')]
+        [Field(461, 'x')]
         [XmlElement("firstAuthor")]
         [JsonProperty("firstAuthor")]
         [Description("1-й автор - Заголовок описания")]
@@ -221,7 +210,7 @@ namespace ManagedIrbis.Fields
         /// Коллектив или меропритие - Заголовок описания. 461^b.
         /// </summary>
         [CanBeNull]
-        [Field("461", 'b')]
+        [Field(461, 'b')]
         [XmlElement("collective")]
         [JsonProperty("collective")]
         [Description("Коллектив или меропритие - Заголовок описания")]
@@ -232,7 +221,7 @@ namespace ManagedIrbis.Fields
         /// Вариант заглавия. 46^r.
         /// </summary>
         [CanBeNull]
-        [Field("46", 'r')]
+        [Field(46, 'r')]
         [XmlElement("titleVariant")]
         [JsonProperty("titleVariant")]
         [Description("Вариант заглавия")]
@@ -243,7 +232,7 @@ namespace ManagedIrbis.Fields
         /// Обозначение и № 2-й единицы деления (серия). 46^h.
         /// </summary>
         [CanBeNull]
-        [Field("46", 'h')]
+        [Field(46, 'h')]
         [XmlElement("secondLevelNumber")]
         [JsonProperty("secondLevelNumber")]
         [Description("Обозначение и № 2-й единицы деления (серия)")]
@@ -254,7 +243,7 @@ namespace ManagedIrbis.Fields
         /// Заглавие 2-й единицы деления (серия). 46^i.
         /// </summary>
         [CanBeNull]
-        [Field("46", 'i')]
+        [Field(46, 'i')]
         [XmlElement("secondLevelTitle")]
         [JsonProperty("secondLevelTitle")]
         [Description("Заглавие 2-й единицы деления (серия)")]
@@ -265,7 +254,7 @@ namespace ManagedIrbis.Fields
         /// Обозначение и № 3-й единицы деления (подсерия). 46^k.
         /// </summary>
         [CanBeNull]
-        [Field("46", 'k')]
+        [Field(46, 'k')]
         [XmlElement("thirdLevelNumber")]
         [JsonProperty("thirdLevelNumber")]
         [Description("Обозначение и № 3-й единицы деления (подсерия)")]
@@ -276,7 +265,7 @@ namespace ManagedIrbis.Fields
         /// Заглавие 3-й единицы деления (подсерия). 46^m.
         /// </summary>
         [CanBeNull]
-        [Field("46", 'm')]
+        [Field(46, 'm')]
         [XmlElement("thirdLevelTitle")]
         [JsonProperty("thirdLevelTitle")]
         [Description("Заглавие 3-й единицы деления (подсерия)")]
@@ -287,7 +276,7 @@ namespace ManagedIrbis.Fields
         /// Параллельное заглавие. 46^l.
         /// </summary>
         [CanBeNull]
-        [Field("46", 'l')]
+        [Field(46, 'l')]
         [XmlElement("parallelTitle")]
         [JsonProperty("parallelTitle")]
         [Description("Параллельное заглавие")]
@@ -298,7 +287,7 @@ namespace ManagedIrbis.Fields
         /// Заглавие серии. 46^a.
         /// </summary>
         [CanBeNull]
-        [Field("46", 'a')]
+        [Field(46, 'a')]
         [XmlElement("seriesTitle")]
         [JsonProperty("seriesTitle")]
         [Description("Заглавие серии")]
@@ -309,7 +298,7 @@ namespace ManagedIrbis.Fields
         /// Предыдущее заглавие издания. 46^c.
         /// </summary>
         [CanBeNull]
-        [Field("46", 'c')]
+        [Field(46, 'c')]
         [XmlElement("previousTitle")]
         [JsonProperty("previousTitle")]
         [Description("Предыдущее заглавие издания")]
@@ -317,7 +306,7 @@ namespace ManagedIrbis.Fields
         public string PreviousTitle { get; set; }
 
         /// <summary>
-        ///
+        /// Поле 461.
         /// </summary>
         [CanBeNull]
         [XmlIgnore]
@@ -325,7 +314,7 @@ namespace ManagedIrbis.Fields
         public RecordField Field461 { get; private set; }
 
         /// <summary>
-        ///
+        /// Поле 46.
         /// </summary>
         [CanBeNull]
         [XmlIgnore]

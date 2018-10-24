@@ -39,7 +39,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 210.
         /// </summary>
         [CanBeNull]
-        [Field("210")]
+        [Field(210)]
         public AthrbHeading MainHeading { get; set; }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 510.
         /// </summary>
         [CanBeNull]
-        [Field("510")]
+        [Field(510)]
         public AthrbHeading[] LinkedHeadings { get; set; }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 300.
         /// </summary>
         [CanBeNull]
-        [Field("300")]
+        [Field(300)]
         public AthrbGuidelines[] Guidelines { get; set; }
 
         #endregion

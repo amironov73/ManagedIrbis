@@ -35,7 +35,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -269,7 +269,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 compiler
                     .WriteIndent()
-                    .Write("string value = ");
+                    .Write("string value = "); //-V3010
                 if (ReferenceEquals(actionName, null))
                 {
                     compiler.WriteLine("string.Empty;");
@@ -277,7 +277,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 else
                 {
                     compiler
-                        .WriteLine("Evaluate({0});", actionName);
+                        .WriteLine("Evaluate({0});", actionName); //-V3010
 
                     compiler
                         .WriteIndent()

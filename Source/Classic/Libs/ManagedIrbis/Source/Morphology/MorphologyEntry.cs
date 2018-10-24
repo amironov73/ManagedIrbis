@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* MorphologyEntry.cs -- entry of the morphology database.
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
@@ -55,7 +55,7 @@ namespace ManagedIrbis.Morphology
         /// Main term. Field 10.
         /// </summary>
         [CanBeNull]
-        [Field("10")]
+        [Field(10)]
         [XmlAttribute("main")]
         [JsonProperty("main", NullValueHandling = NullValueHandling.Ignore)]
         public string MainTerm { get; set; }
@@ -64,7 +64,7 @@ namespace ManagedIrbis.Morphology
         /// Dictionary term. Field 11.
         /// </summary>
         [CanBeNull]
-        [Field("11")]
+        [Field(11)]
         [XmlAttribute("dictionary")]
         [JsonProperty("dictionary", NullValueHandling = NullValueHandling.Ignore)]
         public string Dictionary { get; set; }
@@ -73,7 +73,7 @@ namespace ManagedIrbis.Morphology
         /// Language name. Field 12.
         /// </summary>
         [CanBeNull]
-        [Field("12")]
+        [Field(12)]
         [XmlAttribute("language")]
         [JsonProperty("language", NullValueHandling = NullValueHandling.Ignore)]
         public string Language { get; set; }
@@ -82,7 +82,7 @@ namespace ManagedIrbis.Morphology
         /// Forms of the word. Repeatable field 20.
         /// </summary>
         [CanBeNull]
-        [Field("20")]
+        [Field(20)]
         [XmlElement("form")]
         [JsonProperty("forms", NullValueHandling = NullValueHandling.Ignore)]
         public string[] Forms { get; set; }

@@ -55,7 +55,7 @@ namespace ManagedIrbis.Readers
         /// Номер читательского. Поле 30.
         /// </summary>
         [CanBeNull]
-        [Field("30")]
+        [Field(30)]
         [XmlAttribute("ticket")]
         [JsonProperty("ticket")]
         public string Ticket { get; set; }

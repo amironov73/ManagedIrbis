@@ -41,7 +41,7 @@ namespace ManagedIrbis.Fields
         /// Поле 1.
         /// </summary>
         [CanBeNull]
-        [Field("1")]
+        [Field(1)]
         [XmlElement("mainTerm")]
         [JsonProperty("mainTerm", NullValueHandling = NullValueHandling.Ignore)]
         public string MainTerm { get; set; }
@@ -52,7 +52,7 @@ namespace ManagedIrbis.Fields
         /// Можно не вводить - формируется автоматически.
         /// </summary>
         [CanBeNull]
-        [Field("2")]
+        [Field(2)]
         [XmlElement("termKind")]
         [JsonProperty("termKind", NullValueHandling = NullValueHandling.Ignore)]
         public string TermKind { get; set; }
@@ -62,7 +62,7 @@ namespace ManagedIrbis.Fields
         /// Поле 3.
         /// </summary>
         [CanBeNull]
-        [Field("3")]
+        [Field(3)]
         [XmlElement("russianNote")]
         [JsonProperty("russianNote", NullValueHandling = NullValueHandling.Ignore)]
         public string RussianNote { get; set; }
@@ -72,7 +72,7 @@ namespace ManagedIrbis.Fields
         /// Поле 4.
         /// </summary>
         [CanBeNull]
-        [Field("4")]
+        [Field(4)]
         [XmlElement("parentDescriptor")]
         [JsonProperty("parentDescriptor", NullValueHandling = NullValueHandling.Ignore)]
         public string ParentDescriptor { get; set; }
@@ -82,7 +82,7 @@ namespace ManagedIrbis.Fields
         /// Поле 5.
         /// </summary>
         [CanBeNull]
-        [Field("5")]
+        [Field(5)]
         [XmlArray("associativeDescriptors")]
         [XmlArrayItem("descriptor")]
         [JsonProperty("associativeDescriptors", NullValueHandling = NullValueHandling.Ignore)]
@@ -93,7 +93,7 @@ namespace ManagedIrbis.Fields
         /// Поле 6.
         /// </summary>
         [CanBeNull]
-        [Field("6")]
+        [Field(6)]
         [XmlElement("synonymousLink")]
         [JsonProperty("synonymousLink", NullValueHandling = NullValueHandling.Ignore)]
         public string SynonymousLink { get; set; }
@@ -103,7 +103,7 @@ namespace ManagedIrbis.Fields
         /// Поле 7.
         /// </summary>
         [CanBeNull]
-        [Field("7")]
+        [Field(7)]
         [XmlArray("descriptorCombination")]
         [XmlArrayItem("descriptor")]
         [JsonProperty("descriptorCombination", NullValueHandling = NullValueHandling.Ignore)]
@@ -114,7 +114,7 @@ namespace ManagedIrbis.Fields
         /// Поле 8.
         /// </summary>
         [CanBeNull]
-        [Field("8")]
+        [Field(8)]
         [XmlArray("descriptorList")]
         [XmlArrayItem("descriptor")]
         [JsonProperty("descriptorList", NullValueHandling = NullValueHandling.Ignore)]
@@ -125,7 +125,7 @@ namespace ManagedIrbis.Fields
         /// Поле 9.
         /// </summary>
         [CanBeNull]
-        [Field("9")]
+        [Field(9)]
         [XmlElement("englishTerm")]
         [JsonProperty("englishTerm", NullValueHandling = NullValueHandling.Ignore)]
         public string EnglishTerm { get; set; }
@@ -135,7 +135,7 @@ namespace ManagedIrbis.Fields
         /// Поле 10.
         /// </summary>
         [CanBeNull]
-        [Field("10")]
+        [Field(10)]
         [XmlElement("englishNote")]
         [JsonProperty("englishNote", NullValueHandling = NullValueHandling.Ignore)]
         public string EnglishNote { get; set; }
@@ -145,7 +145,7 @@ namespace ManagedIrbis.Fields
         /// Поле 11.
         /// </summary>
         [CanBeNull]
-        [Field("11")]
+        [Field(11)]
         [XmlElement("frenchTerm")]
         [JsonProperty("frenchTerm", NullValueHandling = NullValueHandling.Ignore)]
         public string FrenchTerm { get; set; }
@@ -155,7 +155,7 @@ namespace ManagedIrbis.Fields
         /// Поле 12.
         /// </summary>
         [CanBeNull]
-        [Field("12")]
+        [Field(12)]
         [XmlElement("frenchNote")]
         [JsonProperty("frenchNote", NullValueHandling = NullValueHandling.Ignore)]
         public string FrenchNote { get; set; }
@@ -165,7 +165,7 @@ namespace ManagedIrbis.Fields
         /// Поле 13.
         /// </summary>
         [CanBeNull]
-        [Field("13")]
+        [Field(13)]
         [XmlElement("otherNote")]
         [JsonProperty("otherNote", NullValueHandling = NullValueHandling.Ignore)]
         public string OtherNote { get; set; }
@@ -176,7 +176,7 @@ namespace ManagedIrbis.Fields
         /// Можно не вводить - формируется автоматически.
         /// </summary>
         [CanBeNull]
-        [Field("14")]
+        [Field(14)]
         [XmlElement("level")]
         [JsonProperty("level", NullValueHandling = NullValueHandling.Ignore)]
         public string Level { get; set; }

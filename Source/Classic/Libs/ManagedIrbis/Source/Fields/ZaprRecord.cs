@@ -52,14 +52,14 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Идентификатор читателя.
         /// </summary>
-        [Field("1")]
+        [Field(1)]
         [CanBeNull]
         public string Ticket { get; set; }
 
         /// <summary>
         /// Постоянные запросы.
         /// </summary>
-        [Field("2")]
+        [Field(2)]
         [CanBeNull]
         public ZaprInfo[] Requests { get; set; }
 

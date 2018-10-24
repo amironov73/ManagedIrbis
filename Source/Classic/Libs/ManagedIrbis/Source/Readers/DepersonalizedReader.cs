@@ -51,7 +51,7 @@ namespace ManagedIrbis.Readers
         /// Дата рождения. Поле 21.
         /// </summary>
         [CanBeNull]
-        [Field("21")]
+        [Field(21)]
         [XmlAttribute("dateOfBirth")]
         [JsonProperty("dateOfBirth")]
         public string DateOfBirth { get; set; }
@@ -60,7 +60,7 @@ namespace ManagedIrbis.Readers
         /// Номер читательского. Поле 30.
         /// </summary>
         [CanBeNull]
-        [Field("30")]
+        [Field(30)]
         [XmlAttribute("ticket")]
         [JsonProperty("ticket")]
         public string Ticket { get; set; }
@@ -69,7 +69,7 @@ namespace ManagedIrbis.Readers
         /// Пол. Поле 23.
         /// </summary>
         [CanBeNull]
-        [Field("23")]
+        [Field(23)]
         [XmlAttribute("gender")]
         [JsonProperty("gender")]
         public string Gender { get; set; }
@@ -78,7 +78,7 @@ namespace ManagedIrbis.Readers
         /// Категория. Поле 50.
         /// </summary>
         [CanBeNull]
-        [Field("50")]
+        [Field(50)]
         [XmlAttribute("category")]
         [JsonProperty("category")]
         public string Category { get; set; }
@@ -87,7 +87,7 @@ namespace ManagedIrbis.Readers
         /// Дата записи. Поле 51.
         /// </summary>
         [CanBeNull]
-        [Field("51")]
+        [Field(51)]
         [XmlAttribute("registrationDate")]
         [JsonProperty("registrationDate")]
         public string RegistrationDateString { get; set; }

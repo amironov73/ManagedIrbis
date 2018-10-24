@@ -41,7 +41,7 @@ namespace ManagedIrbis.Drm
         /// Типичное значение: "0001".
         /// </remarks>
         [CanBeNull]
-        [Field("1")]
+        [Field(1)]
         [XmlAttribute("id")]
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
@@ -50,7 +50,7 @@ namespace ManagedIrbis.Drm
         /// Общий период действия права доступа. Поле 2.
         /// </summary>
         [CanBeNull]
-        [Field("2")]
+        [Field(2)]
         [XmlElement("period")]
         [JsonProperty("period", NullValueHandling = NullValueHandling.Ignore)]
         public ValidityPeriod Period { get; set; }
@@ -59,7 +59,7 @@ namespace ManagedIrbis.Drm
         /// Права доступа. Поле 3 (повторяющееся).
         /// </summary>
         [CanBeNull]
-        [Field("3")]
+        [Field(3)]
         [XmlElement("right")]
         [JsonProperty("rights", NullValueHandling = NullValueHandling.Ignore)]
         public AccessRight[] Rights { get; set; }
@@ -68,7 +68,7 @@ namespace ManagedIrbis.Drm
         /// Описание/название. Поле 4.
         /// </summary>
         [CanBeNull]
-        [Field("4")]
+        [Field(4)]
         [XmlAttribute("description")]
         [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }

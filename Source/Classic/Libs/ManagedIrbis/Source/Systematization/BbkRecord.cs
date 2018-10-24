@@ -37,7 +37,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 1.
         /// </summary>
         [CanBeNull]
-        [Field("1")]
+        [Field(1)]
         public string RecordKind { get; set; }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 2.
         /// </summary>
         [CanBeNull]
-        [Field("2")]
+        [Field(2)]
         public string SuperHeading { get; set; }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 3.
         /// </summary>
         [CanBeNull]
-        [Field("3")]
+        [Field(3)]
         public string MainIndex { get; set; }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 4.
         /// </summary>
         [CanBeNull]
-        [Field("4")]
+        [Field(4)]
         public string MainHeading { get; set; }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 5.
         /// </summary>
         [CanBeNull]
-        [Field("5")]
+        [Field(5)]
         public string MainExtension { get; set; }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 6.
         /// </summary>
         [CanBeNull]
-        [Field("6")]
+        [Field(6)]
         public string SearchQuery { get; set; }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 7.
         /// </summary>
         [CanBeNull]
-        [Field("7")]
+        [Field(7)]
         public string ExclusionDate { get; set; }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 8.
         /// </summary>
         [CanBeNull]
-        [Field("8")]
+        [Field(8)]
         public string[] MethodicalInstructions { get; set; }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 9.
         /// </summary>
         [CanBeNull]
-        [Field("9")]
+        [Field(9)]
         public string[] FacetedInstructions { get; set; }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 10.
         /// </summary>
         [CanBeNull]
-        [Field("10")]
+        [Field(10)]
         public BbkReference[] SeeReferences { get; set; }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 11.
         /// </summary>
         [CanBeNull]
-        [Field("11")]
+        [Field(11)]
         public BbkReference[] SeeAlsoReferences { get; set; }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 12.
         /// </summary>
         [CanBeNull]
-        [Field("12")]
+        [Field(12)]
         public string[] Expansion { get; set; }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 13.
         /// </summary>
         [CanBeNull]
-        [Field("13")]
+        [Field(13)]
         public string[] AdjacentAreas { get; set; }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 14.
         /// </summary>
         [CanBeNull]
-        [Field("14")]
+        [Field(14)]
         public string[] ApplicationAreas { get; set; }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 15.
         /// </summary>
         [CanBeNull]
-        [Field("15")]
+        [Field(15)]
         public string[] SubstituteIndex { get; set; }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 16.
         /// </summary>
         [CanBeNull]
-        [Field("16")]
+        [Field(16)]
         public string ContinuingRecordNumber { get; set; }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 17.
         /// </summary>
         [CanBeNull]
-        [Field("17")]
+        [Field(17)]
         public string[] Grnti { get; set; }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 18.
         /// </summary>
         [CanBeNull]
-        [Field("18")]
+        [Field(18)]
         public string[] Dewey { get; set; }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 19.
         /// </summary>
         [CanBeNull]
-        [Field("19")]
+        [Field(19)]
         public string[] Udc { get; set; }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 20.
         /// </summary>
         [CanBeNull]
-        [Field("20")]
+        [Field(20)]
         public string[] MT { get; set; }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 21.
         /// </summary>
         [CanBeNull]
-        [Field("21")]
+        [Field(21)]
         public string Composition { get; set; }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 22.
         /// </summary>
         [CanBeNull]
-        [Field("22")]
+        [Field(22)]
         public string[] Correcture { get; set; }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 23.
         /// </summary>
         [CanBeNull]
-        [Field("23")]
+        [Field(23)]
         public string[] WorkingScheme { get; set; }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 24.
         /// </summary>
         [CanBeNull]
-        [Field("24")]
+        [Field(24)]
         public BbkReference[] BackReferences { get; set; }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace ManagedIrbis.Systematization
         /// Поле 505.
         /// </summary>
         [CanBeNull]
-        [Field("505")]
+        [Field(505)]
         public string Hyphens { get; set; }
 
         #endregion

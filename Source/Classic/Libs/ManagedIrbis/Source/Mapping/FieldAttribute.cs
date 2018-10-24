@@ -19,7 +19,7 @@ namespace ManagedIrbis.Mapping
     /// Задаёт отображение поля на свойство.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-    public class FieldAttribute
+    public sealed class FieldAttribute
         : Attribute
     {
         #region Properties
@@ -27,7 +27,7 @@ namespace ManagedIrbis.Mapping
         /// <summary>
         /// Тег.
         /// </summary>
-        public string Tag { get; set; }
+        public int Tag { get; set; }
 
         /// <summary>
         /// Код подполя.
@@ -48,7 +48,7 @@ namespace ManagedIrbis.Mapping
         /// </summary>
         public FieldAttribute
             (
-                string tag
+                int tag
             )
         {
             Tag = tag;
@@ -59,7 +59,7 @@ namespace ManagedIrbis.Mapping
         /// </summary>
         public FieldAttribute
             (
-                string tag,
+                int tag,
                 char code
             )
         {
@@ -72,7 +72,7 @@ namespace ManagedIrbis.Mapping
         /// </summary>
         public FieldAttribute
             (
-                string tag,
+                int tag,
                 int occurrence
             )
         {

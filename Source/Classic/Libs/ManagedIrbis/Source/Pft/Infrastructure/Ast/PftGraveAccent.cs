@@ -133,7 +133,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             compiler
                 .WriteIndent()
                 .WriteLine
-                    (
+                    ( //-V3010
                         "Context.Write(null,\"{0}\");",
                         Text
                     );

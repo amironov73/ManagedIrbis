@@ -31,7 +31,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -161,7 +161,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                 compiler
                     .WriteIndent()
                     .WriteLine
-                        (
+                        ( //-V3010
                             "bool flag = !PftP.HaveGlobal(Context, {0}, "
                             + "{1}, Context.Index);",
                             info.Reference,
@@ -186,7 +186,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     .WriteIndent()
                     .WriteLine("}")
                     .WriteIndent()
-                    .WriteLine("return flag;");
+                    .WriteLine("return flag;"); //-V3010
             }
             else
             {
@@ -214,7 +214,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     .WriteIndent()
                     .WriteLine("}")
                     .WriteIndent()
-                    .WriteLine("return !flag;");
+                    .WriteLine("return !flag;"); //-V3010
             }
 
             compiler.EndMethod(this);

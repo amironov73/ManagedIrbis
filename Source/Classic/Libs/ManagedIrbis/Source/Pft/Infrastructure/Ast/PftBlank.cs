@@ -26,7 +26,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -124,17 +124,17 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             {
                 compiler
                     .WriteIndent()
-                    .WriteLine("bool result = true;");
+                    .WriteLine("bool result = true;"); //-V3010
             }
             else
             {
                 compiler
                     .WriteIndent()
-                    .WriteLine("string text = Evaluate({0});", actionName);
+                    .WriteLine("string text = Evaluate({0});", actionName); //-V3010
 
                 compiler
                     .WriteIndent()
-                    .WriteLine("bool result = PftBlank.IsBlank(text);");
+                    .WriteLine("bool result = PftBlank.IsBlank(text);"); //-V3010
             }
 
             compiler

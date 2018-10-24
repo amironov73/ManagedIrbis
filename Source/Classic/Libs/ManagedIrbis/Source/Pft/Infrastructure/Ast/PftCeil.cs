@@ -28,7 +28,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -107,7 +107,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             compiler
                 .WriteIndent()
-                .WriteLine("double result = Math.Ceiling(value);");
+                .WriteLine("double result = Math.Ceiling(value);"); //-V3010
 
             compiler
                 .WriteIndent()
