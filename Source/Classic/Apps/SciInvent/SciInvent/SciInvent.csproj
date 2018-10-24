@@ -37,8 +37,8 @@
     <ApplicationIcon>Snow.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AM.Core, Version=1.8.11.2729, Culture=neutral, PublicKeyToken=6d1a05bf134decdf, processorArchitecture=MSIL">
-      <HintPath>packages\ArsMagna.Core.1.8.11.2729\lib\net45\AM.Core.dll</HintPath>
+    <Reference Include="AM.Core, Version=1.8.11.2700, Culture=neutral, PublicKeyToken=6d1a05bf134decdf">
+      <HintPath>..\..\..\Libs\AM.Core\bin\Debug\AM.Core.dll</HintPath>
     </Reference>
     <Reference Include="AM.Windows">
       <HintPath>..\..\..\Libs\AM.Windows\bin\Debug\AM.Windows.dll</HintPath>
@@ -49,8 +49,8 @@
     <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="ManagedIrbis, Version=1.8.11.2729, Culture=neutral, PublicKeyToken=6d1a05bf134decdf, processorArchitecture=MSIL">
-      <HintPath>packages\ManagedIrbis.1.8.11.2729\lib\net45\ManagedIrbis.dll</HintPath>
+    <Reference Include="ManagedIrbis, Version=1.8.11.2700, Culture=neutral, PublicKeyToken=6d1a05bf134decdf">
+      <HintPath>..\..\..\Libs\ManagedIrbis\bin\Debug\ManagedIrbis.dll</HintPath>
     </Reference>
     <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
       <HintPath>packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>

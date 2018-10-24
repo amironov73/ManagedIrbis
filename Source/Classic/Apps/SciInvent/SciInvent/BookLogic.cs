@@ -1,10 +1,18 @@
-﻿using System;
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* BookLogic.cs --
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
+ */
+
+#region Using directives
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Threading;
 
 using AM;
 using AM.Configuration;
@@ -19,6 +27,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis;
 
+#endregion
 
 // ReSharper disable StringLiteralTypo
 
@@ -266,13 +275,15 @@ namespace SciInvent
 
     public static class BookLogic
     {
-        public static IrbisConnection Irbis { get; set; }
+        private static string ExpectedPlace = "Ж";
 
-        public static DbManager Db { get; set; }
+        private static IrbisConnection Irbis { get; set; }
 
-        public static MainWindow LogWindow { get; set; }
+        private static DbManager Db { get; set; }
 
-        public static void Clear()
+        public static MainWindow LogWindow { private get; set; }
+
+        private static void Clear()
         {
             LogWindow.Dispatcher.Invoke
                 (
@@ -283,7 +294,7 @@ namespace SciInvent
                 );
         }
 
-        public static void WriteLine
+        private static void WriteLine
             (
                 string format,
                 params object[] args
@@ -307,9 +318,13 @@ namespace SciInvent
             Irbis = new IrbisConnection(connectionString);
         }
 
-        public static bool ResolveByInventory(PodsobRecord book)
+        private static bool ResolveByInventory
+            (
+                PodsobRecord book
+            )
         {
-            MarcRecord record = Irbis.SearchReadOneRecord("\"IN={0}\"", book.Inventory);
+            MarcRecord record = Irbis
+                .SearchReadOneRecord("\"IN={0}\"", book.Inventory);
             if (ReferenceEquals(record, null))
             {
                 return false;
@@ -321,7 +336,7 @@ namespace SciInvent
             return true;
         }
 
-        public static RecordField FindBarcode
+        private static RecordField FindBarcode
             (
                 MarcRecord record,
                 string barcode
@@ -338,7 +353,7 @@ namespace SciInvent
             return null;
         }
 
-        public static void MarkBook
+        private static void MarkBook
             (
                 string barcode
             )
@@ -357,10 +372,25 @@ namespace SciInvent
                 if (!ReferenceEquals(record, null))
                 {
                     field = FindBarcode(record, barcode);
-                    if (!ReferenceEquals(field, null))
+                    if (ReferenceEquals(field, null))
                     {
-                        inventory = field.GetFirstSubFieldValue('b');
+                        WriteLine("Не удалось найти поле для штрих-кода " + barcode);
+                        return;
                     }
+
+                    string actualPlace = field.GetFirstSubFieldValue('d');
+                    if (!ExpectedPlace.SameString(actualPlace))
+                    {
+                        WriteLine
+                            (
+                                "Экземпляр {0}: место хранения (ИРБИС) '{1}'",
+                                barcode,
+                                actualPlace
+                            );
+                        return;
+                    }
+
+                    inventory = field.GetFirstSubFieldValue('b');
                 }
             }
 
@@ -376,6 +406,30 @@ namespace SciInvent
                 .FirstOrDefault(p => p.Inventory == longInventory);
             if (!ReferenceEquals(book, null))
             {
+                string actualPlace = book.Ticket;
+                if (!ExpectedPlace.SameString(actualPlace))
+                {
+                    WriteLine
+                        (
+                            "Экземпляр {0}: место хранения (SQL) '{1}'",
+                            barcode,
+                            actualPlace
+                        );
+                    return;
+                }
+
+                string onHand = book.OnHand;
+                if (!string.IsNullOrEmpty(onHand))
+                {
+                    WriteLine
+                        (
+                            "Экземпляр {0}: находится на руках '{1}'",
+                            barcode,
+                            onHand
+                        );
+                    return;
+                }
+
                 book.Seen = DateTime.Now;
                 Db.Update(book);
             }
@@ -383,6 +437,7 @@ namespace SciInvent
             if (!ReferenceEquals(record, null) && !ReferenceEquals(field, null))
             {
                 field.SetSubField('s', IrbisDate.TodayText);
+                field.SetSubField('!', ExpectedPlace);
                 Irbis.WriteRecord(record);
             }
         }
@@ -392,11 +447,20 @@ namespace SciInvent
                 string[] barcodes
             )
         {
-            foreach (string barcode in barcodes)
-            {
-                WriteLine(barcode);
+            WriteLine("Обработка началась");
 
-                MarkBook(barcode);
+            try
+            {
+                foreach (string barcode in barcodes)
+                {
+                    WriteLine(barcode);
+
+                    MarkBook(barcode);
+                }
+            }
+            catch (Exception exception)
+            {
+                WriteLine(exception.ToString());
             }
 
             WriteLine("Обработка завершена");
@@ -404,38 +468,47 @@ namespace SciInvent
 
         public static void ListGoodBooks()
         {
-            Clear();
-            Table<PodsobRecord> podsob = Db.GetTable<PodsobRecord>();
-            PodsobRecord[] seenBooks = podsob
-                .Where(r => r.Ticket == "Ж" && r.Seen != null)
-                .ToArray();
-            WriteLine("Всего книг: {0}", seenBooks.Length);
-            List<PodsobRecord> bookList = new List<PodsobRecord>(seenBooks.Length);
-            for (int i = 0; i < seenBooks.Length; i++)
+            try
             {
-                if (i % 100 == 0)
+                Clear();
+                Table<PodsobRecord> podsob = Db.GetTable<PodsobRecord>();
+                PodsobRecord[] seenBooks = podsob
+                    .Where(r => r.Ticket == ExpectedPlace && r.Seen != null)
+                    .ToArray();
+                WriteLine("Всего книг: {0}", seenBooks.Length);
+                List<PodsobRecord> bookList
+                    = new List<PodsobRecord>(seenBooks.Length);
+                WriteLine("Обработка началась");
+                for (int i = 0; i < seenBooks.Length; i++)
                 {
-                    WriteLine("Обработано: {0}", i);
+                    if (i % 100 == 0)
+                    {
+                        WriteLine("Обработано: {0}", i);
+                    }
+
+                    PodsobRecord book = seenBooks[i];
+                    if (!ResolveByInventory(book))
+                    {
+                        WriteLine("Неизвестный номер {0}", book.Inventory);
+                    }
+                    else
+                    {
+                        bookList.Add(book);
+                    }
                 }
 
-                PodsobRecord book = seenBooks[i];
-                if (!ResolveByInventory(book))
-                {
-                    WriteLine("Неизвестный номер {0}", book.Inventory);
-                }
-                else
-                {
-                    bookList.Add(book);
-                }
+                string fileName = "good.csv";
+                WriteLine("Запись файла " + fileName);
+                CreateBookList(fileName, "Проверенные книги", bookList);
+                WriteLine("Обработка завершена");
             }
-
-            string fileName = "good.csv";
-            WriteLine("Запись файла " + fileName);
-            CreateBookList(fileName, "Проверенные книги", bookList);
-            WriteLine("Обработка завершена");
+            catch (Exception exception)
+            {
+                WriteLine(exception.ToString());
+            }
         }
 
-        public static void CreateBookList
+        private static void CreateBookList
             (
                 string fileName,
                 string title,
@@ -461,35 +534,44 @@ namespace SciInvent
 
         public static void ListMissingBooks()
         {
-            Clear();
-            Table<PodsobRecord> podsob = Db.GetTable<PodsobRecord>();
-            PodsobRecord[] missingBooks = podsob
-                .Where(r => r.Ticket == "Ж" && r.Seen == null)
-                .ToArray();
-            WriteLine("Всего книг: {0}", missingBooks.Length);
-            List<PodsobRecord> bookList = new List<PodsobRecord>(missingBooks.Length);
-            for (int i = 0; i < missingBooks.Length; i++)
+            try
             {
-                if (i % 100 == 0)
+                Clear();
+                Table<PodsobRecord> podsob = Db.GetTable<PodsobRecord>();
+                PodsobRecord[] missingBooks = podsob
+                    .Where(r => r.Ticket == ExpectedPlace && r.Seen == null)
+                    .ToArray();
+                WriteLine("Всего книг: {0}", missingBooks.Length);
+                List<PodsobRecord> bookList
+                    = new List<PodsobRecord>(missingBooks.Length);
+                WriteLine("Обработка началась");
+                for (int i = 0; i < missingBooks.Length; i++)
                 {
-                    WriteLine("Обработано: {0}", i);
+                    if (i % 100 == 0)
+                    {
+                        WriteLine("Обработано: {0}", i);
+                    }
+
+                    PodsobRecord book = missingBooks[i];
+                    if (!ResolveByInventory(book))
+                    {
+                        WriteLine("Неизвестный номер {0}", book.Inventory);
+                    }
+                    else
+                    {
+                        bookList.Add(book);
+                    }
                 }
 
-                PodsobRecord book = missingBooks[i];
-                if (!ResolveByInventory(book))
-                {
-                    WriteLine("Неизвестный номер {0}", book.Inventory);
-                }
-                else
-                {
-                    bookList.Add(book);
-                }
+                string fileName = "missing.csv";
+                WriteLine("Запись файла " + fileName);
+                CreateBookList(fileName, "Отсутствующие книги", bookList);
+                WriteLine("Обработка завершена");
             }
-
-            string fileName = "missing.csv";
-            WriteLine("Запись файла " + fileName);
-            CreateBookList(fileName, "Отсутствующие книги", bookList);
-            WriteLine("Обработка завершена");
+            catch (Exception exception)
+            {
+                WriteLine(exception.ToString());
+            }
         }
 
         public static void Disconnect()

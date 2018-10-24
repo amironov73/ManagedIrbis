@@ -14,8 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 using AM;
-using AM.Windows;
+
 using Microsoft.Win32;
 
 namespace SciInvent

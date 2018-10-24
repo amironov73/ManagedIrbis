@@ -2978,6 +2978,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Systematization\AthrbRecord.cs">
       <Link>Source\Systematization\AthrbRecord.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Systematization\AthruRecord.cs">
+      <Link>Source\Systematization\AthruRecord.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Systematization\BbkRecord.cs">
       <Link>Source\Systematization\BbkRecord.cs</Link>
     </Compile>
