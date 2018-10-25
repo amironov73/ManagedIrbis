@@ -164,6 +164,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FictionBook\FbDocument.cs">
       <Link>Source\FictionBook\FbDocument.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\AthrcRecord.cs">
+      <Link>Source\Fields\AthrcRecord.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\FullTextInfo.cs">
       <Link>Source\Fields\FullTextInfo.cs</Link>
     </Compile>

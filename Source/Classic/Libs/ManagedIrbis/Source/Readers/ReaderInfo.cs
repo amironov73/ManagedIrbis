@@ -304,6 +304,17 @@ namespace ManagedIrbis.Readers
         public IriProfile[] Profiles { get; set; }
 
         /// <summary>
+        /// В структуру БД RDR ИРБИС64+ по сравнению с ИРБИС64
+        /// введено одно новое поле (неповторяющееся и необязательное)
+        /// с меткой 130 - ПАРОЛЬ, предназначенное для авторизации
+        /// доступа к ресурсам электронной библиотеки.
+        /// </summary>
+        [Field(130)]
+        [XmlAttribute("password")]
+        [JsonProperty("password")]
+        public string Password { get; set; }
+
+        /// <summary>
         /// Возраст, годы
         /// </summary>
         [XmlIgnore]
@@ -527,6 +538,7 @@ namespace ManagedIrbis.Readers
                         .ToArray(),
 
                     Profiles = IriProfile.ParseRecord(record),
+                    Password = record.FM(130),
                     Status = record.FM(2015) ?? "0"
                 };
 
@@ -643,6 +655,7 @@ namespace ManagedIrbis.Readers
             writer.WriteNullableArray(Profiles);
             writer.WriteNullable(Description);
             writer.WritePackedInt32(Mfn);
+            writer.WriteNullable(Password);
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
@@ -679,6 +692,7 @@ namespace ManagedIrbis.Readers
             Profiles = reader.ReadNullableArray<IriProfile>();
             Description = reader.ReadNullableString();
             Mfn = reader.ReadPackedInt32();
+            Password = reader.ReadNullableString();
         }
 
         #endregion
