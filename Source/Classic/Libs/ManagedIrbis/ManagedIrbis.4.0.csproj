@@ -110,6 +110,7 @@
     <Compile Include="Source\FictionBook\FbDocument.cs" />
     <Compile Include="Source\Fields\AthrcRecord.cs" />
     <Compile Include="Source\Fields\AthrgRecord.cs" />
+    <Compile Include="Source\Fields\AthrsRecord.cs" />
     <Compile Include="Source\Fields\FullTextInfo.cs" />
     <Compile Include="Source\Fields\LogRecord.cs" />
     <Compile Include="Source\Fields\ThesaurusRecord.cs" />
