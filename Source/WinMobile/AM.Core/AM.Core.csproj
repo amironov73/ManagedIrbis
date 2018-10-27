@@ -936,9 +936,6 @@
   </ItemGroup>
   <!-- END -->
   <ItemGroup>
-    <Compile Include="..\..\Classic\Libs\AM.Core\Compatibility\Tasks.cs">
-      <Link>Compatibility\Tasks.cs</Link>
-    </Compile>
     <Compile Include="Properties\LocalAssemblyInfo.cs" />
     <Compile Include="..\..\Classic\Common\AssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>

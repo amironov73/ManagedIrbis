@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.WindowsMobile.Configuration</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.WindowsMobile.Configuration.ConfigurationManager">
+            <summary>
+            Provides methods for sending device configuration files to Configuration Manager for either complete processing, or just for testing.
+            </summary>
+        </member>
+        <member name="M:Microsoft.WindowsMobile.Configuration.ConfigurationManager.#ctor">
+            <summary>
+            The private constructor for the <b>ConfigurationManager</b> class. This ensure that new <b>ConfigurationManager</b> objects are not instantiated from the public default constructor.
+            </summary>
+        </member>
+        <member name="M:Microsoft.WindowsMobile.Configuration.ConfigurationManager.ProcessConfiguration(System.Xml.XmlDocument,System.Boolean)">
+            <summary>
+            Sends a device configuration file to Configuration Manager for processing.
+            </summary>
+            <param name="configDoc">The configuration document used to provision the device.</param>
+            <param name="metadata">true to return metadata associated with the XML parm elements 
+            in the new configuration; otherwise, false.</param>
+            <returns>metadata associated with the XML parm elements in this configuration.</returns>
+        </member>
+        <member name="M:Microsoft.WindowsMobile.Configuration.ConfigurationManager.TestConfiguration(System.Xml.XmlDocument,System.Boolean)">
+            <summary>
+            Sends a device configuration file to Configuration Manager for testing.
+            </summary>
+            <remarks>
+            Configuration Manager will not process the configuration file, but it can still return useful metadata associated with the XML parm elements.
+            </remarks>
+            <param name="configDoc">The configuration document used to provision the device.</param>
+            <param name="metadata">true to return metadata associated with the XML parm elements 
+            in the new configuration; otherwise, false.</param>
+            <returns>metadata associated with the XML parm elements in this configuration.</returns>
+        </member>
+        <member name="M:Microsoft.WindowsMobile.Configuration.ConfigurationManager.MainConfigurator(System.Xml.XmlDocument,System.UInt32)">
+            <summary>
+            <b>MainConfigurator</b> calls <b>DMProcessConfigXML</b> directly, and manages the memory allocation of the result.
+            </summary>
+            <param name="configDoc">XMLDocument that will be used.</param>
+            <param name="flags">Uses same flags as DMProcessConfigXML</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

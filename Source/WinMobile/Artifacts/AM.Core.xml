@@ -1296,6 +1296,31 @@
             Undefined.
             </summary>
         </member>
+        <member name="T:AM.Threading.Tasks.TaskUtility">
+            <summary>
+            Extensions for <see cref="T:System.Threading.Tasks.Task"/> class.
+            </summary>
+        </member>
+        <member name="M:AM.Threading.Tasks.TaskUtility.ConfigureSafe(System.Threading.Tasks.Task)">
+            <summary>
+            ConfigureAwait(false).
+            </summary>
+        </member>
+        <member name="M:AM.Threading.Tasks.TaskUtility.ConfigureSafe``1(System.Threading.Tasks.Task{``0})">
+            <summary>
+            ConfigureAwait(false).
+            </summary>
+        </member>
+        <member name="M:AM.Threading.Tasks.TaskUtility.DisposeTask(System.Threading.Tasks.Task)">
+            <summary>
+            Dispose the task.
+            </summary>
+        </member>
+        <member name="M:AM.Threading.Tasks.TaskUtility.DisposeTask``1(System.Threading.Tasks.Task{``0})">
+            <summary>
+            Dispose the task.
+            </summary>
+        </member>
         <member name="T:AM.Threading.StateHolder`1">
             <summary>
             Контейнер для хранения значения и отслеживания его изменений.
@@ -1914,19 +1939,19 @@
             </summary>
         </member>
         <member name="M:AM.Json.JsonUtility.Include(Newtonsoft.Json.Linq.JObject,System.Action{Newtonsoft.Json.Linq.JProperty})">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.Json.JsonUtility.Include(Newtonsoft.Json.Linq.JObject)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.Json.JsonUtility.Include(Newtonsoft.Json.Linq.JObject,System.String)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.Json.JsonUtility.ReadArrayFromFile(System.String)">
             <summary>
@@ -1976,6 +2001,36 @@
             <summary>
             Serialize to short string.
             </summary>
+        </member>
+        <member name="M:AM.Json.JsonUtility.SelectProperty(Newtonsoft.Json.Linq.JObject,System.String)">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:AM.Json.JsonUtility.SelectValue(Newtonsoft.Json.Linq.JObject,System.String)">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:AM.Json.JsonUtility.SelectArray(Newtonsoft.Json.Linq.JObject,System.String)">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:AM.Json.JsonUtility.GetString(Newtonsoft.Json.Linq.JObject,System.String)">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:AM.Json.JsonUtility.GetArray``1(Newtonsoft.Json.Linq.JObject,System.String)">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:AM.Json.JsonUtility.GetValues``1(Newtonsoft.Json.Linq.JToken)">
+             <summary>
+            
+             </summary>
         </member>
         <member name="T:AM.IO.TextWriterUtility">
             <summary>
@@ -3630,6 +3685,82 @@
             Output.
             </summary>
         </member>
+        <member name="T:AM.Json.SingleOrArray`1">
+            <summary>
+            Хранит одно значение либо целый массив.
+            </summary>
+        </member>
+        <member name="M:AM.Json.SingleOrArray`1.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Json.SingleOrArray`1.#ctor(`0)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Json.SingleOrArray`1.#ctor(`0[])">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Json.SingleOrArray`1.op_Implicit(`0)~AM.Json.SingleOrArray{`0}">
+            <summary>
+            Implicit conversion operator.
+            </summary>
+        </member>
+        <member name="M:AM.Json.SingleOrArray`1.op_Implicit(`0[])~AM.Json.SingleOrArray{`0}">
+            <summary>
+            Implicit conversion operator.
+            </summary>
+        </member>
+        <member name="M:AM.Json.SingleOrArray`1.op_Implicit(AM.Json.SingleOrArray{`0})~`0">
+            <summary>
+            Implicit conversion operator.
+            </summary>
+        </member>
+        <member name="M:AM.Json.SingleOrArray`1.op_Implicit(AM.Json.SingleOrArray{`0})~`0[]">
+            <summary>
+            Implicit conversion operator.
+            </summary>
+        </member>
+        <member name="M:AM.Json.SingleOrArray`1.FromJson(Newtonsoft.Json.Linq.JProperty)">
+            <summary>
+            Make <see cref="T:AM.Json.SingleOrArray`1"/> from the token.
+            </summary>
+        </member>
+        <member name="M:AM.Json.SingleOrArray`1.FromSequence(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Make <see cref="T:AM.Json.SingleOrArray`1"/> from the sequence.
+            </summary>
+        </member>
+        <member name="M:AM.Json.SingleOrArray`1.GetEnumerator">
+            <inheritdoc cref="M:System.Collections.Generic.IEnumerable`1.GetEnumerator"/>
+        </member>
+        <member name="M:AM.Json.SingleOrArray`1.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:AM.Json.SingleOrArray`1.IsEmpty">
+            <summary>
+            Whether the instance is empty?
+            </summary>
+        </member>
+        <member name="P:AM.Json.SingleOrArray`1.IsSingle">
+            <summary>
+            Whether the instance holds single value?
+            </summary>
+        </member>
+        <member name="P:AM.Json.SingleOrArray`1.Value">
+            <summary>
+            Single value.
+            </summary>
+        </member>
+        <member name="P:AM.Json.SingleOrArray`1.Values">
+            <summary>
+            Array of values.
+            </summary>
+        </member>
         <member name="T:AM.IO.StreamPacker">
             <summary>
             Упаковщик: пытается записать данные в поток, 
@@ -4036,6 +4167,26 @@
         <member name="M:AM.Sequence.FromItems``1(``0[])">
             <summary>
             Make sequence of given items.
+            </summary>
+        </member>
+        <member name="M:AM.Sequence.GetNextItem``1(System.Collections.Generic.IEnumerator{``0},``0)">
+            <summary>
+            Get next item from the sequence.
+            </summary>
+        </member>
+        <member name="M:AM.Sequence.GetNextItem``1(System.Collections.Generic.IEnumerator{``0})">
+            <summary>
+            Get next item from the sequence.
+            </summary>
+        </member>
+        <member name="M:AM.Sequence.GetNextItem``1(System.Collections.IEnumerator,``0)">
+            <summary>
+            Get next item from the sequence.
+            </summary>
+        </member>
+        <member name="M:AM.Sequence.GetNextItem``1(System.Collections.IEnumerator)">
+            <summary>
+            Get next item from the sequence.
             </summary>
         </member>
         <member name="M:AM.Sequence.MaxOrDefault``1(System.Collections.Generic.IEnumerable{``0},``0)">
@@ -7061,8 +7212,8 @@
             </param>
             <param name="targetName">Name of the target file.
             </param>
-            <param name="overwrite"><c>true</c> if the 
-            destination file can be overwritten; otherwise, 
+            <param name="overwrite"><c>true</c> if the
+            destination file can be overwritten; otherwise,
             <c>false</c>.</param>
         </member>
         <member name="M:AM.IO.FileUtility.CopyNewer(System.String,System.String,System.Boolean)">
@@ -7071,7 +7222,7 @@
             </summary>
             <param name="sourcePath">The source path.</param>
             <param name="targetPath">The target path.</param>
-            <param name="backup">If set to <c>true</c> 
+            <param name="backup">If set to <c>true</c>
             create backup copy of destination file.</param>
             <returns><c>true</c> if file copied; <c>false</c> otherwise.
             </returns>
@@ -7090,7 +7241,7 @@
             Creates backup copy for given file.
             </summary>
             <param name="path">The path.</param>
-            <param name="rename">If set to <c>true</c> 
+            <param name="rename">If set to <c>true</c>
             given file will be renamed; otherwise it will be copied.</param>
             <returns>Name of the backup file.</returns>
         </member>
@@ -7142,6 +7293,12 @@
             <summary>
             Write all the bytes to the file.
             </summary>
+        </member>
+        <member name="M:AM.IO.FileUtility.WriteAllLines(System.String,System.String[],System.Text.Encoding)">
+            <summary>
+            Write all lines to the file.
+            </summary>
+            <remarks>For WinMobile compatibility.</remarks>
         </member>
         <member name="T:System.TypeInfo">
             <summary>
@@ -8234,6 +8391,11 @@
         <member name="T:AM.Text.CommonSeparators">
             <summary>
             Common separators.
+            </summary>
+        </member>
+        <member name="F:AM.Text.CommonSeparators.Circumflex">
+            <summary>
+            Circumflex accent.
             </summary>
         </member>
         <member name="F:AM.Text.CommonSeparators.Comma">
@@ -10518,6 +10680,44 @@
         <member name="P:AM.PlatformAbstraction.TestingPlatformAbstraction.Variables">
             <summary>
             Environment variables.
+            </summary>
+        </member>
+        <member name="T:AM.Logging.FileLogger">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:AM.Logging.FileLogger.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Logging.FileLogger.WriteLine(System.String)">
+            <summary>
+            Write one line.
+            </summary>
+        </member>
+        <member name="M:AM.Logging.FileLogger.Debug(System.String)">
+            <inheritdoc cref="M:AM.Logging.IAmLogger.Debug(System.String)"/>
+        </member>
+        <member name="M:AM.Logging.FileLogger.Error(System.String)">
+            <inheritdoc cref="M:AM.Logging.IAmLogger.Error(System.String)"/>
+        </member>
+        <member name="M:AM.Logging.FileLogger.Fatal(System.String)">
+            <inheritdoc cref="M:AM.Logging.IAmLogger.Fatal(System.String)"/>
+        </member>
+        <member name="M:AM.Logging.FileLogger.Info(System.String)">
+            <inheritdoc cref="M:AM.Logging.IAmLogger.Info(System.String)"/>
+        </member>
+        <member name="M:AM.Logging.FileLogger.Trace(System.String)">
+            <inheritdoc cref="M:AM.Logging.IAmLogger.Trace(System.String)"/>
+        </member>
+        <member name="M:AM.Logging.FileLogger.Warn(System.String)">
+            <inheritdoc cref="M:AM.Logging.IAmLogger.Warn(System.String)"/>
+        </member>
+        <member name="P:AM.Logging.FileLogger.FileName">
+            <summary>
+            File name.
             </summary>
         </member>
         <member name="T:AM.IO.MultiStream">
@@ -15218,7 +15418,7 @@
                      }
                  }
              }
-             
+            
              class Program
              {
                  static void Main ( string [] args )
@@ -15241,19 +15441,19 @@
             <param name="propertyName"></param>
         </member>
         <member name="M:AM.Reflection.PropertyAccessor`2.OnGettingValue(`1)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.Reflection.PropertyAccessor`2.OnSettingValue(`1)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.Reflection.PropertyAccessor`2.OnTargetChanged(`0)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.Reflection.PropertyAccessor`2.SetTarget(`0)">
             <summary>
@@ -15296,18 +15496,18 @@
             </summary>
         </member>
         <member name="T:AM.Reflection.PropertyAccessor`2.AccessHandler">
-            <summary>
+             <summary>
             
-            </summary>
-            <param name="target"></param>
-            <param name="value"></param>
+             </summary>
+             <param name="target"></param>
+             <param name="value"></param>
         </member>
         <member name="T:AM.Reflection.PropertyAccessor`2.TargetHandler">
-            <summary>
+             <summary>
             
-            </summary>
-            <param name="accessor"></param>
-            <param name="previousTarget"></param>
+             </summary>
+             <param name="accessor"></param>
+             <param name="previousTarget"></param>
         </member>
         <member name="T:AM.IO.Streamer">
              <summary>

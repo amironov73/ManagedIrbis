@@ -102,7 +102,7 @@
         </member>
         <member name="M:ManagedIrbis.Readers.ReaderInfo.Parse(ManagedIrbis.MarcRecord)">
             <summary>
-            Parse the specified field.
+            Parse the specified record.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Readers.ReaderInfo.ReadFromFile(System.String)">
@@ -263,6 +263,14 @@
         <member name="P:ManagedIrbis.Readers.ReaderInfo.Profiles">
             <summary>
             Профили обслуживания ИРИ.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.ReaderInfo.Password">
+            <summary>
+            В структуру БД RDR ИРБИС64+ по сравнению с ИРБИС64
+            введено одно новое поле (неповторяющееся и необязательное)
+            с меткой 130 - ПАРОЛЬ, предназначенное для авторизации
+            доступа к ресурсам электронной библиотеки.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Readers.ReaderInfo.Age">
@@ -1025,6 +1033,37 @@
             Fields.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Systematization.AthrbRecord">
+            <summary>
+            Запись в базе данных ATHRB.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.AthrbRecord.Parse(ManagedIrbis.MarcRecord)">
+            <summary>
+            Parse the record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.AthrbRecord.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.AthrbRecord.MainHeading">
+            <summary>
+            Основной заголовок рубрики.
+            Поле 210.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.AthrbRecord.LinkedHeadings">
+            <summary>
+            Связанные заголовки рубрики.
+            Поле 510.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.AthrbRecord.Guidelines">
+            <summary>
+            Методические указания / описания.
+            Поле 300.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Server.Sockets.IrbisServerSocket">
             <summary>
             Абстрактный сокет, обслуживающий подключение клиента.
@@ -1076,6 +1115,59 @@
         </member>
         <member name="M:ManagedIrbis.Server.Sockets.IrbisServerListener.Dispose">
             <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.ImportIsoCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.ServerCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.SendError(System.Int32)">
+            <summary>
+            Отправка клиенту кода ошибки.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.SendResponse">
+            <summary>
+            Отправка клиенту нормального ответа.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.UpdateContext">
+            <summary>
+            Update the context.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.Execute">
+            <summary>
+            Execute the command.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.Commands.ServerCommand.Data">
+            <summary>
+            Data.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.Commands.ServerCommand.SendVersion">
+            <summary>
+            Send version to the client.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ImportIsoCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.ImportIsoCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
         </member>
         <member name="T:ManagedIrbis.Search.TermParameters">
             <summary>
@@ -2387,9 +2479,9 @@
             <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftA">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftCondition">
             <summary>
@@ -2827,6 +2919,9 @@
             Send request to server and receive answer.
             </summary>
             <exception cref="T:ManagedIrbis.Infrastructure.IrbisNetworkException"></exception>
+        </member>
+        <member name="M:ManagedIrbis.Infrastructure.AbstractClientSocket.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
         </member>
         <member name="P:ManagedIrbis.Infrastructure.AbstractClientSocket.Connection">
             <summary>
@@ -3305,9 +3400,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Gbl.Infrastructure.GblNode">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Gbl.Infrastructure.GblNode.OnAfterExecution(ManagedIrbis.Gbl.Infrastructure.GblContext)">
             <summary>
@@ -3319,9 +3414,19 @@
             Called before node execution.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.GblNode.Initialize(ManagedIrbis.Gbl.Infrastructure.GblContext,ManagedIrbis.Gbl.Infrastructure.GblParser)">
+            <summary>
+            Initialize the node.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Gbl.Infrastructure.GblNode.Execute(ManagedIrbis.Gbl.Infrastructure.GblContext)">
             <summary>
             Execute the node.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.GblNode.FormatRecord(ManagedIrbis.Gbl.Infrastructure.GblContext,System.String)">
+            <summary>
+            Format current record.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Gbl.Infrastructure.GblNode.Verify(System.Boolean)">
@@ -4166,14 +4271,14 @@
             </summary>
         </member>
         <member name="P:ManagedIrbis.Fields.CommonInfo.Field461">
-             <summary>
-            
-             </summary>
+            <summary>
+            Поле 461.
+            </summary>
         </member>
         <member name="P:ManagedIrbis.Fields.CommonInfo.Field46">
-             <summary>
-            
-             </summary>
+            <summary>
+            Поле 46.
+            </summary>
         </member>
         <member name="T:ManagedIrbis.Fields.CollectiveInfo">
             <summary>
@@ -4418,6 +4523,140 @@
         </member>
         <member name="M:ManagedIrbis.Infrastructure.SimpleClientSocketV6.ExecuteRequest(System.Byte[][])">
             <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.ExecuteRequest(System.Byte[][])"/>
+        </member>
+        <member name="T:ManagedIrbis.Fields.ZaprInfo">
+            <summary>
+            Информация о постоянном запросе в базе данных ZAPR.
+            Поле 2.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.ZaprInfo.Parse(ManagedIrbis.RecordField)">
+            <summary>
+            Parse the record field.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ZaprInfo.NaturalLanguage">
+            <summary>
+            Формулировка запроса на естественном языке.
+            Подполе a.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ZaprInfo.FullTextQuery">
+            <summary>
+            Полнотекстовая часть запроса.
+            Подполе b.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ZaprInfo.SearchQuery">
+            <summary>
+            Библиографическая часть запроса.
+            Подполе c.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ZaprInfo.Date">
+            <summary>
+            Дата создания запроса.
+            Подполе d.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Fields.ThesaurusRecord">
+            <summary>
+            Запись в базе данных TEZ.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.ThesaurusRecord.Parse(ManagedIrbis.MarcRecord)">
+            <summary>
+            Parse the record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.ThesaurusRecord.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ThesaurusRecord.MainTerm">
+            <summary>
+            Основной термин.
+            Поле 1.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ThesaurusRecord.TermKind">
+            <summary>
+            Вид - Дескриптор(1)/Недескриптор(0).
+            Поле 2.
+            Можно не вводить - формируется автоматически.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ThesaurusRecord.RussianNote">
+            <summary>
+            Русское примечание.
+            Поле 3.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ThesaurusRecord.ParentDescriptor">
+            <summary>
+            Вышестоящий дескриптор.
+            Поле 4.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ThesaurusRecord.AssociativeDescriptors">
+            <summary>
+            Ассоциативные дескрипторы.
+            Поле 5.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ThesaurusRecord.SynonymousLink">
+            <summary>
+            Для Недескрипторов-Синонимическая связь.
+            Поле 6.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ThesaurusRecord.DescriptorCombination">
+            <summary>
+            Для Недескрипторов - Комбинация Дескрипторов.
+            Поле 7.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ThesaurusRecord.DescriptorList">
+            <summary>
+            Для Недескрипторов - Перечень Дескрипторов.
+            Поле 8.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ThesaurusRecord.EnglishTerm">
+            <summary>
+            Английский термин.
+            Поле 9.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ThesaurusRecord.EnglishNote">
+            <summary>
+            Аглийское примечание.
+            Поле 10.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ThesaurusRecord.FrenchTerm">
+            <summary>
+            Французский термин.
+            Поле 11.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ThesaurusRecord.FrenchNote">
+            <summary>
+            Французское примечание.
+            Поле 12.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ThesaurusRecord.OtherNote">
+            <summary>
+            Другие примечания.
+            Поле 13.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ThesaurusRecord.Level">
+            <summary>
+            Уровень дескриптора в иерархии.
+            Поле 14.
+            Можно не вводить - формируется автоматически.
+            </summary>
         </member>
         <member name="T:ManagedIrbis.Authentication.AbstractAuthenticator">
             <summary>
@@ -5615,46 +5854,6 @@
             
              </summary>
         </member>
-        <member name="T:ManagedIrbis.Server.Commands.ServerCommand">
-             <summary>
-            
-             </summary>
-        </member>
-        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.#ctor(ManagedIrbis.Server.WorkData)">
-            <summary>
-            Constructor.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.SendError(System.Int32)">
-            <summary>
-            Отправка клиенту кода ошибки.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.SendResponse">
-            <summary>
-            Отправка клиенту нормального ответа.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.UpdateContext">
-            <summary>
-            Update the context.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Server.Commands.ServerCommand.Execute">
-            <summary>
-            Execute the command.
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Server.Commands.ServerCommand.Data">
-            <summary>
-            Data.
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Server.Commands.ServerCommand.SendVersion">
-            <summary>
-            Send version to the client.
-            </summary>
-        </member>
         <member name="F:ManagedIrbis.Server.Commands.ReadFileCommand.Preamble">
             <summary>
             Preamble for binary files.
@@ -5679,6 +5878,19 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Server.Commands.GblCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.FullTextSearchCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.FullTextSearchCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.FullTextSearchCommand.Execute">
             <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
         </member>
         <member name="T:ManagedIrbis.Server.Commands.FormatCommand">
@@ -7075,6 +7287,11 @@
             Execute specified command.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Infrastructure.AbstractEngine.RecycleMemoryStream(System.IO.MemoryStream)">
+            <summary>
+            Recycle the memory stream.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Infrastructure.AbstractEngine.ReportMemoryUsage(System.Type,System.Int32)">
             <summary>
             Report memory usage.
@@ -7947,6 +8164,125 @@
             Fields.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Fields.AthrgRecord">
+            <summary>
+            Запись в базе данных ATHRC.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.MainTitle">
+            <summary>
+            Основное (унифицированное) наименование коллектива/мероприятия.
+            Поле 210.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.See">
+            <summary>
+            Ссылки типа СМ.
+            Поле 410.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.SeeAlso">
+            <summary>
+            Ссылки типа СМ. ТАКЖЕ.
+            Поле 510.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.Notes">
+            <summary>
+            Информационное примечание.
+            Поле 300.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.SeeAlsoNote">
+            <summary>
+            Текстовое ссылочное примечание "см. также".
+            Поле 305.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.SeeNote">
+            <summary>
+            Текстовое ссылочное примечание "см.".
+            Поле 310.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.UsageNotes">
+            <summary>
+            Примечания об области применения.
+            Поле 330.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.InformationSources">
+            <summary>
+            Источник составления записи.
+            Поле 801.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.IdentificationSources">
+            <summary>
+            Источник,в котором выявлена информ. о заголовке.
+            Поле 810.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.UsageInformation">
+            <summary>
+            Информации об использовании основного наименования коллектива/мероприятия.
+            Поле 820.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.Example">
+            <summary>
+            Пример,приведенный в примечании.
+            Поле 825.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.CataloguerNotes">
+            <summary>
+            Общее примечание каталогизатора.
+            Поле 830.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.ExclusionInformation">
+            <summary>
+            Информация об исключении основного наименования коллектива/мероприятия.
+            Поле 835.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.CataguingRules">
+            <summary>
+            Правила каталогизации и предметизации.
+            Поле 152.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.ExternalObject">
+            <summary>
+            Ссылка-внешний объект.
+            Поле 951.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.BinaryResource">
+            <summary>
+            Внутренний двоичный ресурс.
+            Поле 953.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.Settings">
+            <summary>
+            Проверку на дублетность производить.
+            Поле 905.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.Technology">
+            <summary>
+            Каталогизатор, дата.
+            Поле 907.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrgRecord.Worksheet">
+            <summary>
+            Имя рабочего листа.
+            Поле 920.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Batch.BatchSearcher">
             <summary>
             
@@ -8348,6 +8684,11 @@
             Search scenario
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Search.SearchScenario.Arrange(ManagedIrbis.Search.SearchScenario[])">
+            <summary>
+            Arrange the scenarios.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Search.SearchScenario.Clone">
             <summary>
             Clone the <see cref="T:ManagedIrbis.Search.SearchScenario"/>.
@@ -8448,6 +8789,21 @@
         <member name="P:ManagedIrbis.Search.SearchScenario.Format">
             <summary>
             Имя формата показа документов.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Search.SearchScenario.Identifier">
+            <summary>
+            Идентификатор вида поиска, целое число больше 0.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Search.SearchScenario.Parent">
+            <summary>
+            Идентификатор вышестоящего элемента группирования или вида поиска.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Search.SearchScenario.Children">
+            <summary>
+            Вложенные элементы.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.CommandCode">
@@ -8824,6 +9180,56 @@
         <member name="P:ManagedIrbis.Infrastructure.Commands.ReadBinaryFileCommand.Content">
             <summary>
             File content.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Systematization.AthrbHeading">
+            <summary>
+            Заголовок рубрики в базе ATHRB.
+            Поля 210 и 510.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.AthrbHeading.Parse(ManagedIrbis.RecordField)">
+            <summary>
+            Parse the field.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.AthrbHeading.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.AthrbHeading.Heading">
+            <summary>
+            Основной заголовок рубрики.
+            Подполе a.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.AthrbHeading.Code1">
+            <summary>
+            Код рубрики.
+            Подполе b.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.AthrbHeading.Code2">
+            <summary>
+            Код рубрики.
+            Подполе c.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.AthrbHeading.Code3">
+            <summary>
+            Код рубрики.
+            Подполе d.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.AthrbHeading.Code4">
+            <summary>
+            Код рубрики.
+            Подполе e.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.AthrbHeading.Code5">
+            <summary>
+            Код рубрики.
+            Подполе f.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Server.Commands.ServerStatCommand">
@@ -9772,9 +10178,9 @@
             <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.ExtendedSyntax"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftCeil">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftCeil.#ctor">
             <summary>
@@ -10774,6 +11180,188 @@
             
              </summary>
         </member>
+        <member name="T:ManagedIrbis.Fields.FullTextInfo">
+            <summary>
+            Сведения о полном тексте документа (поле 955).
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Fields.FullTextInfo.KnownCodes">
+            <summary>
+            Известные коды подполей.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Fields.FullTextInfo.Tag">
+            <summary>
+            Тег поля.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.FullTextInfo.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.FullTextInfo.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.FullTextInfo.ApplyToField(ManagedIrbis.RecordField)">
+            <summary>
+            Apply to the field.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.FullTextInfo.Parse(ManagedIrbis.RecordField)">
+            <summary>
+            Parse the field.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.FullTextInfo.Parse(ManagedIrbis.MarcRecord,System.Int32)">
+            <summary>
+            Разбор записи.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.FullTextInfo.Parse(ManagedIrbis.MarcRecord)">
+            <summary>
+            Разбор записи.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.FullTextInfo.ToField">
+            <summary>
+            Превращение обратно в поле.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.FullTextInfo.AM#Runtime#IHandmadeSerializable#RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
+        </member>
+        <member name="M:ManagedIrbis.Fields.FullTextInfo.AM#Runtime#IHandmadeSerializable#SaveToStream(System.IO.BinaryWriter)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
+        </member>
+        <member name="M:ManagedIrbis.Fields.FullTextInfo.Verify(System.Boolean)">
+            <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="M:ManagedIrbis.Fields.FullTextInfo.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Fields.FullTextInfo.DisplayText">
+            <summary>
+            Текст для ссылки. Подполе t.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.FullTextInfo.FileName">
+            <summary>
+            Имя файла. Подполе a.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.FullTextInfo.PageCount">
+            <summary>
+            Количество страниц. Подполе n.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.FullTextInfo.AccessRights">
+            <summary>
+            Идентификатор записи права доступа. Подполе b.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.FullTextInfo.Field">
+            <summary>
+            Associated field.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.FullTextInfo.UserData">
+            <summary>
+            Arbitrary user data.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.EventDb.EventTimes">
+            <summary>
+            Время мероприятия. Поле 31.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.EventDb.EventTimes.KnownCodes">
+            <summary>
+            Known subfield codes.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.EventDb.EventTimes.Tag">
+            <summary>
+            Field tag.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.EventDb.EventTimes.Parse(ManagedIrbis.RecordField)">
+            <summary>
+            Parse the field.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventTimes.From">
+            <summary>
+            Время проведения от... Подполе a.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventTimes.Till">
+            <summary>
+            Время проведения до ... Подполе b.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventTimes.Field">
+            <summary>
+            Associated <see cref="T:ManagedIrbis.RecordField"/>.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventTimes.UserData">
+            <summary>
+            Arbitrary user data.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.EventDb.EventDescription">
+            <summary>
+            Информация о мероприятии.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.EventDb.EventDescription.Parse(ManagedIrbis.MarcRecord)">
+            <summary>
+            Parse the record.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventDescription.Title">
+            <summary>
+            Название мероприятия. Поле 972.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventDescription.Codes">
+            <summary>
+            Коды. Поле 900.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventDescription.Dates">
+            <summary>
+            Даты. Поле 30.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventDescription.Times">
+            <summary>
+            Время. Поле 31.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventDescription.Location">
+            <summary>
+            Место проведения мероприятия. Поле 210.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventDescription.Status">
+            <summary>
+            Статус мероприятия. Поле 997.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventDescription.Record">
+            <summary>
+            Associated <see cref="T:ManagedIrbis.MarcRecord"/>.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventDescription.UserData">
+            <summary>
+            Arbitrary user data.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Systematization.BbkException">
             <summary>
             Исключение, возникающее при работе с ББК.
@@ -11368,6 +11956,16 @@
             Признак того, что client_m.mnu зашифрован.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Server.ServerUtility.CreateEngine(System.String[])">
+            <summary>
+            Create the engine.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerUtility.DumpEngineSettings(ManagedIrbis.Server.IrbisServerEngine)">
+            <summary>
+            Dump engine settings.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Server.ServerUtility.ExpandInclusion(System.String,System.String,System.String[])">
             <summary>
             Expand inclusion.
@@ -11388,6 +11986,19 @@
             Загрузка client_m.mnu с учетом того,
             что тот может быть зашифрован.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.GblVirtualCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.GblVirtualCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.GblVirtualCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
         </member>
         <member name="T:ManagedIrbis.Server.Commands.DisconnectCommand">
              <summary>
@@ -12449,6 +13060,11 @@
         <member name="M:ManagedIrbis.Direct.InvertedFile64.Dispose">
             <inheritdoc cref="M:System.IDisposable.Dispose"/>
         </member>
+        <member name="P:ManagedIrbis.Direct.InvertedFile64.Fragmented">
+            <summary>
+            Index file is fragmented.
+            </summary>
+        </member>
         <member name="P:ManagedIrbis.Direct.InvertedFile64.FileName">
             <summary>
             File name.
@@ -12464,9 +13080,19 @@
             IFP file.
             </summary>
         </member>
+        <member name="P:ManagedIrbis.Direct.InvertedFile64.AdditionalIfp">
+            <summary>
+            Additional IFP files.
+            </summary>
+        </member>
         <member name="P:ManagedIrbis.Direct.InvertedFile64.IfpControlRecord">
             <summary>
             Control record of the IFP file.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.InvertedFile64.AdditionalControlRecord">
+            <summary>
+            Additional control records.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Direct.InvertedFile64.L01">
@@ -12474,9 +13100,19 @@
             L01 node file.
             </summary>
         </member>
+        <member name="P:ManagedIrbis.Direct.InvertedFile64.AdditionalL01">
+            <summary>
+            Additional L01 node files.
+            </summary>
+        </member>
         <member name="P:ManagedIrbis.Direct.InvertedFile64.N01">
             <summary>
             N01 node file.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.InvertedFile64.AdditionalN01">
+            <summary>
+            Additional N01
             </summary>
         </member>
         <member name="T:ManagedIrbis.Client.MessageFile">
@@ -13165,6 +13801,36 @@
             Connection.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Drm.ValidityPeriod">
+            <summary>
+            Период действия записи о правах доступа.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Drm.ValidityPeriod.KnownCodes">
+            <summary>
+            Known subfield codes.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Drm.ValidityPeriod.Parse(ManagedIrbis.RecordField)">
+            <summary>
+            Parse the field.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Drm.ValidityPeriod.From">
+            <summary>
+            Начальная дата. Подполе d.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Drm.ValidityPeriod.Till">
+            <summary>
+            Конечная дата. Подполе e.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Drm.ValidityPeriod.Field">
+            <summary>
+            Associated <see cref="T:ManagedIrbis.RecordField"/>.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Readers.ReaderAddress">
             <summary>
             Адрес читателя: поле 13 в базе RDR.
@@ -13518,6 +14184,166 @@
         <member name="P:ManagedIrbis.Marc.Schema.RelatedField.Tag">
             <summary>
             Tag.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Systematization.BbkRecord">
+            <summary>
+            Запись в базе данных RSBBK.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.BbkRecord.Parse(ManagedIrbis.MarcRecord)">
+            <summary>
+            Parse the record.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.RecordKind">
+            <summary>
+            Вид записи.
+            Поле 1.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.SuperHeading">
+            <summary>
+            Надрубрика.
+            Поле 2.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.MainIndex">
+            <summary>
+            Заглавный индекс.
+            Поле 3.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.MainHeading">
+            <summary>
+            Заглавная рубрика.
+            Поле 4.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.MainExtension">
+            <summary>
+            Расширение заглавной рубрики.
+            Поле 5.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.SearchQuery">
+            <summary>
+            Поисковая форма заглавного индекса.
+            Поле 6.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.ExclusionDate">
+            <summary>
+            Дата и основание исключения.
+            Поле 7.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.MethodicalInstructions">
+            <summary>
+            Методические указания.
+            Поле 8.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.FacetedInstructions">
+            <summary>
+            Фасетно-методические указания.
+            Поле 9.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.SeeReferences">
+            <summary>
+            Отсылки "Смотри".
+            Поле 10.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.SeeAlsoReferences">
+            <summary>
+            Ссылки "Смотри также".
+            Поле 11.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.Expansion">
+            <summary>
+            Раскрытие.
+            Поле 12.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.AdjacentAreas">
+            <summary>
+            Смежные области.
+            Поле 13.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.ApplicationAreas">
+            <summary>
+            Области применения.
+            Поле 14.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.SubstituteIndex">
+            <summary>
+            Заменяющий индекс.
+            Поле 15.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.ContinuingRecordNumber">
+            <summary>
+            Номер продолжающей записи.
+            Поле 16.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.Grnti">
+            <summary>
+            Поисковый образ на ИЯ ГРНТИ.
+            Поле 17.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.Dewey">
+            <summary>
+            Поисковый образ на ИЯ Дьюи.
+            Поле 18.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.Udc">
+            <summary>
+            Поисковый образ на ИЯ УДК.
+            Поле 19.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.MT">
+            <summary>
+            Поисковый образ на ИЯ МТ.
+            Поле 20.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.Composition">
+            <summary>
+            Дата и составитель записи.
+            Поле 21.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.Correcture">
+            <summary>
+            Дата, оператор, вид корректуры.
+            Поле 22.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.WorkingScheme">
+            <summary>
+            Рабочая схема.
+            Поле 23.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.BackReferences">
+            <summary>
+            Обратные отсылки.
+            Поле 24.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkRecord.Hyphens">
+            <summary>
+            Дефисные конструкции.
+            Поле 505.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Statistics.PingStatistics">
@@ -14245,9 +15071,9 @@
             <inheritdoc cref="M:ManagedIrbis.Pft.Infrastructure.PftNode.Execute(ManagedIrbis.Pft.Infrastructure.PftContext)"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftAssignment">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftAssignment.#ctor">
             <summary>
@@ -15506,17 +16332,17 @@
             Задаёт отображение поля на свойство.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Mapping.FieldAttribute.#ctor(System.String)">
+        <member name="M:ManagedIrbis.Mapping.FieldAttribute.#ctor(System.Int32)">
             <summary>
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Mapping.FieldAttribute.#ctor(System.String,System.Char)">
+        <member name="M:ManagedIrbis.Mapping.FieldAttribute.#ctor(System.Int32,System.Char)">
             <summary>
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Mapping.FieldAttribute.#ctor(System.String,System.Int32)">
+        <member name="M:ManagedIrbis.Mapping.FieldAttribute.#ctor(System.Int32,System.Int32)">
             <summary>
             Конструктор.
             </summary>
@@ -15636,6 +16462,51 @@
         </member>
         <member name="M:ManagedIrbis.Server.Commands.RecordPostingsCommand.Execute">
             <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
+        <member name="T:ManagedIrbis.Server.BanMaster">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.BanMaster.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.BanMaster.BanAddress(System.String)">
+            <summary>
+            Ban the address.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.BanMaster.IsBanned(System.String)">
+            <summary>
+            Whether the address is banned?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.BanMaster.IsBanned(ManagedIrbis.Server.Sockets.IrbisServerSocket)">
+            <summary>
+            Whether the address is banned.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.BanMaster.LoadBanList(System.String)">
+            <summary>
+            Load the ban list from the file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.BanMaster.SaveBanList(System.String)">
+            <summary>
+            Save the ban list to the file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.BanMaster.UnbanAddress(System.String)">
+            <summary>
+            Unban the address.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.BanMaster.UnbanAll">
+            <summary>
+            Unban all.
+            </summary>
         </member>
         <member name="T:ManagedIrbis.Search.SearchParameters">
             <summary>
@@ -17268,6 +18139,24 @@
             Токенизер.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Gbl.Infrastructure.Ast.GblContextOut">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Gbl.Infrastructure.Ast.GblContextOut.Mnemonic">
+            <summary>
+            Command mnemonic.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.Ast.GblContextOut.Execute(ManagedIrbis.Gbl.Infrastructure.GblContext)">
+            <summary>
+            Execute the node.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.Ast.GblContextOut.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
         <member name="T:ManagedIrbis.FictionBook.FbBinary">
             <summary>
             Вложенные в файл FictionBook двоичные данные.
@@ -18455,6 +19344,11 @@
             Constructor.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Server.ServerIniFile.GetBoolean(System.String,System.Boolean)">
+            <summary>
+            Get boolean value.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Server.ServerIniFile.GetValue(System.String,System.String)">
             <summary>
             Get value.
@@ -18520,6 +19414,19 @@
             <remarks>
             C:\IRBIS64\DATAI\
             </remarks>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerIniFile.DelayedUpdate">
+            <summary>
+            Отменена монопольная блокировка при операциях редактирования
+            и актуализации записей, что позволило распараллелить
+            процессы сохранения записи и ее актуализации, что в свою
+            очередь привело к повышению производительности сервера
+            (особенно это заметно в режиме отложенной актуализации
+            Delayed_RecIfUpdate=1). Монопольная блокировка применяется
+            только в администраторских режимах обслуживания БД,
+            а именно: реорганизации файла документов и словаря, создании
+            словаря заново, копировании и восстановлении файла документов.
+            </summary>
         </member>
         <member name="P:ManagedIrbis.Server.ServerIniFile.EncryptPasswords">
             <summary>
@@ -19618,9 +20525,9 @@
             <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftBlank">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftBlank.#ctor">
             <summary>
@@ -20439,6 +21346,51 @@
         <member name="P:ManagedIrbis.Biblio.ChapterWithStatistics.IsServiceChapter">
             <inheritdoc cref="P:ManagedIrbis.Biblio.BiblioChapter.IsServiceChapter"/>
         </member>
+        <member name="T:ManagedIrbis.EventDb.EventStatus">
+            <summary>
+            Статус мероприятия. Поле 997.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.EventDb.EventStatus.KnownCodes">
+            <summary>
+            Known subfield codes.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.EventDb.EventStatus.Tag">
+            <summary>
+            Field tag.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.EventDb.EventStatus.Parse(ManagedIrbis.RecordField)">
+            <summary>
+            Parse the field.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventStatus.Status">
+            <summary>
+            Статус мероприятия. Подполе a.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventStatus.Text">
+            <summary>
+            Текст. Подполе b.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventStatus.InitialDate">
+            <summary>
+            Первоначальная дата (для перенесенных мероприятий). Подполе c.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventStatus.Field">
+            <summary>
+            Associated <see cref="T:ManagedIrbis.RecordField"/>.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventStatus.UserData">
+            <summary>
+            Arbitrary user data.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Batch.BatchRecordFormatter">
             <summary>
             Batch formatter for <see cref="T:ManagedIrbis.MarcRecord"/>.
@@ -20869,6 +21821,19 @@
             Path for UpperCaseTable (without extension).
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Server.Commands.FormatIsoGroupCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.FormatIsoGroupCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.FormatIsoGroupCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
+        </member>
         <member name="T:ManagedIrbis.Server.Commands.CommandMapper">
             <summary>
             Maps codes to command
@@ -20877,6 +21842,11 @@
         <member name="M:ManagedIrbis.Server.Commands.CommandMapper.#ctor(ManagedIrbis.Server.IrbisServerEngine)">
             <summary>
             Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.CommandMapper.UnknownCommand(ManagedIrbis.Server.WorkData,System.String)">
+            <summary>
+            Throws the exception.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Server.Commands.CommandMapper.MapCommand(ManagedIrbis.Server.WorkData)">
@@ -21811,12 +22781,12 @@
         </member>
         <member name="P:ManagedIrbis.Client.RemoteCatalogerIniFile.AutoMerge">
             <summary>
-            Разрешает (значение 1) или запрещает (значение 0) 
-            автоматическое слияние двух версий записи при корректировке 
-            (при получении сообщения о несовпадении версий – в ситуации, 
-            когда одну запись пытаются одновременно откорректировать 
-            два и более пользователей) Автоматическое слияние проводится 
-            по формальному алгоритму: неповторяющиеся поля заменяются, 
+            Разрешает (значение 1) или запрещает (значение 0)
+            автоматическое слияние двух версий записи при корректировке
+            (при получении сообщения о несовпадении версий – в ситуации,
+            когда одну запись пытаются одновременно откорректировать
+            два и более пользователей) Автоматическое слияние проводится
+            по формальному алгоритму: неповторяющиеся поля заменяются,
             а оригинальные значения повторяющихся полей суммируются
             </summary>
         </member>
@@ -21827,13 +22797,13 @@
         </member>
         <member name="P:ManagedIrbis.Client.RemoteCatalogerIniFile.ClientTimeLive">
             <summary>
-            Интервал в мин., по истечении которого клиент посылает 
+            Интервал в мин., по истечении которого клиент посылает
             на сервер уведомление о том, что он «жив».
             </summary>
         </member>
         <member name="P:ManagedIrbis.Client.RemoteCatalogerIniFile.CopyMnu">
             <summary>
-            Имя файла-справочника со списком ТВП переформатирования 
+            Имя файла-справочника со списком ТВП переформатирования
             для копирования.
             </summary>
         </member>
@@ -21869,7 +22839,7 @@
         </member>
         <member name="P:ManagedIrbis.Client.RemoteCatalogerIniFile.ExportMenu">
             <summary>
-            Имя файла-справочника со списком ТВП переформатирования 
+            Имя файла-справочника со списком ТВП переформатирования
             для экспорта.
             </summary>
         </member>
@@ -21885,7 +22855,7 @@
         </member>
         <member name="P:ManagedIrbis.Client.RemoteCatalogerIniFile.ImportMenu">
             <summary>
-            Имя файла-справочника со списком ТВП переформатирования 
+            Имя файла-справочника со списком ТВП переформатирования
             для импорта.
             </summary>
         </member>
@@ -21921,16 +22891,16 @@
         </member>
         <member name="P:ManagedIrbis.Client.RemoteCatalogerIniFile.PftMenu">
             <summary>
-            Имя файла-справочника со списком доступных форматов 
+            Имя файла-справочника со списком доступных форматов
             показа документов.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Client.RemoteCatalogerIniFile.PftOpt">
             <summary>
-            Имя оптимизационного файла, который определяет принцип 
+            Имя оптимизационного файла, который определяет принцип
             формата ОПТИМИЗИРОВАННЫЙ (в АРМах Читатель и Каталогизатор).
-            Для БД электронного каталога (IBIS) значение PFTW.OPT 
-            определяет в качестве оптимизированных  RTF-форматы, 
+            Для БД электронного каталога (IBIS) значение PFTW.OPT
+            определяет в качестве оптимизированных  RTF-форматы,
             а значение PFTW_H.OPT – HTML-форматы
             </summary>
         </member>
@@ -22102,14 +23072,14 @@
             </summary>
         </member>
         <member name="F:ManagedIrbis.Fields.SourceInfo.Tag463">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="F:ManagedIrbis.Fields.SourceInfo.Tag963">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Fields.SourceInfo.ParseRecord(ManagedIrbis.MarcRecord)">
             <summary>
@@ -22519,6 +23489,62 @@
         <member name="T:ManagedIrbis.BibTex.BibTexParser">
             <summary>
             Парсер.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Gbl.Infrastructure.Ast.GblNested">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="F:ManagedIrbis.Gbl.Infrastructure.Ast.GblNested.Mnemonic">
+            <summary>
+            Command mnemonic.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.Ast.GblNested.Execute(ManagedIrbis.Gbl.Infrastructure.GblContext)">
+            <summary>
+            Execute the node.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.Ast.GblNested.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="T:ManagedIrbis.Gbl.Infrastructure.Ast.GblContextIn">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Gbl.Infrastructure.Ast.GblContextIn.Mnemonic">
+            <summary>
+            Command mnemonic.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.Ast.GblContextIn.Execute(ManagedIrbis.Gbl.Infrastructure.GblContext)">
+            <summary>
+            Execute the node.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.Ast.GblContextIn.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="T:ManagedIrbis.Fields.ZaprRecord">
+            <summary>
+            Запись в базе данных ZAPR.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.ZaprRecord.Parse(ManagedIrbis.MarcRecord)">
+            <summary>
+            Parse the record.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ZaprRecord.Ticket">
+            <summary>
+            Идентификатор читателя.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.ZaprRecord.Requests">
+            <summary>
+            Постоянные запросы.
             </summary>
         </member>
         <member name="T:ManagedIrbis.FictionBook.FbDocument">
@@ -23295,6 +24321,90 @@
             Find difference.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Readers.ArchiveReaderInfo">
+            <summary>
+            Информация о читателе.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Readers.ArchiveReaderInfo.Parse(ManagedIrbis.MarcRecord)">
+            <summary>
+            Parse the specified record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Readers.ArchiveReaderInfo.ReadFromFile(System.String)">
+            <summary>
+            Считывание из файла.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Readers.ArchiveReaderInfo.SaveToFile(System.String,ManagedIrbis.Readers.ArchiveReaderInfo[])">
+            <summary>
+            Сохранение в файле.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Readers.ArchiveReaderInfo.SaveToStream(System.IO.BinaryWriter)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
+        </member>
+        <member name="M:ManagedIrbis.Readers.ArchiveReaderInfo.RestoreFromStream(System.IO.BinaryReader)">
+            <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
+        </member>
+        <member name="M:ManagedIrbis.Readers.ArchiveReaderInfo.ToRecord">
+            <summary>
+            Формирование записи по данным о читателе.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Readers.ArchiveReaderInfo.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Readers.ArchiveReaderInfo.Id">
+            <summary>
+            Identifier for LiteDB.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.ArchiveReaderInfo.Ticket">
+            <summary>
+            Номер читательского. Поле 30.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.ArchiveReaderInfo.Visits">
+            <summary>
+            Информация о посещениях.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.ArchiveReaderInfo.UserData">
+            <summary>
+            Произвольные данные, ассоциированные с читателем.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.ArchiveReaderInfo.FirstVisitDate">
+            <summary>
+            Дата первого посещения
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.ArchiveReaderInfo.LastVisitDate">
+            <summary>
+            Дата последнего посещения.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.ArchiveReaderInfo.LastVisitPlace">
+            <summary>
+            Кафедра последнего посещения.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.ArchiveReaderInfo.LastVisitResponsible">
+            <summary>
+            Последний обслуживавший библиотекарь.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.ArchiveReaderInfo.Mfn">
+            <summary>
+            MFN записи.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.ArchiveReaderInfo.Marked">
+            <summary>
+            Flag for the reader info.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Unifors.Unifor3.PrintDate(ManagedIrbis.Pft.Infrastructure.PftContext,ManagedIrbis.Pft.Infrastructure.PftNode,System.String)">
             <summary>
             Print current date.
@@ -23447,9 +24557,9 @@
             <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.ExtendedSyntax"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftAbs">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftAbs.#ctor">
             <summary>
@@ -24719,6 +25829,49 @@
             Язык.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Drm.RightRecord">
+            <summary>
+            Запись с правами доступа к ресурсам.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Drm.RightRecord.Parse(ManagedIrbis.MarcRecord)">
+            <summary>
+            Parse the record.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Drm.RightRecord.Id">
+            <summary>
+            Идентификатор записи. Поле 1.
+            </summary>
+            <remarks>
+            Типичное значение: "0001".
+            </remarks>
+        </member>
+        <member name="P:ManagedIrbis.Drm.RightRecord.Period">
+            <summary>
+            Общий период действия права доступа. Поле 2.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Drm.RightRecord.Rights">
+            <summary>
+            Права доступа. Поле 3 (повторяющееся).
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Drm.RightRecord.Description">
+            <summary>
+            Описание/название. Поле 4.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Drm.RightRecord.Record">
+            <summary>
+            Associated <see cref="T:ManagedIrbis.MarcRecord"/>.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Drm.RightRecord.UserData">
+            <summary>
+            Arbitrary user data.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Batch.BatchRecordWriter">
             <summary>
             Batch writer for <see cref="T:ManagedIrbis.MarcRecord"/>.
@@ -25091,6 +26244,28 @@
         <member name="P:ManagedIrbis.Menus.MenuFile.Entries">
             <summary>
             Gets the entries.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Systematization.BbkReference">
+            <summary>
+            Отсылка.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.BbkReference.Parse(ManagedIrbis.RecordField)">
+            <summary>
+            Parse the field.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkReference.Condition">
+            <summary>
+            Условие отсылки.
+            Подполе a.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.BbkReference.Content">
+            <summary>
+            Отсылочный код.
+            Подполе b.
             </summary>
         </member>
         <member name="T:ManagedIrbis.StatDefinition">
@@ -26369,8 +27544,38 @@
             <inheritdoc cref="M:ManagedIrbis.Ibf.Infrastructure.IbfNode.Execute(ManagedIrbis.Ibf.Infrastructure.IbfContext)"/>
         </member>
         <member name="T:ManagedIrbis.Gbl.Infrastructure.GblContext">
-            <summary>
+             <summary>
             
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.GblContext.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.GblContext.Advance">
+            <summary>
+            Go to next record.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Gbl.Infrastructure.GblContext.CurrentRecord">
+            <summary>
+            Current record.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Gbl.Infrastructure.GblContext.Provider">
+            <summary>
+            Provider.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Gbl.Infrastructure.GblContext.RecordSource">
+            <summary>
+            Record source.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Gbl.Infrastructure.GblContext.Logger">
+            <summary>
+            Logger.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Fields.PartInfo">
@@ -26601,6 +27806,9 @@
         <member name="M:ManagedIrbis.Infrastructure.StandardEngine.GetMemoryStream(System.Type)">
             <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractEngine.GetMemoryStream(System.Type)"/>
         </member>
+        <member name="M:ManagedIrbis.Infrastructure.StandardEngine.RecycleMemoryStream(System.IO.MemoryStream)">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractEngine.RecycleMemoryStream(System.IO.MemoryStream)"/>
+        </member>
         <member name="M:ManagedIrbis.Infrastructure.StandardEngine.ReportMemoryUsage(System.Type,System.Int32)">
             <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractEngine.ReportMemoryUsage(System.Type,System.Int32)"/>
         </member>
@@ -26628,6 +27836,61 @@
         <member name="P:ManagedIrbis.FictionBook.FbBody.Name">
             <summary>
             Name.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Drm.LimitKind">
+            <summary>
+            Единица ограничения.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Drm.LimitKind.Page">
+            <summary>
+            Страница.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Drm.LimitKind.Percent">
+            <summary>
+            Процент.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Drm.AccessElement">
+            <summary>
+            Элемент доступа.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Drm.AccessElement.Identifier">
+            <summary>
+            Идентификатор читателя.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Drm.AccessElement.Cathegory">
+            <summary>
+            Категория читателя.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Drm.AccessElement.Address">
+            <summary>
+            IP-адрес клиента.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Drm.AccessElement.DomainQualifiedName">
+            <summary>
+            Доменное имя клиента.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Drm.AccessElement.Department">
+            <summary>
+            Факультет.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Drm.AccessElement.Semester">
+            <summary>
+            Семестр.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Drm.AccessElement.Speciality">
+            <summary>
+            Специальность.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Worksheet.FieldEditorRepository">
@@ -27505,6 +28768,37 @@
             Format.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Systematization.AthruRecord">
+            <summary>
+            Запись в базе данных ATHRU.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.AthruRecord.Parse(ManagedIrbis.MarcRecord)">
+            <summary>
+            Parse the record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.AthruRecord.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.AthruRecord.MainHeading">
+            <summary>
+            Основной заголовок рубрики.
+            Поле 210.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.AthruRecord.LinkedHeadings">
+            <summary>
+            Связанные заголовки рубрики.
+            Поле 510.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.AthruRecord.Guidelines">
+            <summary>
+            Методические указания / описания.
+            Поле 300.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Server.IrbisServerEngine">
              <summary>
             
@@ -27600,6 +28894,11 @@
             Get the cancellation token.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Server.IrbisServerEngine.GetWorkerCount">
+            <summary>
+            Get the workers count.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.Server.IrbisServerEngine.CancelProcessing">
             <summary>
             Cancel <see cref="M:ManagedIrbis.Server.IrbisServerEngine.MainLoop"/> processing.
@@ -27621,6 +28920,11 @@
         <member name="P:ManagedIrbis.Server.IrbisServerEngine.StartedAt">
             <summary>
             Момент старта движка.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.Paused">
+            <summary>
+            Whether the engine paused client request processing.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Server.IrbisServerEngine.Contexts">
@@ -27691,6 +28995,21 @@
         <member name="P:ManagedIrbis.Server.IrbisServerEngine.PortNumber">
             <summary>
             IP port number.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.BanList">
+            <summary>
+            Ban list.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.DelayedUpdater">
+            <summary>
+            Delayed update task.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.IrbisServerEngine.Watchdog">
+            <summary>
+            Watchdog.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Server.ClientRequest">
@@ -28686,9 +30005,9 @@
             <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.Children"/>
         </member>
         <member name="T:ManagedIrbis.Pft.Infrastructure.Ast.PftBreak">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Pft.Infrastructure.Ast.PftBreak.#ctor">
             <summary>
@@ -29305,6 +30624,16 @@
             PFT search path alternatives.
             </summary>
         </member>
+        <member name="P:ManagedIrbis.Client.LocalProvider.FallBackPath">
+            <summary>
+            Fallback path.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Client.LocalProvider.FallForwardPath">
+            <summary>
+            Fall-forward path.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Mx.Infrastructrure.BuiltinModule">
             <summary>
             
@@ -29666,6 +30995,204 @@
             <remarks>
             Например, "1".
             </remarks>
+        </member>
+        <member name="T:ManagedIrbis.Fields.AthrsRecord">
+            <summary>
+            Запись в базе данных ATHRS.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.MainTitle">
+            <summary>
+            Основная (унифицированная) предметная рубрика/подрубрики.
+            Поле 210.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.See">
+            <summary>
+            Ссылки типа СМ. (Другие формы предметной рубрики)
+            Поле 410.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.SeeAlsoHeadings">
+            <summary>
+            Ссылки типа СМ. ТАКЖЕ (Предметная рубрика)
+            Поле 550.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.SeeAlsoNames">
+            <summary>
+            Ссылки типа СМ. ТАКЖЕ (Имя лица)
+            Поле 500.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.SeeAlsoOrganizations">
+            <summary>
+            Ссылки типа СМ. ТАКЖЕ (Наименование организации)
+            Поле 520.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.SeeAlso">
+            <summary>
+            Ссылки типа СМ. ТАКЖЕ (Связанные основные предметные рубрики)
+            Поле 510.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.SeeAlsoGeoName">
+            <summary>
+            Ссылка типа СМ. ТАКЖЕ (Географическое наименование)
+            Поле 515.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.Notes">
+            <summary>
+            Информационное примечание.
+            Поле 300.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.SeeAlsoNote">
+            <summary>
+            Текстовое ссылочное примечание "см. также".
+            Поле 305.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.SeeNote">
+            <summary>
+            Текстовое ссылочное примечание "см.".
+            Поле 310.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.UsageNotes">
+            <summary>
+            Примечания об области применения.
+            Поле 330.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.Bbk">
+            <summary>
+            ББК.
+            Поле 689.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.Udk">
+            <summary>
+            УДК.
+            Поле 675.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.InformationSources">
+            <summary>
+            Источник составления записи.
+            Поле 801.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.IdentificationSources">
+            <summary>
+            Источник,в котором выявлена информация о предметной рубрике.
+            Поле 810.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.CataloguerNotes">
+            <summary>
+            Общее примечание каталогизатора.
+            Поле 830.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.Example">
+            <summary>
+            Пример,приведенный в примечании.
+            Поле 825.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.ExclusionInformation">
+            <summary>
+            Информация об исключенном заголовке.
+            Поле 835.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.ExternalObject">
+            <summary>
+            Ссылка-внешний объект.
+            Поле 951.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.CataguingRules">
+            <summary>
+            Правила каталогизации и предметизации.
+            Поле 152.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.Settings">
+            <summary>
+            Проверку на дублетность производить.
+            Поле 905.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.Technology">
+            <summary>
+            Каталогизатор, дата.
+            Поле 907.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrsRecord.Worksheet">
+            <summary>
+            Имя рабочего листа.
+            Поле 920.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.EventDb.EventLocation">
+            <summary>
+            Место проведения мероприятия. Поле 210.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.EventDb.EventLocation.KnownCodes">
+            <summary>
+            Known subfield codes.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.EventDb.EventLocation.Tag">
+            <summary>
+            Field tag.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.EventDb.EventLocation.Parse(ManagedIrbis.RecordField)">
+            <summary>
+            Parse the field.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventLocation.Location">
+            <summary>
+            Место проведения. Подполе e.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventLocation.Address">
+            <summary>
+            Адрес. Подполе h.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventLocation.Phone">
+            <summary>
+            Телефон. Подполе t.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventLocation.Country">
+            <summary>
+            Страна. Подполе s.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventLocation.City">
+            <summary>
+            Город. подполе g.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventLocation.Field">
+            <summary>
+            Associated <see cref="T:ManagedIrbis.RecordField"/>.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventLocation.UserData">
+            <summary>
+            Arbitrary user data.
+            </summary>
         </member>
         <member name="T:ManagedIrbis.Worksheet.WorksheetPage">
             <summary>
@@ -30133,6 +31660,26 @@
             модельного поля с меткой 991.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Systematization.AthrbGuidelines">
+            <summary>
+            Методические рекомендации / описания.
+            Поле 300.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.AthrbGuidelines.Parse(ManagedIrbis.RecordField)">
+            <summary>
+            Parse the field.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Systematization.AthrbGuidelines.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Systematization.AthrbGuidelines.Guidelines">
+            <summary>
+            Методические рекомендации / описания.
+            Подполе a.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Server.ServerLock">
             <summary>
             Установка блокировок баз данных.
@@ -30164,6 +31711,41 @@
         <member name="P:ManagedIrbis.Server.ServerLock.Write">
             <summary>
             Lock for write.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.ServerWatchdog">
+            <summary>
+            Server watchdog.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerWatchdog.#ctor(ManagedIrbis.Server.IrbisServerEngine)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.ServerWatchdog.MainLoop">
+            <summary>
+            Main loop.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerWatchdog.Engine">
+            <summary>
+            Engine.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerWatchdog.Token">
+            <summary>
+            Cancellation token.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerWatchdog.Task">
+            <summary>
+            Corresponding task.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerWatchdog.Timeout">
+            <summary>
+            Timeout, seconds.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Server.Commands.WriteRecordCommand">
@@ -31129,9 +32711,9 @@
             <inheritdoc cref="P:ManagedIrbis.Pft.Infrastructure.PftNode.RequiresConnection"/>
         </member>
         <member name="T:ManagedIrbis.Morphology.SynonymEntry">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Morphology.SynonymEntry.Encode">
             <summary>
@@ -31795,15 +33377,42 @@
             в заданное существующее поле.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Gbl.Infrastructure.Ast.GblFieldCommand">
+            <summary>
+            Команда, принимающая спецификацию поля (возможно, с подполем)
+            и повторения.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.Ast.GblFieldCommand.Initialize(ManagedIrbis.Gbl.Infrastructure.GblContext,ManagedIrbis.Gbl.Infrastructure.GblParser)">
+            <inheritdoc cref="M:ManagedIrbis.Gbl.Infrastructure.GblNode.Initialize(ManagedIrbis.Gbl.Infrastructure.GblContext,ManagedIrbis.Gbl.Infrastructure.GblParser)"/>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.Ast.GblFieldCommand.Execute(ManagedIrbis.Gbl.Infrastructure.GblContext)">
+            <summary>
+            Execute the node.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Gbl.Infrastructure.Ast.GblFieldCommand.FieldTag">
+            <summary>
+            Field tag.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Gbl.Infrastructure.Ast.GblFieldCommand.SubfieldCode">
+            <summary>
+            Subfield code.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Gbl.Infrastructure.Ast.GblFieldCommand.Repeat">
+            <summary>
+            Repeat.
+            </summary>
+        </member>
         <member name="F:ManagedIrbis.Gbl.Infrastructure.Ast.GblAdd.Mnemonic">
             <summary>
             Command mnemonic.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Gbl.Infrastructure.Ast.GblAdd.Execute(ManagedIrbis.Gbl.Infrastructure.GblContext)">
-            <summary>
-            Execute the node.
-            </summary>
+            <inheritdoc cref="M:ManagedIrbis.Gbl.Infrastructure.GblNode.Execute(ManagedIrbis.Gbl.Infrastructure.GblContext)"/>
         </member>
         <member name="M:ManagedIrbis.Gbl.Infrastructure.Ast.GblAdd.ToString">
             <inheritdoc cref="M:System.Object.ToString"/>
@@ -32345,6 +33954,99 @@
         <member name="M:ManagedIrbis.Biblio.MixedChapter.BuildItems(ManagedIrbis.Biblio.BiblioContext)">
             <inheritdoc cref="M:ManagedIrbis.Biblio.MenuSubChapter.BuildItems(ManagedIrbis.Biblio.BiblioContext)"/>
         </member>
+        <member name="T:ManagedIrbis.Gbl.Infrastructure.RecordSource">
+            <summary>
+            Record source.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.RecordSource.GetNextRecord">
+            <summary>
+            Get next record (if any).
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.RecordSource.GetRecordCount">
+            <summary>
+            Get record count.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.RecordSource.Reset">
+            <summary>
+            Reset the source.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.RecordSource.WriteRecord(ManagedIrbis.MarcRecord)">
+            <summary>
+            Write back the modified record.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Gbl.Infrastructure.Ast.GblInternal">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.Ast.GblInternal.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.Ast.GblInternal.Execute(ManagedIrbis.Gbl.Infrastructure.GblContext)">
+            <summary>
+            Execute the node.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.Ast.GblInternal.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Gbl.Infrastructure.Ast.GblInternal.Command">
+            <summary>
+            Command code.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.EventDb.EventDates">
+            <summary>
+            Даты мероприятия. Поле 30.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.EventDb.EventDates.KnownCodes">
+            <summary>
+            Known subfield codes.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.EventDb.EventDates.Tag">
+            <summary>
+            Field tag.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.EventDb.EventDates.Parse(ManagedIrbis.RecordField)">
+            <summary>
+            Parse the field.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventDates.From">
+            <summary>
+            Начальная дата. Подполе a.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventDates.Till">
+            <summary>
+            Конечная дата. Подполе b.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventDates.Exclude">
+            <summary>
+            Исключения дат. Подполе c.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventDates.Field">
+            <summary>
+            Associated <see cref="T:ManagedIrbis.RecordField"/>.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventDates.UserData">
+            <summary>
+            Arbitrary user data.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Authentication.ICredentialsResolver">
             <summary>
             Resolve missing connection elements.
@@ -32658,24 +34360,24 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.PacketInterpreter.RemainingAnsiStrings">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.PacketInterpreter.RemainingAnsiText">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.PacketInterpreter.RemainingUtfStrings">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.PacketInterpreter.RemainingUtfText">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.PacketInterpreter.RequireAnsiString">
             <summary>
@@ -33003,6 +34705,24 @@
             <summary>
             Worker.
             </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.WorkData.Started">
+            <summary>
+            Worker started at...
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.GetDatabaseLockCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.GetDatabaseLockCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.GetDatabaseLockCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
         </member>
         <member name="T:ManagedIrbis.Search.SearchUtility">
             <summary>
@@ -34960,7 +36680,7 @@
         </member>
         <member name="M:ManagedIrbis.Readers.VisitInfo.ToField">
             <summary>
-            Формирование поля 40 
+            Формирование поля 40
             из данных о выдаче/посещении.
             </summary>
         </member>
@@ -35114,6 +36834,12 @@
         <member name="P:ManagedIrbis.Readers.VisitInfo.Price">
             <summary>
             Цена книги.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Readers.VisitInfo.Comment">
+            <summary>
+            Примечание в произвольной форме, введенное оператором АРМ "Книговыдача".
+            Подполе 9 (появилось в 2018.1).
             </summary>
         </member>
         <member name="P:ManagedIrbis.Readers.VisitInfo.Field">
@@ -36881,6 +38607,41 @@
             Get the memory stream.
             </summary>
         </member>
+        <member name="M:ManagedIrbis.Infrastructure.MemoryManager.RecycleMemoryStream(System.IO.MemoryStream)">
+            <summary>
+            Recycle the memory stream.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Gbl.Infrastructure.GblParser">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.GblParser.Parse(System.Collections.Generic.IEnumerable{System.String},ManagedIrbis.Gbl.Infrastructure.GblContext)">
+            <summary>
+            Parse the text.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Drm.AccessKind">
+            <summary>
+            Значение доступа.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Drm.AccessKind.Denied">
+            <summary>
+            Запрет доступа.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Drm.AccessKind.PageView">
+            <summary>
+            Постраничный просмотр.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Drm.AccessKind.Download">
+            <summary>
+            Скачивание.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.SubFieldCode">
             <summary>
             Subfield code related routines.
@@ -37396,6 +39157,11 @@
             Неявное преобразование
             </summary>
         </member>
+        <member name="M:ManagedIrbis.IrbisDate.SafeParse(System.String)">
+            <summary>
+            Safely parse the text.
+            </summary>
+        </member>
         <member name="M:ManagedIrbis.IrbisDate.RestoreFromStream(System.IO.BinaryReader)">
             <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.RestoreFromStream(System.IO.BinaryReader)"/>
         </member>
@@ -37637,6 +39403,21 @@
         <member name="P:ManagedIrbis.Server.ServerSetup.HttpPort">
             <summary>
             Port number for HTTP listener.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerSetup.PipeName">
+            <summary>
+            Name of the Windows pipe server.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerSetup.PipeInstanceCount">
+            <summary>
+            Instance count for Windows pipe server.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Server.ServerSetup.Break">
+            <summary>
+            Вызвать отладчик в конструкторе.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Server.ServerCache">
@@ -39417,6 +41198,116 @@
             Identifier.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Gbl.Infrastructure.GblProgram">
+            <summary>
+            GBL program.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.GblProgram.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.GblProgram.Initialize(ManagedIrbis.Gbl.Infrastructure.GblContext,ManagedIrbis.Gbl.Infrastructure.GblParser)">
+            <summary>
+            Initialize the program.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.GblProgram.Execute(ManagedIrbis.Gbl.Infrastructure.GblContext)">
+            <summary>
+            Execute the program.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Gbl.Infrastructure.GblProgram.Nodes">
+            <summary>
+            Nodes.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Gbl.Infrastructure.GblLogger">
+            <summary>
+            Logger for global corrections.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.GblLogger.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.GblLogger.GetText">
+            <summary>
+            Get output text.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.GblLogger.WriteLine(System.String,System.Object[])">
+            <summary>
+            Write the line.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Gbl.Infrastructure.GblLogger.Output">
+            <summary>
+            Output.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.EventDb.EventCodes">
+            <summary>
+            Коды мероприятия. Поле 900.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.EventDb.EventCodes.KnownCodes">
+            <summary>
+            Known subfield codes.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.EventDb.EventCodes.Tag">
+            <summary>
+            Field tag.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.EventDb.EventCodes.Parse(ManagedIrbis.RecordField)">
+            <summary>
+            Parse the field.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventCodes.Category">
+            <summary>
+            Категория мероприятия. Подполе a.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventCodes.Kind">
+            <summary>
+            Вид мероприятия. Подполе b.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventCodes.Character">
+            <summary>
+            Характер мероприятия. Подполе c.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventCodes.Accessibility">
+            <summary>
+            Степень доступности. Подполе p.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventCodes.Financing">
+            <summary>
+            Финансирование мероприятия. Подполе f.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventCodes.AgeRestrictions">
+            <summary>
+            Возрастные ограничения. Подполе z.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventCodes.Field">
+            <summary>
+            Associated <see cref="T:ManagedIrbis.RecordField"/>.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventCodes.UserData">
+            <summary>
+            Arbitrary user data.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.IrbisVersion">
             <summary>
             Информация о версии ИРБИС-сервера.
@@ -39846,6 +41737,19 @@
             <summary>
             Reverse order.
             </summary>
+        </member>
+        <member name="T:ManagedIrbis.Server.Commands.BackupCommand">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.BackupCommand.#ctor(ManagedIrbis.Server.WorkData)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Server.Commands.BackupCommand.Execute">
+            <inheritdoc cref="M:ManagedIrbis.Server.Commands.ServerCommand.Execute"/>
         </member>
         <member name="T:ManagedIrbis.Search.Infrastructure.SearchLevel4">
             <summary>
@@ -41434,6 +43338,177 @@
             Коллекция полей записи.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Source.Infrastructure.Sockets.MutliprotocolSocket">
+            <summary>
+            Multiprotocol socket.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Source.Infrastructure.Sockets.MutliprotocolSocket.#ctor(ManagedIrbis.IrbisConnection)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Source.Infrastructure.Sockets.MutliprotocolSocket.AbortRequest">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.AbortRequest"/>
+        </member>
+        <member name="M:ManagedIrbis.Source.Infrastructure.Sockets.MutliprotocolSocket.ExecuteRequest(System.Byte[][])">
+            <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.ExecuteRequest(System.Byte[][])"/>
+        </member>
+        <member name="P:ManagedIrbis.Source.Infrastructure.Sockets.MutliprotocolSocket.InnerSockets">
+            <summary>
+            Socket list.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Gbl.Infrastructure.Ast.GblRefreshDb">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="F:ManagedIrbis.Gbl.Infrastructure.Ast.GblRefreshDb.Mnemonic">
+            <summary>
+            Command mnemonic.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.Ast.GblRefreshDb.Execute(ManagedIrbis.Gbl.Infrastructure.GblContext)">
+            <summary>
+            Execute the node.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Gbl.Infrastructure.Ast.GblRefreshDb.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="T:ManagedIrbis.Fields.AthrcRecord">
+            <summary>
+            Запись в базе данных ATHRC.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.MainTitle">
+            <summary>
+            Основное (унифицированное) наименование коллектива/мероприятия.
+            Поле 210.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.See">
+            <summary>
+            Ссылки типа СМ.
+            Поле 410.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.SeeAlso">
+            <summary>
+            Ссылки типа СМ. ТАКЖЕ.
+            Поле 510.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.LinkedTitles">
+            <summary>
+            Связанные основные наименования
+            коллектива/мероприятия на других языках.
+            Поле 710.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.CollectiveKind">
+            <summary>
+            Вид коллектива/мероприятия.
+            Поле 900.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.Notes">
+            <summary>
+            Информационное примечание.
+            Поле 300.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.SeeAlsoNote">
+            <summary>
+            Текстовое ссылочное примечание "см. также".
+            Поле 305.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.SeeNote">
+            <summary>
+            Текстовое ссылочное примечание "см.".
+            Поле 310.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.UsageNotes">
+            <summary>
+            Примечания об области применения.
+            Поле 330.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.InformationSources">
+            <summary>
+            Источник составления записи.
+            Поле 801.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.IdentificationSources">
+            <summary>
+            Источник,в котором выявлена информ. о заголовке.
+            Поле 810.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.UsageInformation">
+            <summary>
+            Информации об использовании основного наименования коллектива/мероприятия.
+            Поле 820.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.Example">
+            <summary>
+            Пример,приведенный в примечании.
+            Поле 825.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.CataloguerNotes">
+            <summary>
+            Общее примечание каталогизатора.
+            Поле 830.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.ExclusionInformation">
+            <summary>
+            Информация об исключении основного наименования коллектива/мероприятия.
+            Поле 835.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.CataguingRules">
+            <summary>
+            Правила каталогизации и предметизации.
+            Поле 152.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.ExternalObject">
+            <summary>
+            Ссылка-внешний объект.
+            Поле 951.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.BinaryResource">
+            <summary>
+            Внутренний двоичный ресурс.
+            Поле 953.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.Settings">
+            <summary>
+            Проверку на дублетность производить.
+            Поле 905.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.Technology">
+            <summary>
+            Каталогизатор, дата.
+            Поле 907.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.AthrcRecord.Worksheet">
+            <summary>
+            Имя рабочего листа.
+            Поле 920.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.FictionBook.FbAuthor">
             <summary>
             Данные об авторе FictionBook.
@@ -41455,6 +43530,80 @@
         <member name="P:ManagedIrbis.FictionBook.FbAuthor.LastName">
             <summary>
             Фамилия.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Drm.AccessRight">
+            <summary>
+            Право доступа к ресурсу. Поле 3.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Drm.AccessRight.KnownCodes">
+            <summary>
+            Known subfield codes.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Drm.AccessRight.Parse(ManagedIrbis.RecordField)">
+            <summary>
+            Parse the field.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Drm.AccessRight.Parse(ManagedIrbis.MarcRecord)">
+            <summary>
+            Parse the record.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Drm.AccessRight.ElementKind">
+            <summary>
+            Элемент доступа. Подполе a.
+            </summary>
+            <remarks>
+            Типичное значение: "02".
+            </remarks>
+        </member>
+        <member name="P:ManagedIrbis.Drm.AccessRight.ElementValue">
+            <summary>
+            Значение элемента доступа. Подполе b.
+            </summary>
+            <remarks>
+            Типичное значние: "В01".
+            </remarks>
+        </member>
+        <member name="P:ManagedIrbis.Drm.AccessRight.AccessKind">
+            <summary>
+            Значение права доступа. Подполе c.
+            </summary>
+            <remarks>
+            Типичное значение: "2".
+            </remarks>
+        </member>
+        <member name="P:ManagedIrbis.Drm.AccessRight.LimitValue">
+            <summary>
+            Количественное ограничение. Подполе f.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Drm.AccessRight.LimitKind">
+            <summary>
+            Единицы ограничения. Подполе g.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Drm.AccessRight.FromDate">
+            <summary>
+            Начальная дата периода доступа. Подполе d.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Drm.AccessRight.TillDate">
+            <summary>
+            Конечная дата периода доступа. Подполе e.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Drm.AccessRight.Field">
+            <summary>
+            Associated <see cref="T:ManagedIrbis.RecordField"/>.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Drm.AccessRight.UserData">
+            <summary>
+            Arbitrary user data.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Batch.BatchAccessor">
@@ -44533,6 +46682,163 @@
             Layout file path.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Fields.LogRecord">
+            <summary>
+            Запись в базе данных LOGDB.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.LogRecord.Parse(ManagedIrbis.MarcRecord)">
+            <summary>
+            Parse the record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Fields.LogRecord.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.FoundCount">
+            <summary>
+            Число найденных записей.
+            Поле 1001.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.Moment">
+            <summary>
+            Время запроса.
+            Поле 907.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.Ticket">
+            <summary>
+            Идентификатор читателя.
+            Поле 1002.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.IpAddress">
+            <summary>
+            IP-адрес текущего запроса.
+            Поле 1100.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.DatabaseProfile">
+            <summary>
+            Профиль базы данных.
+            Поле 2221.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.GatewayCommand">
+            <summary>
+            Команда шлюза.
+            Поле 2222.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.StartNumber">
+            <summary>
+            Стартовый номер.
+            Поле 2223.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.Portion">
+            <summary>
+            Порция.
+            Поле 2224.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.EncodedId">
+            <summary>
+            Зашифрованный идентификатор читателя.
+            Поле 2225.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.SearchQuery">
+            <summary>
+            Поисковый запрос.
+            Поле 2226.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.Words">
+            <summary>
+            Слова для раскраски.
+            Поле 2227.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.Prefix">
+            <summary>
+            Префикс словаря.
+            Поле 2228.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.Key">
+            <summary>
+            Ключ словаря.
+            Поле 2229.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.SortOrder">
+            <summary>
+            Порядок сортировки.
+            Поле 1007.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.SortKind">
+            <summary>
+            Вид сортировки.
+            Поле 1008.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.Format">
+            <summary>
+            Формат показа найденных.
+            Поле 1009.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.LinkCount">
+            <summary>
+            Число ссылок далее.
+            Поле 1010.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.RequestMfn">
+            <summary>
+            MFN заказа.
+            Поле 1011.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.DictionaryPortion">
+            <summary>
+            Порция словаря.
+            Поле 1012.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.SequentialSearch">
+            <summary>
+            Последовательный поиск.
+            Поле 1013.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.DatabaseName">
+            <summary>
+            Имя текущей базы данных.
+            Поле 3331.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.Department">
+            <summary>
+            Место выдачи заказа.
+            Поле 3334.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.FulltextQuery">
+            <summary>
+            Полнотекстовый запрос.
+            Поле 3335.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Fields.LogRecord.FulltextPrefix">
+            <summary>
+            Полнотекстовый префикс.
+            Поле 3337.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.FictionBook.FbDescription">
             <summary>
             Заголовок, описывающий документ FictionBook.
@@ -44544,6 +46850,56 @@
         <member name="P:ManagedIrbis.FictionBook.FbDescription.Title">
             <summary>
             Данные о книге.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.EventDb.EventTitle">
+            <summary>
+            Название мероприятие
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.EventDb.EventTitle.KnownCodes">
+            <summary>
+            Known subfield codes.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.EventDb.EventTitle.Tag">
+            <summary>
+            Тег поля.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.EventDb.EventTitle.Parse(ManagedIrbis.RecordField)">
+            <summary>
+            Parse the field.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventTitle.Title">
+            <summary>
+            Название мероприятия. Подполе a.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventTitle.Subtitle">
+            <summary>
+            Подзаголовок. Подполе b.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventTitle.Abbreviation">
+            <summary>
+            Аббревиатура названия. Подполе r.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventTitle.Number">
+            <summary>
+            Номер пункта мероприятия в плане.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventTitle.Field">
+            <summary>
+            Associated <see cref="T:ManagedIrbis.RecordField"/>.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.EventDb.EventTitle.UserData">
+            <summary>
+            Arbitrary user data.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Direct.MstWriter64">

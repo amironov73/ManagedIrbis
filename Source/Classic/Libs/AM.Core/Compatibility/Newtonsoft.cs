@@ -73,14 +73,34 @@ namespace Newtonsoft.Json
 
     namespace Linq
     {
-       public class JObject {}
+        public class JToken 
+        {
+            public T Value<T>() { return default(T); }
+            public T[] Values<T>() { return new T[0]; }
+            public bool HasValues { get { return false; } }
+        }
 
-       public class JArray {}
+        public class JValue: JToken 
+        {
+        }
 
-       public class JProperty 
+        public class JContainer: JToken {}
+
+        public class JObject
+           : JContainer
+        {
+           public JToken SelectToken(string path)
+           {
+               return null;
+           }
+        }
+
+       public class JArray: JContainer {}
+
+       public class JProperty: JContainer
        {
            public string Name;
-           public string Value;
+           public JToken Value;
        }
     }
 }

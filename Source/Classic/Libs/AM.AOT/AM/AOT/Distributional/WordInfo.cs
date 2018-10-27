@@ -84,7 +84,7 @@ namespace AM.AOT.Distributional
                 Word = parts[0],
                 PartOfSpeech = parts[1],
 #if WINMOBILE || PocketPC
-                Value = (float)NumericUtility.ParseDecimal(property.Value)
+                Value = (float)NumericUtility.ParseDecimal(property.Value.ToString())
 #else
                 Value = property.Value.ToObject<float>()
 #endif

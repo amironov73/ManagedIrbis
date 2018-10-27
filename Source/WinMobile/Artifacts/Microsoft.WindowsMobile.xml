@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.WindowsMobile</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.WindowsMobile.IApplicationLauncher">
+            <summary>
+            Defines the properties, methods, and events that are shared by any object that can have an application launched.
+            </summary>
+        </member>
+        <member name="M:Microsoft.WindowsMobile.IApplicationLauncher.EnableApplicationLauncher(System.String)">
+            <summary>
+            Enables an application to be launched.
+            </summary>
+            <remarks>
+            <b>EnableApplicationLauncher</b> attempts to learn the application file name; if it cannot, then an exception is thrown.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.WindowsMobile.IApplicationLauncher.EnableApplicationLauncher(System.String,System.String)">
+            <summary>
+            Enables an application to be launched, using its launch ID and file name.
+            </summary>
+            <param name="applicationLaunchId">The Application Launch ID.</param>
+            <param name="applicationFileName">The path to executable to launch.</param>
+        </member>
+        <member name="M:Microsoft.WindowsMobile.IApplicationLauncher.EnableApplicationLauncher(System.String,System.String,System.String)">
+            <summary>
+            Enables an application to be launched; using its launch ID, its file name, and the list of any parameters it might need.
+            </summary>
+            <param name="applicationLaunchId">The Application Launch ID.</param>
+            <param name="applicationFileName">The path to executable to launch.</param>
+            <param name="arguments">The string of parameters to pass to launched application.</param>
+        </member>
+        <member name="M:Microsoft.WindowsMobile.IApplicationLauncher.DisableApplicationLauncher">
+            <summary>
+            Disables the application from being launched.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WindowsMobile.IApplicationLauncher.ApplicationLaunchId">
+            <summary>
+            Gets the ID that uniquely identifies a particular application launch request.
+            </summary>
+            <remarks>
+            An application can have multiple application launch requests, but their ID's must all be unique.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.WindowsMobile.IApplicationLauncher.ApplicationToLaunch">
+            <summary>
+            Gets the fully qualified path-name of the application (the executable) to launch.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WindowsMobile.IApplicationLauncher.ApplicationArguments">
+            <summary>
+            Gets optional params to pass to the application to launch.
+            </summary>
+        </member>
+        <member name="T:Microsoft.WindowsMobile.ApplicationLauncherEnableException">
+            <summary>
+            The exception that is thrown when Application Launcher Registration fails.
+            </summary>
+        </member>
+        <member name="M:Microsoft.WindowsMobile.ApplicationLauncherEnableException.#ctor">
+            <summary>
+            Initializes a new instance of the <b>ApplicationLauncherEnableException</b> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.WindowsMobile.ApplicationLauncherEnableException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <b>ApplicationLauncherEnableException</b> class, using an error message containing additional details about the failure.
+            </summary>
+            <param name="message">A string containing further details about the exception.</param>
+        </member>
+        <member name="M:Microsoft.WindowsMobile.ApplicationLauncherEnableException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <b>ApplicationLauncherEnableException</b> class, using an error message containing additional details about the failure, and an inner exception.
+            </summary>
+            <param name="message">A string containing further details about the exception.</param>
+            <param name="inner">An inner exception.</param>
+        </member>
+    </members>
+</doc>
