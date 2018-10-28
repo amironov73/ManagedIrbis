@@ -115,6 +115,7 @@
     <Compile Include="Source\Fields\AthrgRecord.cs" />
     <Compile Include="Source\Fields\AthrsRecord.cs" />
     <Compile Include="Source\Fields\FullTextInfo.cs" />
+    <Compile Include="Source\Fields\LogManager.cs" />
     <Compile Include="Source\Fields\LogRecord.cs" />
     <Compile Include="Source\Fields\ThesaurusRecord.cs" />
     <Compile Include="Source\Fields\ZaprInfo.cs" />

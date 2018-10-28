@@ -138,6 +138,39 @@ namespace ManagedIrbis
         }
 
         /// <summary>
+        /// Apply the value to the field.
+        /// </summary>
+        [NotNull]
+        public static MarcRecord ApplyField
+            (
+                [NotNull] this MarcRecord record,
+                int tag,
+                [CanBeNull] string value
+            )
+        {
+            Code.NotNull(record, "record");
+            Code.Positive(tag, "tag");
+
+            if (string.IsNullOrEmpty(value))
+            {
+                record.RemoveField(tag);
+            }
+            else
+            {
+                RecordField field = record.Fields.GetFirstField(tag);
+                if (ReferenceEquals(field, null))
+                {
+                    field = new RecordField(tag);
+                    record.Fields.Add(field);
+                }
+                field.SubFields.Clear();
+                field.Value = value;
+            }
+
+            return record;
+        }
+
+        /// <summary>
         /// Begin update the record.
         /// </summary>
         [NotNull]
@@ -384,7 +417,6 @@ namespace ManagedIrbis
         /// <summary>
         /// Sets the field.
         /// </summary>
-        /// <returns></returns>
         /// <remarks>Устанавливает значение только для
         /// первого повторения поля (если в записи их несколько)!
         /// </remarks>

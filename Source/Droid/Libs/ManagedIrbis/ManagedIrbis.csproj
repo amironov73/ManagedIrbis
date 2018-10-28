@@ -176,6 +176,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\FullTextInfo.cs">
       <Link>Source\Fields\FullTextInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\LogManager.cs">
+      <Link>Source\Fields\LogManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\LogRecord.cs">
       <Link>Source\Fields\LogRecord.cs</Link>
     </Compile>
