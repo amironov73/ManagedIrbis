@@ -131,7 +131,7 @@ namespace ManagedIrbis.Fields
         public object[] InformationSources { get; set; }
 
         /// <summary>
-        /// Источник,в котором выявлена информ. о заголовке.
+        /// Источник, в котором выявлена информ. о заголовке.
         /// Поле 810.
         /// </summary>
         [CanBeNull]
@@ -152,7 +152,7 @@ namespace ManagedIrbis.Fields
         /// </summary>
         [CanBeNull]
         [Field(825)]
-        public object[] Example { get; set; }
+        public object[] Examples { get; set; }
 
         /// <summary>
         /// Общее примечание каталогизатора.
@@ -176,7 +176,7 @@ namespace ManagedIrbis.Fields
         /// </summary>
         [CanBeNull]
         [Field(152)]
-        public object CataguingRules { get; set; }
+        public object CataloguingRules { get; set; }
 
         /// <summary>
         /// Ссылка-внешний объект.
