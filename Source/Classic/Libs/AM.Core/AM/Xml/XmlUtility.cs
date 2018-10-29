@@ -30,6 +30,7 @@ namespace AM.Xml
     /// <summary>
     /// Collection of useful routines for XML manipulations.
     /// </summary>
+    [PublicAPI]
     public static class XmlUtility
     {
         #region Private members
