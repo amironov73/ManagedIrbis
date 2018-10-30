@@ -245,6 +245,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\PipeClientSocket.cs">
       <Link>Source\Infrastructure\Sockets\PipeClientSocket.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SecureSocket.cs">
+      <Link>Source\Infrastructure\Sockets\SecureSocket.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SimpleClientSocketV6.cs">
       <Link>Source\Infrastructure\Sockets\SimpleClientSocketV6.cs</Link>
     </Compile>

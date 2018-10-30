@@ -135,6 +135,7 @@
     <Compile Include="Source\Infrastructure\Sockets\KeepAliveSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\MutliprotocolSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\PipeClientSocket.cs" />
+    <Compile Include="Source\Infrastructure\Sockets\SecureSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\SimpleClientSocketV6.cs" />
     <Compile Include="Source\Infrastructure\Sockets\UnixDomainSocket.cs" />
     <Compile Include="Source\Magazines\BindingSpecification.cs" />

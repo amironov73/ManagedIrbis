@@ -104,9 +104,9 @@ namespace ManagedIrbis.Server.Sockets
 
             Task<TcpClient> task = Task<TcpClient>.Factory.FromAsync
                 (
-                    _listener.BeginAcceptTcpClient,
-                    _listener.EndAcceptTcpClient,
-                    _listener
+                    Listener.BeginAcceptTcpClient,
+                    Listener.EndAcceptTcpClient,
+                    Listener
                 );
 
 #else
