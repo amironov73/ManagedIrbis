@@ -289,6 +289,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\MemoryManager.cs">
       <Link>Source\Infrastructure\MemoryManager.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\CompressSocket.cs">
+      <Link>Source\Infrastructure\Sockets\CompressSocket.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\KeepAliveSocket.cs">
       <Link>Source\Infrastructure\Sockets\KeepAliveSocket.cs</Link>
     </Compile>
@@ -3015,6 +3018,12 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\PipeSocket.cs">
       <Link>Source\Server\Sockets\PipeSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\Tcp4CompressListener.cs">
+      <Link>Source\Server\Sockets\Tcp4CompressListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\Tcp4CompressSocket.cs">
+      <Link>Source\Server\Sockets\Tcp4CompressSocket.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\Tcp4Listener.cs">
       <Link>Source\Server\Sockets\Tcp4Listener.cs</Link>

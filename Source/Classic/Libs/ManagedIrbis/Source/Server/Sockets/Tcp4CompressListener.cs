@@ -1,7 +1,7 @@
-﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Tcp4Listener.cs --
+/* Tcp4CompressListener.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -14,8 +14,6 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-using CodeJam;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -25,44 +23,27 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Server.Sockets
 {
     /// <summary>
-    /// Простой слушатель для TCP/IP v4.
-    /// Выдает подключение клиента <see cref="Tcp4Socket"/>.
+    /// Сжимающий трафик слушатель для TCP/IP v4.
+    /// Выдает подключение клиента <see cref="Tcp4CompressSocket"/>.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class Tcp4Listener
-        : IrbisServerListener
+    public class Tcp4CompressListener
+        : Tcp4Listener
     {
         #region Construction
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public Tcp4Listener
+        public Tcp4CompressListener
             (
                 [NotNull] IPEndPoint endPoint,
                 CancellationToken token
             )
+            : base(endPoint, token)
         {
-            Code.NotNull(endPoint, "endPoint");
-
-            Listener = new TcpListener(endPoint);
-            Token = token;
         }
-
-        #endregion
-
-        #region Private members
-
-        /// <summary>
-        /// Cancellation token.
-        /// </summary>
-        protected CancellationToken Token;
-
-        /// <summary>
-        /// TCP listener.
-        /// </summary>
-        protected readonly TcpListener Listener;
 
         #endregion
 
@@ -72,14 +53,15 @@ namespace ManagedIrbis.Server.Sockets
         /// Create listener for the given port.
         /// </summary>
         [NotNull]
-        public static Tcp4Listener ForPort
+        public new static Tcp4CompressListener ForPort
             (
                 int portNumber,
                 CancellationToken token
             )
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, portNumber);
-            Tcp4Listener result = new Tcp4Listener(endPoint, token);
+            Tcp4CompressListener result
+                = new Tcp4CompressListener(endPoint, token);
 
             return result;
         }
@@ -120,7 +102,8 @@ namespace ManagedIrbis.Server.Sockets
                     s1 =>
                     {
                         TcpClient client = s1.Result;
-                        IrbisServerSocket socket = new Tcp4Socket(client, Token);
+                        IrbisServerSocket socket
+                            = new Tcp4CompressSocket(client, Token);
                         result.SetResult(socket);
                     },
                     Token
@@ -129,34 +112,6 @@ namespace ManagedIrbis.Server.Sockets
             return result.Task;
 
 #endif
-        }
-
-        /// <inheritdoc cref="IrbisServerListener.GetLocalAddress" />
-        public override string GetLocalAddress()
-        {
-            return Listener.LocalEndpoint.ToString();
-        }
-
-        /// <inheritdoc cref="IrbisServerListener.Start" />
-        public override void Start()
-        {
-            Listener.Start();
-        }
-
-        /// <inheritdoc cref="IrbisServerListener.Stop" />
-        public override void Stop()
-        {
-            Listener.Stop();
-        }
-
-        #endregion
-
-        #region IDisposable members
-
-        /// <inheritdoc cref="IrbisServerListener.Dispose" />
-        public override void Dispose()
-        {
-            Listener.Stop();
         }
 
         #endregion

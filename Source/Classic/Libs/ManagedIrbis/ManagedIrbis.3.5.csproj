@@ -136,6 +136,7 @@
     <Compile Include="Source\ImportExport\Csl.cs" />
     <Compile Include="Source\Infrastructure\FastEngine.cs" />
     <Compile Include="Source\Infrastructure\MemoryManager.cs" />
+    <Compile Include="Source\Infrastructure\Sockets\CompressSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\KeepAliveSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\MutliprotocolSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\PipeClientSocket.cs" />
@@ -1045,6 +1046,8 @@
     <Compile Include="Source\Server\ServerUtility.cs" />
     <Compile Include="Source\Server\Sockets\PipeListener.cs" />
     <Compile Include="Source\Server\Sockets\PipeSocket.cs" />
+    <Compile Include="Source\Server\Sockets\Tcp4CompressListener.cs" />
+    <Compile Include="Source\Server\Sockets\Tcp4CompressSocket.cs" />
     <Compile Include="Source\Server\Sockets\Tcp4Listener.cs" />
     <Compile Include="Source\Server\Sockets\Tcp4Socket.cs" />
     <Compile Include="Source\Server\Sockets\Tcp6Listener.cs" />
