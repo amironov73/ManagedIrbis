@@ -170,7 +170,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
                         (
                             "ArsMagnaSslSocket",
                             collection,
-                            SslProtocols.Tls12,
+                            SslProtocols.None,
                             false
                         );
 
