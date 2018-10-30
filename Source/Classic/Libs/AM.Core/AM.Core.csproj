@@ -371,6 +371,7 @@
   <ItemGroup>
     <None Include="AM\Text\Characters.txt" />
     <None Include="AM\Assertions\empty.txt" />
+    <EmbeddedResource Include="ArsMagnaSslSocket.cer" />
     <Content Include="BlueBook.ico" />
     <None Include="packages.config">
       <SubType>Designer</SubType>

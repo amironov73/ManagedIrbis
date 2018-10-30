@@ -989,6 +989,7 @@
     <Compile Include="Source\Server\Commands\DatabaseStatCommand.cs" />
     <Compile Include="Source\Server\Commands\DeleteDatabaseCommand.cs" />
     <Compile Include="Source\Server\Commands\DisconnectCommand.cs" />
+    <Compile Include="Source\Server\Commands\FlushServerCommand.cs" />
     <Compile Include="Source\Server\Commands\FormatCommand.cs" />
     <Compile Include="Source\Server\Commands\FormatIsoGroupCommand.cs" />
     <Compile Include="Source\Server\Commands\FullTextSearchCommand.cs" />

@@ -175,6 +175,22 @@ namespace AM
         }
 
         /// <summary>
+        /// Сравнивает две строки независимо от текущей культуры.
+        /// </summary>
+        public static bool CompareInvariant
+            (
+                string left,
+                string right
+            )
+        {
+            return CultureInfo.InvariantCulture.CompareInfo.Compare
+                (
+                    left,
+                    right
+                ) == 0;
+        }
+
+        /// <summary>
         /// Сравнивает две строки с точностью до регистра символов.
         /// </summary>
         public static bool CompareNoCase
@@ -566,7 +582,7 @@ namespace AM
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [CanBeNull]
         public static string IfEmpty
@@ -665,19 +681,19 @@ namespace AM
             decimal temp;
 
             return decimal.TryParse
-            (
-                value,
-                NumberStyles.AllowDecimalPoint
-                | NumberStyles.AllowLeadingSign,
-                CultureInfo.InvariantCulture,
-                out temp
-            );
+                (
+                    value,
+                    NumberStyles.AllowDecimalPoint
+                    | NumberStyles.AllowLeadingSign,
+                    CultureInfo.InvariantCulture,
+                    out temp
+                );
 
 #endif
         }
 
         /// <summary>
-        /// Checks whether one can convert given string to 32-bit 
+        /// Checks whether one can convert given string to 32-bit
         /// signed integer value.
         /// </summary>
         /// <param name="value">String to check.</param>
@@ -722,7 +738,7 @@ namespace AM
         }
 
         /// <summary>
-        /// Checks whether one can convert given string to 64-bit 
+        /// Checks whether one can convert given string to 64-bit
         /// signed integer value.
         /// </summary>
         /// <param name="value">String to check.</param>
@@ -767,7 +783,7 @@ namespace AM
         }
 
         /// <summary>
-        /// Проверяет, можно ли трактовать строку как число с плавающей 
+        /// Проверяет, можно ли трактовать строку как число с плавающей
         /// точкой (двойной точности).
         /// </summary>
         /// <param name="value"></param>
@@ -810,7 +826,7 @@ namespace AM
         }
 
         /// <summary>
-        /// Checks whether one can convert given string to 16-bit 
+        /// Checks whether one can convert given string to 16-bit
         /// signed integer value.
         /// </summary>
         /// <param name="value">String to check.</param>
@@ -1138,7 +1154,7 @@ namespace AM
             (
                 this char one,
                 params char[] many
-        )
+            )
         {
             foreach (char s in many)
             {
@@ -1386,7 +1402,7 @@ namespace AM
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [CanBeNull]
         public static string SafeSubstring
@@ -1987,7 +2003,7 @@ namespace AM
         }
 
         /// <summary>
-        /// Преобразует строку, содержащую escape-последовательности, 
+        /// Преобразует строку, содержащую escape-последовательности,
         /// к нормальному виду.
         /// </summary>
         /// <param name="value">Исходная строка.</param>
@@ -2160,10 +2176,10 @@ namespace AM
         /// </summary>
         [CanBeNull]
         public static string UrlDecode
-        (
-            [CanBeNull] string text,
-            [NotNull] Encoding encoding
-        )
+            (
+                [CanBeNull] string text,
+                [NotNull] Encoding encoding
+            )
         {
             Code.NotNull(encoding, "encoding");
             if (string.IsNullOrEmpty(text))
@@ -2200,10 +2216,10 @@ namespace AM
             }
 
             string result = EncodingUtility.GetString
-            (
-                encoding,
-                bytes.ToArray()
-            );
+                (
+                    encoding,
+                    bytes.ToArray()
+                );
 
             return result;
         }
@@ -2213,10 +2229,10 @@ namespace AM
         /// </summary>
         [CanBeNull]
         public static string UrlEncode
-        (
-            [CanBeNull] string text,
-            [NotNull] Encoding encoding
-        )
+            (
+                [CanBeNull] string text,
+                [NotNull] Encoding encoding
+            )
         {
             Code.NotNull(encoding, "encoding");
             if (string.IsNullOrEmpty(text))
@@ -2277,6 +2293,31 @@ namespace AM
             if (!string.IsNullOrEmpty(suffix))
             {
                 result = result + suffix;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Wrap the string with given prefix/suffix
+        /// </summary>
+        [CanBeNull]
+        public static string Wrap
+            (
+                [CanBeNull] this string value,
+                [CanBeNull] string prefixSuffix
+            )
+        {
+            if (ReferenceEquals(value, null))
+            {
+                return null;
+            }
+
+            string result = value;
+
+            if (!string.IsNullOrEmpty(prefixSuffix))
+            {
+                result = prefixSuffix + value + prefixSuffix;
             }
 
             return result;

@@ -2807,6 +2807,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\DisconnectCommand.cs">
       <Link>Source\Server\Commands\DisconnectCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\FlushServerCommand.cs">
+      <Link>Source\Server\Commands\FlushServerCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\FormatCommand.cs">
       <Link>Source\Server\Commands\FormatCommand.cs</Link>
     </Compile>

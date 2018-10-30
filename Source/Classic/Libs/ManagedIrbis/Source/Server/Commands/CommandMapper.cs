@@ -286,6 +286,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new StopServerCommand(data);
                     break;
 
+                case "FLUSH":
+                    result = new FlushServerCommand(data);
+                    break;
+
                 //===================================================
 
                 default:

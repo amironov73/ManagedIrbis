@@ -10,7 +10,11 @@
 #region Using directives
 
 using System;
+using System.IO;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+
+using AM.IO;
 
 using CodeJam;
 
@@ -46,6 +50,24 @@ namespace AM.Security
         }
 
         /// <summary>
+        /// Get certificate for SslStream.
+        /// </summary>
+        [NotNull]
+        public static X509Certificate GetSslCertificate()
+        {
+            Assembly assembly = typeof(SecurityUtility).Assembly;
+            string resourceName = "AM.Core.ArsMagnaSslSocket.cer";
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            {
+                byte[] rawData = stream.ReadToEnd();
+                X509Certificate result = new X509Certificate();
+                result.Import(rawData);
+
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Get certificate by the subject.
         /// </summary>
         [NotNull]
@@ -60,7 +82,7 @@ namespace AM.Security
             store.Open(OpenFlags.ReadOnly);
             foreach (X509Certificate2 certificate in store.Certificates)
             {
-                if (certificate.Subject == subject)
+                if (StringUtility.CompareInvariant(certificate.Subject, subject))
                 {
                     store.CloseStore();
                     return certificate;

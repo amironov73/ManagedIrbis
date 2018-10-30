@@ -20,6 +20,8 @@ using MoonSharp.Interpreter;
 
 #endregion
 
+// ReSharper disable UseNullPropagation
+
 namespace AM
 {
     /// <summary>
@@ -37,12 +39,16 @@ namespace AM
         /// </summary>
         public static void SafeDispose
             (
-                [CanBeNull] this IDisposable obj
+                [CanBeNull] this object obj
             )
         {
             if (!ReferenceEquals(obj, null))
             {
-                obj.Dispose();
+                IDisposable coerced = obj as IDisposable;
+                if (!ReferenceEquals(coerced, null))
+                {
+                    coerced.Dispose();
+                }
             }
         }
 
