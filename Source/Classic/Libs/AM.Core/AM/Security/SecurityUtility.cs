@@ -55,6 +55,12 @@ namespace AM.Security
         [NotNull]
         public static X509Certificate GetSslCertificate()
         {
+#if UAP
+
+            throw new NotImplementedException();
+
+#else
+
             Assembly assembly = typeof(SecurityUtility).Assembly;
             string resourceName = "AM.Core.ArsMagnaSslSocket.cer";
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
@@ -65,6 +71,8 @@ namespace AM.Security
 
                 return result;
             }
+
+#endif
         }
 
         /// <summary>

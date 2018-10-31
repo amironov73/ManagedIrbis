@@ -353,11 +353,47 @@ namespace SciInvent
             return null;
         }
 
+        private static RecordField FindInventory
+            (
+                MarcRecord record,
+                string inventory
+            )
+        {
+            foreach (RecordField field in record.Fields.GetField(910))
+            {
+                if (field.GetFirstSubFieldValue('b').SameString(inventory))
+                {
+                    return field;
+                }
+            }
+
+            return null;
+        }
+
+        private static string FireStart
+            (
+                string barcode
+            )
+        {
+            if (!barcode.StartsWith("66429"))
+            {
+                return null;
+            }
+
+            string inventory = barcode.Substring(5, 7).TrimStart('0');
+            return inventory;
+        }
+
         private static void MarkBook
             (
                 string barcode
             )
         {
+            if (barcode.EndsWith(",1"))
+            {
+                barcode = barcode.Substring(0, barcode.Length - 2);
+            }
+
             string inventory = null;
             RecordField field = null;
             MarcRecord record = Irbis.SearchReadOneRecord("\"BAR={0}\"", barcode);
@@ -378,17 +414,17 @@ namespace SciInvent
                         return;
                     }
 
-                    string actualPlace = field.GetFirstSubFieldValue('d');
-                    if (!ExpectedPlace.SameString(actualPlace))
-                    {
-                        WriteLine
-                            (
-                                "Экземпляр {0}: место хранения (ИРБИС) '{1}'",
-                                barcode,
-                                actualPlace
-                            );
-                        return;
-                    }
+//                    string actualPlace = field.GetFirstSubFieldValue('d');
+//                    if (!ExpectedPlace.SameString(actualPlace))
+//                    {
+//                        WriteLine
+//                            (
+//                                "Экземпляр {0}: место хранения (ИРБИС) '{1}'",
+//                                barcode,
+//                                actualPlace
+//                            );
+//                        return;
+//                    }
 
                     inventory = field.GetFirstSubFieldValue('b');
                 }
@@ -396,8 +432,39 @@ namespace SciInvent
 
             if (string.IsNullOrEmpty(inventory))
             {
+                inventory = FireStart(barcode);
+                if (!string.IsNullOrEmpty(inventory))
+                {
+                    record = Irbis.SearchReadOneRecord("\"IN={0}\"", inventory);
+                    if (!ReferenceEquals(record, null))
+                    {
+                        field = FindInventory(record, inventory);
+                        if (ReferenceEquals(field, null))
+                        {
+                            WriteLine("Не удалось найти поле для инвентарного номера " + inventory);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            if (string.IsNullOrEmpty(inventory))
+            {
                 WriteLine("Неизвестный штрих-код: " + barcode);
                 return;
+            }
+
+            if (!ReferenceEquals(record, null))
+            {
+                string description = Irbis.FormatRecord("@sbrief", record.Mfn);
+                if (!string.IsNullOrEmpty(description))
+                {
+                    description = description.Trim();
+                    if (!string.IsNullOrEmpty(description))
+                    {
+                        WriteLine(description);
+                    }
+                }
             }
 
             Table<PodsobRecord> podsob = Db.GetTable<PodsobRecord>();
