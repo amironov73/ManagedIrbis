@@ -127,9 +127,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Source\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Source\MstPanel.resx">
       <DependentUpon>MstPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\ManagedIrbis.Direct.MstRecord64.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

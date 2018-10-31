@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* MainForm.cs -- 
+/* MainForm.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -67,6 +67,7 @@ namespace MstExplorer
             HideMainMenu();
             //HideToolStrip();
             //HideStatusStrip();
+
 
             MstPanel panel = new MstPanel(this);
             SetupCentralControl(panel);

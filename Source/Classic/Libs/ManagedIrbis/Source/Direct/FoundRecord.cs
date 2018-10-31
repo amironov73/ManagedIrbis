@@ -75,7 +75,12 @@ namespace ManagedIrbis.Direct
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            return string.Format("Mfn: {0}", Mfn);
+            return string.Format
+                (
+                    "[{0}] v{1}",
+                    Mfn,
+                    Version
+                );
         }
 
         #endregion

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* MstPanel.cs -- 
+/* MstPanel.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -42,7 +42,9 @@ using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Client;
+using ManagedIrbis.Direct;
 using ManagedIrbis.Fields;
+using ManagedIrbis.ImportExport;
 
 using MoonSharp.Interpreter;
 
@@ -53,12 +55,12 @@ using Newtonsoft.Json.Linq;
 
 namespace MstExplorer
 {
-    public partial class MstPanel 
+    public partial class MstPanel
         : UniversalCentralControl
     {
         #region Properties
 
-        
+
 
         #endregion
 
@@ -71,6 +73,8 @@ namespace MstExplorer
             : base(null)
         {
             InitializeComponent();
+            CreateToolboxItems();
+            OpenMstFile();
         }
 
         public MstPanel
@@ -80,21 +84,113 @@ namespace MstExplorer
             : base(mainForm)
         {
             InitializeComponent();
+            CreateToolboxItems();
+            OpenMstFile();
         }
+
 
         #endregion
 
         #region Private members
 
+        private FoundRecord[] _foundRecords;
+        private MstFile64 _mstFile;
 
+        private void CreateToolboxItems()
+        {
+            ToolStripItem openItem = MainForm.ToolStrip.Items.Add("Open...");
+            openItem.Click += _OpenItem_Click;
+        }
+
+        private void _OpenItem_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            if (_openFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                OpenMstFile(_openFileDialog.FileName);
+            }
+        }
 
         #endregion
-
 
         #region Public methods
 
-        
+        public void OpenMstFile()
+        {
+            string[] args = Environment.GetCommandLineArgs();
+
+            if (args.Length > 1)
+            {
+                OpenMstFile(args[1]);
+            }
+        }
+
+        public void OpenMstFile
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            if (!ReferenceEquals(_mstFile, null))
+            {
+                _mstFile.Dispose();
+                _mstFile = null;
+            }
+
+
+            WriteLine("Finding records...");
+            Run(() =>
+            {
+                _foundRecords = MstRecover64.FindRecords(fileName);
+            });
+            WriteLine("Records found: {0}", _foundRecords.Length);
+
+            _mstFile = new MstFile64(fileName, DirectAccessMode.ReadOnly);
+            _bindingSource.DataSource = _foundRecords;
+        }
 
         #endregion
+
+        private void _bindingSource_CurrentChanged
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            if (ReferenceEquals(_foundRecords, null))
+            {
+                return;
+            }
+
+            int index = _bindingSource.Position;
+            if (index < 0 && index >= _foundRecords.Length)
+            {
+                return;
+            }
+
+            FoundRecord found = _foundRecords[index];
+            MstRecord64 mstRecord = _mstFile.ReadRecord(found.Position);
+            _leaderBox.Text = mstRecord.Leader.ToString();
+            _grid.AutoGenerateColumns = false;
+            _grid.DataSource = mstRecord.Dictionary;
+        }
+
+        protected override void OnHandleDestroyed
+            (
+            EventArgs e
+            )
+        {
+            if (!ReferenceEquals(_mstFile, null))
+            {
+                _mstFile.Dispose();
+                _mstFile = null;
+            }
+
+            base.OnHandleDestroyed(e);
+        }
     }
 }
