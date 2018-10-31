@@ -1,6 +1,6 @@
 version: 1.9.0.{build}
 configuration: Debug
-image: Previous Visual Studio 2015
+image: Visual Studio 2017
 
 clone_folder: C:\projects\managedclient
 
@@ -34,8 +34,8 @@ after_build:
 - cmd: runPftTests.cmd
 - cmd: compile.cmd
 - cmd: compilecore2.cmd
-- cmd: compiledroid.cmd
-- cmd: compileuap.cmd
+- cmd: compiledroid17.cmd
+- cmd: compileuap17.cmd
 - cmd: cd Nuget
 - cmd: packit.cmd
 - cmd: cd ..
