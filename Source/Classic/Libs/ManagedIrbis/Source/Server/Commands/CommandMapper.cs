@@ -290,6 +290,10 @@ namespace ManagedIrbis.Server.Commands
                     result = new FlushServerCommand(data);
                     break;
 
+                case "DUMP":
+                    result = new DumpStateCommand(data);
+                    break;
+
                 //===================================================
 
                 default:

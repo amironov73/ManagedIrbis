@@ -35,7 +35,7 @@ namespace ManagedIrbis.Server.Sockets
         #region Construction
 
         /// <summary>
-        /// Construction.
+        /// Constructor.
         /// </summary>
         public Tcp4CompressSocket
             (

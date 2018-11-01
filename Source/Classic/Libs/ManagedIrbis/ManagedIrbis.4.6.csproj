@@ -138,7 +138,7 @@
     <Compile Include="Source\Infrastructure\Sockets\KeepAliveSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\MutliprotocolSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\PipeClientSocket.cs" />
-    <Compile Include="Source\Infrastructure\Sockets\SecureSocket.cs" />
+    <Compile Include="Source\Infrastructure\Sockets\SecureClientSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\SimpleClientSocketV6.cs" />
     <Compile Include="Source\Infrastructure\Sockets\UnixDomainSocket.cs" />
     <Compile Include="Source\Magazines\BindingSpecification.cs" />
@@ -994,6 +994,7 @@
     <Compile Include="Source\Server\Commands\DatabaseStatCommand.cs" />
     <Compile Include="Source\Server\Commands\DeleteDatabaseCommand.cs" />
     <Compile Include="Source\Server\Commands\DisconnectCommand.cs" />
+    <Compile Include="Source\Server\Commands\DumpStateCommand.cs" />
     <Compile Include="Source\Server\Commands\FlushServerCommand.cs" />
     <Compile Include="Source\Server\Commands\FormatCommand.cs" />
     <Compile Include="Source\Server\Commands\FormatIsoGroupCommand.cs" />
@@ -1048,6 +1049,8 @@
     <Compile Include="Source\Server\Sockets\Tcp4CompressListener.cs" />
     <Compile Include="Source\Server\Sockets\Tcp4CompressSocket.cs" />
     <Compile Include="Source\Server\Sockets\Tcp4Listener.cs" />
+    <Compile Include="Source\Server\Sockets\Tcp4SecureListener.cs" />
+    <Compile Include="Source\Server\Sockets\Tcp4SecureSocket.cs" />
     <Compile Include="Source\Server\Sockets\Tcp4Socket.cs" />
     <Compile Include="Source\Server\Sockets\Tcp6Listener.cs" />
     <Compile Include="Source\Server\Sockets\Tcp6Socket.cs" />

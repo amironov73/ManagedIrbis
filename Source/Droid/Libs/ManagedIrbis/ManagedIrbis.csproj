@@ -245,8 +245,8 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\PipeClientSocket.cs">
       <Link>Source\Infrastructure\Sockets\PipeClientSocket.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SecureSocket.cs">
-      <Link>Source\Infrastructure\Sockets\SecureSocket.cs</Link>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SecureClientSocket.cs">
+      <Link>Source\Infrastructure\Sockets\SecureClientSocket.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\SimpleClientSocketV6.cs">
       <Link>Source\Infrastructure\Sockets\SimpleClientSocketV6.cs</Link>
@@ -2813,6 +2813,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\DisconnectCommand.cs">
       <Link>Source\Server\Commands\DisconnectCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\DumpStateCommand.cs">
+      <Link>Source\Server\Commands\DumpStateCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Commands\FlushServerCommand.cs">
       <Link>Source\Server\Commands\FlushServerCommand.cs</Link>
     </Compile>
@@ -2974,6 +2977,12 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\Tcp4Listener.cs">
       <Link>Source\Server\Sockets\Tcp4Listener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\Tcp4SecureListener.cs">
+      <Link>Source\Server\Sockets\Tcp4SecureListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\Tcp4SecureSocket.cs">
+      <Link>Source\Server\Sockets\Tcp4SecureSocket.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Server\Sockets\Tcp4Socket.cs">
       <Link>Source\Server\Sockets\Tcp4Socket.cs</Link>

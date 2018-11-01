@@ -1,7 +1,7 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SecureSocket.cs --
+/* SecureClientSocket.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -37,7 +37,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class SecureSocket
+    public sealed class SecureClientSocket
         : AbstractClientSocket
     {
         #region Construction
@@ -45,7 +45,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SecureSocket
+        public SecureClientSocket
             (
                 [NotNull] IrbisConnection connection
             )
