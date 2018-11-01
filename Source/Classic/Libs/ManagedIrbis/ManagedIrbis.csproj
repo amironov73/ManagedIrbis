@@ -141,6 +141,7 @@
     <Compile Include="Source\Infrastructure\Sockets\SecureClientSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\SimpleClientSocketV6.cs" />
     <Compile Include="Source\Infrastructure\Sockets\UnixDomainSocket.cs" />
+    <Compile Include="Source\IrbisGuid.cs" />
     <Compile Include="Source\Magazines\BindingSpecification.cs" />
     <Compile Include="Source\Magazines\BindingManager.cs" />
     <Compile Include="Source\Metadata\BibFrame\BibAgent.cs" />
@@ -1253,6 +1254,9 @@
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
       <Name>AM.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Source\Fulltext" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Condition=" '$(TargetFrameworkVersion)'=='v4.0' " Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" />

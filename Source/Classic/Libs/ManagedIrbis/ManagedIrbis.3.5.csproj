@@ -143,6 +143,7 @@
     <Compile Include="Source\Infrastructure\Sockets\SecureClientSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\SimpleClientSocketV6.cs" />
     <Compile Include="Source\Infrastructure\Sockets\UnixDomainSocket.cs" />
+    <Compile Include="Source\IrbisGuid.cs" />
     <Compile Include="Source\Magazines\BindingSpecification.cs" />
     <Compile Include="Source\Magazines\BindingManager.cs" />
     <Compile Include="Source\Metadata\BibFrame\BibAgent.cs" />
