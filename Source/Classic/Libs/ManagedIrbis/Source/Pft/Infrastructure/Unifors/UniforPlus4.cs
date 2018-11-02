@@ -66,7 +66,6 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             MarcRecord record = context.Record;
             if (!ReferenceEquals(record, null))
             {
-
                 TextNavigator navigator = new TextNavigator(expression);
                 char command = navigator.ReadChar();
                 char order = navigator.ReadChar();
@@ -79,7 +78,10 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 command = CharUtility.ToUpperInvariant(command);
                 order = CharUtility.ToUpperInvariant(order);
 
-                RecordField[] workingFields = record.Fields.ToArray();
+                // Поле GUID пропускается
+                RecordField[] workingFields = record.Fields
+                        .Where(field => field.Tag != IrbisGuid.Tag)
+                    .ToArray();
                 if (order != '0')
                 {
                     Array.Sort(workingFields, FieldComparer.ByTag());

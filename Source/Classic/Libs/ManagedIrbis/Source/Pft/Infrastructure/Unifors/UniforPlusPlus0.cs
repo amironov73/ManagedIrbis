@@ -66,6 +66,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 StringBuilder output = new StringBuilder();
                 foreach (RecordField field in record.Fields)
                 {
+                    if (field.Tag == IrbisGuid.Tag)
+                    {
+                        // Поле GUID не выводится
+                        continue;
+                    }
+
                     if (tagsToSkip.Contains(field.Tag))
                     {
                         continue;

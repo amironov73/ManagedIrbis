@@ -205,8 +205,10 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("+Z", UniforPlusZ.AnsiToOem);
             Registry.Add("+@", UniforPlusAt.FormatJson);
             Registry.Add("++A", UniforPlusPlusA.GetPhrase);
+            Registry.Add("++B", UniforPlusPlusB.Unknown);
             Registry.Add("++C", UniforPlusPlusC.WorkWithGlobalCounter);
             Registry.Add("++0", UniforPlusPlus0.FormatAll);
+            Registry.Add("++1", UniforPlusPlus1.Unknown);
             Registry.Add("+\\", UniforPlusBackslash.ConvertBackslashes);
             Registry.Add("+*", UniforPlusStar.GetGuid);
             Registry.Add("!", UniforBang. CleanDoubleText);

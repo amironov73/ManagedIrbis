@@ -72,6 +72,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 Encoding encoding = IrbisEncoding.Utf8;
                 foreach (RecordField field in record.Fields)
                 {
+                    if (field.Tag == IrbisGuid.Tag)
+                    {
+                        // Поле GUID не выводится
+                        continue;
+                    }
+
                     if (field.IsEmpty)
                     {
                         continue;

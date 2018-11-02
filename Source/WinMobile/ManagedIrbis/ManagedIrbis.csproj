@@ -2158,8 +2158,14 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusPlus0.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusPlus0.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusPlus1.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusPlus1.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusPlusA.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusPlusA.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusPlusB.cs">
+      <Link>Source\Pft\Infrastructure\Unifors\UniforPlusPlusB.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Unifors\UniforPlusPlusC.cs">
       <Link>Source\Pft\Infrastructure\Unifors\UniforPlusPlusC.cs</Link>

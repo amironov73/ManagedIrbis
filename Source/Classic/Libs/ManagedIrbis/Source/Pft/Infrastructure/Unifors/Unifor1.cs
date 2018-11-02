@@ -107,6 +107,11 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 return;
             }
             int tag = NumericUtility.ParseInt32(tagText);
+            if (tag == IrbisGuid.Tag)
+            {
+                // Поле GUID не выводится
+                return;
+            }
 
             char code = SubField.NoCode;
             if (navigator.PeekChar() == '^')

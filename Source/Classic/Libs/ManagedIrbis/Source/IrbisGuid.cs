@@ -21,6 +21,16 @@ using MoonSharp.Interpreter;
 
 namespace ManagedIrbis
 {
+    //
+    // Поле GUID - уникальный идентификатор записи.
+    //
+    // Поле GUID не показывается с помощью команды V,
+    // отсутствует с точки зрения функций P и A
+    // Не показывается &uf('0'), &uf('1'), &uf('A'),
+    // &uf('P'), &uf('+4') и &uf('++0').
+    // Но показывается &uf('+0').
+    //
+
     /// <summary>
     /// GUID handling in IRBIS64.
     /// </summary>

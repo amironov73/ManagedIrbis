@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* UniforA.cs -- 
+/* UniforA.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -71,14 +71,19 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     if (specification.ParseUnifor(expression)
                         && specification.FieldRepeat.Kind != IndexKind.None)
                     {
-                        FieldReference reference = new FieldReference();
-                        reference.Apply(specification);
-
-                        string result = reference.Format(record);
-                        if (!string.IsNullOrEmpty(result))
+                        if (specification.Tag != IrbisGuid.Tag)
                         {
-                            context.WriteAndSetFlag(node, result);
-                            context.VMonitor = true;
+                            // Поле GUID пропускается
+
+                            FieldReference reference = new FieldReference();
+                            reference.Apply(specification);
+
+                            string result = reference.Format(record);
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                context.WriteAndSetFlag(node, result);
+                                context.VMonitor = true;
+                            }
                         }
                     }
                 }

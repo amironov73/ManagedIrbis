@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* UniforP.cs -- 
+/* UniforP.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -72,6 +72,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                         FieldSpecification specification = new FieldSpecification();
                         if (specification.ParseUnifor(expression))
                         {
+                            if (specification.Tag == IrbisGuid.Tag)
+                            {
+                                // Поле GUID не выводится
+                                return;
+                            }
+
                             FieldReference reference = new FieldReference();
                             reference.Apply(specification);
 

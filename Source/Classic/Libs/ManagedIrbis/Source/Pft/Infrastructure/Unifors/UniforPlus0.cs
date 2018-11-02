@@ -65,6 +65,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                     (
                         "0#{0}", record.Version
                     ));
+
+                // Поле GUID выводится
                 output.Append(record.ToPlainText());
                 context.WriteAndSetFlag(node, output.ToString());
             }

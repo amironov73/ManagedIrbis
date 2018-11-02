@@ -34,7 +34,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -238,6 +238,12 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             )
         {
             Code.NotNull(record, "record");
+
+            if (tag == IrbisGuid.Tag)
+            {
+                // Поле GUID всегда считается отсуствующим
+                return false;
+            }
 
             RecordField field = record.Fields.GetField
                 (
