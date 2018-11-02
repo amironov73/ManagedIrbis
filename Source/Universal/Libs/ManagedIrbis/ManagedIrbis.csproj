@@ -250,6 +250,15 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\ZaprRecord.cs">
       <Link>Source\Fields\ZaprRecord.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fulltext\FulltextDublin.cs">
+      <Link>Source\Fulltext\FulltextDublin.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fulltext\FulltextRecord.cs">
+      <Link>Source\Fulltext\FulltextRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fulltext\FullTextReference.cs">
+      <Link>Source\Fulltext\FullTextReference.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Gbl\Infrastructure\Ast\GblContextIn.cs">
       <Link>Source\Gbl\Infrastructure\Ast\GblContextIn.cs</Link>
     </Compile>

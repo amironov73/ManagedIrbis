@@ -121,6 +121,9 @@
     <Compile Include="Source\Fields\ThesaurusRecord.cs" />
     <Compile Include="Source\Fields\ZaprInfo.cs" />
     <Compile Include="Source\Fields\ZaprRecord.cs" />
+    <Compile Include="Source\Fulltext\FulltextDublin.cs" />
+    <Compile Include="Source\Fulltext\FulltextRecord.cs" />
+    <Compile Include="Source\Fulltext\FullTextReference.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblContextIn.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblContextOut.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblFieldCommand.cs" />
@@ -1257,9 +1260,6 @@
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
       <Name>AM.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Source\Fulltext" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Condition=" '$(TargetFrameworkVersion)'=='v4.0' " Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" />

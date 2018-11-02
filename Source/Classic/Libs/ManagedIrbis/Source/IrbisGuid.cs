@@ -68,9 +68,15 @@ namespace ManagedIrbis
                 return null;
             }
 
-            string result = record.FM(Tag);
+            string text = record.FM(Tag);
+            if (string.IsNullOrEmpty(text))
+            {
+                return null;
+            }
 
-            return result;
+            Guid guid = Parse(text);
+
+            return guid.ToString("D").ToUpperInvariant();
         }
 
         /// <summary>
@@ -91,7 +97,15 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(text, "text");
 
+#if FW35
+
+            return new Guid(text);
+
+#else
+
             return Guid.Parse(text);
+
+#endif
         }
 
         /// <summary>
@@ -105,9 +119,13 @@ namespace ManagedIrbis
             Code.NotNull(record, "record");
 
             string text = record.FM(Tag);
-            return string.IsNullOrEmpty(text)
-                ? (Guid?) null
-                : Parse(text);
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return null;
+            }
+
+            return Parse(text);
         }
 
         #endregion
