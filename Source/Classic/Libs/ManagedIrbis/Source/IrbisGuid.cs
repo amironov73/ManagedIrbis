@@ -33,11 +33,35 @@ namespace ManagedIrbis
         /// <summary>
         /// Метка поля для GUID.
         /// </summary>
-        public const int GuidTag = 2147483647;
+        public const int Tag = 2147483647;
+
+        /// <summary>
+        /// Метка поля для GUID (строка).
+        /// </summary>
+        public const string TagString = "2147483647";
 
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Get GUID from the <see cref="MarcRecord"/>.
+        /// </summary>
+        [CanBeNull]
+        public static string Get
+            (
+                [CanBeNull] MarcRecord record
+            )
+        {
+            if (ReferenceEquals(record, null))
+            {
+                return null;
+            }
+
+            string result = record.FM(Tag);
+
+            return result;
+        }
 
         /// <summary>
         /// Create new GUID in IRBIS64 format.
@@ -70,7 +94,7 @@ namespace ManagedIrbis
         {
             Code.NotNull(record, "record");
 
-            string text = record.FM(GuidTag);
+            string text = record.FM(Tag);
             return string.IsNullOrEmpty(text)
                 ? (Guid?) null
                 : Parse(text);

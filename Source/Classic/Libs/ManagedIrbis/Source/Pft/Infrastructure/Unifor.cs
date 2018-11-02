@@ -208,6 +208,7 @@ namespace ManagedIrbis.Pft.Infrastructure
             Registry.Add("++C", UniforPlusPlusC.WorkWithGlobalCounter);
             Registry.Add("++0", UniforPlusPlus0.FormatAll);
             Registry.Add("+\\", UniforPlusBackslash.ConvertBackslashes);
+            Registry.Add("+*", UniforPlusStar.GetGuid);
             Registry.Add("!", UniforBang. CleanDoubleText);
             Registry.Add("=", UniforEqual.CompareWithMask);
             Registry.Add("[", UniforSquareBracket.CleanContextMarkup);

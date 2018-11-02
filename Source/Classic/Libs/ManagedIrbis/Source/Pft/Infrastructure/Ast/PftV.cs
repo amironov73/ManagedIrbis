@@ -220,37 +220,42 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
         {
             OnBeforeExecution(context);
 
-            if (!ReferenceEquals(context.CurrentField, null))
+            if (Tag != IrbisGuid.TagString)
             {
-                Log.Error
-                    (
-                        "PftV::Execute: "
-                        + "nested field detected"
-                    );
+                // Поле GUID не выводится
 
-                throw new PftSemanticException("nested field");
-            }
-
-            if (!ReferenceEquals(context.CurrentGroup, null))
-            {
-                if (IsFirstRepeat(context))
+                if (!ReferenceEquals(context.CurrentField, null))
                 {
-                    _count = GetCount(context);
+                    Log.Error
+                        (
+                            "PftV::Execute: "
+                            + "nested field detected"
+                        );
+
+                    throw new PftSemanticException("nested field");
                 }
 
-                _Execute(context);
-            }
-            else
-            {
-                PftContext childContext = new PftContext(context)
+                if (!ReferenceEquals(context.CurrentGroup, null))
                 {
-                    FieldOutputMode = context.FieldOutputMode,
-                    UpperMode = context.UpperMode,
-                    Output = context.Output
-                };
+                    if (IsFirstRepeat(context))
+                    {
+                        _count = GetCount(context);
+                    }
 
-                _count = GetCount(childContext);
-                childContext.DoRepeatableAction(_Execute);
+                    _Execute(context);
+                }
+                else
+                {
+                    PftContext childContext = new PftContext(context)
+                    {
+                        FieldOutputMode = context.FieldOutputMode,
+                        UpperMode = context.UpperMode,
+                        Output = context.Output
+                    };
+
+                    _count = GetCount(childContext);
+                    childContext.DoRepeatableAction(_Execute);
+                }
             }
 
             OnAfterExecution(context);

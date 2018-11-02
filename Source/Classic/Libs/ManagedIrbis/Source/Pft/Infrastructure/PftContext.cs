@@ -37,7 +37,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Pft.Infrastructure
 {
     /// <summary>
-    /// Контекст форматирования
+    /// РљРѕРЅС‚РµРєСЃС‚ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -60,12 +60,12 @@ namespace ManagedIrbis.Pft.Infrastructure
         public TextDriver Driver { get; private set; }
 
         /// <summary>
-        /// Родительский контекст.
+        /// Р РѕРґРёС‚РµР»СЊСЃРєРёР№ РєРѕРЅС‚РµРєСЃС‚.
         /// </summary>
         public PftContext Parent { get { return _parent; } }
 
         /// <summary>
-        /// Текущая форматируемая запись.
+        /// РўРµРєСѓС‰Р°СЏ С„РѕСЂРјР°С‚РёСЂСѓРµРјР°СЏ Р·Р°РїРёСЃСЊ.
         /// </summary>
         [CanBeNull]
         public MarcRecord Record { get; set; }
@@ -76,57 +76,57 @@ namespace ManagedIrbis.Pft.Infrastructure
         public MarcRecord AlternativeRecord { get; set; }
 
         /// <summary>
-        /// Выходной буфер, в котором накапливается результат
-        /// форматирования, а также ошибки и предупреждения.
+        /// Р’С‹С…РѕРґРЅРѕР№ Р±СѓС„РµСЂ, РІ РєРѕС‚РѕСЂРѕРј РЅР°РєР°РїР»РёРІР°РµС‚СЃСЏ СЂРµР·СѓР»СЊС‚Р°С‚
+        /// С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ, Р° С‚Р°РєР¶Рµ РѕС€РёР±РєРё Рё РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ.
         /// </summary>
         public PftOutput Output { get; internal set; }
 
         /// <summary>
-        /// Накопленный текст в основном потоке выходного буфера,
-        /// т. е. собственно результат расформатирования записи.
+        /// РќР°РєРѕРїР»РµРЅРЅС‹Р№ С‚РµРєСЃС‚ РІ РѕСЃРЅРѕРІРЅРѕРј РїРѕС‚РѕРєРµ РІС‹С…РѕРґРЅРѕРіРѕ Р±СѓС„РµСЂР°,
+        /// С‚. Рµ. СЃРѕР±СЃС‚РІРµРЅРЅРѕ СЂРµР·СѓР»СЊС‚Р°С‚ СЂР°СЃС„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ Р·Р°РїРёСЃРё.
         /// </summary>
         [NotNull]
         public string Text { get { return Output.ToString(); } }
 
-        #region Режим вывода
+        #region Р РµР¶РёРј РІС‹РІРѕРґР°
 
         /// <summary>
-        /// Режим вывода полей.
+        /// Р РµР¶РёРј РІС‹РІРѕРґР° РїРѕР»РµР№.
         /// </summary>
         public PftFieldOutputMode FieldOutputMode { get; set; }
 
         /// <summary>
-        /// Режим перевода текста в верхний регистр при выводе полей.
+        /// Р РµР¶РёРј РїРµСЂРµРІРѕРґР° С‚РµРєСЃС‚Р° РІ РІРµСЂС…РЅРёР№ СЂРµРіРёСЃС‚СЂ РїСЂРё РІС‹РІРѕРґРµ РїРѕР»РµР№.
         /// </summary>
         public bool UpperMode { get; set; }
 
         #endregion
 
-        #region Работа с группами
+        #region Р Р°Р±РѕС‚Р° СЃ РіСЂСѓРїРїР°РјРё
 
         /// <summary>
-        /// Текущая группа (если есть).
+        /// РўРµРєСѓС‰Р°СЏ РіСЂСѓРїРїР° (РµСЃР»Рё РµСЃС‚СЊ).
         /// </summary>
         [CanBeNull]
         public PftGroup CurrentGroup { get; set; }
 
         /// <summary>
-        /// Номер повторения в текущей группе.
+        /// РќРѕРјРµСЂ РїРѕРІС‚РѕСЂРµРЅРёСЏ РІ С‚РµРєСѓС‰РµР№ РіСЂСѓРїРїРµ.
         /// </summary>
         public int Index { get; set; }
 
         /// <summary>
-        /// Флаг, устанавливается при наличии вывода при заданном повторении.
+        /// Р¤Р»Р°Рі, СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ РїСЂРё РЅР°Р»РёС‡РёРё РІС‹РІРѕРґР° РїСЂРё Р·Р°РґР°РЅРЅРѕРј РїРѕРІС‚РѕСЂРµРЅРёРё.
         /// </summary>
         public bool OutputFlag { get; internal set; }
 
         /// <summary>
-        /// Флаг, устанавливается при срабатывании оператора break.
+        /// Р¤Р»Р°Рі, СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ РїСЂРё СЃСЂР°Р±Р°С‚С‹РІР°РЅРёРё РѕРїРµСЂР°С‚РѕСЂР° break.
         /// </summary>
         public bool BreakFlag { get; internal set; }
 
         /// <summary>
-        /// Текущее обрабатываемое поле записи, если есть.
+        /// РўРµРєСѓС‰РµРµ РѕР±СЂР°Р±Р°С‚С‹РІР°РµРјРѕРµ РїРѕР»Рµ Р·Р°РїРёСЃРё, РµСЃР»Рё РµСЃС‚СЊ.
         /// </summary>
         [CanBeNull]
         public PftField CurrentField { get; set; }
@@ -134,29 +134,29 @@ namespace ManagedIrbis.Pft.Infrastructure
         #endregion
 
         /// <summary>
-        /// Глобальные переменные.
+        /// Р“Р»РѕР±Р°Р»СЊРЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ.
         /// </summary>
         public PftGlobalManager Globals { get; private set; }
 
         /// <summary>
-        /// Нормальные переменные.
+        /// РќРѕСЂРјР°Р»СЊРЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ.
         /// </summary>
         public PftVariableManager Variables { get; private set; }
 
         /// <summary>
-        /// Функции, зарегистрированные в данном контексте.
+        /// Р¤СѓРЅРєС†РёРё, Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅС‹Рµ РІ РґР°РЅРЅРѕРј РєРѕРЅС‚РµРєСЃС‚Рµ.
         /// </summary>
         [NotNull]
         public PftFunctionManager Functions { get; private set; }
 
         /// <summary>
-        /// Процедуры, видимые из данного контекста.
+        /// РџСЂРѕС†РµРґСѓСЂС‹, РІРёРґРёРјС‹Рµ РёР· РґР°РЅРЅРѕРіРѕ РєРѕРЅС‚РµРєСЃС‚Р°.
         /// </summary>
         [NotNull]
         public PftProcedureManager Procedures { get; internal set; }
 
         /// <summary>
-        /// Универсальный счетчик.
+        /// РЈРЅРёРІРµСЂСЃР°Р»СЊРЅС‹Р№ СЃС‡РµС‚С‡РёРє.
         /// </summary>
         public int UniversalCounter { get; set; }
 
@@ -177,7 +177,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         public bool EatNextNewLine;
 
         /// <summary>
-        /// Отслеживает, был ли вывод из поля с помощью vXXX.
+        /// РћС‚СЃР»РµР¶РёРІР°РµС‚, Р±С‹Р» Р»Рё РІС‹РІРѕРґ РёР· РїРѕР»СЏ СЃ РїРѕРјРѕС‰СЊСЋ vXXX.
         /// </summary>
         public bool VMonitor;
 
@@ -282,8 +282,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Полная очистка всех потоков: и основного,
-        /// и предупреждений, и ошибок.
+        /// РџРѕР»РЅР°СЏ РѕС‡РёСЃС‚РєР° РІСЃРµС… РїРѕС‚РѕРєРѕРІ: Рё РѕСЃРЅРѕРІРЅРѕРіРѕ,
+        /// Рё РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№, Рё РѕС€РёР±РѕРє.
         /// </summary>
         public PftContext ClearAll()
         {
@@ -297,7 +297,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Очистка основного выходного потока.
+        /// РћС‡РёСЃС‚РєР° РѕСЃРЅРѕРІРЅРѕРіРѕ РІС‹С…РѕРґРЅРѕРіРѕ РїРѕС‚РѕРєР°.
         /// </summary>
         public PftContext ClearText()
         {
@@ -309,7 +309,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Выполнить повторяющуюся группу.
+        /// Р’С‹РїРѕР»РЅРёС‚СЊ РїРѕРІС‚РѕСЂСЏСЋС‰СѓСЋСЃСЏ РіСЂСѓРїРїСѓ.
         /// </summary>
         public void DoRepeatableAction
             (
@@ -338,8 +338,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Выполнить повторяющуюся группу
-        /// максимально возможное число раз.
+        /// Р’С‹РїРѕР»РЅРёС‚СЊ РїРѕРІС‚РѕСЂСЏСЋС‰СѓСЋСЃСЏ РіСЂСѓРїРїСѓ
+        /// РјР°РєСЃРёРјР°Р»СЊРЅРѕ РІРѕР·РјРѕР¶РЅРѕРµ С‡РёСЃР»Рѕ СЂР°Р·.
         /// </summary>
         public void DoRepeatableAction
             (
@@ -350,7 +350,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Вычисление выражения во временной копии контекста.
+        /// Р’С‹С‡РёСЃР»РµРЅРёРµ РІС‹СЂР°Р¶РµРЅРёСЏ РІРѕ РІСЂРµРјРµРЅРЅРѕР№ РєРѕРїРёРё РєРѕРЅС‚РµРєСЃС‚Р°.
         /// </summary>
         [NotNull]
         public string Evaluate
@@ -373,7 +373,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Вычисление выражения во временной копии контекста.
+        /// Р’С‹С‡РёСЃР»РµРЅРёРµ РІС‹СЂР°Р¶РµРЅРёСЏ РІРѕ РІСЂРµРјРµРЅРЅРѕР№ РєРѕРїРёРё РєРѕРЅС‚РµРєСЃС‚Р°.
         /// </summary>
         [NotNull]
         public string Evaluate
@@ -615,8 +615,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         //=================================================
 
         /// <summary>
-        /// Временное переключение контекста (например,
-        /// при вычислении строковых функций).
+        /// Р’СЂРµРјРµРЅРЅРѕРµ РїРµСЂРµРєР»СЋС‡РµРЅРёРµ РєРѕРЅС‚РµРєСЃС‚Р° (РЅР°РїСЂРёРјРµСЂ,
+        /// РїСЂРё РІС‹С‡РёСЃР»РµРЅРёРё СЃС‚СЂРѕРєРѕРІС‹С… С„СѓРЅРєС†РёР№).
         /// </summary>
         [NotNull]
         public PftContext Push()
@@ -639,8 +639,8 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Сбрасывает контекст в исходное состояние:
-        /// нет повторяющейся группы, нет повторяющегося поля.
+        /// РЎР±СЂР°СЃС‹РІР°РµС‚ РєРѕРЅС‚РµРєСЃС‚ РІ РёСЃС…РѕРґРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ:
+        /// РЅРµС‚ РїРѕРІС‚РѕСЂСЏСЋС‰РµР№СЃСЏ РіСЂСѓРїРїС‹, РЅРµС‚ РїРѕРІС‚РѕСЂСЏСЋС‰РµРіРѕСЃСЏ РїРѕР»СЏ.
         /// </summary>
         public void Reset()
         {
