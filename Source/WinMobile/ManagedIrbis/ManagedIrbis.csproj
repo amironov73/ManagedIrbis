@@ -208,8 +208,14 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ZaprRecord.cs">
       <Link>Source\Fields\ZaprRecord.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fulltext\FulltextDatabase.cs">
+      <Link>Source\Fulltext\FulltextDatabase.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fulltext\FulltextDublin.cs">
       <Link>Source\Fulltext\FulltextDublin.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fulltext\FulltextIndexes.cs">
+      <Link>Source\Fulltext\FulltextIndexes.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fulltext\FulltextRecord.cs">
       <Link>Source\Fulltext\FulltextRecord.cs</Link>

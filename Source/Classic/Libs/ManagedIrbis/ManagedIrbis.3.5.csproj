@@ -123,7 +123,9 @@
     <Compile Include="Source\Fields\ThesaurusRecord.cs" />
     <Compile Include="Source\Fields\ZaprInfo.cs" />
     <Compile Include="Source\Fields\ZaprRecord.cs" />
+    <Compile Include="Source\Fulltext\FulltextDatabase.cs" />
     <Compile Include="Source\Fulltext\FulltextDublin.cs" />
+    <Compile Include="Source\Fulltext\FulltextIndexes.cs" />
     <Compile Include="Source\Fulltext\FulltextRecord.cs" />
     <Compile Include="Source\Fulltext\FullTextReference.cs" />
     <Compile Include="Source\Gbl\Infrastructure\Ast\GblContextIn.cs" />
