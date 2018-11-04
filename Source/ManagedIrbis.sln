@@ -289,6 +289,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisNetService", "Classic\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViafSuggester", "Classic\Apps\ViafSuggester\ViafSuggester.csproj", "{2850F461-B13B-432F-9FFC-1F688D9A359E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crocodile", "Classic\Apps\Crocodile\Crocodile.csproj", "{89D30FB8-B937-44CC-BBE8-3DFC6197F2EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1409,6 +1411,14 @@ Global
 		{2850F461-B13B-432F-9FFC-1F688D9A359E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2850F461-B13B-432F-9FFC-1F688D9A359E}.Release|x86.ActiveCfg = Release|Any CPU
 		{2850F461-B13B-432F-9FFC-1F688D9A359E}.Release|x86.Build.0 = Release|Any CPU
+		{89D30FB8-B937-44CC-BBE8-3DFC6197F2EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89D30FB8-B937-44CC-BBE8-3DFC6197F2EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89D30FB8-B937-44CC-BBE8-3DFC6197F2EF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{89D30FB8-B937-44CC-BBE8-3DFC6197F2EF}.Debug|x86.Build.0 = Debug|Any CPU
+		{89D30FB8-B937-44CC-BBE8-3DFC6197F2EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89D30FB8-B937-44CC-BBE8-3DFC6197F2EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89D30FB8-B937-44CC-BBE8-3DFC6197F2EF}.Release|x86.ActiveCfg = Release|Any CPU
+		{89D30FB8-B937-44CC-BBE8-3DFC6197F2EF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1551,6 +1561,7 @@ Global
 		{715B7BC0-75BA-42A1-80D0-18F08F8B9CB1} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{B14268C2-AABA-403E-9B75-0E2156A63D58} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{2850F461-B13B-432F-9FFC-1F688D9A359E} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{89D30FB8-B937-44CC-BBE8-3DFC6197F2EF} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9210D671-3170-4F79-9CE3-2FE2B1208056}
