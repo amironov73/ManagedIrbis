@@ -109,7 +109,7 @@ namespace ManagedIrbis.Server
             long savedPosition = memory.Position;
             memory.Position = 0;
             byte[][] packet = response.Encode(null);
-            memory.Position = savedPosition;
+            memory.Position = savedPosition; //-V3008
             _WritePacket("rsps", packet);
         }
 

@@ -267,6 +267,9 @@ namespace ManagedIrbis.Client
                 case (IrbisPath)11:
                     result = fileName;
                     break;
+
+                default:
+                    throw new IrbisException();
             }
 
             if (forReading

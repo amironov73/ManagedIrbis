@@ -29,7 +29,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -119,7 +119,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             base.CompareNode(otherNode);
 
             PftNumericLiteral otherLiteral = (PftNumericLiteral) otherNode;
-            if (Value != otherLiteral.Value)
+            if (Value != otherLiteral.Value) //-V3024
             {
                 throw new IrbisException();
             }

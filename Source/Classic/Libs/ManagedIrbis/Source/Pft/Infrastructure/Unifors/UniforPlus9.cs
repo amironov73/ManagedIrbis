@@ -1020,7 +1020,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
                 if (size >= entry.Value)
                 {
                     // ReSharper disable once CompareOfFloatsByEqualityOperator
-                    if (entry.Value == 1.0)
+                    if (entry.Value == 1.0) //-V3024
                     {
                         result = string.Format
                             (

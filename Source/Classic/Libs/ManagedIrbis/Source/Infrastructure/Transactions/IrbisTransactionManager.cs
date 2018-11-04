@@ -27,7 +27,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Infrastructure.Transactions
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -113,7 +113,7 @@ namespace ManagedIrbis.Infrastructure.Transactions
         /// <summary>
         /// Commit transaction.
         /// </summary>
-        public void CommitTransaction()
+        public void CommitTransaction() //-V3013
         {
             IrbisTransactionContext context = Context.ParentContext
                 ?? new IrbisTransactionContext();
@@ -121,6 +121,7 @@ namespace ManagedIrbis.Infrastructure.Transactions
             Context = context;
 
             // TODO implement
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -134,6 +135,7 @@ namespace ManagedIrbis.Infrastructure.Transactions
             Context = context;
 
             // TODO implement
+            throw new NotImplementedException();
         }
 
         #endregion

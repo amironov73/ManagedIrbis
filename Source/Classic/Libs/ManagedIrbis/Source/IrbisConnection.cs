@@ -313,8 +313,10 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(connectionString, "connectionString");
 
-            ParseConnectionString(connectionString);
-            Connect();
+            // ReSharper disable VirtualMemberCallInConstructor
+            ParseConnectionString(connectionString); //-V3068
+            Connect(); //-V3068
+            // ReSharper restore VirtualMemberCallInConstructor
         }
 
         #endregion

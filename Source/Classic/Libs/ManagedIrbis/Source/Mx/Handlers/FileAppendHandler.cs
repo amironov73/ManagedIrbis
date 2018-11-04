@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* FileAppendHandler.cs -- 
+/* FileAppendHandler.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -28,6 +28,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+using ManagedIrbis.Mx.Infrastructrure;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -37,7 +39,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Mx.Handlers
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -89,6 +91,18 @@ namespace ManagedIrbis.Mx.Handlers
             {
                 _writer = TextWriterUtility.Append(FileName, encoding);
             }
+        }
+
+        /// <inheritdoc cref="MxHandler.Dispose" />
+        public override void Dispose()
+        {
+            if (!ReferenceEquals(_writer, null))
+            {
+                _writer.Dispose();
+                _writer = null;
+            }
+
+            base.Dispose();
         }
 
         #endregion
