@@ -291,6 +291,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViafSuggester", "Classic\Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crocodile", "Classic\Apps\Crocodile\Crocodile.csproj", "{89D30FB8-B937-44CC-BBE8-3DFC6197F2EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisBot", "Classic\Apps\IrbisBot\IrbisBot.csproj", "{40FA31B4-8CE0-44F2-B72A-6671ABBCB843}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1419,6 +1421,14 @@ Global
 		{89D30FB8-B937-44CC-BBE8-3DFC6197F2EF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{89D30FB8-B937-44CC-BBE8-3DFC6197F2EF}.Release|x86.ActiveCfg = Release|Any CPU
 		{89D30FB8-B937-44CC-BBE8-3DFC6197F2EF}.Release|x86.Build.0 = Release|Any CPU
+		{40FA31B4-8CE0-44F2-B72A-6671ABBCB843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40FA31B4-8CE0-44F2-B72A-6671ABBCB843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40FA31B4-8CE0-44F2-B72A-6671ABBCB843}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{40FA31B4-8CE0-44F2-B72A-6671ABBCB843}.Debug|x86.Build.0 = Debug|Any CPU
+		{40FA31B4-8CE0-44F2-B72A-6671ABBCB843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40FA31B4-8CE0-44F2-B72A-6671ABBCB843}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40FA31B4-8CE0-44F2-B72A-6671ABBCB843}.Release|x86.ActiveCfg = Release|Any CPU
+		{40FA31B4-8CE0-44F2-B72A-6671ABBCB843}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1562,6 +1572,7 @@ Global
 		{B14268C2-AABA-403E-9B75-0E2156A63D58} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{2850F461-B13B-432F-9FFC-1F688D9A359E} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{89D30FB8-B937-44CC-BBE8-3DFC6197F2EF} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{40FA31B4-8CE0-44F2-B72A-6671ABBCB843} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9210D671-3170-4F79-9CE3-2FE2B1208056}

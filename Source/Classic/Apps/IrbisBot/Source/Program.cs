@@ -14,11 +14,13 @@ using System.ServiceProcess;
 
 using ManagedIrbis;
 
+using Telegram.Bot.Types.Enums;
+
 #endregion
 
 // ReSharper disable LocalizableElement
 
-namespace IrbisNetService
+namespace IrbisBot
 {
     class Program
     {
@@ -26,7 +28,7 @@ namespace IrbisNetService
         {
             ServiceBase[] servicesToRun = new ServiceBase[]
             {
-                new IrbisService()
+                new BotService()
             };
             ServiceBase.Run(servicesToRun);
         }
@@ -52,7 +54,7 @@ namespace IrbisNetService
             try
             {
                 ServiceController controller
-                    = new ServiceController(IrbisService.IrbisNet);
+                    = new ServiceController(BotService.IrbisBot);
                 controller.Start();
             }
             catch (Exception ex)
@@ -68,7 +70,7 @@ namespace IrbisNetService
             try
             {
                 ServiceController controller
-                    = new ServiceController(IrbisService.IrbisNet);
+                    = new ServiceController(BotService.IrbisBot);
                 controller.Stop();
             }
             catch (Exception ex)
@@ -83,7 +85,7 @@ namespace IrbisNetService
         {
             Console.WriteLine
                 (
-                    "IrbisNetService - IBRIS64 compatible open source service\n"
+                    "IrbisBot - Telegram bot for IBRIS64\n"
                     + "version {0}",
                     IrbisConnection.ClientVersion
                 );
@@ -93,11 +95,18 @@ namespace IrbisNetService
 
         static void RunAsConsoleApplication()
         {
-            Console.WriteLine("IrbisNetService version {0}", IrbisConnection.ClientVersion);
+            Console.WriteLine("IrbisBot version {0}", IrbisConnection.ClientVersion);
             Console.WriteLine("Running as console application");
             Console.WriteLine();
 
-            // TODO implement
+            var client = Bot.GetClient();
+            Bot.MessageLoop();
+            client.StartReceiving(new UpdateType[0]);
+            Console.WriteLine("Press ENTER to stop");
+            Console.ReadLine();
+            client.StopReceiving();
+            Console.WriteLine("Stopped");
+            Console.WriteLine();
         }
 
         // ====================================================================
@@ -106,7 +115,7 @@ namespace IrbisNetService
         {
             Console.WriteLine
                 (
-                    "IrbisNetService - IRBIS64 compatible open source network service\n\n"
+                    "IrbisBot - Telegram bot for IRBIS64\n\n"
                     + "\t-install \tinstall the service\n"
                     + "\t-uninstall \tuninstall the service\n"
                     + "\t-start \t\tstart the service\n"
