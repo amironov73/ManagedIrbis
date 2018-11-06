@@ -57,7 +57,7 @@ namespace ManagedIrbis.Fields
         [Field(210)]
         [XmlElement("mainTitle")]
         [JsonProperty("mainTitle", NullValueHandling = NullValueHandling.Ignore)]
-        public object MainTitle { get; set; }
+        public AthraTitle MainTitle { get; set; }
 
         /// <summary>
         /// Место работы автора.

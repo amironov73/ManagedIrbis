@@ -223,6 +223,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\AthraRecord.cs">
       <Link>Source\Fields\AthraRecord.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\AthraTitle.cs">
+      <Link>Source\Fields\AthraTitle.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Fields\AthrcRecord.cs">
       <Link>Source\Fields\AthrcRecord.cs</Link>
     </Compile>
