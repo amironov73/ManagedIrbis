@@ -21,8 +21,8 @@ nuget:
 
 before_build:
 - cmd: nuget restore Source\ManagedIrbis.sln
-- cmd: choco install opencover.portable
-- cmd: choco install codecov
+- cmd: rem choco install opencover.portable
+- cmd: rem choco install codecov
 
 build:
   project: Source\ManagedIrbis.sln
@@ -41,7 +41,7 @@ after_build:
 - cmd: cd ..
 
 test_script:
-- cmd: runcodecov.cmd
+- cmd: rem runcodecov.cmd
 
 artifacts:
   - path: Binaries

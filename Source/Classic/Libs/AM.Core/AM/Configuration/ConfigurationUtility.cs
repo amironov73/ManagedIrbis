@@ -12,6 +12,8 @@
 
 using System;
 using System.Globalization;
+using System.Security.Cryptography;
+using System.Text;
 
 using AM.Logging;
 using AM.Runtime;
@@ -52,6 +54,8 @@ namespace AM.Configuration
                 return CultureInfo.InvariantCulture;
             }
         }
+
+        private static byte[] _additionalEntropy = {2, 12, 85, 0, 6};
 
         #endregion
 
@@ -484,6 +488,75 @@ namespace AM.Configuration
             }
 
             return defaultValue;
+
+#endif
+        }
+
+        /// <summary>
+        /// Encrypt the text.
+        /// </summary>
+        /// <remarks>
+        /// Very naive data protection against kiddy hackers.
+        /// </remarks>
+        [NotNull]
+        public static string Protect
+            (
+                [CanBeNull] string text
+            )
+        {
+#if UAP
+
+            return text ?? string.Empty;
+
+#else
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return string.Empty;
+            }
+
+            return Convert.ToBase64String
+                (
+                    ProtectedData.Protect
+                        (
+                            Encoding.Unicode.GetBytes(text),
+                            _additionalEntropy,
+                            DataProtectionScope.LocalMachine
+                        )
+                );
+
+#endif
+        }
+
+        /// <summary>
+        /// Decrypt the text.
+        /// </summary>
+        [NotNull]
+        public static string Unprotect
+            (
+                [CanBeNull] string text
+            )
+        {
+#if UAP
+
+            return text ?? string.Empty;
+
+#else
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return string.Empty;
+            }
+
+            return Encoding.Unicode.GetString
+                (
+                    ProtectedData.Unprotect
+                        (
+                            Convert.FromBase64String(text),
+                            _additionalEntropy,
+                            DataProtectionScope.LocalMachine
+                        )
+                );
 
 #endif
         }

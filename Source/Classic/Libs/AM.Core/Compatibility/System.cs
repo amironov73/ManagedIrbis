@@ -979,7 +979,8 @@ namespace System
         public bool Cancel
         {
             get { return _cancel; }
-            set {
+            set
+            {
                 _cancel = value;
             }
         }

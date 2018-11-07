@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ActionUtility.cs -- 
+/* ActionUtility.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -20,7 +20,7 @@ using MoonSharp.Interpreter;
 namespace AM
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -184,6 +184,22 @@ namespace AM
 
             return result;
         }
+
+        /// <summary>
+        /// Call the action
+        /// </summary>
+        [CanBeNull]
+        public static T With<T>
+            (
+                [CanBeNull] this T obj,
+                [NotNull] Action<T> action
+            )
+        {
+            action(obj);
+
+            return obj;
+        }
+
 
         #endregion
     }

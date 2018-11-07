@@ -485,6 +485,31 @@ namespace ManagedIrbis
             return result;
         }
 
+        // ========================================================
+
+        /// <summary>
+        /// Получаем уже подключенного клиента.
+        /// </summary>
+        /// <exception cref="IrbisException">
+        /// Если строка подключения в app.settings не найдена.
+        /// </exception>
+        public static IrbisConnection GetClientFromProtectedConfig()
+        {
+            string connectionString = GetStandardConnectionString();
+            connectionString = ConfigurationUtility.Unprotect(connectionString);
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new IrbisException
+                    (
+                        "Connection string not specified!"
+                    );
+            }
+
+            IrbisConnection result = new IrbisConnection(connectionString);
+
+            return result;
+        }
+
 #endif
 
         // =========================================================
