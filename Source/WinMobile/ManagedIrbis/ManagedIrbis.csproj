@@ -274,6 +274,12 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\MutliprotocolSocket.cs">
       <Link>Source\Infrastructure\Sockets\MutliprotocolSocket.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\PerfRecord.cs">
+      <Link>Source\Infrastructure\Sockets\PerfRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\PerfSocket.cs">
+      <Link>Source\Infrastructure\Sockets\PerfSocket.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\PipeClientSocket.cs">
       <Link>Source\Infrastructure\Sockets\PipeClientSocket.cs</Link>
     </Compile>

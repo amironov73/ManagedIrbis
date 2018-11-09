@@ -1,7 +1,7 @@
-﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SlowSocket.cs --
+/* PerfSocket.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -34,33 +35,15 @@ namespace ManagedIrbis.Infrastructure.Sockets
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class SlowSocket
+    public class PerfSocket
         : AbstractClientSocket
     {
-        #region Constants
-
-        /// <summary>
-        /// Default value for <see cref="Delay"/>.
-        /// </summary>
-        public const int DefaultDelay = 300;
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Delay, milliseconds.
-        /// </summary>
-        public int Delay { get; set; }
-
-        #endregion
-
         #region Construction
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SlowSocket
+        public PerfSocket
             (
                 [NotNull] IrbisConnection connection,
                 [NotNull] AbstractClientSocket innerSocket
@@ -70,17 +53,25 @@ namespace ManagedIrbis.Infrastructure.Sockets
             Code.NotNull(connection, "connection");
             Code.NotNull(innerSocket, "innerSocket");
 
-            Delay = DefaultDelay;
             InnerSocket = innerSocket;
         }
 
         #endregion
 
-        #region Private members
+        #region Public members
 
-        #endregion
+        /// <summary>
+        /// Save the <see cref="PerfRecord"/>.
+        /// </summary>
+        public virtual void SavePerfRecord
+            (
+                [NotNull] PerfRecord record
+            )
+        {
+            Code.NotNull(record, "record");
 
-        #region Public methods
+            // TODO implement
+        }
 
         #endregion
 
@@ -100,14 +91,38 @@ namespace ManagedIrbis.Infrastructure.Sockets
         {
             Code.NotNull(request, "request");
 
-            int delay = Delay;
-            if (delay > 0)
+            byte[] result = EmptyArray<byte>.Value;
+            Exception catchedException = null;
+            string errorMessage = null;
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            try
             {
-                ThreadUtility.Sleep(delay);
-                //Thread.Sleep(delay);
+                result = InnerSocket.ThrowIfNull().ExecuteRequest(request);
+            }
+            catch (Exception exception)
+            {
+                catchedException = exception;
+                errorMessage = exception.Message;
             }
 
-            byte[] result = InnerSocket.ThrowIfNull().ExecuteRequest(request);
+            stopwatch.Stop();
+
+            PerfRecord record = new PerfRecord
+            {
+                Moment = DateTime.Now, // TODO mock
+                Code = "?", // TODO obtain
+                OutgoingSize = request.Sum(array => array.Length),
+                IncomingSize = result.Length,
+                ElapsedTime = stopwatch.ElapsedMilliseconds,
+                ErrorMessage = errorMessage
+            };
+            SavePerfRecord(record);
+
+            if (!ReferenceEquals(catchedException, null))
+            {
+                throw catchedException;
+            }
 
             return result;
         }

@@ -145,6 +145,8 @@
     <Compile Include="Source\Infrastructure\Sockets\CompressSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\KeepAliveSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\MutliprotocolSocket.cs" />
+    <Compile Include="Source\Infrastructure\Sockets\PerfRecord.cs" />
+    <Compile Include="Source\Infrastructure\Sockets\PerfSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\PipeClientSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\SecureClientSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\SimpleClientSocketV6.cs" />
