@@ -10,19 +10,16 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 using AM;
-using AM.Threading;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
+using ManagedIrbis.Performance;
 
 using MoonSharp.Interpreter;
 
@@ -35,9 +32,19 @@ namespace ManagedIrbis.Infrastructure.Sockets
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public class PerfSocket
+    public sealed class PerfSocket
         : AbstractClientSocket
     {
+        #region Priperties
+
+        /// <summary>
+        /// Performance collector.
+        /// </summary>
+        [NotNull]
+        public PerformanceCollector Collector { get; set; }
+
+        #endregion
+
         #region Construction
 
         /// <summary>
@@ -48,12 +55,26 @@ namespace ManagedIrbis.Infrastructure.Sockets
                 [NotNull] IrbisConnection connection,
                 [NotNull] AbstractClientSocket innerSocket
             )
+            : this(connection, innerSocket, new PerformanceCollector())
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public PerfSocket
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] AbstractClientSocket innerSocket,
+                [NotNull] PerformanceCollector collector
+            )
             : base(connection)
         {
-            Code.NotNull(connection, "connection");
             Code.NotNull(innerSocket, "innerSocket");
+            Code.NotNull(collector, "collector");
 
             InnerSocket = innerSocket;
+            Collector = collector;
         }
 
         #endregion
@@ -63,14 +84,14 @@ namespace ManagedIrbis.Infrastructure.Sockets
         /// <summary>
         /// Save the <see cref="PerfRecord"/>.
         /// </summary>
-        public virtual void SavePerfRecord
+        public void SavePerfRecord
             (
                 [NotNull] PerfRecord record
             )
         {
             Code.NotNull(record, "record");
 
-            // TODO implement
+            Collector.Collect(record);
         }
 
         #endregion

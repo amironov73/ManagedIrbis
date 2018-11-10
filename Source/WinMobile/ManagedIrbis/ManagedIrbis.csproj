@@ -274,9 +274,6 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\MutliprotocolSocket.cs">
       <Link>Source\Infrastructure\Sockets\MutliprotocolSocket.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\PerfRecord.cs">
-      <Link>Source\Infrastructure\Sockets\PerfRecord.cs</Link>
-    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Sockets\PerfSocket.cs">
       <Link>Source\Infrastructure\Sockets\PerfSocket.cs</Link>
     </Compile>
@@ -1026,6 +1023,21 @@
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\Onix\OnixRecord.cs">
       <Link>Source\Metadata\Onix\OnixRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Performance\InMemoryCollector.cs">
+      <Link>Source\Performance\InMemoryCollector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Performance\PerformanceCollector.cs">
+      <Link>Source\Performance\PerformanceCollector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Performance\PerfRecord.cs">
+      <Link>Source\Performance\PerfRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Performance\StreamCollector.cs">
+      <Link>Source\Performance\StreamCollector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Performance\TextCollector.cs">
+      <Link>Source\Performance\TextCollector.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Pft\Infrastructure\Ast\PftBackslash.cs">
       <Link>Source\Pft\Infrastructure\Ast\PftBackslash.cs</Link>

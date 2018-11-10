@@ -140,7 +140,6 @@
     <Compile Include="Source\Infrastructure\Sockets\CompressSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\KeepAliveSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\MutliprotocolSocket.cs" />
-    <Compile Include="Source\Infrastructure\Sockets\PerfRecord.cs" />
     <Compile Include="Source\Infrastructure\Sockets\PerfSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\PipeClientSocket.cs" />
     <Compile Include="Source\Infrastructure\Sockets\SecureClientSocket.cs" />
@@ -391,6 +390,11 @@
     <Compile Include="Source\Mx\Infrastructrure\MxPalette.cs" />
     <Compile Include="Source\Mx\Infrastructrure\BuiltinModule.cs" />
     <Compile Include="Source\Metadata\Onix\OnixRecord.cs" />
+    <Compile Include="Source\Performance\InMemoryCollector.cs" />
+    <Compile Include="Source\Performance\PerformanceCollector.cs" />
+    <Compile Include="Source\Performance\PerfRecord.cs" />
+    <Compile Include="Source\Performance\StreamCollector.cs" />
+    <Compile Include="Source\Performance\TextCollector.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftBackslash.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftCsEval.cs" />
     <Compile Include="Source\Pft\Infrastructure\Ast\PftEval.cs" />

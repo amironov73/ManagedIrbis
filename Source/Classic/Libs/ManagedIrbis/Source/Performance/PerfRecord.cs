@@ -10,7 +10,12 @@
 #region Using directives
 
 using System;
+using System.Globalization;
+using System.IO;
 using System.Xml.Serialization;
+
+using AM.IO;
+using AM.Runtime;
 
 using JetBrains.Annotations;
 
@@ -20,7 +25,7 @@ using Newtonsoft.Json;
 
 #endregion
 
-namespace ManagedIrbis.Infrastructure.Sockets
+namespace ManagedIrbis.Performance
 {
     /// <summary>
     /// Запись о произведенной сетевой транзакции.
@@ -29,6 +34,7 @@ namespace ManagedIrbis.Infrastructure.Sockets
     [MoonSharpUserData]
     [XmlRoot("transaction")]
     public sealed class PerfRecord
+        : IHandmadeSerializable
     {
         #region Properties
 
@@ -73,6 +79,63 @@ namespace ManagedIrbis.Infrastructure.Sockets
         [XmlElement("error")]
         [JsonProperty("error", NullValueHandling = NullValueHandling.Ignore)]
         public string ErrorMessage { get; set; }
+
+        #endregion
+
+        #region IHandmadeSerializable members
+
+        /// <inheritdoc cref="IHandmadeSerializable.RestoreFromStream" />
+        public void RestoreFromStream
+            (
+                BinaryReader reader
+            )
+        {
+            CodeJam.Code.NotNull(reader, "reader");
+
+            Moment = reader.ReadDateTime();
+            Code = reader.ReadNullableString();
+            OutgoingSize = reader.ReadPackedInt32();
+            IncomingSize = reader.ReadPackedInt32();
+            ElapsedTime = reader.ReadPackedInt64();
+            ErrorMessage = reader.ReadNullableString();
+        }
+
+        /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />
+        public void SaveToStream
+            (
+                BinaryWriter writer
+            )
+        {
+            CodeJam.Code.NotNull(writer, "writer");
+
+            writer
+                .Write(Moment)
+                .WriteNullable(Code)
+                .WritePackedInt32(OutgoingSize)
+                .WritePackedInt32(IncomingSize)
+                .WritePackedInt64(ElapsedTime)
+                .WriteNullable(ErrorMessage);
+        }
+
+        #endregion
+
+        #region Object members
+
+        /// <inheritdoc cref="object.ToString" />
+        public override string ToString()
+        {
+            return string.Format
+                (
+                    CultureInfo.InvariantCulture,
+                    "{0}\t{1}\t{2}\t{3}\t{4}\t{5}",
+                    Moment,
+                    Code,
+                    OutgoingSize,
+                    IncomingSize,
+                    ElapsedTime,
+                    ErrorMessage
+                );
+        }
 
         #endregion
     }
