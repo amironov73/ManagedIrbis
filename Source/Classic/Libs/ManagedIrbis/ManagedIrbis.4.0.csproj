@@ -109,7 +109,9 @@
     <Compile Include="Source\FictionBook\FbTitle.cs" />
     <Compile Include="Source\FictionBook\FbDocument.cs" />
     <Compile Include="Source\Fields\AthraRecord.cs" />
+    <Compile Include="Source\Fields\AthraSee.cs" />
     <Compile Include="Source\Fields\AthraTitle.cs" />
+    <Compile Include="Source\Fields\AthraWorkPlace.cs" />
     <Compile Include="Source\Fields\AthrcRecord.cs" />
     <Compile Include="Source\Fields\AthrgRecord.cs" />
     <Compile Include="Source\Fields\AthrsRecord.cs" />

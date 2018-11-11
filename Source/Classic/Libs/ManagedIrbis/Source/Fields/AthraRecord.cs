@@ -67,7 +67,7 @@ namespace ManagedIrbis.Fields
         [Field(910)]
         [XmlElement("workPlace")]
         [JsonProperty("workPlaces", NullValueHandling = NullValueHandling.Ignore)]
-        public object[] WorkPlaces { get; set; }
+        public AthraWorkPlace[] WorkPlaces { get; set; }
 
         /// <summary>
         /// Ссылки типа СМ. (вариантные (другие) принятые
@@ -78,7 +78,7 @@ namespace ManagedIrbis.Fields
         [Field(410)]
         [XmlElement("see")]
         [JsonProperty("see", NullValueHandling = NullValueHandling.Ignore)]
-        public object[] See { get; set; }
+        public AthraSee[] See { get; set; }
 
         /// <summary>
         /// Ссылки типа СМ. ТАКЖЕ. (связанные принятые формы
@@ -89,7 +89,7 @@ namespace ManagedIrbis.Fields
         [Field(510)]
         [XmlElement("seeAlso")]
         [JsonProperty("seeAlso", NullValueHandling = NullValueHandling.Ignore)]
-        public object[] SeeAlso { get; set; }
+        public AthraSee[] SeeAlso { get; set; }
 
         /// <summary>
         /// Связанные принятые формы имени лица на других языках.

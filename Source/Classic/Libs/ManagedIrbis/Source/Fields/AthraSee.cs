@@ -1,7 +1,7 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* AthraTitle.cs --
+/* AthraSee.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -28,20 +28,23 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Fields
 {
     /// <summary>
-    /// Заголовок записи в базе данных ATHRA.
-    /// Поле 210.
+    /// "СМ." в базе данных ATHRA.
+    /// Поле 410.
     /// </summary>
+    /// <remarks>
+    /// Также "СМ. ТАКЖЕ" - поле 510.
+    /// </remarks>
     [PublicAPI]
-    [XmlRoot("title")]
+    [XmlRoot("see")]
     [MoonSharpUserData]
-    public sealed class AthraTitle
+    public sealed class AthraSee
     {
         #region Constants
 
         /// <summary>
         /// Known subfield codes.
         /// </summary>
-        public const string KnownCodes = "14789abcdfg!<";
+        public const string KnownCodes = "0145789abcdfg<";
 
         #endregion
 
@@ -128,14 +131,14 @@ namespace ManagedIrbis.Fields
         public string Dates { get; set; }
 
         /// <summary>
-        /// Требуется редактирование.
-        /// Подполе !.
+        /// Инструктивный текст.
+        /// Подполе 0.
         /// </summary>
         [CanBeNull]
-        [SubField('!')]
-        [XmlElement("correction")]
-        [JsonProperty("correction", NullValueHandling = NullValueHandling.Ignore)]
-        public string CorrectionNeeded { get; set; }
+        [SubField('0')]
+        [XmlElement("instruction")]
+        [JsonProperty("instruction", NullValueHandling = NullValueHandling.Ignore)]
+        public string Instruction { get; set; }
 
         /// <summary>
         /// Графика.
@@ -156,6 +159,16 @@ namespace ManagedIrbis.Fields
         [XmlElement("language")]
         [JsonProperty("language", NullValueHandling = NullValueHandling.Ignore)]
         public string Language { get; set; }
+
+        /// <summary>
+        /// Код формирования ссылки.
+        /// Подполе 5.
+        /// </summary>
+        [CanBeNull]
+        [SubField('5')]
+        [XmlElement("link")]
+        [JsonProperty("link", NullValueHandling = NullValueHandling.Ignore)]
+        public string Link { get; set; }
 
         /// <summary>
         /// Признак ввода имени лица.
@@ -216,9 +229,10 @@ namespace ManagedIrbis.Fields
                 .ApplySubField('c', IdentifyingSigns)
                 .ApplySubField('d', RomanNumerals)
                 .ApplySubField('f', Dates)
-                .ApplySubField('!', CorrectionNeeded)
+                .ApplySubField('0', Instruction)
                 .ApplySubField('7', Graphics)
                 .ApplySubField('8', Language)
+                .ApplySubField('5', Link)
                 .ApplySubField('9', Mark)
                 .ApplySubField('4', RelationCode);
 
@@ -229,7 +243,7 @@ namespace ManagedIrbis.Fields
         /// Parse the field.
         /// </summary>
         [CanBeNull]
-        public static AthraTitle Parse
+        public static AthraSee Parse
             (
                 [CanBeNull] RecordField field
             )
@@ -239,7 +253,7 @@ namespace ManagedIrbis.Fields
                 return null;
             }
 
-            AthraTitle result = new AthraTitle
+            AthraSee result = new AthraSee
             {
                 Surname = field.GetFirstSubFieldValue('a'),
                 Initials = field.GetFirstSubFieldValue('b'),
@@ -249,9 +263,10 @@ namespace ManagedIrbis.Fields
                 IdentifyingSigns = field.GetFirstSubFieldValue('c'),
                 RomanNumerals = field.GetFirstSubFieldValue('d'),
                 Dates = field.GetFirstSubFieldValue('f'),
-                CorrectionNeeded = field.GetFirstSubFieldValue('!'),
+                Instruction = field.GetFirstSubFieldValue('0'),
                 Graphics = field.GetFirstSubFieldValue('7'),
                 Language = field.GetFirstSubFieldValue('8'),
+                Link = field.GetFirstSubFieldValue('5'),
                 Mark = field.GetFirstSubFieldValue('9'),
                 RelationCode = field.GetFirstSubFieldValue('4'),
                 Field = field
@@ -266,7 +281,7 @@ namespace ManagedIrbis.Fields
         [NotNull]
         public RecordField ToField()
         {
-            RecordField result = new RecordField(210)
+            RecordField result = new RecordField(410)
                 .AddNonEmptySubField('a', Surname)
                 .AddNonEmptySubField('b', Initials)
                 .AddNonEmptySubField('g', Extension)
@@ -275,9 +290,10 @@ namespace ManagedIrbis.Fields
                 .AddNonEmptySubField('c', IdentifyingSigns)
                 .AddNonEmptySubField('d', RomanNumerals)
                 .AddNonEmptySubField('f', Dates)
-                .AddNonEmptySubField('!', CorrectionNeeded)
+                .AddNonEmptySubField('0', Instruction)
                 .AddNonEmptySubField('7', Graphics)
                 .AddNonEmptySubField('8', Language)
+                .AddNonEmptySubField('5', Link)
                 .AddNonEmptySubField('9', Mark)
                 .AddNonEmptySubField('4', RelationCode);
 

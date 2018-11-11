@@ -11,6 +11,8 @@
 
 using System.IO;
 
+using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -54,6 +56,7 @@ namespace ManagedIrbis.Performance
 
             Writer = writer;
             _ownStream = false;
+            _syncRoot = new object();
         }
 
         /// <summary>
@@ -85,6 +88,8 @@ namespace ManagedIrbis.Performance
 
         private readonly bool _ownStream;
 
+        private readonly object _syncRoot;
+
         #endregion
 
         #region PerformanceCollector members
@@ -97,7 +102,10 @@ namespace ManagedIrbis.Performance
         {
             Code.NotNull(record, "record");
 
-            record.SaveToStream(Writer);
+            lock (_syncRoot)
+            {
+                record.SaveToStream(Writer);
+            }
         }
 
         #endregion
@@ -109,7 +117,11 @@ namespace ManagedIrbis.Performance
         {
             if (_ownStream)
             {
-                Writer.Dispose();
+                lock (_syncRoot)
+                {
+                    // ReSharper disable once InvokeAsExtensionMethod
+                    DisposableUtility.SafeDispose(Writer);
+                }
             }
 
             base.Dispose();

@@ -9,7 +9,10 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
+
+using AM;
 
 using CodeJam;
 
@@ -30,6 +33,15 @@ namespace ManagedIrbis.Performance
     public class InMemoryCollector
         : PerformanceCollector
     {
+        #region Events
+
+        /// <summary>
+        /// Raised on record addition.
+        /// </summary>
+        public event EventHandler RecordAdded;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -53,7 +65,14 @@ namespace ManagedIrbis.Performance
         public InMemoryCollector()
         {
             List = new List<PerfRecord>();
+            _syncRoot = new object();
         }
+
+        #endregion
+
+        #region Private members
+
+        private readonly object _syncRoot;
 
         #endregion
 
@@ -67,16 +86,21 @@ namespace ManagedIrbis.Performance
         {
             Code.NotNull(record, "record");
 
-            List.Add(record);
-
-            int limit = Limit;
-            if (limit > 0)
+            lock (_syncRoot)
             {
-                while (List.Count > limit)
+                List.Add(record);
+
+                int limit = Limit;
+                if (limit > 0)
                 {
-                     List.RemoveAt(0);
+                    while (List.Count > limit)
+                    {
+                        List.RemoveAt(0);
+                    }
                 }
             }
+
+            RecordAdded.Raise(this);
         }
 
         #endregion
