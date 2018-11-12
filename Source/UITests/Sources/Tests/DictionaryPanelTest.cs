@@ -1,4 +1,4 @@
-﻿/* DictionaryPanelTest.cs -- 
+﻿/* DictionaryPanelTest.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -56,22 +56,37 @@ namespace UITests
 
                 form.Size = new Size(800, 600);
 
-                DictionaryPanel panel = new DictionaryPanel
+                TermAdapter adapter = new TermAdapter(connection, "K=");
+                adapter.Fill();
+                DictionaryPanel panel = new DictionaryPanel(adapter)
                 {
                     Location = new Point(10, 10),
-                    Size = new Size(300, 300)
+                    Size = new Size(300, 300),
                 };
                 form.Controls.Add(panel);
 
-                TermParameters parameters = new TermParameters
+                TextBox currentBox = new TextBox
                 {
-                    Database = "IBIS",
-                    StartTerm = "K=",
-                    NumberOfTerms = 100
+                    Location = new Point(400, 10),
+                    Width = 300
                 };
-                TermInfo[] terms = connection.ReadTerms(parameters);
-                terms = TermInfo.TrimPrefix(terms, "K=");
-                panel.SetTerms(terms);
+                form.Controls.Add(currentBox);
+
+                TextBox choosedBox = new TextBox
+                {
+                    Location = new Point(400, 40),
+                    Width = 300
+                };
+                form.Controls.Add(choosedBox);
+
+                adapter.Source.CurrentChanged += (sender, args) =>
+                {
+                    currentBox.Text = adapter.FullTerm;
+                };
+                panel.Choosed += (sender, args) =>
+                {
+                    choosedBox.Text = adapter.CurrentValue;
+                };
 
                 form.ShowDialog(ownerWindow);
             }

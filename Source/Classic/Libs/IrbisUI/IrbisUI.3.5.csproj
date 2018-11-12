@@ -72,6 +72,7 @@
   </ItemGroup>
   <!-- BEGIN -->
   <ItemGroup>
+    <Compile Include="Source\TermAdapter.cs" />
     <Compile Include="Source\Universal\UniversalCentralControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
