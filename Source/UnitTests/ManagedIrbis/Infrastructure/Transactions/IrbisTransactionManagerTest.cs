@@ -27,6 +27,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Transactions
         }
 
         [TestMethod]
+        [ExpectedException(typeof(NotImplementedException))]
         public void IrbisTransactionManager_CommitTransaction_1()
         {
             IrbisProvider provider = new NullProvider();
@@ -41,6 +42,7 @@ namespace UnitTests.ManagedIrbis.Infrastructure.Transactions
         }
 
         [TestMethod]
+        [ExpectedException(typeof(NotImplementedException))]
         public void IrbisTransactionManager_RollbackTransaction_1()
         {
             IrbisProvider provider = new NullProvider();

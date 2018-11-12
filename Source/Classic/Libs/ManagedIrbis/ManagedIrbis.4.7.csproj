@@ -111,6 +111,7 @@
     <Compile Include="Source\FictionBook\FbGenre.cs" />
     <Compile Include="Source\FictionBook\FbTitle.cs" />
     <Compile Include="Source\FictionBook\FbDocument.cs" />
+    <Compile Include="Source\Fields\AthraLinkedTitle.cs" />
     <Compile Include="Source\Fields\AthraRecord.cs" />
     <Compile Include="Source\Fields\AthraSee.cs" />
     <Compile Include="Source\Fields\AthraTitle.cs" />

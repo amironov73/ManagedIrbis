@@ -99,7 +99,7 @@ namespace ManagedIrbis.Fields
         [Field(710)]
         [XmlElement("linkedTitle")]
         [JsonProperty("linkedTitles", NullValueHandling = NullValueHandling.Ignore)]
-        public object[] LinkedTitles { get; set; }
+        public AthraLinkedTitle[] LinkedTitles { get; set; }
 
         /// <summary>
         /// Информационное примечание.
@@ -109,7 +109,7 @@ namespace ManagedIrbis.Fields
         [Field(300)]
         [XmlElement("note")]
         [JsonProperty("notes", NullValueHandling = NullValueHandling.Ignore)]
-        public object[] Notes { get; set; }
+        public string[] Notes { get; set; }
 
         /// <summary>
         /// Текстовое ссылочное примечание "см. также".
