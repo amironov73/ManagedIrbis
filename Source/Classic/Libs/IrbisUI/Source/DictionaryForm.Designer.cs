@@ -29,46 +29,51 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DictionaryForm));
-            this.panel1 = new System.Windows.Forms.Panel();
+            this._bottomPanel = new System.Windows.Forms.Panel();
             this._cancelButton = new System.Windows.Forms.Button();
             this._keyLabel = new System.Windows.Forms.Label();
-            this._keyBox = new System.Windows.Forms.TextBox();
+            this._keyBox = new AM.Windows.Forms.EventedTextBox();
             this._okButton = new System.Windows.Forms.Button();
             this._grid = new System.Windows.Forms.DataGridView();
             this._countColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._termColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel1.SuspendLayout();
+            this._scroll = new AM.Windows.Forms.ScrollControl();
+            this._bottomPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this._cancelButton);
-            this.panel1.Controls.Add(this._keyLabel);
-            this.panel1.Controls.Add(this._keyBox);
-            this.panel1.Controls.Add(this._okButton);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 304);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(622, 49);
-            this.panel1.TabIndex = 0;
+            this._bottomPanel.Controls.Add(this._cancelButton);
+            this._bottomPanel.Controls.Add(this._keyLabel);
+            this._bottomPanel.Controls.Add(this._keyBox);
+            this._bottomPanel.Controls.Add(this._okButton);
+            this._bottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this._bottomPanel.Location = new System.Drawing.Point(0, 253);
+            this._bottomPanel.Margin = new System.Windows.Forms.Padding(2);
+            this._bottomPanel.Name = "_bottomPanel";
+            this._bottomPanel.Size = new System.Drawing.Size(468, 40);
+            this._bottomPanel.TabIndex = 0;
             // 
             // _cancelButton
             // 
             this._cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._cancelButton.Location = new System.Drawing.Point(494, 9);
+            this._cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this._cancelButton.Location = new System.Drawing.Point(372, 7);
+            this._cancelButton.Margin = new System.Windows.Forms.Padding(2);
             this._cancelButton.Name = "_cancelButton";
-            this._cancelButton.Size = new System.Drawing.Size(116, 30);
-            this._cancelButton.TabIndex = 3;
+            this._cancelButton.Size = new System.Drawing.Size(87, 24);
+            this._cancelButton.TabIndex = 2;
             this._cancelButton.Text = "&Cancel";
             this._cancelButton.UseVisualStyleBackColor = true;
             // 
             // _keyLabel
             // 
             this._keyLabel.AutoSize = true;
-            this._keyLabel.Location = new System.Drawing.Point(151, 20);
+            this._keyLabel.Location = new System.Drawing.Point(113, 16);
+            this._keyLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this._keyLabel.Name = "_keyLabel";
-            this._keyLabel.Size = new System.Drawing.Size(32, 17);
+            this._keyLabel.Size = new System.Drawing.Size(25, 13);
             this._keyLabel.TabIndex = 2;
             this._keyLabel.Text = "Key";
             // 
@@ -76,37 +81,46 @@
             // 
             this._keyBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._keyBox.Location = new System.Drawing.Point(219, 13);
+            this._keyBox.Delay = 750;
+            this._keyBox.Location = new System.Drawing.Point(164, 11);
+            this._keyBox.Margin = new System.Windows.Forms.Padding(2);
             this._keyBox.Name = "_keyBox";
-            this._keyBox.Size = new System.Drawing.Size(269, 22);
-            this._keyBox.TabIndex = 1;
+            this._keyBox.Size = new System.Drawing.Size(205, 20);
+            this._keyBox.TabIndex = 0;
             // 
             // _okButton
             // 
-            this._okButton.Location = new System.Drawing.Point(12, 10);
+            this._okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this._okButton.Location = new System.Drawing.Point(9, 8);
+            this._okButton.Margin = new System.Windows.Forms.Padding(2);
             this._okButton.Name = "_okButton";
-            this._okButton.Size = new System.Drawing.Size(116, 29);
-            this._okButton.TabIndex = 0;
+            this._okButton.Size = new System.Drawing.Size(87, 24);
+            this._okButton.TabIndex = 1;
             this._okButton.Text = "O&K";
             this._okButton.UseVisualStyleBackColor = true;
+            this._okButton.Click += new System.EventHandler(this._okButton_Click);
             // 
             // _grid
             // 
             this._grid.AllowUserToAddRows = false;
             this._grid.AllowUserToDeleteRows = false;
             this._grid.AllowUserToResizeRows = false;
+            this._grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this._grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this._grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._countColumn,
             this._termColumn});
             this._grid.Dock = System.Windows.Forms.DockStyle.Fill;
             this._grid.Location = new System.Drawing.Point(0, 0);
+            this._grid.Margin = new System.Windows.Forms.Padding(2);
             this._grid.Name = "_grid";
             this._grid.ReadOnly = true;
             this._grid.RowHeadersVisible = false;
+            this._grid.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this._grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this._grid.Size = new System.Drawing.Size(622, 304);
-            this._grid.TabIndex = 1;
+            this._grid.Size = new System.Drawing.Size(452, 253);
+            this._grid.StandardTab = true;
+            this._grid.TabIndex = 0;
             // 
             // _countColumn
             // 
@@ -127,20 +141,35 @@
             this._termColumn.Name = "_termColumn";
             this._termColumn.ReadOnly = true;
             // 
+            // _scroll
+            // 
+            this._scroll.Dock = System.Windows.Forms.DockStyle.Right;
+            this._scroll.Location = new System.Drawing.Point(452, 0);
+            this._scroll.Name = "_scroll";
+            this._scroll.Size = new System.Drawing.Size(16, 253);
+            this._scroll.TabIndex = 2;
+            this._scroll.Text = "scrollControl1";
+            // 
             // DictionaryForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AcceptButton = this._okButton;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(622, 353);
+            this.CancelButton = this._cancelButton;
+            this.ClientSize = new System.Drawing.Size(468, 293);
             this.Controls.Add(this._grid);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this._scroll);
+            this.Controls.Add(this._bottomPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(640, 400);
+            this.MinimumSize = new System.Drawing.Size(484, 332);
             this.Name = "DictionaryForm";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.Text = "Dictionary";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this._bottomPanel.ResumeLayout(false);
+            this._bottomPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._grid)).EndInit();
             this.ResumeLayout(false);
 
@@ -148,13 +177,14 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel _bottomPanel;
         private System.Windows.Forms.Button _okButton;
         private System.Windows.Forms.Button _cancelButton;
         private System.Windows.Forms.Label _keyLabel;
-        private System.Windows.Forms.TextBox _keyBox;
+        private AM.Windows.Forms.EventedTextBox _keyBox;
         private System.Windows.Forms.DataGridView _grid;
         private System.Windows.Forms.DataGridViewTextBoxColumn _countColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn _termColumn;
+        private AM.Windows.Forms.ScrollControl _scroll;
     }
 }

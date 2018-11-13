@@ -11,28 +11,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-using AM.Windows.Forms;
+
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis;
 using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -241,6 +231,11 @@ namespace IrbisUI
                 List<TermInfo> goodTerms = new List<TermInfo>(terms.Length);
                 foreach (TermInfo term in terms)
                 {
+                    if (term.Count < 1)
+                    {
+                        continue;
+                    }
+
                     string termText = term.Text;
                     if (!string.IsNullOrEmpty(termText) && termText.StartsWith(prefix))
                     {

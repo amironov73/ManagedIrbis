@@ -67,11 +67,39 @@ namespace AM.Windows.Forms
                     ControlStyles.Selectable,
                     false
                 );
+            _timer = new Timer
+            {
+                Interval = 90,
+                Enabled = true
+            };
+            _timer.Tick += _timer_Tick;
         }
 
         #endregion
 
         #region Private members
+
+        private readonly Timer _timer;
+
+        private bool _pressed;
+
+        private ScrollEventArgs _eventArgs;
+
+        private void _timer_Tick
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            if (_pressed)
+            {
+                ScrollEventHandler handler = Scroll;
+                if (!ReferenceEquals(handler, null))
+                {
+                    handler(this, _eventArgs);
+                }
+            }
+        }
 
         #endregion
 
@@ -81,25 +109,25 @@ namespace AM.Windows.Forms
 
         #region Control members
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Control.DefaultMaximumSize" />
         protected override Size DefaultMaximumSize
         {
             get { return new Size(16, 0); }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Control.DefaultMinimumSize" />
         protected override Size DefaultMinimumSize
         {
             get { return new Size(16, 0); }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Control.DefaultSize" />
         protected override Size DefaultSize
         {
             get { return new Size(16, 200); }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Control.OnMouseDown" />
         protected override void OnMouseDown
             (
                 MouseEventArgs e
@@ -107,23 +135,53 @@ namespace AM.Windows.Forms
         {
             base.OnMouseDown(e);
 
+            if (_pressed)
+            {
+                return;
+            }
+
             ScrollEventType type = e.Y > Height / 2
                 ? ScrollEventType.LargeIncrement
                 : ScrollEventType.LargeDecrement;
 
-            ScrollEventArgs eventArgs = new ScrollEventArgs
+            if (e.Y < 16)
+            {
+                type = ScrollEventType.SmallDecrement;
+            }
+            else if (e.Y > (Height - 16))
+            {
+                type = ScrollEventType.SmallIncrement;
+            }
+
+            _eventArgs = new ScrollEventArgs
                 (
                     type,
                     0
                 );
+
             ScrollEventHandler handler = Scroll;
-            if (handler != null)
+            if (!ReferenceEquals(handler, null))
             {
-                handler(this, eventArgs);
+                _pressed = true;
+                handler(this, _eventArgs);
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Control.OnMouseUp"/>
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+            _pressed = false;
+        }
+
+        /// <inheritdoc cref="Control.OnMouseLeave"/>
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            base.OnMouseLeave(e);
+            _pressed = false;
+        }
+
+        /// <inheritdoc cref="Control.OnPaint" />
         protected override void OnPaint
             (
                 PaintEventArgs e
@@ -169,6 +227,20 @@ namespace AM.Windows.Forms
                 graphics.DrawRectangle(pen, 0, 0, Width - 1, Height - 1);
                 graphics.DrawRectangle(pen, 0, 0, Width, 16);
                 graphics.DrawRectangle(pen, 0, Height-15, Width, 16);
+            }
+        }
+
+        /// <inheritdoc cref="Control.Dispose" />
+        protected override void Dispose
+            (
+                bool disposing
+            )
+        {
+            base.Dispose(disposing);
+
+            if (disposing)
+            {
+                _timer.Dispose();
             }
         }
 

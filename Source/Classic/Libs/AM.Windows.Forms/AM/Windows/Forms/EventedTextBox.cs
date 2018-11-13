@@ -21,7 +21,7 @@ using MoonSharp.Interpreter;
 namespace AM.Windows.Forms
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -154,15 +154,11 @@ namespace AM.Windows.Forms
 
                 DelayedTextChanged.Raise
                     (
-                        this, 
+                        this,
                         EventArgs.Empty
                     );
             }
         }
-
-        #endregion
-
-        #region Public methods
 
         #endregion
     }

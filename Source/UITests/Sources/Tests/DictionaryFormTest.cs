@@ -1,4 +1,4 @@
-﻿/* DictionaryFormTest.cs -- 
+﻿/* DictionaryFormTest.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -44,7 +44,6 @@ namespace UITests
                 IWin32Window ownerWindow
             )
         {
-            using (DictionaryForm form = new DictionaryForm())
             using (IrbisConnection connection = new IrbisConnection())
             {
                 connection.ParseConnectionString
@@ -54,17 +53,17 @@ namespace UITests
                     );
                 connection.Connect();
 
-                TermParameters parameters = new TermParameters
-                {
-                    Database = "IBIS",
-                    StartTerm = "K=",
-                    NumberOfTerms = 100
-                };
-                TermInfo[] terms = connection.ReadTerms(parameters);
-                terms = TermInfo.TrimPrefix(terms, "K=");
-                form.SetTerms(terms);
+                TermAdapter adapter = new TermAdapter(connection, "K=");
+                adapter.Fill();
 
-                form.ShowDialog(ownerWindow);
+                using (DictionaryForm form = new DictionaryForm(adapter))
+                {
+                    if (form.ShowDialog(ownerWindow) == DialogResult.OK)
+                    {
+                        string chosenTerm = form.ChosenTerm;
+                        MessageBox.Show("Chosen: " + chosenTerm);
+                    }
+                }
             }
         }
 

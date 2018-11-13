@@ -10,31 +10,13 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Runtime;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis;
-using ManagedIrbis.Search;
-
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 
@@ -102,10 +84,53 @@ namespace IrbisUI
         private void _SetupEvents()
         {
             _grid.KeyDown += _grid_KeyDown;
+            _grid.KeyPress += _grid_KeyPress;
             _grid.DoubleClick += _grid_DoubleClick;
+            _grid.MouseWheel += _grid_MouseWheel;
             _keyBox.KeyDown += _keyBox_KeyDown;
-            _keyBox.TextChanged += _keyBox_TextChanged;
+            _keyBox.DelayedTextChanged += _keyBox_TextChanged;
+            _keyBox.EnterPressed += _keyBox_TextChanged;
+            _keyBox.MouseWheel += _grid_MouseWheel;
             _scrollControl.Scroll += _scrollControl_Scroll;
+            _scrollControl.MouseWheel += _grid_MouseWheel;
+        }
+
+        private void _grid_KeyPress
+        (
+            object sender,
+            KeyPressEventArgs e
+        )
+        {
+            char keyChar = e.KeyChar;
+            if (keyChar != '\0')
+            {
+                _keyBox.Focus();
+                Application.DoEvents();
+                SendKeys.Send(e.KeyChar.ToString());
+            }
+        }
+
+        private void _grid_MouseWheel
+            (
+                object sender,
+                MouseEventArgs e
+            )
+        {
+            if (ReferenceEquals(Adapter, null))
+            {
+                return;
+            }
+
+            int delta = e.Delta;
+
+            if (delta > 0)
+            {
+                Adapter.MovePrevious();
+            }
+            else if (delta < 0)
+            {
+                Adapter.MoveNext();
+            }
         }
 
         private int _VisibleRowCount()
@@ -158,6 +183,11 @@ namespace IrbisUI
                 EventArgs e
             )
         {
+            if (ReferenceEquals(Adapter, null))
+            {
+                return;
+            }
+
             string startTerm = _keyBox.Text.Trim();
             Adapter.Fill(startTerm);
         }
@@ -168,6 +198,11 @@ namespace IrbisUI
                 KeyEventArgs e
             )
         {
+            if (ReferenceEquals(Adapter, null))
+            {
+                return;
+            }
+
             switch (e.KeyData)
             {
                 case Keys.Down:
@@ -216,16 +251,19 @@ namespace IrbisUI
                 ScrollEventArgs e
             )
         {
+            if (ReferenceEquals(Adapter, null))
+            {
+                return;
+            }
+
             switch (e.Type)
             {
                 case ScrollEventType.SmallIncrement:
                     Adapter.MoveNext();
-                    //Thread.Sleep(20);
                     break;
 
                 case ScrollEventType.SmallDecrement:
                     Adapter.MovePrevious();
-                    //Thread.Sleep(20);
                     break;
 
                 case ScrollEventType.LargeIncrement:
@@ -237,11 +275,6 @@ namespace IrbisUI
                     break;
             }
         }
-
-        #endregion
-
-        #region Public methods
-
 
         #endregion
     }
