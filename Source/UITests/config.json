@@ -205,7 +205,11 @@
     },
     {
         "class": "UITests.DictionaryFormTest",
-        "title": "DictionaryForm"
+        "title": "DictionaryForm - test 1"
+    },
+    {
+        "class": "UITests.DictionaryFormTest2",
+        "title": "DictionaryForm - test 2"
     },
     {
         "class": "UITests.MenuFormTest",

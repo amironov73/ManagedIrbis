@@ -1,4 +1,4 @@
-﻿/* DictionaryFormTest.cs --
+﻿/* DictionaryFormTest2.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -14,11 +14,12 @@ using ManagedIrbis;
 
 #endregion
 
+// ReSharper disable StringLiteralTypo
 // ReSharper disable LocalizableElement
 
 namespace UITests
 {
-    public sealed class DictionaryFormTest
+    public sealed class DictionaryFormTest2
         : IUITest
     {
         #region IUITest members
@@ -38,15 +39,15 @@ namespace UITests
                 connection.Connect();
 
                 TermAdapter adapter = new TermAdapter(connection, "K=");
-                adapter.Fill();
-
-                using (DictionaryForm form = new DictionaryForm(adapter))
+                string chosen = DictionaryForm.ChooseTerm
+                    (
+                        ownerWindow,
+                        adapter,
+                        "бетон"
+                    );
+                if (!string.IsNullOrEmpty(chosen))
                 {
-                    if (form.ShowDialog(ownerWindow) == DialogResult.OK)
-                    {
-                        string chosenTerm = form.ChosenTerm;
-                        MessageBox.Show("Chosen: " + chosenTerm);
-                    }
+                    MessageBox.Show("Chosen: " + chosen);
                 }
             }
         }

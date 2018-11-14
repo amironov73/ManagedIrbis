@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* DatabaseComboBox.cs -- 
+/* PrefixComboBox.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -16,7 +16,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
-
+using ManagedIrbis.Search;
 using MoonSharp.Interpreter;
 
 #endregion
@@ -24,24 +24,17 @@ using MoonSharp.Interpreter;
 namespace IrbisUI
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
     [System.ComponentModel.DesignerCategory("Code")]
-    public class DatabaseComboBox
+    public class PrefixComboBox
         : ComboBox
     {
         #region Properties
 
-        /// <summary>
-        /// Selected chair.
-        /// </summary>
-        [CanBeNull]
-        public DatabaseInfo SelectedDatabase
-        {
-            get { return SelectedItem as DatabaseInfo; }
-        }
+
 
         #endregion
 
@@ -50,38 +43,40 @@ namespace IrbisUI
         /// <summary>
         /// Constructor.
         /// </summary>
-        public DatabaseComboBox()
+        public PrefixComboBox()
         {
             DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         #endregion
 
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
-        /// Fill the combo box with databases list.
+        /// Fill the combo box with scenarios list.
         /// </summary>
-        public void FillWithDatabases
+        public void FillWithScenarios
             (
                 [NotNull] IrbisConnection connection,
-                string listFile
+                [NotNull] string database
             )
         {
             Code.NotNull(connection, "connection");
 
-            DatabaseInfo[] databases = connection.ListDatabases(listFile);
+            SearchScenario[] scenarios = SearchScenario.LoadSearchScenarios
+                (
+                    connection,
+                    database
+                );
+            if (ReferenceEquals(scenarios, null))
+            {
+                // TODO do something
+                throw new IrbisException();
+            }
 
-            Items.AddRange(databases);
+            // ReSharper disable once CoVariantArrayConversion
+            Items.AddRange(scenarios);
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

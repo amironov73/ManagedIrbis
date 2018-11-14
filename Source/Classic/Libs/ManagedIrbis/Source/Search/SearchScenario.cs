@@ -328,6 +328,22 @@ namespace ManagedIrbis.Search
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Load search scenarios from the server.
+        /// </summary>
+        [NotNull]
+        public static SearchScenario[] LoadSearchScenarios
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string database
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(database, "database");
+
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region IHandmadeSerializable members

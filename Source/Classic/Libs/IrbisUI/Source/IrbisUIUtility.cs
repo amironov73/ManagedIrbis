@@ -32,8 +32,9 @@ using MoonSharp.Interpreter;
 namespace IrbisUI
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
+    [PublicAPI]
     public static class IrbisUIUtility
     {
         #region Public methods
@@ -47,7 +48,7 @@ namespace IrbisUI
                 [NotNull] this IrbisConnection connection
             )
         {
-            Code.NotNull(connection, "connection");
+            Code.NotNull(connection, nameof(connection));
 
             RetryManager manager = new RetryManager
                 (

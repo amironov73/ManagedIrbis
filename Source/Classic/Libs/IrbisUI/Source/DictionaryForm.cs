@@ -12,6 +12,8 @@
 using System;
 using System.Windows.Forms;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -297,13 +299,32 @@ namespace IrbisUI
                 [CanBeNull] string startTerm
             )
         {
-            if (ReferenceEquals(Adapter, null))
+            Adapter?.Fill(startTerm);
+        }
+
+        /// <summary>
+        /// Choose one term from the dictionary.
+        /// </summary>
+        [CanBeNull]
+        public static string ChooseTerm
+            (
+                [CanBeNull] IWin32Window owner,
+                [NotNull] TermAdapter adapter,
+                [CanBeNull] string startTerm
+            )
+        {
+            Code.NotNull(adapter, nameof(adapter));
+
+            using (DictionaryForm form = new DictionaryForm(adapter))
             {
-                return;
+                form.Goto(startTerm);
+                if (form.ShowDialog(owner) == DialogResult.OK)
+                {
+                    return form.ChosenTerm;
+                }
             }
 
-            startTerm = Adapter.Prefix + startTerm;
-            Adapter.Fill(startTerm);
+            return null;
         }
 
         #endregion

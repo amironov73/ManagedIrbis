@@ -40,7 +40,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Search
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -147,7 +147,7 @@ namespace ManagedIrbis.Search
             //    FormatSpecification = IrbisFormat.Brief
             //};
 
-            //SearchCommand command 
+            //SearchCommand command
             //    = Provider.CommandFactory.GetSearchCommand();
             //command.ApplyParameters(parameters);
 

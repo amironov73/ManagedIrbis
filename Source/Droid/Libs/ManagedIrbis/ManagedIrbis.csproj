@@ -98,6 +98,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Batch\BatchSearcher.cs">
       <Link>Source\Batch\BatchSearcher.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ClientContext.cs">
+      <Link>Source\Client\ClientContext.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstWriter64.cs">
       <Link>Source\Direct\MstWriter64.cs</Link>
     </Compile>

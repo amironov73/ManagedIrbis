@@ -203,6 +203,7 @@
     <Compile Include="Sources\Tests\DaDataClientTest.cs" />
     <Compile Include="Sources\Tests\DataGridViewTest.cs" />
     <Compile Include="Sources\Tests\DictionaryFormTest.cs" />
+    <Compile Include="Sources\Tests\DictionaryFormTest2.cs" />
     <Compile Include="Sources\Tests\DictionaryPanelTest.cs" />
     <Compile Include="Sources\Tests\DragMoveTest.cs" />
     <Compile Include="Sources\Tests\DriveComboBoxTest.cs" />

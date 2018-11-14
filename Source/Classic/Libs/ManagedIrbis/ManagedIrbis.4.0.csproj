@@ -86,6 +86,7 @@
     <Compile Include="Source\Batch\BatchRecordReader.cs" />
     <Compile Include="Source\Batch\BatchRecordWriter.cs" />
     <Compile Include="Source\Batch\BatchSearcher.cs" />
+    <Compile Include="Source\Client\ClientContext.cs" />
     <Compile Include="Source\Direct\MstWriter64.cs" />
     <Compile Include="Source\Drm\AccessElement.cs" />
     <Compile Include="Source\Drm\AccessRight.cs" />
