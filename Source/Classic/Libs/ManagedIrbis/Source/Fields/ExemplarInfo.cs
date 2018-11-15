@@ -413,6 +413,47 @@ namespace ManagedIrbis.Fields
         #region Public methods
 
         /// <summary>
+        /// Apply to the <see cref="RecordField"/>.
+        /// </summary>
+        /// <param name="field"></param>
+        public void ApplyToField
+            (
+                [NotNull] RecordField field
+            )
+        {
+            Code.NotNull(field, "field");
+
+            field
+                .ApplySubField('a', Status)
+                .ApplySubField('b', Number)
+                .ApplySubField('c', Date)
+                .ApplySubField('d', Place)
+                .ApplySubField('q', Collection)
+                .ApplySubField('r', ShelfIndex)
+                .ApplySubField('e', Price)
+                .ApplySubField('h', Barcode)
+                .ApplySubField('1', Amount)
+                .ApplySubField('t', Purpose)
+                .ApplySubField('=', Coefficient)
+                .ApplySubField('4', OffBalance)
+                .ApplySubField('u', KsuNumber1)
+                .ApplySubField('y', ActNumber1)
+                .ApplySubField('f', Channel)
+                .ApplySubField('2', OnHand)
+                .ApplySubField('v', ActNumber2)
+                .ApplySubField('x', WriteOff)
+                .ApplySubField('k', Completion)
+                .ApplySubField('w', ActNumber3)
+                .ApplySubField('z', Moving)
+                .ApplySubField('m', NewPlace)
+                .ApplySubField('s', CheckedDate)
+                .ApplySubField('0', CheckedAmount)
+                .ApplySubField('!', RealPlace)
+                .ApplySubField('p', BindingIndex)
+                .ApplySubField('i', BindingNumber);
+        }
+
+        /// <summary>
         /// Parses the specified field.
         /// </summary>
         [NotNull]

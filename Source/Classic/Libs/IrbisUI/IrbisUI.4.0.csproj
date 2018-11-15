@@ -69,6 +69,9 @@
   </ItemGroup>
   <!-- BEGIN -->
   <ItemGroup>
+    <Compile Include="Source\FormatComboBox.cs" />
+    <Compile Include="Source\PrefixComboBox.cs" />
+    <Compile Include="Source\RecordAdapter.cs" />
     <Compile Include="Source\SimpleSearchForm.cs">
       <SubType>Form</SubType>
     </Compile>

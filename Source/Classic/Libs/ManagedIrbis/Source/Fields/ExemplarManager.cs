@@ -29,6 +29,8 @@ using JetBrains.Annotations;
 using ManagedIrbis.Batch;
 using ManagedIrbis.Readers;
 
+using MoonSharp.Interpreter;
+
 #endregion
 
 // ReSharper disable ConvertClosureToMethodGroup
@@ -38,6 +40,8 @@ namespace ManagedIrbis.Fields
     /// <summary>
     /// Manages exemplars of the books/magazines etc.
     /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
     public sealed class ExemplarManager
     {
         #region Properties
@@ -367,7 +371,7 @@ namespace ManagedIrbis.Fields
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [CanBeNull]
         public ExemplarInfo Find
@@ -541,13 +545,6 @@ namespace ManagedIrbis.Fields
                 [NotNull] string number
             )
         {
-            //MarcRecord[] records = Connection.SearchRead
-            //    (
-            //        "\"{0}{1}\"",
-            //        Prefix,
-            //        number
-            //    );
-
             int[] found = Connection.Search
                 (
                     "\"{0}{1}\"",
@@ -571,7 +568,6 @@ namespace ManagedIrbis.Fields
 
             return result;
         }
-
 
         /// <summary>
         /// Read configuration.

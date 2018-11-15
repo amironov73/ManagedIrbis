@@ -297,6 +297,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protector", "Classic\Apps\P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfIrbis", "Classic\Libs\WpfIrbis\WpfIrbis.csproj", "{C9578EC5-F552-4399-8B2F-7AB625F28B96}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassWriteOff", "Classic\Apps\MassWriteOff\MassWriteOff.csproj", "{352E87EB-9714-4801-AB7A-0D10E632EA10}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1449,6 +1451,14 @@ Global
 		{C9578EC5-F552-4399-8B2F-7AB625F28B96}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C9578EC5-F552-4399-8B2F-7AB625F28B96}.Release|x86.ActiveCfg = Release|Any CPU
 		{C9578EC5-F552-4399-8B2F-7AB625F28B96}.Release|x86.Build.0 = Release|Any CPU
+		{352E87EB-9714-4801-AB7A-0D10E632EA10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{352E87EB-9714-4801-AB7A-0D10E632EA10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{352E87EB-9714-4801-AB7A-0D10E632EA10}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{352E87EB-9714-4801-AB7A-0D10E632EA10}.Debug|x86.Build.0 = Debug|Any CPU
+		{352E87EB-9714-4801-AB7A-0D10E632EA10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{352E87EB-9714-4801-AB7A-0D10E632EA10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{352E87EB-9714-4801-AB7A-0D10E632EA10}.Release|x86.ActiveCfg = Release|Any CPU
+		{352E87EB-9714-4801-AB7A-0D10E632EA10}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1595,6 +1605,7 @@ Global
 		{40FA31B4-8CE0-44F2-B72A-6671ABBCB843} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{E8C44FEC-B102-4C50-8DA3-F22697C43E4E} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{C9578EC5-F552-4399-8B2F-7AB625F28B96} = {7233A430-352D-4BF2-B349-B3767E8E3EDE}
+		{352E87EB-9714-4801-AB7A-0D10E632EA10} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9210D671-3170-4F79-9CE3-2FE2B1208056}

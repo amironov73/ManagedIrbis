@@ -19,6 +19,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Menus;
 using ManagedIrbis.Search;
 
 using MoonSharp.Interpreter;
@@ -41,6 +42,31 @@ namespace ManagedIrbis.Client
         /// </summary>
         [NotNull]
         public IrbisConnection Connection { get; private set; }
+
+        /// <summary>
+        /// Databases.
+        /// </summary>
+        public DatabaseInfo[] Databases { get; set; }
+
+        /// <summary>
+        /// Search scenarios.
+        /// </summary>
+        public SearchScenario[] Scenarios { get; set; }
+
+        /// <summary>
+        /// Formats.
+        /// </summary>
+        public MenuFile[] Formats { get; set; }
+
+        /// <summary>
+        /// Worksheets.
+        /// </summary>
+        public MenuFile[] Worksheets { get; set; }
+
+        /// <summary>
+        /// Found records.
+        /// </summary>
+        public int[] FoundRecords { get; set; }
 
         #endregion
 
