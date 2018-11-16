@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 
 using AM;
@@ -30,6 +31,8 @@ using MoonSharp.Interpreter;
 using Newtonsoft.Json;
 
 #endregion
+
+// ReSharper disable StringLiteralTypo
 
 namespace ManagedIrbis.Search
 {
@@ -177,6 +180,39 @@ namespace ManagedIrbis.Search
                 string text = parts[1].EmptyToNull();
                 text = IrbisText.IrbisToWindows(text);
                 result.Text = text;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read from the server.
+        /// </summary>
+        [NotNull]
+        public static FoundItem[] Read
+            (
+                [NotNull] IrbisConnection connection,
+                [NotNull] string format,
+                [NotNull] IEnumerable<int> mfns
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(format, "format");
+            Code.NotNull(mfns, "mfns");
+
+            int[] array = mfns.ToArray();
+            int length = array.Length;
+            FoundItem[] result = new FoundItem[length];
+            string database = connection.Database.ThrowIfNull("database");
+            string[] formatted = connection.FormatRecords(database, format, array);
+            for (int i = 0; i < length; i++)
+            {
+                FoundItem item = new FoundItem
+                {
+                    Mfn = array[i],
+                    Text = formatted[i]
+                };
+                result[i] = item;
             }
 
             return result;

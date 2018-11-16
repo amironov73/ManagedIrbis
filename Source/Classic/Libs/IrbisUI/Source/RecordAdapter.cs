@@ -108,9 +108,10 @@ namespace IrbisUI
             CurrencyManager currencyManager = termSource.CurrencyManager;
 
             termSource.MoveNext();
-            if (currencyManager.Position >= currencyManager.Count - 1)
+            int count = currencyManager.Count;
+            if (currencyManager.Position >= count - 1)
             {
-                return Fill(First + Portion);
+                return Fill(First + count);
             }
 
             return true;
@@ -189,13 +190,14 @@ namespace IrbisUI
         {
             List<int> list = new List<int>(Portion);
             int max = Connection.GetMaxMfn();
-            int current = startMfn;
+            int first = startMfn;
 
-            if (current <= 0)
+            if (first <= 0)
             {
-                current = 1;
+                first = 1;
             }
 
+            int current = first;
             for (int i = 0; i < Portion; i++)
             {
                 if (current >= max)
@@ -211,13 +213,19 @@ namespace IrbisUI
                 return false;
             }
 
-            MarcRecord[] records = Connection.ReadRecords(null, list);
+            FoundItem[] records = FoundItem.Read
+                (
+                    Connection,
+                    "@brief",
+                    list
+                );
 
             if (records.Length < 1)
             {
                 return false;
             }
 
+            First = first;
             Source.DataSource = records;
             if (backward)
             {

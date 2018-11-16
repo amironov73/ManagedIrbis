@@ -14,6 +14,8 @@ using System.Windows.Forms;
 
 using AM;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -69,11 +71,13 @@ namespace IrbisUI
                 [NotNull] TermAdapter adapter
             )
         {
+            Code.NotNull(adapter, "adapter");
+
             InitializeComponent();
 
             _grid.AutoGenerateColumns = false;
             Adapter = adapter;
-            _grid.DataSource = Adapter.Source;
+            _grid.DataSource = adapter.Source;
             _SetupEvents();
         }
 
@@ -96,10 +100,10 @@ namespace IrbisUI
         }
 
         private void _grid_KeyPress
-        (
-            object sender,
-            KeyPressEventArgs e
-        )
+            (
+                object sender,
+                KeyPressEventArgs e
+            )
         {
             char keyChar = e.KeyChar;
             if (keyChar != '\0')

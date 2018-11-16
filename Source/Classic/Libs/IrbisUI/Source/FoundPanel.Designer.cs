@@ -44,8 +44,9 @@
             this._topPanel.Controls.Add(this._sortBox);
             this._topPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this._topPanel.Location = new System.Drawing.Point(0, 0);
+            this._topPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this._topPanel.Name = "_topPanel";
-            this._topPanel.Size = new System.Drawing.Size(500, 24);
+            this._topPanel.Size = new System.Drawing.Size(375, 20);
             this._topPanel.TabIndex = 0;
             // 
             // _sortBox
@@ -53,8 +54,9 @@
             this._sortBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._sortBox.FormattingEnabled = true;
             this._sortBox.Location = new System.Drawing.Point(0, 0);
+            this._sortBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this._sortBox.Name = "_sortBox";
-            this._sortBox.Size = new System.Drawing.Size(178, 24);
+            this._sortBox.Size = new System.Drawing.Size(134, 21);
             this._sortBox.TabIndex = 0;
             // 
             // _grid
@@ -70,12 +72,14 @@
             this._iconColumn,
             this._descriptionColumn});
             this._grid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._grid.Location = new System.Drawing.Point(0, 24);
+            this._grid.Location = new System.Drawing.Point(0, 20);
+            this._grid.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this._grid.Name = "_grid";
+            this._grid.ReadOnly = true;
             this._grid.RowHeadersVisible = false;
             this._grid.RowTemplate.Height = 24;
             this._grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this._grid.Size = new System.Drawing.Size(500, 176);
+            this._grid.Size = new System.Drawing.Size(375, 142);
             this._grid.TabIndex = 1;
             // 
             // _mfnColumn
@@ -95,6 +99,7 @@
             this._selectionColumn.HeaderText = "";
             this._selectionColumn.MinimumWidth = 30;
             this._selectionColumn.Name = "_selectionColumn";
+            this._selectionColumn.ReadOnly = true;
             this._selectionColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this._selectionColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this._selectionColumn.Width = 30;
@@ -106,12 +111,13 @@
             this._iconColumn.HeaderText = "";
             this._iconColumn.MinimumWidth = 30;
             this._iconColumn.Name = "_iconColumn";
+            this._iconColumn.ReadOnly = true;
             this._iconColumn.Width = 30;
             // 
             // _descriptionColumn
             // 
             this._descriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._descriptionColumn.DataPropertyName = "Description";
+            this._descriptionColumn.DataPropertyName = "Text";
             this._descriptionColumn.HeaderText = "Description";
             this._descriptionColumn.Name = "_descriptionColumn";
             this._descriptionColumn.ReadOnly = true;
@@ -120,12 +126,13 @@
             // 
             // FoundPanel
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this._grid);
             this.Controls.Add(this._topPanel);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FoundPanel";
-            this.Size = new System.Drawing.Size(500, 200);
+            this.Size = new System.Drawing.Size(375, 162);
             this._topPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._grid)).EndInit();
             this.ResumeLayout(false);

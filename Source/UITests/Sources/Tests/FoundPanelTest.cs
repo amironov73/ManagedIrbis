@@ -1,4 +1,4 @@
-﻿/* FoundPanelTest.cs -- 
+﻿/* FoundPanelTest.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -45,7 +45,6 @@ namespace UITests
                 IWin32Window ownerWindow
             )
         {
-            using (Form form = new Form())
             using (IrbisConnection connection = new IrbisConnection())
             {
                 connection.ParseConnectionString
@@ -55,26 +54,22 @@ namespace UITests
                     );
                 connection.Connect();
 
-                form.Size = new Size(800, 600);
+                RecordAdapter adapter = new RecordAdapter(connection);
+                adapter.Fill();
 
-                FoundPanel panel = new FoundPanel
+                using (Form form = new Form())
                 {
-                    Location = new Point(10, 10),
-                    Size = new Size(600, 200)
-                };
-                form.Controls.Add(panel);
+                    form.Size = new Size(800, 600);
 
-                ConnectedClient client = new ConnectedClient(connection);
-                SearchManager manager = new SearchManager(client);
-                FoundLine[] found = manager.Search
-                    (
-                        "IBIS",
-                        "K=О$",
-                        "K="
-                    );
-                panel.SetFound(found);
+                    FoundPanel panel = new FoundPanel(adapter)
+                    {
+                        Location = new Point(10, 10),
+                        Size = new Size(600, 200)
+                    };
+                    form.Controls.Add(panel);
 
-                form.ShowDialog(ownerWindow);
+                    form.ShowDialog(ownerWindow);
+                }
             }
         }
 
