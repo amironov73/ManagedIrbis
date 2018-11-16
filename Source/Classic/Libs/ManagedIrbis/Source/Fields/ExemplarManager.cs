@@ -522,18 +522,35 @@ namespace ManagedIrbis.Fields
                 [NotNull] string number
             )
         {
-            MarcRecord[] records = Connection.SearchRead
+            Code.NotNullNorEmpty(number, "number");
+
+            MarcRecord record = Connection.SearchReadOneRecord
                 (
                     "\"{0}{1}\"",
                     Prefix,
                     number
                 );
+            if (ReferenceEquals(record, null))
+            {
+                return null;
+            }
 
-            ExemplarInfo result = records
-                .SelectMany(record => ExemplarInfo.Parse(record))
-                .FirstOrDefault();
+            RecordField[] fields
+                = record.Fields.GetField(ExemplarInfo.ExemplarTag);
+            foreach (RecordField field in fields)
+            {
+                ExemplarInfo result = ExemplarInfo.Parse(field);
+                if (result.Barcode.SameString(number)
+                    || result.Number.SameString(number))
+                {
+                    result.Record = record;
+                    result.Mfn = record.Mfn;
 
-            return result;
+                    return result;
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -545,28 +562,36 @@ namespace ManagedIrbis.Fields
                 [NotNull] string number
             )
         {
-            int[] found = Connection.Search
+            Code.NotNullNorEmpty(number, "number");
+
+            MarcRecord record = Connection.SearchReadOneRecord
                 (
                     "\"{0}{1}\"",
                     Prefix,
                     number
                 );
-            MarcRecord[] records = Connection.ReadRecords
-                (
-                    Connection.Database.ThrowIfNull("Connection.Database"),
-                    found
-                );
+            if (ReferenceEquals(record, null))
+            {
+                return null;
+            }
 
-            ExemplarInfo result = records
-                .SelectMany(r => ExemplarInfo.Parse(r))
-                .Tee(exemplar => Extend(exemplar, exemplar.Record))
-                .FirstOrDefault
-                    (
-                        e => e.Barcode.SameString(number)
-                            || e.Number.SameString(number)
-                    );
+            RecordField[] fields
+                = record.Fields.GetField(ExemplarInfo.ExemplarTag);
+            foreach (RecordField field in fields)
+            {
+                ExemplarInfo result = ExemplarInfo.Parse(field);
+                if (result.Barcode.SameString(number)
+                    || result.Number.SameString(number))
+                {
+                    result.Record = record;
+                    result.Mfn = record.Mfn;
+                    Extend(result, record);
 
-            return result;
+                    return result;
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -624,8 +649,7 @@ namespace ManagedIrbis.Fields
                 ? new IniFile(fileName, encoding, true)
                 : new IniFile { Encoding = encoding })
             {
-                IniFile.Section section
-                    = ini.GetOrCreateSection("Main");
+                IniFile.Section section = ini.GetOrCreateSection("Main");
                 section["Format"] = Format;
                 section["Prefix"] = Prefix;
 

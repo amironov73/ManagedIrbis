@@ -1,12 +1,236 @@
-﻿using System;
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* RecordAdapter.cs --
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
+ */
+
+#region Using directives
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
+
+using AM;
+
+using CodeJam;
+
+using JetBrains.Annotations;
+
+using ManagedIrbis;
+using ManagedIrbis.Search;
+
+using MoonSharp.Interpreter;
+
+#endregion
 
 namespace IrbisUI
 {
-    class RecordAdapter
+    /// <summary>
+    ///
+    /// </summary>
+    [PublicAPI]
+    [MoonSharpUserData]
+    public class RecordAdapter
     {
+        #region Properties
+
+        /// <summary>
+        /// Binding source.
+        /// </summary>
+        [NotNull]
+        public BindingSource Source { get; private set; }
+
+        /// <summary>
+        /// Current term value.
+        /// </summary>
+        public int CurrentMfn
+        {
+            get
+            {
+                MarcRecord record = (MarcRecord)Source.Current;
+                if (ReferenceEquals(record, null))
+                {
+                    return 0;
+                }
+
+                return record.Mfn;
+            }
+        }
+
+        /// <summary>
+        /// Connection.
+        /// </summary>
+        [NotNull]
+        public IrbisConnection Connection { get; private set; }
+
+        /// <summary>
+        /// First record.
+        /// </summary>
+        public int First { get;set; }
+
+        /// <summary>
+        /// Portion size;
+        /// </summary>
+        public int Portion { get; set; }
+
+        #endregion
+
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public RecordAdapter
+            (
+                [NotNull] IrbisConnection connection
+            )
+        {
+            Code.NotNull(connection, nameof(connection));
+
+            Source = new BindingSource(EmptyArray<TermInfo>.Value, null);
+            First = 1;
+            Portion = 100;
+            Connection = connection;
+        }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Move to next term.
+        /// </summary>
+        public bool MoveNext()
+        {
+            BindingSource termSource = Source;
+            CurrencyManager currencyManager = termSource.CurrencyManager;
+
+            termSource.MoveNext();
+            if (currencyManager.Position >= currencyManager.Count - 1)
+            {
+                return Fill(First + Portion);
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Move to next term.
+        /// </summary>
+        public bool MoveNext(int amount)
+        {
+            while (amount > 0)
+            {
+                amount--;
+                if (!MoveNext())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Move to previous term.
+        /// </summary>
+        public bool MovePrevious()
+        {
+            BindingSource termSource = Source;
+            CurrencyManager currencyManager = termSource.CurrencyManager;
+
+            termSource.MovePrevious();
+            if (currencyManager.Position < 1)
+            {
+                return Fill(First - Portion, true);
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Move to previous term.
+        /// </summary>
+        public bool MovePrevious
+            (
+                int amount
+            )
+        {
+            while (amount > 0)
+            {
+                amount--;
+                if (!MovePrevious())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Fill the adapter.
+        /// </summary>
+        public bool Fill()
+        {
+            return Fill(First);
+        }
+
+        /// <summary>
+        /// Fill the adapter.
+        /// </summary>
+        public bool Fill
+            (
+                int startMfn,
+                bool backward = false
+            )
+        {
+            List<int> list = new List<int>(Portion);
+            int max = Connection.GetMaxMfn();
+            int current = startMfn;
+
+            if (current <= 0)
+            {
+                current = 1;
+            }
+
+            for (int i = 0; i < Portion; i++)
+            {
+                if (current >= max)
+                {
+                    break;
+                }
+                list.Add(current);
+                current++;
+            }
+
+            if (list.Count < 1)
+            {
+                return false;
+            }
+
+            MarcRecord[] records = Connection.ReadRecords(null, list);
+
+            if (records.Length < 1)
+            {
+                return false;
+            }
+
+            Source.DataSource = records;
+            if (backward)
+            {
+                Source.Position = Source.Count - 1;
+            }
+            else
+            {
+                Source.Position = 0;
+            }
+
+            return true;
+        }
+
+        #endregion
     }
 }
