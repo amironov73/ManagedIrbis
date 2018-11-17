@@ -232,6 +232,7 @@
     <Compile Include="AM\Runtime\Singleton.cs" />
     <Compile Include="AM\IOC\ServiceRepository.cs" />
     <Compile Include="AM\Security\SecurityUtility.cs" />
+    <Compile Include="AM\StringSlice.cs" />
     <Compile Include="AM\SubArray.cs" />
     <Compile Include="AM\Text\CommonSeparators.cs" />
     <Compile Include="AM\Text\HtmlText.cs" />

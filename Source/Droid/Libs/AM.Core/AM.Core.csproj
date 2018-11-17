@@ -540,6 +540,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Security\SecurityUtility.cs">
       <Link>AM\Security\SecurityUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\StringSlice.cs">
+      <Link>AM\StringSlice.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\SubArray.cs">
       <Link>AM\SubArray.cs</Link>
     </Compile>

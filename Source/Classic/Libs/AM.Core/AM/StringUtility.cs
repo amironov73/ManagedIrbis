@@ -1624,6 +1624,31 @@ namespace AM
         }
 
         /// <summary>
+        /// Slice the string.
+        /// </summary>
+        public static StringSlice Slice
+            (
+                [NotNull] this string text,
+                int offset,
+                int length
+            )
+        {
+            return new StringSlice(text, offset, length);
+        }
+
+        /// <summary>
+        /// Slice the string.
+        /// </summary>
+        public static StringSlice Slice
+            (
+                [NotNull] this string text,
+                int offset
+            )
+        {
+            return new StringSlice(text, offset, text.Length - offset);
+        }
+
+        /// <summary>
         /// Разбивает строку по указанному разделителю.
         /// </summary>
         [NotNull]

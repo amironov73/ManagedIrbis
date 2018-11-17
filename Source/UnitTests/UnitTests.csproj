@@ -235,6 +235,7 @@
     <Compile Include="AM\NumberRangeTest.cs" />
     <Compile Include="AM\Text\UnicodeRangeTest.cs" />
     <Compile Include="AM\Threading\ScopedLockFactoryTest.cs" />
+    <Compile Include="AM\StringSliceTest.cs" />
     <Compile Include="AM\UtilityTest.cs" />
     <Compile Include="AM\VerifierTest.cs" />
     <Compile Include="AM\Xml\CanaryClass.cs" />
