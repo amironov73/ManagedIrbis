@@ -167,6 +167,7 @@
     <Compile Include="AM\Collections\DictionaryListTest.cs" />
     <Compile Include="AM\Collections\TreeNodeTest.cs" />
     <Compile Include="AM\Collections\TripletTest.cs" />
+    <Compile Include="AM\Collections\LocalListTest.cs" />
     <Compile Include="AM\Collections\VirtualListTest.cs" />
     <Compile Include="AM\Collections\XRangeTest.cs" />
     <Compile Include="AM\CommandLine\CommandLineParserTest.cs" />

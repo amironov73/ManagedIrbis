@@ -10,8 +10,14 @@ using System.Windows.Forms;
 
 namespace IrbisUI.Source
 {
+    /// <summary>
+    /// Simple search form.
+    /// </summary>
     public partial class SimpleSearchForm : Form
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public SimpleSearchForm()
         {
             InitializeComponent();

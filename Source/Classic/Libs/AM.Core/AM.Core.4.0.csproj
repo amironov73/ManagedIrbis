@@ -104,6 +104,7 @@
     <Compile Include="AM\Collections\IndexableConverter.cs" />
     <Compile Include="AM\Collections\KeyedCollection.cs" />
     <Compile Include="AM\Collections\ListUtility.cs" />
+    <Compile Include="AM\Collections\LocalList.cs" />
     <Compile Include="AM\Collections\NonEmptyStringCollection.cs" />
     <Compile Include="AM\Collections\NonNullCollection.cs" />
     <Compile Include="AM\Collections\Pair.cs" />
