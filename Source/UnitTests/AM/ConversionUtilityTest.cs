@@ -226,38 +226,38 @@ namespace UnitTests.AM
             ConversionUtility.ToBoolean("bullshit");
         }
 
-        [Ignore]
-        [TestMethod]
-        public void ConversionUtility_ToBase58String_1()
-        {
-            Assert.AreEqual
-                (
-                    0,
-                    ConversionUtility.ToBase58String(EmptyArray<byte>.Value).Length
-                );
-
-            Assert.AreEqual
-                (
-                    "Ldp",
-                    ConversionUtility.ToBase58String(new byte[] { 1, 2, 3 })
-                );
-        }
-
-        [Ignore]
-        [TestMethod]
-        public void ConversionUtility_FromBase58String_1()
-        {
-            Assert.AreEqual
-                (
-                    0,
-                    ConversionUtility.FromBase58String(string.Empty).Length
-                );
-
-            CollectionAssert.AreEqual
-                (
-                    new byte[] { 1, 2, 3 },
-                    ConversionUtility.FromBase58String("Ldb")
-                );
-        }
+//        [Ignore]
+//        [TestMethod]
+//        public void ConversionUtility_ToBase58String_1()
+//        {
+//            Assert.AreEqual
+//                (
+//                    0,
+//                    ConversionUtility.ToBase58String(EmptyArray<byte>.Value).Length
+//                );
+//
+//            Assert.AreEqual
+//                (
+//                    "Ldp",
+//                    ConversionUtility.ToBase58String(new byte[] { 1, 2, 3 })
+//                );
+//        }
+//
+//        [Ignore]
+//        [TestMethod]
+//        public void ConversionUtility_FromBase58String_1()
+//        {
+//            Assert.AreEqual
+//                (
+//                    0,
+//                    ConversionUtility.FromBase58String(string.Empty).Length
+//                );
+//
+//            CollectionAssert.AreEqual
+//                (
+//                    new byte[] { 1, 2, 3 },
+//                    ConversionUtility.FromBase58String("Ldb")
+//                );
+//        }
     }
 }

@@ -13,17 +13,15 @@ namespace UnitTests.AM.Collections
         public void LocalList_Construction_1()
         {
             LocalList<int> list = new LocalList<int>();
-            Assert.IsNull(list.InnerList);
+            Assert.AreEqual(0, list.Count);
         }
 
         [TestMethod]
         public void LocalList_Add_1()
         {
             LocalList<int> list = new LocalList<int>();
-            Assert.IsNull(list.InnerList);
             Assert.AreEqual(0, list.Count);
             list.Add(1);
-            Assert.IsNotNull(list.InnerList);
             Assert.AreEqual(1, list.Count);
         }
 
@@ -31,23 +29,32 @@ namespace UnitTests.AM.Collections
         public void LocalList_Add_2()
         {
             LocalList<int> list = new LocalList<int>();
-            Assert.IsNull(list.InnerList);
             Assert.AreEqual(0, list.Count);
             list.Add(1);
             list.Add(2);
-            Assert.IsNotNull(list.InnerList);
             Assert.AreEqual(2, list.Count);
+        }
+
+        [TestMethod]
+        public void LocalList_Add_3()
+        {
+            LocalList<int> list = new LocalList<int>();
+            Assert.AreEqual(0, list.Count);
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+            list.Add(4);
+            list.Add(5);
+            Assert.AreEqual(5, list.Count);
         }
 
         [TestMethod]
         public void LocalList_AddRange_1()
         {
             LocalList<int> list = new LocalList<int>();
-            Assert.IsNull(list.InnerList);
             Assert.AreEqual(0, list.Count);
             int[] range = {1, 2};
             list.AddRange(range);
-            Assert.IsNotNull(list.InnerList);
             Assert.AreEqual(2, list.Count);
         }
 
@@ -84,7 +91,6 @@ namespace UnitTests.AM.Collections
             LocalList<int> list = new LocalList<int>();
             list.Add(1);
             list.Clear();
-            Assert.IsNotNull(list.InnerList);
             Assert.AreEqual(0, list.Count);
         }
 
@@ -173,9 +179,11 @@ namespace UnitTests.AM.Collections
             LocalList<int> list = new LocalList<int>();
             Assert.AreEqual(0, list.Count);
             list.Insert(0, 3);
-            Assert.IsNotNull(list.InnerList);
+            Assert.AreEqual(1, list.Count);
             list.Insert(0, 2);
+            Assert.AreEqual(2, list.Count);
             list.Insert(0, 1);
+            Assert.AreEqual(3, list.Count);
             Assert.AreEqual(2, list[1]);
         }
 

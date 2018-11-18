@@ -241,10 +241,7 @@
     <Compile Include="AM\VerifierTest.cs" />
     <Compile Include="AM\Xml\CanaryClass.cs" />
     <Compile Include="AM\Xml\XmlUtilityTest.cs" />
-    <Compile Include="Experiments\FoundPanelExperiments.cs" />
     <Compile Include="Experiments\IsoExperiments.cs" />
-    <Compile Include="Experiments\LoginCenterExperiments.cs" />
-    <Compile Include="Experiments\DictionaryFormExperiments.cs" />
     <Compile Include="Experiments\ServerExperiments.cs" />
     <Compile Include="Experiments\ServerTcp6Experiments.cs" />
     <Compile Include="ManagedIrbis\AsyncExtensionsTest.cs" />
@@ -907,10 +904,6 @@
     <ProjectReference Include="..\Classic\Libs\AM.Core\AM.Core.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
       <Name>AM.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Classic\Libs\AM.Windows\AM.Windows.csproj">
-      <Project>{bd529d46-f534-4a24-8ca8-e452b56b7873}</Project>
-      <Name>AM.Windows</Name>
     </ProjectReference>
     <ProjectReference Include="..\Classic\Libs\ManagedIrbis\ManagedIrbis.csproj">
       <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>

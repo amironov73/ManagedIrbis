@@ -27,13 +27,31 @@ namespace AM.Collections
     [MoonSharpUserData]
     public struct LocalList<T>
     {
-        #region Properties
+        #region Private members
 
-        /// <summary>
-        ///
-        /// </summary>
-        [CanBeNull]
-        public List<T> InnerList { get; private set; }
+        private const int InitialCapacity = 4;
+
+        private T[] _array;
+        private int _size;
+
+        private void _Extend(int newSize)
+        {
+            T[] newArray = new T[newSize];
+            if (!ReferenceEquals(_array, null))
+            {
+                _array.CopyTo(newArray, 0);
+            }
+
+            _array = newArray;
+        }
+
+        private void _GrowAsNeeded()
+        {
+            if (_size >= _array.Length)
+            {
+                _Extend(_size * 2);
+            }
+        }
 
         #endregion
 
@@ -42,12 +60,10 @@ namespace AM.Collections
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
         public IEnumerator<T> GetEnumerator()
         {
-            if (ReferenceEquals(InnerList, null))
+            for (int i = 0; i < _size; i++)
             {
-                return ((IEnumerable<T>)EmptyArray<T>.Value).GetEnumerator();
+                yield return _array[i];
             }
-
-            return ((IEnumerable<T>)InnerList).GetEnumerator();
         }
 
         /// <inheritdoc cref="ICollection{T}.Add" />
@@ -56,12 +72,13 @@ namespace AM.Collections
                 T item
             )
         {
-            if (ReferenceEquals(InnerList, null))
+            if (ReferenceEquals(_array, null))
             {
-                InnerList = new List<T>();
+                _Extend(InitialCapacity);
             }
 
-            InnerList.Add(item);
+            _GrowAsNeeded();
+            _array[_size++] = item;
         }
 
         /// <summary>
@@ -72,24 +89,22 @@ namespace AM.Collections
                 IEnumerable<T> items
             )
         {
-            if (ReferenceEquals(InnerList, null))
+            if (ReferenceEquals(_array, null))
             {
-                InnerList = new List<T>();
+                _Extend(InitialCapacity);
             }
 
             foreach (T item in items)
             {
-                InnerList.Add(item);
+                _GrowAsNeeded();
+                _array[_size++] = item;
             }
         }
 
         /// <inheritdoc cref="ICollection{T}.Clear" />
         public void Clear()
         {
-            if (!ReferenceEquals(InnerList, null))
-            {
-                InnerList.Clear();
-            }
+            _size = 0;
         }
 
         /// <inheritdoc cref="ICollection{T}.Contains" />
@@ -98,12 +113,13 @@ namespace AM.Collections
                 T item
             )
         {
-            if (ReferenceEquals(InnerList, null))
+            if (ReferenceEquals(_array, null))
             {
                 return false;
             }
 
-            return InnerList.Contains(item);
+            int index = Array.IndexOf(_array, item, 0, _size);
+            return index >= 0;
         }
 
         /// <inheritdoc cref="ICollection{T}.CopyTo" />
@@ -113,9 +129,9 @@ namespace AM.Collections
                 int arrayIndex
             )
         {
-            if (!ReferenceEquals(InnerList, null))
+            if (!ReferenceEquals(_array, null))
             {
-                InnerList.CopyTo(array, arrayIndex);
+                Array.Copy(_array, 0, array, 0, _size);
             }
         }
 
@@ -125,23 +141,21 @@ namespace AM.Collections
                 T item
             )
         {
-            if (ReferenceEquals(InnerList, null))
+            int index = IndexOf(item);
+            if (index >= 0)
             {
-                return false;
+                RemoveAt(index);
+
+                return true;
             }
 
-            return InnerList.Remove(item);
+            return false;
         }
 
         /// <inheritdoc cref="ICollection{T}.Count" />
         public int Count
         {
-            get
-            {
-                return ReferenceEquals(InnerList, null)
-                    ? 0
-                    : InnerList.Count;
-            }
+            get { return _size; }
         }
 
         /// <inheritdoc cref="ICollection{T}.IsReadOnly" />
@@ -156,9 +170,9 @@ namespace AM.Collections
                 T item
             )
         {
-            return ReferenceEquals(InnerList, null)
+            return ReferenceEquals(_array, null)
                 ? -1
-                : InnerList.IndexOf(item);
+                : Array.IndexOf(_array, item, 0, _size);
         }
 
         /// <inheritdoc cref="IList{T}.Insert" />
@@ -168,12 +182,18 @@ namespace AM.Collections
                 T item
             )
         {
-            if (ReferenceEquals(InnerList, null))
+            if (ReferenceEquals(_array, null))
             {
-                InnerList = new List<T>();
+                _Extend(InitialCapacity);
             }
 
-            InnerList.Insert(index, item);
+            if (_size != 0 && index != _size - 1)
+            {
+                Array.Copy(_array, index, _array, index + 1, _size - index - 1);
+            }
+
+            _array[index] = item;
+            _size++;
         }
 
         /// <inheritdoc cref="IList{T}.RemoveAt" />
@@ -182,9 +202,14 @@ namespace AM.Collections
                 int index
             )
         {
-            if (!ReferenceEquals(InnerList, null))
+            if (!ReferenceEquals(_array, null))
             {
-                InnerList.RemoveAt(index);
+                if (index != _size - 1)
+                {
+                    Array.Copy(_array, index + 1, _array, index, _size - index - 1);
+                }
+
+                _size--;
             }
         }
 
@@ -193,21 +218,21 @@ namespace AM.Collections
         {
             get
             {
-                if (ReferenceEquals(InnerList, null))
+                if (ReferenceEquals(_array, null))
                 {
                     throw new IndexOutOfRangeException();
                 }
 
-                return InnerList[index];
+                return _array[index];
             }
             set
             {
-                if (ReferenceEquals(InnerList, null))
+                if (ReferenceEquals(_array, null))
                 {
                     throw new IndexOutOfRangeException();
                 }
 
-                InnerList[index] = value;
+                _array[index] = value;
             }
         }
 
@@ -217,9 +242,17 @@ namespace AM.Collections
         [NotNull]
         public T[] ToArray()
         {
-            return ReferenceEquals(InnerList, null)
-                ? EmptyArray<T>.Value
-                : InnerList.ToArray();
+            if (ReferenceEquals(_array, null) || _size == 0)
+            {
+                return EmptyArray<T>.Value;
+            }
+
+            if (_size != _array.Length)
+            {
+                Array.Resize(ref _array, _size);
+            }
+
+            return _array;
         }
 
         #endregion
