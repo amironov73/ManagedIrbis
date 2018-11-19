@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using AM.Text;
+
 using JetBrains.Annotations;
 
 using ManagedIrbis;
@@ -589,6 +591,16 @@ namespace UnitTests.ManagedIrbis
 
             field = RecordFieldUtility.GetField(collection, tags, 10);
             Assert.IsNull(field);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetField_19()
+        {
+            RecordFieldCollection collection = _GetFieldCollection();
+            int[] tags = { 100, 200 };
+            RecordField[] fields = RecordFieldUtility.GetField(collection, tags);
+            Assert.IsNotNull(fields);
+            Assert.AreEqual(3, fields.Length);
         }
 
         [TestMethod]

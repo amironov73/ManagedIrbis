@@ -19,6 +19,7 @@ using System.Xml;
 using System.Xml.Serialization;
 
 using AM;
+using AM.Collections;
 using AM.Text;
 
 using CodeJam;
@@ -35,6 +36,8 @@ using Newtonsoft.Json.Linq;
 using Formatting = Newtonsoft.Json.Formatting;
 
 #endif
+
+// ReSharper disable ForCanBeConvertedToForeach
 
 #endregion
 
@@ -139,11 +142,22 @@ namespace ManagedIrbis
         {
             Code.NotNull(fields, "fields");
 
-            return fields
-                .NonNullItems()
-                .SelectMany(field => field.SubFields)
-                .NonNullItems()
-                .ToArray();
+            LocalList<SubField> result = new LocalList<SubField>();
+            foreach (RecordField field in fields)
+            {
+                if (!ReferenceEquals(field, null))
+                {
+                    foreach (SubField subField in field.SubFields)
+                    {
+                        if (!ReferenceEquals(subField, null))
+                        {
+                            result.Add(subField);
+                        }
+                    }
+                }
+            }
+
+            return result.ToArray();
         }
 
         // ==========================================================
@@ -273,13 +287,19 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
 
-            return subFields
-                .NonNullItems()
-                .Where
-                    (
-                        subField => subField.Code.OneOf(codes)
-                    )
-                .ToArray();
+            LocalList<SubField> result = new LocalList<SubField>();
+            foreach (SubField subField in subFields)
+            {
+                if (!ReferenceEquals(subField, null))
+                {
+                    if (subField.Code.OneOf(codes))
+                    {
+                        result.Add(subField);
+                    }
+                }
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>
@@ -343,10 +363,19 @@ namespace ManagedIrbis
         {
             Code.NotNull(fields, "fields");
 
-            return fields
-                .NonNullItems()
-                .Where(field => field.Tag == tag)
-                .ToArray();
+            LocalList<RecordField> result = new LocalList<RecordField>();
+            foreach (RecordField field in fields)
+            {
+                if (!ReferenceEquals(field, null))
+                {
+                    if (field.Tag == tag)
+                    {
+                        result.Add(field);
+                    }
+                }
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>
@@ -362,23 +391,17 @@ namespace ManagedIrbis
         {
             Code.NotNull(fields, "fields");
 
-            List<RecordField> result = null;
+            LocalList<RecordField> result = new LocalList<RecordField>();
             int count = fields.Count;
             for (int i = 0; i < count; i++)
             {
                 if (fields[i].Tag == tag)
                 {
-                    if (ReferenceEquals(result, null))
-                    {
-                        result = new List<RecordField>();
-                    }
                     result.Add(fields[i]);
                 }
             }
 
-            return ReferenceEquals(result, null)
-                ? EmptyArray
-                : result.ToArray();
+            return result.ToArray();
         }
 
         /// <summary>
@@ -422,43 +445,45 @@ namespace ManagedIrbis
         {
             Code.NotNull(fields, "fields");
 
-            return fields
-                .NonNullItems()
-                .Where(field => field.Tag.OneOf(tags))
-                .ToArray();
+            LocalList<RecordField> result = new LocalList<RecordField>();
+            foreach (RecordField field in fields)
+            {
+                if (!ReferenceEquals(field, null))
+                {
+                    if (field.Tag.OneOf(tags))
+                    {
+                        result.Add(field);
+                    }
+                }
+            }
+
+            return result.ToArray();
         }
 
-        ///// <summary>
-        ///// Фильтрация полей.
-        ///// </summary>
-        //[NotNull]
-        //[ItemNotNull]
-        //public static RecordField[] GetField
-        //    (
-        //        [NotNull] this RecordFieldCollection fields,
-        //        params int[] tags
-        //    )
-        //{
-        //    Code.NotNull(fields, "fields");
+        /// <summary>
+        /// Фильтрация полей.
+        /// </summary>
+        [NotNull]
+        [ItemNotNull]
+        public static RecordField[] GetField
+            (
+                [NotNull] this RecordFieldCollection fields,
+                params int[] tags
+            )
+        {
+            Code.NotNull(fields, "fields");
 
-        //    List<RecordField> result = null;
-        //    int count = fields.Count;
-        //    for (int i = 0; i < count; i++)
-        //    {
-        //        if (fields[i].Tag.OneOf(tags))
-        //        {
-        //            if (ReferenceEquals(result, null))
-        //            {
-        //                result = new List<RecordField>();
-        //            }
-        //            result.Add(fields[i]);
-        //        }
-        //    }
+            LocalList<RecordField> result = new LocalList<RecordField>();
+            for (int i = 0; i < fields.Count; i++)
+            {
+                if (fields[i].Tag.OneOf(tags))
+                {
+                    result.Add(fields[i]);
+                }
+            }
 
-        //    return ReferenceEquals(result, null)
-        //        ? EmptyArray
-        //        : result.ToArray();
-        //}
+            return result.ToArray();
+        }
 
         /// <summary>
         /// Фильтрация полей.
@@ -523,10 +548,19 @@ namespace ManagedIrbis
             Code.NotNull(fields, "fields");
             Code.NotNull(predicate, "predicate");
 
-            return fields
-                .NonNullItems()
-                .Where(predicate)
-                .ToArray();
+            LocalList<RecordField> result = new LocalList<RecordField>();
+            foreach (RecordField field in fields)
+            {
+                if (!ReferenceEquals(field, null))
+                {
+                    if (predicate(field))
+                    {
+                        result.Add(field);
+                    }
+                }
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>
@@ -543,23 +577,17 @@ namespace ManagedIrbis
             Code.NotNull(fields, "fields");
             Code.NotNull(predicate, "predicate");
 
-            List<RecordField> result = null;
+            LocalList<RecordField> result = new LocalList<RecordField>();
             int count = fields.Count;
             for (int i = 0; i < count; i++)
             {
                 if (predicate(fields[i]))
                 {
-                    if (ReferenceEquals(result, null))
-                    {
-                        result = new List<RecordField>();
-                    }
                     result.Add(fields[i]);
                 }
             }
 
-            return ReferenceEquals(result, null)
-                ? EmptyArray
-                : result.ToArray();
+            return result.ToArray();
         }
 
         /// <summary>
@@ -575,16 +603,17 @@ namespace ManagedIrbis
         {
             Code.NotNull(fields, "fields");
 
-            RecordField[] result = fields.NonNullItems().ToArray();
-            if (!ReferenceEquals(action, null))
+            LocalList<RecordField> result = new LocalList<RecordField>();
+            foreach (RecordField field in fields)
             {
-                foreach (RecordField field in result)
+                result.Add(field);
+                if (!ReferenceEquals(action, null))
                 {
                     action(field);
                 }
             }
 
-            return result;
+            return result.ToArray();
         }
 
         /// <summary>
@@ -601,12 +630,13 @@ namespace ManagedIrbis
         {
             Code.NotNull(fields, "fields");
 
-            RecordField[] result = fields.NonNullItems().ToArray();
+            LocalList<RecordField> result = new LocalList<RecordField>();
             if (!ReferenceEquals(fieldAction, null)
                 || !ReferenceEquals(subFieldAction, null))
             {
-                foreach (RecordField field in result)
+                foreach (RecordField field in fields)
                 {
+                    result.Add(field);
                     if (!ReferenceEquals(fieldAction, null))
                     {
                         fieldAction(field);
@@ -622,7 +652,7 @@ namespace ManagedIrbis
                 }
             }
 
-            return result;
+            return result.ToArray();
         }
 
         /// <summary>
@@ -638,11 +668,12 @@ namespace ManagedIrbis
         {
             Code.NotNull(fields, "fields");
 
-            RecordField[] result = fields.NonNullItems().ToArray();
+            LocalList<RecordField> result = new LocalList<RecordField>();
             if (!ReferenceEquals(action, null))
             {
-                foreach (RecordField field in result)
+                foreach (RecordField field in fields)
                 {
+                    result.Add(field);
                     foreach (SubField subField in field.SubFields)
                     {
                         action(subField);
@@ -650,7 +681,7 @@ namespace ManagedIrbis
                 }
             }
 
-            return result;
+            return result.ToArray();
         }
 
         /// <summary>
@@ -667,10 +698,16 @@ namespace ManagedIrbis
             Code.NotNull(fields, "fields");
             Code.NotNull(predicate, "predicate");
 
-            return fields
-                .NonNullItems()
-                .Where(field => field.SubFields.Any(predicate))
-                .ToArray();
+            LocalList<RecordField> result = new LocalList<RecordField>();
+            foreach (RecordField field in fields)
+            {
+                if (field.SubFields.Any(predicate))
+                {
+                    result.Add(field);
+                }
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>
