@@ -52,7 +52,8 @@ namespace IrbisBot
                 new StartCommand(),
                 new HelpCommand(),
                 new TimeCommand(),
-                new SearchCommand()
+                //new SearchCommand()
+                new SearchWebCommand()
             };
 
             Token = ConfigurationUtility.GetString("apiToken");
@@ -84,7 +85,8 @@ namespace IrbisBot
             var me = _client.GetMeAsync().Result;
             Console.WriteLine("ME: {0}", me.Username);
             _client.StartReceiving(new UpdateType[0]);
-            Console.WriteLine("Start listening");
+            //Console.WriteLine("Start listening");
+            //Console.WriteLine("Press ENTER to stop");
         }
 
         private static void OnMessage

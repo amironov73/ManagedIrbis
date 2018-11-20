@@ -10,6 +10,7 @@
 #region Using directives
 
 using System;
+using System.Diagnostics;
 using System.ServiceProcess;
 
 using ManagedIrbis;
@@ -101,7 +102,8 @@ namespace IrbisBot
 
             var client = Bot.GetClient();
             Bot.MessageLoop();
-            client.StartReceiving(new UpdateType[0]);
+            //client.StartReceiving(new UpdateType[0]);
+            Console.WriteLine("Start listening");
             Console.WriteLine("Press ENTER to stop");
             Console.ReadLine();
             client.StopReceiving();
@@ -132,7 +134,11 @@ namespace IrbisBot
         {
             if (args.Length == 0)
             {
-                if (Environment.UserInteractive)
+                if (Debugger.IsAttached)
+                {
+                    RunAsConsoleApplication();
+                }
+                else if (Environment.UserInteractive)
                 {
                     ShowHelp();
                 }

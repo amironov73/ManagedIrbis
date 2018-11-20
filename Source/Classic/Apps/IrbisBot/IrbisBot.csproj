@@ -37,7 +37,7 @@
     <ApplicationIcon>airplane.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
@@ -92,6 +92,7 @@
     <Compile Include="Source\Commands\HelloCommand.cs" />
     <Compile Include="Source\Commands\HelpCommand.cs" />
     <Compile Include="Source\Commands\SearchCommand.cs" />
+    <Compile Include="Source\Commands\SearchWebCommand.cs" />
     <Compile Include="Source\Commands\StartCommand.cs" />
     <Compile Include="Source\Commands\TimeCommand.cs" />
     <Compile Include="Source\Program.cs" />

@@ -133,9 +133,8 @@ namespace IrbisBot
                 string message = "Arguments: " + string.Join(" ", args);
                 EventLog.WriteEntry(message, EventLogEntryType.Information);
 
-                var client = Bot.GetClient();
+                Bot.GetClient();
                 Bot.MessageLoop();
-                client.StartReceiving();
             }
             catch (Exception exception)
             {

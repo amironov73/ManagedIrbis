@@ -29,7 +29,7 @@ namespace IrbisBot.Commands
     class SearchCommand
         : BotCommand
     {
-        public override string Name => "time";
+        public override string Name => "search";
 
         public override void Execute(Message message, TelegramBotClient client)
         {
