@@ -247,12 +247,15 @@ namespace AM.Collections
                 return EmptyArray<T>.Value;
             }
 
-            if (_size != _array.Length)
+            if (_size == _array.Length)
             {
-                Array.Resize(ref _array, _size);
+                return _array;
             }
 
-            return _array;
+            T[] result = new T[_size];
+            Array.Copy(_array, result, _size);
+
+            return result;
         }
 
         #endregion

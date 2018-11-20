@@ -53,6 +53,7 @@ namespace IrbisBot.Commands
             + "&I21DBN=IBIS"
             + "&P21DBN=IBIS"
             + "&S21ALL=(%22K={0}$%22+%2B+%22A={0}$%22+%2B+%22T={0}$%22)*G=$"
+            + "&S21FMT=FULLWEBR"
             + "&S21SRW=GOD"
             + "&S21SRD=DOWN";
 
