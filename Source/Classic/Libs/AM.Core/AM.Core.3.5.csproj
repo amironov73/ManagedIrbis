@@ -93,6 +93,7 @@
     <Compile Include="AM\Collections\BlockingQueue.cs" />
     <Compile Include="AM\Collections\CaseInsensitiveDictionary.cs" />
     <Compile Include="AM\Collections\CharSet.cs" />
+    <Compile Include="AM\Collections\ChunkArray.cs" />
     <Compile Include="AM\Collections\CloneableCollection.cs" />
     <Compile Include="AM\Collections\CloneableDictionary.cs" />
     <Compile Include="AM\Collections\DictionaryCounterDouble.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="AM\Collections\DictionaryUtility.cs" />
     <Compile Include="AM\Collections\DisposableCollection.cs" />
     <Compile Include="AM\Collections\DoublyLinkedList.cs" />
+    <Compile Include="AM\Collections\FrugalList.cs" />
     <Compile Include="AM\Collections\IIndexable.cs" />
     <Compile Include="AM\Collections\IndexableConverter.cs" />
     <Compile Include="AM\Collections\KeyedCollection.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="AM\Collections\TreeNode.cs" />
     <Compile Include="AM\Collections\Triplet.cs" />
     <Compile Include="AM\Collections\ValuePair.cs" />
+    <Compile Include="AM\Collections\ValueTriplet.cs" />
     <Compile Include="AM\Collections\VirtualList.cs" />
     <Compile Include="AM\Collections\XRange.cs" />
     <Compile Include="AM\CommandLine\CommandLineParser.cs" />

@@ -12,6 +12,8 @@
 using System;
 using System.Collections.Generic;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -55,6 +57,24 @@ namespace AM.Collections
 
         #endregion
 
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public LocalList
+            (
+                int capacity
+            )
+            : this()
+        {
+            Code.Positive(capacity, "capacity");
+
+            _Extend(capacity);
+        }
+
+        #endregion
+
         #region Public methods
 
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
@@ -86,7 +106,7 @@ namespace AM.Collections
         /// </summary>
         public void AddRange
             (
-                IEnumerable<T> items
+                [NotNull] IEnumerable<T> items
             )
         {
             if (ReferenceEquals(_array, null))
@@ -131,7 +151,7 @@ namespace AM.Collections
         {
             if (!ReferenceEquals(_array, null))
             {
-                Array.Copy(_array, 0, array, 0, _size);
+                Array.Copy(_array, 0, array, arrayIndex, _size);
             }
         }
 

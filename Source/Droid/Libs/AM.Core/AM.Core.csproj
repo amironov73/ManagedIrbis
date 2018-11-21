@@ -117,6 +117,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\CharSet.cs">
       <Link>AM\Collections\CharSet.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\ChunkArray.cs">
+      <Link>AM\Collections\ChunkArray.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\CloneableCollection.cs">
       <Link>AM\Collections\CloneableCollection.cs</Link>
     </Compile>
@@ -143,6 +146,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\DoublyLinkedList.cs">
       <Link>AM\Collections\DoublyLinkedList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\FrugalList.cs">
+      <Link>AM\Collections\FrugalList.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\IIndexable.cs">
       <Link>AM\Collections\IIndexable.cs</Link>
@@ -185,6 +191,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\ValuePair.cs">
       <Link>AM\Collections\ValuePair.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\ValueTriplet.cs">
+      <Link>AM\Collections\ValueTriplet.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\VirtualList.cs">
       <Link>AM\Collections\VirtualList.cs</Link>

@@ -51,6 +51,58 @@ namespace AM
         #region Public methods
 
         /// <summary>
+        /// Clamp the value.
+        /// </summary>
+        public static double Clamp
+            (
+                this double value,
+                double min,
+                double max
+            )
+        {
+            return Math.Min(Math.Max(value, min), max);
+        }
+
+        /// <summary>
+        /// Clamp the value.
+        /// </summary>
+        public static float Clamp
+            (
+                this float value,
+                float min,
+                float max
+            )
+        {
+            return Math.Min(Math.Max(value, min), max);
+        }
+
+        /// <summary>
+        /// Clamp the value.
+        /// </summary>
+        public static int Clamp
+            (
+                this int value,
+                int min,
+                int max
+            )
+        {
+            return Math.Min(Math.Max(value, min), max);
+        }
+
+        /// <summary>
+        /// Clamp the value.
+        /// </summary>
+        public static long Clamp
+            (
+                this long value,
+                long min,
+                long max
+            )
+        {
+            return Math.Min(Math.Max(value, min), max);
+        }
+
+        /// <summary>
         /// Преобразование набора целых чисел в строковое представление,
         /// учитывающее возможное наличие цепочек последовательных чисел,
         /// которые форматируются как диапазоны.
@@ -78,7 +130,7 @@ namespace AM
             // ReSharper disable PossibleMultipleEnumeration
             if (!n.Any())
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             var result = new StringBuilder();
@@ -178,6 +230,28 @@ namespace AM
             return first.ToInvariantString()
                 + "-"
                 + last.ToInvariantString();
+        }
+
+        /// <summary>
+        /// Determine whether the value is NAN or INFINITY.
+        /// </summary>
+        public static bool IsNanOrInf
+            (
+                this double value
+            )
+        {
+            return double.IsNaN(value) || double.IsInfinity(value);
+        }
+
+        /// <summary>
+        /// Determine whether the value is NAN or INFINITY.
+        /// </summary>
+        public static bool IsNanOrInf
+            (
+                this float value
+            )
+        {
+            return float.IsNaN(value) || float.IsInfinity(value);
         }
 
         /// <summary>
@@ -591,7 +665,7 @@ namespace AM
         }
 
         /// <summary>
-        /// Преобразование числа в строку по правилам инвариантной 
+        /// Преобразование числа в строку по правилам инвариантной
         /// (не зависящей от региона) культуры.
         /// </summary>
         /// <param name="value">Число для преобразования.</param>
@@ -606,7 +680,7 @@ namespace AM
 
 
         /// <summary>
-        /// Преобразование числа в строку по правилам инвариантной 
+        /// Преобразование числа в строку по правилам инвариантной
         /// (не зависящей от региона) культуры.
         /// </summary>
         /// <param name="value">Число для преобразования.</param>
@@ -620,7 +694,7 @@ namespace AM
         }
 
         /// <summary>
-        /// Преобразование числа в строку по правилам инвариантной 
+        /// Преобразование числа в строку по правилам инвариантной
         /// (не зависящей от региона) культуры.
         /// </summary>
         /// <param name="value">Число для преобразования.</param>
@@ -657,7 +731,7 @@ namespace AM
         }
 
         /// <summary>
-        /// Преобразование числа в строку по правилам инвариантной 
+        /// Преобразование числа в строку по правилам инвариантной
         /// (не зависящей от региона) культуры.
         /// </summary>
         /// <param name="value">Число для преобразования.</param>
@@ -694,7 +768,7 @@ namespace AM
         }
 
         /// <summary>
-        /// Преобразование числа в строку по правилам инвариантной 
+        /// Преобразование числа в строку по правилам инвариантной
         /// (не зависящей от региона) культуры.
         /// </summary>
         /// <param name="value">Число для преобразования.</param>
@@ -723,6 +797,28 @@ namespace AM
         {
             //return value.ToString(CultureInfo.InvariantCulture);
             return value.ToString();
+        }
+
+        /// <summary>
+        /// Convert to roundtrip format.
+        /// </summary>
+        public static string ToRoundtripString
+            (
+                this double value
+            )
+        {
+            return value.ToString("R", CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Convert to roundtrip format.
+        /// </summary>
+        public static string ToRoundtripString
+            (
+                this float value
+            )
+        {
+            return value.ToString("R", CultureInfo.InvariantCulture);
         }
 
         /// <summary>
