@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* LocalList.cs --
+/* FrugalList.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -23,9 +23,9 @@ using MoonSharp.Interpreter;
 namespace AM.Collections
 {
     /// <summary>
-    ///
+    /// Список, в котором предполагается один-два элемента,
+    /// больше -- намного реже.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     [PublicAPI]
     [MoonSharpUserData]
     public struct FrugalList<T>

@@ -35,14 +35,14 @@ namespace AM
         ///// </summary>
         ///// <param name="parentType"></param>
         ///// <returns></returns>
-        //public static Type[] GetAllDescendants 
-        //    ( 
-        //        [NotNull] Type parentType 
+        //public static Type[] GetAllDescendants
+        //    (
+        //        [NotNull] Type parentType
         //    )
         //{
         //    Code.NotNull(parentType, "parentType");
 
-        //    Assembly[] assemblies 
+        //    Assembly[] assemblies
         //        = AppDomain.CurrentDomain.GetAssemblies ();
         //    List <Type> result = new List <Type> ();
         //    foreach ( Assembly assembly in assemblies )
@@ -74,7 +74,7 @@ namespace AM
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static Type GetBaseType
             (
@@ -84,6 +84,24 @@ namespace AM
             Code.NotNull(type, "type");
 
             return type.Bridge().BaseType;
+        }
+
+        /// <summary>
+        /// Get default value for the type.
+        /// </summary>
+        public static object GetDefaultValue
+            (
+                [NotNull] Type type
+            )
+        {
+            Code.NotNull(type, "type");
+
+            if (!type.IsValueType)
+            {
+                return null;
+            }
+
+            return Activator.CreateInstance(type);
         }
 
         /// <summary>
@@ -120,7 +138,7 @@ namespace AM
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static FieldInfo[] GetFields
             (
@@ -135,7 +153,7 @@ namespace AM
                 (
                     type,
                     BindingFlags.Public
-                    | BindingFlags.NonPublic 
+                    | BindingFlags.NonPublic
                     | BindingFlags.Instance
                 );
 
@@ -146,7 +164,7 @@ namespace AM
             FieldInfo[] result = type.Bridge().GetFields
                 (
                     BindingFlags.Public
-                    | BindingFlags.NonPublic 
+                    | BindingFlags.NonPublic
                     | BindingFlags.Instance
                 );
 
@@ -155,7 +173,7 @@ namespace AM
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [CanBeNull]
         public static Type GetInterface
@@ -200,7 +218,7 @@ namespace AM
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static bool IsAbstract
             (
@@ -213,7 +231,7 @@ namespace AM
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static bool IsClass
             (
@@ -226,7 +244,7 @@ namespace AM
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static bool IsComObject
             (
@@ -247,7 +265,26 @@ namespace AM
         }
 
         /// <summary>
-        /// 
+        /// Whether the <paramref name="value" /> is the default value
+        /// for this type.
+        /// </summary>
+        public static bool IsDefaultValue
+            (
+                [CanBeNull] object value
+            )
+        {
+            if (ReferenceEquals(value, null))
+            {
+                return true;
+            }
+
+            Type type = value.GetType();
+            return type.IsValueType
+                   && Equals(Activator.CreateInstance(type), value);
+        }
+
+        /// <summary>
+        ///
         /// </summary>
         public static bool IsEnum
             (
@@ -260,7 +297,7 @@ namespace AM
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static bool IsGenericType
             (
@@ -273,7 +310,7 @@ namespace AM
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static bool IsInterface
             (
@@ -286,7 +323,7 @@ namespace AM
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static bool IsPrimitive
             (
@@ -299,7 +336,7 @@ namespace AM
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static bool IsPublic
             (
@@ -312,7 +349,7 @@ namespace AM
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static bool IsSealed
             (
@@ -325,7 +362,7 @@ namespace AM
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public static bool IsValueType
             (
