@@ -172,6 +172,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\ChunkArray.cs">
       <Link>AM\Collections\ChunkArray.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\ChunkList.cs">
+      <Link>AM\Collections\ChunkList.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\CloneableCollection.cs">
       <Link>AM\Collections\CloneableCollection.cs</Link>
     </Compile>

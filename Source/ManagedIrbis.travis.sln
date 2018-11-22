@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisNetService", "Classic\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{FB0B6071-ECC9-471B-A910-0F44C45888ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.AOT", "Classic\Libs\AM.AOT\AM.AOT.csproj", "{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -191,6 +193,14 @@ Global
 		{FB0B6071-ECC9-471B-A910-0F44C45888ED}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FB0B6071-ECC9-471B-A910-0F44C45888ED}.Release|x86.ActiveCfg = Release|x86
 		{FB0B6071-ECC9-471B-A910-0F44C45888ED}.Release|x86.Build.0 = Release|x86
+		{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}.Debug|x86.ActiveCfg = Debug|x86
+		{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}.Debug|x86.Build.0 = Debug|x86
+		{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}.Release|x86.ActiveCfg = Release|x86
+		{0F99A08E-E08F-4FFE-884B-C27AD252E1D5}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
