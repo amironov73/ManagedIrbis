@@ -99,6 +99,7 @@
     <Compile Include="AM\Caching\FileCacheTest.cs" />
     <Compile Include="AM\CancelableEventArgsTest.cs" />
     <Compile Include="AM\Collections\CaseInsensitiveDictionaryTest.cs" />
+    <Compile Include="AM\Collections\ChunkListTest.cs" />
     <Compile Include="AM\Collections\CloneableCollectionTest.cs" />
     <Compile Include="AM\Collections\CloneableDictionaryTest.cs" />
     <Compile Include="AM\Collections\DictionaryCounterInt32Test.cs" />

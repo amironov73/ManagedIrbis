@@ -96,7 +96,7 @@ namespace AM
         {
             Code.NotNull(type, "type");
 
-            if (!type.IsValueType)
+            if (!type.Bridge().IsValueType)
             {
                 return null;
             }
@@ -279,7 +279,7 @@ namespace AM
             }
 
             Type type = value.GetType();
-            return type.IsValueType
+            return type.Bridge().IsValueType
                    && Equals(Activator.CreateInstance(type), value);
         }
 
