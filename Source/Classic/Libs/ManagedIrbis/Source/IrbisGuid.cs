@@ -11,6 +11,8 @@
 
 using System;
 
+using AM;
+
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -76,7 +78,7 @@ namespace ManagedIrbis
 
             Guid guid = Parse(text);
 
-            return guid.ToString("D").ToUpperInvariant();
+            return StringUtility.ToUpperInvariant(guid.ToString("D"));
         }
 
         /// <summary>
@@ -84,7 +86,7 @@ namespace ManagedIrbis
         /// </summary>
         public static string NewGuid()
         {
-            return Guid.NewGuid().ToString("B").ToUpperInvariant();
+            return StringUtility.ToUpperInvariant(Guid.NewGuid().ToString("B"));
         }
 
         /// <summary>
@@ -97,7 +99,7 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(text, "text");
 
-#if FW35
+#if FW35 || WINMOBILE || POCKETPC
 
             return new Guid(text);
 

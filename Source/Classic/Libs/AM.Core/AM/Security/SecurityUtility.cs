@@ -55,7 +55,7 @@ namespace AM.Security
         [NotNull]
         public static X509Certificate GetSslCertificate()
         {
-#if UAP
+#if UAP || WINMOBILE || POCKETPC
 
             throw new NotImplementedException();
 
@@ -86,6 +86,12 @@ namespace AM.Security
         {
             Code.NotNullNorEmpty(subject, "subject");
 
+#if UAP || WINMOBILE || POCKETPC
+
+            throw new NotImplementedException();
+
+#else
+
             X509Store store = new X509Store(StoreName.Root, StoreLocation.LocalMachine);
             store.Open(OpenFlags.ReadOnly);
             foreach (X509Certificate2 certificate in store.Certificates)
@@ -99,6 +105,8 @@ namespace AM.Security
 
             store.CloseStore();
             throw new Exception();
+
+#endif
         }
 
         #endregion

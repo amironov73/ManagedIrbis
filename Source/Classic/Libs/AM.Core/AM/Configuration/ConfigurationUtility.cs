@@ -504,7 +504,7 @@ namespace AM.Configuration
                 [CanBeNull] string text
             )
         {
-#if UAP
+#if UAP || WINMOBILE || POCKETPC
 
             return text ?? string.Empty;
 
@@ -537,7 +537,7 @@ namespace AM.Configuration
                 [CanBeNull] string text
             )
         {
-#if UAP
+#if UAP || WINMOBILE || POCKETPC
 
             return text ?? string.Empty;
 

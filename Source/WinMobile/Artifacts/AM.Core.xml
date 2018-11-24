@@ -2130,6 +2130,44 @@
             </summary>
             <remarks>Default value: <code>':'</code>.</remarks>
         </member>
+        <member name="T:AM.Collections.FrugalList`1">
+            <summary>
+            Список, в котором предполагается один-два элемента,
+            больше -- намного реже.
+            </summary>
+        </member>
+        <member name="M:AM.Collections.FrugalList`1.Add(`0)">
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Add(`0)"/>
+        </member>
+        <member name="M:AM.Collections.FrugalList`1.Clear">
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Clear"/>
+        </member>
+        <member name="M:AM.Collections.FrugalList`1.Contains(`0)">
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Contains(`0)"/>
+        </member>
+        <member name="M:AM.Collections.FrugalList`1.CopyTo(`0[],System.Int32)">
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)"/>
+        </member>
+        <member name="M:AM.Collections.FrugalList`1.GetEnumerator">
+            <inheritdoc cref="M:System.Collections.Generic.IEnumerable`1.GetEnumerator"/>
+        </member>
+        <member name="M:AM.Collections.FrugalList`1.IndexOf(`0)">
+            <inheritdoc cref="M:System.Collections.Generic.IList`1.IndexOf(`0)"/>
+        </member>
+        <member name="M:AM.Collections.FrugalList`1.ToArray">
+            <summary>
+            Convert the list to array.
+            </summary>
+        </member>
+        <member name="P:AM.Collections.FrugalList`1.Count">
+            <inheritdoc cref="P:System.Collections.Generic.ICollection`1.Count"/>
+        </member>
+        <member name="P:AM.Collections.FrugalList`1.IsReadOnly">
+            <inheritdoc cref="P:System.Collections.Generic.ICollection`1.IsReadOnly"/>
+        </member>
+        <member name="P:AM.Collections.FrugalList`1.Item(System.Int32)">
+            <inheritdoc cref="P:System.Collections.Generic.IList`1.Item(System.Int32)"/>
+        </member>
         <member name="T:AM.Collections.BidirectionalDictionary`2">
             <summary>
             Bidirectional key-to-value mapping.
@@ -2900,7 +2938,7 @@
             Helper methods for <see cref="T:System.IDisposable"/>.
             </summary>
         </member>
-        <member name="M:AM.DisposableUtility.SafeDispose(System.IDisposable)">
+        <member name="M:AM.DisposableUtility.SafeDispose(System.Object)">
             <summary>
             Check for <c>null</c>. Dispose only if
             not <c>null</c>.
@@ -4475,6 +4513,26 @@
             Helper methods for numeric values.
             </summary>
         </member>
+        <member name="M:AM.NumericUtility.Clamp(System.Double,System.Double,System.Double)">
+            <summary>
+            Clamp the value.
+            </summary>
+        </member>
+        <member name="M:AM.NumericUtility.Clamp(System.Single,System.Single,System.Single)">
+            <summary>
+            Clamp the value.
+            </summary>
+        </member>
+        <member name="M:AM.NumericUtility.Clamp(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Clamp the value.
+            </summary>
+        </member>
+        <member name="M:AM.NumericUtility.Clamp(System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Clamp the value.
+            </summary>
+        </member>
         <member name="M:AM.NumericUtility.CompressRange(System.Collections.Generic.IEnumerable{System.Int32})">
             <summary>
             Преобразование набора целых чисел в строковое представление,
@@ -4510,6 +4568,16 @@
             <param name="first">Левая граница диапазона.</param>
             <param name="last">Правая граница диапазона.</param>
             <returns>Строковое представление диапазона.</returns>
+        </member>
+        <member name="M:AM.NumericUtility.IsNanOrInf(System.Double)">
+            <summary>
+            Determine whether the value is NAN or INFINITY.
+            </summary>
+        </member>
+        <member name="M:AM.NumericUtility.IsNanOrInf(System.Single)">
+            <summary>
+            Determine whether the value is NAN or INFINITY.
+            </summary>
         </member>
         <member name="M:AM.NumericUtility.IsPositiveInteger(System.String)">
             <summary>
@@ -4586,7 +4654,7 @@
         </member>
         <member name="M:AM.NumericUtility.ToInvariantString(System.Int16)">
             <summary>
-            Преобразование числа в строку по правилам инвариантной 
+            Преобразование числа в строку по правилам инвариантной
             (не зависящей от региона) культуры.
             </summary>
             <param name="value">Число для преобразования.</param>
@@ -4594,7 +4662,7 @@
         </member>
         <member name="M:AM.NumericUtility.ToInvariantString(System.Int32)">
             <summary>
-            Преобразование числа в строку по правилам инвариантной 
+            Преобразование числа в строку по правилам инвариантной
             (не зависящей от региона) культуры.
             </summary>
             <param name="value">Число для преобразования.</param>
@@ -4602,7 +4670,7 @@
         </member>
         <member name="M:AM.NumericUtility.ToInvariantString(System.Double)">
             <summary>
-            Преобразование числа в строку по правилам инвариантной 
+            Преобразование числа в строку по правилам инвариантной
             (не зависящей от региона) культуры.
             </summary>
             <param name="value">Число для преобразования.</param>
@@ -4615,7 +4683,7 @@
         </member>
         <member name="M:AM.NumericUtility.ToInvariantString(System.Decimal)">
             <summary>
-            Преобразование числа в строку по правилам инвариантной 
+            Преобразование числа в строку по правилам инвариантной
             (не зависящей от региона) культуры.
             </summary>
             <param name="value">Число для преобразования.</param>
@@ -4628,7 +4696,7 @@
         </member>
         <member name="M:AM.NumericUtility.ToInvariantString(System.Int64)">
             <summary>
-            Преобразование числа в строку по правилам инвариантной 
+            Преобразование числа в строку по правилам инвариантной
             (не зависящей от региона) культуры.
             </summary>
             <param name="value">Число для преобразования.</param>
@@ -4641,6 +4709,16 @@
             </summary>
             <param name="value"></param>
             <returns></returns>
+        </member>
+        <member name="M:AM.NumericUtility.ToRoundtripString(System.Double)">
+            <summary>
+            Convert to roundtrip format.
+            </summary>
+        </member>
+        <member name="M:AM.NumericUtility.ToRoundtripString(System.Single)">
+            <summary>
+            Convert to roundtrip format.
+            </summary>
         </member>
         <member name="M:AM.NumericUtility.TryParseDecimal(System.String,System.Decimal@)">
             <summary>
@@ -4722,6 +4800,11 @@
             <param name="toEncoding">To encoding.</param>
             <param name="value">String to transcode.</param>
             <returns>Transcoded string.</returns>
+        </member>
+        <member name="M:AM.StringUtility.CompareInvariant(System.String,System.String)">
+            <summary>
+            Сравнивает две строки независимо от текущей культуры.
+            </summary>
         </member>
         <member name="M:AM.StringUtility.CompareNoCase(System.String,System.String)">
             <summary>
@@ -4825,9 +4908,9 @@
             <returns>Массив слов.</returns>
         </member>
         <member name="M:AM.StringUtility.IfEmpty(System.String,System.String[])">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.StringUtility.IndexOfAny(System.String,System.Int32@,System.String[])">
             <summary>
@@ -4849,7 +4932,7 @@
         </member>
         <member name="M:AM.StringUtility.IsInteger(System.String)">
             <summary>
-            Checks whether one can convert given string to 32-bit 
+            Checks whether one can convert given string to 32-bit
             signed integer value.
             </summary>
             <param name="value">String to check.</param>
@@ -4861,7 +4944,7 @@
         </member>
         <member name="M:AM.StringUtility.IsLongInteger(System.String)">
             <summary>
-            Checks whether one can convert given string to 64-bit 
+            Checks whether one can convert given string to 64-bit
             signed integer value.
             </summary>
             <param name="value">String to check.</param>
@@ -4873,7 +4956,7 @@
         </member>
         <member name="M:AM.StringUtility.IsNumeric(System.String)">
             <summary>
-            Проверяет, можно ли трактовать строку как число с плавающей 
+            Проверяет, можно ли трактовать строку как число с плавающей
             точкой (двойной точности).
             </summary>
             <param name="value"></param>
@@ -4881,7 +4964,7 @@
         </member>
         <member name="M:AM.StringUtility.IsShortInteger(System.String)">
             <summary>
-            Checks whether one can convert given string to 16-bit 
+            Checks whether one can convert given string to 16-bit
             signed integer value.
             </summary>
             <param name="value">String to check.</param>
@@ -5014,9 +5097,9 @@
             </summary>
         </member>
         <member name="M:AM.StringUtility.SafeSubstring(System.String,System.Int32,System.Int32)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.StringUtility.SameChar(System.Char,System.Char)">
             <summary>
@@ -5045,6 +5128,16 @@
             </summary>
             <param name="input">Input string.</param>
             <returns>Sparse string.</returns>
+        </member>
+        <member name="M:AM.StringUtility.Slice(System.String,System.Int32,System.Int32)">
+            <summary>
+            Slice the string.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.Slice(System.String,System.Int32)">
+            <summary>
+            Slice the string.
+            </summary>
         </member>
         <member name="M:AM.StringUtility.SplitFirst(System.String,System.Char)">
             <summary>
@@ -5128,7 +5221,7 @@
         </member>
         <member name="M:AM.StringUtility.Unescape(System.String)">
             <summary>
-            Преобразует строку, содержащую escape-последовательности, 
+            Преобразует строку, содержащую escape-последовательности,
             к нормальному виду.
             </summary>
             <param name="value">Исходная строка.</param>
@@ -5171,6 +5264,11 @@
         <member name="M:AM.StringUtility.Wrap(System.String,System.String,System.String)">
             <summary>
             Wrap the string with given prefix and suffix
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.Wrap(System.String,System.String)">
+            <summary>
+            Wrap the string with given prefix/suffix
             </summary>
         </member>
         <member name="M:AM.StringUtility.Clear(System.Text.StringBuilder)">
@@ -6019,6 +6117,60 @@
         <member name="P:AM.Text.Output.TimestampedOutput.HaveError">
             <summary>
             Флаг: был ли вывод с помощью WriteError.
+            </summary>
+        </member>
+        <member name="T:AM.StringSlice">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:AM.StringSlice.#ctor(System.String,System.Int32,System.Int32)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.StringSlice.op_Equality(AM.StringSlice,System.String)">
+            <summary>
+            Equality.
+            </summary>
+        </member>
+        <member name="M:AM.StringSlice.op_Inequality(AM.StringSlice,System.String)">
+            <summary>
+            Inequality.
+            </summary>
+        </member>
+        <member name="M:AM.StringSlice.Equals(AM.StringSlice)">
+            <summary>
+            Equality.
+            </summary>
+        </member>
+        <member name="M:AM.StringSlice.Equals(System.Object)">
+            <inheritdoc cref="M:System.Object.Equals(System.Object)"/>
+        </member>
+        <member name="M:AM.StringSlice.GetHashCode">
+            <inheritdoc cref="M:System.Object.GetHashCode"/>
+        </member>
+        <member name="M:AM.StringSlice.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:AM.StringSlice.Text">
+            <summary>
+            Text.
+            </summary>
+        </member>
+        <member name="P:AM.StringSlice.Offset">
+            <summary>
+            Offset.
+            </summary>
+        </member>
+        <member name="P:AM.StringSlice.Length">
+            <summary>
+            Length.
+            </summary>
+        </member>
+        <member name="P:AM.StringSlice.IsEmpty">
+            <summary>
+            Whether the slice is empty.
             </summary>
         </member>
         <member name="T:AM.IOC.ServiceRepository">
@@ -7917,6 +8069,31 @@
             Values of the switch.
             </summary>
         </member>
+        <member name="T:AM.Collections.ValueTriplet`3">
+            <summary>
+            Simple container that holds triplet of objects of given types.
+            </summary>
+        </member>
+        <member name="F:AM.Collections.ValueTriplet`3.First">
+            <summary>
+            First item.
+            </summary>
+        </member>
+        <member name="F:AM.Collections.ValueTriplet`3.Second">
+            <summary>
+            Second item.
+            </summary>
+        </member>
+        <member name="F:AM.Collections.ValueTriplet`3.Third">
+            <summary>
+            Third item.
+            </summary>
+        </member>
+        <member name="M:AM.Collections.ValueTriplet`3.#ctor(`0,`1,`2)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
         <member name="T:AM.Xml.XmlUtility">
             <summary>
             Collection of useful routines for XML manipulations.
@@ -8019,8 +8196,13 @@
             </summary>
         </member>
         <member name="M:AM.TypeUtility.GetBaseType(System.Type)">
-            <summary>
+             <summary>
             
+             </summary>
+        </member>
+        <member name="M:AM.TypeUtility.GetDefaultValue(System.Type)">
+            <summary>
+            Get default value for the type.
             </summary>
         </member>
         <member name="M:AM.TypeUtility.GetGenericType(System.String,System.String[])">
@@ -8030,14 +8212,14 @@
             </summary>
         </member>
         <member name="M:AM.TypeUtility.GetFields(System.Type)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.TypeUtility.GetInterface(System.Type,System.String)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.TypeUtility.GetType``1(``0)">
             <summary>
@@ -8045,54 +8227,60 @@
             </summary>
         </member>
         <member name="M:AM.TypeUtility.IsAbstract(System.Type)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.TypeUtility.IsClass(System.Type)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.TypeUtility.IsComObject(System.Type)">
-            <summary>
+             <summary>
             
+             </summary>
+        </member>
+        <member name="M:AM.TypeUtility.IsDefaultValue(System.Object)">
+            <summary>
+            Whether the <paramref name="value" /> is the default value
+            for this type.
             </summary>
         </member>
         <member name="M:AM.TypeUtility.IsEnum(System.Type)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.TypeUtility.IsGenericType(System.Type)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.TypeUtility.IsInterface(System.Type)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.TypeUtility.IsPrimitive(System.Type)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.TypeUtility.IsPublic(System.Type)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.TypeUtility.IsSealed(System.Type)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.TypeUtility.IsValueType(System.Type)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:AM.Text.TextWithEncoding">
             <summary>
@@ -9047,6 +9235,19 @@
         <member name="M:AM.Configuration.ConfigurationUtility.GetDateTime(System.String,System.DateTime)">
             <summary>
             Get date or time value from application configuration.
+            </summary>
+        </member>
+        <member name="M:AM.Configuration.ConfigurationUtility.Protect(System.String)">
+            <summary>
+            Encrypt the text.
+            </summary>
+            <remarks>
+            Very naive data protection against kiddy hackers.
+            </remarks>
+        </member>
+        <member name="M:AM.Configuration.ConfigurationUtility.Unprotect(System.String)">
+            <summary>
+            Decrypt the text.
             </summary>
         </member>
         <member name="P:AM.Configuration.ConfigurationUtility.ConfigFileName">
@@ -12395,6 +12596,158 @@
         <member name="M:AM.Collections.StringDictionary.SaveToStream(System.IO.BinaryWriter)">
             <inheritdoc cref="M:AM.Runtime.IHandmadeSerializable.SaveToStream(System.IO.BinaryWriter)"/>
         </member>
+        <member name="T:AM.Collections.LocalList`1">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:AM.Collections.LocalList`1.#ctor(System.Int32)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Collections.LocalList`1.GetEnumerator">
+            <inheritdoc cref="M:System.Collections.Generic.IEnumerable`1.GetEnumerator"/>
+        </member>
+        <member name="M:AM.Collections.LocalList`1.Add(`0)">
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Add(`0)"/>
+        </member>
+        <member name="M:AM.Collections.LocalList`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Add some items.
+            </summary>
+        </member>
+        <member name="M:AM.Collections.LocalList`1.Clear">
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Clear"/>
+        </member>
+        <member name="M:AM.Collections.LocalList`1.Contains(`0)">
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Contains(`0)"/>
+        </member>
+        <member name="M:AM.Collections.LocalList`1.CopyTo(`0[],System.Int32)">
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)"/>
+        </member>
+        <member name="M:AM.Collections.LocalList`1.Remove(`0)">
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Remove(`0)"/>
+        </member>
+        <member name="M:AM.Collections.LocalList`1.IndexOf(`0)">
+            <inheritdoc cref="M:System.Collections.Generic.IList`1.IndexOf(`0)"/>
+        </member>
+        <member name="M:AM.Collections.LocalList`1.Insert(System.Int32,`0)">
+            <inheritdoc cref="M:System.Collections.Generic.IList`1.Insert(System.Int32,`0)"/>
+        </member>
+        <member name="M:AM.Collections.LocalList`1.RemoveAt(System.Int32)">
+            <inheritdoc cref="M:System.Collections.Generic.IList`1.RemoveAt(System.Int32)"/>
+        </member>
+        <member name="M:AM.Collections.LocalList`1.ToArray">
+            <summary>
+            Convert the list to array.
+            </summary>
+        </member>
+        <member name="P:AM.Collections.LocalList`1.Count">
+            <inheritdoc cref="P:System.Collections.Generic.ICollection`1.Count"/>
+        </member>
+        <member name="P:AM.Collections.LocalList`1.IsReadOnly">
+            <inheritdoc cref="P:System.Collections.Generic.ICollection`1.IsReadOnly"/>
+        </member>
+        <member name="P:AM.Collections.LocalList`1.Item(System.Int32)">
+            <inheritdoc cref="P:System.Collections.Generic.IList`1.Item(System.Int32)"/>
+        </member>
+        <member name="T:AM.Collections.ChunkList`1">
+             <summary>
+            
+             </summary>
+             <typeparam name="T"></typeparam>
+        </member>
+        <member name="F:AM.Collections.ChunkList`1.ChunkSize">
+            <summary>
+            Chunk size.
+            </summary>
+        </member>
+        <member name="M:AM.Collections.ChunkList`1.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Collections.ChunkList`1.#ctor(System.Int32)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Collections.ChunkList`1.GetEnumerator">
+            <inheritdoc cref="M:System.Collections.Generic.IEnumerable`1.GetEnumerator"/>
+        </member>
+        <member name="M:AM.Collections.ChunkList`1.Add(`0)">
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Add(`0)"/>
+        </member>
+        <member name="M:AM.Collections.ChunkList`1.Clear">
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Clear"/>
+        </member>
+        <member name="M:AM.Collections.ChunkList`1.Contains(`0)">
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Contains(`0)"/>
+        </member>
+        <member name="M:AM.Collections.ChunkList`1.CopyTo(`0[],System.Int32)">
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)"/>
+        </member>
+        <member name="M:AM.Collections.ChunkList`1.Remove(`0)">
+            <inheritdoc cref="M:System.Collections.Generic.ICollection`1.Remove(`0)"/>
+        </member>
+        <member name="M:AM.Collections.ChunkList`1.IndexOf(`0)">
+            <inheritdoc cref="M:System.Collections.Generic.IList`1.IndexOf(`0)"/>
+        </member>
+        <member name="M:AM.Collections.ChunkList`1.Insert(System.Int32,`0)">
+            <inheritdoc cref="M:System.Collections.Generic.IList`1.Insert(System.Int32,`0)"/>
+        </member>
+        <member name="M:AM.Collections.ChunkList`1.RemoveAt(System.Int32)">
+            <inheritdoc cref="M:System.Collections.Generic.IList`1.RemoveAt(System.Int32)"/>
+        </member>
+        <member name="M:AM.Collections.ChunkList`1.ToArray">
+            <summary>
+            Convert to array.
+            </summary>
+        </member>
+        <member name="P:AM.Collections.ChunkList`1.Capacity">
+            <summary>
+            Capacity.
+            </summary>
+        </member>
+        <member name="P:AM.Collections.ChunkList`1.Count">
+            <inheritdoc cref="P:System.Collections.Generic.ICollection`1.Count"/>
+        </member>
+        <member name="P:AM.Collections.ChunkList`1.IsReadOnly">
+            <inheritdoc cref="P:System.Collections.Generic.ICollection`1.IsReadOnly"/>
+        </member>
+        <member name="P:AM.Collections.ChunkList`1.Item(System.Int32)">
+            <inheritdoc cref="P:System.Collections.Generic.IList`1.Item(System.Int32)"/>
+        </member>
+        <member name="T:AM.Collections.ChunkArray`1">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="F:AM.Collections.ChunkArray`1.ChunkSize">
+            <summary>
+            Default chunk size.
+            </summary>
+        </member>
+        <member name="M:AM.Collections.ChunkArray`1.#ctor(System.Int32)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:AM.Collections.ChunkArray`1.CopyTo(System.Array,System.Int32)">
+            <inheritdoc cref="M:System.Array.CopyTo(System.Array,System.Int32)"/>
+        </member>
+        <member name="M:AM.Collections.ChunkArray`1.IndexOf(`0)">
+            <inheritdoc cref="M:System.Array.IndexOf``1(``0[],``0)"/>
+        </member>
+        <member name="P:AM.Collections.ChunkArray`1.Length">
+            <summary>
+            Length of the array.
+            </summary>
+        </member>
+        <member name="P:AM.Collections.ChunkArray`1.Item(System.Int32)">
+            <inheritdoc cref="P:System.Collections.Generic.IList`1.Item(System.Int32)"/>
+        </member>
         <member name="T:Compatibility.DummyClass">
             <summary>
             Dummy class to make compiler happy.
@@ -14280,6 +14633,26 @@
             Indexer.
             </summary>
         </member>
+        <member name="T:AM.Security.SecurityUtility">
+            <summary>
+            Collection of useful routines for X509 certificates.
+            </summary>
+        </member>
+        <member name="M:AM.Security.SecurityUtility.CloseStore(System.Security.Cryptography.X509Certificates.X509Store)">
+            <summary>
+            Close the <see cref="T:System.Security.Cryptography.X509Certificates.X509Store"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Security.SecurityUtility.GetSslCertificate">
+            <summary>
+            Get certificate for SslStream.
+            </summary>
+        </member>
+        <member name="M:AM.Security.SecurityUtility.GetRootCertificate(System.String)">
+            <summary>
+            Get certificate by the subject.
+            </summary>
+        </member>
         <member name="T:AM.Reflection.AssemblyUtility">
             <summary>
             Collection of assembly manipulation routines.
@@ -14431,9 +14804,9 @@
             </summary>
         </member>
         <member name="T:AM.ActionUtility">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:AM.ActionUtility.NoAction">
             <summary>
@@ -14488,6 +14861,11 @@
         <member name="M:AM.ActionUtility.SafeCall``4(System.Func{``0,``1,``2,``3},``0,``1,``2,``3)">
             <summary>
             Call the <paramref name="function"/> if not <c>null</c>.
+            </summary>
+        </member>
+        <member name="M:AM.ActionUtility.With``1(``0,System.Action{``0})">
+            <summary>
+            Call the action
             </summary>
         </member>
         <member name="T:Newtonsoft.Json.DefaultValueHandling">
