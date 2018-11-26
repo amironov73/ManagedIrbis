@@ -219,6 +219,11 @@
     <Compile Include="AM\PlatformAbstraction\PlatformAbstractionLayer.cs" />
     <Compile Include="AM\PlatformAbstraction\TestingPlatformAbstraction.cs" />
     <Compile Include="AM\PredicateBuilder.cs" />
+    <Compile Include="AM\Profiling\IAmProfiler.cs" />
+    <Compile Include="AM\Profiling\ProfilerStep.cs" />
+    <Compile Include="AM\Profiling\MiniWrapper.cs" />
+    <Compile Include="AM\Profiling\NullProfiler.cs" />
+    <Compile Include="AM\Profiling\Profiler.cs" />
     <Compile Include="AM\ReadOnlyException.cs" />
     <Compile Include="AM\Reflection\AssemblyUtility.cs" />
     <Compile Include="AM\Reflection\EnumMemberInfo.cs" />

@@ -513,6 +513,21 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\PredicateBuilder.cs">
       <Link>AM\PredicateBuilder.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Profiling\IAmProfiler.cs">
+      <Link>AM\Profiling\IAmProfiler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Profiling\ProfilerStep.cs">
+      <Link>AM\Profiling\ProfilerStep.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Profiling\MiniWrapper.cs">
+      <Link>AM\Profiling\MiniWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Profiling\NullProfiler.cs">
+      <Link>AM\Profiling\NullProfiler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Profiling\Profiler.cs">
+      <Link>AM\Profiling\Profiler.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ReadOnlyException.cs">
       <Link>AM\ReadOnlyException.cs</Link>
     </Compile>
