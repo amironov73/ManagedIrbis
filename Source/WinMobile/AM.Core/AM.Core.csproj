@@ -318,6 +318,9 @@
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\Equatable.cs">
       <Link>AM\Equatable.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\AM.Core\AM\Events\EventManager.cs">
+      <Link>AM\Events\EventManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\AM.Core\AM\ExceptionEventArgs.cs">
       <Link>AM\ExceptionEventArgs.cs</Link>
     </Compile>

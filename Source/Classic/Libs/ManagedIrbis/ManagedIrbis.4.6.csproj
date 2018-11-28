@@ -105,6 +105,8 @@
     <Compile Include="Source\EventDb\EventStatus.cs" />
     <Compile Include="Source\EventDb\EventTimes.cs" />
     <Compile Include="Source\EventDb\EventTitle.cs" />
+    <Compile Include="Source\Features\FeatureManager.cs" />
+    <Compile Include="Source\Features\StandardFeatures.cs" />
     <Compile Include="Source\FictionBook\FbAuthor.cs" />
     <Compile Include="Source\FictionBook\FbBinary.cs" />
     <Compile Include="Source\FictionBook\FbBody.cs" />

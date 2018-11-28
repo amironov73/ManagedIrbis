@@ -154,6 +154,7 @@
     <Compile Include="AM\DuplicateKeyException.cs" />
     <Compile Include="AM\EmptyArray.cs" />
     <Compile Include="AM\Equatable.cs" />
+    <Compile Include="AM\Events\EventManager.cs" />
     <Compile Include="AM\ExceptionEventArgs.cs" />
     <Compile Include="AM\ExceptionEventArgsT.cs" />
     <Compile Include="AM\ExceptionUtility.cs" />

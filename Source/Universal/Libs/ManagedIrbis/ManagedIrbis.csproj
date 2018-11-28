@@ -202,6 +202,12 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\EventDb\EventTitle.cs">
       <Link>Source\EventDb\EventTitle.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Features\FeatureManager.cs">
+      <Link>Source\Features\FeatureManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Features\StandardFeatures.cs">
+      <Link>Source\Features\StandardFeatures.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\FictionBook\FbAuthor.cs">
       <Link>Source\FictionBook\FbAuthor.cs</Link>
     </Compile>
