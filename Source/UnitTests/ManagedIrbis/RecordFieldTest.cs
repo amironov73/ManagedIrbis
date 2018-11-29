@@ -304,12 +304,7 @@ namespace UnitTests.ManagedIrbis
 
             string actual = field.ToXml()
                 .Replace("\r", "").Replace("\n","");
-            const string expected = @"<?xml version=""1.0"" encoding=""utf-16""?>"
-+@"<field xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" tag=""200"" value=""Значение"">"
-+@"  <subfield code=""a"" value=""Заглавие"" />"
-+@"  <subfield code=""e"" value=""подзаголовочные"" />"
-+@"  <subfield code=""f"" value=""об ответственности"" />"
-+@"</field>";
+            const string expected = "<field tag=\"200\" value=\"Значение\"><subfield code=\"a\" value=\"Заглавие\" /><subfield code=\"e\" value=\"подзаголовочные\" /><subfield code=\"f\" value=\"об ответственности\" /></field>";
 
             Assert.AreEqual(expected, actual);
         }

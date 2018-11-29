@@ -8,6 +8,7 @@ using JetBrains.Annotations;
 using ManagedIrbis;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Linq;
 
 // ReSharper disable PossiblyMistakenUseOfParamsMethod
 // ReSharper disable ConvertToLocalFunction
@@ -366,7 +367,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void RecordFieldUtility_GetField_1()
+        public void RecordFieldUtility_GetField_01()
         {
             RecordFieldCollection collection = _GetFieldCollection();
             RecordField[] fields = RecordFieldUtility.GetField(collection, 100);
@@ -377,7 +378,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void RecordFieldUtility_GetField_2()
+        public void RecordFieldUtility_GetField_02()
         {
             RecordFieldCollection collection = _GetFieldCollection();
             RecordField field = RecordFieldUtility.GetField(collection, 100, 0);
@@ -400,7 +401,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void RecordFieldUtility_GetField_3()
+        public void RecordFieldUtility_GetField_03()
         {
             IEnumerable<RecordField> enumeration = _GetFieldEnumeration();
             RecordField[] fields = RecordFieldUtility.GetField(enumeration, 100);
@@ -412,7 +413,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void RecordFieldUtility_GetField_4()
+        public void RecordFieldUtility_GetField_04()
         {
             IEnumerable<RecordField> enumeration = _GetFieldEnumeration();
             RecordField field = RecordFieldUtility.GetField(enumeration, 100, 0);
@@ -440,7 +441,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void RecordFieldUtility_GetField_5()
+        public void RecordFieldUtility_GetField_05()
         {
             int count = 0;
             IEnumerable<RecordField> enumeration = _GetFieldEnumeration();
@@ -451,7 +452,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void RecordFieldUtility_GetField_6()
+        public void RecordFieldUtility_GetField_06()
         {
             int fieldCount = 0, subFieldCount = 0;
             IEnumerable<RecordField> enumeration = _GetFieldEnumeration();
@@ -464,7 +465,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void RecordFieldUtility_GetField_7()
+        public void RecordFieldUtility_GetField_07()
         {
             int subFieldCount = 0;
             IEnumerable<RecordField> enumeration = _GetFieldEnumeration();
@@ -475,7 +476,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void RecordFieldUtility_GetField_8()
+        public void RecordFieldUtility_GetField_08()
         {
             IEnumerable<RecordField> enumeration = _GetFieldEnumeration();
             Func<SubField, bool> predicate = subField => subField.Code == 'a';
@@ -484,13 +485,31 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void RecordFieldUtility_GetField_9()
+        public void RecordFieldUtility_GetField_09()
         {
             IEnumerable<RecordField> enumeration = _GetFieldEnumeration();
             char[] codes = { 'a', 'b' };
             Func<SubField, bool> predicate = subField => subField.Value.Contains("Sub");
             RecordField[] fields = RecordFieldUtility.GetField(enumeration, codes, predicate);
             Assert.AreEqual(1, fields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            codes = new[] { 'a', 'x' };
+            predicate = subField => subField.Value.Contains("Sub");
+            fields = RecordFieldUtility.GetField(enumeration, codes, predicate);
+            Assert.AreEqual(1, fields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            codes = new[] { 'a', 'x' };
+            predicate = subField => subField.Value.Contains("Sib");
+            fields = RecordFieldUtility.GetField(enumeration, codes, predicate);
+            Assert.AreEqual(0, fields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            codes = new[] { 'x', 'z' };
+            predicate = subField => subField.Value.Contains("Sub");
+            fields = RecordFieldUtility.GetField(enumeration, codes, predicate);
+            Assert.AreEqual(0, fields.Length);
         }
 
         [TestMethod]
@@ -501,6 +520,24 @@ namespace UnitTests.ManagedIrbis
             string[] values = { "SubA" };
             RecordField[] fields = RecordFieldUtility.GetField(enumeration, codes, values);
             Assert.AreEqual(1, fields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            codes = new[] { 'a', 'z' };
+            values = new[] { "SubA", "SubZ" };
+            fields = RecordFieldUtility.GetField(enumeration, codes, values);
+            Assert.AreEqual(1, fields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            codes = new[] { 'a', 'b' };
+            values = new[] { "SubX", "SubZ" };
+            fields = RecordFieldUtility.GetField(enumeration, codes, values);
+            Assert.AreEqual(0, fields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            codes = new[] { 'x', 'z' };
+            values = new[] { "SubX", "SubZ" };
+            fields = RecordFieldUtility.GetField(enumeration, codes, values);
+            Assert.AreEqual(0, fields.Length);
         }
 
         [TestMethod]
@@ -511,6 +548,18 @@ namespace UnitTests.ManagedIrbis
             string[] values = { "SubA" };
             RecordField[] fields = RecordFieldUtility.GetField(enumeration, codes, values);
             Assert.AreEqual(1, fields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            codes = new[] { 'a', 'x' };
+            values = new[] { "SubA", "SubX" };
+            fields = RecordFieldUtility.GetField(enumeration, codes, values);
+            Assert.AreEqual(1, fields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            codes = new[] { 'x', 'z' };
+            values = new[] { "SubX", "SubZ" };
+            fields = RecordFieldUtility.GetField(enumeration, codes, values);
+            Assert.AreEqual(0, fields.Length);
         }
 
         [TestMethod]
@@ -519,6 +568,14 @@ namespace UnitTests.ManagedIrbis
             IEnumerable<RecordField> enumeration = _GetFieldEnumeration();
             RecordField[] fields = RecordFieldUtility.GetField(enumeration, 'a', "SubA");
             Assert.AreEqual(1, fields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            fields = RecordFieldUtility.GetField(enumeration, 'a', "SubB");
+            Assert.AreEqual(0, fields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            fields = RecordFieldUtility.GetField(enumeration, 'x', "SubX");
+            Assert.AreEqual(0, fields.Length);
         }
 
         [TestMethod]
@@ -530,6 +587,27 @@ namespace UnitTests.ManagedIrbis
             string[] values = { "SubA" };
             RecordField[] fields = RecordFieldUtility.GetField(enumeration, tags, codes, values);
             Assert.AreEqual(1, fields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            tags = new[] { 300 };
+            codes = new[] { 'a', 'b' };
+            values = new[] { "SubA" };
+            fields = RecordFieldUtility.GetField(enumeration, tags, codes, values);
+            Assert.AreEqual(0, fields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            tags = new[] { 100 };
+            codes = new[] { 'a', 'b' };
+            values = new[] { "SubZ" };
+            fields = RecordFieldUtility.GetField(enumeration, tags, codes, values);
+            Assert.AreEqual(0, fields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            tags = new[] { 100 };
+            codes = new[] { 'x', 'z' };
+            values = new[] { "SubZ" };
+            fields = RecordFieldUtility.GetField(enumeration, tags, codes, values);
+            Assert.AreEqual(0, fields.Length);
         }
 
         [TestMethod]
@@ -662,6 +740,27 @@ namespace UnitTests.ManagedIrbis
             string textRegex = "^Sub";
             RecordField[] fields = RecordFieldUtility.GetFieldRegex(enumeration, tags, codes, textRegex);
             Assert.AreEqual(1, fields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            tags = new[] { 100, 200 };
+            codes = new[] { 'a', 'b' };
+            textRegex = "^Sib";
+            fields = RecordFieldUtility.GetFieldRegex(enumeration, tags, codes, textRegex);
+            Assert.AreEqual(0, fields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            tags = new[] { 100, 200 };
+            codes = new[] { 'x', 'z' };
+            textRegex = "^Sub";
+            fields = RecordFieldUtility.GetFieldRegex(enumeration, tags, codes, textRegex);
+            Assert.AreEqual(0, fields.Length);
+
+            enumeration = _GetFieldEnumeration();
+            tags = new[] { 300, 400 };
+            codes = new[] { 'a', 'b' };
+            textRegex = "^Sub";
+            fields = RecordFieldUtility.GetFieldRegex(enumeration, tags, codes, textRegex);
+            Assert.AreEqual(0, fields.Length);
         }
 
         [TestMethod]
@@ -673,6 +772,41 @@ namespace UnitTests.ManagedIrbis
             string textRegex = "^Sub";
             RecordField field = RecordFieldUtility.GetFieldRegex(enumeration, tags, codes, textRegex, 0);
             Assert.IsNotNull(field);
+
+            enumeration = _GetFieldEnumeration();
+            tags = new[] { 100, 200 };
+            codes = new[] { 'a', 'b' };
+            textRegex = "^Sib";
+            field = RecordFieldUtility.GetFieldRegex(enumeration, tags, codes, textRegex, 0);
+            Assert.IsNull(field);
+
+            enumeration = _GetFieldEnumeration();
+            tags = new[] { 100, 200 };
+            codes = new[] { 'a', 'b' };
+            textRegex = "^Sub";
+            field = RecordFieldUtility.GetFieldRegex(enumeration, tags, codes, textRegex, 1);
+            Assert.IsNotNull(field);
+
+            enumeration = _GetFieldEnumeration();
+            tags = new[] { 100, 200 };
+            codes = new[] { 'a', 'b' };
+            textRegex = "^Sub";
+            field = RecordFieldUtility.GetFieldRegex(enumeration, tags, codes, textRegex, 2);
+            Assert.IsNull(field);
+
+            enumeration = _GetFieldEnumeration();
+            tags = new[] { 100, 200 };
+            codes = new[] { 'x', 'z' };
+            textRegex = "^Sub";
+            field = RecordFieldUtility.GetFieldRegex(enumeration, tags, codes, textRegex, 0);
+            Assert.IsNull(field);
+
+            enumeration = _GetFieldEnumeration();
+            tags = new[] { 300, 400 };
+            codes = new[] { 'a', 'b' };
+            textRegex = "^Sub";
+            field = RecordFieldUtility.GetFieldRegex(enumeration, tags, codes, textRegex, 0);
+            Assert.IsNull(field);
         }
 
         [TestMethod]
@@ -698,7 +832,7 @@ namespace UnitTests.ManagedIrbis
         [TestMethod]
         public void RecordFieldUtility_GetFieldRegex_7()
         {
-            IEnumerable<RecordField> enumeration = new []
+            IEnumerable<RecordField> enumeration = new[]
             {
                 new RecordField(100, "Field100"),
                 new RecordField(200, "TheField200"),
@@ -712,7 +846,7 @@ namespace UnitTests.ManagedIrbis
         [TestMethod]
         public void RecordFieldUtility_GetFieldRegex_8()
         {
-            IEnumerable<RecordField> enumeration = new []
+            IEnumerable<RecordField> enumeration = new[]
             {
                 new RecordField(100, "Field100"),
                 new RecordField(200, "TheField200"),
@@ -726,9 +860,15 @@ namespace UnitTests.ManagedIrbis
         [TestMethod]
         public void RecordFieldUtility_GetFieldValue_1()
         {
-            IEnumerable<RecordField> enumeration = _GetFieldEnumeration();
+            IEnumerable<RecordField> enumeration = new[]
+            {
+                new RecordField(100, "The text"),
+                new RecordField(200, "Other text"),
+                new RecordField(300),
+                new RecordField(400, "Text again")
+            };
             string[] values = RecordFieldUtility.GetFieldValue(enumeration);
-            Assert.AreEqual(0, values.Length);
+            Assert.AreEqual(3, values.Length);
         }
 
         [TestMethod]
@@ -1307,6 +1447,280 @@ namespace UnitTests.ManagedIrbis
                     + "new SubField('b', \"SubFieldB\"))",
                     RecordFieldUtility.ToSourceCode(field).DosToUnix()
                 );
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_ToJObject_1()
+        {
+            RecordField field = new RecordField();
+            JObject jObject = RecordFieldUtility.ToJObject(field);
+            Assert.IsNotNull(jObject);
+
+            field = new RecordField(100);
+            jObject = RecordFieldUtility.ToJObject(field);
+            Assert.IsNotNull(jObject);
+
+            field = new RecordField(100, "Value");
+            jObject = RecordFieldUtility.ToJObject(field);
+            Assert.IsNotNull(jObject);
+
+            field = new RecordField(100)
+                .AddSubField('a', "SubA")
+                .AddSubField('b', "SubB");
+            jObject = RecordFieldUtility.ToJObject(field);
+            Assert.IsNotNull(jObject);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_FromJObject_2()
+        {
+            JObject jObject = new JObject();
+            RecordField field = RecordFieldUtility.FromJObject(jObject);
+            Assert.IsNotNull(field);
+
+            jObject = new JObject(new JProperty("tag", 100));
+            field = RecordFieldUtility.FromJObject(jObject);
+            Assert.AreEqual(100, field.Tag);
+
+            JArray sub = new JArray
+                (
+                    new JObject
+                        (
+                            new JProperty("code", "a"),
+                            new JProperty("value", "SubA")
+                        ),
+                    new JObject
+                        (
+                            new JProperty("code", "b"),
+                            new JProperty("value", "SubB")
+                        )
+                );
+            jObject = new JObject
+                (
+                    new JProperty("tag", 100),
+                    new JProperty("subfields", sub)
+                );
+            field = RecordFieldUtility.FromJObject(jObject);
+            Assert.AreEqual(100, field.Tag);
+            Assert.AreEqual(2, field.SubFields.Count);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_ToJson_1()
+        {
+            RecordField field = new RecordField();
+            Assert.AreEqual("{\"tag\":0}", RecordFieldUtility.ToJson(field));
+
+            field = new RecordField(100);
+            Assert.AreEqual("{\"tag\":100}", RecordFieldUtility.ToJson(field));
+
+            field = new RecordField(100, "Value");
+            Assert.AreEqual("{\"tag\":100,\"value\":\"Value\"}", RecordFieldUtility.ToJson(field));
+
+            field = new RecordField(100)
+                .AddSubField('a', "SubA")
+                .AddSubField('b', "SubB");
+            Assert.AreEqual("{\"tag\":100,\"subfields\":[{\"code\":\"a\",\"value\":\"SubA\"},{\"code\":\"b\",\"value\":\"SubB\"}]}", RecordFieldUtility.ToJson(field));
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_FromJson_1()
+        {
+            RecordField field = RecordFieldUtility.FromJson("{}");
+            Assert.AreEqual(0, field.Tag);
+
+            field = RecordFieldUtility.FromJson("{\"tag\":0}");
+            Assert.AreEqual(0, field.Tag);
+
+            field = RecordFieldUtility.FromJson("{\"tag\":100}");
+            Assert.AreEqual(100, field.Tag);
+
+            field = RecordFieldUtility.FromJson("{\"tag\":100,\"value\":\"Value\"}");
+            Assert.AreEqual(100, field.Tag);
+            Assert.AreEqual("Value", field.Value);
+
+            field = RecordFieldUtility.FromJson("{\"tag\":100,\"subfields\":[{\"code\":\"a\",\"value\":\"SubA\"},{\"code\":\"b\",\"value\":\"SubB\"}]}");
+            Assert.AreEqual(100, field.Tag);
+            Assert.AreEqual(2, field.SubFields.Count);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_ToXml_1()
+        {
+            RecordField field = new RecordField();
+            Assert.AreEqual("<field tag=\"0\" />", RecordFieldUtility.ToXml(field));
+
+            field = new RecordField(100);
+            Assert.AreEqual("<field tag=\"100\" />", RecordFieldUtility.ToXml(field));
+
+            field = new RecordField(100, "Value");
+            Assert.AreEqual("<field tag=\"100\" value=\"Value\" />", RecordFieldUtility.ToXml(field));
+
+            field = new RecordField(100)
+                .AddSubField('a', "SubA")
+                .AddSubField('b', "SubB");
+            Assert.AreEqual("<field tag=\"100\"><subfield code=\"a\" value=\"SubA\" /><subfield code=\"b\" value=\"SubB\" /></field>", RecordFieldUtility.ToXml(field));
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_FromXml_1()
+        {
+            RecordField field = RecordFieldUtility.FromXml("<field />");
+            Assert.AreEqual(0, field.Tag);
+
+            field = RecordFieldUtility.FromXml("<field tag=\"0\"/>");
+            Assert.AreEqual(0, field.Tag);
+
+            field = RecordFieldUtility.FromXml("<field tag=\"100\"/>");
+            Assert.AreEqual(100, field.Tag);
+
+            field = RecordFieldUtility.FromXml("<field tag=\"100\" value=\"Value\"/>");
+            Assert.AreEqual(100, field.Tag);
+            Assert.AreEqual("Value", field.Value);
+
+            field = RecordFieldUtility.FromXml("<field tag=\"100\"><subfield code=\"a\" value=\"SubA\" /><subfield code=\"b\" value=\"SubB\" /></field>");
+            Assert.AreEqual(100, field.Tag);
+            Assert.AreEqual(2, field.SubFields.Count);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetUnknownSubFields_1()
+        {
+            SubField[] subFields = _GetSubFieldArray();
+            SubField[] unknown = RecordFieldUtility.GetUnknownSubFields(subFields, "abc");
+            Assert.AreEqual(2, unknown.Length);
+            Assert.AreEqual('d', unknown[0].Code);
+            Assert.AreEqual('e', unknown[1].Code);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_GetUnknownSubFields_2()
+        {
+            RecordField field = _GetField();
+            SubField[] unknown = RecordFieldUtility.GetUnknownSubFields(field.SubFields, "abc");
+            Assert.AreEqual(2, unknown.Length);
+            Assert.AreEqual('d', unknown[0].Code);
+            Assert.AreEqual('e', unknown[1].Code);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_WithNullTag_1()
+        {
+            IEnumerable<RecordField> fields = new[]
+            {
+                new RecordField(100),
+                new RecordField(),
+                new RecordField(200),
+                new RecordField(300)
+            };
+            RecordField[] withNull = RecordFieldUtility.WithNullTag(fields);
+            Assert.AreEqual(1, withNull.Length);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_WithNullValue_1()
+        {
+            IEnumerable<RecordField> fields = new[]
+            {
+                new RecordField(100, "Text"),
+                new RecordField() { Value = "Another text" },
+                new RecordField(200),
+                new RecordField(300, "Yet another text")
+            };
+            RecordField[] withNull = RecordFieldUtility.WithNullValue(fields);
+            Assert.AreEqual(1, withNull.Length);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_WithoutSubFields_1()
+        {
+            IEnumerable<RecordField> fields = new[]
+            {
+                new RecordField(100).AddSubField('a', "SubA"),
+                new RecordField(200).AddSubField('a', "SubA"),
+                new RecordField(300).AddSubField('a', "SubA"),
+                new RecordField(400)
+            };
+            RecordField[] found = RecordFieldUtility.WithoutSubFields(fields);
+            Assert.AreEqual(1, found.Length);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_WithSubFields_1()
+        {
+            IEnumerable<RecordField> fields = new[]
+            {
+                new RecordField(100).AddSubField('a', "SubA"),
+                new RecordField(200).AddSubField('a', "SubA"),
+                new RecordField(300).AddSubField('a', "SubA"),
+                new RecordField(400)
+            };
+            RecordField[] found = RecordFieldUtility.WithSubFields(fields);
+            Assert.AreEqual(3, found.Length);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_Parse_1()
+        {
+            RecordField field = RecordFieldUtility.Parse(null);
+            Assert.IsNull(field);
+
+            field = RecordFieldUtility.Parse(string.Empty);
+            Assert.IsNull(field);
+
+            field = RecordFieldUtility.Parse("100#Value^aSubA^bSubB");
+            Assert.IsNotNull(field);
+            Assert.AreEqual(100, field.Tag);
+            Assert.AreEqual("Value", field.Value);
+            Assert.AreEqual(2, field.SubFields.Count);
+
+            field = RecordFieldUtility.Parse("100#^aSubA^bSubB");
+            Assert.IsNotNull(field);
+            Assert.AreEqual(100, field.Tag);
+            Assert.IsNull(field.Value);
+            Assert.AreEqual(2, field.SubFields.Count);
+
+            field = RecordFieldUtility.Parse("100#Value");
+            Assert.IsNotNull(field);
+            Assert.AreEqual(100, field.Tag);
+            Assert.AreEqual("Value", field.Value);
+            Assert.AreEqual(0, field.SubFields.Count);
+
+            field = RecordFieldUtility.Parse("100#");
+            Assert.IsNotNull(field);
+            Assert.AreEqual(100, field.Tag);
+            Assert.IsNull(field.Value);
+            Assert.AreEqual(0, field.SubFields.Count);
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_ReplaceSubField_1()
+        {
+            RecordField source = _GetField();
+            RecordField target = RecordFieldUtility.ReplaceSubField(source, 'a', "SibA", false);
+            Assert.AreSame(source, target);
+            Assert.AreEqual("0#^aSibA^bSubB^cSubC^dSubD^eSubE", target.ToString());
+
+            target = RecordFieldUtility.ReplaceSubField(source, 'a', "siba", true);
+            Assert.AreSame(source, target);
+            Assert.AreEqual("0#^aSibA^bSubB^cSubC^dSubD^eSubE", target.ToString());
+
+            target = RecordFieldUtility.ReplaceSubField(source, 'a', "siba", false);
+            Assert.AreSame(source, target);
+            Assert.AreEqual("0#^asiba^bSubB^cSubC^dSubD^eSubE", target.ToString());
+        }
+
+        [TestMethod]
+        public void RecordFieldUtility_ReplaceSubField_2()
+        {
+            RecordField source = _GetField();
+            RecordField target = RecordFieldUtility.ReplaceSubField(source, 'a', "SubA", "SibA");
+            Assert.AreSame(source, target);
+            Assert.AreEqual("0#^aSibA^bSubB^cSubC^dSubD^eSubE", target.ToString());
+
+            target = RecordFieldUtility.ReplaceSubField(source, 'a', "SubA", "SobA");
+            Assert.AreSame(source, target);
+            Assert.AreEqual("0#^aSibA^bSubB^cSubC^dSubD^eSubE", target.ToString());
         }
     }
 }

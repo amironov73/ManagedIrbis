@@ -15,12 +15,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Xml;
 using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
 using AM.Text;
+using AM.Xml;
 
 using CodeJam;
 
@@ -731,7 +731,6 @@ namespace ManagedIrbis
             {
                 if (!ReferenceEquals(field, null))
                 {
-                    bool flag = false;
                     foreach (SubField subField in field.SubFields)
                     {
                         if (!ReferenceEquals(subField, null))
@@ -740,16 +739,11 @@ namespace ManagedIrbis
                             {
                                 if (predicate(subField))
                                 {
-                                    flag = true;
+                                    result.Add(field);
                                     break;
                                 }
                             }
                         }
-                    }
-
-                    if (flag)
-                    {
-                        result.Add(field);
                     }
                 }
             }
@@ -777,7 +771,6 @@ namespace ManagedIrbis
             {
                 if (!ReferenceEquals(field, null))
                 {
-                    bool flag = false;
                     foreach (SubField subField in field.SubFields)
                     {
                         if (!ReferenceEquals(subField, null))
@@ -786,16 +779,11 @@ namespace ManagedIrbis
                             {
                                 if (subField.Value.OneOf(values))
                                 {
-                                    flag = true;
+                                    result.Add(field);
                                     break;
                                 }
                             }
                         }
-                    }
-
-                    if (flag)
-                    {
-                        result.Add(field);
                     }
                 }
             }
@@ -822,7 +810,6 @@ namespace ManagedIrbis
             {
                 if (!ReferenceEquals(field, null))
                 {
-                    bool flag = false;
                     foreach (SubField subField in field.SubFields)
                     {
                         if (!ReferenceEquals(subField, null))
@@ -831,16 +818,11 @@ namespace ManagedIrbis
                             {
                                 if (subField.Value.SameString(value))
                                 {
-                                    flag = true;
+                                    result.Add(field);
                                     break;
                                 }
                             }
                         }
-                    }
-
-                    if (flag)
-                    {
-                        result.Add(field);
                     }
                 }
             }
@@ -873,7 +855,6 @@ namespace ManagedIrbis
                 {
                     if (field.Tag.OneOf(tags))
                     {
-                        bool flag = false;
                         foreach (SubField subField in field.SubFields)
                         {
                             if (!ReferenceEquals(subField, null))
@@ -882,16 +863,11 @@ namespace ManagedIrbis
                                 {
                                     if (subField.Value.OneOf(values))
                                     {
-                                        flag = true;
+                                        result.Add(field);
                                         break;
                                     }
                                 }
                             }
-                        }
-
-                        if (flag)
-                        {
-                            result.Add(field);
                         }
                     }
                 }
@@ -923,22 +899,16 @@ namespace ManagedIrbis
                 {
                     if (fieldPredicate(field))
                     {
-                        bool flag = false;
                         foreach (SubField subField in field.SubFields)
                         {
                             if (!ReferenceEquals(subField, null))
                             {
                                 if (subPredicate(subField))
                                 {
-                                    flag = true;
+                                    result.Add(field);
                                     break;
                                 }
                             }
-                        }
-
-                        if (flag)
-                        {
-                            result.Add(field);
                         }
                     }
                 }
@@ -1151,7 +1121,6 @@ namespace ManagedIrbis
                 {
                     if (field.Tag.OneOf(tags))
                     {
-                        bool flag = false;
                         foreach (SubField subField in field.SubFields)
                         {
                             if (!ReferenceEquals(subField, null))
@@ -1161,16 +1130,11 @@ namespace ManagedIrbis
                                 {
                                     if (Regex.IsMatch(subField.Value, textRegex))
                                     {
-                                        flag = true;
+                                        result.Add(field);
                                         break;
                                     }
                                 }
                             }
-                        }
-
-                        if (flag)
-                        {
-                            result.Add(field);
                         }
                     }
                 }
@@ -1191,9 +1155,41 @@ namespace ManagedIrbis
                 int occurrence
             )
         {
-            return fields
-                .GetFieldRegex(tags, codes, textRegex)
-                .GetOccurrence(occurrence);
+            Code.NotNull(fields, "fields");
+            Code.NotNull(tags, "tags");
+            Code.NotNull(codes, "codes");
+            Code.NotNullNorEmpty(textRegex, "textRegex");
+
+            foreach (RecordField field in fields)
+            {
+                if (!ReferenceEquals(field, null))
+                {
+                    if (field.Tag.OneOf(tags))
+                    {
+                        foreach (SubField subField in field.SubFields)
+                        {
+                            if (!ReferenceEquals(subField, null))
+                            {
+                                if (subField.Code.OneOf(codes)
+                                    && !string.IsNullOrEmpty(subField.Value))
+                                {
+                                    if (Regex.IsMatch(subField.Value, textRegex))
+                                    {
+                                        if (occurrence == 0)
+                                        {
+                                            return field;
+                                        }
+
+                                        occurrence--;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return null;
         }
 
         // ==========================================================
@@ -2266,17 +2262,15 @@ namespace ManagedIrbis
                 bool ignoreCase
             )
         {
-            string oldValue = field.GetSubFieldValue
-                (
-                    code,
-                    0
-                );
-            bool changed = string.Compare
-                (
-                    oldValue,
-                    newValue,
-                    StringComparison.CurrentCultureIgnoreCase
-                ) != 0;
+            StringComparison comparison =
+#if UAP
+                ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+#else
+                ignoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture;
+#endif
+
+            string oldValue = field.GetSubFieldValue(code, 0);
+            bool changed = string.Compare(oldValue, newValue, comparison) != 0;
 
             if (changed)
             {
@@ -2292,7 +2286,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Get unknown subfields.
         /// </summary>
-        [CanBeNull]
+        [NotNull]
         [ItemNotNull]
         public static SubField[] GetUnknownSubFields
             (
@@ -2303,28 +2297,25 @@ namespace ManagedIrbis
             Code.NotNull(subFields, "subFields");
             Code.NotNullNorEmpty(knownCodes, "knownCodes");
 
-            List<SubField> result = null;
+            LocalList<SubField> result = new LocalList<SubField>();
             foreach (SubField subField in subFields)
             {
-                if (!subField.Code.OneOf(knownCodes))
+                if (!ReferenceEquals(subField, null))
                 {
-                    if (ReferenceEquals(result, null))
+                    if (!subField.Code.OneOf(knownCodes))
                     {
-                        result = new List<SubField>();
+                        result.Add(subField);
                     }
-                    result.Add(subField);
                 }
             }
 
-            return ReferenceEquals(result, null)
-                ? SubFieldUtility.EmptyArray
-                : result.ToArray();
+            return result.ToArray();
         }
 
         /// <summary>
         /// Get unknown subfields.
         /// </summary>
-        [CanBeNull]
+        [NotNull]
         [ItemNotNull]
         public static SubField[] GetUnknownSubFields
             (
@@ -2335,22 +2326,16 @@ namespace ManagedIrbis
             Code.NotNull(subFields, "subFields");
             Code.NotNullNorEmpty(knownCodes, "knownCodes");
 
-            List<SubField> result = null;
+            LocalList<SubField> result = new LocalList<SubField>();
             for (int i = 0; i < subFields.Count; i++)
             {
                 if (!subFields[i].Code.OneOf(knownCodes))
                 {
-                    if (ReferenceEquals(result, null))
-                    {
-                        result = new List<SubField>();
-                    }
                     result.Add(subFields[i]);
                 }
             }
 
-            return ReferenceEquals(result, null)
-                ? SubFieldUtility.EmptyArray
-                : result.ToArray();
+            return result.ToArray();
         }
 
         // ==========================================================
@@ -2389,6 +2374,7 @@ namespace ManagedIrbis
 
             return result;
         }
+
 
         /// <summary>
         /// Restore field from <see cref="JObject"/>.
@@ -2431,8 +2417,8 @@ namespace ManagedIrbis
         [NotNull]
         public static RecordField Parse
             (
-                string tag,
-                string body
+                [NotNull] string tag,
+                [NotNull] string body
             )
         {
             RecordField result = new RecordField(tag);
@@ -2495,32 +2481,35 @@ namespace ManagedIrbis
                 );
             }
 
+            if (string.IsNullOrEmpty(result.Value))
+            {
+                result.Value = null;
+            }
+
             return result;
         }
 
         /// <summary>
         /// Парсинг строкового представления поля.
         /// </summary>
-        /// <param name="line">The line.</param>
-        /// <returns></returns>
+        [CanBeNull]
         public static RecordField Parse
             (
-                string line
+                [CanBeNull] string line
             )
         {
             if (string.IsNullOrEmpty(line))
             {
                 return null;
             }
+
             string[] parts = line.SplitFirst('#');
             string tag = parts[0];
             string body = parts[1];
-            return Parse
-                (
-                    tag,
-                    body
-                );
+            return Parse(tag, body);
         }
+
+        // ==========================================================
 
         /// <summary>
         /// Converts the field to XML.
@@ -2533,23 +2522,10 @@ namespace ManagedIrbis
         {
             Code.NotNull(field, "field");
 
-            XmlWriterSettings settings = new XmlWriterSettings
-            {
-                OmitXmlDeclaration = false,
-                NewLineOnAttributes = false,
-                Indent = true,
-                CloseOutput = true
-            };
-            StringWriter writer = new StringWriter();
-            XmlWriter xml = XmlWriter.Create(writer, settings);
-            XmlSerializer serializer = new XmlSerializer
-                (
-                    typeof(RecordField)
-                );
-            serializer.Serialize(xml, field);
-
-            return writer.ToString();
+            return XmlUtility.SerializeShort(field);
         }
+
+        // ==========================================================
 
         /// <summary>
         /// Restore the field from XML.
@@ -2569,6 +2545,8 @@ namespace ManagedIrbis
             return result;
         }
 
+        // ==========================================================
+
         /// <summary>
         /// Фильтрация полей.
         /// </summary>
@@ -2581,13 +2559,19 @@ namespace ManagedIrbis
         {
             Code.NotNull(fields, "fields");
 
-            return fields
-                .NonNullItems()
-                .Where
-                    (
-                        field => field.Tag == 0
-                    )
-                .ToArray();
+            LocalList<RecordField> result = new LocalList<RecordField>();
+            foreach (RecordField field in fields)
+            {
+                if (!ReferenceEquals(field, null))
+                {
+                    if (field.Tag == 0)
+                    {
+                        result.Add(field);
+                    }
+                }
+            }
+
+            return result.ToArray();
         }
 
         // ==========================================================
@@ -2604,14 +2588,19 @@ namespace ManagedIrbis
         {
             Code.NotNull(fields, "fields");
 
-            return fields
-                .NonNullItems()
-                .Where
-                    (
-                        field =>
-                            string.IsNullOrEmpty(field.Value)
-                    )
-                .ToArray();
+            LocalList<RecordField> result = new LocalList<RecordField>();
+            foreach (RecordField field in fields)
+            {
+                if (!ReferenceEquals(field, null))
+                {
+                    if (string.IsNullOrEmpty(field.Value))
+                    {
+                        result.Add(field);
+                    }
+                }
+            }
+
+            return result.ToArray();
         }
 
         // ==========================================================
@@ -2627,13 +2616,19 @@ namespace ManagedIrbis
         {
             Code.NotNull(fields, "fields");
 
-            return fields
-                .NonNullItems()
-                .Where
-                    (
-                        field => field.SubFields.Count == 0
-                    )
-                .ToArray();
+            LocalList<RecordField> result = new LocalList<RecordField>();
+            foreach (RecordField field in fields)
+            {
+                if (!ReferenceEquals(field, null))
+                {
+                    if (field.SubFields.Count == 0)
+                    {
+                        result.Add(field);
+                    }
+                }
+            }
+
+            return result.ToArray();
         }
 
         // ==========================================================
@@ -2649,13 +2644,19 @@ namespace ManagedIrbis
         {
             Code.NotNull(fields, "fields");
 
-            return fields
-                .NonNullItems()
-                .Where
-                    (
-                        field => field.SubFields.Count != 0
-                    )
-                .ToArray();
+            LocalList<RecordField> result = new LocalList<RecordField>();
+            foreach (RecordField field in fields)
+            {
+                if (!ReferenceEquals(field, null))
+                {
+                    if (field.SubFields.Count != 0)
+                    {
+                        result.Add(field);
+                    }
+                }
+            }
+
+            return result.ToArray();
         }
 
         // ==========================================================
