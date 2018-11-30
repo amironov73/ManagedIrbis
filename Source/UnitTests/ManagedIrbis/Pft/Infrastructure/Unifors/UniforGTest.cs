@@ -59,7 +59,7 @@ namespace UnitTests.ManagedIrbis.Pft.Infrastructure.Unifors
         }
 
         [TestMethod]
-        public void Unifor_GetPart_2()
+        public void UniforG_GetPart_2()
         {
             _G("G9sThis is the text", "");
         }
