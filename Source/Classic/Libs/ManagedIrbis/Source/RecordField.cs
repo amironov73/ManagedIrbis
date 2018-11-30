@@ -251,6 +251,7 @@ namespace ManagedIrbis
         {
             _subFields = new SubFieldCollection()
                 ._SetField(this);
+            _modified = false;
 
 #if WITH_INDICATORS
 
@@ -288,6 +289,7 @@ namespace ManagedIrbis
             _value = other.Value;
             _subFields = other.SubFields.Clone();
             UserData = other.UserData;
+            _modified = false;
         }
 
         /// <summary>
@@ -302,6 +304,7 @@ namespace ManagedIrbis
             Code.Nonnegative(tag, "tag");
 
             Tag = tag;
+            _modified = false;
         }
 
         /// <summary>
@@ -314,6 +317,7 @@ namespace ManagedIrbis
             : this()
         {
             SetTag(tag);
+            _modified = false;
         }
 
         /// <summary>
@@ -330,6 +334,7 @@ namespace ManagedIrbis
 
             SetTag(tag);
             Value = value;
+            _modified = false;
         }
 
         /// <summary>
@@ -344,6 +349,7 @@ namespace ManagedIrbis
         {
             SetTag(tag);
             Value = value;
+            _modified = false;
         }
 
         /// <summary>
@@ -365,6 +371,8 @@ namespace ManagedIrbis
             {
                 SetReadOnly();
             }
+
+            _modified = false;
         }
 
         /// <summary>
@@ -379,6 +387,7 @@ namespace ManagedIrbis
         {
             SetTag(tag);
             SubFields.AddRange(subFields);
+            _modified = false;
         }
 
         /// <summary>
@@ -395,6 +404,7 @@ namespace ManagedIrbis
             SetTag(tag);
             Value = value;
             SubFields.AddRange(subFields);
+            _modified = false;
         }
 
         #endregion
@@ -1248,6 +1258,8 @@ namespace ManagedIrbis
                 }
             }
 
+            SetModified();
+
             return this;
         }
 
@@ -1301,6 +1313,7 @@ namespace ManagedIrbis
 
             Value = reader.ReadNullableString();
             SubFields.RestoreFromStream(reader);
+            _modified = false;
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream" />

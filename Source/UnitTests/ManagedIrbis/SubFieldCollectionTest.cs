@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM;
 using AM.Runtime;
+using AM.Text;
+using JetBrains.Annotations;
 
 using ManagedIrbis;
 
@@ -11,11 +13,23 @@ namespace UnitTests.ManagedIrbis
     [TestClass]
     public class SubFieldCollectionTest
     {
-        [TestMethod]
-        public void SubFieldCollection_Constructor1()
+        [NotNull]
+        private SubFieldCollection _GetCollection()
         {
-            SubFieldCollection collection =
-                new SubFieldCollection
+            SubFieldCollection result = new SubFieldCollection
+            {
+                new SubField('a', "Subfield A"),
+                new SubField('b', "Subfield B"),
+                new SubField('c', "Subfield C")
+            };
+
+            return result;
+        }
+
+        [TestMethod]
+        public void SubFieldCollection_Constructor_1()
+        {
+            SubFieldCollection collection = new SubFieldCollection
                 {
                     new SubField(),
                     new SubField('a'),
@@ -32,9 +46,6 @@ namespace UnitTests.ManagedIrbis
             SubFieldCollection collection1 = new SubFieldCollection();
             collection1.AddRange(subFields);
 
-            //collection1.SaveToFile("collection1.bin");
-            //collection1.SaveToZipFile("collection1.biz");
-
             byte[] bytes = collection1.SaveToMemory();
 
             SubFieldCollection collection2 = bytes
@@ -48,16 +59,16 @@ namespace UnitTests.ManagedIrbis
                     (
                         0,
                         SubField.Compare
-                        (
-                            collection1[i],
-                            collection2[i]
-                        )
+                            (
+                                collection1[i],
+                                collection2[i]
+                            )
                     );
             }
         }
 
         [TestMethod]
-        public void SubFieldCollection_Serialization1()
+        public void SubFieldCollection_Serialization_1()
         {
             _TestSerialization();
 
@@ -71,7 +82,7 @@ namespace UnitTests.ManagedIrbis
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void SubFieldCollection_NotNull1()
+        public void SubFieldCollection_NotNull_1()
         {
             SubFieldCollection collection =
                 new SubFieldCollection
@@ -85,7 +96,7 @@ namespace UnitTests.ManagedIrbis
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void SubFieldCollection_ReadOnly1()
+        public void SubFieldCollection_ReadOnly_1()
         {
             RecordField field = new RecordField().AsReadOnly();
             field.SubFields.Add(new SubField());
@@ -93,69 +104,29 @@ namespace UnitTests.ManagedIrbis
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void SubFieldCollection_ReadOnly2()
+        public void SubFieldCollection_ReadOnly_2()
         {
             SubFieldCollection collection = new SubFieldCollection();
-            collection.SetReadOnly();            
+            collection.SetReadOnly();
             collection.Add(new SubField());
         }
 
-        private SubFieldCollection _GetCollection()
-        {
-            SubFieldCollection result = new SubFieldCollection
-            {
-                new SubField('a', "Subfield A"),
-                new SubField('b', "Subfield B"),
-                new SubField('c', "Subfield C")
-            };
-
-            return result;
-        }
-
         [TestMethod]
-        public void SubFieldCollection_ToJson1()
+        public void SubFieldCollection_ToJson_1()
         {
             SubFieldCollection collection = _GetCollection();
 
-            string actual = collection.ToJson()
-                .Replace("\r","").Replace("\n","");
-            const string expected = @"["
-+@"  {"
-+@"    ""code"": ""a"","
-+@"    ""value"": ""Subfield A"""
-+@"  },"
-+@"  {"
-+@"    ""code"": ""b"","
-+@"    ""value"": ""Subfield B"""
-+@"  },"
-+@"  {"
-+@"    ""code"": ""c"","
-+@"    ""value"": ""Subfield C"""
-+@"  }"
-+@"]";
+            string actual = collection.ToJson().DosToUnix();
+            const string expected = "[\n  {\n    \"code\": \"a\",\n    \"value\": \"Subfield A\"\n  },\n  {\n    \"code\": \"b\",\n    \"value\": \"Subfield B\"\n  },\n  {\n    \"code\": \"c\",\n    \"value\": \"Subfield C\"\n  }\n]";
 
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void SubFieldCollection_FromJson1()
+        public void SubFieldCollection_FromJson_1()
         {
-            const string text = @"["
-+@"  {"
-+@"    ""code"": ""a"","
-+@"    ""value"": ""Subfield A"""
-+@"  },"
-+@"  {"
-+@"    ""code"": ""b"","
-+@"    ""value"": ""Subfield B"""
-+@"  },"
-+@"  {"
-+@"    ""code"": ""c"","
-+@"    ""value"": ""Subfield C"""
-+@"  }"
-+@"]";
-            SubFieldCollection collection
-                = SubFieldCollection.FromJson(text);
+            const string text = "[\n  {\n    \"code\": \"a\",\n    \"value\": \"Subfield A\"\n  },\n  {\n    \"code\": \"b\",\n    \"value\": \"Subfield B\"\n  },\n  {\n    \"code\": \"c\",\n    \"value\": \"Subfield C\"\n  }\n]";
+            SubFieldCollection collection = SubFieldCollection.FromJson(text);
 
             Assert.AreEqual(3, collection.Count);
             Assert.AreEqual('a', collection[0].Code);
@@ -167,7 +138,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void SubFieldCollection_Assign1()
+        public void SubFieldCollection_Assign_1()
         {
             SubFieldCollection source = _GetCollection();
             SubFieldCollection target = new SubFieldCollection();
@@ -190,7 +161,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void SubFieldCollection_AssignClone1()
+        public void SubFieldCollection_AssignClone_1()
         {
             SubFieldCollection source = _GetCollection();
             SubFieldCollection target = new SubFieldCollection();
@@ -213,7 +184,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void SubFieldCollection_SetField1()
+        public void SubFieldCollection_SetField_1()
         {
             RecordField field = new RecordField("200");
             SubField subFieldA = new SubField('a', "Title1");
@@ -226,7 +197,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void SubFieldCollection_Clone1()
+        public void SubFieldCollection_Clone_1()
         {
             SubFieldCollection collection = new SubFieldCollection();
             SubField subFieldA = new SubField('a', "Title1");
@@ -239,7 +210,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void SubFieldCollection_Find1()
+        public void SubFieldCollection_Find_1()
         {
             SubFieldCollection collection = new SubFieldCollection();
             SubField subFieldA = new SubField('a', "Title1");
@@ -261,7 +232,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void SubFieldCollection_FindAll1()
+        public void SubFieldCollection_FindAll_1()
         {
             SubFieldCollection collection = new SubFieldCollection();
             SubField subFieldA = new SubField('a', "Title1");
@@ -284,7 +255,7 @@ namespace UnitTests.ManagedIrbis
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void SubFieldCollection_SetReadOnly1()
+        public void SubFieldCollection_SetReadOnly_1()
         {
             SubFieldCollection collection = new SubFieldCollection();
             SubField subFieldA = new SubField('a', "Title1");
@@ -299,7 +270,7 @@ namespace UnitTests.ManagedIrbis
 
         [TestMethod]
         [ExpectedException(typeof(ReadOnlyException))]
-        public void SubFieldCollection_AsReadOnly1()
+        public void SubFieldCollection_AsReadOnly_1()
         {
             SubFieldCollection collection = new SubFieldCollection();
             SubField subFieldA = new SubField('a', "Title1");
@@ -312,7 +283,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void SubFieldCollection_ClearItems1()
+        public void SubFieldCollection_ClearItems_1()
         {
             SubFieldCollection collection = _GetCollection();
             collection.Clear();
@@ -320,7 +291,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void SubFieldCollection_InsertItem1()
+        public void SubFieldCollection_InsertItem_1()
         {
             SubFieldCollection collection = _GetCollection();
             Assert.AreEqual(3, collection.Count);
@@ -332,14 +303,14 @@ namespace UnitTests.ManagedIrbis
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void SubFieldCollection_InsertItem_Exception()
+        public void SubFieldCollection_InsertItem_2()
         {
             SubFieldCollection collection = _GetCollection();
             collection.Insert(1, null);
         }
 
         [TestMethod]
-        public void SubFieldCollection_RemoveItem1()
+        public void SubFieldCollection_RemoveItem_1()
         {
             SubFieldCollection collection = _GetCollection();
             Assert.AreEqual(3, collection.Count);
@@ -348,7 +319,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void SubFieldCollection_SetItem1()
+        public void SubFieldCollection_SetItem_1()
         {
             SubFieldCollection collection = _GetCollection();
             Assert.AreEqual(3, collection.Count);
@@ -360,7 +331,7 @@ namespace UnitTests.ManagedIrbis
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void SubFieldCollection_SetItem_Exception()
+        public void SubFieldCollection_SetItem_2()
         {
             SubFieldCollection collection = _GetCollection();
             collection[1] = null;

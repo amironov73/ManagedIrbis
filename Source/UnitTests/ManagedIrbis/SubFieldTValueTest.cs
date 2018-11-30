@@ -1,4 +1,4 @@
-﻿using System;
+﻿using AM;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis;
@@ -9,7 +9,7 @@ namespace UnitTests.ManagedIrbis
     public class SubFieldTValueTest
     {
         [TestMethod]
-        public void TestSubFieldValue_IsValidValue_1()
+        public void SubFieldValue_IsValidValue_1()
         {
             Assert.IsTrue(SubFieldValue.IsValidValue(null));
             Assert.IsTrue(SubFieldValue.IsValidValue(string.Empty));
@@ -31,7 +31,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestSubFieldValue_Normalize_1()
+        public void SubFieldValue_Normalize_1()
         {
             _TestNormalize(null);
             _TestNormalize(string.Empty);
@@ -40,7 +40,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestSubFieldValue_Verify_1()
+        public void SubFieldValue_Verify_1()
         {
             Assert.IsTrue(SubFieldValue.Verify(null));
             Assert.IsTrue(SubFieldValue.Verify(string.Empty));
@@ -49,6 +49,22 @@ namespace UnitTests.ManagedIrbis
 
             Assert.IsFalse(SubFieldValue.Verify("^"));
             Assert.IsFalse(SubFieldValue.Verify("A^B"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(VerificationException))]
+        public void SubFieldValue_ThrowOnVerify_1()
+        {
+            bool save = SubFieldValue.ThrowOnVerify;
+            SubFieldValue.ThrowOnVerify = true;
+            try
+            {
+                SubFieldValue.Verify("^");
+            }
+            finally
+            {
+                SubFieldValue.ThrowOnVerify = save;
+            }
         }
     }
 }

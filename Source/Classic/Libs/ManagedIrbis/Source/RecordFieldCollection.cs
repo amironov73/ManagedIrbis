@@ -51,15 +51,24 @@ namespace ManagedIrbis
         #region Properties
 
         /// <summary>
+        /// Capacity.
+        /// </summary>
+        public int Capacity
+        {
+            get
+            {
+                List<RecordField> innerList = _GetInnerList();
+
+                return innerList.Capacity;
+            }
+        }
+
+        /// <summary>
         /// Record.
         /// </summary>
         [CanBeNull]
         [JsonIgnore]
         public MarcRecord Record { get { return _record; } }
-
-        #endregion
-
-        #region Construction
 
         #endregion
 
@@ -154,9 +163,11 @@ namespace ManagedIrbis
                 [NotNull] IEnumerable<RecordField> fields
             )
         {
+            Code.NotNull(fields, "fields");
+
             ThrowIfReadOnly();
             Code.NotNull(fields, "fields");
-            
+
             foreach (RecordField field in fields)
             {
                 Add(field);
@@ -176,25 +187,31 @@ namespace ManagedIrbis
                 [CanBeNull] string value
             )
         {
-            RecordField field = this.FirstOrDefault
-                (
-                    item => item.Tag == tag
-                );
+            RecordField targetField = null;
+            foreach (RecordField field in this)
+            {
+                if (field.Tag == tag)
+                {
+                    targetField = field;
+                    break;
+                }
+            }
 
             if (string.IsNullOrEmpty(value))
             {
-                if (!ReferenceEquals(field, null))
+                if (!ReferenceEquals(targetField, null))
                 {
-                    Remove(field);
+                    Remove(targetField);
                 }
             }
             else
             {
-                if (ReferenceEquals(field, null))
+                if (ReferenceEquals(targetField, null))
                 {
-                    field = new RecordField(tag);
+                    targetField = new RecordField(tag);
+                    Add(targetField);
                 }
-                field.Value = value;
+                targetField.Value = value;
             }
 
             return this;
@@ -264,10 +281,15 @@ namespace ManagedIrbis
         {
             Code.NotNull(predicate, "predicate");
 
-            return this.FirstOrDefault
-                (
-                    field => predicate(field)
-                );
+            foreach (RecordField field in Items)
+            {
+                if (predicate(field))
+                {
+                    return field;
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -283,11 +305,16 @@ namespace ManagedIrbis
         {
             Code.NotNull(predicate, "predicate");
 
-            return this.Where
-                (
-                    field => predicate(field)
-                )
-                .ToArray();
+            LocalList<RecordField> result = new LocalList<RecordField>();
+            foreach (RecordField field in this)
+            {
+                if (predicate(field))
+                {
+                    result.Add(field);
+                }
+            }
+
+            return result.ToArray();
         }
 
         #endregion

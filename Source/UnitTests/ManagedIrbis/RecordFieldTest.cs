@@ -31,19 +31,42 @@ namespace UnitTests.ManagedIrbis
         {
             RecordField field = new RecordField();
             Assert.AreEqual(RecordField.NoTag, field.Tag);
-            Assert.AreEqual(null, field.Value);
+            Assert.IsNull(field.Value);
             Assert.AreEqual(0,field.SubFields.Count);
+            Assert.AreEqual(field, field.SubFields.Field);
         }
 
         [TestMethod]
         public void RecordField_Constructor_2()
         {
-            RecordField field = new RecordField();
-            Assert.AreEqual(field, field.SubFields.Field);
+            RecordField field = new RecordField
+                (
+                    100,
+                    new SubField('a', "SubA"),
+                    new SubField('b', "SubB")
+                );
+            Assert.AreEqual(100, field.Tag);
+            Assert.AreEqual(2, field.SubFields.Count);
         }
 
         [TestMethod]
         public void RecordField_Constructor_3()
+        {
+            string value = "Value";
+            RecordField field = new RecordField
+                (
+                    100,
+                    value,
+                    new SubField('a', "SubA"),
+                    new SubField('b', "SubB")
+                );
+            Assert.AreEqual(100, field.Tag);
+            Assert.AreEqual(value, field.Value);
+            Assert.AreEqual(2, field.SubFields.Count);
+        }
+
+        [TestMethod]
+        public void RecordField_Constructor_4()
         {
             const string expected = "Value";
             MarcRecord record = new MarcRecord();
@@ -567,6 +590,13 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
+        public void RecordField_Parse_5()
+        {
+            RecordField field = RecordField.Parse(100, "^a^b^c");
+            Assert.AreEqual(3, field.SubFields.Count);
+        }
+
+        [TestMethod]
         public void RecordField_AssignFrom_1()
         {
             RecordField source = new RecordField(100, "Value")
@@ -740,6 +770,76 @@ namespace UnitTests.ManagedIrbis
 
             field = new RecordField(200, new SubField('a', "SubfieldA"));
             Assert.IsFalse(field.IsEmpty);
+        }
+
+        [TestMethod]
+        public void RecordField_Path_1()
+        {
+            MarcRecord record = new MarcRecord()
+                .AddField(100, "Field100#1")
+                .AddField(100, "Field100#2")
+                .AddField(200, "Field200#1")
+                .AddField(200, "Field200#2");
+
+            Assert.AreEqual("100/1", record.Fields[0].Path);
+            Assert.AreEqual("100/2", record.Fields[1].Path);
+            Assert.AreEqual("200/1", record.Fields[2].Path);
+            Assert.AreEqual("200/2", record.Fields[3].Path);
+        }
+
+        [TestMethod]
+        public void RecordField_Modified_1()
+        {
+            RecordField field = new RecordField(100, "Value");
+            Assert.IsFalse(field.Modified);
+            field.Value = "New value";
+            Assert.IsTrue(field.Modified);
+        }
+
+        [TestMethod]
+        public void RecordField_Modified_2()
+        {
+            MarcRecord record = new MarcRecord();
+            RecordField field = new RecordField(100, "Value");
+            record.AddField(field);
+            record.Modified = false;
+            Assert.IsFalse(field.Modified);
+            field.Value = "New value";
+            Assert.IsTrue(field.Modified);
+            Assert.IsTrue(record.Modified);
+        }
+
+        [TestMethod]
+        public void RecordField_NotModified_1()
+        {
+            RecordField field = new RecordField();
+            Assert.IsFalse(field.Modified);
+            field.Value = "New value";
+            Assert.IsTrue(field.Modified);
+            field.NotModified();
+            Assert.IsFalse(field.Modified);
+        }
+
+        [TestMethod]
+        public void RecordField_Verify_1()
+        {
+            RecordField field = new RecordField();
+            Assert.IsFalse(field.Verify(false));
+
+            field = new RecordField(100, "Value");
+            Assert.IsTrue(field.Verify(false));
+        }
+
+        [TestMethod]
+        public void RecordField_Verify_2()
+        {
+            RecordField field = new RecordField(100);
+            field.SubFields.Add(new SubField());
+            Assert.IsFalse(field.Verify(false));
+
+            field = new RecordField(100)
+                .AddSubField('a', "Value");
+            Assert.IsTrue(field.Verify(false));
         }
     }
 }

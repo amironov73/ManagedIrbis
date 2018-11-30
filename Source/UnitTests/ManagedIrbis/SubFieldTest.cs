@@ -1,10 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using AM;
 using AM.Runtime;
 using AM.Xml;
+
 using ManagedIrbis;
+
 using Newtonsoft.Json.Linq;
 
 namespace UnitTests.ManagedIrbis
@@ -241,6 +242,15 @@ namespace UnitTests.ManagedIrbis
             RecordField field = new RecordField("200");
             field.SubFields.Add(subField);
             Assert.AreEqual("200/0^a", subField.Path);
+        }
+
+        [TestMethod]
+        public void SubField_Path_2()
+        {
+            RecordField field = new RecordField(100);
+            SubField subField = new SubField();
+            field.SubFields.Add(subField);
+            Assert.AreEqual("100/0", subField.Path);
         }
 
         [TestMethod]

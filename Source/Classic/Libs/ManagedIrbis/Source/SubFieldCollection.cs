@@ -19,6 +19,7 @@ using System.Linq;
 using System.Xml.Serialization;
 
 using AM;
+using AM.Collections;
 using AM.IO;
 using AM.Logging;
 using AM.Runtime;
@@ -60,10 +61,6 @@ namespace ManagedIrbis
         [XmlIgnore]
         [JsonIgnore]
         public RecordField Field { get { return _field; } }
-
-        #endregion
-
-        #region Construction
 
         #endregion
 
@@ -198,11 +195,15 @@ namespace ManagedIrbis
         {
             Code.NotNull(predicate, "predicate");
 
-            return this
-                .FirstOrDefault
-                (
-                    subField => predicate(subField)
-                );
+            foreach (SubField subField in this)
+            {
+                if (predicate(subField))
+                {
+                    return subField;
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -216,9 +217,16 @@ namespace ManagedIrbis
         {
             Code.NotNull(predicate, "predicate");
 
-            return this
-                .Where(subField => predicate(subField))
-                .ToArray();
+            LocalList<SubField> result = new LocalList<SubField>();
+            foreach (SubField subField in this)
+            {
+                if (predicate(subField))
+                {
+                    result.Add(subField);
+                }
+            }
+
+            return result.ToArray();
         }
 
 #if !WINMOBILE && !PocketPC

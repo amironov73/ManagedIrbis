@@ -28,20 +28,12 @@ namespace ManagedIrbis
     [MoonSharpUserData]
     public static class SubFieldValue
     {
-        #region Constants
-
-        #endregion
-
         #region Properties
 
         /// <summary>
         /// Throw exception on verification error.
         /// </summary>
         public static bool ThrowOnVerify { get; set; }
-
-        #endregion
-
-        #region Private members
 
         #endregion
 

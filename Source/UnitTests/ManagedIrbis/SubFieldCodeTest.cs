@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ManagedIrbis;
@@ -9,7 +10,7 @@ namespace UnitTests.ManagedIrbis
     public class SubFieldCodeTest
     {
         [TestMethod]
-        public void TestSubFieldCode_IsValidCode()
+        public void SubFieldCode_IsValidCode_1()
         {
             Assert.IsTrue(SubFieldCode.IsValidCode('C'));
             Assert.IsTrue(SubFieldCode.IsValidCode('c'));
@@ -29,7 +30,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestSubFieldCode_Normalize()
+        public void SubFieldCode_Normalize_1()
         {
             _TestNormalize('\0', '\0');
             _TestNormalize('0', '0');
@@ -37,7 +38,7 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
-        public void TestSubFieldCode_Verify()
+        public void SubFieldCode_Verify_1()
         {
             Assert.IsTrue(SubFieldCode.Verify('c'));
             Assert.IsFalse(SubFieldCode.Verify('\0'));
@@ -45,7 +46,7 @@ namespace UnitTests.ManagedIrbis
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void TestSubFieldCode_Verify_Exception()
+        public void SubFieldCode_Verify_2()
         {
             Assert.IsFalse(SubFieldCode.Verify('^', true));
         }

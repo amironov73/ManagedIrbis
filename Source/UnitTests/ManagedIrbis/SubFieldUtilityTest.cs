@@ -52,13 +52,13 @@ namespace UnitTests.ManagedIrbis
         public void SubFieldUtility_GetFirstSubField_1()
         {
             SubField[] array = _GetArray();
-            SubField found = array.GetFirstSubField('a');
+            SubField found = SubFieldUtility.GetFirstSubField(array, 'a');
             Assert.AreEqual("SubFieldA1", found.Value);
 
-            found = array.GetFirstSubField('c');
+            found = SubFieldUtility.GetFirstSubField(array, 'c');
             Assert.AreEqual("SubFieldC1", found.Value);
 
-            found = array.GetFirstSubField('d');
+            found = SubFieldUtility.GetFirstSubField(array, 'd');
             Assert.IsNull(found);
         }
 
@@ -66,13 +66,13 @@ namespace UnitTests.ManagedIrbis
         public void SubFieldUtility_GetFirstSubField_2()
         {
             SubFieldCollection collection = _GetCollection();
-            SubField found = collection.GetFirstSubField('a');
+            SubField found = SubFieldUtility.GetFirstSubField(collection, 'a');
             Assert.AreEqual("SubFieldA1", found.Value);
 
-            found = collection.GetFirstSubField('c');
+            found = SubFieldUtility.GetFirstSubField(collection, 'c');
             Assert.AreEqual("SubFieldC1", found.Value);
 
-            found = collection.GetFirstSubField('d');
+            found = SubFieldUtility.GetFirstSubField(collection, 'd');
             Assert.IsNull(found);
         }
 
@@ -80,13 +80,13 @@ namespace UnitTests.ManagedIrbis
         public void SubFieldUtility_GetFirstSubField_3()
         {
             SubField[] array = _GetArray();
-            SubField found = array.GetFirstSubField('a', 'b');
+            SubField found = SubFieldUtility.GetFirstSubField(array, 'a', 'b');
             Assert.AreEqual("SubFieldA1", found.Value);
 
-            found = array.GetFirstSubField('c', 'd');
+            found = SubFieldUtility.GetFirstSubField(array, 'c', 'd');
             Assert.AreEqual("SubFieldC1", found.Value);
 
-            found = array.GetFirstSubField('d', 'e');
+            found = SubFieldUtility.GetFirstSubField(array, 'd', 'e');
             Assert.IsNull(found);
         }
 
@@ -94,13 +94,13 @@ namespace UnitTests.ManagedIrbis
         public void SubFieldUtility_GetFirstSubField_4()
         {
             SubFieldCollection collection = _GetCollection();
-            SubField found = collection.GetFirstSubField('a', 'b');
+            SubField found = SubFieldUtility.GetFirstSubField(collection, 'a', 'b');
             Assert.AreEqual("SubFieldA1", found.Value);
 
-            found = collection.GetFirstSubField('c', 'd');
+            found = SubFieldUtility.GetFirstSubField(collection, 'c', 'd');
             Assert.AreEqual("SubFieldC1", found.Value);
 
-            found = collection.GetFirstSubField('d', 'e');
+            found = SubFieldUtility.GetFirstSubField(collection, 'd', 'e');
             Assert.IsNull(found);
         }
 
@@ -108,13 +108,13 @@ namespace UnitTests.ManagedIrbis
         public void SubFieldUtility_GetFirstSubField_5()
         {
             SubField[] array = _GetArray();
-            SubField found = array.GetFirstSubField('a', "SubFieldA2");
+            SubField found = SubFieldUtility.GetFirstSubField(array, 'a', "SubFieldA2");
             Assert.AreEqual("SubFieldA2", found.Value);
 
-            found = array.GetFirstSubField('c', "SubFieldC3");
+            found = SubFieldUtility.GetFirstSubField(array, 'c', "SubFieldC3");
             Assert.IsNull(found);
 
-            found = array.GetFirstSubField('d', "No such subfield");
+            found = SubFieldUtility.GetFirstSubField(array, 'd', "No such subfield");
             Assert.IsNull(found);
         }
 
@@ -122,13 +122,13 @@ namespace UnitTests.ManagedIrbis
         public void SubFieldUtility_GetFirstSubField_6()
         {
             SubFieldCollection collection = _GetCollection();
-            SubField found = collection.GetFirstSubField('a', "SubFieldA2");
+            SubField found = SubFieldUtility.GetFirstSubField(collection, 'a', "SubFieldA2");
             Assert.AreEqual("SubFieldA2", found.Value);
 
-            found = collection.GetFirstSubField('c', "SubFieldC3");
+            found = SubFieldUtility.GetFirstSubField(collection, 'c', "SubFieldC3");
             Assert.IsNull(found);
 
-            found = collection.GetFirstSubField('d', "No such subfield");
+            found = SubFieldUtility.GetFirstSubField(collection, 'd', "No such subfield");
             Assert.IsNull(found);
         }
 
@@ -136,12 +136,12 @@ namespace UnitTests.ManagedIrbis
         public void SubFieldUtility_GetSubField_1()
         {
             SubField[] array = _GetArray();
-            SubField[] found = array.GetSubField('a');
+            SubField[] found = SubFieldUtility.GetSubField(array, 'a');
             Assert.AreEqual(2, found.Length);
             Assert.AreEqual("SubFieldA1", found[0].Value);
             Assert.AreEqual("SubFieldA2", found[1].Value);
 
-            found = array.GetSubField('d');
+            found = SubFieldUtility.GetSubField(array, 'd');
             Assert.AreEqual(0, found.Length);
         }
 
@@ -149,12 +149,12 @@ namespace UnitTests.ManagedIrbis
         public void SubFieldUtility_GetSubField_2()
         {
             SubFieldCollection collection = _GetCollection();
-            SubField[] found = collection.GetSubField('a');
+            SubField[] found = SubFieldUtility.GetSubField(collection, 'a');
             Assert.AreEqual(2, found.Length);
             Assert.AreEqual("SubFieldA1", found[0].Value);
             Assert.AreEqual("SubFieldA2", found[1].Value);
 
-            found = collection.GetSubField('d');
+            found = SubFieldUtility.GetSubField(collection, 'd');
             Assert.AreEqual(0, found.Length);
         }
 
@@ -162,19 +162,19 @@ namespace UnitTests.ManagedIrbis
         public void SubFieldUtility_GetSubField_3()
         {
             SubField[] array = _GetArray();
-            SubField[] found = array.GetSubField('a', 'b');
+            SubField[] found = SubFieldUtility.GetSubField(array, 'a', 'b');
             Assert.AreEqual(4, found.Length);
             Assert.AreEqual("SubFieldA1", found[0].Value);
             Assert.AreEqual("SubFieldB1", found[1].Value);
             Assert.AreEqual("SubFieldA2", found[2].Value);
             Assert.AreEqual("SubFieldB2", found[3].Value);
 
-            found = array.GetSubField('c', 'd');
+            found = SubFieldUtility.GetSubField(array, 'c', 'd');
             Assert.AreEqual(2, found.Length);
             Assert.AreEqual("SubFieldC1", found[0].Value);
             Assert.AreEqual("SubFieldC2", found[1].Value);
 
-            found = array.GetSubField('d', 'e');
+            found = SubFieldUtility.GetSubField(array, 'd', 'e');
             Assert.AreEqual(0, found.Length);
         }
 
@@ -182,19 +182,19 @@ namespace UnitTests.ManagedIrbis
         public void SubFieldUtility_GetSubField_4()
         {
             SubFieldCollection collection = _GetCollection();
-            SubField[] found = collection.GetSubField('a', 'b');
+            SubField[] found = SubFieldUtility.GetSubField(collection, 'a', 'b');
             Assert.AreEqual(4, found.Length);
             Assert.AreEqual("SubFieldA1", found[0].Value);
             Assert.AreEqual("SubFieldB1", found[1].Value);
             Assert.AreEqual("SubFieldA2", found[2].Value);
             Assert.AreEqual("SubFieldB2", found[3].Value);
 
-            found = collection.GetSubField('c', 'd');
+            found = SubFieldUtility.GetSubField(collection, 'c', 'd');
             Assert.AreEqual(2, found.Length);
             Assert.AreEqual("SubFieldC1", found[0].Value);
             Assert.AreEqual("SubFieldC2", found[1].Value);
 
-            found = collection.GetSubField('d', 'e');
+            found = SubFieldUtility.GetSubField(collection, 'd', 'e');
             Assert.AreEqual(0, found.Length);
         }
 
@@ -204,7 +204,7 @@ namespace UnitTests.ManagedIrbis
             SubField[] array = _GetArray();
             int counter = 0;
             Action<SubField> action = sub => counter++;
-            SubField[] found = array.GetSubField(action);
+            SubField[] found = SubFieldUtility.GetSubField(array, action);
             Assert.AreEqual(6, found.Length);
             Assert.AreEqual(6, counter);
         }
@@ -215,7 +215,7 @@ namespace UnitTests.ManagedIrbis
             SubFieldCollection collection = _GetCollection();
             int counter = 0;
             Action<SubField> action = sub => counter++;
-            SubField[] found = collection.GetSubField(action);
+            SubField[] found = SubFieldUtility.GetSubField(collection, action);
             Assert.AreEqual(6, found.Length);
             Assert.AreEqual(6, counter);
         }
@@ -245,7 +245,7 @@ namespace UnitTests.ManagedIrbis
             };
             Func<RecordField, bool> fieldPredicate = field => field.Tag == 200;
             Func<SubField, bool> subfieldPredicate = sub => sub.Code == 'a';
-            SubField[] found = fields.GetSubField(fieldPredicate, subfieldPredicate);
+            SubField[] found = SubFieldUtility.GetSubField(fields, fieldPredicate, subfieldPredicate);
             Assert.AreEqual(2, found.Length);
             Assert.AreEqual("200a1", found[0].Value);
             Assert.AreEqual("200a2", found[1].Value);
@@ -276,7 +276,7 @@ namespace UnitTests.ManagedIrbis
             };
             int[] tags = { 200 };
             char[] codes = { 'a' };
-            SubField[] found = fields.GetSubField(tags, codes);
+            SubField[] found = SubFieldUtility.GetSubField(fields, tags, codes);
             Assert.AreEqual(2, found.Length);
             Assert.AreEqual("200a1", found[0].Value);
             Assert.AreEqual("200a2", found[1].Value);
@@ -286,14 +286,14 @@ namespace UnitTests.ManagedIrbis
         public void SubFieldUtility_GetSubFieldRegex_1()
         {
             SubField[] array = _GetArray();
-            SubField[] found = array.GetSubFieldRegex("[ab]");
+            SubField[] found = SubFieldUtility.GetSubFieldRegex(array, "[ab]");
             Assert.AreEqual(4, found.Length);
             Assert.AreEqual("SubFieldA1", found[0].Value);
             Assert.AreEqual("SubFieldB1", found[1].Value);
             Assert.AreEqual("SubFieldA2", found[2].Value);
             Assert.AreEqual("SubFieldB2", found[3].Value);
 
-            found = array.GetSubFieldRegex("[x-z]");
+            found = SubFieldUtility.GetSubFieldRegex(array, "[x-z]");
             Assert.AreEqual(0, found.Length);
         }
 
@@ -302,18 +302,18 @@ namespace UnitTests.ManagedIrbis
         {
             SubField[] array = _GetArray();
             char[] codes = { 'a', 'b', 'c', 'd' };
-            SubField[] found = array.GetSubFieldRegex(codes, "[AB][12]");
+            SubField[] found = SubFieldUtility.GetSubFieldRegex(array, codes, "[AB][12]");
             Assert.AreEqual(4, found.Length);
             Assert.AreEqual("SubFieldA1", found[0].Value);
             Assert.AreEqual("SubFieldB1", found[1].Value);
             Assert.AreEqual("SubFieldA2", found[2].Value);
             Assert.AreEqual("SubFieldB2", found[3].Value);
 
-            found = array.GetSubFieldRegex(codes, "[AB][34]");
+            found = SubFieldUtility.GetSubFieldRegex(array, codes, "[AB][34]");
             Assert.AreEqual(0, found.Length);
 
             codes = new[] { 'x', 'y', 'z' };
-            found = array.GetSubFieldRegex(codes, "[AB][12]");
+            found = SubFieldUtility.GetSubFieldRegex(array, codes, "[AB][12]");
             Assert.AreEqual(0, found.Length);
         }
 
@@ -342,12 +342,7 @@ namespace UnitTests.ManagedIrbis
             };
             int[] tags = { 200 };
             char[] codes = { 'a' };
-            SubField[] found = fields.GetSubFieldRegex
-                (
-                    tags,
-                    codes,
-                    "a2"
-                );
+            SubField[] found = SubFieldUtility.GetSubFieldRegex(fields, tags, codes, "a2");
             Assert.AreEqual(1, found.Length);
             Assert.AreEqual("200a2", found[0].Value);
         }
@@ -356,10 +351,10 @@ namespace UnitTests.ManagedIrbis
         public void SubFieldUtility_GetSubFieldValue_1()
         {
             SubField subField = new SubField('a', "Value");
-            Assert.AreEqual("Value", subField.GetSubFieldValue());
+            Assert.AreEqual("Value", SubFieldUtility.GetSubFieldValue(subField));
 
             subField = null;
-            Assert.AreEqual(null, subField.GetSubFieldValue());
+            Assert.AreEqual(null, SubFieldUtility.GetSubFieldValue(subField));
         }
 
         [TestMethod]
@@ -373,7 +368,7 @@ namespace UnitTests.ManagedIrbis
                 new SubField('c', null),
                 new SubField('d', "ValueD")
             };
-            string[] values = array.GetSubFieldValue();
+            string[] values = SubFieldUtility.GetSubFieldValue(array);
             Assert.AreEqual(3, values.Length);
             Assert.AreEqual("ValueA", values[0]);
             Assert.AreEqual("ValueB", values[1]);
@@ -384,16 +379,20 @@ namespace UnitTests.ManagedIrbis
         public void SubFieldUtility_ToJObject_1()
         {
             SubField subField = new SubField('a', "Value");
-            JObject jobject = subField.ToJObject();
-            Assert.AreEqual('a', jobject["code"].Value<char>());
-            Assert.AreEqual("Value", jobject["value"].Value<string>());
+            JObject jobject = SubFieldUtility.ToJObject(subField);
+            Assert.AreEqual('a', Extensions.Value<char>(jobject["code"]));
+            Assert.AreEqual("Value", Extensions.Value<string>(jobject["value"]));
         }
 
         [TestMethod]
         public void SubFieldUtility_ToJson_1()
         {
             SubField subField = new SubField('a', "Value");
-            Assert.AreEqual("{'code':'a','value':'Value'}", subField.ToJson());
+            Assert.AreEqual
+                (
+                    "{'code':'a','value':'Value'}",
+                    SubFieldUtility.ToJson(subField)
+                );
         }
 
         [TestMethod]
@@ -424,8 +423,7 @@ namespace UnitTests.ManagedIrbis
         [TestMethod]
         public void SubFieldUtility_FromJson_1()
         {
-            SubField subField = SubFieldUtility
-                .FromJson("{'code':'a','value':'Value'}");
+            SubField subField = SubFieldUtility.FromJson("{'code':'a','value':'Value'}");
             Assert.AreEqual('a', subField.Code);
             Assert.AreEqual("Value", subField.Value);
         }
@@ -434,21 +432,33 @@ namespace UnitTests.ManagedIrbis
         public void SubFieldUtility_ToSourceCode_1()
         {
             SubField subField = new SubField();
-            Assert.AreEqual("new SubField('\\0', null)", SubFieldUtility.ToSourceCode(subField));
+            Assert.AreEqual
+                (
+                    "new SubField('\\0', null)",
+                    SubFieldUtility.ToSourceCode(subField)
+                );
         }
 
         [TestMethod]
         public void SubFieldUtility_ToSourceCode_2()
         {
             SubField subField = new SubField('a');
-            Assert.AreEqual("new SubField('a', null)", SubFieldUtility.ToSourceCode(subField));
+            Assert.AreEqual
+                (
+                    "new SubField('a', null)",
+                    SubFieldUtility.ToSourceCode(subField)
+                );
         }
 
         [TestMethod]
         public void SubFieldUtility_ToSourceCode_3()
         {
             SubField subField = new SubField('a', "Some text");
-            Assert.AreEqual("new SubField('a', \"Some text\")", SubFieldUtility.ToSourceCode(subField));
+            Assert.AreEqual
+                (
+                    "new SubField('a', \"Some text\")",
+                    SubFieldUtility.ToSourceCode(subField)
+                );
         }
     }
 }
