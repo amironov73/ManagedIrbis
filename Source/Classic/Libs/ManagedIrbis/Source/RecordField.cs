@@ -1340,7 +1340,9 @@ namespace ManagedIrbis
 
         #region IReadOnly<T> members
 
+        // ReSharper disable InconsistentNaming
         internal bool _readOnly;
+        // ReSharper restore InconsistentNaming
 
         /// <inheritdoc cref="IReadOnly{T}.ReadOnly" />
         [JsonIgnore]

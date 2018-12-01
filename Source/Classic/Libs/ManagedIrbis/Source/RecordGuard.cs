@@ -55,7 +55,7 @@ namespace ManagedIrbis
         /// Connection.
         /// </summary>
         [CanBeNull]
-        public IrbisConnection Connection { get; private set; }
+        public IIrbisConnection Connection { get; private set; }
 
         /// <summary>
         /// Provider.
@@ -81,7 +81,7 @@ namespace ManagedIrbis
         /// </summary>
         public RecordGuard
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 [NotNull] MarcRecord record
             )
         {
@@ -100,7 +100,7 @@ namespace ManagedIrbis
         /// </summary>
         public RecordGuard
             (
-                [NotNull] IrbisConnection connection,
+                [NotNull] IIrbisConnection connection,
                 params MarcRecord[] records
             )
         {
@@ -136,7 +136,7 @@ namespace ManagedIrbis
         public RecordGuard
             (
                 [NotNull] IrbisProvider provider,
-                params MarcRecord[] records 
+                params MarcRecord[] records
             )
         {
             Code.NotNull(provider, "provider");
@@ -221,20 +221,6 @@ namespace ManagedIrbis
                     {
                         Connection.WriteRecord(record);
                         result = true;
-                    }
-                    else
-                    {
-                        Log.Error
-                            (
-                                "RecordGuard::Commit: "
-                                + "Provider=null and Connection=null"
-                            );
-
-                        throw new IrbisException
-                            (
-                                "RecordGuard: Provider=null "
-                                + "and Connection=null"
-                            );
                     }
 
                     record.Modified = false;

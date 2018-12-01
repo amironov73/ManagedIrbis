@@ -11,10 +11,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 using AM;
+using AM.Collections;
 using AM.Text;
 
 using CodeJam;
@@ -31,6 +31,8 @@ using Newtonsoft.Json.Linq;
 using AM.Json;
 
 #endif
+
+// ReSharper disable ForCanBeConvertedToForeach
 
 #endregion
 
@@ -66,9 +68,10 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
 
-            foreach (SubField subField in subFields.NonNullItems())
+            foreach (SubField subField in subFields)
             {
-                if (subField.Code.SameChar(code))
+                if (!ReferenceEquals(subField, null)
+                    && subField.Code.SameChar(code))
                 {
                     return subField;
                 }
@@ -113,9 +116,10 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
 
-            foreach (SubField subField in subFields.NonNullItems())
+            foreach (SubField subField in subFields)
             {
-                if (subField.Code.OneOf(codes))
+                if (!ReferenceEquals(subField, null)
+                    && subField.Code.OneOf(codes))
                 {
                     return subField;
                 }
@@ -162,9 +166,10 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
 
-            foreach (SubField subField in subFields.NonNullItems())
+            foreach (SubField subField in subFields)
             {
-                if (subField.Code.SameChar(code)
+                if (!ReferenceEquals(subField, null)
+                    && subField.Code.SameChar(code)
                     && subField.Value.SameStringSensitive(value))
                 {
                     return subField;
@@ -217,22 +222,17 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
 
-            List<SubField> result = null;
-            foreach (SubField subField in subFields.NonNullItems())
+            LocalList<SubField> result = new LocalList<SubField>();
+            foreach (SubField subField in subFields)
             {
-                if (subField.Code.SameChar(code))
+                if (!ReferenceEquals(subField, null)
+                    && subField.Code.SameChar(code))
                 {
-                    if (ReferenceEquals(result, null))
-                    {
-                        result = new List<SubField>();
-                    }
                     result.Add(subField);
                 }
             }
 
-            return ReferenceEquals(result, null)
-                ? EmptyArray
-                : result.ToArray();
+            return result.ToArray();
         }
 
         /// <summary>
@@ -248,23 +248,17 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
 
-            List<SubField> result = null;
+            LocalList<SubField> result = new LocalList<SubField>();
             int count = subFields.Count;
             for (int i = 0; i < count; i++)
             {
                 if (subFields[i].Code.SameChar(code))
                 {
-                    if (ReferenceEquals(result, null))
-                    {
-                        result = new List<SubField>();
-                    }
                     result.Add(subFields[i]);
                 }
             }
 
-            return ReferenceEquals(result, null)
-                ? EmptyArray
-                : result.ToArray();
+            return result.ToArray();
         }
 
         /// <summary>
@@ -280,22 +274,17 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
 
-            List<SubField> result = null;
-            foreach (SubField subField in subFields.NonNullItems())
+            LocalList<SubField> result = new LocalList<SubField>();
+            foreach (SubField subField in subFields)
             {
-                if (subField.Code.OneOf(codes))
+                if (!ReferenceEquals(subField, null)
+                    && subField.Code.OneOf(codes))
                 {
-                    if (ReferenceEquals(result, null))
-                    {
-                        result = new List<SubField>();
-                    }
                     result.Add(subField);
                 }
             }
 
-            return ReferenceEquals(result, null)
-                ? EmptyArray
-                : result.ToArray();
+            return result.ToArray();
         }
 
         /// <summary>
@@ -311,23 +300,17 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
 
-            List<SubField> result = null;
+            LocalList<SubField> result = new LocalList<SubField>();
             int count = subFields.Count;
             for (int i = 0; i < count; i++)
             {
                 if (subFields[i].Code.OneOf(codes))
                 {
-                    if (ReferenceEquals(result, null))
-                    {
-                        result = new List<SubField>();
-                    }
                     result.Add(subFields[i]);
                 }
             }
 
-            return ReferenceEquals(result, null)
-                ? EmptyArray
-                : result.ToArray();
+            return result.ToArray();
         }
 
         /// <summary>
@@ -343,17 +326,20 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
 
-            SubField[] result = subFields.NonNullItems().ToArray();
-
-            if (!ReferenceEquals(action, null))
+            LocalList<SubField> result = new LocalList<SubField>();
+            foreach (SubField subField in subFields)
             {
-                foreach (SubField subField in result)
+                if (!ReferenceEquals(subField, null))
                 {
-                    action(subField);
+                    result.Add(subField);
+                    if (!ReferenceEquals(action, null))
+                    {
+                        action(subField);
+                    }
                 }
             }
 
-            return result;
+            return result.ToArray();
         }
 
         /// <summary>
@@ -372,28 +358,23 @@ namespace ManagedIrbis
             Code.NotNull(fieldPredicate, "fieldPredicate");
             Code.NotNull(subPredicate, "subPredicate");
 
-            List<SubField> result = null;
+            LocalList<SubField> result = new LocalList<SubField>();
             foreach (RecordField field in fields)
             {
-                if (fieldPredicate(field))
+                if (!ReferenceEquals(field, null)
+                    && fieldPredicate(field))
                 {
                     foreach (SubField subField in field.SubFields)
                     {
                         if (subPredicate(subField))
                         {
-                            if (ReferenceEquals(result, null))
-                            {
-                                result = new List<SubField>();
-                            }
                             result.Add(subField);
                         }
                     }
                 }
             }
 
-            return ReferenceEquals(result, null)
-                ? EmptyArray
-                : result.ToArray();
+            return result.ToArray();
         }
 
         /// <summary>
@@ -412,10 +393,25 @@ namespace ManagedIrbis
             Code.NotNull(tags, "tags");
             Code.NotNull(codes, "codes");
 
-            return fields
-                .GetField(tags)
-                .GetSubField(codes)
-                .ToArray();
+            LocalList<SubField> result = new LocalList<SubField>();
+            foreach (RecordField field in fields)
+            {
+                if (!ReferenceEquals(field, null))
+                {
+                    if (field.Tag.OneOf(tags))
+                    {
+                        foreach (SubField subField in field.SubFields)
+                        {
+                            if (subField.Code.OneOf(codes))
+                            {
+                                result.Add(subField);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return result.ToArray();
         }
 
         // ==========================================================
@@ -432,19 +428,24 @@ namespace ManagedIrbis
             )
         {
             Code.NotNull(subFields, "subFields");
-            Code.NotNull(codeRegex, "codeRegex");
+            Code.NotNullNorEmpty(codeRegex, "codeRegex");
 
-            return subFields.Where
-                (
-                    subField =>
-                        !ReferenceEquals(subField.CodeString, null)
-                        && Regex.IsMatch
-                            (
-                                subField.CodeString,
-                                codeRegex
-                            )
-                )
-                .ToArray();
+            LocalList<SubField> result = new LocalList<SubField>();
+            foreach (SubField subField in subFields)
+            {
+                if (!ReferenceEquals(subField, null))
+                {
+                    string code = subField.CodeString;
+                    if (!string.IsNullOrEmpty(code)
+                        && Regex.IsMatch(code, codeRegex))
+                    {
+                        result.Add(subField);
+                    }
+
+                }
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>
@@ -461,21 +462,24 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
             Code.NotNull(codes, "codes");
-            Code.NotNull(textRegex, "textRegex");
+            Code.NotNullNorEmpty(textRegex, "textRegex");
 
-            return subFields
-                .GetSubField(codes)
-                .Where
-                    (
-                        subField =>
-                            !ReferenceEquals(subField.Value, null)
-                            && Regex.IsMatch
-                                (
-                                    subField.Value,
-                                    textRegex
-                                )
-                    )
-                .ToArray();
+            LocalList<SubField> result = new LocalList<SubField>();
+            foreach (SubField subField in subFields)
+            {
+                if (!ReferenceEquals(subField, null)
+                    && subField.Code.OneOf(codes))
+                {
+                    string value = subField.Value;
+                    if (!string.IsNullOrEmpty(value)
+                        && Regex.IsMatch(value, textRegex))
+                    {
+                        result.Add(subField);
+                    }
+                }
+            }
+
+            return result.ToArray();
         }
 
         /// <summary>
@@ -494,12 +498,13 @@ namespace ManagedIrbis
             Code.NotNull(fields, "fields");
             Code.NotNull(tags, "tags");
             Code.NotNull(codes, "codes");
-            Code.NotNull(valueRegex, "valueRegex");
+            Code.NotNullNorEmpty(valueRegex, "valueRegex");
 
-            List<SubField> result = null;
+            LocalList<SubField> result = new LocalList<SubField>();
             foreach (RecordField field in fields)
             {
-                if (field.Tag.OneOf(tags))
+                if (!ReferenceEquals(field, null)
+                    && field.Tag.OneOf(tags))
                 {
                     foreach (SubField subField in field.SubFields)
                     {
@@ -510,10 +515,6 @@ namespace ManagedIrbis
                             {
                                 if (Regex.IsMatch(value, valueRegex))
                                 {
-                                    if (ReferenceEquals(result, null))
-                                    {
-                                        result = new List<SubField>();
-                                    }
                                     result.Add(subField);
                                 }
                             }
@@ -522,9 +523,7 @@ namespace ManagedIrbis
                 }
             }
 
-            return ReferenceEquals(result, null)
-                ? EmptyArray
-                : result.ToArray();
+            return result.ToArray();
         }
 
         // ==========================================================
@@ -555,23 +554,20 @@ namespace ManagedIrbis
         {
             Code.NotNull(subFields, "subFields");
 
-            List<string> result = null;
-            foreach (SubField subField in subFields.NonNullItems())
+            LocalList<string> result = new LocalList<string>();
+            foreach (SubField subField in subFields)
             {
-                string value = subField.Value;
-                if (!string.IsNullOrEmpty(value))
+                if (!ReferenceEquals(subField, null))
                 {
-                    if (ReferenceEquals(result, null))
+                    string value = subField.Value;
+                    if (!string.IsNullOrEmpty(value))
                     {
-                        result = new List<string>();
+                        result.Add(value);
                     }
-                    result.Add(value);
                 }
             }
 
-            return ReferenceEquals(result, null)
-                ? StringUtility.EmptyArray
-                : result.ToArray();
+            return result.ToArray();
         }
 
         // ==========================================================
@@ -627,7 +623,6 @@ namespace ManagedIrbis
             Code.NotNull(subField, "subField");
 
             string result = JsonUtility.SerializeShort(subField);
-            //JObject.FromObject(subField).ToString();
 
             return result;
         }
@@ -645,10 +640,10 @@ namespace ManagedIrbis
 
             SubField result = new SubField
                 (
-                    jObject["code"].ToString()[0]
+                    jObject["code"].ToString().FirstChar()
                 );
             JToken value = jObject["value"];
-            if (value != null)
+            if (!ReferenceEquals(value, null))
             {
                 result.Value = value.ToString();
             }

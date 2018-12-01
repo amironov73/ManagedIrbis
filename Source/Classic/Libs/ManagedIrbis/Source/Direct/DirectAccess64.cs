@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+using AM.Collections;
 using AM.Logging;
 
 using CodeJam;
@@ -163,10 +164,10 @@ namespace ManagedIrbis.Direct
         public DatabaseInfo GetDatabaseInfo()
         {
             int maxMfn = GetMaxMfn();
-            List<int> logicallyDeleted = new List<int>();
-            List<int> physicallyDeleted = new List<int>();
-            List<int> nonActualized = new List<int>();
-            List<int> lockedRecords = new List<int>();
+            LocalList<int> logicallyDeleted = new LocalList<int>();
+            LocalList<int> physicallyDeleted = new LocalList<int>();
+            LocalList<int> nonActualized = new LocalList<int>();
+            LocalList<int> lockedRecords = new LocalList<int>();
 
             for (int mfn = 1; mfn <= maxMfn; mfn++)
             {

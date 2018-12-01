@@ -156,6 +156,7 @@ namespace ManagedIrbis.Direct
                 long position
             )
         {
+            // TODO Use RecycleableMemoryStream
             MemoryStream memory;
             MstRecordLeader64 leader;
 

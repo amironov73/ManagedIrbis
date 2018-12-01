@@ -141,6 +141,20 @@ namespace ManagedIrbis.ImportExport
             int indicatorLength = FastNumber.ParseInt32(record, 10, 1);
             int baseAddress = FastNumber.ParseInt32(record, 12, 5);
 
+            // Подсчитываем количество полей в записи,
+            // чтобы уменьшить трафик памяти в result.Fields
+            int fieldCount = 0;
+            for (int ofs = MarkerLength;; ofs += directoryLength)
+            {
+                if (record[ofs] == FieldDelimiter)
+                {
+                    break;
+                }
+
+                fieldCount++;
+            }
+            result.Fields.EnsureCapacity(fieldCount);
+
             // Пошли по полям при помощи справочника
             for (int directory = MarkerLength; ; directory += directoryLength)
             {

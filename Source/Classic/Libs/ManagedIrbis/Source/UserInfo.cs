@@ -21,12 +21,14 @@ using AM;
 using AM.IO;
 using AM.Runtime;
 using AM.Text;
+
 using CodeJam;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;

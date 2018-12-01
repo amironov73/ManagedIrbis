@@ -260,16 +260,12 @@ namespace ManagedIrbis
             Code.NotNull(record1, "record1");
             Code.NotNull(record2, "record2");
 
-            //int result = (int)record1.Status - (int)record2.Status;
-            //if (result != 0)
-            //{
-            //    return result;
-            //}
             int result = record1.Fields.Count - record2.Fields.Count;
             if (result != 0)
             {
                 return result;
             }
+
             for (int i = 0; i < record1.Fields.Count; i++)
             {
                 RecordField field1 = record1.Fields[i];
@@ -359,7 +355,9 @@ namespace ManagedIrbis
         /// Do not use external resources!
         /// </remarks>
         [CanBeNull]
+        // ReSharper disable InconsistentNaming
         public string FR
+        // ReSharper restore InconsistentNaming
             (
                 [NotNull] string format
             )

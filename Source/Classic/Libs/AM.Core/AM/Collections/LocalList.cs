@@ -278,6 +278,25 @@ namespace AM.Collections
             return result;
         }
 
+        /// <summary>
+        /// Convert the list to <see cref="List{T}"/>.
+        /// </summary>
+        public List<T> ToList()
+        {
+            if (ReferenceEquals(_array, null) || _size == 0)
+            {
+                return new List<T>();
+            }
+
+            List<T> result = new List<T>(_size);
+            for (int i = 0; i < _size; i++)
+            {
+                result.Add(_array[i]);
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }

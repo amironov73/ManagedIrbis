@@ -1,4 +1,5 @@
-﻿using ManagedIrbis;
+﻿using AM.Text;
+using ManagedIrbis;
 using ManagedIrbis.Infrastructure;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -55,6 +56,44 @@ namespace UnitTests.ManagedIrbis
             Assert.AreEqual("andreevama", stat.RunningClients[1].Name);
             Assert.AreEqual("\"Каталогизатор\"", stat.RunningClients[1].Workstation);
             Assert.AreEqual("IRBIS_PREV_TRM", stat.RunningClients[1].LastCommand);
+        }
+
+        [TestMethod]
+        public void ServerStat_Parse_2()
+        {
+            ResponseBuilder builder = new ResponseBuilder();
+
+            builder.AppendAnsi("10093797\r\n3\r\n9\r\n");
+
+            IrbisConnection connection = new IrbisConnection();
+            byte[][] query = { new byte[0], new byte[0] };
+            byte[] answer = builder.Encode();
+            ServerResponse response = new ServerResponse
+                (
+                    connection,
+                    answer,
+                    query,
+                    true
+                );
+
+            ServerStat stat = ServerStat.Parse(response);
+            Assert.AreEqual(10093797, stat.TotalCommandCount);
+            Assert.AreEqual(3, stat.ClientCount);
+            Assert.IsNotNull(stat.RunningClients);
+            Assert.AreEqual(0, stat.RunningClients.Length);
+        }
+
+        [TestMethod]
+        public void ServerStat_ToString_1()
+        {
+            ServerStat stat = new ServerStat();
+            Assert.AreEqual("Command executed: 0\nRunning clients: 0\n", stat.ToString().DosToUnix());
+
+            stat.RunningClients = new[]
+            {
+                new ClientInfo()
+            };
+            Assert.AreEqual("Command executed: 0\nRunning clients: 0\nNumber: , IPAddress: , Port: , Name: , ID: , Workstation: , Registered: , Acknowledged: , LastCommand: , CommandNumber: \n", stat.ToString().DosToUnix());
         }
     }
 }

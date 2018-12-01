@@ -1,4 +1,6 @@
-﻿using AM.Json;
+﻿using System;
+using System.IO;
+using AM.Json;
 using AM.Runtime;
 using AM.Text;
 using AM.Xml;
@@ -7,6 +9,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Menus;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -14,6 +17,7 @@ namespace UnitTests.ManagedIrbis
 {
     [TestClass]
     public class UserInfoTest
+        : Common.CommonUnitTest
     {
         [NotNull]
         private UserInfo _GetUserInfo()
@@ -24,6 +28,14 @@ namespace UnitTests.ManagedIrbis
                 Password = "FightClub",
                 Cataloger = "Tyler.ini"
             };
+        }
+
+        [NotNull]
+        public MenuFile _GetClientIni()
+        {
+            string fileName = Path.Combine(Irbis64RootPath, "client_ini.mnu");
+            MenuFile resutl = MenuFile.ParseLocalFile(fileName);
+            return resutl;
         }
 
         [TestMethod]
@@ -143,6 +155,56 @@ namespace UnitTests.ManagedIrbis
         }
 
         [TestMethod]
+        public void UserInfo_Parse_2()
+        {
+            ResponseBuilder builder = new ResponseBuilder()
+                .Append(1).NewLine()
+                .Append(9).NewLine();
+
+            IrbisConnection connection = new IrbisConnection();
+            byte[] answer = builder.Encode();
+            byte[][] request = { new byte[0], new byte[0] };
+            ServerResponse response = new ServerResponse
+                (
+                    connection,
+                    answer,
+                    request,
+                    true
+                );
+            UserInfo[] users = UserInfo.Parse(response);
+            Assert.AreEqual(0, users.Length);
+        }
+
+        [TestMethod]
+        public void UserInfo_ParseFile_1()
+        {
+            MenuFile clientIni = _GetClientIni();
+            string fileName = Path.Combine(Irbis64RootPath, "Datai", "client_m.mnu");
+            UserInfo[] clients = UserInfo.ParseFile(fileName, clientIni);
+            Assert.AreEqual(2, clients.Length);
+        }
+
+        [TestMethod]
+        public void UserInfo_Parse_Stream_1()
+        {
+            MenuFile clientIni = _GetClientIni();
+            string content = "librarian\r\nsecret\r\nC=INI\\MIRONC.INI; A=INI\\MIRONA.INI;\r\nrdr\r\nrdr\r\nC=; R=INI\\RDR_R.INI; B=; M=; K=; A=; \r\n*****\r\n";
+            StringReader reader = new StringReader(content);
+            UserInfo[] clients = UserInfo.ParseStream(reader, clientIni);
+            Assert.AreEqual(2, clients.Length);
+        }
+
+        [TestMethod]
+        public void UserInfo_Parse_Stream_2()
+        {
+            MenuFile clientIni = _GetClientIni();
+            string content = "librarian\r\nsecret\r\nC=INI\\MIRONC.INI; A=INI\\MIRONA.INI;\r\nrdr";
+            StringReader reader = new StringReader(content);
+            UserInfo[] clients = UserInfo.ParseStream(reader, clientIni);
+            Assert.AreEqual(1, clients.Length);
+        }
+
+        [TestMethod]
         public void UserInfo_ToXml_1()
         {
             UserInfo user = new UserInfo();
@@ -188,6 +250,26 @@ namespace UnitTests.ManagedIrbis
                     "Number: (null), Name: TylerDurden, Password: FightClub, Cataloger: Tyler.ini, Reader: (null), Circulation: (null), Acquisitions: (null), Provision: (null), Administrator: (null)",
                     user.ToString().DosToUnix()
                 );
+        }
+
+        [TestMethod]
+        public void UserInfo_GetStandardIni_1()
+        {
+            MenuFile menuFile = _GetClientIni();
+            Assert.AreEqual("irbisc", UserInfo.GetStandardIni(menuFile, 'c'));
+            Assert.AreEqual("irbisr", UserInfo.GetStandardIni(menuFile, 'r'));
+            Assert.AreEqual("irbisb", UserInfo.GetStandardIni(menuFile, 'b'));
+            Assert.AreEqual("irbisp", UserInfo.GetStandardIni(menuFile, 'm'));
+            Assert.AreEqual("irbisk", UserInfo.GetStandardIni(menuFile, 'k'));
+            Assert.AreEqual("irbisa", UserInfo.GetStandardIni(menuFile, 'a'));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void UserInfo_GetStandardIni_2()
+        {
+            MenuFile menuFile = _GetClientIni();
+            UserInfo.GetStandardIni(menuFile, 'p');
         }
     }
 }
