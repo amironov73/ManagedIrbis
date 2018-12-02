@@ -203,6 +203,7 @@ namespace ManagedIrbis.Direct
 
             Encoding encoding = IrbisEncoding.Ansi;
 
+            // TODO Use RecycleableMemoryStream
             MemoryStream memory = new MemoryStream(PreloadLength);
             _AppendStream(_stream, memory, PreloadLength);
             memory.Position = 0;
@@ -214,8 +215,7 @@ namespace ManagedIrbis.Direct
                 _AppendStream(_stream, memory, amountToRead);
             }
 
-            List<MstDictionaryEntry32> dictionary
-                = new List<MstDictionaryEntry32>();
+            List<MstDictionaryEntry32> dictionary = new List<MstDictionaryEntry32>();
 
             for (int i = 0; i < leader.Nvf; i++)
             {

@@ -151,6 +151,7 @@ namespace ManagedIrbis.Direct
                 {
                     throw new ArgumentOutOfRangeException("mfn");
                 }
+
                 if (_stream.Seek(offset, SeekOrigin.Begin) != offset)
                 {
                     throw new IOException();

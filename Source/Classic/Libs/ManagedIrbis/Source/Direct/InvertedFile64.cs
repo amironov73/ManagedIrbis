@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 
 using AM;
+using AM.Collections;
 using AM.IO;
 using AM.Logging;
 using AM.Text;
@@ -355,7 +356,7 @@ namespace ManagedIrbis.Direct
                     return TermInfo.EmptyArray;
                 }
 
-                List<TermInfo> result = new List<TermInfo>();
+                LocalList<TermInfo> result = new LocalList<TermInfo>();
                 try
                 {
                     key = IrbisText.ToUpper(key);
@@ -618,7 +619,7 @@ namespace ManagedIrbis.Direct
                     {
                         // ibatrak записи могут иметь ссылки на следующие
 
-                        List<TermLink> result = new List<TermLink>();
+                        LocalList<TermLink> result = new LocalList<TermLink>();
                         long offset = goodItem.FullOffset;
                         while (offset > 0)
                         {
@@ -629,7 +630,9 @@ namespace ManagedIrbis.Direct
                                 : 0;
                         }
 
+                        // TODO Implement .Distinct properly
                         return result
+                            .ToArray()
                             .Distinct()
                             .ToArray();
                         // ibatrak до сюда

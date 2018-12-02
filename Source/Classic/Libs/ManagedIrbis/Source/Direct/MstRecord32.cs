@@ -58,11 +58,11 @@ namespace ManagedIrbis.Direct
         public bool Deleted
         {
             get {
-                    return (Leader.Status & 
-                          (int)(RecordStatus.LogicallyDeleted 
+                    return (Leader.Status &
+                          (int)(RecordStatus.LogicallyDeleted
                                   | RecordStatus.PhysicallyDeleted)
                                 )
-                            != 0; 
+                            != 0;
                 }
         }
 
@@ -118,8 +118,7 @@ namespace ManagedIrbis.Direct
             {
                 Mfn = Leader.Mfn,
                 Status = (RecordStatus)Leader.Status,
-                //PreviousOffset = Leader.Previous,
-                //Version = Leader.Version
+                PreviousOffset = Leader.PreviousOffset,
             };
 
             foreach (MstDictionaryEntry32 entry in Dictionary)

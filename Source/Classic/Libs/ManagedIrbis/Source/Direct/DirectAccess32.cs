@@ -11,9 +11,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
+using AM.Collections;
 using AM.Logging;
 
 using CodeJam;
@@ -132,10 +132,7 @@ namespace ManagedIrbis.Direct
                 return null;
             }
 
-            MstRecord32 mstRecord = Mst.ReadRecord2
-                (
-                    xrfRecord.AbsoluteOffset
-                );
+            MstRecord32 mstRecord = Mst.ReadRecord2(xrfRecord.AbsoluteOffset);
             MarcRecord result = mstRecord.DecodeRecord();
             result.Database = Database;
 
@@ -153,9 +150,9 @@ namespace ManagedIrbis.Direct
         {
             Code.Positive(mfn, "mfn");
 
-            List<MarcRecord> result = new List<MarcRecord>();
+            LocalList<MarcRecord> result = new LocalList<MarcRecord>();
             MarcRecord lastVersion = ReadRecord(mfn);
-            if (lastVersion != null)
+            if (!ReferenceEquals(lastVersion, null))
             {
                 result.Add(lastVersion);
                 while (true)
@@ -165,6 +162,7 @@ namespace ManagedIrbis.Direct
                     {
                         break;
                     }
+
                     MstRecord32 mstRecord = Mst.ReadRecord2(offset);
                     MarcRecord previousVersion = mstRecord.DecodeRecord();
                     result.Add(previousVersion);
@@ -174,18 +172,6 @@ namespace ManagedIrbis.Direct
 
             return result.ToArray();
         }
-
-        //public IrbisRecord ReadRecord2
-        //    (
-        //        int mfn
-        //    )
-        //{
-        //    XrfRecord64 xrfRecord = Xrf.ReadRecord(mfn);
-        //    MstRecord32 mstRecord = Mst.ReadRecord2(xrfRecord.Offset);
-        //    IrbisRecord result = mstRecord.DecodeRecord();
-        //    result.Database = Database;
-        //    return result;
-        //}
 
         /// <summary>
         /// Simple search by the key.
@@ -199,7 +185,7 @@ namespace ManagedIrbis.Direct
             Code.NotNullNorEmpty(key, "key");
 
             int[] found = InvertedFile.SearchSimple(key);
-            List<int> result = new List<int>();
+            LocalList<int> result = new LocalList<int>();
 
             foreach (int mfn in found)
             {
@@ -235,8 +221,7 @@ namespace ManagedIrbis.Direct
                         MstRecord32 mstRecord = Mst.ReadRecord2(xrfRecord.AbsoluteOffset);
                         if (!mstRecord.Deleted)
                         {
-                            MarcRecord marcRecord
-                                = mstRecord.DecodeRecord();
+                            MarcRecord marcRecord = mstRecord.DecodeRecord();
                             marcRecord.Database = Database;
                             result.Add(marcRecord);
                         }

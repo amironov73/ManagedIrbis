@@ -222,7 +222,16 @@ namespace ManagedIrbis.Direct
         {
             Code.Positive(mfn, "mfn");
 
-            XrfRecord64 xrfRecord = Xrf.ReadRecord(mfn);
+            XrfRecord64 xrfRecord;
+            try
+            {
+                xrfRecord = Xrf.ReadRecord(mfn);
+            }
+            catch
+            {
+                return null;
+            }
+
             if (xrfRecord.Offset == 0)
             {
                 return null;
@@ -244,12 +253,22 @@ namespace ManagedIrbis.Direct
         {
             Code.Positive(mfn, "mfn");
 
-            XrfRecord64 xrfRecord = Xrf.ReadRecord(mfn);
+            XrfRecord64 xrfRecord;
+            try
+            {
+                xrfRecord = Xrf.ReadRecord(mfn);
+            }
+            catch
+            {
+                return null;
+            }
+
             if (xrfRecord.Offset == 0
                 || (xrfRecord.Status & RecordStatus.PhysicallyDeleted) != 0)
             {
                 return null;
             }
+
             MstRecord64 mstRecord = Mst.ReadRecord(xrfRecord.Offset);
             MarcRecord result = mstRecord.DecodeRecord();
             result.Database = Database;

@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -27,8 +28,7 @@ namespace ManagedIrbis.Direct
     /// Leader of MST record.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    [DebuggerDisplay("MFN={Mfn}, Length={Length}, "
-        + "NVF={Nvf}, Status={Status}")]
+    [DebuggerDisplay("MFN={Mfn}, Length={Length}, NVF={Nvf}, Status={Status}")]
     public sealed class MstRecordLeader32
     {
         #region Constants
@@ -52,10 +52,10 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public int Length { get; set; }
 
-        /// <summary>
-        /// Number of block containing previous version.
-        /// </summary>
-        public int PreviousBlock { get; set; }
+        ///// <summary>
+        ///// Number of block containing previous version.
+        ///// </summary>
+        //public int PreviousBlock { get; set; }
 
         /// <summary>
         /// Offset of previous version.
@@ -98,16 +98,13 @@ namespace ManagedIrbis.Direct
             MstRecordLeader32 result = new MstRecordLeader32
             {
                 Mfn = stream.ReadInt32Host(),
-                Length = stream.ReadInt16Host(),
-                PreviousBlock = stream.ReadInt32Host(),
-                PreviousOffset = stream.ReadInt16Host(),
+                Length = Math.Abs(stream.ReadInt16Host()),
+                PreviousOffset = stream.ReadInt32Host() * 512
+                    + stream.ReadInt16Host(),
                 Base = stream.ReadInt16Host(),
                 Nvf = stream.ReadInt16Host(),
                 Status = stream.ReadInt16Network()
             };
-
-            //Debug.Assert(result.Base ==
-            //    (LeaderSize + result.Nvf * MstDictionaryEntry32.EntrySize));
 
             return result;
         }
@@ -116,18 +113,12 @@ namespace ManagedIrbis.Direct
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format
                 (
-                    "Mfn: {0}, Length: {1}, "
-                  + "Base: {2}, Nvf: {3}, Status: {4} ",
+                    "Mfn: {0}, Length: {1}, Base: {2}, Nvf: {3}, Status: {4} ",
                     Mfn,
                     Length,
                     Base,
