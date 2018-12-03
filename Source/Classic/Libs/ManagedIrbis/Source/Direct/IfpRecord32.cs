@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IfpRecord.cs -- inverted file record
+/* IfpRecord32.cs -- inverted file record
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -40,7 +40,7 @@ namespace ManagedIrbis.Direct
     // Файл IFP содержит список ссылок для каждого термина словаря.
     //
     // Список ссылок может быть представлен в 2-х различных форматах.
-    // Выбор формата размещения ссылок осуществляется при загрузке 
+    // Выбор формата размещения ссылок осуществляется при загрузке
     // словаря из файла Lk1 (этот файл формируется после отбора
     // и сортировки терминов) в зависимости от общего числа ссылок
     // для данного термина. Обыкновенный формат – это заголовок блока
@@ -50,7 +50,7 @@ namespace ManagedIrbis.Direct
     // формата размер которых определяется по следующей схеме:
     // блоки 4,8,16,32 Kb для общего числа ссылок соответственно
     // 256-32000 ; 32000-64000 ; 64000-128000 ; 128000 и более.
-    // 
+    //
     // Такая схема оптимизирует работу с диском в процессе
     // инвертирования записи в базах данных, характеризующихся
     // большим количеством ссылок на термин.
@@ -116,7 +116,7 @@ namespace ManagedIrbis.Direct
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
-    public sealed class IfpRecord
+    public sealed class IfpRecord32
     {
         #region Constants
 
@@ -173,7 +173,7 @@ namespace ManagedIrbis.Direct
             {
                 get
                 {
-                    return unchecked ((uint)High << 4) | (uint)Low;
+                    return unchecked((uint)High << 4) | (uint)Low;
                 }
                 set
                 {
@@ -262,7 +262,7 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// ibatrak чтение заголовка записи IFP (для подсчета количества ссылок)
         /// </summary>
-        public static IfpRecord ReadLeader
+        public static IfpRecord32 ReadLeader
             (
                 Stream stream,
                 long offset
@@ -270,7 +270,7 @@ namespace ManagedIrbis.Direct
         {
             stream.Position = offset;
 
-            IfpRecord result = new IfpRecord
+            IfpRecord32 result = new IfpRecord32
             {
                 LowOffset = stream.ReadInt32Network(),
                 HighOffset = stream.ReadInt32Network(),
@@ -286,7 +286,7 @@ namespace ManagedIrbis.Direct
         /// Считываем из потока.
         /// </summary>
         [NotNull]
-        public static IfpRecord Read
+        public static IfpRecord32 Read
             (
                 [NotNull] Stream stream,
                 long offset
@@ -299,14 +299,14 @@ namespace ManagedIrbis.Direct
 
             stream.Position = offset;
 
-            IfpRecord result = new IfpRecord
-                {
-                    LowOffset = stream.ReadInt32Network(),
-                    HighOffset = stream.ReadInt32Network(),
-                    TotalLinkCount = stream.ReadInt32Network(),
-                    BlockLinkCount = stream.ReadInt32Network(),
-                    Capacity = stream.ReadInt32Network()
-                };
+            IfpRecord32 result = new IfpRecord32
+            {
+                LowOffset = stream.ReadInt32Network(),
+                HighOffset = stream.ReadInt32Network(),
+                TotalLinkCount = stream.ReadInt32Network(),
+                BlockLinkCount = stream.ReadInt32Network(),
+                Capacity = stream.ReadInt32Network()
+            };
 
             // ibatrak чтение вложенных записей в спец блоке
             // Специальный формат записи .ifp
@@ -337,8 +337,8 @@ namespace ManagedIrbis.Direct
 
                 stream.Position = entry.Offset;
 
-                IfpRecord[] nestedRecords
-                    = new IfpRecord[result.BlockLinkCount];
+                IfpRecord32[] nestedRecords
+                    = new IfpRecord32[result.BlockLinkCount];
                 for (int i = 0; i < result.BlockLinkCount; i++)
                 {
                     var nestedRecord = Read(stream, stream.Position);
@@ -346,7 +346,7 @@ namespace ManagedIrbis.Direct
 
                     // Last record in the list must have
                     // negative offset values
-                    if (nestedRecord.LowOffset == -1 
+                    if (nestedRecord.LowOffset == -1
                         && nestedRecord.HighOffset == -1)
                     {
                         if (i != result.BlockLinkCount - 1)
@@ -410,8 +410,8 @@ namespace ManagedIrbis.Direct
             return string.Format
                 (
                     "LowOffset: {0}, HighOffset: {1}, TotalLinkCount: {2}, "
-                    + "BlockLinkCount: {3}, Capacity: {4}\r\nItems: {5}", 
-                    LowOffset, 
+                    + "BlockLinkCount: {3}, Capacity: {4}\r\nItems: {5}",
+                    LowOffset,
                     HighOffset,
                     TotalLinkCount,
                     BlockLinkCount,

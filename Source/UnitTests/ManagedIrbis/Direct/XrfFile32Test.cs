@@ -1,12 +1,8 @@
 ﻿using System;
 using System.IO;
 
-using AM;
-using AM.IO;
-
 using JetBrains.Annotations;
 
-using ManagedIrbis;
 using ManagedIrbis.Direct;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;

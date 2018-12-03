@@ -1,12 +1,4 @@
-﻿using System;
-using System.IO;
-
-using AM;
-using AM.IO;
-
-using JetBrains.Annotations;
-
-using ManagedIrbis;
+﻿using ManagedIrbis;
 using ManagedIrbis.Direct;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -47,7 +39,7 @@ namespace UnitTests.ManagedIrbis.Direct
         }
 
         [TestMethod]
-        public void XrfRecord_Locked_1()
+        public void XrfRecord64_Locked_1()
         {
             XrfRecord64 record = new XrfRecord64();
             record.Status = RecordStatus.Last;

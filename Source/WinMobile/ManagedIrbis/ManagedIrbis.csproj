@@ -115,8 +115,20 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Client\ClientContext.cs">
       <Link>Source\Client\ClientContext.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\IfpRecord32.cs">
+      <Link>Source\Direct\IfpRecord32.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstWriter64.cs">
       <Link>Source\Direct\MstWriter64.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\NodeItem32.cs">
+      <Link>Source\Direct\NodeItem32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\NodeLeader32.cs">
+      <Link>Source\Direct\NodeLeader32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\NodeRecord32.cs">
+      <Link>Source\Direct\NodeRecord32.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Drm\AccessElement.cs">
       <Link>Source\Drm\AccessElement.cs</Link>
@@ -1441,17 +1453,17 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\WorldCatApi.cs">
       <Link>Source\Identifiers\WorldCatApi.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\IfpRecord.cs">
-      <Link>Source\Direct\IfpRecord.cs</Link>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\IfpRecord64.cs">
+      <Link>Source\Direct\IfpRecord64.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\NodeItem.cs">
-      <Link>Source\Direct\NodeItem.cs</Link>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\NodeItem64.cs">
+      <Link>Source\Direct\NodeItem64.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\NodeLeader.cs">
-      <Link>Source\Direct\NodeLeader.cs</Link>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\NodeLeader64.cs">
+      <Link>Source\Direct\NodeLeader64.cs</Link>
     </Compile>
-    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\NodeRecord.cs">
-      <Link>Source\Direct\NodeRecord.cs</Link>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\NodeRecord64.cs">
+      <Link>Source\Direct\NodeRecord64.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Identifiers\Doi.cs">
       <Link>Source\Identifiers\Doi.cs</Link>

@@ -87,7 +87,11 @@
     <Compile Include="Source\Batch\BatchRecordWriter.cs" />
     <Compile Include="Source\Batch\BatchSearcher.cs" />
     <Compile Include="Source\Client\ClientContext.cs" />
+    <Compile Include="Source\Direct\IfpRecord32.cs" />
     <Compile Include="Source\Direct\MstWriter64.cs" />
+    <Compile Include="Source\Direct\NodeItem32.cs" />
+    <Compile Include="Source\Direct\NodeLeader32.cs" />
+    <Compile Include="Source\Direct\NodeRecord32.cs" />
     <Compile Include="Source\Drm\AccessElement.cs" />
     <Compile Include="Source\Drm\AccessRight.cs" />
     <Compile Include="Source\Drm\AccessKind.cs" />
@@ -529,10 +533,10 @@
     <Compile Include="Source\Identifiers\Orcid.cs" />
     <Compile Include="Source\Identifiers\WikipediaApi.cs" />
     <Compile Include="Source\Identifiers\WorldCatApi.cs" />
-    <Compile Include="Source\Direct\IfpRecord.cs" />
-    <Compile Include="Source\Direct\NodeItem.cs" />
-    <Compile Include="Source\Direct\NodeLeader.cs" />
-    <Compile Include="Source\Direct\NodeRecord.cs" />
+    <Compile Include="Source\Direct\IfpRecord64.cs" />
+    <Compile Include="Source\Direct\NodeItem64.cs" />
+    <Compile Include="Source\Direct\NodeLeader64.cs" />
+    <Compile Include="Source\Direct\NodeRecord64.cs" />
     <Compile Include="Source\Identifiers\Doi.cs" />
     <Compile Include="Source\EmbeddedField.cs" />
     <Compile Include="Source\FieldIndicator.cs" />

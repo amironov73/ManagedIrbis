@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* NodeLeader.cs -- record leader in N01/L01
+/* NodeLeader32.cs -- record leader in N01/L01
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -35,7 +35,7 @@ namespace ManagedIrbis
     [MoonSharpUserData]
     [DebuggerDisplay("Number={Number}, Previous={Previous}, Next={Next}, "
         + "TermCount={TermCount}, FreeOffset={FreeOffset}")]
-    public sealed class NodeLeader
+    public sealed class NodeLeader32
     {
         #region Properties
 
@@ -84,14 +84,14 @@ namespace ManagedIrbis
         /// Считывание из потока.
         /// </summary>
         [NotNull]
-        public static NodeLeader Read
+        public static NodeLeader32 Read
             (
                 [NotNull] Stream stream
             )
         {
             Code.NotNull(stream, "stream");
 
-            NodeLeader result = new NodeLeader
+            NodeLeader32 result = new NodeLeader32
                 {
                     Number = stream.ReadInt32Network(),
                     Previous = stream.ReadInt32Network(),

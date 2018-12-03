@@ -256,6 +256,7 @@
     <Compile Include="ManagedIrbis\Direct\MstRecover64Test.cs" />
     <Compile Include="ManagedIrbis\Direct\FoundRecordTest.cs" />
     <Compile Include="ManagedIrbis\Direct\MstFile32Test.cs" />
+    <Compile Include="ManagedIrbis\Direct\InvertedFile64Test.cs" />
     <Compile Include="ManagedIrbis\Direct\XrfFile32Test.cs" />
     <Compile Include="ManagedIrbis\Direct\XrfFile64Test.cs" />
     <Compile Include="ManagedIrbis\Direct\XrfRecord32Test.cs" />

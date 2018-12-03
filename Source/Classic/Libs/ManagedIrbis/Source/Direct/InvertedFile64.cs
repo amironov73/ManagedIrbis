@@ -167,10 +167,11 @@ namespace ManagedIrbis.Direct
             return result;
         }
 
-        private NodeRecord _ReadNode
+        [NotNull]
+        private NodeRecord64 _ReadNode
             (
                 bool isLeaf,
-                Stream stream,
+                [NotNull] Stream stream,
                 long offset
             )
         {
@@ -178,7 +179,7 @@ namespace ManagedIrbis.Direct
             {
                 stream.Position = offset;
 
-                NodeRecord result = new NodeRecord(isLeaf)
+                NodeRecord64 result = new NodeRecord64(isLeaf)
                 {
                     _stream = stream,
                     Leader =
@@ -193,7 +194,7 @@ namespace ManagedIrbis.Direct
 
                 for (int i = 0; i < result.Leader.TermCount; i++)
                 {
-                    NodeItem item = new NodeItem
+                    NodeItem64 item = new NodeItem64
                     {
                         Length = stream.ReadInt16Network(),
                         KeyOffset = stream.ReadInt16Network(),
@@ -203,7 +204,7 @@ namespace ManagedIrbis.Direct
                     result.Items.Add(item);
                 }
 
-                foreach (NodeItem item in result.Items)
+                foreach (NodeItem64 item in result.Items)
                 {
                     stream.Position = offset + item.KeyOffset;
                     byte[] buffer = StreamUtility.ReadBytes(stream, item.Length)
@@ -230,12 +231,12 @@ namespace ManagedIrbis.Direct
         /// Read non-leaf node by number.
         /// </summary>
         [NotNull]
-        public NodeRecord ReadNode
+        public NodeRecord64 ReadNode
             (
                 int number
             )
         {
-            NodeRecord result = _ReadNode
+            NodeRecord64 result = _ReadNode
                 (
                     false,
                     N01,
@@ -249,13 +250,13 @@ namespace ManagedIrbis.Direct
         /// Read leaf node by number.
         /// </summary>
         [NotNull]
-        public NodeRecord ReadLeaf
+        public NodeRecord64 ReadLeaf
             (
                 int number
             )
         {
             number = Math.Abs(number);
-            NodeRecord result = _ReadNode
+            NodeRecord64 result = _ReadNode
                 (
                     true,
                     L01,
@@ -271,9 +272,9 @@ namespace ManagedIrbis.Direct
         /// <returns><c>null</c> if there is no next node.
         /// </returns>
         [CanBeNull]
-        public NodeRecord ReadNext
+        public NodeRecord64 ReadNext
             (
-                [NotNull] NodeRecord record
+                [NotNull] NodeRecord64 record
             )
         {
             int number = record.Leader.Next;
@@ -283,7 +284,7 @@ namespace ManagedIrbis.Direct
                 return null;
             }
 
-            NodeRecord result = _ReadNode
+            NodeRecord64 result = _ReadNode
                 (
                     record.IsLeaf,
                     record._stream,
@@ -299,9 +300,9 @@ namespace ManagedIrbis.Direct
         /// <returns><c>null</c> if there is no previous node.
         /// </returns>
         [CanBeNull]
-        public NodeRecord ReadPrevious
+        public NodeRecord64 ReadPrevious
             (
-                [NotNull] NodeRecord record
+                [NotNull] NodeRecord64 record
             )
         {
             int number = record.Leader.Previous;
@@ -310,7 +311,7 @@ namespace ManagedIrbis.Direct
                 return null;
             }
 
-            NodeRecord result = _ReadNode
+            NodeRecord64 result = _ReadNode
                 (
                     record.IsLeaf,
                     record._stream,
@@ -321,15 +322,15 @@ namespace ManagedIrbis.Direct
         }
 
         /// <summary>
-        /// Read <see cref="IfpRecord"/> from given offset.
+        /// Read <see cref="IfpRecord64"/> from given offset.
         /// </summary>
         [NotNull]
-        public IfpRecord ReadIfpRecord
+        public IfpRecord64 ReadIfpRecord
             (
                 long offset
             )
         {
-            IfpRecord result = IfpRecord.Read(Ifp, offset);
+            IfpRecord64 result = IfpRecord64.Read(Ifp, offset);
 
             return result;
         }
@@ -361,11 +362,11 @@ namespace ManagedIrbis.Direct
                 {
                     key = IrbisText.ToUpper(key);
 
-                    NodeRecord firstNode = ReadNode(1);
-                    NodeRecord rootNode = ReadNode(firstNode.Leader.Number);
-                    NodeRecord currentNode = rootNode;
+                    NodeRecord64 firstNode = ReadNode(1);
+                    NodeRecord64 rootNode = ReadNode(firstNode.Leader.Number);
+                    NodeRecord64 currentNode = rootNode;
 
-                    NodeItem goodItem = null, candidate = null;
+                    NodeItem64 goodItem = null, candidate = null;
                     int goodIndex = 0;
                     while (true)
                     {
@@ -379,7 +380,7 @@ namespace ManagedIrbis.Direct
 
                         for (int index = 0; index < currentNode.Leader.TermCount; index++)
                         {
-                            NodeItem item = currentNode.Items[index];
+                            NodeItem64 item = currentNode.Items[index];
                             int compareResult = string.CompareOrdinal
                             (
                                 item.Text,
@@ -459,7 +460,7 @@ namespace ManagedIrbis.Direct
                                 break;
                             }
 
-                            IfpRecord ifp = ReadIfpRecord(offset);
+                            IfpRecord64 ifp = ReadIfpRecord(offset);
                             term.Count += ifp.BlockLinkCount;
                             result.Add(term);
                             count--;
@@ -543,11 +544,11 @@ namespace ManagedIrbis.Direct
                 {
                     key = IrbisText.ToUpper(key);
 
-                    NodeRecord firstNode = ReadNode(1);
-                    NodeRecord rootNode = ReadNode(firstNode.Leader.Number);
-                    NodeRecord currentNode = rootNode;
+                    NodeRecord64 firstNode = ReadNode(1);
+                    NodeRecord64 rootNode = ReadNode(firstNode.Leader.Number);
+                    NodeRecord64 currentNode = rootNode;
 
-                    NodeItem goodItem = null;
+                    NodeItem64 goodItem = null;
                     while (true)
                     {
                         bool found = false;
@@ -558,7 +559,7 @@ namespace ManagedIrbis.Direct
                             break;
                         }
 
-                        foreach (NodeItem item in currentNode.Items)
+                        foreach (NodeItem64 item in currentNode.Items)
                         {
                             int compareResult = string.CompareOrdinal
                                 (
@@ -623,7 +624,7 @@ namespace ManagedIrbis.Direct
                         long offset = goodItem.FullOffset;
                         while (offset > 0)
                         {
-                            IfpRecord ifp = ReadIfpRecord(offset);
+                            IfpRecord64 ifp = ReadIfpRecord(offset);
                             result.AddRange(ifp.Links);
                             offset = ifp.FullOffset > 0
                                 ? ifp.FullOffset
@@ -671,11 +672,11 @@ namespace ManagedIrbis.Direct
 
                 key = IrbisText.ToUpper(key);
 
-                NodeRecord firstNode = ReadNode(1);
-                NodeRecord rootNode = ReadNode(firstNode.Leader.Number);
-                NodeRecord currentNode = rootNode;
+                NodeRecord64 firstNode = ReadNode(1);
+                NodeRecord64 rootNode = ReadNode(firstNode.Leader.Number);
+                NodeRecord64 currentNode = rootNode;
 
-                NodeItem goodItem = null;
+                NodeItem64 goodItem = null;
                 while (true)
                 {
                     bool found = false;
@@ -686,7 +687,7 @@ namespace ManagedIrbis.Direct
                         break;
                     }
 
-                    foreach (NodeItem item in currentNode.Items)
+                    foreach (NodeItem64 item in currentNode.Items)
                     {
                         int compareResult = string.CompareOrdinal
                             (
@@ -747,7 +748,7 @@ namespace ManagedIrbis.Direct
                             break;
                         }
 
-                        foreach (NodeItem item in currentNode.Items)
+                        foreach (NodeItem64 item in currentNode.Items)
                         {
                             int compareResult = string.CompareOrdinal
                                 (
@@ -769,7 +770,7 @@ namespace ManagedIrbis.Direct
                                     var offset = item.FullOffset;
                                     while (offset > 0)
                                     {
-                                        IfpRecord ifp = ReadIfpRecord(offset);
+                                        IfpRecord64 ifp = ReadIfpRecord(offset);
                                         result.AddRange(ifp.Links);
                                         offset = ifp.FullOffset > 0
                                             ? ifp.FullOffset

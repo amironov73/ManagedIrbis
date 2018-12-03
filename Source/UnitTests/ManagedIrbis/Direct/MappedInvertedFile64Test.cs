@@ -48,7 +48,7 @@ namespace UnitTests.ManagedIrbis.Direct
         {
             using (MappedInvertedFile64 inverted = _GetInvertedFile())
             {
-                NodeRecord node = inverted.ReadNode(1);
+                NodeRecord64 node = inverted.ReadNode(1);
                 Assert.IsNotNull(node);
             }
         }
@@ -58,7 +58,7 @@ namespace UnitTests.ManagedIrbis.Direct
         {
             using (MappedInvertedFile64 inverted = _GetInvertedFile())
             {
-                NodeRecord node = inverted.ReadLeaf(1);
+                NodeRecord64 node = inverted.ReadLeaf(1);
                 Assert.IsNotNull(node);
             }
         }
@@ -68,9 +68,9 @@ namespace UnitTests.ManagedIrbis.Direct
         {
             using (MappedInvertedFile64 inverted = _GetInvertedFile())
             {
-                NodeRecord node = inverted.ReadNode(1);
+                NodeRecord64 node = inverted.ReadNode(1);
                 Assert.IsNotNull(node);
-                NodeRecord next = inverted.ReadNext(node);
+                NodeRecord64 next = inverted.ReadNext(node);
                 Assert.IsNotNull(next);
             }
         }
@@ -80,9 +80,9 @@ namespace UnitTests.ManagedIrbis.Direct
         {
             using (MappedInvertedFile64 inverted = _GetInvertedFile())
             {
-                NodeRecord node = inverted.ReadNode(1);
+                NodeRecord64 node = inverted.ReadNode(1);
                 Assert.IsNotNull(node);
-                NodeRecord next = node;
+                NodeRecord64 next = node;
                 do
                 {
                     next = inverted.ReadNext(next);
@@ -96,11 +96,11 @@ namespace UnitTests.ManagedIrbis.Direct
         {
             using (MappedInvertedFile64 inverted = _GetInvertedFile())
             {
-                NodeRecord node = inverted.ReadNode(1);
+                NodeRecord64 node = inverted.ReadNode(1);
                 Assert.IsNotNull(node);
-                NodeRecord next = inverted.ReadNext(node);
+                NodeRecord64 next = inverted.ReadNext(node);
                 Assert.IsNotNull(next);
-                NodeRecord previous = inverted.ReadPrevious(next);
+                NodeRecord64 previous = inverted.ReadPrevious(next);
                 Assert.IsNotNull(previous);
                 Assert.AreEqual(node.Leader.Number, previous.Leader.Number);
             }
@@ -111,9 +111,9 @@ namespace UnitTests.ManagedIrbis.Direct
         {
             using (MappedInvertedFile64 inverted = _GetInvertedFile())
             {
-                NodeRecord node = inverted.ReadNode(1);
+                NodeRecord64 node = inverted.ReadNode(1);
                 Assert.IsNotNull(node);
-                NodeRecord previous = inverted.ReadPrevious(node);
+                NodeRecord64 previous = inverted.ReadPrevious(node);
                 Assert.IsNull(previous);
             }
         }

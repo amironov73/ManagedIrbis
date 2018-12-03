@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* NodeRecord.cs -- L01/N01
+/* NodeRecord32.cs -- L01/N01
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -93,7 +93,7 @@ namespace ManagedIrbis.Direct
     [PublicAPI]
     [MoonSharpUserData]
     [DebuggerDisplay("Leader={Leader}")]
-    public sealed class NodeRecord
+    public sealed class NodeRecord32
     {
         #region Constants
 
@@ -114,12 +114,12 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Заголовок
         /// </summary>
-        public NodeLeader Leader { get; set; }
+        public NodeLeader32 Leader { get; set; }
 
         /// <summary>
         /// Ссылки
         /// </summary>
-        public List<NodeItem> Items { get { return _items; } }
+        public List<NodeItem32> Items { get { return _items; } }
 
         #endregion
 
@@ -128,16 +128,16 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Конструктор
         /// </summary>
-        public NodeRecord()
+        public NodeRecord32()
         {
-            Leader = new NodeLeader();
-            _items = new List<NodeItem>();
+            Leader = new NodeLeader32();
+            _items = new List<NodeItem32>();
         }
 
         /// <summary>
         /// Конструктор
         /// </summary>
-        public NodeRecord
+        public NodeRecord32
             (
                 bool isLeaf
             )
@@ -150,7 +150,7 @@ namespace ManagedIrbis.Direct
 
         #region Private members
 
-        private readonly List<NodeItem> _items;
+        private readonly List<NodeItem32> _items;
 
         internal Stream _stream;
 
@@ -179,7 +179,7 @@ namespace ManagedIrbis.Direct
         public override string ToString()
         {
             StringBuilder items = new StringBuilder();
-            foreach (NodeItem item in Items)
+            foreach (NodeItem32 item in Items)
             {
                 items.AppendLine(item.ToString());
             }
