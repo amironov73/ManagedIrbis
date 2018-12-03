@@ -183,6 +183,7 @@ namespace ManagedIrbis.Direct
                 Previous = record.PreviousOffset,
                 Version = record.Version
             };
+
             MstRecord64 result = new MstRecord64
             {
                 Leader = leader
@@ -192,6 +193,7 @@ namespace ManagedIrbis.Direct
             {
                 result.Dictionary.Capacity = record.Fields.Count;
             }
+
             foreach (RecordField field in record.Fields)
             {
                 MstDictionaryEntry64 entry = EncodeField(field);

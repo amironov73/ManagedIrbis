@@ -253,12 +253,12 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Блокировка базы данных в целом.
         /// </summary>
-        /// <param name="flag"></param>
         public void LockDatabase
             (
                 bool flag
             )
         {
+            // TODO Implement
         }
 
         /// <summary>
@@ -266,6 +266,7 @@ namespace ManagedIrbis.Direct
         /// </summary>
         public bool ReadDatabaseLockedFlag()
         {
+            // TODO Implement
             return false;
         }
 
@@ -273,15 +274,11 @@ namespace ManagedIrbis.Direct
 
         #region IDisposable members
 
-        /// <inheritdoc cref="IDisposable.Dispose"/>
+        /// <inheritdoc cref="IDisposable.Dispose" />
         public void Dispose()
         {
             _stream.Dispose();
         }
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

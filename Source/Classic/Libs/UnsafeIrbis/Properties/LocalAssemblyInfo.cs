@@ -16,21 +16,17 @@ using System.Security;
 
 #endregion
 
-// General Information about an assembly is controlled through the following 
+// General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ManagedIrbis")]
-[assembly: AssemblyDescription("Managed runtime for IRBIS system")]
+[assembly: AssemblyTitle("UnsafeIrbis")]
+[assembly: AssemblyDescription("Unsafe managed runtime for IRBIS system")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("ManagedIrbis")]
+[assembly: AssemblyProduct("UnsafeIrbis")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7d0f7e61-2c17-4903-b53d-0f534c5718e1")]
+[assembly: Guid("8bafaddc-4de1-4902-b901-93daf68742d8")]
 
 [assembly: AllowPartiallyTrustedCallers]
 
-#if FW4
-
 [assembly: SecurityRules(SecurityRuleSet.Level1)]
-
-#endif

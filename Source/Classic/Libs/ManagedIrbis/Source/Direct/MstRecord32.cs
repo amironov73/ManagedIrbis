@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-
+using CodeJam;
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
@@ -102,8 +102,7 @@ namespace ManagedIrbis.Direct
                     entry.Text
                 );
 
-            RecordField result
-                = RecordFieldUtility.Parse(concatenated);
+            RecordField result = RecordFieldUtility.Parse(concatenated);
 
             return result;
         }
@@ -130,16 +129,65 @@ namespace ManagedIrbis.Direct
             return result;
         }
 
+        /// <summary>
+        /// Encode the field.
+        /// </summary>
+        public static MstDictionaryEntry32 EncodeField
+            (
+                [NotNull] RecordField field
+            )
+        {
+            MstDictionaryEntry32 result = new MstDictionaryEntry32
+            {
+                Tag = field.Tag,
+                Text = field.ToText()
+            };
+
+            return result;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull]
+        public static MstRecord32 EncodeRecord
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            MstRecordLeader32 leader = new MstRecordLeader32
+            {
+                Mfn = record.Mfn,
+                Status = (int) record.Status,
+            };
+
+            MstRecord32 result = new MstRecord32
+            {
+                Leader = leader
+            };
+
+            if (result.Dictionary.Capacity < record.Fields.Count)
+            {
+                result.Dictionary.Capacity = record.Fields.Count;
+            }
+
+            foreach (RecordField field in record.Fields)
+            {
+                MstDictionaryEntry32 entry = EncodeField(field);
+                result.Dictionary.Add(entry);
+            }
+
+            return result;
+        }
+
+
         #endregion
 
         #region Object members
 
-        /// <summary>
-        /// Returns a <see cref="System.String" />
-        /// that represents this instance.
-        /// </summary>
-        /// <returns>A <see cref="System.String" />
-        /// that represents this instance.</returns>
+        /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
             return string.Format

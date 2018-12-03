@@ -9,18 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-
-using AM;
-using AM.IO;
-
-using CodeJam;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
