@@ -10,6 +10,7 @@
 #region Using directives
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using CodeJam;
@@ -29,6 +30,47 @@ namespace AM.Collections
     [MoonSharpUserData]
     public struct LocalList<T>
     {
+        #region Nested classes
+
+        /// <summary>
+        /// Enumerator for <see cref="LocalList{T}"/>.
+        /// </summary>
+        public struct Enumerator
+        {
+            #region Private members
+
+            // ReSharper disable InconsistentNaming
+            internal T[] _array;
+
+            internal int _size, _index;
+            // ReSharper restore InconsistentNaming
+
+            #endregion
+
+            #region IEnumerator<T> members
+
+            /// <inheritdoc cref="IEnumerator{T}.Current" />
+            public T Current
+            {
+                get { return _array[_index]; }
+            }
+
+            /// <inheritdoc cref="IEnumerator.MoveNext" />
+            public bool MoveNext()
+            {
+                if (++_index >= _size)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+
+            #endregion
+        }
+
+        #endregion
+
         #region Private members
 
         private const int InitialCapacity = 4;
@@ -78,12 +120,16 @@ namespace AM.Collections
         #region Public methods
 
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
-        public IEnumerator<T> GetEnumerator()
+        public Enumerator GetEnumerator()
         {
-            for (int i = 0; i < _size; i++)
+            Enumerator result = new Enumerator
             {
-                yield return _array[i];
-            }
+                _array = _array,
+                _index = -1,
+                _size = _size
+            };
+
+            return result;
         }
 
         /// <inheritdoc cref="ICollection{T}.Add" />
@@ -274,6 +320,30 @@ namespace AM.Collections
 
             T[] result = new T[_size];
             Array.Copy(_array, result, _size);
+
+            return result;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        [NotNull]
+        public List<T> ToUniqueList()
+        {
+            List<T> result = new List<T>(_size);
+            if (_size != 0)
+            {
+                for (int i = 0; i < _size; i++)
+                {
+                    // TODO Implement properly
+                    T item = _array[i];
+                    if (!result.Contains(item))
+                    {
+                        result.Add(item);
+                    }
+                }
+            }
 
             return result;
         }

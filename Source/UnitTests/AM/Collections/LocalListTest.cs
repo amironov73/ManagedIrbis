@@ -18,6 +18,14 @@ namespace UnitTests.AM.Collections
         }
 
         [TestMethod]
+        public void LocalList_Construction_2()
+        {
+            int capacity = 10;
+            LocalList<int> list = new LocalList<int>(capacity);
+            Assert.AreEqual(0, list.Count);
+        }
+
+        [TestMethod]
         public void LocalList_Add_1()
         {
             LocalList<int> list = new LocalList<int>();
@@ -63,9 +71,8 @@ namespace UnitTests.AM.Collections
         public void LocalList_GetEnumerator_1()
         {
             LocalList<int> list = new LocalList<int>();
-            IEnumerator<int> enumerator = list.GetEnumerator();
+            LocalList<int>.Enumerator enumerator = list.GetEnumerator();
             Assert.IsFalse(enumerator.MoveNext());
-            enumerator.Dispose();
         }
 
         [TestMethod]
@@ -75,7 +82,7 @@ namespace UnitTests.AM.Collections
             list.Add(1);
             list.Add(2);
             list.Add(3);
-            IEnumerator<int> enumerator = list.GetEnumerator();
+            LocalList<int>.Enumerator enumerator = list.GetEnumerator();
             Assert.IsTrue(enumerator.MoveNext());
             Assert.AreEqual(1, enumerator.Current);
             Assert.IsTrue(enumerator.MoveNext());
@@ -83,7 +90,33 @@ namespace UnitTests.AM.Collections
             Assert.IsTrue(enumerator.MoveNext());
             Assert.AreEqual(3, enumerator.Current);
             Assert.IsFalse(enumerator.MoveNext());
-            enumerator.Dispose();
+        }
+
+        [TestMethod]
+        public void LocalList_GetEnumerator_3()
+        {
+            LocalList<int> list = new LocalList<int>();
+            int sum = 0;
+            foreach (int i in list)
+            {
+                sum += i;
+            }
+            Assert.AreEqual(0, sum);
+        }
+
+        [TestMethod]
+        public void LocalList_GetEnumerator_4()
+        {
+            LocalList<int> list = new LocalList<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+            int sum = 0;
+            foreach (int i in list)
+            {
+                sum += i;
+            }
+            Assert.AreEqual(6, sum);
         }
 
         [TestMethod]
@@ -266,6 +299,54 @@ namespace UnitTests.AM.Collections
             Assert.AreEqual(1, array[0]);
             Assert.AreEqual(2, array[1]);
             Assert.AreEqual(3, array[2]);
+        }
+
+        [TestMethod]
+        public void LocalList_ToArray_3()
+        {
+            LocalList<int> list = new LocalList<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+            list.Add(4);
+            int[] array = list.ToArray();
+            Assert.IsNotNull(array);
+            Assert.AreEqual(4, array.Length);
+            Assert.AreEqual(1, array[0]);
+            Assert.AreEqual(2, array[1]);
+            Assert.AreEqual(3, array[2]);
+            Assert.AreEqual(4, array[3]);
+        }
+
+        [TestMethod]
+        public void LocalList_ToList_1()
+        {
+            LocalList<int> source = new LocalList<int>();
+            List<int> list = source.ToList();
+            Assert.AreEqual(0, list.Count);
+        }
+
+        [TestMethod]
+        public void LocalList_ToList_2()
+        {
+            LocalList<int> source = new LocalList<int>();
+            source.Add(1);
+            source.Add(2);
+            source.Add(3);
+            List<int> list = source.ToList();
+            Assert.AreEqual(3, list.Count);
+        }
+
+        [TestMethod]
+        public void LocalList_ToUniqueList_1()
+        {
+            LocalList<int> source = new LocalList<int>();
+            source.Add(1);
+            source.Add(2);
+            source.Add(2);
+            source.Add(3);
+            List<int> list = source.ToUniqueList();
+            Assert.AreEqual(3, list.Count);
         }
     }
 }

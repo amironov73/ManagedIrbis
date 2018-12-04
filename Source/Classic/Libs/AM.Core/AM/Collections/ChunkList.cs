@@ -29,7 +29,6 @@ namespace AM.Collections
     /// <summary>
     ///
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     [PublicAPI]
     [MoonSharpUserData]
     public class ChunkList<T>
