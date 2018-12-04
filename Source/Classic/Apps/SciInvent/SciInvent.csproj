@@ -37,11 +37,11 @@
     <ApplicationIcon>Snow.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AM.Core, Version=1.8.11.2700, Culture=neutral, PublicKeyToken=6d1a05bf134decdf">
-      <HintPath>..\..\..\Libs\AM.Core\bin\Debug\AM.Core.dll</HintPath>
+    <Reference Include="AM.Core, Version=1.9.0.2859, Culture=neutral, PublicKeyToken=6d1a05bf134decdf, processorArchitecture=MSIL">
+      <HintPath>packages\ArsMagna.Core.1.9.0.2859\lib\net45\AM.Core.dll</HintPath>
     </Reference>
     <Reference Include="AM.Windows">
-      <HintPath>..\..\..\Libs\AM.Windows\bin\Debug\AM.Windows.dll</HintPath>
+      <HintPath>..\..\Libs\AM.Windows\bin\Debug\AM.Windows.dll</HintPath>
     </Reference>
     <Reference Include="BLToolkit.4, Version=4.3.9.0, Culture=neutral, PublicKeyToken=b1d3f6ab3aadaca3, processorArchitecture=MSIL">
       <HintPath>packages\BLToolkit.4.3.9\lib\net40\BLToolkit.4.dll</HintPath>
@@ -49,8 +49,11 @@
     <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="ManagedIrbis, Version=1.8.11.2700, Culture=neutral, PublicKeyToken=6d1a05bf134decdf">
-      <HintPath>..\..\..\Libs\ManagedIrbis\bin\Debug\ManagedIrbis.dll</HintPath>
+    <Reference Include="ManagedIrbis, Version=1.9.0.2859, Culture=neutral, PublicKeyToken=6d1a05bf134decdf, processorArchitecture=MSIL">
+      <HintPath>packages\ManagedIrbis.1.9.0.2859\lib\net45\ManagedIrbis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\ManagedIrbis.1.9.0.2859\lib\net45\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
     </Reference>
     <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
       <HintPath>packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
@@ -60,6 +63,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -72,6 +76,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Words.NET, Version=1.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>packages\DocX.1.2.1\lib\Xceed.Words.NET.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
