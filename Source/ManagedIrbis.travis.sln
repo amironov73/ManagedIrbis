@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.AOT", "Classic\Libs\AM.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnsafeIrbis", "Classic\Libs\UnsafeIrbis\UnsafeIrbis.csproj", "{8BAFADDC-4DE1-4902-B901-93DAF68742D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Asn1", "Classic\Libs\AM.Asn1\AM.Asn1.csproj", "{FAFFFFD8-B105-4475-AC54-BA4CF34A629A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -211,6 +213,14 @@ Global
 		{8BAFADDC-4DE1-4902-B901-93DAF68742D8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8BAFADDC-4DE1-4902-B901-93DAF68742D8}.Release|x86.ActiveCfg = Release|Any CPU
 		{8BAFADDC-4DE1-4902-B901-93DAF68742D8}.Release|x86.Build.0 = Release|Any CPU
+		{FAFFFFD8-B105-4475-AC54-BA4CF34A629A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAFFFFD8-B105-4475-AC54-BA4CF34A629A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAFFFFD8-B105-4475-AC54-BA4CF34A629A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FAFFFFD8-B105-4475-AC54-BA4CF34A629A}.Debug|x86.Build.0 = Debug|Any CPU
+		{FAFFFFD8-B105-4475-AC54-BA4CF34A629A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAFFFFD8-B105-4475-AC54-BA4CF34A629A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAFFFFD8-B105-4475-AC54-BA4CF34A629A}.Release|x86.ActiveCfg = Release|Any CPU
+		{FAFFFFD8-B105-4475-AC54-BA4CF34A629A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

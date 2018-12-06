@@ -16,21 +16,14 @@ using System.Security;
 
 #endregion
 
-// General Information about an assembly is controlled through the following 
+// General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AM.Core")]
-[assembly: AssemblyDescription("ArsMagna core services")]
+[assembly: AssemblyTitle("AM.Asn1")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("AM.Core")]
+[assembly: AssemblyProduct("AM.Asn1")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f9562edd-2489-486e-8992-c0bdfc26fa61")]
+[assembly: Guid("faffffd8-b105-4475-ac54-ba4cf34a629a")]
 
-[assembly: AllowPartiallyTrustedCallers]
-
-#if FW4
-
-[assembly: SecurityRules(SecurityRuleSet.Level1)]
-
-#endif
