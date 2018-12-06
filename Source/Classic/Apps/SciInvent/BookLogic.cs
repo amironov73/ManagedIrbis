@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 
@@ -26,6 +27,8 @@ using BLToolkit.Mapping;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+
+using Xceed.Words.NET;
 
 #endregion
 
@@ -283,6 +286,10 @@ namespace SciInvent
 
         public static MainWindow LogWindow { private get; set; }
 
+        public static int MarkedBooks;
+
+        public static int BadBooks;
+
         private static void Clear()
         {
             LogWindow.Dispatcher.Invoke
@@ -407,24 +414,34 @@ namespace SciInvent
             {
                 if (!ReferenceEquals(record, null))
                 {
+                    inventory = FireStart(barcode);
                     field = FindBarcode(record, barcode);
                     if (ReferenceEquals(field, null))
                     {
-                        WriteLine("Не удалось найти поле для штрих-кода " + barcode);
-                        return;
+                        if (!ReferenceEquals(inventory, null))
+                        {
+                            field = FindInventory(record, inventory);
+                        }
+
+                        if (ReferenceEquals(field, null))
+                        {
+                            WriteLine("!!! Не удалось найти поле для штрих-кода " + barcode);
+                            BadBooks++;
+                            return;
+                        }
                     }
 
-//                    string actualPlace = field.GetFirstSubFieldValue('d');
-//                    if (!ExpectedPlace.SameString(actualPlace))
-//                    {
-//                        WriteLine
-//                            (
-//                                "Экземпляр {0}: место хранения (ИРБИС) '{1}'",
-//                                barcode,
-//                                actualPlace
-//                            );
-//                        return;
-//                    }
+                    //                    string actualPlace = field.GetFirstSubFieldValue('d');
+                    //                    if (!ExpectedPlace.SameString(actualPlace))
+                    //                    {
+                    //                        WriteLine
+                    //                            (
+                    //                                "Экземпляр {0}: место хранения (ИРБИС) '{1}'",
+                    //                                barcode,
+                    //                                actualPlace
+                    //                            );
+                    //                        return;
+                    //                    }
 
                     inventory = field.GetFirstSubFieldValue('b');
                 }
@@ -441,7 +458,8 @@ namespace SciInvent
                         field = FindInventory(record, inventory);
                         if (ReferenceEquals(field, null))
                         {
-                            WriteLine("Не удалось найти поле для инвентарного номера " + inventory);
+                            WriteLine("!!! Не удалось найти поле для инвентарного номера " + inventory);
+                            BadBooks++;
                             return;
                         }
                     }
@@ -450,8 +468,24 @@ namespace SciInvent
 
             if (string.IsNullOrEmpty(inventory))
             {
-                WriteLine("Неизвестный штрих-код: " + barcode);
+                WriteLine("!!! Неизвестный штрих-код: " + barcode);
+                BadBooks++;
                 return;
+            }
+
+            if (ReferenceEquals(record, null))
+            {
+                record = Irbis.SearchReadOneRecord("\"IN={0}\"", inventory);
+                if (!ReferenceEquals(record, null))
+                {
+                    field = FindInventory(record, inventory);
+                    if (ReferenceEquals(field, null))
+                    {
+                        WriteLine("!!! Не удалось найти поле для инвентарного номера " + inventory);
+                        BadBooks++;
+                        return;
+                    }
+                }
             }
 
             if (!ReferenceEquals(record, null))
@@ -478,10 +512,11 @@ namespace SciInvent
                 {
                     WriteLine
                         (
-                            "Экземпляр {0}: место хранения (SQL) '{1}'",
+                            "!!! Экземпляр {0}: место хранения '{1}'",
                             barcode,
                             actualPlace
                         );
+                    BadBooks++;
                     return;
                 }
 
@@ -490,15 +525,26 @@ namespace SciInvent
                 {
                     WriteLine
                         (
-                            "Экземпляр {0}: находится на руках '{1}'",
+                            "!!! Экземпляр {0}: находится на руках '{1}'",
                             barcode,
                             onHand
                         );
+                    BadBooks++;
                     return;
                 }
 
                 book.Seen = DateTime.Now;
                 Db.Update(book);
+            }
+            else
+            {
+                WriteLine
+                    (
+                        "!!! Экземпляр {0} должен находиться в хранилище",
+                        barcode
+                    );
+                BadBooks++;
+                return;
             }
 
             if (!ReferenceEquals(record, null) && !ReferenceEquals(field, null))
@@ -506,6 +552,7 @@ namespace SciInvent
                 field.SetSubField('s', IrbisDate.TodayText);
                 field.SetSubField('!', ExpectedPlace);
                 Irbis.WriteRecord(record);
+                MarkedBooks++;
             }
         }
 
@@ -514,8 +561,11 @@ namespace SciInvent
                 string[] barcodes
             )
         {
+            WriteLine(string.Empty);
             WriteLine("Обработка началась");
 
+            MarkedBooks = 0;
+            BadBooks = 0;
             try
             {
                 foreach (string barcode in barcodes)
@@ -530,7 +580,13 @@ namespace SciInvent
                 WriteLine(exception.ToString());
             }
 
+
+            WriteLine(string.Empty);
+            WriteLine("Помечено в базе: {0}", MarkedBooks);
+            WriteLine("Плохих книг: {0}", BadBooks);
+
             WriteLine("Обработка завершена");
+            WriteLine(string.Empty);
         }
 
         public static void ListGoodBooks()
@@ -542,10 +598,11 @@ namespace SciInvent
                 PodsobRecord[] seenBooks = podsob
                     .Where(r => r.Ticket == ExpectedPlace && r.Seen != null)
                     .ToArray();
+
                 WriteLine("Всего книг: {0}", seenBooks.Length);
+                WriteLine("Обработка началась");
                 List<PodsobRecord> bookList
                     = new List<PodsobRecord>(seenBooks.Length);
-                WriteLine("Обработка началась");
                 for (int i = 0; i < seenBooks.Length; i++)
                 {
                     if (i % 100 == 0)
@@ -564,9 +621,10 @@ namespace SciInvent
                     }
                 }
 
-                string fileName = "good.csv";
+                WriteLine("Обработано: {0}", seenBooks.Length);
+                string fileName = "goodBooks.docx";
                 WriteLine("Запись файла " + fileName);
-                CreateBookList(fileName, "Проверенные книги", bookList);
+                CreateBookList(fileName, "Книги, прошедшие инвентаризацию", bookList);
                 WriteLine("Обработка завершена");
             }
             catch (Exception exception)
@@ -579,23 +637,52 @@ namespace SciInvent
             (
                 string fileName,
                 string title,
-                IEnumerable<PodsobRecord> books
+                List<PodsobRecord> books
             )
         {
-            using (TextWriter writer = File.CreateText(fileName))
+            using (DocX document = DocX.Create(fileName))
             {
-                writer.WriteLine(title);
-                writer.WriteLine();
+                document.InsertParagraph(title)
+                    .Bold().Alignment = Alignment.center;
+                document.InsertParagraph();
 
-                foreach (PodsobRecord book in books)
+                var table = document.InsertTable(books.Count + 1, 2);
+                table.SetWidths(new[] { 10.0f, 1200.0f });
+
+                Border blackBorder = new Border(BorderStyle.Tcbs_single,
+                    BorderSize.one, 0, Color.Black);
+                table.SetBorder(TableBorderType.InsideH, blackBorder);
+                table.SetBorder(TableBorderType.InsideV, blackBorder);
+                table.SetBorder(TableBorderType.Left, blackBorder);
+                table.SetBorder(TableBorderType.Right, blackBorder);
+                table.SetBorder(TableBorderType.Top, blackBorder);
+                table.SetBorder(TableBorderType.Bottom, blackBorder);
+                table.Rows[0].Cells[0].Paragraphs[0].Append("Номер").Bold();
+                table.Rows[0].Cells[1].Paragraphs[0].Append("БО").Bold();
+
+                for (int i = 0; i < books.Count; i++)
                 {
-                    writer.WriteLine
-                        (
-                            "{0};{1}",
-                            book.Inventory,
-                            book.Description
-                        );
+                    if (i % 100 == 0)
+                    {
+                        WriteLine("Записано: {0}", i);
+                    }
+
+                    PodsobRecord book = books[i];
+                    if (!ResolveByInventory(book))
+                    {
+                        WriteLine("Неизвестный номер {0}", book.Inventory);
+                    }
+                    else
+                    {
+                        table.Rows[i + 1].Cells[0].Paragraphs[0]
+                            .Append(book.Inventory.ToString());
+                        table.Rows[i + 1].Cells[1].Paragraphs[0]
+                            .Append(book.Description);
+                    }
                 }
+
+                document.Save();
+                WriteLine("Записано: {0}", books.Count);
             }
         }
 
@@ -630,7 +717,8 @@ namespace SciInvent
                     }
                 }
 
-                string fileName = "missing.csv";
+                WriteLine("Обработано: {0}", missingBooks.Length);
+                string fileName = "missingBooks.docx";
                 WriteLine("Запись файла " + fileName);
                 CreateBookList(fileName, "Отсутствующие книги", bookList);
                 WriteLine("Обработка завершена");
