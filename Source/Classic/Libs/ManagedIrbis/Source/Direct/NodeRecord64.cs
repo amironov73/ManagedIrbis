@@ -161,7 +161,7 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Dump the record.
         /// </summary>
-        public void DumpRecord
+        public void Dump
             (
                 [NotNull] TextWriter writer
             )

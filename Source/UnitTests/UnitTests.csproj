@@ -854,6 +854,8 @@
     <Compile Include="ManagedIrbis\Pft\PftExceptionTest.cs" />
     <Compile Include="ManagedIrbis\UserInfoTest.cs" />
     <Compile Include="System\IO\Compression\DeflateStreamTest.cs" />
+    <Compile Include="UnsafeIrbis\FieldTagTest.cs" />
+    <Compile Include="UnsafeIrbis\FieldValueTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Classic\Libs\AM.AOT\AM.AOT.csproj">
@@ -867,6 +869,10 @@
     <ProjectReference Include="..\Classic\Libs\ManagedIrbis\ManagedIrbis.csproj">
       <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
       <Name>ManagedIrbis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Classic\Libs\UnsafeIrbis\UnsafeIrbis.csproj">
+      <Project>{8bafaddc-4de1-4902-b901-93daf68742d8}</Project>
+      <Name>UnsafeIrbis</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

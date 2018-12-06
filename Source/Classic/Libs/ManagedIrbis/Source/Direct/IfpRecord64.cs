@@ -262,9 +262,10 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// ibatrak чтение заголовка записи IFP (для подсчета количества ссылок)
         /// </summary>
+        [NotNull]
         public static IfpRecord64 ReadLeader
             (
-                Stream stream,
+                [NotNull] Stream stream,
                 long offset
             )
         {

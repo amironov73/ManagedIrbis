@@ -35,7 +35,7 @@ namespace AM
     [PublicAPI]
     public static class StringUtility
     {
-        #region Properties or fields
+        #region Properties
 
         /// <summary>
         /// Empty array of <see cref="string"/>.

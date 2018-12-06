@@ -10,6 +10,9 @@
 #region Using directives
 
 using System.Diagnostics;
+using System.IO;
+
+using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -73,6 +76,27 @@ namespace ManagedIrbis.Direct
         /// </summary>
         [CanBeNull]
         public string Text { get; set; }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Dump the item.
+        /// </summary>
+        public void Dump
+            (
+                [NotNull] TextWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer.WriteLine("LEN : {0}", Length);
+            writer.WriteLine("KEY : {0}", KeyOffset);
+            writer.WriteLine("HIGH: {0}", HighOffset);
+            writer.WriteLine("LOW : {0}", LowOffset);
+            writer.WriteLine("TEXT: {0}", Text);
+        }
 
         #endregion
 

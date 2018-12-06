@@ -9,7 +9,6 @@
 
 #region Using directives
 
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
@@ -79,6 +78,23 @@ namespace ManagedIrbis
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Dump the leader.
+        /// </summary>
+        public void Dump
+            (
+                [NotNull] TextWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer.WriteLine("NUMBER: {0}", Number);
+            writer.WriteLine("PREV  : {0}", Previous);
+            writer.WriteLine("NEXT  : {0}", Next);
+            writer.WriteLine("TERMS : {0}", TermCount);
+            writer.WriteLine("FREE  : {0}", FreeOffset);
+        }
 
         /// <summary>
         /// Считывание из потока.

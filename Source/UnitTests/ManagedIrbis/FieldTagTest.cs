@@ -45,6 +45,7 @@ namespace UnitTests.ManagedIrbis
             _TestNormalize("00", "0");
             _TestNormalize("000", "0");
             _TestNormalize("1", "1");
+            _TestNormalize("10", "10");
             _TestNormalize("01", "1");
             _TestNormalize("A", "A");
             _TestNormalize("0A", "A");

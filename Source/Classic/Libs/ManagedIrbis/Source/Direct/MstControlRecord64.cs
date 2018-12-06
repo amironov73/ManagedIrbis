@@ -97,6 +97,26 @@ namespace ManagedIrbis.Direct
         #region Public methods
 
         /// <summary>
+        /// Dump the control record.
+        /// </summary>
+        public void Dump
+            (
+                [NotNull] TextWriter writer
+            )
+        {
+            Code.NotNull(writer, "writer");
+
+            writer.WriteLine("CTLMFN: {0}", CtlMfn);
+            writer.WriteLine("NXTMFN: {0}", NextMfn);
+            writer.WriteLine("NXTPOS: {0}", NextPosition);
+            writer.WriteLine("MFTYPE: {0}", MftType);
+            writer.WriteLine("RECCNT: {0}", RecCnt);
+            writer.WriteLine("MFCXX1: {0}", Reserv1);
+            writer.WriteLine("MFCXX2: {0}", Reserv2);
+            writer.WriteLine("LOCKED: {0}", Blocked);
+        }
+
+        /// <summary>
         /// Read the control record from specified stream.
         /// </summary>
         public static MstControlRecord64 Read
