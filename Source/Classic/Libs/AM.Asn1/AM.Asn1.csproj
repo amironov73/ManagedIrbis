@@ -70,6 +70,10 @@
   <!-- BEGIN -->
   <ItemGroup>
     <Compile Include="AM\Asn1\AsnClass.cs" />
+    <Compile Include="AM\Asn1\AsnException.cs" />
+    <Compile Include="AM\Asn1\AsnSyntaxException.cs" />
+    <Compile Include="AM\Asn1\AsnToken.cs" />
+    <Compile Include="AM\Asn1\AsnTokenKind.cs" />
     <Compile Include="AM\Asn1\AsnType.cs" />
     <Compile Include="AM\Asn1\AsnUtility.cs" />
   </ItemGroup>
