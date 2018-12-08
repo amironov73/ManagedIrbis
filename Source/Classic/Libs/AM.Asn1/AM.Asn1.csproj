@@ -71,14 +71,20 @@
   <ItemGroup>
     <Compile Include="AM\Asn1\AsnClass.cs" />
     <Compile Include="AM\Asn1\AsnException.cs" />
+    <Compile Include="AM\Asn1\AsnLexer.cs" />
+    <Compile Include="AM\Asn1\AsnNode.cs" />
+    <Compile Include="AM\Asn1\AsnNodeCollection.cs" />
     <Compile Include="AM\Asn1\AsnSyntaxException.cs" />
     <Compile Include="AM\Asn1\AsnToken.cs" />
     <Compile Include="AM\Asn1\AsnTokenKind.cs" />
+    <Compile Include="AM\Asn1\AsnTokenList.cs" />
     <Compile Include="AM\Asn1\AsnType.cs" />
     <Compile Include="AM\Asn1\AsnUtility.cs" />
   </ItemGroup>
   <!-- END -->
   <ItemGroup>
+    <Compile Include="AM\Asn1\TokenPair.cs" />
+    <Compile Include="AM\Asn1\TokenStack.cs" />
     <Compile Include="Properties\LocalAssemblyInfo.cs" />
     <Compile Include="..\..\Common\AssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>

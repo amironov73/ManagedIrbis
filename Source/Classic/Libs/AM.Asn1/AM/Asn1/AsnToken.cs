@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* AsnToken.cs --
- *  Ars Magna project, http://arsmagna.ru
+ * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
@@ -52,6 +52,34 @@ namespace AM.Asn1
 
         #endregion
 
+        #region Construction
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public AsnToken()
+        {
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public AsnToken
+            (
+                AsnTokenKind kind,
+                int line,
+                int column,
+                string text
+            )
+        {
+            Kind = kind;
+            Column = column;
+            Line = line;
+            Text = text;
+        }
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -67,7 +95,7 @@ namespace AM.Asn1
             {
                 Log.Error
                 (
-                    "PftToken::MustBe: "
+                    "AsnToken::MustBe: "
                     + "expecting="
                     + kind
                     + ", got="

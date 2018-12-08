@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* AsnException.cs --
+/* TokenPair.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,7 +9,7 @@
 
 #region Using directives
 
-using System;
+using System.Collections.Generic;
 
 using JetBrains.Annotations;
 
@@ -18,46 +18,37 @@ using JetBrains.Annotations;
 namespace AM.Asn1
 {
     /// <summary>
-    ///
+    /// Pair of tokens.
     /// </summary>
-    [PublicAPI]
-    public class AsnException
-        : Exception
+    struct TokenPair
     {
-        #region Construciton
+        #region Properties
+
+        /// <summary>
+        /// Open token.
+        /// </summary>
+        public AsnTokenKind Open;
+
+        /// <summary>
+        /// Close token.
+        /// </summary>
+        public AsnTokenKind Close;
+
+        #endregion
+
+        #region Construction
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public AsnException()
-        {
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public AsnException
+        public TokenPair
             (
-                string message
-            )
-            : base(message)
-        {
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public AsnException
-            (
-                string message,
-                Exception innerException
-            )
-            : base
-            (
-                message,
-                innerException
+                AsnTokenKind open,
+                AsnTokenKind close
             )
         {
+            Open = open;
+            Close = close;
         }
 
         #endregion

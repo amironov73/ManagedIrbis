@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 
 using AM;
+using AM.Collections;
 using AM.Logging;
 using AM.Text;
 
@@ -355,7 +356,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             Code.NotNull(text, "text");
 
-            List<PftToken> result = new List<PftToken>();
+            LocalList<PftToken> result = new LocalList<PftToken>();
             _navigator = new TextNavigator(text);
 
             while (!IsEOF)
@@ -1206,10 +1207,9 @@ namespace ManagedIrbis.Pft.Infrastructure
                 }
 
                 result.Add(token);
-
             }
 
-            return new PftTokenList(result);
+            return new PftTokenList(result.ToArray());
         }
 
         #endregion

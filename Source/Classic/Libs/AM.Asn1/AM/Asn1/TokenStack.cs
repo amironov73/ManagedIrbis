@@ -16,15 +16,15 @@ using JetBrains.Annotations;
 
 #endregion
 
-namespace ManagedIrbis.Pft.Infrastructure
+namespace AM.Asn1
 {
     sealed class TokenStack
-        : Stack<PftTokenKind>
+        : Stack<AsnTokenKind>
     {
         #region Properties
 
         [NotNull]
-        public PftTokenList Tokens { get; private set; }
+        public AsnTokenList Tokens { get; private set; }
 
         [NotNull]
         public TokenPair[] Pairs { get; private set; }
@@ -34,10 +34,10 @@ namespace ManagedIrbis.Pft.Infrastructure
         #region Construction
 
         public TokenStack
-            (
-                [NotNull] PftTokenList tokens,
-                [NotNull] TokenPair[] pairs
-            )
+        (
+            [NotNull] AsnTokenList tokens,
+            [NotNull] TokenPair[] pairs
+        )
         {
             Tokens = tokens;
             Pairs = pairs;
@@ -47,14 +47,14 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         #region Public methods
 
-        public void Pop(PftTokenKind current)
+        public void Pop(AsnTokenKind current)
         {
-            PftTokenKind open = Pop();
-            PftTokenKind expected = Pairs.First(p => p.Open == open).Close;
+            AsnTokenKind open = Pop();
+            AsnTokenKind expected = Pairs.First(p => p.Open == open).Close;
 
             if (expected != current)
             {
-                throw new PftSyntaxException(Tokens);
+                throw new AsnSyntaxException(Tokens);
             }
         }
 
@@ -62,7 +62,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         {
             if (Count != 0)
             {
-                throw new PftSyntaxException(Tokens);
+                throw new AsnSyntaxException(Tokens);
             }
         }
 

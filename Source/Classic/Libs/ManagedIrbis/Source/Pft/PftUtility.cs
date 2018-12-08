@@ -1288,6 +1288,8 @@ namespace ManagedIrbis.Pft
         /// <summary>
         /// Get array of reserved words.
         /// </summary>
+        [NotNull]
+        [ItemNotNull]
         public static string[] GetReservedWords()
         {
             return _reservedWords;

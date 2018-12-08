@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* AsnTokenKind.cs --
- *  Ars Magna project, http://arsmagna.ru
+ * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
@@ -182,7 +182,7 @@ namespace AM.Asn1
         HexString,
 
         //-----------------------------------------------------------
-        // literals
+        // reserved words
         //-----------------------------------------------------------
 
         /// <summary>
