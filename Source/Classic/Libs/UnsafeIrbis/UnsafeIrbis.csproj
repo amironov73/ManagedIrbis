@@ -90,11 +90,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AM\IO\StreamUtility.cs" />
     <Compile Include="AM\StringUtility.cs" />
     <Compile Include="AM\Text\EncodingUtility.cs" />
-    <Compile Include="Source\FieldTag.cs" />
-    <Compile Include="Source\FieldValue.cs" />
-    <Compile Include="Source\SubField.cs" />
+    <Compile Include="CodeJam\Code.cs" />
+    <Compile Include="CodeJam\CodeExceptions.cs" />
+    <Compile Include="ManagedIrbis\Direct\FoundRecord.cs" />
+    <Compile Include="ManagedIrbis\Direct\NodeItem64.cs" />
+    <Compile Include="ManagedIrbis\Direct\NodeLeader64.cs" />
+    <Compile Include="ManagedIrbis\FieldTag.cs" />
+    <Compile Include="ManagedIrbis\FieldValue.cs" />
+    <Compile Include="ManagedIrbis\SubField.cs" />
     <None Include="ArsMagna.private.snk" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
@@ -104,8 +110,6 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Code\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
