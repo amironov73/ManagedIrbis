@@ -90,6 +90,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AM\FastNumber.cs" />
     <Compile Include="AM\IO\StreamUtility.cs" />
     <Compile Include="AM\StringUtility.cs" />
     <Compile Include="AM\Text\EncodingUtility.cs" />

@@ -9,17 +9,19 @@
 
 #region Using directives
 
+using System;
+
 using JetBrains.Annotations;
 
 #endregion
 
-namespace AM
+namespace UnsafeAM
 {
     /// <summary>
-    /// Fast routines for integer numbers.
+    /// Fast and dirty routines for integer numbers.
     /// </summary>
     [PublicAPI]
-    public static class FastNumber
+    public static unsafe class FastNumber
     {
         #region Public methods
 
@@ -35,7 +37,7 @@ namespace AM
         {
             // TODO не работает с отрицательными числами!
 
-            char[] buffer = new char[10];
+            char* buffer = stackalloc char[10];
             int offset = 9;
             if (number == 0)
             {
@@ -44,12 +46,11 @@ namespace AM
             }
             else
             {
-                unchecked
+                for (; number != 0; offset--)
                 {
-                    for (; number != 0; offset--)
+                    unchecked
                     {
-                        int remainder;
-                        number = Utility.DivRem(number, 10, out remainder);
+                        number = Math.DivRem(number, 10, out int remainder);
                         buffer[offset] = (char) ('0' + remainder);
                     }
                 }
@@ -68,7 +69,7 @@ namespace AM
                 long number
             )
         {
-            char[] buffer = new char[20];
+            char* buffer = stackalloc char[20];
             int offset = 19;
             if (number == 0)
             {
@@ -77,12 +78,11 @@ namespace AM
             }
             else
             {
-                unchecked
+                for (; number != 0; offset--)
                 {
-                    for (; number != 0; offset--)
+                    unchecked
                     {
-                        long remainder;
-                        number = Utility.DivRem(number, 10, out remainder);
+                        number = Math.DivRem(number, 10, out long remainder);
                         buffer[offset] = (char) ('0' + remainder);
                     }
                 }
@@ -104,9 +104,13 @@ namespace AM
             int result = 0;
             unchecked
             {
-                foreach (char c in text)
+                fixed (char* ptr = text)
                 {
-                    result = result * 10 + c - '0';
+                    char* stop = ptr + text.Length;
+                    for (char* p = ptr; p < stop; p++)
+                    {
+                        result = result * 10 + *p - '0';
+                    }
                 }
             }
 
@@ -126,9 +130,12 @@ namespace AM
             int result = 0;
             unchecked
             {
-                for (; length > 0; length--, offset++)
+                fixed (char* ptr = text)
                 {
-                    result = result * 10 + text[offset] - '0';
+                    for (; length > 0; length--, offset++)
+                    {
+                        result = result * 10 + ptr[offset] - '0';
+                    }
                 }
             }
 
@@ -148,9 +155,12 @@ namespace AM
             int result = 0;
             unchecked
             {
-                for (; length > 0; length--, offset++)
+                fixed (char* ptr = text)
                 {
-                    result = result * 10 + text[offset] - '0';
+                    for (; length > 0; length--, offset++)
+                    {
+                        result = result * 10 + ptr[offset] - '0';
+                    }
                 }
             }
 
@@ -170,9 +180,54 @@ namespace AM
             int result = 0;
             unchecked
             {
-                for (; length > 0; length--, offset++)
+                fixed (byte* ptr = text)
                 {
-                    result = result * 10 + text[offset] - '0';
+                    for (; length > 0; length--, offset++)
+                    {
+                        result = result * 10 + ptr[offset] - '0';
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Fast number parsing.
+        /// </summary>
+        public static int ParseInt32
+            (
+                ReadOnlyMemory<char> text
+            )
+        {
+            int result = 0;
+            var span = text.Span;
+            unchecked
+            {
+                for (int i = 0; i < text.Length; i++)
+                {
+                    result = result * 10 + span[i] - '0';
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Fast number parsing.
+        /// </summary>
+        public static int ParseInt32
+            (
+                ReadOnlyMemory<byte> text
+            )
+        {
+            int result = 0;
+            var span = text.Span;
+            unchecked
+            {
+                for (int i = 0; i < text.Length; i++)
+                {
+                    result = result * 10 + span[i] - '0';
                 }
             }
 
@@ -192,9 +247,13 @@ namespace AM
             long result = 0;
             unchecked
             {
-                foreach (char c in text)
+                fixed (char* ptr = text)
                 {
-                    result = result * 10 + c - '0';
+                    char* stop = ptr + text.Length;
+                    for (char* p = ptr; p < stop; p++)
+                    {
+                        result = result * 10 + *p - '0';
+                    }
                 }
             }
 
@@ -214,9 +273,12 @@ namespace AM
             long result = 0;
             unchecked
             {
-                for (; length > 0; length--, offset++)
+                fixed (char* ptr = text)
                 {
-                    result = result * 10 + text[offset] - '0';
+                    for (; length > 0; length--, offset++)
+                    {
+                        result = result * 10 + ptr[offset] - '0';
+                    }
                 }
             }
 
@@ -236,9 +298,12 @@ namespace AM
             long result = 0;
             unchecked
             {
-                for (; length > 0; length--, offset++)
+                fixed (char* ptr = text)
                 {
-                    result = result * 10 + text[offset] - '0';
+                    for (; length > 0; length--, offset++)
+                    {
+                        result = result * 10 + ptr[offset] - '0';
+                    }
                 }
             }
 
@@ -258,9 +323,54 @@ namespace AM
             long result = 0;
             unchecked
             {
-                for (; length > 0; length--, offset++)
+                fixed (byte* ptr = text)
                 {
-                    result = result * 10 + text[offset] - '0';
+                    for (; length > 0; length--, offset++)
+                    {
+                        result = result * 10 + ptr[offset] - '0';
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Fast number parsing.
+        /// </summary>
+        public static long ParseInt64
+            (
+                ReadOnlyMemory<char> text
+            )
+        {
+            long result = 0;
+            var span = text.Span;
+            unchecked
+            {
+                for (int i = 0; i < text.Length; i++)
+                {
+                    result = result * 10 + span[i] - '0';
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Fast number parsing.
+        /// </summary>
+        public static long ParseInt64
+            (
+                ReadOnlyMemory<byte> text
+            )
+        {
+            long result = 0;
+            var span = text.Span;
+            unchecked
+            {
+                for (int i = 0; i < text.Length; i++)
+                {
+                    result = result * 10 + span[i] - '0';
                 }
             }
 
