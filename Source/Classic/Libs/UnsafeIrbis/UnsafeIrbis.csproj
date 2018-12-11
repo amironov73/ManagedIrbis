@@ -91,6 +91,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AM\FastNumber.cs" />
+    <Compile Include="AM\IO\ExtraStruct.cs" />
+    <Compile Include="AM\IO\LongStruct.cs" />
+    <Compile Include="AM\IO\MiddleStruct.cs" />
+    <Compile Include="AM\IO\ShortStruct.cs" />
     <Compile Include="AM\IO\StreamUtility.cs" />
     <Compile Include="AM\StringUtility.cs" />
     <Compile Include="AM\Text\EncodingUtility.cs" />

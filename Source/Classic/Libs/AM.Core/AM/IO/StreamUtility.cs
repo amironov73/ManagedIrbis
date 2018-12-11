@@ -81,6 +81,7 @@ namespace AM.IO
                 {
                     break;
                 }
+
                 destinationStream.Write(buffer, 0, readed);
             }
         }
@@ -98,11 +99,11 @@ namespace AM.IO
             Code.NotNull(secondStream, "secondStream");
 
             const int bufferSize = 1024;
+            byte[] firstBuffer = new byte[bufferSize];
+            byte[] secondBuffer = new byte[bufferSize];
             while (true)
             {
-                byte[] firstBuffer = new byte[bufferSize];
                 int firstReaded = firstStream.Read(firstBuffer, 0, bufferSize);
-                byte[] secondBuffer = new byte[bufferSize];
                 int secondReaded = secondStream.Read(secondBuffer, 0, bufferSize);
                 int difference = firstReaded - secondReaded;
                 if (difference != 0)
@@ -127,7 +128,7 @@ namespace AM.IO
         }
 
         /// <summary>
-        /// Read as up to <paramref name="maximum"/> bytes 
+        /// Read as up to <paramref name="maximum"/> bytes
         /// from the given stream.
         /// </summary>
         public static byte[] ReadAsMuchAsPossible
@@ -358,7 +359,7 @@ namespace AM.IO
         }
 
         /// <summary>
-        /// Reads array of <see cref="Int16"/> values from the 
+        /// Reads array of <see cref="Int16"/> values from the
         /// <see cref="Stream"/>.
         /// </summary>
         public static short[] ReadInt16Array
@@ -379,7 +380,7 @@ namespace AM.IO
         }
 
         /// <summary>
-        /// Reads array of <see cref="UInt16"/> values from the 
+        /// Reads array of <see cref="UInt16"/> values from the
         /// <see cref="Stream"/>.
         /// </summary>
         [CLSCompliant(false)]
@@ -401,7 +402,7 @@ namespace AM.IO
         }
 
         /// <summary>
-        /// Reads array of <see cref="Int32"/> values from the 
+        /// Reads array of <see cref="Int32"/> values from the
         /// <see cref="Stream"/>.
         /// </summary>
         public static int[] ReadInt32Array
@@ -422,7 +423,7 @@ namespace AM.IO
         }
 
         /// <summary>
-        /// Reads array of <see cref="UInt32"/> values from the 
+        /// Reads array of <see cref="UInt32"/> values from the
         /// <see cref="Stream"/>.
         /// </summary>
         [NotNull]
@@ -484,7 +485,7 @@ namespace AM.IO
         }
 
         /// <summary>
-        /// Reads the <see cref="Decimal"/> from the specified 
+        /// Reads the <see cref="Decimal"/> from the specified
         /// <see cref="Stream"/>.
         /// </summary>
         public static decimal ReadDecimal
@@ -773,10 +774,10 @@ namespace AM.IO
         /// </summary>
         /// <param name="stream">Stream to write to.</param>
         /// <param name="values">Array of signed integer numbers.</param>
-        /// <remarks>Value can be readed with 
+        /// <remarks>Value can be readed with
         /// <see cref="ReadInt32Array"/> or compatible method.
         /// </remarks>
-        /// <exception cref="ArgumentNullException">Either 
+        /// <exception cref="ArgumentNullException">Either
         /// <paramref name="stream"/> or <paramref name="values"/>
         /// is <c>null</c>.</exception>
         /// <exception cref="IOException">An error during stream
@@ -806,10 +807,10 @@ namespace AM.IO
         /// </summary>
         /// <param name="stream">Stream to write to.</param>
         /// <param name="values">Array of unsigned integer numbers.</param>
-        /// <remarks>Value can be readed with 
+        /// <remarks>Value can be readed with
         /// <see cref="ReadUInt32Array"/> or compatible method.
         /// </remarks>
-        /// <exception cref="ArgumentNullException">Either 
+        /// <exception cref="ArgumentNullException">Either
         /// <paramref name="stream"/> or <paramref name="values"/>
         /// is <c>null</c>.</exception>
         /// <exception cref="IOException">An error during stream
@@ -842,10 +843,10 @@ namespace AM.IO
         /// <param name="stream">Stream to write to.</param>
         /// <param name="values">Array of strings to write.</param>
         /// <param name="encoding">Encoding to use.</param>
-        /// <remarks>Value can be readed with 
+        /// <remarks>Value can be readed with
         /// <see cref="ReadStringArray(Stream,Encoding)"/> or compatible method.
         /// </remarks>
-        /// <exception cref="ArgumentNullException">Either 
+        /// <exception cref="ArgumentNullException">Either
         /// <paramref name="stream"/> or <paramref name="values"/>
         /// is <c>null</c>.</exception>
         /// <exception cref="IOException">An error during stream
@@ -877,10 +878,10 @@ namespace AM.IO
         /// </summary>
         /// <param name="stream">Stream to write to.</param>
         /// <param name="values">Array of strings to write.</param>
-        /// <remarks>Value can be readed with 
+        /// <remarks>Value can be readed with
         /// <see cref="ReadStringArray(Stream)"/> or compatible method.
         /// </remarks>
-        /// <exception cref="ArgumentNullException">Either 
+        /// <exception cref="ArgumentNullException">Either
         /// <paramref name="stream"/> or <paramref name="values"/>
         /// is <c>null</c>.</exception>
         /// <exception cref="IOException">An error during stream
@@ -923,7 +924,7 @@ namespace AM.IO
         }
 
         /// <summary>
-        /// Writes the <see cref="DateTime"/> to the specified 
+        /// Writes the <see cref="DateTime"/> to the specified
         /// <see cref="Stream"/>.
         /// </summary>
         public static void Write

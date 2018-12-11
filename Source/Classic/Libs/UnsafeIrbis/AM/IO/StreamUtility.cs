@@ -10,6 +10,7 @@
 #region Using directives
 
 using System;
+using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -89,11 +90,11 @@ namespace UnsafeAM.IO
             Code.NotNull(secondStream, nameof(secondStream));
 
             const int bufferSize = 1024;
+            byte[] firstBuffer = new byte[bufferSize];
+            byte[] secondBuffer = new byte[bufferSize];
             while (true)
             {
-                byte[] firstBuffer = new byte[bufferSize];
                 int firstReaded = firstStream.Read(firstBuffer, 0, bufferSize);
-                byte[] secondBuffer = new byte[bufferSize];
                 int secondReaded = secondStream.Read(secondBuffer, 0, bufferSize);
                 int difference = firstReaded - secondReaded;
                 if (difference != 0)
@@ -141,13 +142,23 @@ namespace UnsafeAM.IO
                 throw new ArgumentOutOfRangeException(nameof(maximum));
             }
 
-            byte[] result = new byte[maximum];
-            int readed = stream.Read(result, 0, maximum);
-            if (readed <= 0)
+            byte[] result;
+            byte[] temporary = ArrayPool<byte>.Shared.Rent(maximum);
+            try
             {
-                return new byte[0];
+                int readed = stream.Read(temporary, 0, maximum);
+                if (readed <= 0)
+                {
+                    return new byte[0];
+                }
+
+                result = new byte[readed];
+                Array.Copy(temporary, result, readed);
             }
-            Array.Resize(ref result, readed);
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(temporary);
+            }
 
             return result;
         }
@@ -207,106 +218,116 @@ namespace UnsafeAM.IO
         /// <summary>
         /// Reads <see cref="Int16"/> value from the <see cref="Stream"/>.
         /// </summary>
-        public static short ReadInt16
+        public static unsafe short ReadInt16
             (
                 [NotNull] Stream stream
             )
         {
-            Code.NotNull(stream, nameof(stream));
+            ShortStruct value = new ShortStruct();
+            ReadExact(stream, value.Array, 2);
 
-            return BitConverter.ToInt16(ReadExact(stream, sizeof(short)), 0);
+            return value.SignedValue;
         }
 
         /// <summary>
         /// Reads <see cref="UInt16"/> value from the <see cref="Stream"/>.
         /// </summary>
         [CLSCompliant(false)]
-        public static ushort ReadUInt16
+        public static unsafe ushort ReadUInt16
             (
                 [NotNull] Stream stream
             )
         {
-            return BitConverter.ToUInt16(ReadExact(stream, sizeof(ushort)), 0);
+            ShortStruct value = new ShortStruct();
+            ReadExact(stream, value.Array, 2);
+
+            return value.UnsignedValue;
         }
 
         /// <summary>
         /// Reads <see cref="Int32"/> value from the <see cref="Stream"/>.
         /// </summary>
-        public static int ReadInt32
+        public static unsafe int ReadInt32
             (
                 [NotNull] Stream stream
             )
         {
-            Code.NotNull(stream, nameof(stream));
+            MiddleStruct value = new MiddleStruct();
+            ReadExact(stream, value.Array, 4);
 
-            return BitConverter.ToInt32(ReadExact(stream, sizeof(int)), 0);
+            return value.SignedValue;
         }
 
         /// <summary>
         /// Reads <see cref="UInt32"/> value from the <see cref="Stream"/>.
         /// </summary>
         [CLSCompliant(false)]
-        public static uint ReadUInt32
+        public static unsafe uint ReadUInt32
             (
                 [NotNull] Stream stream
             )
         {
-            Code.NotNull(stream, nameof(stream));
+            MiddleStruct value = new MiddleStruct();
+            ReadExact(stream, value.Array, 4);
 
-            return BitConverter.ToUInt32(ReadExact(stream, sizeof(uint)), 0);
+            return value.UnsignedValue;
         }
 
         /// <summary>
         /// Reads <see cref="Int64"/> value from the <see cref="Stream"/>.
         /// </summary>
-        public static long ReadInt64
+        public static unsafe long ReadInt64
             (
                 [NotNull] Stream stream
             )
         {
-            Code.NotNull(stream, nameof(stream));
+            LongStruct value = new LongStruct();
+            ReadExact(stream, value.Array, 8);
 
-            return BitConverter.ToInt64(ReadExact(stream, sizeof(long)), 0);
+            return value.SignedValue;
         }
 
         /// <summary>
         /// Reads <see cref="UInt64"/> value from the <see cref="Stream"/>.
         /// </summary>
         [CLSCompliant(false)]
-        public static ulong ReadUInt64
+        public static unsafe ulong ReadUInt64
             (
                 [NotNull] Stream stream
             )
         {
-            Code.NotNull(stream, nameof(stream));
+            LongStruct value = new LongStruct();
+            ReadExact(stream, value.Array, 8);
 
-            return BitConverter.ToUInt64(ReadExact(stream, sizeof(ulong)), 0);
+            return value.UnsignedValue;
         }
 
         /// <summary>
         /// Reads <see cref="Single"/> value from the <see cref="Stream"/>.
         /// </summary>
-        public static float ReadSingle
+        public static unsafe float ReadSingle
             (
                 [NotNull] Stream stream
             )
         {
-            Code.NotNull(stream, nameof(stream));
+            MiddleStruct value = new MiddleStruct();
+            ReadExact(stream, value.Array, 4);
 
-            return BitConverter.ToSingle(ReadExact(stream, sizeof(float)), 0);
+            return value.FloatValue;
         }
 
         /// <summary>
         /// Reads <see cref="Double"/> value from the <see cref="Stream"/>.
         /// </summary>
-        public static double ReadDouble
+        public static unsafe double ReadDouble
             (
                 [NotNull] Stream stream
             )
         {
-            Code.NotNull(stream, nameof(stream));
+            LongStruct value = new LongStruct();
+            ReadExact(stream, value.Array, 8);
 
-            return BitConverter.ToDouble(ReadExact(stream, sizeof(double)), 0);
+            return value.DoubleValue;
         }
 
         /// <summary>
@@ -474,32 +495,57 @@ namespace UnsafeAM.IO
         /// Reads the <see cref="Decimal"/> from the specified
         /// <see cref="Stream"/>.
         /// </summary>
-        public static decimal ReadDecimal
+        public static unsafe decimal ReadDecimal
             (
                 [NotNull] Stream stream
             )
         {
-            Code.NotNull(stream, nameof(stream));
+            ExtraStruct value = new ExtraStruct();
+            ReadExact(stream, value.Array, 16);
 
-            int[] bits = ReadInt32Array(stream);
-            return new decimal(bits);
+            return value.DecimalValue;
         }
-
 
         /// <summary>
         /// Reads the date time.
         /// </summary>
         /// <param name="stream">The stream.</param>
-        public static DateTime ReadDateTime
+        public static unsafe DateTime ReadDateTime
             (
                 [NotNull] Stream stream
             )
         {
-            Code.NotNull(stream, nameof(stream));
+            LongStruct value = new LongStruct();
+            ReadExact(stream, value.Array, 8);
 
-            long binary = ReadInt64(stream);
+            return value.DateValue;
+        }
 
-            return DateTime.FromBinary(binary);
+        /// <summary>
+        /// Чтение точного числа байт.
+        /// </summary>
+        [CLSCompliant(false)]
+        public static unsafe void ReadExact
+            (
+                [NotNull] Stream stream,
+                [NotNull] byte* buffer,
+                int length
+            )
+        {
+            byte* stop = buffer + length;
+            for (byte* ptr = buffer; ptr < stop; ptr++)
+            {
+                int value = stream.ReadByte();
+                if (value < 0)
+                {
+                    throw new IOException();
+                }
+
+                unchecked
+                {
+                    *ptr = (byte)value;
+                }
+            }
         }
 
         /// <summary>
@@ -528,6 +574,24 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
+        /// Write the buffer.
+        /// </summary>
+        [CLSCompliant(false)]
+        public static unsafe void Write
+            (
+                [NotNull] Stream stream,
+                [NotNull] byte* buffer,
+                int length
+            )
+        {
+            byte* stop = buffer + length;
+            for (byte* ptr = buffer; ptr < stop; ptr++)
+            {
+                stream.WriteByte(*ptr);
+            }
+        }
+
+        /// <summary>
         /// Writes the <see cref="Boolean"/> value to the <see cref="Stream"/>.
         /// </summary>
         public static void Write
@@ -549,124 +613,108 @@ namespace UnsafeAM.IO
         /// <summary>
         /// Writes the <see cref="Int16"/> value to the <see cref="Stream"/>.
         /// </summary>
-        public static void Write
+        public static unsafe void Write
             (
                 [NotNull] Stream stream,
                 short value
             )
         {
-            Code.NotNull(stream, nameof(stream));
-
-            byte[] bytes = BitConverter.GetBytes(value);
-            stream.Write(bytes, 0, bytes.Length);
+            ShortStruct buffer = new ShortStruct { SignedValue = value };
+            Write(stream, buffer.Array, 2);
         }
 
         /// <summary>
         /// Writes the <see cref="UInt16"/> value to the <see cref="Stream"/>.
         /// </summary>
         [CLSCompliant(false)]
-        public static void Write
+        public static unsafe void Write
             (
                 [NotNull] Stream stream,
                 ushort value
             )
         {
-            Code.NotNull(stream, nameof(stream));
-
-            byte[] bytes = BitConverter.GetBytes(value);
-            stream.Write(bytes, 0, bytes.Length);
+            ShortStruct buffer = new ShortStruct { UnsignedValue = value };
+            Write(stream, buffer.Array, 2);
         }
 
         /// <summary>
         /// Writes the <see cref="Int32"/> to the <see cref="Stream"/>.
         /// </summary>
-        public static void Write
+        public static unsafe void Write
             (
                 [NotNull] Stream stream,
                 int value
             )
         {
-            Code.NotNull(stream, nameof(stream));
-
-            byte[] bytes = BitConverter.GetBytes(value);
-            stream.Write(bytes, 0, bytes.Length);
+            MiddleStruct buffer = new MiddleStruct { SignedValue = value };
+            Write(stream, buffer.Array, 4);
         }
 
         /// <summary>
         /// Writes the <see cref="UInt32"/> to the <see cref="Stream"/>.
         /// </summary>
         [CLSCompliant(false)]
-        public static void Write
+        public static unsafe void Write
             (
                 [NotNull] Stream stream,
                 uint value
             )
         {
-            Code.NotNull(stream, nameof(stream));
-
-            byte[] bytes = BitConverter.GetBytes(value);
-            stream.Write(bytes, 0, bytes.Length);
+            MiddleStruct buffer = new MiddleStruct { UnsignedValue = value };
+            Write(stream, buffer.Array, 4);
         }
 
         /// <summary>
         /// Writes the <see cref="Int64"/> to the <see cref="Stream"/>.
         /// </summary>
-        public static void Write
+        public static unsafe void Write
             (
                 [NotNull] Stream stream,
                 long value
             )
         {
-            Code.NotNull(stream, nameof(stream));
-
-            byte[] bytes = BitConverter.GetBytes(value);
-            stream.Write(bytes, 0, bytes.Length);
+            LongStruct buffer = new LongStruct { SignedValue = value };
+            Write(stream, buffer.Array, 8);
         }
 
         /// <summary>
         /// Writes the <see cref="UInt64"/> to the <see cref="Stream"/>.
         /// </summary>
         [CLSCompliant(false)]
-        public static void Write
+        public static unsafe void Write
             (
                 [NotNull] Stream stream,
                 ulong value
             )
         {
-            Code.NotNull(stream, nameof(stream));
-
-            byte[] bytes = BitConverter.GetBytes(value);
-            stream.Write(bytes, 0, bytes.Length);
+            LongStruct buffer = new LongStruct { UnsignedValue = value };
+            Write(stream, buffer.Array, 8);
         }
 
         /// <summary>
         /// Writes the <see cref="Single"/> to the <see cref="Stream"/>.
         /// </summary>
-        public static void Write
+        public static unsafe void Write
             (
                 [NotNull] Stream stream,
                 float value
             )
         {
-            Code.NotNull(stream, nameof(stream));
-
-            byte[] bytes = BitConverter.GetBytes(value);
-            stream.Write(bytes, 0, bytes.Length);
+            MiddleStruct buffer = new MiddleStruct { FloatValue = value };
+            Write(stream, buffer.Array, 4);
         }
 
         /// <summary>
         /// Writes the <see cref="Double"/> to the <see cref="Stream"/>.
         /// </summary>
-        public static void Write
+        public static unsafe void Write
             (
                 [NotNull] Stream stream,
                 double value
             )
         {
-            Code.NotNull(stream, nameof(stream));
-
-            byte[] bytes = BitConverter.GetBytes(value);
-            stream.Write(bytes, 0, bytes.Length);
+            LongStruct buffer = new LongStruct { DoubleValue = value };
+            Write(stream, buffer.Array, 8);
         }
 
         /// <summary>
@@ -891,15 +939,14 @@ namespace UnsafeAM.IO
         /// <exception cref="IOException">Error during stream output
         /// happens.</exception>
         /// <seealso cref="ReadDecimal"/>
-        public static void Write
+        public static unsafe void Write
             (
                 [NotNull] Stream stream,
                 decimal value
             )
         {
-            Code.NotNull(stream, nameof(stream));
-
-            Write(stream, decimal.GetBits(value));
+            ExtraStruct buffer = new ExtraStruct { DecimalValue = value };
+            Write(stream, buffer.Array, 16);
         }
 
         /// <summary>
@@ -934,6 +981,21 @@ namespace UnsafeAM.IO
         /// <summary>
         /// Network to host byte conversion.
         /// </summary>
+        [CLSCompliant(false)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe void NetworkToHost16
+            (
+                [NotNull] byte* array
+            )
+        {
+            byte temp = *array;
+            *array = array[1];
+            array[1] = temp;
+        }
+
+        /// <summary>
+        /// Network to host byte conversion.
+        /// </summary>
         public static void NetworkToHost32
             (
                 [NotNull] byte[] array,
@@ -951,6 +1013,24 @@ namespace UnsafeAM.IO
         /// <summary>
         /// Network to host byte conversion.
         /// </summary>
+        [CLSCompliant(false)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe void NetworkToHost32
+            (
+                [NotNull] byte* array
+            )
+        {
+            byte temp1 = *array;
+            byte temp2 = array[1];
+            *array = array[3];
+            array[1] = array[2];
+            array[3] = temp1;
+            array[2] = temp2;
+        }
+
+        /// <summary>
+        /// Network to host byte conversion.
+        /// </summary>
         /// <remarks>IRBIS64-oriented!</remarks>
         public static void NetworkToHost64
             (
@@ -960,6 +1040,20 @@ namespace UnsafeAM.IO
         {
             NetworkToHost32(array, offset);
             NetworkToHost32(array, offset + 4);
+        }
+
+        /// <summary>
+        /// Network to host byte conversion.
+        /// </summary>
+        /// <remarks>IRBIS64-oriented!</remarks>
+        [CLSCompliant(false)]
+        public static unsafe void NetworkToHost64
+            (
+                [NotNull] byte* array
+            )
+        {
+            NetworkToHost32(array);
+            NetworkToHost32(array + 4);
         }
 
         /// <summary>
@@ -974,6 +1068,21 @@ namespace UnsafeAM.IO
             byte temp = array[offset];
             array[offset] = array[offset + 1];
             array[offset + 1] = temp;
+        }
+
+        /// <summary>
+        /// Host to network byte conversion.
+        /// </summary>
+        [CLSCompliant(false)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe void HostToNetwork16
+            (
+                [NotNull] byte* array
+            )
+        {
+            byte temp = *array;
+            *array = array[1];
+            array[1] = temp;
         }
 
         /// <summary>
@@ -996,6 +1105,24 @@ namespace UnsafeAM.IO
         /// <summary>
         /// Host to network byte conversion.
         /// </summary>
+        [CLSCompliant(false)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe void HostToNetwork32
+            (
+                [NotNull] byte* array
+            )
+        {
+            byte temp1 = *array;
+            byte temp2 = array[1];
+            *array = array[3];
+            array[1] = array[2];
+            array[3] = temp1;
+            array[2] = temp2;
+        }
+
+        /// <summary>
+        /// Host to network byte conversion.
+        /// </summary>
         /// <remarks>IRBIS64-oriented!</remarks>
         public static void HostToNetwork64
             (
@@ -1008,90 +1135,104 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Read integer in network byte order.
+        /// Host to network byte conversion.
         /// </summary>
-        public static short ReadInt16Network
+        /// <remarks>IRBIS64-oriented!</remarks>
+        [CLSCompliant(false)]
+        public static unsafe void HostToNetwork64
             (
-                [NotNull] this Stream stream
+                [NotNull] byte* array
             )
         {
-            byte[] buffer = ReadExact(stream, 2);
-            NetworkToHost16(buffer, 0);
-            short result = BitConverter.ToInt16(buffer, 0);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Read integer in host byte order.
-        /// </summary>
-        public static short ReadInt16Host
-            (
-                [NotNull] this Stream stream
-            )
-        {
-            byte[] buffer = ReadExact(stream, 2);
-            short result = BitConverter.ToInt16(buffer, 0);
-
-            return result;
+            HostToNetwork32(array);
+            HostToNetwork32(array + 4);
         }
 
         /// <summary>
         /// Read integer in network byte order.
         /// </summary>
-        public static int ReadInt32Network
+        public static unsafe short ReadInt16Network
             (
                 [NotNull] this Stream stream
             )
         {
-            byte[] buffer = ReadExact(stream, 4);
-            NetworkToHost32(buffer, 0);
-            int result = BitConverter.ToInt32(buffer, 0);
+            ShortStruct result = new ShortStruct();
+            ReadExact(stream, result.Array, 2);
+            NetworkToHost16(result.Array);
 
-            return result;
+            return result.SignedValue;
         }
 
         /// <summary>
         /// Read integer in host byte order.
         /// </summary>
-        public static int ReadInt32Host
+        public static unsafe short ReadInt16Host
             (
                 [NotNull] this Stream stream
             )
         {
-            byte[] buffer = ReadExact(stream, 4);
-            int result = BitConverter.ToInt32(buffer, 0);
+            ShortStruct result = new ShortStruct();
+            ReadExact(stream, result.Array, 2);
 
-            return result;
+            return result.SignedValue;
         }
 
         /// <summary>
         /// Read integer in network byte order.
         /// </summary>
-        public static long ReadInt64Network
+        public static unsafe int ReadInt32Network
             (
                 [NotNull] this Stream stream
             )
         {
-            byte[] buffer = ReadExact(stream, 8);
-            NetworkToHost64(buffer, 0);
-            long result = BitConverter.ToInt64(buffer, 0);
+            MiddleStruct result = new MiddleStruct();
+            ReadExact(stream, result.Array, 4);
+            NetworkToHost32(result.Array);
 
-            return result;
+            return result.SignedValue;
         }
 
         /// <summary>
         /// Read integer in host byte order.
         /// </summary>
-        public static long ReadInt64Host
+        public static unsafe int ReadInt32Host
             (
                 [NotNull] this Stream stream
             )
         {
-            byte[] buffer = ReadExact(stream, 8);
-            long result = BitConverter.ToInt64(buffer, 0);
+            MiddleStruct result = new MiddleStruct();
+            ReadExact(stream, result.Array, 4);
 
-            return result;
+            return result.SignedValue;
+        }
+
+        /// <summary>
+        /// Read integer in network byte order.
+        /// </summary>
+        public static unsafe long ReadInt64Network
+            (
+                [NotNull] this Stream stream
+            )
+        {
+            LongStruct result = new LongStruct();
+            ReadExact(stream, result.Array, 8);
+            NetworkToHost64(result.Array);
+
+            return result.SignedValue;
+        }
+
+        /// <summary>
+        /// Read integer in host byte order.
+        /// </summary>
+        public static unsafe long ReadInt64Host
+            (
+                [NotNull] this Stream stream
+            )
+        {
+            LongStruct result = new LongStruct();
+            ReadExact(stream, result.Array, 8);
+
+            return result.SignedValue;
         }
 
         /// <summary>
@@ -1160,43 +1301,43 @@ namespace UnsafeAM.IO
         /// <summary>
         /// Write 16-bit integer to the stream in network byte order.
         /// </summary>
-        public static void WriteInt16Network
+        public static unsafe void WriteInt16Network
             (
                 [NotNull] this Stream stream,
                 short value
             )
         {
-            byte[] buffer = BitConverter.GetBytes(value);
-            HostToNetwork16(buffer, 0);
-            stream.Write(buffer, 0, 2);
+            ShortStruct buffer = new ShortStruct() { SignedValue = value };
+            HostToNetwork16(buffer.Array);
+            Write(stream, buffer.Array, 2);
         }
 
         /// <summary>
         /// Write 32-bit integer to the stream in network byte order.
         /// </summary>
-        public static void WriteInt32Network
+        public static unsafe void WriteInt32Network
             (
                 [NotNull] this Stream stream,
                 int value
             )
         {
-            byte[] buffer = BitConverter.GetBytes(value);
-            HostToNetwork32(buffer, 0);
-            stream.Write(buffer, 0, 4);
+            MiddleStruct buffer = new MiddleStruct() { SignedValue = value };
+            HostToNetwork32(buffer.Array);
+            Write(stream, buffer.Array, 4);
         }
 
         /// <summary>
         /// Write 64-bit integer to the stream in network byte order.
         /// </summary>
-        public static void WriteInt64Network
+        public static unsafe void WriteInt64Network
             (
                 [NotNull] this Stream stream,
                 long value
             )
         {
-            byte[] buffer = BitConverter.GetBytes(value);
-            HostToNetwork64(buffer, 0);
-            stream.Write(buffer, 0, 8);
+            LongStruct buffer = new LongStruct() { SignedValue = value };
+            HostToNetwork64(buffer.Array);
+            Write(stream, buffer.Array, 8);
         }
 
         #endregion

@@ -4,13 +4,13 @@ using System.Text;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using AM.IO;
+using UnsafeAM.IO;
 
 using JetBrains.Annotations;
 
 // ReSharper disable InvokeAsExtensionMethod
 
-namespace UnitTests.AM.IO
+namespace UnitTests.UnsafeIrbis.AM.IO
 {
     [TestClass]
     public class StreamUtilityTest
@@ -354,7 +354,7 @@ namespace UnitTests.AM.IO
         public void StreamUtility_ReadStringArray_1()
         {
             MemoryStream stream = new MemoryStream();
-            string[] expected = {"Hello", "world!"};
+            string[] expected = { "Hello", "world!" };
             StreamUtility.Write(stream, expected);
             byte[] buffer = stream.ToArray();
             stream = new MemoryStream(buffer);
@@ -366,7 +366,7 @@ namespace UnitTests.AM.IO
         public void StreamUtility_ReadStringArray_2()
         {
             MemoryStream stream = new MemoryStream();
-            string[] expected = {"Hello", "world!"};
+            string[] expected = { "Hello", "world!" };
             Encoding encoding = Encoding.ASCII;
             StreamUtility.Write(stream, expected, encoding);
             byte[] buffer = stream.ToArray();
@@ -378,7 +378,7 @@ namespace UnitTests.AM.IO
         [TestMethod]
         public void StreamUtility_HostToNetwork16_1()
         {
-            byte[] array = {1, 2};
+            byte[] array = { 1, 2 };
             StreamUtility.HostToNetwork16(array, 0);
             Assert.AreEqual(2, array[0]);
             Assert.AreEqual(1, array[1]);
@@ -387,7 +387,7 @@ namespace UnitTests.AM.IO
         [TestMethod]
         public void StreamUtility_HostToNetwork32_1()
         {
-            byte[] array = {1, 2, 3, 4};
+            byte[] array = { 1, 2, 3, 4 };
             StreamUtility.HostToNetwork32(array, 0);
             Assert.AreEqual(4, array[0]);
             Assert.AreEqual(3, array[1]);
@@ -398,7 +398,7 @@ namespace UnitTests.AM.IO
         [TestMethod]
         public void StreamUtility_HostToNetwork64_1()
         {
-            byte[] array = {1, 2, 3, 4, 5, 6, 7, 8};
+            byte[] array = { 1, 2, 3, 4, 5, 6, 7, 8 };
             StreamUtility.HostToNetwork64(array, 0);
             Assert.AreEqual(4, array[0]);
             Assert.AreEqual(3, array[1]);
@@ -413,7 +413,7 @@ namespace UnitTests.AM.IO
         [TestMethod]
         public void StreamUtility_ReadInt16Network_1()
         {
-            byte[] array = {1, 2};
+            byte[] array = { 1, 2 };
             MemoryStream stream = new MemoryStream(array);
             short actual = StreamUtility.ReadInt16Network(stream);
             Assert.AreEqual(0x0102, actual);
@@ -422,7 +422,7 @@ namespace UnitTests.AM.IO
         [TestMethod]
         public void StreamUtility_ReadInt32Network_1()
         {
-            byte[] array = {1, 2, 3, 4};
+            byte[] array = { 1, 2, 3, 4 };
             MemoryStream stream = new MemoryStream(array);
             int actual = StreamUtility.ReadInt32Network(stream);
             Assert.AreEqual(0x01020304, actual);
@@ -431,7 +431,7 @@ namespace UnitTests.AM.IO
         [TestMethod]
         public void StreamUtility_ReadInt64Network_1()
         {
-            byte[] array = {1, 2, 3, 4, 5, 6, 7, 8};
+            byte[] array = { 1, 2, 3, 4, 5, 6, 7, 8 };
             MemoryStream stream = new MemoryStream(array);
             long actual = StreamUtility.ReadInt64Network(stream);
             Assert.AreEqual(0x0506070801020304L, actual);
@@ -440,7 +440,7 @@ namespace UnitTests.AM.IO
         [TestMethod]
         public void StreamUtility_ReadInt16Host_1()
         {
-            byte[] array = {1, 2};
+            byte[] array = { 1, 2 };
             MemoryStream stream = new MemoryStream(array);
             short actual = StreamUtility.ReadInt16Host(stream);
             Assert.AreEqual(0x0201, actual);
@@ -449,7 +449,7 @@ namespace UnitTests.AM.IO
         [TestMethod]
         public void StreamUtility_ReadInt32Host_1()
         {
-            byte[] array = {1, 2, 3, 4};
+            byte[] array = { 1, 2, 3, 4 };
             MemoryStream stream = new MemoryStream(array);
             int actual = StreamUtility.ReadInt32Host(stream);
             Assert.AreEqual(0x04030201, actual);
@@ -458,7 +458,7 @@ namespace UnitTests.AM.IO
         [TestMethod]
         public void StreamUtility_ReadInt64Host_1()
         {
-            byte[] array = {1, 2, 3, 4, 5, 6, 7, 8};
+            byte[] array = { 1, 2, 3, 4, 5, 6, 7, 8 };
             MemoryStream stream = new MemoryStream(array);
             long actual = StreamUtility.ReadInt64Host(stream);
             Assert.AreEqual(0x0807060504030201L, actual);
@@ -520,7 +520,7 @@ namespace UnitTests.AM.IO
         [TestMethod]
         public void StreamUtility_ReadExact_1()
         {
-            byte[] buffer = {1, 2, 3, 4, 5};
+            byte[] buffer = { 1, 2, 3, 4, 5 };
             MemoryStream stream = new MemoryStream(buffer);
             byte[] actual = StreamUtility.ReadExact(stream, 4);
             Assert.AreEqual(4, actual.Length);
@@ -535,15 +535,24 @@ namespace UnitTests.AM.IO
         [ExpectedException(typeof(IOException))]
         public void StreamUtility_ReadExact_2()
         {
-            byte[] buffer = {1, 2};
+            byte[] buffer = { 1, 2 };
             MemoryStream stream = new MemoryStream(buffer);
             StreamUtility.ReadExact(stream, 4);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(IOException))]
+        public void StreamUtility_ReadExact_3()
+        {
+            byte[] buffer = { 1, 2 };
+            MemoryStream stream = new MemoryStream(buffer);
+            StreamUtility.ReadInt32(stream);
+        }
+
+        [TestMethod]
         public void StreamUtility_ReadToEnd_1()
         {
-            byte[] buffer = {1, 2, 3, 4, 5, 6, 7, 8};
+            byte[] buffer = { 1, 2, 3, 4, 5, 6, 7, 8 };
             MemoryStream stream = new MemoryStream(buffer);
             StreamUtility.ReadExact(stream, 4);
             byte[] actual = StreamUtility.ReadToEnd(stream);
@@ -552,6 +561,41 @@ namespace UnitTests.AM.IO
             Assert.AreEqual(6, actual[1]);
             Assert.AreEqual(7, actual[2]);
             Assert.AreEqual(8, actual[3]);
+        }
+
+        [TestMethod]
+        public void StreamUtility_NetworkToHost16_1()
+        {
+            byte[] array = { 1, 2 };
+            StreamUtility.NetworkToHost16(array, 0);
+            Assert.AreEqual(2, array[0]);
+            Assert.AreEqual(1, array[1]);
+        }
+
+        [TestMethod]
+        public void StreamUtility_NetworkToHost32_1()
+        {
+            byte[] array = { 1, 2, 3, 4 };
+            StreamUtility.NetworkToHost32(array, 0);
+            Assert.AreEqual(4, array[0]);
+            Assert.AreEqual(3, array[1]);
+            Assert.AreEqual(2, array[2]);
+            Assert.AreEqual(1, array[3]);
+        }
+
+        [TestMethod]
+        public void StreamUtility_NetworkToHost64_1()
+        {
+            byte[] array = { 1, 2, 3, 4, 5, 6, 7, 8 };
+            StreamUtility.NetworkToHost64(array, 0);
+            Assert.AreEqual(4, array[0]);
+            Assert.AreEqual(3, array[1]);
+            Assert.AreEqual(2, array[2]);
+            Assert.AreEqual(1, array[3]);
+            Assert.AreEqual(8, array[4]);
+            Assert.AreEqual(7, array[5]);
+            Assert.AreEqual(6, array[6]);
+            Assert.AreEqual(5, array[7]);
         }
     }
 }

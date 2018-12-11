@@ -864,6 +864,7 @@
     <Compile Include="ManagedIrbis\UserInfoTest.cs" />
     <Compile Include="System\IO\Compression\DeflateStreamTest.cs" />
     <Compile Include="UnsafeIrbis\AM\FastNumberTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\IO\StreamUtilityTest.cs" />
     <Compile Include="UnsafeIrbis\FieldTagTest.cs" />
     <Compile Include="UnsafeIrbis\FieldValueTest.cs" />
   </ItemGroup>
