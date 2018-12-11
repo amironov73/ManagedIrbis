@@ -15,7 +15,7 @@ using JetBrains.Annotations;
 
 #endregion
 
-namespace ManagedIrbis.Direct
+namespace UnsafeIrbis.Direct
 {
     //
     // Extract from official documentation:
@@ -55,24 +55,24 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// MFN
         /// </summary>
-        public int Mfn { get; set; }
+        public int Mfn;
 
         /// <summary>
         /// 8-byte offset of the record in the MST file.
         /// </summary>
-        public long Offset { get; set; }
+        public long Offset;
 
         /// <summary>
         /// Status of the record.
         /// </summary>
-        public RecordStatus Status { get; set; }
+        public RecordStatus Status;
 
         /// <summary>
         /// Whether the record is locked?
         /// </summary>
         public bool Locked
         {
-            get { return (Status & RecordStatus.Locked) != 0; }
+            get => (Status & RecordStatus.Locked) != 0;
             set
             {
                 if (value)
@@ -89,13 +89,7 @@ namespace ManagedIrbis.Direct
         /// <summary>
         /// Whether the record is deleted?
         /// </summary>
-        public bool Deleted
-        {
-            get
-            {
-                return (Status & RecordStatus.Deleted) != 0;
-            }
-        }
+        public bool Deleted => (Status & RecordStatus.Deleted) != 0;
 
         #endregion
 
@@ -104,13 +98,7 @@ namespace ManagedIrbis.Direct
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            return string.Format
-                (
-                    "MFN: {0}, Offset: {1}, Status: {2}",
-                    Mfn,
-                    Offset,
-                    Status
-                );
+            return $"MFN: {Mfn}, Offset: {Offset}, Status: {Status}";
         }
 
         #endregion

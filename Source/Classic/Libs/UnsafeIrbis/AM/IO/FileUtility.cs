@@ -15,47 +15,22 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-using AM.Logging;
+using UnsafeAM.Logging;
 
-using CodeJam;
+using UnsafeCode;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
-#if WINMOBILE
-
-using OpenNETCF.IO;
-
-#endif
-
 #endregion
 
-namespace AM.IO
+namespace UnsafeAM.IO
 {
     /// <summary>
     /// File manipulation routines.
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
     public static class FileUtility
     {
-        #region Private members
-
-#if FW45
-
-        private const MethodImplOptions Aggressive
-            = MethodImplOptions.AggressiveInlining;
-
-#else
-
-        private const MethodImplOptions Aggressive
-            = (MethodImplOptions)0;
-
-#endif
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -81,10 +56,10 @@ namespace AM.IO
                 )
             {
                 return StreamUtility.CompareTo
-                    (
-                        firstStream,
-                        secondStream
-                    );
+                (
+                    firstStream,
+                    secondStream
+                );
             }
         }
 
@@ -111,8 +86,6 @@ namespace AM.IO
 
             File.Copy(sourceName, targetName, overwrite);
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-
             DateTime creationTime = File.GetCreationTime(sourceName);
             File.SetCreationTime(targetName, creationTime);
             DateTime lastAccessTime = File.GetLastAccessTime(sourceName);
@@ -121,9 +94,6 @@ namespace AM.IO
             File.SetLastWriteTime(targetName, lastWriteTime);
             FileAttributes attributes = File.GetAttributes(sourceName);
             File.SetAttributes(targetName, attributes);
-
-#endif
-
         }
 
         /// <summary>
@@ -154,7 +124,6 @@ namespace AM.IO
                 {
                     return false;
                 }
-
                 if (backup)
                 {
                     CreateBackup(targetPath, true);
@@ -324,95 +293,6 @@ namespace AM.IO
         }
 
         /// <summary>
-        /// Read all bytes from the file.
-        /// </summary>
-        /// <remarks>For WinMobile compatibility.</remarks>
-        [MethodImpl(Aggressive)]
-        public static byte[] ReadAllBytes
-            (
-                [NotNull] string fileName
-            )
-        {
-            Code.NotNullNorEmpty(fileName, "fileName");
-
-#if PocketPC || WINMOBILE
-
-            using (Stream stream = new FileStream(fileName, FileMode.Open))
-            {
-                int length = (int)stream.Length;
-                byte[] result = new byte[length];
-                stream.Read(result, 0, length);
-
-                return result;
-            }
-
-#else
-            return File.ReadAllBytes(fileName);
-#endif
-        }
-
-        /// <summary>
-        /// Read all lines from the file.
-        /// </summary>
-        /// <remarks>For WinMobile compatibility.</remarks>
-        [MethodImpl(Aggressive)]
-        public static string[] ReadAllLines
-            (
-                [NotNull] string fileName,
-                [NotNull] Encoding encoding
-            )
-        {
-            Code.NotNullNorEmpty(fileName, "fileName");
-            Code.NotNull(encoding, "encoding");
-
-#if WINMOBILE || PocketPC
-
-            return FileHelper.ReadAllLines(fileName, encoding);
-
-#else
-
-            return File.ReadAllLines(fileName, encoding);
-
-#endif
-        }
-
-        /// <summary>
-        /// Read all text from the text
-        /// </summary>
-        /// <remarks> For WinMobile compatibility.</remarks>
-        [NotNull]
-        [MethodImpl(Aggressive)]
-        public static string ReadAllText
-            (
-                [NotNull] string fileName,
-                [NotNull] Encoding encoding
-            )
-        {
-            Code.NotNullNorEmpty(fileName, "fileName");
-
-#if PocketPC || WINMOBILE
-
-            using (StreamReader reader = new StreamReader
-                (
-                    fileName,
-                    encoding
-                ))
-            {
-                return reader.ReadToEnd();
-            }
-
-#else
-
-            return File.ReadAllText
-                (
-                    fileName,
-                    encoding
-                );
-
-#endif
-        }
-
-        /// <summary>
         /// Sets file modification date to current date.
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
@@ -424,73 +304,14 @@ namespace AM.IO
         {
             Code.NotNullNorEmpty(fileName, "fileName");
 
-#if !WINMOBILE && !PocketPC
-
             if (File.Exists(fileName))
             {
                 File.SetLastWriteTime(fileName, DateTime.Now);
             }
             else
             {
-                File.WriteAllBytes(fileName, new byte[0]);
+                File.WriteAllBytes(fileName, EmptyArray<byte>.Value);
             }
-
-#endif
-
-        }
-
-        /// <summary>
-        /// Write all the bytes to the file.
-        /// </summary>
-        public static void WriteAllBytes
-            (
-                [NotNull] string fileName,
-                [NotNull] byte[] bytes
-            )
-        {
-            Code.NotNullNorEmpty(fileName, "fileName");
-            Code.NotNull(bytes, "bytes");
-
-#if WINMOBILE
-
-            using (FileStream stream
-                = new FileStream(fileName, FileMode.Create))
-            {
-                stream.Write(bytes, 0, bytes.Length);
-            }
-
-#else
-
-            File.WriteAllBytes(fileName, bytes);
-
-#endif
-        }
-
-        /// <summary>
-        /// Write all lines to the file.
-        /// </summary>
-        /// <remarks>For WinMobile compatibility.</remarks>
-        [MethodImpl(Aggressive)]
-        public static void WriteAllLines
-            (
-                [NotNull] string fileName,
-                [NotNull] string[] lines,
-                [NotNull] Encoding encoding
-            )
-        {
-            Code.NotNullNorEmpty(fileName, "fileName");
-            Code.NotNull(lines, "lines");
-            Code.NotNull(encoding, "encoding");
-
-#if WINMOBILE || PocketPC
-
-            FileHelper.WriteAllLines(fileName, lines, encoding);
-
-#else
-
-            File.WriteAllLines(fileName, lines, encoding);
-
-#endif
         }
 
         #endregion

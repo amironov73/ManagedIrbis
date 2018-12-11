@@ -16,8 +16,6 @@ using System.Xml.Serialization;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 using Newtonsoft.Json;
 
 #endregion
@@ -29,7 +27,6 @@ namespace UnsafeIrbis
     /// </summary>
     [PublicAPI]
     [Serializable]
-    [MoonSharpUserData]
     [XmlRoot("subfield")]
     [DebuggerDisplay("Code={Code}, Value={Value}")]
     public sealed class SubField

@@ -11,23 +11,20 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-using CodeJam;
+using UnsafeCode;
 
 using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
 // ReSharper disable VirtualMemberCallInConstructor
 
-namespace AM
+namespace UnsafeAM
 {
     /// <summary>
     /// Binary attachment.
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
     public class BinaryAttachment
     {
         #region Properties
@@ -67,8 +64,8 @@ namespace AM
                 [NotNull] byte[] content
             )
         {
-            Code.NotNullNorEmpty(name, "name");
-            Code.NotNull(content, "content");
+            Code.NotNullNorEmpty(name, nameof(name));
+            Code.NotNull(content, nameof(content));
 
             Name = name;
             Content = content;
@@ -81,12 +78,7 @@ namespace AM
         /// <inheritdoc cref="object.ToString" />
         public override string ToString()
         {
-            string result = string.Format
-                (
-                    "{0}: {1} bytes",
-                    Name,
-                    Content.Length
-                );
+            string result = $"{Name}: {Content.Length} bytes";
 
             return result;
         }

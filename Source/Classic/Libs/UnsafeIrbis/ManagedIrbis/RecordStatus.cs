@@ -13,7 +13,7 @@ using System;
 
 #endregion
 
-namespace ManagedIrbis
+namespace UnsafeIrbis
 {
     /// <summary>
     /// MARC record status.

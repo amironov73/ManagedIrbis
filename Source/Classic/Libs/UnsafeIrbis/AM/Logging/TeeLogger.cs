@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* FileLogger.cs --
+/* TeeLogger.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,36 +9,31 @@
 
 #region Using directives
 
-using System.IO;
-using System.Text;
-
-using AM.IO;
-
-using CodeJam;
+using UnsafeAM.Collections;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
-namespace AM.Logging
+namespace UnsafeAM.Logging
 {
     /// <summary>
     ///
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
-    public sealed class FileLogger
+    public sealed class TeeLogger
         : IAmLogger
     {
         #region Properties
 
         /// <summary>
-        /// File name.
+        /// Loggers.
         /// </summary>
         [NotNull]
-        public string FileName { get; private set; }
+        public NonNullCollection<IAmLogger> Loggers
+        {
+            get; private set;
+        }
 
         #endregion
 
@@ -47,47 +42,14 @@ namespace AM.Logging
         /// <summary>
         /// Constructor.
         /// </summary>
-        public FileLogger
-            (
-                [NotNull] string fileName
-            )
+        public TeeLogger()
         {
-            Code.NotNullNorEmpty(fileName, "fileName");
-
-            FileName = fileName;
+            Loggers = new NonNullCollection<IAmLogger>();
         }
 
         #endregion
 
-        #region Public methods
-
-        /// <summary>
-        /// Write one line.
-        /// </summary>
-        [NotNull]
-        public FileLogger WriteLine
-            (
-                [CanBeNull] string line
-            )
-        {
-            if (!ReferenceEquals(line, null))
-            {
-                using (StreamWriter writer = TextWriterUtility.Append
-                    (
-                        FileName,
-                        Encoding.UTF8
-                    ))
-                {
-                    writer.WriteLine(line);
-                }
-            }
-
-            return this;
-        }
-
-        #endregion
-
-        #region IAMLogger members
+        #region IAmLogger members
 
         /// <inheritdoc cref="IAmLogger.Debug" />
         public void Debug
@@ -95,7 +57,10 @@ namespace AM.Logging
                 string text
             )
         {
-            WriteLine(text);
+            foreach (IAmLogger logger in Loggers)
+            {
+                logger.Debug(text);
+            }
         }
 
         /// <inheritdoc cref="IAmLogger.Error" />
@@ -104,7 +69,10 @@ namespace AM.Logging
                 string text
             )
         {
-            WriteLine(text);
+            foreach (IAmLogger logger in Loggers)
+            {
+                logger.Error(text);
+            }
         }
 
         /// <inheritdoc cref="IAmLogger.Fatal" />
@@ -113,7 +81,10 @@ namespace AM.Logging
                 string text
             )
         {
-            WriteLine(text);
+            foreach (IAmLogger logger in Loggers)
+            {
+                logger.Fatal(text);
+            }
         }
 
         /// <inheritdoc cref="IAmLogger.Info" />
@@ -122,7 +93,10 @@ namespace AM.Logging
                 string text
             )
         {
-            WriteLine(text);
+            foreach (IAmLogger logger in Loggers)
+            {
+                logger.Info(text);
+            }
         }
 
         /// <inheritdoc cref="IAmLogger.Trace" />
@@ -131,7 +105,10 @@ namespace AM.Logging
                 string text
             )
         {
-            WriteLine(text);
+            foreach (IAmLogger logger in Loggers)
+            {
+                logger.Trace(text);
+            }
         }
 
         /// <inheritdoc cref="IAmLogger.Warn" />
@@ -140,7 +117,10 @@ namespace AM.Logging
                 string text
             )
         {
-            WriteLine(text);
+            foreach (IAmLogger logger in Loggers)
+            {
+                logger.Warn(text);
+            }
         }
 
         #endregion

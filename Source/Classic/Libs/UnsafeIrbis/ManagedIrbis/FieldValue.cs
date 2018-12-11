@@ -14,8 +14,6 @@ using System.Diagnostics.CodeAnalysis;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace UnsafeIrbis
@@ -24,7 +22,6 @@ namespace UnsafeIrbis
     /// Field value related routines.
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
     public static class FieldValue
     {
         #region Public methods

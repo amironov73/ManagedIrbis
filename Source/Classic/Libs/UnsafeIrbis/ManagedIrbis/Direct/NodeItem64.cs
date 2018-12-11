@@ -16,8 +16,6 @@ using UnsafeCode;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace UnsafeIrbis.Direct
@@ -29,7 +27,6 @@ namespace UnsafeIrbis.Direct
     /// формат которого описывает следующая структура
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
     [DebuggerDisplay("Length={Length}, KeyOffset={KeyOffset}, Text={Text}")]
     public sealed class NodeItem64
     {

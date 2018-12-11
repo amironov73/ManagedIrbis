@@ -25,13 +25,7 @@ namespace UnsafeCode
         /// If true, breaks execution on assertion failure.
         /// Enabled by default.
         /// </summary>
-        public static bool BreakOnException
-        {
-            get { return _breakOnException; }
-            set { _breakOnException = value; }
-        }
-
-        private static bool _breakOnException = true;
+        public static bool BreakOnException { get; set; } = true;
 
         /// <summary>
         /// BreaksExecution if debugger attached
@@ -40,7 +34,9 @@ namespace UnsafeCode
         public static void BreakIfAttached()
         {
             if (BreakOnException && Debugger.IsAttached)
+            {
                 Debugger.Break();
+            }
         }
 
         /// <summary>
@@ -49,10 +45,15 @@ namespace UnsafeCode
         [SuppressMessage("ReSharper", "ArrangeRedundantParentheses")]
         [DebuggerHidden, NotNull]
         [StringFormatMethod("messageFormat")]
-        private static string FormatMessage([NotNull] string messageFormat, [CanBeNull] params object[] args)
+        private static string FormatMessage
+            (
+                [NotNull] string messageFormat,
+                [CanBeNull] params object[] args
+            )
         {
-            return (args == null || args.Length == 0) ?
-                messageFormat : string.Format(messageFormat, args);
+            return (args == null || args.Length == 0)
+                ? messageFormat
+                : string.Format(messageFormat, args);
         }
 
         #endregion
@@ -108,7 +109,7 @@ namespace UnsafeCode
 
 #if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
-                    ,value,
+                    , value,
                     string.Format
                     (
                         "The value of '{0}' ({1}) should be between {2} and {3}",
@@ -137,7 +138,7 @@ namespace UnsafeCode
 
 #if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
-                    ,value,
+                    , value,
                     string.Format
                     (
                         "The value of '{0}' ({1}) should be greater than {2}",
@@ -164,7 +165,7 @@ namespace UnsafeCode
 
 #if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
-                    ,value,
+                    , value,
                     string.Format
                     (
                         "The value of '{0}' ('{1}') should be between '{2}' and '{3}'",
@@ -195,7 +196,7 @@ namespace UnsafeCode
 
 #if !WINMOBILE && !PocketPC && !SILVERLIGHT
 
-                    ,value,
+                    , value,
                     string.Format
                         (
                             "The value of '{0}' ('{1}') should be greater than '{2}'.",
@@ -269,32 +270,28 @@ namespace UnsafeCode
         /// Used to be thrown from the default: switch clause
         /// </summary>
         [DebuggerHidden, NotNull]
-        public static ArgumentOutOfRangeException UnexpectedArgumentValue<T>(
-            [NotNull, InvokerParameterName] string argumentName,
-            [CanBeNull] T value)
+        public static ArgumentOutOfRangeException UnexpectedArgumentValue<T>
+            (
+                [NotNull, InvokerParameterName] string argumentName,
+                [CanBeNull] T value
+            )
         {
             BreakIfAttached();
 
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
+            // ReSharper disable CompareNonConstrainedGenericWithNull
+            var valueType = (value == null) ? typeof(T) : value.GetType();
+            // ReSharper restore CompareNonConstrainedGenericWithNull
 
-            // ReSharper disable once CompareNonConstrainedGenericWithNull
-            var valueType = (value == null) ? typeof (T) : value.GetType();
-
-#endif
             return new ArgumentOutOfRangeException
                 (
-                    argumentName
-
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-
-                    ,value,
+                    argumentName,
+                    value,
                     string.Format
                         (
                             "Unexpected value '{0}' of type '{1}'",
                             value,
                             valueType.FullName
                         )
-#endif
                 );
         }
 
@@ -304,26 +301,21 @@ namespace UnsafeCode
         /// </summary>
         [DebuggerHidden, NotNull]
         [StringFormatMethod("messageFormat")]
-        public static ArgumentOutOfRangeException UnexpectedArgumentValue<T>(
-            [NotNull, InvokerParameterName] string argumentName,
-            [CanBeNull] T value,
-            [NotNull] string messageFormat, [CanBeNull] params object[] args)
+        public static ArgumentOutOfRangeException UnexpectedArgumentValue<T>
+            (
+                [NotNull, InvokerParameterName] string argumentName,
+                [CanBeNull] T value,
+                [NotNull] string messageFormat,
+                [CanBeNull] params object[] args
+            )
         {
             BreakIfAttached();
 
             return new ArgumentOutOfRangeException
                 (
-                    argumentName
-
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-
-                    , value,
-                    FormatMessage
-                        (
-                            messageFormat,
-                            args
-                        )
-#endif
+                    argumentName,
+                    value,
+                    FormatMessage(messageFormat, args)
                 );
         }
 
@@ -332,17 +324,24 @@ namespace UnsafeCode
         /// Used to be thrown from the default: switch clause
         /// </summary>
         [DebuggerHidden, NotNull]
-        public static InvalidOperationException UnexpectedValue<T>([CanBeNull] T value)
+        public static InvalidOperationException UnexpectedValue<T>
+            (
+                [CanBeNull] T value
+            )
         {
             BreakIfAttached();
-            // ReSharper disable once CompareNonConstrainedGenericWithNull
-            var valueType = (value == null) ? typeof (T) : value.GetType();
+
+            // ReSharper disable CompareNonConstrainedGenericWithNull
+            var valueType = (value == null) ? typeof(T) : value.GetType();
+            // ReSharper restore CompareNonConstrainedGenericWithNull
+
             string message = string.Format
                 (
                     "Unexpected value '{0}' of type '{1}'",
                     value,
                     valueType.FullName
                 );
+
             return new InvalidOperationException(message);
         }
 
@@ -352,10 +351,14 @@ namespace UnsafeCode
         /// </summary>
         [DebuggerHidden, NotNull]
         [StringFormatMethod("messageFormat")]
-        public static InvalidOperationException UnexpectedValue(
-            [NotNull] string messageFormat, [CanBeNull] params object[] args)
+        public static InvalidOperationException UnexpectedValue
+            (
+                [NotNull] string messageFormat,
+                [CanBeNull] params object[] args
+            )
         {
             BreakIfAttached();
+
             return new InvalidOperationException(FormatMessage(messageFormat, args));
         }
 
@@ -364,12 +367,16 @@ namespace UnsafeCode
         /// </summary>
         [DebuggerHidden, NotNull]
         [StringFormatMethod("messageFormat")]
-        public static ObjectDisposedException ObjectDisposed([CanBeNull] Type typeofDisposedObject)
+        public static ObjectDisposedException ObjectDisposed
+            (
+                [CanBeNull] Type typeofDisposedObject
+            )
         {
             BreakIfAttached();
             string fullName = (typeofDisposedObject == null)
                 ? null
                 : typeofDisposedObject.FullName;
+
             return new ObjectDisposedException(fullName);
         }
 
@@ -378,12 +385,21 @@ namespace UnsafeCode
         /// </summary>
         [DebuggerHidden, NotNull]
         [StringFormatMethod("messageFormat")]
-        public static ObjectDisposedException ObjectDisposed(
-            [CanBeNull] Type typeofDisposedObject, [NotNull] string messageFormat, [CanBeNull] params object[] args)
+        public static ObjectDisposedException ObjectDisposed
+            (
+                [CanBeNull] Type typeofDisposedObject,
+                [NotNull] string messageFormat,
+                [CanBeNull] params object[] args
+            )
         {
             BreakIfAttached();
             string fullName = (typeofDisposedObject == null) ? null : typeofDisposedObject.FullName;
-            return new ObjectDisposedException(fullName, FormatMessage(messageFormat, args));
+
+            return new ObjectDisposedException
+                (
+                    fullName,
+                    FormatMessage(messageFormat, args)
+                );
         }
 
         /// <summary>
@@ -401,10 +417,10 @@ namespace UnsafeCode
             return new NotSupportedException
                 (
                     FormatMessage
-                    (
-                        messageFormat,
-                        args
-                    )
+                        (
+                            messageFormat,
+                            args
+                        )
                 );
         }
         #endregion

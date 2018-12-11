@@ -12,23 +12,20 @@
 using System.IO;
 using System.Text;
 
-using AM.IO;
+using UnsafeAM.IO;
 
-using CodeJam;
+using UnsafeCode;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
-namespace AM.Logging
+namespace UnsafeAM.Logging
 {
     /// <summary>
     ///
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
     public sealed class FileLogger
         : IAmLogger
     {
@@ -52,7 +49,7 @@ namespace AM.Logging
                 [NotNull] string fileName
             )
         {
-            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNullNorEmpty(fileName, nameof(fileName));
 
             FileName = fileName;
         }

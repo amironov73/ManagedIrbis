@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* FileLogger.cs --
+/* Log.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -9,36 +9,31 @@
 
 #region Using directives
 
-using System.IO;
-using System.Text;
+using System;
+using System.Diagnostics.CodeAnalysis;
 
-using AM.IO;
-
-using CodeJam;
+using UnsafeCode;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
-namespace AM.Logging
+namespace UnsafeAM.Logging
 {
     /// <summary>
     ///
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
-    public sealed class FileLogger
+    public sealed class TimeStampLogger
         : IAmLogger
     {
         #region Properties
 
         /// <summary>
-        /// File name.
+        /// Inner logger.
         /// </summary>
         [NotNull]
-        public string FileName { get; private set; }
+        public IAmLogger Inner { get; private set; }
 
         #endregion
 
@@ -47,47 +42,32 @@ namespace AM.Logging
         /// <summary>
         /// Constructor.
         /// </summary>
-        public FileLogger
+        public TimeStampLogger
             (
-                [NotNull] string fileName
+                [NotNull] IAmLogger inner
             )
         {
-            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNull(inner, nameof(inner));
 
-            FileName = fileName;
+            Inner = inner;
         }
 
         #endregion
 
-        #region Public methods
+        #region Private members
 
-        /// <summary>
-        /// Write one line.
-        /// </summary>
         [NotNull]
-        public FileLogger WriteLine
+        private static string _Prepend
             (
-                [CanBeNull] string line
+                [CanBeNull] string text
             )
         {
-            if (!ReferenceEquals(line, null))
-            {
-                using (StreamWriter writer = TextWriterUtility.Append
-                    (
-                        FileName,
-                        Encoding.UTF8
-                    ))
-                {
-                    writer.WriteLine(line);
-                }
-            }
-
-            return this;
+            return DateTime.Now.ToLongUniformString() + ": " + text;
         }
 
         #endregion
 
-        #region IAMLogger members
+        #region IAmLogger members
 
         /// <inheritdoc cref="IAmLogger.Debug" />
         public void Debug
@@ -95,7 +75,7 @@ namespace AM.Logging
                 string text
             )
         {
-            WriteLine(text);
+            Inner.Debug(_Prepend(text));
         }
 
         /// <inheritdoc cref="IAmLogger.Error" />
@@ -104,7 +84,7 @@ namespace AM.Logging
                 string text
             )
         {
-            WriteLine(text);
+            Inner.Error(_Prepend(text));
         }
 
         /// <inheritdoc cref="IAmLogger.Fatal" />
@@ -113,7 +93,7 @@ namespace AM.Logging
                 string text
             )
         {
-            WriteLine(text);
+            Inner.Fatal(_Prepend(text));
         }
 
         /// <inheritdoc cref="IAmLogger.Info" />
@@ -122,7 +102,7 @@ namespace AM.Logging
                 string text
             )
         {
-            WriteLine(text);
+            Inner.Info(_Prepend(text));
         }
 
         /// <inheritdoc cref="IAmLogger.Trace" />
@@ -131,7 +111,7 @@ namespace AM.Logging
                 string text
             )
         {
-            WriteLine(text);
+            Inner.Trace(_Prepend(text));
         }
 
         /// <inheritdoc cref="IAmLogger.Warn" />
@@ -140,7 +120,7 @@ namespace AM.Logging
                 string text
             )
         {
-            WriteLine(text);
+            Inner.Warn(_Prepend(text));
         }
 
         #endregion

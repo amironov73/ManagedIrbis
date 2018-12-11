@@ -11,8 +11,6 @@
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace UnsafeIrbis.Direct
@@ -21,7 +19,6 @@ namespace UnsafeIrbis.Direct
     /// Found record info.
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
     public struct FoundRecord
     {
         #region Properties

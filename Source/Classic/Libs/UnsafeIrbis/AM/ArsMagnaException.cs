@@ -13,13 +13,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using CodeJam;
+using UnsafeCode;
 
 using JetBrains.Annotations;
 
 #endregion
 
-namespace AM
+namespace UnsafeAM
 {
     /// <summary>
     /// Exception base for Ars Magna project.
@@ -91,7 +91,7 @@ namespace AM
                 [NotNull] BinaryAttachment attachment
             )
         {
-            Code.NotNull(attachment, "attachment");
+            Code.NotNull(attachment, nameof(attachment));
 
             Attachments.Add(attachment);
 
@@ -147,6 +147,7 @@ namespace AM
                     offset += 16;
                     result.AppendLine();
                 }
+
                 if (offset != length)
                 {
                     result.AppendFormat("{0:X4}:", offset);

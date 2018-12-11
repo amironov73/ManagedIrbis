@@ -19,8 +19,6 @@ using UnsafeCode;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 using Newtonsoft.Json;
 
 #endregion
@@ -31,7 +29,6 @@ namespace UnsafeIrbis.Direct
     /// Record leader of L01/N01 file.
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
     [DebuggerDisplay("Number={Number}, Previous={Previous}, Next={Next}, "
         + "TermCount={TermCount}, FreeOffset={FreeOffset}")]
     public sealed class NodeLeader64

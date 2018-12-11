@@ -16,14 +16,12 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-//using AM.Logging;
+using UnsafeAM.Logging;
 //using AM.Text;
 
 using UnsafeCode;
 
 using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
@@ -33,7 +31,6 @@ namespace UnsafeAM.IO
     /// Stream manipulation routines.
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
     public static class StreamUtility
     {
         #region Private members
@@ -132,12 +129,12 @@ namespace UnsafeAM.IO
 
             if (maximum < 0)
             {
-                //Log.Error
-                //    (
-                //        "StreamUtility::ReadAsMuchAsPossible: "
-                //        + "maximum="
-                //        + maximum
-                //    );
+                Log.Error
+                    (
+                        "StreamUtility::ReadAsMuchAsPossible: "
+                        + "maximum="
+                        + maximum
+                    );
 
                 throw new ArgumentOutOfRangeException(nameof(maximum));
             }
@@ -561,11 +558,11 @@ namespace UnsafeAM.IO
             byte[] buffer = new byte[length];
             if (stream.Read(buffer, 0, length) != length)
             {
-                //Log.Error
-                //    (
-                //        "StreamUtility::_Read: "
-                //        + "unexpected end of stream"
-                //    );
+                Log.Error
+                    (
+                        "StreamUtility::_Read: "
+                        + "unexpected end of stream"
+                    );
 
                 throw new IOException();
             }
