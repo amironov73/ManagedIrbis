@@ -9,13 +9,13 @@
 
 #region Using directives
 
-using AM;
+using UnsafeAM;
 
 using JetBrains.Annotations;
 
 #endregion
 
-namespace AM
+namespace UnsafeAM
 {
     /// <summary>
     /// Common interface for object that can be read-only.

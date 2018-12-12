@@ -863,8 +863,13 @@
     <Compile Include="ManagedIrbis\Pft\PftExceptionTest.cs" />
     <Compile Include="ManagedIrbis\UserInfoTest.cs" />
     <Compile Include="System\IO\Compression\DeflateStreamTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Collections\ChunkArrayTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Collections\ChunkListTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Collections\LocalListTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Collections\NonNullCollectionTest.cs" />
     <Compile Include="UnsafeIrbis\AM\FastNumberTest.cs" />
     <Compile Include="UnsafeIrbis\AM\IO\StreamUtilityTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\UnsafeUtilityTest.cs" />
     <Compile Include="UnsafeIrbis\FieldTagTest.cs" />
     <Compile Include="UnsafeIrbis\FieldValueTest.cs" />
   </ItemGroup>

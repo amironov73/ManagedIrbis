@@ -9,26 +9,23 @@
 
 #region Using directives
 
-using AM.Logging;
+using UnsafeAM.Logging;
 
 using System;
 using System.Collections.Generic;
 
-using CodeJam;
+using UnsafeCode;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
-namespace AM
+namespace UnsafeAM
 {
     /// <summary>
     /// <see cref="Array"/> manipulation helper methods.
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
     public static class ArrayUtility
     {
         #region Public methods

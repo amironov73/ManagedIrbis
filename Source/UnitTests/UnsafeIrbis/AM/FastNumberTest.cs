@@ -5,7 +5,7 @@ using UnsafeAM;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.UnsafeIrbis.AM
+namespace UnitTests.UnsafeAM
 {
     [TestClass]
     public class FastNumberTest

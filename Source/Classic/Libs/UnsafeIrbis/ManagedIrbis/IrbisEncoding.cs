@@ -12,31 +12,24 @@
 using System;
 using System.Text;
 
-using AM;
-using AM.Logging;
-using AM.Text;
+using UnsafeAM;
+using UnsafeAM.Logging;
+using UnsafeAM.Text;
 
-using CodeJam;
+using UnsafeCode;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
-#if CLASSIC || NETCORE
-
 using CM=System.Configuration.ConfigurationManager;
-
-#endif
 
 #endregion
 
-namespace ManagedIrbis
+namespace UnsafeIrbis
 {
     /// <summary>
     /// Encoding used by IRBIS
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
     public static class IrbisEncoding
     {
         #region Properties

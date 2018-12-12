@@ -10,7 +10,7 @@ using JetBrains.Annotations;
 
 // ReSharper disable InvokeAsExtensionMethod
 
-namespace UnitTests.UnsafeIrbis.AM.IO
+namespace UnitTests.UnsafeAM.IO
 {
     [TestClass]
     public class StreamUtilityTest

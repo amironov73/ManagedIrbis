@@ -11,16 +11,16 @@
 
 using System;
 
-using AM;
+using UnsafeAM;
 
 using JetBrains.Annotations;
 
 #endregion
 
-namespace ManagedIrbis.Infrastructure
+namespace UnsafeIrbis.Infrastructure
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     public sealed class IrbisNetworkException

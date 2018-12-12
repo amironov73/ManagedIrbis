@@ -52,12 +52,16 @@
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\System.Buffers.4.4.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\System.Memory.4.5.1\lib\netstandard1.1\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -86,9 +90,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AM\ArrayUtility.cs" />
     <Compile Include="AM\ArsMagnaException.cs" />
     <Compile Include="AM\BinaryAttachment.cs" />
+    <Compile Include="AM\CharUtility.cs" />
+    <Compile Include="AM\Collections\BitArrayUtility.cs" />
+    <Compile Include="AM\Collections\CharSet.cs" />
+    <Compile Include="AM\Collections\ChunkArray.cs" />
+    <Compile Include="AM\Collections\ChunkList.cs" />
+    <Compile Include="AM\Collections\DictionaryCounterDouble.cs" />
+    <Compile Include="AM\Collections\DictionaryCounterInt32.cs" />
+    <Compile Include="AM\Collections\LocalList.cs" />
     <Compile Include="AM\Collections\NonNullCollection.cs" />
+    <Compile Include="AM\ConversionUtility.cs" />
     <Compile Include="AM\DateTimeUtility.cs" />
     <Compile Include="AM\EmptyArray.cs" />
     <Compile Include="AM\FastNumber.cs" />
@@ -101,6 +115,10 @@
     <Compile Include="AM\IO\StreamUtility.cs" />
     <Compile Include="AM\IO\TextReaderUtility.cs" />
     <Compile Include="AM\IO\TextWriterUtility.cs" />
+    <Compile Include="AM\IReadOnly.cs" />
+    <Compile Include="AM\IVerifiable.cs" />
+    <Compile Include="AM\Json\JsonUtility.cs" />
+    <Compile Include="AM\Json\SingleOrArray.cs" />
     <Compile Include="AM\Logging\ConsoleLogger.cs" />
     <Compile Include="AM\Logging\DebugLogger.cs" />
     <Compile Include="AM\Logging\FileLogger.cs" />
@@ -110,8 +128,18 @@
     <Compile Include="AM\Logging\TeeLogger.cs" />
     <Compile Include="AM\Logging\TimeStampLogger.cs" />
     <Compile Include="AM\Logging\TraceLogger.cs" />
+    <Compile Include="AM\NumericUtility.cs" />
+    <Compile Include="AM\ReadOnlyException.cs" />
+    <Compile Include="AM\Runtime\IHandmadeSerializable.cs" />
     <Compile Include="AM\StringUtility.cs" />
     <Compile Include="AM\Text\EncodingUtility.cs" />
+    <Compile Include="AM\Text\SourceCodeUtility.cs" />
+    <Compile Include="AM\UnsafeUtility.cs" />
+    <Compile Include="AM\Utility.cs" />
+    <Compile Include="AM\VerificationException.cs" />
+    <Compile Include="AM\Verifier.cs" />
+    <Compile Include="AM\Xml\XmlNamespaces.cs" />
+    <Compile Include="AM\Xml\XmlUtility.cs" />
     <Compile Include="CodeJam\Code.cs" />
     <Compile Include="CodeJam\CodeExceptions.cs" />
     <Compile Include="ManagedIrbis\Direct\FoundRecord.cs" />
@@ -120,12 +148,29 @@
     <Compile Include="ManagedIrbis\Direct\XrfRecord64.cs" />
     <Compile Include="ManagedIrbis\FieldTag.cs" />
     <Compile Include="ManagedIrbis\FieldValue.cs" />
+    <Compile Include="ManagedIrbis\IIrbisConnection.cs" />
+    <Compile Include="ManagedIrbis\ImportExport\ProtocolText.cs" />
+    <Compile Include="ManagedIrbis\Infrastructure\IrbisNetworkException.cs" />
+    <Compile Include="ManagedIrbis\Infrastructure\IrbisReturnCode.cs" />
+    <Compile Include="ManagedIrbis\Infrastructure\ServerResponse.cs" />
+    <Compile Include="ManagedIrbis\IrbisDate.cs" />
+    <Compile Include="ManagedIrbis\IrbisEncoding.cs" />
+    <Compile Include="ManagedIrbis\IrbisException.cs" />
+    <Compile Include="ManagedIrbis\IrbisText.cs" />
+    <Compile Include="ManagedIrbis\MarcRecord.cs" />
+    <Compile Include="ManagedIrbis\RecordField.cs" />
+    <Compile Include="ManagedIrbis\RecordFieldCollection.cs" />
+    <Compile Include="ManagedIrbis\RecordFieldUtility.cs" />
     <Compile Include="ManagedIrbis\RecordStatus.cs" />
     <Compile Include="ManagedIrbis\SubField.cs" />
     <None Include="ArsMagna.private.snk" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <Compile Include="ManagedIrbis\SubFieldCode.cs" />
+    <Compile Include="ManagedIrbis\SubFieldCollection.cs" />
+    <Compile Include="ManagedIrbis\SubFieldUtility.cs" />
+    <Compile Include="ManagedIrbis\SubFieldValue.cs" />
     <Compile Include="Properties\LocalAssemblyInfo.cs" />
     <Compile Include="..\..\Common\AssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>

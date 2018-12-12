@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using AM.Collections;
+using UnsafeAM.Collections;
 
 // ReSharper disable CollectionNeverQueried.Local
 // ReSharper disable CollectionNeverUpdated.Local
 
-namespace UnitTests.AM.Collections
+namespace UnitTests.UnsafeAM.Collections
 {
     [TestClass]
     public class NonNullCollectionTest

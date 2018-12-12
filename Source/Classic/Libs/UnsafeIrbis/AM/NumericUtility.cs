@@ -16,23 +16,20 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-using CodeJam;
+using UnsafeCode;
 
 using JetBrains.Annotations;
-
-using MoonSharp.Interpreter;
 
 #endregion
 
 // ReSharper disable InvokeAsExtensionMethod
 
-namespace AM
+namespace UnsafeAM
 {
     /// <summary>
     /// Helper methods for numeric values.
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
     public static class NumericUtility
     {
         #region Private members
@@ -168,7 +165,7 @@ namespace AM
                 [NotNull] string text
             )
         {
-            Code.NotNull(text, "text");
+            Code.NotNull(text, nameof(text));
 
             if (StringUtility.ContainsCharacter(text, ','))
             {
@@ -195,7 +192,7 @@ namespace AM
                 [NotNull] string text
             )
         {
-            Code.NotNull(text, "text");
+            Code.NotNull(text, nameof(text));
 
             if (StringUtility.ContainsCharacter(text, ','))
             {
@@ -299,7 +296,7 @@ namespace AM
                 [NotNull] IEnumerable<int> many
             )
         {
-            Code.NotNull(many, "many");
+            Code.NotNull(many, nameof(many));
 
             foreach (int i in many)
             {
@@ -321,7 +318,7 @@ namespace AM
                 [NotNull] string text
             )
         {
-            Code.NotNullNorEmpty(text, "text");
+            Code.NotNullNorEmpty(text, nameof(text));
 
             text = ConvertFloatToInvariant(text);
 
@@ -344,7 +341,7 @@ namespace AM
                 [NotNull] string text
             )
         {
-            Code.NotNullNorEmpty(text, "text");
+            Code.NotNullNorEmpty(text, nameof(text));
 
             text = ConvertFloatToInvariant(text);
 
@@ -367,7 +364,7 @@ namespace AM
                 [NotNull] string text
             )
         {
-            Code.NotNullNorEmpty(text, "text");
+            Code.NotNullNorEmpty(text, nameof(text));
 
             text = ConvertIntegerToInvariant(text);
 
@@ -390,7 +387,7 @@ namespace AM
                 [NotNull] string text
             )
         {
-            Code.NotNullNorEmpty(text, "text");
+            Code.NotNullNorEmpty(text, nameof(text));
 
             text = ConvertIntegerToInvariant(text);
 
@@ -413,7 +410,7 @@ namespace AM
                 [NotNull] string text
             )
         {
-            Code.NotNullNorEmpty(text, "text");
+            Code.NotNullNorEmpty(text, nameof(text));
 
             text = ConvertFloatToInvariant(text);
 
@@ -724,7 +721,7 @@ namespace AM
                 [NotNull] string format
             )
         {
-            Code.NotNullNorEmpty(format, "format");
+            Code.NotNullNorEmpty(format, nameof(format));
 
             return value.ToString
                 (
@@ -761,7 +758,7 @@ namespace AM
                 [NotNull] string format
             )
         {
-            Code.NotNullNorEmpty(format, "format");
+            Code.NotNullNorEmpty(format, nameof(format));
 
             return value.ToString
                 (
