@@ -1,7 +1,8 @@
 @echo off
 
 rem SET MSBUILD=C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
-SET MSBUILD="%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe"
+rem SET MSBUILD="%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe"
+SET MSBUILD="%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe"
 SET BINARIES=Binaries
 SET OUTPUT=..\..\..\..\Binaries
 SET PARAMS=/consoleloggerparameters:ErrorsOnly /m

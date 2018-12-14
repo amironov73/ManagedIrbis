@@ -1,26 +1,24 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* CompressionUtility.cs -- useful routines that simplifies data compression 
+/* CompressionUtility.cs -- useful routines that simplifies data compression
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
-
-#if !SILVERLIGHT
 
 #region Using directives
 
 using System.IO;
 using System.IO.Compression;
 
-using CodeJam;
+using UnsafeCode;
 
 using JetBrains.Annotations;
 
 #endregion
 
-namespace AM.IO
+namespace UnsafeAM.IO
 {
     /// <summary>
     /// Useful routines that simplifies data compression/decompression.
@@ -39,7 +37,7 @@ namespace AM.IO
                 [NotNull] byte[] data
             )
         {
-            Code.NotNull(data, "data");
+            Code.NotNull(data, nameof(data));
 
             MemoryStream memory = new MemoryStream();
             using (DeflateStream compressor = new DeflateStream
@@ -63,7 +61,7 @@ namespace AM.IO
                 [NotNull] byte[] data
             )
         {
-            Code.NotNull(data, "data");
+            Code.NotNull(data, nameof(data));
 
             MemoryStream memory = new MemoryStream(data);
             using (DeflateStream decompresser = new DeflateStream
@@ -83,6 +81,4 @@ namespace AM.IO
         #endregion
     }
 }
-
-#endif
 

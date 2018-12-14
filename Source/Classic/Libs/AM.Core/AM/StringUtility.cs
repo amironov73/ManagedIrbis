@@ -1763,7 +1763,7 @@ namespace AM
                 result.Add(text);
                 break;
 
-                DONE:;
+            DONE:;
             }
 
             return result.ToArray();
@@ -2430,7 +2430,154 @@ namespace AM
             return result;
         }
 
-#endregion
+        /// <summary>
+        /// Provides the substring after the search string
+        /// or <c>null</c>.
+        /// </summary>
+        [CanBeNull]
+        public static string AfterFirst
+            (
+                [NotNull] string text,
+                [NotNull] string fragment
+            )
+        {
+            Code.NotNull(text, "text");
+            Code.NotNullNorEmpty(fragment, "fragment");
+
+            int index = text.IndexOf(fragment);
+            string result = index < 0
+                ? null
+                : text.Substring(index + fragment.Length);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Provides the substring after the search string
+        /// or <c>null</c>.
+        /// </summary>
+        [CanBeNull]
+        public static string AfterLast
+            (
+                [NotNull] string text,
+                [NotNull] string fragment
+            )
+        {
+            Code.NotNull(text, "text");
+            Code.NotNullNorEmpty(fragment, "fragment");
+
+            int index = text.LastIndexOf(fragment);
+            string result = index < 0
+                ? null
+                : text.Substring(index + fragment.Length);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Provides the substring before the search string
+        /// or <c>null</c>.
+        /// </summary>
+        [CanBeNull]
+        public static string BeforeFirst
+            (
+                [NotNull] string text,
+                [NotNull] string fragment
+            )
+        {
+            Code.NotNull(text, "text");
+            Code.NotNullNorEmpty(fragment, "fragment");
+
+            int index = text.IndexOf(fragment);
+            string result = index < 0
+                ? null
+                : text.Substring(0, index);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Provides the substring before the search string
+        /// or <c>null</c>.
+        /// </summary>
+        [CanBeNull]
+        public static string BeforeLast
+            (
+                [NotNull] string text,
+                [NotNull] string fragment
+            )
+        {
+            Code.NotNull(text, "text");
+            Code.NotNullNorEmpty(fragment, "fragment");
+
+            int index = text.LastIndexOf(fragment);
+            string result = index < 0
+                ? null
+                : text.Substring(0, index);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Shortcut for adding an array of values to a StringBuilder.
+        /// </summary>
+        [NotNull]
+        public static StringBuilder AppendAll
+            (
+                [NotNull] this StringBuilder target,
+                [NotNull] IEnumerable values,
+                [NotNull] string separator
+            )
+        {
+            Code.NotNull(target, "target");
+            Code.NotNull(values, "values");
+
+            bool first = true;
+            foreach (object value in values)
+            {
+                if (!first)
+                {
+                    target.Append(separator);
+                }
+
+                target.Append(value);
+                first = false;
+            }
+
+            return target;
+        }
+
+        /// <summary>
+        /// Shortcut for adding an array of values to a StringBuilder.
+        /// </summary>
+        [NotNull]
+        public static StringBuilder AppendAll
+            (
+                [NotNull] this StringBuilder target,
+                [NotNull] IEnumerable values,
+                char separator
+            )
+        {
+            Code.NotNull(target, "target");
+            Code.NotNull(values, "values");
+
+            bool first = true;
+            foreach (object value in values)
+            {
+                if (!first)
+                {
+                    target.Append(separator);
+                }
+
+                target.Append(value);
+                first = false;
+            }
+
+            return target;
+        }
+
+
+        #endregion
     }
 }
 

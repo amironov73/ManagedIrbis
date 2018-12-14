@@ -80,6 +80,35 @@ namespace UnsafeAM
         }
 
         /// <summary>
+        /// Сравнивает две строки с точностью до регистра символов.
+        /// </summary>
+        public static bool CompareNoCase
+            (
+                string left,
+                string right
+            )
+        {
+            return CultureInfo.InvariantCulture.CompareInfo.Compare
+                   (
+                       left,
+                       right,
+                       CompareOptions.IgnoreCase
+                   ) == 0;
+        }
+
+        /// <summary>
+        /// Сравнивает два символа с точностью до регистра.
+        /// </summary>
+        public static bool CompareNoCase
+            (
+                char left,
+                char right
+            )
+        {
+            return char.ToUpper(left) == char.ToUpper(right);
+        }
+
+        /// <summary>
         /// Содержит ли строка любой из перечисленных символов.
         /// </summary>
         public static bool ContainsAnySymbol

@@ -107,10 +107,17 @@
     <Compile Include="AM\EmptyArray.cs" />
     <Compile Include="AM\FastNumber.cs" />
     <Compile Include="AM\IAttachmentContainer.cs" />
+    <Compile Include="AM\IO\BinaryReaderUtility.cs" />
+    <Compile Include="AM\IO\BinaryWriterUtility.cs" />
+    <Compile Include="AM\IO\ChunkedBuffer.cs" />
+    <Compile Include="AM\IO\CompressionUtility.cs" />
+    <Compile Include="AM\IO\DirectoryUtility.cs" />
     <Compile Include="AM\IO\ExtraStruct.cs" />
     <Compile Include="AM\IO\FileUtility.cs" />
+    <Compile Include="AM\IO\InsistentFile.cs" />
     <Compile Include="AM\IO\LongStruct.cs" />
     <Compile Include="AM\IO\MiddleStruct.cs" />
+    <Compile Include="AM\IO\PathUtility.cs" />
     <Compile Include="AM\IO\ShortStruct.cs" />
     <Compile Include="AM\IO\StreamUtility.cs" />
     <Compile Include="AM\IO\TextReaderUtility.cs" />
@@ -131,9 +138,11 @@
     <Compile Include="AM\NumericUtility.cs" />
     <Compile Include="AM\ReadOnlyException.cs" />
     <Compile Include="AM\Runtime\IHandmadeSerializable.cs" />
+    <Compile Include="AM\Runtime\RuntimeUtility.cs" />
     <Compile Include="AM\StringUtility.cs" />
     <Compile Include="AM\Text\EncodingUtility.cs" />
     <Compile Include="AM\Text\SourceCodeUtility.cs" />
+    <Compile Include="AM\Threading\ThreadUtility.cs" />
     <Compile Include="AM\UnsafeUtility.cs" />
     <Compile Include="AM\Utility.cs" />
     <Compile Include="AM\VerificationException.cs" />
@@ -176,6 +185,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="AM\Reflection\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

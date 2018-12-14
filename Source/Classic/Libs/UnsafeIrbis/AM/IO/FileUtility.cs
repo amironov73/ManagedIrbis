@@ -46,8 +46,8 @@ namespace UnsafeAM.IO
                 [NotNull] string second
             )
         {
-            Code.FileExists(first, "first");
-            Code.FileExists(second, "second");
+            Code.FileExists(first, nameof(first));
+            Code.FileExists(second, nameof(second));
 
             using
                 (
@@ -56,10 +56,10 @@ namespace UnsafeAM.IO
                 )
             {
                 return StreamUtility.CompareTo
-                (
-                    firstStream,
-                    secondStream
-                );
+                    (
+                        firstStream,
+                        secondStream
+                    );
             }
         }
 
@@ -81,8 +81,8 @@ namespace UnsafeAM.IO
                 bool overwrite
             )
         {
-            Code.NotNull(sourceName, "sourceName");
-            Code.NotNull(targetName, "targetName");
+            Code.NotNull(sourceName, nameof(sourceName));
+            Code.NotNull(targetName, nameof(targetName));
 
             File.Copy(sourceName, targetName, overwrite);
 
@@ -112,8 +112,8 @@ namespace UnsafeAM.IO
                 bool backup
             )
         {
-            Code.FileExists(sourcePath, "sourcePath");
-            Code.NotNullNorEmpty(targetPath, "targetPath");
+            Code.FileExists(sourcePath, nameof(sourcePath));
+            Code.NotNullNorEmpty(targetPath, nameof(targetPath));
 
             if (File.Exists(targetPath))
             {
@@ -149,8 +149,8 @@ namespace UnsafeAM.IO
                 [NotNull] string targetPath
             )
         {
-            Code.FileExists(sourcePath, "sourcePath");
-            Code.NotNullNorEmpty(targetPath, "targetPath");
+            Code.FileExists(sourcePath, nameof(sourcePath));
+            Code.NotNullNorEmpty(targetPath, nameof(targetPath));
 
             string result = null;
             if (File.Exists(targetPath))
@@ -176,7 +176,7 @@ namespace UnsafeAM.IO
                 bool rename
             )
         {
-            Code.FileExists(path, "path");
+            Code.FileExists(path, nameof(path));
 
             string result = GetNotExistentFileName
                 (
@@ -204,7 +204,7 @@ namespace UnsafeAM.IO
                 [NotNull] string fileName
             )
         {
-            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNullNorEmpty(fileName, nameof(fileName));
 
             if (File.Exists(fileName))
             {
@@ -223,7 +223,7 @@ namespace UnsafeAM.IO
                 char elementDelimiter
             )
         {
-            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNullNorEmpty(fileName, nameof(fileName));
             if (string.IsNullOrEmpty(path))
             {
                 return null;
@@ -259,8 +259,8 @@ namespace UnsafeAM.IO
                 [NotNull] string suffix
             )
         {
-            Code.NotNullNorEmpty(original, "original");
-            Code.NotNullNorEmpty(suffix, "suffix");
+            Code.NotNullNorEmpty(original, nameof(original));
+            Code.NotNullNorEmpty(suffix, nameof(suffix));
 
             string path = Path.GetDirectoryName(original)
                 ?? string.Empty;
@@ -302,7 +302,7 @@ namespace UnsafeAM.IO
                 [NotNull] string fileName
             )
         {
-            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNullNorEmpty(fileName, nameof(fileName));
 
             if (File.Exists(fileName))
             {

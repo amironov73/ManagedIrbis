@@ -868,7 +868,16 @@
     <Compile Include="UnsafeIrbis\AM\Collections\LocalListTest.cs" />
     <Compile Include="UnsafeIrbis\AM\Collections\NonNullCollectionTest.cs" />
     <Compile Include="UnsafeIrbis\AM\FastNumberTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\IO\BinaryReaderUtilityTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\IO\BinaryWriterUtilityTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\IO\ChunkedBufferTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\IO\CompressionUtilityTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\IO\FileUtilityTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\IO\InsistentFileTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\IO\PathUtilityTest.cs" />
     <Compile Include="UnsafeIrbis\AM\IO\StreamUtilityTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\IO\TextReaderUtilityTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\IO\TextWriterUtilityTest.cs" />
     <Compile Include="UnsafeIrbis\AM\UnsafeUtilityTest.cs" />
     <Compile Include="UnsafeIrbis\FieldTagTest.cs" />
     <Compile Include="UnsafeIrbis\FieldValueTest.cs" />

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* InsistentFile.cs -- 
+/* InsistentFile.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -13,24 +13,21 @@ using System;
 using System.Diagnostics;
 using System.IO;
 
-using AM.Logging;
-using AM.Threading;
+using UnsafeAM.Logging;
+using UnsafeAM.Threading;
 
-using CodeJam;
+using UnsafeCode;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
-namespace AM.IO
+namespace UnsafeAM.IO
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
     public static class InsistentFile
     {
         #region Constants
@@ -141,7 +138,7 @@ namespace AM.IO
                 FileShare share
             )
         {
-            Code.NotNullNorEmpty(path, "path");
+            Code.NotNullNorEmpty(path, nameof(path));
 
             FileStream result = _Evaluate
                 (
