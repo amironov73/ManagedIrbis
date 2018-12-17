@@ -2,12 +2,12 @@
 using System.IO;
 using System.Linq;
 
-using AM.IO;
-using AM.Runtime;
+using UnsafeAM.IO;
+using UnsafeAM.Runtime;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.AM.Runtime
+namespace UnitTests.UnsafeAM.Runtime
 {
     class MyFirstClass
         : IHandmadeSerializable

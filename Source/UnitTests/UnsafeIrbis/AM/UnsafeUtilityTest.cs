@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using UnsafeAM;
 
@@ -8,6 +7,24 @@ namespace UnitTests.UnsafeAM
     [TestClass]
     public class UnsafeUtilityTest
     {
+        [TestMethod]
+        public void UnsafeUtility_Alloc_1()
+        {
+            const int size = 1024;
+            var span = UnsafeUtility.Alloc(size);
+            for (int i = 0; i < size; i++)
+            {
+                span[i] = 1;
+            }
+
+            for (int i = 0; i < size; i++)
+            {
+                Assert.AreEqual(1, span[i]);
+            }
+
+            UnsafeUtility.Free(span);
+        }
+
         [TestMethod]
         public void UnsafeUtility_AsSpan_1()
         {

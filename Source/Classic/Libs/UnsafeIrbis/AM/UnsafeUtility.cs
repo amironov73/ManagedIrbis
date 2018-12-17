@@ -11,6 +11,9 @@
 
 using System;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+using UnsafeCode;
 
 using JetBrains.Annotations;
 
@@ -25,6 +28,23 @@ namespace UnsafeAM
     public static unsafe class UnsafeUtility
     {
         #region Public methods
+
+        /// <summary>
+        /// Allocate unmanaged memory.
+        /// </summary>
+        public static Span<byte> Alloc
+            (
+                int size
+            )
+        {
+            Code.Positive(size, nameof(size));
+
+            IntPtr handle = Marshal.AllocHGlobal(size);
+            void* pointer = handle.ToPointer();
+            Span<byte> result = new Span<byte>(pointer, size);
+
+            return result;
+        }
 
         /// <summary>
         /// Convert the object to <see cref="Span{T}"/>.
@@ -54,6 +74,19 @@ namespace UnsafeAM
             Span<byte> result = new Span<byte>(ptr, size);
 
             return result;
+        }
+
+        /// <summary>
+        /// Free unmanaged memory block allocated by <see cref="Alloc"/>.
+        /// </summary>
+        public static void Free
+            (
+                Span<byte> block
+            )
+        {
+            void* pointer = Unsafe.AsPointer(ref block[0]);
+            IntPtr handle = new IntPtr(pointer);
+            Marshal.FreeHGlobal(handle);
         }
 
         #endregion

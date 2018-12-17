@@ -880,10 +880,19 @@
     <Compile Include="UnsafeIrbis\AM\IO\TextWriterUtilityTest.cs" />
     <Compile Include="UnsafeIrbis\AM\Json\JsonUtilityTest.cs" />
     <Compile Include="UnsafeIrbis\AM\Json\SingleOrArrayTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Runtime\CanaryClass.cs" />
+    <Compile Include="UnsafeIrbis\AM\Runtime\HandmadeSerializerTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Runtime\InteropUtilityTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Runtime\SerializationUtilityTest.cs" />
     <Compile Include="UnsafeIrbis\AM\Text\EncodingUtilityTest.cs" />
     <Compile Include="UnsafeIrbis\AM\Text\HtmlTextTest.cs" />
     <Compile Include="UnsafeIrbis\AM\Text\InvariantFormatTest.cs" />
     <Compile Include="UnsafeIrbis\AM\Text\NewLineTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Text\NumberTextTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Text\Output\NullOutputTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Text\Output\OutputWriterTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Text\Output\TextOutputTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Text\Output\TimestampedOutputTest.cs" />
     <Compile Include="UnsafeIrbis\AM\Text\RichTextTest.cs" />
     <Compile Include="UnsafeIrbis\AM\Text\RussianFormatTest.cs" />
     <Compile Include="UnsafeIrbis\AM\Text\SourceCodeUtilityTest.cs" />
@@ -894,8 +903,8 @@
     <Compile Include="UnsafeIrbis\AM\UnsafeUtilityTest.cs" />
     <Compile Include="UnsafeIrbis\AM\Xml\CanaryClass.cs" />
     <Compile Include="UnsafeIrbis\AM\Xml\XmlUtilityTest.cs" />
-    <Compile Include="UnsafeIrbis\FieldTagTest.cs" />
-    <Compile Include="UnsafeIrbis\FieldValueTest.cs" />
+    <Compile Include="UnsafeIrbis\ManagedIrbis\FieldTagTest.cs" />
+    <Compile Include="UnsafeIrbis\ManagedIrbis\FieldValueTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Classic\Libs\AM.AOT\AM.AOT.csproj">
