@@ -878,7 +878,22 @@
     <Compile Include="UnsafeIrbis\AM\IO\StreamUtilityTest.cs" />
     <Compile Include="UnsafeIrbis\AM\IO\TextReaderUtilityTest.cs" />
     <Compile Include="UnsafeIrbis\AM\IO\TextWriterUtilityTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Json\JsonUtilityTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Json\SingleOrArrayTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Text\EncodingUtilityTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Text\HtmlTextTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Text\InvariantFormatTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Text\NewLineTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Text\RichTextTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Text\RussianFormatTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Text\SourceCodeUtilityTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Text\TextNavigatorTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Text\TextPositionTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Text\TextWithEncodingTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Text\UnicodeRangeTest.cs" />
     <Compile Include="UnsafeIrbis\AM\UnsafeUtilityTest.cs" />
+    <Compile Include="UnsafeIrbis\AM\Xml\CanaryClass.cs" />
+    <Compile Include="UnsafeIrbis\AM\Xml\XmlUtilityTest.cs" />
     <Compile Include="UnsafeIrbis\FieldTagTest.cs" />
     <Compile Include="UnsafeIrbis\FieldValueTest.cs" />
   </ItemGroup>
@@ -900,7 +915,9 @@
       <Name>UnsafeIrbis</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UnsafeIrbis\AM\Threading\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="codecov.testsettings">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

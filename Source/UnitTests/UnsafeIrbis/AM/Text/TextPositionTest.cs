@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using AM.Text;
+using UnsafeAM.Text;
 
-namespace UnitTests.AM.Text
+namespace UnitTests.UnsafeAM.Text
 {
     [TestClass]
     public class TextPositionTest
