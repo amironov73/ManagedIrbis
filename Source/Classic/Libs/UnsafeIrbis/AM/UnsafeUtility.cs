@@ -40,6 +40,7 @@ namespace UnsafeAM
             Code.Positive(size, nameof(size));
 
             IntPtr handle = Marshal.AllocHGlobal(size);
+            GC.AddMemoryPressure(size);
             void* pointer = handle.ToPointer();
             Span<byte> result = new Span<byte>(pointer, size);
 
@@ -85,6 +86,7 @@ namespace UnsafeAM
             )
         {
             void* pointer = Unsafe.AsPointer(ref block[0]);
+            GC.RemoveMemoryPressure(block.Length);
             IntPtr handle = new IntPtr(pointer);
             Marshal.FreeHGlobal(handle);
         }

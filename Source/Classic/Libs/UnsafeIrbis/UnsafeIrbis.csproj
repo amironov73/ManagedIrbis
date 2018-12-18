@@ -100,8 +100,14 @@
     <Compile Include="AM\Collections\ChunkList.cs" />
     <Compile Include="AM\Collections\DictionaryCounterDouble.cs" />
     <Compile Include="AM\Collections\DictionaryCounterInt32.cs" />
+    <Compile Include="AM\Collections\DictionaryList.cs" />
+    <Compile Include="AM\Collections\DictionaryListUtility.cs" />
+    <Compile Include="AM\Collections\DictionaryUtility.cs" />
+    <Compile Include="AM\Collections\ListUtility.cs" />
     <Compile Include="AM\Collections\LocalList.cs" />
+    <Compile Include="AM\Collections\NonEmptyStringCollection.cs" />
     <Compile Include="AM\Collections\NonNullCollection.cs" />
+    <Compile Include="AM\Collections\ValuePair.cs" />
     <Compile Include="AM\ConsoleIO\ConsoleInput.cs" />
     <Compile Include="AM\ConsoleIO\IConsoleDriver.cs" />
     <Compile Include="AM\ConsoleIO\InputHistory.cs" />

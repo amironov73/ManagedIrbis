@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* NullConsole.cs -- 
+/* NullConsole.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -18,7 +18,7 @@ using JetBrains.Annotations;
 namespace UnsafeAM.ConsoleIO
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     public sealed class NullConsole
@@ -33,7 +33,7 @@ namespace UnsafeAM.ConsoleIO
         public ConsoleColor ForegroundColor { get; set; }
 
         /// <inheritdoc />
-        public bool KeyAvailable { get { return false; } }
+        public bool KeyAvailable => false;
 
         /// <inheritdoc />
         public string Title { get; set; }

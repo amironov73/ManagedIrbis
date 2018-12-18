@@ -32,40 +32,37 @@ namespace UnsafeAM.ConsoleIO
         /// </summary>
         public static ConsoleColor BackgroundColor
         {
-            get { return Driver.BackgroundColor; }
-            set { Driver.BackgroundColor = value; }
+            get => Driver.BackgroundColor;
+            set => Driver.BackgroundColor = value;
         }
 
         /// <summary>
         /// Driver for the console.
         /// </summary>
         [NotNull]
-        public static IConsoleDriver Driver { get { return _driver; } }
+        public static IConsoleDriver Driver { get; private set; }
 
         /// <summary>
         /// Foreground color.
         /// </summary>
         public static ConsoleColor ForegroundColor
         {
-            get { return Driver.ForegroundColor; }
-            set { Driver.ForegroundColor = value; }
+            get => Driver.ForegroundColor;
+            set => Driver.ForegroundColor = value;
         }
 
         /// <summary>
         /// Key available?
         /// </summary>
-        public static bool KeyAvailable
-        {
-            get { return Driver.KeyAvailable; }
-        }
+        public static bool KeyAvailable => Driver.KeyAvailable;
 
         /// <summary>
         /// Console title.
         /// </summary>
         public static string Title
         {
-            get { return Driver.Title; }
-            set { Driver.Title = value; }
+            get => Driver.Title;
+            set => Driver.Title = value;
         }
 
         #endregion
@@ -74,22 +71,8 @@ namespace UnsafeAM.ConsoleIO
 
         static ConsoleInput()
         {
-#if PocketPC || WINMOBILE
-
-            _driver = new NullConsole();
-
-#else
-
-            _driver = new SystemConsole();
-
-#endif
+            Driver = new SystemConsole();
         }
-
-        #endregion
-
-        #region Private members
-
-        private static IConsoleDriver _driver;
 
         #endregion
 
@@ -140,11 +123,11 @@ namespace UnsafeAM.ConsoleIO
                 [NotNull] IConsoleDriver driver
             )
         {
-            Code.NotNull(driver, "driver");
+            Code.NotNull(driver, nameof(driver));
 
-            IConsoleDriver previousDriver = _driver;
+            IConsoleDriver previousDriver = Driver;
 
-            _driver = driver;
+            Driver = driver;
 
             return previousDriver;
         }

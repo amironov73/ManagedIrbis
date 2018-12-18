@@ -35,11 +35,11 @@ namespace UnsafeAM.Collections
     /// Character set.
     /// </summary>
     [PublicAPI]
-    [DebuggerDisplay("{ToString()}")]
+    [DebuggerDisplay("{" + nameof(ToString) + "()}")]
     public sealed class CharSet
-//        : IHandmadeSerializable,
-        : IEnumerable<char>
-//        IEquatable<CharSet>
+        : IHandmadeSerializable,
+        IEnumerable<char>,
+        IEquatable<CharSet>
     {
         #region Constants
 
@@ -287,7 +287,7 @@ namespace UnsafeAM.Collections
                 int capacity
             )
         {
-            Code.Positive(capacity, "capacity");
+            Code.Positive(capacity, nameof(capacity));
 
             _data = new BitArray(capacity);
         }
@@ -311,7 +311,7 @@ namespace UnsafeAM.Collections
                 [NotNull] CharSet other
             )
         {
-            Code.NotNull(other, "other");
+            Code.NotNull(other, nameof(other));
 
             _data = new BitArray(other._data);
         }
@@ -325,7 +325,7 @@ namespace UnsafeAM.Collections
             )
             : this()
         {
-            Code.NotNull(characters, "characters");
+            Code.NotNull(characters, nameof(characters));
 
             foreach (char c in characters)
             {
@@ -354,7 +354,7 @@ namespace UnsafeAM.Collections
             )
             : this()
         {
-            Code.NotNull(characters, "characters");
+            Code.NotNull(characters, nameof(characters));
 
             Add(characters);
         }
@@ -465,7 +465,7 @@ namespace UnsafeAM.Collections
                 [NotNull] string range
             )
         {
-            Code.NotNull(range, "range");
+            Code.NotNull(range, nameof(range));
 
             _Add(range, true);
 
@@ -499,7 +499,7 @@ namespace UnsafeAM.Collections
                 [NotNull] CharSet other
             )
         {
-            Code.NotNull(other, "other");
+            Code.NotNull(other, nameof(other));
 
             CharSet result = Clone();
             result._data.And(other._data);
@@ -582,7 +582,7 @@ namespace UnsafeAM.Collections
                 [NotNull] CharSet other
             )
         {
-            Code.NotNull(other, "other");
+            Code.NotNull(other, nameof(other));
 
             CharSet result = Clone();
             result._data.Or(other._data);
@@ -627,7 +627,7 @@ namespace UnsafeAM.Collections
                 [NotNull] string range
             )
         {
-            Code.NotNull(range, "range");
+            Code.NotNull(range, nameof(range));
 
             _Add(range, false);
 
@@ -694,7 +694,7 @@ namespace UnsafeAM.Collections
                 [NotNull] CharSet other
             )
         {
-            Code.NotNull(other, "other");
+            Code.NotNull(other, nameof(other));
 
             CharSet result = new CharSet(_data.Xor(other._data));
 
@@ -715,8 +715,8 @@ namespace UnsafeAM.Collections
                 [NotNull] CharSet right
             )
         {
-            Code.NotNull(left, "left");
-            Code.NotNull(right, "right");
+            Code.NotNull(left, nameof(left));
+            Code.NotNull(right, nameof(right));
 
             return left.Or(right);
         }
@@ -731,8 +731,8 @@ namespace UnsafeAM.Collections
                 [NotNull] string right
             )
         {
-            Code.NotNull(left, "left");
-            Code.NotNull(right, "right");
+            Code.NotNull(left, nameof(left));
+            Code.NotNull(right, nameof(right));
 
             CharSet result = new CharSet(left);
 
@@ -749,7 +749,7 @@ namespace UnsafeAM.Collections
                 char right
             )
         {
-            Code.NotNull(left, "left");
+            Code.NotNull(left, nameof(left));
 
             CharSet result = new CharSet(left);
 
@@ -766,8 +766,8 @@ namespace UnsafeAM.Collections
                 [NotNull] CharSet right
             )
         {
-            Code.NotNull(left, "left");
-            Code.NotNull(right, "right");
+            Code.NotNull(left, nameof(left));
+            Code.NotNull(right, nameof(right));
 
             return left.And(right.Not());
         }
@@ -782,8 +782,8 @@ namespace UnsafeAM.Collections
                 [NotNull] string right
             )
         {
-            Code.NotNull(left, "left");
-            Code.NotNull(right, "right");
+            Code.NotNull(left, nameof(left));
+            Code.NotNull(right, nameof(right));
 
             CharSet result = new CharSet(left);
 
@@ -800,7 +800,7 @@ namespace UnsafeAM.Collections
                 char right
             )
         {
-            Code.NotNull(left, "left");
+            Code.NotNull(left, nameof(left));
 
             CharSet result = new CharSet(left);
 
@@ -817,8 +817,8 @@ namespace UnsafeAM.Collections
                 [NotNull] CharSet right
             )
         {
-            Code.NotNull(left, "left");
-            Code.NotNull(right, "right");
+            Code.NotNull(left, nameof(left));
+            Code.NotNull(right, nameof(right));
 
             return left.And(right);
         }
@@ -833,8 +833,8 @@ namespace UnsafeAM.Collections
                 [NotNull] string right
             )
         {
-            Code.NotNull(left, "left");
-            Code.NotNull(right, "right");
+            Code.NotNull(left, nameof(left));
+            Code.NotNull(right, nameof(right));
 
             return left.And(new CharSet(right));
         }
@@ -849,7 +849,7 @@ namespace UnsafeAM.Collections
                 BinaryReader reader
             )
         {
-            Code.NotNull(reader, "reader");
+            Code.NotNull(reader, nameof(reader));
 
             Clear();
             string text = reader.ReadString();
@@ -862,7 +862,7 @@ namespace UnsafeAM.Collections
                 BinaryWriter writer
             )
         {
-            Code.NotNull(writer, "writer");
+            Code.NotNull(writer, nameof(writer));
 
             string text = ToString();
             writer.Write(text);
@@ -895,7 +895,7 @@ namespace UnsafeAM.Collections
                 CharSet other
             )
         {
-            Code.NotNull(other, "other");
+            Code.NotNull(other, nameof(other));
 
             other = other.ThrowIfNull("other");
 
