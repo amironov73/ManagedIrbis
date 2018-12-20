@@ -103,7 +103,7 @@ namespace XamaWatcher
             MarcRecord record = ReadCatalog(request.BookCode);
             request.BookRecord = record;
             request.FreeNumbers = ExtractInventoryNumbers(record);
-            //request.Reader = ReadReader(request.ReaderID);
+            request.Reader = ReadReader(request.ReaderID);
             request.MyNumbers = FilterMyNumbers(request.FreeNumbers);
         }
 
@@ -193,7 +193,7 @@ namespace XamaWatcher
             try
             {
                 _client.PushDatabase(_readerDb);
-                int[] found = _client.Search($"I={readerId}");
+                int[] found = _client.Search($"RI={readerId}");
                 if (found.Length == 0)
                 {
                     return null;

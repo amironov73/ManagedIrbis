@@ -138,19 +138,37 @@ namespace XamaWatcher
         public static BookRequest Parse(MarcRecord record)
         {
             BookRequest result = new BookRequest
-                                     {
-                                         Mfn = record.Mfn,
-                                         BookDescription = record.FM(201),
-                                         BookCode = record.FM(903),
-                                         RequestDate = record.FM(40),
-                                         ReaderID = record.FM(30),
-                                         ReaderDescription = record.FM(31),
-                                         Database = record.FM(1),
-                                         RejectInfo = record.FM(44),
-                                         Place = record.FM(102),
-                                         ResponsiblePerson = record.FM(50),
-                                         Record = record
-                                     };
+                 {
+                     Mfn = record.Mfn,
+                     BookDescription = record.FM(201),
+                     BookCode = record.FM(903),
+                     RequestDate = record.FM(40),
+                     ReaderID = record.FM(30),
+                     ReaderDescription = record.FM(31),
+                     Database = record.FM(1),
+                     RejectInfo = record.FM(44),
+                     Place = record.FM(102),
+                     ResponsiblePerson = record.FM(50),
+                     Record = record
+                 };
+
+            string readerDescription = result.ReaderDescription;
+            if (!string.IsNullOrEmpty(readerDescription))
+            {
+                int index = readerDescription.IndexOf
+                    (
+                        "Записан в",
+                        StringComparison.InvariantCulture
+                    );
+                if (index > 0)
+                {
+                    readerDescription = readerDescription
+                        .Substring(0, index)
+                        .TrimEnd();
+                }
+
+                result.ReaderDescription = readerDescription;
+            }
 
             return result;
         }
