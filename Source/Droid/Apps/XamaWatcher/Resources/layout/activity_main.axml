@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <TextView
+        android:text="Диапазон инвентарных номеров"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rangeText"
+        android:layout_margin="5dp"
+        android:gravity="center" />
+    <TextView
+        android:text="Статус"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/statusText"
+        android:layout_margin="5dp"
+        android:gravity="center" />
+    <TextView
+        android:text="Пока не обновлено"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/updateText"
+        android:layout_margin="5dp"
+        android:gravity="center" />
+    <TextView
+        android:text="Сведения о заказанном издании"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/orderText"
+        android:layout_weight="1"
+        android:layout_margin="5dp"
+        android:scrollbars="vertical"
+        android:textSize="8pt"
+        android:textColor="@android:color/black"
+        android:scrollbarStyle="insideOverlay" />
+    <TableLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tableLayout1"
+        android:stretchColumns="*"
+        android:layout_margin="5dp">
+        <TableRow
+            android:id="@+id/tableRow1">
+            <Button
+                android:text="Предыдущий"
+                android:layout_column="0"
+                android:id="@+id/prevButton" />
+            <Button
+                android:text="Следующий"
+                android:layout_column="1"
+                android:id="@+id/nextButton" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow2">
+            <Button
+                android:text="Выполнить"
+                android:layout_column="0"
+                android:id="@+id/acceptButton" />
+            <Button
+                android:text="Отказать"
+                android:layout_column="1"
+                android:id="@+id/rejectButton" />
+        </TableRow>
+    </TableLayout>
+    <Button
+        android:text="Обновить"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/updateButton"
+        android:layout_margin="5dp" />
+</LinearLayout>

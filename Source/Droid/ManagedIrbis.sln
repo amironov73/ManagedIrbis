@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{31B74E97-F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple", "Apps\Simple\Simple.csproj", "{039D4EC5-3A7F-469E-9881-C19E41FF39B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamaWatcher", "Apps\XamaWatcher\XamaWatcher.csproj", "{16918975-B94D-465F-B7B3-71BED8DC6791}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,12 @@ Global
 		{039D4EC5-3A7F-469E-9881-C19E41FF39B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{039D4EC5-3A7F-469E-9881-C19E41FF39B1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{039D4EC5-3A7F-469E-9881-C19E41FF39B1}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{16918975-B94D-465F-B7B3-71BED8DC6791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16918975-B94D-465F-B7B3-71BED8DC6791}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16918975-B94D-465F-B7B3-71BED8DC6791}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{16918975-B94D-465F-B7B3-71BED8DC6791}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16918975-B94D-465F-B7B3-71BED8DC6791}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16918975-B94D-465F-B7B3-71BED8DC6791}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +63,7 @@ Global
 		{700DAFED-9E43-45BF-A445-5A3B8DD9A8C5} = {31B74E97-F4DD-4BD6-ADDF-31619A4ADA95}
 		{AD558089-E19A-4E75-92B5-6A0CC8B49480} = {31B74E97-F4DD-4BD6-ADDF-31619A4ADA95}
 		{039D4EC5-3A7F-469E-9881-C19E41FF39B1} = {72ECDEB3-F8B3-4E9F-B431-BAE26C857DFB}
+		{16918975-B94D-465F-B7B3-71BED8DC6791} = {72ECDEB3-F8B3-4E9F-B431-BAE26C857DFB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A4E52E6A-4023-4C9E-838F-BB803E0A9229}

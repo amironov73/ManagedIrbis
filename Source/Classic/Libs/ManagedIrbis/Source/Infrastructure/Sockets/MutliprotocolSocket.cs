@@ -1,7 +1,7 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* RetryClientSocket.cs -- retry on network error.
+/* MultiprotocolSocket.cs -- protocol multiplexing
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -22,7 +22,7 @@ using MoonSharp.Interpreter;
 
 #endregion
 
-namespace ManagedIrbis.Source.Infrastructure.Sockets
+namespace ManagedIrbis.Infrastructure.Sockets
 {
     /// <summary>
     /// Multiprotocol socket.
