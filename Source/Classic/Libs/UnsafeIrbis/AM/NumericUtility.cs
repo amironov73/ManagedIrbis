@@ -32,22 +32,6 @@ namespace UnsafeAM
     [PublicAPI]
     public static class NumericUtility
     {
-        #region Private members
-
-#if FW45 || NETCORE
-
-        private const MethodImplOptions Aggressive
-            = MethodImplOptions.AggressiveInlining;
-
-#else
-
-        private const MethodImplOptions Aggressive
-            = (MethodImplOptions)0;
-
-#endif
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -169,14 +153,9 @@ namespace UnsafeAM
 
             if (StringUtility.ContainsCharacter(text, ','))
             {
-                if (StringUtility.ContainsCharacter(text, '.'))
-                {
-                    text = text.Replace(",", string.Empty);
-                }
-                else
-                {
-                    text = text.Replace(',', '.');
-                }
+                text = StringUtility.ContainsCharacter(text, '.')
+                    ? text.Replace(",", string.Empty)
+                    : text.Replace(',', '.');
             }
 
             return text;
@@ -257,8 +236,6 @@ namespace UnsafeAM
         /// <summary>
         /// Представляет ли строка положительное целое число.
         /// </summary>
-        /// <param name="text"></param>
-        [MethodImpl(Aggressive)]
         public static bool IsPositiveInteger
             (
                 this string text
@@ -312,7 +289,6 @@ namespace UnsafeAM
         /// <summary>
         /// Parse decimal in standard manner.
         /// </summary>
-        [MethodImpl(Aggressive)]
         public static decimal ParseDecimal
             (
                 [NotNull] string text
@@ -321,7 +297,6 @@ namespace UnsafeAM
             Code.NotNullNorEmpty(text, nameof(text));
 
             text = ConvertFloatToInvariant(text);
-
             decimal result = decimal.Parse
                 (
                     text,
@@ -335,7 +310,6 @@ namespace UnsafeAM
         /// <summary>
         /// Parse double in standard manner.
         /// </summary>
-        [MethodImpl(Aggressive)]
         public static double ParseDouble
             (
                 [NotNull] string text
@@ -344,7 +318,6 @@ namespace UnsafeAM
             Code.NotNullNorEmpty(text, nameof(text));
 
             text = ConvertFloatToInvariant(text);
-
             double result = double.Parse
                 (
                     text,
@@ -358,7 +331,6 @@ namespace UnsafeAM
         /// <summary>
         /// Parse short integer in standard manner.
         /// </summary>
-        [MethodImpl(Aggressive)]
         public static short ParseInt16
             (
                 [NotNull] string text
@@ -367,7 +339,6 @@ namespace UnsafeAM
             Code.NotNullNorEmpty(text, nameof(text));
 
             text = ConvertIntegerToInvariant(text);
-
             short result = short.Parse
                 (
                     text,
@@ -381,7 +352,6 @@ namespace UnsafeAM
         /// <summary>
         /// Parse integer in standard manner.
         /// </summary>
-        [MethodImpl(Aggressive)]
         public static int ParseInt32
             (
                 [NotNull] string text
@@ -390,7 +360,6 @@ namespace UnsafeAM
             Code.NotNullNorEmpty(text, nameof(text));
 
             text = ConvertIntegerToInvariant(text);
-
             int result = int.Parse
                 (
                     text,
@@ -404,7 +373,6 @@ namespace UnsafeAM
         /// <summary>
         /// Parse long integer in standard manner.
         /// </summary>
-        [MethodImpl(Aggressive)]
         public static long ParseInt64
             (
                 [NotNull] string text
@@ -413,7 +381,6 @@ namespace UnsafeAM
             Code.NotNullNorEmpty(text, nameof(text));
 
             text = ConvertFloatToInvariant(text);
-
             long result = long.Parse
                 (
                     text,
@@ -439,27 +406,10 @@ namespace UnsafeAM
                 return defaultValue;
             }
 
-            decimal result;
-
-#if WINMOBILE || PocketPC
-
-            try
-            {
-                result = decimal.Parse(text);
-            }
-            catch (Exception)
+            if (!TryParseDecimal(text, out decimal result))
             {
                 result = defaultValue;
             }
-
-#else
-
-            if (!TryParseDecimal(text, out result))
-            {
-                result = defaultValue;
-            }
-
-#endif
 
             return result;
         }
@@ -479,27 +429,10 @@ namespace UnsafeAM
                 return defaultValue;
             }
 
-            double result;
-
-#if WINMOBILE || PocketPC
-
-            try
-            {
-                result = double.Parse(text);
-            }
-            catch (Exception)
+            if (!TryParseDouble(text, out double result))
             {
                 result = defaultValue;
             }
-
-#else
-
-            if (!TryParseDouble(text, out result))
-            {
-                result = defaultValue;
-            }
-
-#endif
 
             return result;
         }
@@ -520,27 +453,10 @@ namespace UnsafeAM
                 return defaultValue;
             }
 
-            int result;
-
-#if WINMOBILE || PocketPC
-
-            try
-            {
-                result = int.Parse(text);
-            }
-            catch (Exception)
+            if (!TryParseInt32(text, out int result))
             {
                 result = defaultValue;
             }
-
-#else
-
-            if (!TryParseInt32(text, out result))
-            {
-                result = defaultValue;
-            }
-
-#endif
 
             if (result < minValue
                 || result > maxValue)
@@ -565,27 +481,10 @@ namespace UnsafeAM
                 return defaultValue;
             }
 
-            int result;
-
-#if WINMOBILE || PocketPC
-
-            try
-            {
-                result = int.Parse(text);
-            }
-            catch (Exception)
+            if (!TryParseInt32(text, out int result))
             {
                 result = defaultValue;
             }
-
-#else
-
-            if (!TryParseInt32(text, out result))
-            {
-                result = defaultValue;
-            }
-
-#endif
 
             return result;
         }
@@ -603,26 +502,10 @@ namespace UnsafeAM
                 return 0;
             }
 
-            int result;
-
-#if WINMOBILE || PocketPC
-
-            try
-            {
-                result = int.Parse(text);
-            }
-            catch (Exception)
+            if (!TryParseInt32(text, out int result))
             {
                 result = 0;
             }
-#else
-
-            if (!TryParseInt32(text, out result))
-            {
-                result = 0;
-            }
-
-#endif
 
             return result;
         }
@@ -640,26 +523,10 @@ namespace UnsafeAM
                 return 0;
             }
 
-            long result;
-
-#if WINMOBILE || PocketPC
-
-            try
-            {
-                result = long.Parse(text);
-            }
-            catch (Exception)
+            if (!TryParseInt64(text, out long result))
             {
                 result = 0;
             }
-#else
-
-            if (!TryParseInt64(text, out result))
-            {
-                result = 0;
-            }
-
-#endif
 
             return result;
         }
@@ -705,10 +572,7 @@ namespace UnsafeAM
                 this double value
             )
         {
-            return value.ToString
-                (
-                    CultureInfo.InvariantCulture
-                );
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -723,11 +587,7 @@ namespace UnsafeAM
         {
             Code.NotNullNorEmpty(format, nameof(format));
 
-            return value.ToString
-                (
-                    format,
-                    CultureInfo.InvariantCulture
-                );
+            return value.ToString(format, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -742,10 +602,7 @@ namespace UnsafeAM
                 this decimal value
             )
         {
-            return value.ToString
-                (
-                    CultureInfo.InvariantCulture
-                );
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -760,11 +617,7 @@ namespace UnsafeAM
         {
             Code.NotNullNorEmpty(format, nameof(format));
 
-            return value.ToString
-                (
-                    format,
-                    CultureInfo.InvariantCulture
-                );
+            return value.ToString(format, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -778,25 +631,19 @@ namespace UnsafeAM
                 this long value
             )
         {
-            return value.ToString
-                (
-                    CultureInfo.InvariantCulture
-                );
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
         /// Convert to <see cref="System.String"/>
         /// using <see cref="CultureInfo.InvariantCulture"/>.
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static string ToInvariantString
             (
                 this char value
             )
         {
-            //return value.ToString(CultureInfo.InvariantCulture);
-            return value.ToString();
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -837,31 +684,6 @@ namespace UnsafeAM
             }
 
             text = ConvertFloatToInvariant(text);
-
-#if WINMOBILE || PocketPC
-
-            bool result = false;
-
-            try
-            {
-                value = decimal.Parse
-                    (
-                        text,
-                        NumberStyles.Any,
-                        CultureInfo.InvariantCulture
-                    );
-
-                result = true;
-            }
-            catch
-            {
-                value = 0;
-            }
-
-            return result;
-
-#else
-
             bool result = decimal.TryParse
                 (
                     text,
@@ -871,8 +693,6 @@ namespace UnsafeAM
                 );
 
             return result;
-
-#endif
         }
 
         /// <summary>
@@ -891,31 +711,6 @@ namespace UnsafeAM
             }
 
             text = ConvertFloatToInvariant(text);
-
-#if WINMOBILE || PocketPC
-
-            bool result = false;
-
-            try
-            {
-                value = double.Parse
-                    (
-                        text,
-                        NumberStyles.Any,
-                        CultureInfo.InvariantCulture
-                    );
-
-                result = true;
-            }
-            catch
-            {
-                value = 0;
-            }
-
-            return result;
-
-#else
-
             bool result = double.TryParse
                 (
                     text,
@@ -925,8 +720,6 @@ namespace UnsafeAM
                 );
 
             return result;
-
-#endif
         }
 
         /// <summary>
@@ -945,31 +738,6 @@ namespace UnsafeAM
             }
 
             text = ConvertFloatToInvariant(text);
-
-#if WINMOBILE || PocketPC
-
-            bool result = false;
-
-            try
-            {
-                value = float.Parse
-                    (
-                        text,
-                        NumberStyles.Any,
-                        CultureInfo.InvariantCulture
-                    );
-
-                result = true;
-            }
-            catch
-            {
-                value = 0;
-            }
-
-            return result;
-
-#else
-
             bool result = float.TryParse
                 (
                     text,
@@ -979,8 +747,6 @@ namespace UnsafeAM
                 );
 
             return result;
-
-#endif
         }
 
         /// <summary>
@@ -999,31 +765,6 @@ namespace UnsafeAM
             }
 
             text = ConvertIntegerToInvariant(text);
-
-#if WINMOBILE || PocketPC
-
-            bool result = false;
-
-            try
-            {
-                value = short.Parse
-                    (
-                        text,
-                        NumberStyles.Any,
-                        CultureInfo.InvariantCulture
-                    );
-
-                result = true;
-            }
-            catch
-            {
-                value = 0;
-            }
-
-            return result;
-
-#else
-
             bool result = short.TryParse
                 (
                     text,
@@ -1033,8 +774,6 @@ namespace UnsafeAM
                 );
 
             return result;
-
-#endif
         }
 
         /// <summary>
@@ -1054,31 +793,6 @@ namespace UnsafeAM
             }
 
             text = ConvertIntegerToInvariant(text);
-
-#if WINMOBILE || PocketPC
-
-            bool result = false;
-
-            try
-            {
-                value = ushort.Parse
-                    (
-                        text,
-                        NumberStyles.Any,
-                        CultureInfo.InvariantCulture
-                    );
-
-                result = true;
-            }
-            catch
-            {
-                value = 0;
-            }
-
-            return result;
-
-#else
-
             bool result = ushort.TryParse
                 (
                     text,
@@ -1088,8 +802,6 @@ namespace UnsafeAM
                 );
 
             return result;
-
-#endif
         }
 
         /// <summary>
@@ -1108,31 +820,6 @@ namespace UnsafeAM
             }
 
             text = ConvertIntegerToInvariant(text);
-
-#if WINMOBILE || PocketPC
-
-            bool result = false;
-
-            try
-            {
-                value = int.Parse
-                    (
-                        text,
-                        NumberStyles.Any,
-                        CultureInfo.InvariantCulture
-                    );
-
-                result = true;
-            }
-            catch
-            {
-                value = 0;
-            }
-
-            return result;
-
-#else
-
             bool result = int.TryParse
                 (
                     text,
@@ -1142,8 +829,6 @@ namespace UnsafeAM
                 );
 
             return result;
-
-#endif
         }
 
         /// <summary>
@@ -1163,31 +848,6 @@ namespace UnsafeAM
             }
 
             text = ConvertIntegerToInvariant(text);
-
-#if WINMOBILE || PocketPC
-
-            bool result = false;
-
-            try
-            {
-                value = uint.Parse
-                    (
-                        text,
-                        NumberStyles.Any,
-                        CultureInfo.InvariantCulture
-                    );
-
-                result = true;
-            }
-            catch
-            {
-                value = 0;
-            }
-
-            return result;
-
-#else
-
             bool result = uint.TryParse
                 (
                     text,
@@ -1197,8 +857,6 @@ namespace UnsafeAM
                 );
 
             return result;
-
-#endif
         }
 
         /// <summary>
@@ -1217,31 +875,6 @@ namespace UnsafeAM
             }
 
             text = ConvertIntegerToInvariant(text);
-
-#if WINMOBILE || PocketPC
-
-            bool result = false;
-
-            try
-            {
-                value = long.Parse
-                    (
-                        text,
-                        NumberStyles.Any,
-                        CultureInfo.InvariantCulture
-                    );
-
-                result = true;
-            }
-            catch
-            {
-                value = 0;
-            }
-
-            return result;
-
-#else
-
             bool result = long.TryParse
                 (
                     text,
@@ -1251,8 +884,6 @@ namespace UnsafeAM
                 );
 
             return result;
-
-#endif
         }
 
         /// <summary>
@@ -1272,31 +903,6 @@ namespace UnsafeAM
             }
 
             text = ConvertIntegerToInvariant(text);
-
-#if WINMOBILE || PocketPC
-
-            bool result = false;
-
-            try
-            {
-                value = ulong.Parse
-                    (
-                        text,
-                        NumberStyles.Any,
-                        CultureInfo.InvariantCulture
-                    );
-
-                result = true;
-            }
-            catch
-            {
-                value = 0;
-            }
-
-            return result;
-
-#else
-
             bool result = ulong.TryParse
                 (
                     text,
@@ -1306,8 +912,6 @@ namespace UnsafeAM
                 );
 
             return result;
-
-#endif
         }
 
         #endregion

@@ -169,15 +169,11 @@ namespace UnsafeAM
                 return (T)value;
             }
 
-#if !WINMOBILE && !PocketPC
-
             IConvertible convertible = value as IConvertible;
             if (convertible != null)
             {
                 return (T)Convert.ChangeType(value, targetType);
             }
-
-#endif
 
             //TypeConverter converterFrom
             //    = TypeDescriptor.GetConverter(value);
@@ -407,26 +403,10 @@ namespace UnsafeAM
 
             bool result;
 
-#if !WINMOBILE && !PocketPC
-
             if (bool.TryParse(value as string, out result))
             {
                 return result;
             }
-
-#else
-            try
-            {
-                result = bool.Parse(value as string);
-
-                return result;
-            }
-            // ReSharper disable once EmptyGeneralCatchClause
-            catch
-            {
-                // Pass through
-            }
-#endif
 
             string svalue = value as string;
             if (svalue == "false"

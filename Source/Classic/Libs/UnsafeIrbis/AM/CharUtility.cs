@@ -72,25 +72,6 @@ namespace UnsafeAM
                 || c == 'Ё' || c == 'ё';
         }
 
-        /// <summary>
-        /// Convert the character to upper case.
-        /// </summary>
-        public static char ToUpperInvariant
-            (
-                char c
-            )
-        {
-#if CLASSIC || NETCORE
-
-            return char.ToUpperInvariant(c);
-
-#else
-
-            return char.ToUpper(c);
-
-#endif
-        }
-
         #endregion
     }
 }

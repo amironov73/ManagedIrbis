@@ -139,8 +139,6 @@ namespace UnsafeAM.Collections
             #endregion
         }
 
-#if !WINMOBILE && !PocketPC
-
         /// <summary>
         /// Converter for JSON serialization.
         /// </summary>
@@ -224,8 +222,6 @@ namespace UnsafeAM.Collections
 
             #endregion
         }
-
-#endif
 
         #endregion
 

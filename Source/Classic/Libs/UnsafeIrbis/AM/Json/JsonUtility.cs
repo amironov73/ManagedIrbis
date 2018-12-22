@@ -55,8 +55,6 @@ namespace UnsafeAM.Json
             Code.NotNullNorEmpty(nameSpace, nameof(nameSpace));
             Code.NotNullNorEmpty(assembly, nameof(assembly));
 
-#if !WINMOBILE && !PocketPC
-
             IEnumerable<JValue> values = obj
                 .SelectTokens("$..$type")
                 .OfType<JValue>();
@@ -73,8 +71,6 @@ namespace UnsafeAM.Json
                     value.Value = typeName;
                 }
             }
-
-#endif
         }
 
         /// <summary>
@@ -89,8 +85,6 @@ namespace UnsafeAM.Json
             Code.NotNull(obj, nameof(obj));
             Code.NotNull(resolver, nameof(resolver));
 
-#if !WINMOBILE && !PocketPC
-
             JValue[] values = obj
                 .SelectTokens("$..$include")
                 .OfType<JValue>()
@@ -101,8 +95,6 @@ namespace UnsafeAM.Json
                 JProperty property = (JProperty)value.Parent;
                 resolver(property);
             }
-
-#endif
         }
 
         /// <summary>
@@ -115,8 +107,6 @@ namespace UnsafeAM.Json
         {
             Code.NotNull(obj, nameof(obj));
 
-#if !WINMOBILE && !PocketPC
-
             JToken[] tokens = obj
                 .SelectTokens("$..$include")
                 .ToArray();
@@ -126,8 +116,6 @@ namespace UnsafeAM.Json
                 JProperty property = (JProperty)token.Parent;
                 Resolve(property);
             }
-
-#endif
         }
 
         /// <summary>
@@ -161,18 +149,10 @@ namespace UnsafeAM.Json
         {
             Code.NotNullNorEmpty(fileName, nameof(fileName));
 
-#if WINMOBILE || PocketPC
-
-            throw new NotImplementedException();
-
-#else
-
             string text = File.ReadAllText(fileName);
             JArray result = JArray.Parse(text);
 
             return result;
-
-#endif
         }
 
         /// <summary>
@@ -187,18 +167,10 @@ namespace UnsafeAM.Json
         {
             Code.NotNullNorEmpty(fileName, nameof(fileName));
 
-#if WINMOBILE || PocketPC
-
-            throw new NotImplementedException();
-
-#else
-
             string text = File.ReadAllText(fileName);
             JObject result = JObject.Parse(text);
 
             return result;
-
-#endif
         }
 
         /// <summary>
@@ -213,18 +185,10 @@ namespace UnsafeAM.Json
         {
             Code.NotNullNorEmpty(fileName, nameof(fileName));
 
-#if WINMOBILE || PocketPC
-
-            throw new NotImplementedException();
-
-#else
-
             string text = File.ReadAllText(fileName);
             T result = JsonConvert.DeserializeObject<T>(text);
 
             return result;
-
-#endif
         }
 
         /// <summary>
@@ -240,12 +204,8 @@ namespace UnsafeAM.Json
             Code.NotNull(array, nameof(array));
             Code.NotNullNorEmpty(fileName, nameof(fileName));
 
-#if !WINMOBILE && !PocketPC
-
             string text = array.ToString(Formatting.Indented);
             File.WriteAllText(fileName, text);
-
-#endif
         }
 
         /// <summary>
@@ -260,12 +220,8 @@ namespace UnsafeAM.Json
             Code.NotNull(obj, nameof(obj));
             Code.NotNullNorEmpty(fileName, nameof(fileName));
 
-#if !WINMOBILE && !PocketPC
-
             string text = obj.ToString(Formatting.Indented);
             File.WriteAllText(fileName, text);
-
-#endif
         }
 
         /// <summary>
@@ -277,13 +233,8 @@ namespace UnsafeAM.Json
                 [NotNull] string fileName
             )
         {
-#if !WINMOBILE && !PocketPC
-
             JObject json = JObject.FromObject(obj);
-
             SaveObjectToFile(json, fileName);
-
-#endif
         }
 
         /// <summary>
@@ -298,8 +249,6 @@ namespace UnsafeAM.Json
             Code.NotNull(property, nameof(property));
             Code.NotNull(newName, nameof(newName));
 
-#if !WINMOBILE && !PocketPC
-
             // TODO use path for searching
 
             string fileName = property.Value.ToString();
@@ -307,8 +256,6 @@ namespace UnsafeAM.Json
             JObject value = JObject.Parse(text);
             JProperty newProperty = new JProperty(newName, value);
             property.Replace(newProperty);
-
-#endif
         }
 
         /// <summary>
@@ -321,8 +268,6 @@ namespace UnsafeAM.Json
         {
             Code.NotNull(property, nameof(property));
 
-#if !WINMOBILE && !PocketPC
-
             // TODO use path for searching
 
             JObject obj = (JObject)property.Value;
@@ -332,8 +277,6 @@ namespace UnsafeAM.Json
             JObject value = JObject.Parse(text);
             JProperty newProperty = new JProperty(newName, value);
             property.Replace(newProperty);
-
-#endif
         }
 
         /// <summary>
@@ -346,12 +289,6 @@ namespace UnsafeAM.Json
             )
         {
             Code.NotNull(obj, nameof(obj));
-
-#if WINMOBILE || PocketPC
-
-            throw new NotImplementedException();
-
-#else
 
             JsonSerializer serializer = new JsonSerializer
             {
@@ -366,8 +303,6 @@ namespace UnsafeAM.Json
             serializer.Serialize(jsonWriter, obj);
 
             return textWriter.ToString();
-
-#endif
         }
 
         //=====================================================================
@@ -391,8 +326,6 @@ namespace UnsafeAM.Json
 
             return result;
         }
-
-
 
         /// <summary>
         ///
@@ -499,7 +432,6 @@ namespace UnsafeAM.Json
 
             return new[] { token.Value<T>() };
         }
-
 
         #endregion
     }
