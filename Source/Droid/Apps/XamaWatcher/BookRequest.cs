@@ -8,7 +8,7 @@
 
 using System;
 using System.Text;
-
+using AM.Collections;
 using ManagedIrbis;
 using ManagedIrbis.Readers;
 
@@ -216,17 +216,32 @@ namespace XamaWatcher
             result.AppendLine();
             result.AppendLine (BookDescription);
             result.AppendLine();
-            result.AppendFormat
-                (
-                    "Свободные экземпляры: {0}",
-                    string.Join(", ", FreeNumbers)
-                );
+            if (FreeNumbers.IsNullOrEmpty())
+            {
+                result.AppendLine("Нет свободных экземпляров");
+            }
+            else
+            {
+                result.AppendFormat
+                    (
+                        "Свободные экземпляры: {0}",
+                        string.Join(", ", FreeNumbers)
+                    );
+            }
+
             result.AppendLine();
-            result.AppendFormat
-                (
-                    "Мои экземпляры: {0}",
-                    string.Join( ", ", MyNumbers )
-                );
+            if (MyNumbers.IsNullOrEmpty())
+            {
+                result.AppendLine("Нет экземпляров для выдачи");
+            }
+            else
+            {
+                result.AppendFormat
+                    (
+                        "Мои экземпляры: {0}",
+                        string.Join( ", ", MyNumbers )
+                    );
+            }
             result.AppendLine();
             result.AppendFormat
                 (

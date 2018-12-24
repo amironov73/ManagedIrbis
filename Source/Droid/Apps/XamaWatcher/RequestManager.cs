@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 
 using AM;
-
+using AM.Collections;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -15,6 +15,7 @@ using Android.Widget;
 
 using ManagedIrbis;
 using ManagedIrbis.Readers;
+using ManagedIrbis.Search;
 
 namespace XamaWatcher
 {
@@ -47,26 +48,26 @@ namespace XamaWatcher
             )
         {
             using (StreamReader reader
-                = new StreamReader (activity.Assets.Open ("settings.txt")))
+                = new StreamReader(activity.Assets.Open("settings.txt")))
             {
-                _host = reader.ReadLine ();
-                _port = int.Parse (reader.ReadLine ().ThrowIfNull("port"));
-                _login = reader.ReadLine ();
-                _password = reader.ReadLine ();
-                _requestDb = reader.ReadLine ();
-                _catalogDb = reader.ReadLine ();
-                _readerDb = reader.ReadLine ();
-                _place = reader.ReadLine ().ThrowIfNull("place");
-                _my = reader.ReadLine ();
-                _auto = int.Parse (reader.ReadLine ().ThrowIfNull("auto"));
+                _host = reader.ReadLine();
+                _port = int.Parse(reader.ReadLine().ThrowIfNull("port"));
+                _login = reader.ReadLine();
+                _password = reader.ReadLine();
+                _requestDb = reader.ReadLine();
+                _catalogDb = reader.ReadLine();
+                _readerDb = reader.ReadLine();
+                _place = reader.ReadLine().ThrowIfNull("place");
+                _my = reader.ReadLine();
+                _auto = int.Parse(reader.ReadLine().ThrowIfNull("auto"));
                 _sound = Convert.ToBoolean
                     (
-                        int.Parse (reader.ReadLine().ThrowIfNull ("sound"))
+                        int.Parse(reader.ReadLine().ThrowIfNull("sound"))
                     );
 
-                _places = _place.Split (',', ';');
+                _places = _place.Split(',', ';');
 
-                _client = _CreateClient ();
+                _client = _CreateClient();
             }
         }
 
@@ -101,10 +102,42 @@ namespace XamaWatcher
             )
         {
             MarcRecord record = ReadCatalog(request.BookCode);
+            if (ReferenceEquals(record, null))
+            {
+                return;
+            }
+
             request.BookRecord = record;
-            request.FreeNumbers = ExtractInventoryNumbers(record);
             request.Reader = ReadReader(request.ReaderID);
+            if (ReferenceEquals(request.Reader, null))
+            {
+                return;
+            }
+
+            request.FreeNumbers = ExtractInventoryNumbers(record);
             request.MyNumbers = FilterMyNumbers(request.FreeNumbers);
+            if (string.IsNullOrEmpty(request.ReaderDescription))
+            {
+                string readerDescription = _client.FormatRecord
+                    (
+                        _readerDb,
+                        "@brief",
+                        request.Reader.Mfn
+                    );
+                int index = readerDescription.IndexOf
+                    (
+                        "Записан в",
+                        StringComparison.InvariantCulture
+                    );
+                if (index > 0)
+                {
+                    readerDescription = readerDescription
+                        .Substring(0, index)
+                        .TrimEnd();
+                }
+
+                request.ReaderDescription = readerDescription;
+            }
         }
 
         public MarcRecord ReadCatalog
@@ -137,7 +170,13 @@ namespace XamaWatcher
             MarcRecord record = request.Record;
             if (record != null)
             {
-                _client.WriteRecord(record,false,true);
+                _client.WriteRecord(record, false, true);
+            }
+
+            record = request.BookRecord;
+            if (record != null && record.Modified)
+            {
+                _client.WriteRecord(record, false, true);
             }
         }
 
@@ -153,7 +192,7 @@ namespace XamaWatcher
 
             string place = field.GetFirstSubFieldValue('d');
 
-            return _places.Any(p=>string.Compare(p,place,
+            return _places.Any(p => string.Compare(p, place,
                 StringComparison.OrdinalIgnoreCase) == 0);
         }
 
@@ -200,6 +239,7 @@ namespace XamaWatcher
                 }
                 MarcRecord record = _client.ReadRecord(found[0]);
                 ReaderInfo result = ReaderInfo.Parse(record);
+
                 return result;
             }
             finally
@@ -221,7 +261,7 @@ namespace XamaWatcher
         {
             if (_client != null)
             {
-                _client.Dispose ();
+                _client.Dispose();
                 _client = null;
             }
         }

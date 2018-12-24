@@ -4,7 +4,9 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
+using AM.Collections;
 
 using Android.App;
 using Android.Content;
@@ -201,8 +203,8 @@ namespace XamaWatcher
                     }
 
                     _activeRequests = _activeRequests
-                        .Where (r => r.MyNumbers.Length != 0)
-                        .ToArray ();
+                        .Where(r => !r.MyNumbers.IsNullOrEmpty())
+                        .ToArray();
 
                     if (_activeRequests.Length <= _currentIndex)
                     {
@@ -277,19 +279,57 @@ namespace XamaWatcher
 
         void SetDone ()
         {
-            if (_currentRequest == null)
+            MarcRecord requestRecord = _currentRequest?.Record;
+            if (ReferenceEquals(requestRecord, null))
             {
                 return;
             }
 
-            MarcRecord record = _currentRequest.Record;
-            if (record == null)
+            MarcRecord bookRecord = _currentRequest.BookRecord;
+            if (ReferenceEquals(bookRecord, null))
             {
+                SetDetails("Нет записи о книге");
                 return;
             }
 
-            record.AddField (41, DateTime.Now.ToString ("dd-MM-yyyy hh:mm:ss"));
-            record.AddField (42, Today ());
+            string myNumber = _currentRequest.MyNumbers.FirstOrDefault();
+            if (string.IsNullOrEmpty(myNumber))
+            {
+                SetDetails("Нет доступных экземпляров");
+                return;
+            }
+
+            if (_currentRequest.MyNumbers.Length > 1)
+            {
+                // TODO Выбрать экземпляр
+            }
+
+            RecordField field = bookRecord.Fields
+                .GetField(910)
+                .FirstOrDefault(f => f.GetFirstSubFieldValue('b')
+                    .SameString(myNumber));
+            if (ReferenceEquals(field, null))
+            {
+                SetDetails("Нет поля для экземпляра");
+                return;
+            }
+
+            // Сведения о забронированном экземпляре
+            RecordField copy = field.Clone().SetSubField('a', "0");
+            requestRecord.Fields.Add(copy);
+
+            // Дата предполагаемого возврата
+            requestRecord.AddField (42, DateTime.Now.AddDays(14).ToString("MM-dd-yyyy  hh:mm:ss"));
+
+            // Дата бронирования
+            requestRecord.AddField(43, DateTime.Now.ToString("MM-dd-yyyy  hh:mm:ss"));
+
+            // Ответственное лицо
+            requestRecord.AddField(50, "kladovka");
+
+            // Статус экземпляра: забронировано
+            field.SetSubField('a', "9");
+
             using (RequestManager reqMan = new RequestManager(this))
             {
                 reqMan.WriteRequest (_currentRequest);
@@ -376,11 +416,13 @@ namespace XamaWatcher
         {
             try
             {
-                BookRequest request = _currentRequest;
-                SetDone ();
+                await Task.Run(() => SetDone ());
                 await UpdateStateAsync ();
                 _updateText.Text = $"Заказ был выполнен ({DateTime.Now})";
-                await SendMailAsync(request, false);
+
+                // Не нужно отправлять письмо
+                // BookRequest request = _currentRequest;
+                // await SendMailAsync(request, false);
             }
             catch (Exception ex)
             {
@@ -397,7 +439,7 @@ namespace XamaWatcher
             try
             {
                 BookRequest request = _currentRequest;
-                SetReject ("01");
+                await Task.Run(() => SetReject ("01"));
                 await UpdateStateAsync();
                 _updateText.Text = $"Заказ был отменен ({DateTime.Now})";
                 await SendMailAsync(request, true);
@@ -449,7 +491,11 @@ namespace XamaWatcher
             builder.Append($"{request.BookDescription}<br/>");
             if (rejection)
             {
-                builder.Append("К сожалению, заказ не может быть выполнен<br/>");
+                builder.Append("К сожалению в настоящее время Ваш заказ "
+                + "не может быть выполнен. За дополнительной информацией "
+                + "Вы можете обратиться в справочно-библиграфический отдел "
+                + "библиотеки: spravka@irklib.ru, либо по телефону "
+                + "+7 (3952) 48-66-80 доп. 570<br/>");
             }
             else
             {

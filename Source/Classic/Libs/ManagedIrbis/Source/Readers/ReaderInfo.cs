@@ -473,6 +473,14 @@ namespace ManagedIrbis.Readers
         public int Mfn { get; set; }
 
         /// <summary>
+        /// Биб. запись.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public MarcRecord Record { get; set; }
+
+        /// <summary>
         /// Flag for the reader info.
         /// </summary>
         [XmlAttribute("marked")]
@@ -539,7 +547,8 @@ namespace ManagedIrbis.Readers
 
                     Profiles = IriProfile.ParseRecord(record),
                     Password = record.FM(130),
-                    Status = record.FM(2015) ?? "0"
+                    Status = record.FM(2015) ?? "0",
+                    Record = record
                 };
 
             foreach (ReaderRegistration registration in result.Registrations)
