@@ -39,6 +39,7 @@ namespace XamaWatcher
         TextView _statusText;
         TextView _updateText;
         TextView _orderView;
+        Spinner _spinner;
 
         private string _host;
         private string _login;
@@ -87,6 +88,7 @@ namespace XamaWatcher
                 _updateText = FindViewById<TextView> (Resource.Id.updateText);
                 _orderView = FindViewById<TextView> (Resource.Id.orderText);
                 _orderView.MovementMethod = new ScrollingMovementMethod();
+                _spinner = FindViewById<Spinner>(Resource.Id.inventorySpinner);
 
                 using (StreamReader reader
                     = new StreamReader (Assets.Open ("settings.txt")))
@@ -180,15 +182,6 @@ namespace XamaWatcher
             _activeRequests = null;
             _currentRequest = null;
 
-            //ProgressDialog progress = new ProgressDialog(this)
-            //{
-            //    Indeterminate = true
-            //};
-            //progress.SetProgressStyle(ProgressDialogStyle.Spinner);
-            //progress.SetMessage("Подождите...");
-            //progress.SetCancelable(false);
-            //progress.Show();
-
             try
             {
                 _busy = true;
@@ -225,7 +218,6 @@ namespace XamaWatcher
             }
             finally
             {
-                //progress.Dismiss();
                 _busy = false;
             }
         }
@@ -255,9 +247,7 @@ namespace XamaWatcher
                     : _activeRequests [_currentIndex];
             }
 
-            int length = _activeRequests == null
-                ? 0
-                : _activeRequests.Length;
+            int length = _activeRequests?.Length ?? 0;
             if (length == 0)
             {
                 SetStatus ("Нет заказов");
@@ -266,14 +256,37 @@ namespace XamaWatcher
             {
                 SetStatus ("Заказ {0} из {1}", _currentIndex + 1, length);
             }
+
             if (_currentRequest == null)
             {
                 SetDetails ("В настоящее время заказов нет\n\n"
                 + "Через некоторое время нажмите кнопку ОБНОВИТЬ снова.");
+
+                ArrayAdapter<string> adapter = new ArrayAdapter<string>(this,
+                    Android.Resource.Layout.SimpleSpinnerItem, Array.Empty<string>());
+                adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+                _spinner.Adapter = adapter;
+                _spinner.Prompt = "Выберите экземпляр";
             }
             else
             {
                 SetDetails (_currentRequest.ToString ());
+
+                string[] numbers = new string[0];
+                if (!_currentRequest.MyNumbers.IsNullOrEmpty())
+                {
+                    numbers = _currentRequest.MyNumbers;
+                }
+
+                ArrayAdapter<string> adapter = new ArrayAdapter<string>(this,
+                    Android.Resource.Layout.SimpleSpinnerItem, numbers);
+                adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+                _spinner.Adapter = adapter;
+                _spinner.Prompt = "Выберите экземпляр";
+                if (numbers.Length > 0)
+                {
+                    _spinner.SetSelection(0);
+                }
             }
         }
 
@@ -292,16 +305,11 @@ namespace XamaWatcher
                 return;
             }
 
-            string myNumber = _currentRequest.MyNumbers.FirstOrDefault();
+            string myNumber = _spinner?.SelectedItem?.ToString();
             if (string.IsNullOrEmpty(myNumber))
             {
                 SetDetails("Нет доступных экземпляров");
                 return;
-            }
-
-            if (_currentRequest.MyNumbers.Length > 1)
-            {
-                // TODO Выбрать экземпляр
             }
 
             RecordField field = bookRecord.Fields
@@ -474,17 +482,6 @@ namespace XamaWatcher
             }
 
             StringBuilder builder = new StringBuilder();
-
-            //string appeal = "Уважаемый";
-            //ReaderInfo reader = _currentRequest.Reader;
-            //if (!ReferenceEquals(appeal, null))
-            //{
-            //    Gender gender = GenderUtility.Parse(reader.Gender);
-            //    if (gender == Gender.Female)
-            //    {
-            //        appeal = "Уважаемая";
-            //    }
-            //}
 
             builder.Append($"{request.ReaderDescription}<br/>");
             builder.Append($"Заказ {request.RequestDate}<br/>");

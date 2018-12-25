@@ -8,7 +8,9 @@
 
 using System;
 using System.Text;
+
 using AM.Collections;
+
 using ManagedIrbis;
 using ManagedIrbis.Readers;
 
@@ -100,6 +102,11 @@ namespace XamaWatcher
         public ReaderInfo Reader { get; set; }
 
         /// <summary>
+        /// Примечания читателя.
+        /// </summary>
+        public string Remarks { get; set; }
+
+        /// <summary>
         /// Свободные инвентарные номера.
         /// </summary>
         public string[] FreeNumbers { get; set; }
@@ -149,6 +156,7 @@ namespace XamaWatcher
                      RejectInfo = record.FM(44),
                      Place = record.FM(102),
                      ResponsiblePerson = record.FM(50),
+                     Remarks = record.FM(101),
                      Record = record
                  };
 
@@ -175,10 +183,7 @@ namespace XamaWatcher
 
         public MarcRecord Encode()
         {
-            MarcRecord result = new MarcRecord
-                                     {
-                                         Mfn = Mfn
-                                     };
+            MarcRecord result = new MarcRecord {Mfn = Mfn};
 
             _AddField(result, 201, BookDescription);
             _AddField(result, 903, BookCode);
@@ -189,6 +194,7 @@ namespace XamaWatcher
             _AddField(result, 44,  RejectInfo);
             _AddField(result, 102, Place);
             _AddField(result, 50,  ResponsiblePerson);
+            _AddField(result, 101, Remarks);
 
             return result;
         }
@@ -249,6 +255,16 @@ namespace XamaWatcher
                     Place
                 );
             result.AppendLine();
+
+            if (!string.IsNullOrEmpty(Remarks))
+            {
+                result.AppendFormat
+                    (
+                        "Примечания: {0}",
+                        Remarks
+                    );
+                result.AppendLine();
+            }
 
             return result.ToString();
         }
