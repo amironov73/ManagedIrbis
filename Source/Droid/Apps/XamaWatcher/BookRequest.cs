@@ -16,6 +16,8 @@ using ManagedIrbis.Readers;
 
 #endregion
 
+// ReSharper disable StringLiteralTypo
+
 namespace XamaWatcher
 {
 
@@ -54,7 +56,7 @@ namespace XamaWatcher
         /// Идентификатор читателя.
         /// Поле 30.
         /// </summary>
-        public string ReaderID { get; set; }
+        public string ReaderId { get; set; }
 
         /// <summary>
         /// Краткое описание читателя.
@@ -150,7 +152,7 @@ namespace XamaWatcher
                      BookDescription = record.FM(201),
                      BookCode = record.FM(903),
                      RequestDate = record.FM(40),
-                     ReaderID = record.FM(30),
+                     ReaderId = record.FM(30),
                      ReaderDescription = record.FM(31),
                      Database = record.FM(1),
                      RejectInfo = record.FM(44),
@@ -188,7 +190,7 @@ namespace XamaWatcher
             _AddField(result, 201, BookDescription);
             _AddField(result, 903, BookCode);
             _AddField(result, 40,  RequestDate);
-            _AddField(result, 30,  ReaderID);
+            _AddField(result, 30,  ReaderId);
             _AddField(result, 31,  ReaderDescription);
             _AddField(result, 1,   Database);
             _AddField(result, 44,  RejectInfo);

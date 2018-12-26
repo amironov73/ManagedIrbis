@@ -41,22 +41,7 @@ namespace XamaWatcher
         TextView _orderView;
         Spinner _spinner;
 
-        private string _host;
-        private string _login;
-        private string _password;
-        private string _requestDb;
-        private string _catalogDb;
-        private string _readerDb;
-        private string _place;
-        private string _my;
-        private string _mailLogin;
-        private string _mailPassword;
-        private string _mailFrom;
-        private string _mailSubject;
-        private string _mailServer;
-
-        int _port, _auto;
-        bool _sound;
+        private Transport _transport;
 
         bool _busy;
 
@@ -70,8 +55,8 @@ namespace XamaWatcher
             {
                 base.OnCreate (bundle);
 
-                // Set our view from the "main" layout resource
                 SetContentView (Resource.Layout.activity_main);
+                _transport = Transport.Load(this);
 
                 _prevButton = FindViewById<Button> (Resource.Id.prevButton);
                 _prevButton.Click += _OnPrevButtonClick;
@@ -90,28 +75,7 @@ namespace XamaWatcher
                 _orderView.MovementMethod = new ScrollingMovementMethod();
                 _spinner = FindViewById<Spinner>(Resource.Id.inventorySpinner);
 
-                using (StreamReader reader
-                    = new StreamReader (Assets.Open ("settings.txt")))
-                {
-                    _host = reader.ReadLine ();
-                    _port = int.Parse (reader.ReadLine ());
-                    _login = reader.ReadLine ();
-                    _password = reader.ReadLine ();
-                    _requestDb = reader.ReadLine ();
-                    _catalogDb = reader.ReadLine ();
-                    _readerDb = reader.ReadLine ();
-                    _place = reader.ReadLine ();
-                    _my = reader.ReadLine ();
-                    _auto = int.Parse (reader.ReadLine ());
-                    _sound = Convert.ToBoolean (int.Parse (reader.ReadLine ()));
-                    _mailLogin = reader.ReadLine();
-                    _mailPassword = reader.ReadLine();
-                    _mailFrom = reader.ReadLine();
-                    _mailSubject = reader.ReadLine();
-                    _mailServer = reader.ReadLine();
-                }
-
-                _rangeText.Text = $"фонд: {_place}, номера: {_my}";
+                _rangeText.Text = $"фонд: {_transport.Place}, номера: {_transport.My}";
 
             }
             catch (Exception ex)
@@ -186,7 +150,7 @@ namespace XamaWatcher
             {
                 _busy = true;
 
-                using (RequestManager reqMan = new RequestManager (this))
+                using (RequestManager reqMan = new RequestManager (_transport))
                 {
                     _activeRequests = reqMan.GetRequests ();
 
@@ -338,7 +302,7 @@ namespace XamaWatcher
             // Статус экземпляра: забронировано
             field.SetSubField('a', "9");
 
-            using (RequestManager reqMan = new RequestManager(this))
+            using (RequestManager reqMan = new RequestManager(_transport))
             {
                 reqMan.WriteRequest (_currentRequest);
             }
@@ -346,13 +310,8 @@ namespace XamaWatcher
 
         void SetReject (string value)
         {
-            if (_currentRequest == null)
-            {
-                return;
-            }
-
-            MarcRecord record = _currentRequest.Record;
-            if (record == null)
+            MarcRecord record = _currentRequest?.Record;
+            if (ReferenceEquals(record, null))
             {
                 return;
             }
@@ -366,7 +325,7 @@ namespace XamaWatcher
                         new SubField('b', Today())
                     )
                 );
-            using (RequestManager reqMan = new RequestManager (this))
+            using (RequestManager reqMan = new RequestManager (_transport))
             {
                 reqMan.WriteRequest (_currentRequest);
             }
@@ -484,10 +443,12 @@ namespace XamaWatcher
             StringBuilder builder = new StringBuilder();
 
             builder.Append($"{request.ReaderDescription}<br/>");
-            builder.Append($"Заказ {request.RequestDate}<br/>");
+            builder.Append($"<i>Заказ {request.RequestDate}</i><br/>");
+            builder.Append("<br/>");
             builder.Append($"{request.BookDescription}<br/>");
             if (rejection)
             {
+                builder.Append("<br/>");
                 builder.Append("К сожалению в настоящее время Ваш заказ "
                 + "не может быть выполнен. За дополнительной информацией "
                 + "Вы можете обратиться в справочно-библиграфический отдел "
@@ -500,26 +461,12 @@ namespace XamaWatcher
             }
 
             string mailBody = builder.ToString();
-            MimeMessage message = new MimeMessage();
-            message.From.Add(new MailboxAddress(_mailFrom, _mailLogin));
-            message.To.Add(new MailboxAddress(request.Reader.FullName, request.Reader.Email));
-            message.Subject = _mailSubject;
-            message.Body = new TextPart("html")
-            {
-                Text = mailBody
-            };
 
             _updateText.Text = "ОТПРАВКА ПИСЬМА";
 
             try
             {
-                using (SmtpClient client = new SmtpClient())
-                {
-                    client.Connect(_mailServer, 587, false);
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
-                    client.Authenticate(_mailLogin, _mailPassword);
-                    await client.SendAsync(message);
-                }
+                await _transport.SendMail(request, mailBody);
 
                 _updateText.Text = "ПИСЬМО ОТПРАВЛЕНО";
             }
