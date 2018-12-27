@@ -131,18 +131,20 @@ namespace ManagedIrbis.Fields
                 [NotNull] MarcRecord record
             )
         {
-            string workList = record.FM(920);
             string result = record.FM(210, 'd');
             if (string.IsNullOrEmpty(result))
             {
                 result = record.FM(461, 'h');
             }
+
             if (string.IsNullOrEmpty(result))
             {
                 result = record.FM(461, 'z');
             }
+
             if (string.IsNullOrEmpty(result))
             {
+                string workList = record.FM(920);
                 if (workList.SameString("NJ"))
                 {
                     result = record.FM(934);
@@ -173,6 +175,7 @@ namespace ManagedIrbis.Fields
             {
                 return exemplar.Price;
             }
+
             string price = record.FM(10, 'd');
             if (!string.IsNullOrEmpty(price))
             {

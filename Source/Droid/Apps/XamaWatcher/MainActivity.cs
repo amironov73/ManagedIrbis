@@ -121,7 +121,10 @@ namespace XamaWatcher
             {
                 _statusText.Text = "Ошибка";
                 _updateText.Text = "Произошло исключение";
-                _orderView.Text = ex.ToString ();
+                _orderView.Text = $"IP: {_transport.Host}, port:{_transport.Port}, login: {_transport.Login}\n\n"
+                    + ex;
+
+                return;
             }
 
             NavigateRequest (_currentIndex, true);
@@ -308,7 +311,10 @@ namespace XamaWatcher
             }
         }
 
-        void SetReject (string value)
+        void SetReject
+            (
+                string value
+            )
         {
             MarcRecord record = _currentRequest?.Record;
             if (ReferenceEquals(record, null))
@@ -335,7 +341,8 @@ namespace XamaWatcher
         {
             try
             {
-                if (_activeRequests == null)
+                BookRequest request = _currentRequest;
+                if (ReferenceEquals(request, null))
                 {
                     return;
                 }
@@ -357,7 +364,8 @@ namespace XamaWatcher
         {
             try
             {
-                if (_activeRequests == null)
+                BookRequest request = _currentRequest;
+                if (ReferenceEquals(request, null))
                 {
                     return;
                 }
@@ -383,6 +391,12 @@ namespace XamaWatcher
         {
             try
             {
+                BookRequest request = _currentRequest;
+                if (ReferenceEquals(request, null))
+                {
+                    return;
+                }
+
                 await Task.Run(() => SetDone ());
                 await UpdateStateAsync ();
                 _updateText.Text = $"Заказ был выполнен ({DateTime.Now})";
@@ -406,6 +420,11 @@ namespace XamaWatcher
             try
             {
                 BookRequest request = _currentRequest;
+                if (ReferenceEquals(request, null))
+                {
+                    return;
+                }
+
                 await Task.Run(() => SetReject ("01"));
                 await UpdateStateAsync();
                 _updateText.Text = $"Заказ был отменен ({DateTime.Now})";

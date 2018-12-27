@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{70192B0E-C4BC-4EC6-BE48-A1952D60B178}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>InventoryControl</RootNamespace>
+    <AssemblyName>InventoryControl</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>checked3.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BLToolkit.Data.DataProvider.SqlCe.4, Version=4.3.9.0, Culture=neutral, PublicKeyToken=b1d3f6ab3aadaca3, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\BLToolkit.SqlCe.4.3.9\lib\net40\BLToolkit.Data.DataProvider.SqlCe.4.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="BLToolkit.4">
+      <HintPath>..\..\..\packages\BLToolkit.4.3.9\lib\net40\BLToolkit.4.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.BonusSkins.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.BonusSkins.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.CodeParser.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.CodeParser.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Charts.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Charts.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Data.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.DataAccess.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.DataAccess.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Docs.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Docs.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Office.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Office.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Pdf.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Pdf.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Printing.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.RichEdit.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Spreadsheet.v16.2.Core, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Spreadsheet.v16.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Utils.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v16.2.UI, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.Utils.v16.2.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraBars.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraEditors.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraGrid.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraPrinting.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraCharts.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraReports.v16.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v16.2.Extensions, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraReports.v16.2.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraSpellChecker.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraSpellChecker.v16.2.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Common\AssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="BookInfo.cs" />
+    <Compile Include="CeContext.cs" />
+    <Compile Include="ConfigDatabase.cs" />
+    <Compile Include="DataAccessLevel.cs" />
+    <Compile Include="ExemplarInfo.cs" />
+    <Compile Include="InvReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="InvReport.designer.cs">
+      <DependentUpon>InvReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IrbisContextSaver.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="InvReport.resx">
+      <DependentUpon>InvReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Content Include="database.sqlce">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="ArsMagna.private.snk" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Content Include="sbrief.pft">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libs\AM.Core\AM.Core.csproj">
+      <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
+      <Name>AM.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libs\AM.Windows.Forms\AM.Windows.Forms.csproj">
+      <Project>{c06e1d15-0d0d-44b3-bf74-1b2c616f9ee5}</Project>
+      <Name>AM.Windows.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libs\ManagedIrbis\ManagedIrbis.csproj">
+      <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
+      <Name>ManagedIrbis</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="checked3.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    if not exist "$(TargetDir)x86" md "$(TargetDir)x86"
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\x86\*.*" "$(TargetDir)x86"
+    if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
+  </PropertyGroup>
+</Project>
