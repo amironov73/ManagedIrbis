@@ -193,26 +193,26 @@ namespace UnitTests.UnsafeAM.Json
             enumerator.Dispose();
         }
 
-        [TestMethod]
-        public void SingleOrArray_ToString_1()
-        {
-            SingleOrArray<int> obj = new SingleOrArray<int>();
-            Assert.AreEqual("0", obj.ToString());
-        }
+        //[TestMethod]
+        //public void SingleOrArray_ToString_1()
+        //{
+        //    SingleOrArray<int> obj = new SingleOrArray<int>();
+        //    Assert.AreEqual("0", obj.ToString());
+        //}
 
-        [TestMethod]
-        public void SingleOrArray_ToString_2()
-        {
-            SingleOrArray<int> obj = new SingleOrArray<int>(42);
-            Assert.AreEqual("42", obj.ToString());
-        }
+        //[TestMethod]
+        //public void SingleOrArray_ToString_2()
+        //{
+        //    SingleOrArray<int> obj = new SingleOrArray<int>(42);
+        //    Assert.AreEqual("42", obj.ToString());
+        //}
 
-        [TestMethod]
-        public void SingleOrArray_ToString_3()
-        {
-            int[] values = {42, 1973};
-            SingleOrArray<int> obj = new SingleOrArray<int>(values);
-            Assert.AreEqual("42", obj.ToString());
-        }
+        //[TestMethod]
+        //public void SingleOrArray_ToString_3()
+        //{
+        //    int[] values = {42, 1973};
+        //    SingleOrArray<int> obj = new SingleOrArray<int>(values);
+        //    Assert.AreEqual("42", obj.ToString());
+        //}
     }
 }

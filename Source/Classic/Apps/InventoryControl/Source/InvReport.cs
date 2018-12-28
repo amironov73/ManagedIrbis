@@ -1,4 +1,10 @@
-﻿/* InvReport.cs
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* InvReport.cs --
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -15,7 +21,7 @@ using CM=System.Configuration.ConfigurationManager;
 
 namespace InventoryControl
 {
-    public partial class InvReport 
+    public partial class InvReport
         : XtraReport
     {
         public InvReport()
@@ -76,7 +82,7 @@ namespace InventoryControl
             tool.PreviewForm.ShowInTaskbar = false;
             tool.PreviewForm.Text = title;
             tool.ShowPreviewDialog(owner, null);
-            
+
         }
     }
 }

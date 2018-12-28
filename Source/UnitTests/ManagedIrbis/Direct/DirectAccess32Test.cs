@@ -107,24 +107,24 @@ namespace UnitTests.ManagedIrbis.Direct
             }
         }
 
-        [TestMethod]
-        public void DirectAccess32_SearchSimple_1()
-        {
-            using (DirectAccess32 access = _GetAccess())
-            {
-                int[] found = access.SearchSimple("K=БАЗЫ");
-                Assert.AreEqual(1, found.Length);
-            }
-        }
+        //[TestMethod]
+        //public void DirectAccess32_SearchSimple_1()
+        //{
+        //    using (DirectAccess32 access = _GetAccess())
+        //    {
+        //        int[] found = access.SearchSimple("K=БАЗЫ");
+        //        Assert.AreEqual(1, found.Length);
+        //    }
+        //}
 
-        [TestMethod]
-        public void DirectAccess32_SearchReadSimple_1()
-        {
-            using (DirectAccess32 access = _GetAccess())
-            {
-                MarcRecord[] found = access.SearchReadSimple("K=БАЗЫ");
-                Assert.AreEqual(1, found.Length);
-            }
-        }
+        //[TestMethod]
+        //public void DirectAccess32_SearchReadSimple_1()
+        //{
+        //    using (DirectAccess32 access = _GetAccess())
+        //    {
+        //        MarcRecord[] found = access.SearchReadSimple("K=БАЗЫ");
+        //        Assert.AreEqual(1, found.Length);
+        //    }
+        //}
     }
 }

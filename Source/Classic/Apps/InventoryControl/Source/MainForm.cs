@@ -1,4 +1,10 @@
-﻿/* MainForm.cs
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* MainForm.cs --
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -27,7 +33,7 @@ namespace InventoryControl
     /// <summary>
     /// Главная форма приложения
     /// </summary>
-    public partial class MainForm
+    public partial class MainForm //-V3073
         : XtraForm
     {
         public MainForm()
@@ -65,13 +71,7 @@ namespace InventoryControl
             Version vi = assembly.GetName().Version;
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             FileInfo fi = new FileInfo(assembly.Location);
-            Text += string.Format
-                (
-                    ": версия {0} (файл {1}) от {2}",
-                    vi,
-                    fvi.FileVersion,
-                    fi.LastWriteTime.ToShortDateString()
-                );
+            Text += $": версия {vi} (файл {fvi.FileVersion}) от {fi.LastWriteTime.ToShortDateString()}";
         }
 
         private void MainForm_FormClosed

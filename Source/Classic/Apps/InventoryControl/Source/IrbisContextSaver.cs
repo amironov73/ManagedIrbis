@@ -2,6 +2,9 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* IrbisContextSaver.cs -- сохранение текущего контекста клиента
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -19,7 +22,6 @@ namespace InventoryControl
     /// <summary>
     /// Простая сохранялка текущего контекста для клиента.
     /// </summary>
-    [Serializable]
     public class IrbisContextSaver
         : IDisposable
     {

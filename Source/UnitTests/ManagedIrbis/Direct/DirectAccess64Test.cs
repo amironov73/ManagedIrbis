@@ -244,33 +244,33 @@ namespace UnitTests.ManagedIrbis.Direct
             }
         }
 
-        [TestMethod]
-        public void DirectAccess64_WriteRawRecord_1()
-        {
-            MstRecord64 record = new MstRecord64
-            {
-                Leader = new MstRecordLeader64()
-            };
-            record.Dictionary.Add(new MstDictionaryEntry64 {Tag = 100, Text = "Hello"});
-            record.Dictionary.Add(new MstDictionaryEntry64 {Tag = 200, Text = "^ATitile^ESubTitle"});
-            record.Prepare();
-            using (DirectAccess64 access = _GetWriteableAccess())
-            {
-                access.WriteRawRecord(record);
-            }
-        }
+        //[TestMethod]
+        //public void DirectAccess64_WriteRawRecord_1()
+        //{
+        //    MstRecord64 record = new MstRecord64
+        //    {
+        //        Leader = new MstRecordLeader64()
+        //    };
+        //    record.Dictionary.Add(new MstDictionaryEntry64 {Tag = 100, Text = "Hello"});
+        //    record.Dictionary.Add(new MstDictionaryEntry64 {Tag = 200, Text = "^ATitile^ESubTitle"});
+        //    record.Prepare();
+        //    using (DirectAccess64 access = _GetWriteableAccess())
+        //    {
+        //        access.WriteRawRecord(record);
+        //    }
+        //}
 
-        [TestMethod]
-        public void DirectAccess64_WriteRecord_1()
-        {
-            MarcRecord record = new MarcRecord();
-            record.AddField(100, "Helllo");
-            record.AddField(new RecordField(200, new SubField('a', "Title"),
-                new SubField('e', "SubTitle")));
-            using (DirectAccess64 access = _GetWriteableAccess())
-            {
-                access.WriteRecord(record);
-            }
-        }
+        //[TestMethod]
+        //public void DirectAccess64_WriteRecord_1()
+        //{
+        //    MarcRecord record = new MarcRecord();
+        //    record.AddField(100, "Helllo");
+        //    record.AddField(new RecordField(200, new SubField('a', "Title"),
+        //        new SubField('e', "SubTitle")));
+        //    using (DirectAccess64 access = _GetWriteableAccess())
+        //    {
+        //        access.WriteRecord(record);
+        //    }
+        //}
     }
 }

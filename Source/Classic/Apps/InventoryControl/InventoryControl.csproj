@@ -144,30 +144,30 @@
     <Compile Include="..\..\Common\AssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="BookInfo.cs" />
-    <Compile Include="CeContext.cs" />
-    <Compile Include="ConfigDatabase.cs" />
-    <Compile Include="DataAccessLevel.cs" />
-    <Compile Include="ExemplarInfo.cs" />
-    <Compile Include="InvReport.cs">
+    <Compile Include="Source\BookInfo.cs" />
+    <Compile Include="Source\CeContext.cs" />
+    <Compile Include="Source\ConfigDatabase.cs" />
+    <Compile Include="Source\DataAccessLevel.cs" />
+    <Compile Include="Source\ExemplarInfo.cs" />
+    <Compile Include="Source\InvReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="InvReport.designer.cs">
+    <Compile Include="Source\InvReport.designer.cs">
       <DependentUpon>InvReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="IrbisContextSaver.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Source\IrbisContextSaver.cs" />
+    <Compile Include="Source\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.designer.cs">
+    <Compile Include="Source\MainForm.designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="InvReport.resx">
+    <EmbeddedResource Include="Source\InvReport.resx">
       <DependentUpon>InvReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Source\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

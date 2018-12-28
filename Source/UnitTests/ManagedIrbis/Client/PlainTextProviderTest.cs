@@ -146,13 +146,13 @@ namespace UnitTests.ManagedIrbis.Client
             }
         }
 
-        [TestMethod]
-        public void PlainTextProvider_ToString_1()
-        {
-            using (PlainTextProvider provider = _GetProvider())
-            {
-                Assert.AreEqual(_GetFileName(), provider.ToString());
-            }
-        }
+        //[TestMethod]
+        //public void PlainTextProvider_ToString_1()
+        //{
+        //    using (PlainTextProvider provider = _GetProvider())
+        //    {
+        //        Assert.AreEqual(_GetFileName(), provider.ToString());
+        //    }
+        //}
     }
 }

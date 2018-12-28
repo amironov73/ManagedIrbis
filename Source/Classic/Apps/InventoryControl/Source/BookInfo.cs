@@ -1,4 +1,10 @@
-﻿/* BookInfo.cs
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* BookInfo.cs --
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
  */
 
 #region Using directives
@@ -25,27 +31,19 @@ namespace InventoryControl
 
         public bool Control { get; set; }
 
-        public bool MultiBook { get; set; }
-
         public int Amount { get; set; }
 
         public string Ksu { get; set; }
 
-        public string SaveKsu { get; set; }
-
         public string Number { get; set; }
 
         public string Description { get; set; }
-
-        public string SaveDescription { get; set; }
 
         public string Year { get; set; }
 
         public string Price { get; set; }
 
         public string ErrorText { get; set; }
-
-        public decimal ThePrice { get; set; }
 
         public string Sign { get; set; }
 
@@ -97,36 +95,24 @@ namespace InventoryControl
 
         public bool Equals(BookInfo other)
         {
+            // ReSharper disable PossibleNullReferenceException
+
             return Mfn == other.Mfn;
+
+            // ReSharper restore PossibleNullReferenceException
         }
 
         #endregion
 
         #region Object members
 
-        private sealed class MfnEqualityComparer : IEqualityComparer<BookInfo>
+        public override int GetHashCode()
         {
-            public bool Equals(BookInfo x, BookInfo y)
-            {
-                if (ReferenceEquals(x, y)) return true;
-                if (ReferenceEquals(x, null)) return false;
-                if (ReferenceEquals(y, null)) return false;
-                if (x.GetType() != y.GetType()) return false;
-                return x.Mfn == y.Mfn;
-            }
+            // ReSharper disable NonReadonlyMemberInGetHashCode
 
-            public int GetHashCode(BookInfo obj)
-            {
-                return obj.Mfn;
-            }
-        }
+            return Mfn;
 
-        private static readonly IEqualityComparer<BookInfo> MfnComparerInstance
-            = new MfnEqualityComparer();
-
-        public static IEqualityComparer<BookInfo> MfnComparer
-        {
-            get { return MfnComparerInstance; }
+            // ReSharper restore NonReadonlyMemberInGetHashCode
         }
 
         public override string ToString()

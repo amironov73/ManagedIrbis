@@ -113,11 +113,11 @@ namespace UnitTests.UnsafeAM.Text
             Assert.IsTrue(range.Verify(false));
         }
 
-        [TestMethod]
-        public void UnicodeRange_ToString_1()
-        {
-            UnicodeRange range = _GetRange();
-            Assert.AreEqual("Lower Latin: 97-122", range.ToString());
-        }
+        //[TestMethod]
+        //public void UnicodeRange_ToString_1()
+        //{
+        //    UnicodeRange range = _GetRange();
+        //    Assert.AreEqual("Lower Latin: 97-122", range.ToString());
+        //}
     }
 }
