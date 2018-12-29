@@ -1,15 +1,28 @@
-﻿using System;
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* MainActivity.cs --
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
+ */
+
+#region Using directives
+
+using System;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 using AM;
 using AM.Collections;
 
 using Android.App;
 using Android.Content;
+using Android.Media;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
@@ -17,96 +30,146 @@ using Android.OS;
 using Android.Text.Method;
 
 using ManagedIrbis;
-using ManagedIrbis.Readers;
 
-using MimeKit;
+using Stream = Android.Media.Stream;
 
-using SmtpClient = MailKit.Net.Smtp.SmtpClient;
+#endregion
 
 // ReSharper disable StringLiteralTypo
 
 namespace XamaWatcher
 {
-    [Activity (Label = "Мониторинг заказов", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "Мониторинг заказов", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
-        Button _prevButton;
-        Button _nextButton;
-        Button _acceptButton;
-        Button _rejectButton;
-        Button _updateButton;
-        TextView _rangeText;
-        TextView _statusText;
-        TextView _updateText;
-        TextView _orderView;
-        Spinner _spinner;
+        private Button _prevButton;
+        private Button _nextButton;
+        private Button _acceptButton;
+        private Button _rejectButton;
+        private Button _updateButton;
+        private TextView _rangeText;
+        private TextView _statusText;
+        private TextView _updateText;
+        private TextView _orderView;
+        private Spinner _spinner;
+        private CheckBox _checkBox;
+        private Timer _timer;
 
         private Transport _transport;
 
-        bool _busy;
+        private bool _busy;
 
         BookRequest[] _activeRequests;
         BookRequest _currentRequest;
         int _currentIndex;
 
-        protected override void OnCreate (Bundle bundle)
+        protected override void OnCreate(Bundle bundle)
         {
             try
             {
-                base.OnCreate (bundle);
+                base.OnCreate(bundle);
 
-                SetContentView (Resource.Layout.activity_main);
+                SetContentView(Resource.Layout.activity_main);
                 _transport = Transport.Load(this);
 
-                _prevButton = FindViewById<Button> (Resource.Id.prevButton);
+                _prevButton = FindViewById<Button>(Resource.Id.prevButton);
                 _prevButton.Click += _OnPrevButtonClick;
-                _nextButton = FindViewById<Button> (Resource.Id.nextButton);
+                _nextButton = FindViewById<Button>(Resource.Id.nextButton);
                 _nextButton.Click += _OnNextButtonClick;
-                _acceptButton = FindViewById<Button> (Resource.Id.acceptButton);
+                _acceptButton = FindViewById<Button>(Resource.Id.acceptButton);
                 _acceptButton.Click += _OnAcceptButtonClick;
-                _rejectButton = FindViewById<Button> (Resource.Id.rejectButton);
+                _rejectButton = FindViewById<Button>(Resource.Id.rejectButton);
                 _rejectButton.Click += _OnRejectButtonClick;
-                _updateButton = FindViewById<Button> (Resource.Id.updateButton);
+                _updateButton = FindViewById<Button>(Resource.Id.updateButton);
                 _updateButton.Click += _OnUpdateButtonClick;
-                _rangeText = FindViewById<TextView> (Resource.Id.rangeText);
-                _statusText = FindViewById<TextView> (Resource.Id.statusText);
-                _updateText = FindViewById<TextView> (Resource.Id.updateText);
-                _orderView = FindViewById<TextView> (Resource.Id.orderText);
+                _rangeText = FindViewById<TextView>(Resource.Id.rangeText);
+                _statusText = FindViewById<TextView>(Resource.Id.statusText);
+                _updateText = FindViewById<TextView>(Resource.Id.updateText);
+                _orderView = FindViewById<TextView>(Resource.Id.orderText);
                 _orderView.MovementMethod = new ScrollingMovementMethod();
                 _spinner = FindViewById<Spinner>(Resource.Id.inventorySpinner);
+                _checkBox = FindViewById<CheckBox>(Resource.Id.checkBox);
+
+                _timer = new Timer(60000.0) { Enabled = true };
+                _timer.Elapsed += _timer_Elapsed;
 
                 _rangeText.Text = $"фонд: {_transport.Place}, номера: {_transport.My}";
 
             }
             catch (Exception ex)
             {
-                new AlertDialog.Builder (this)
-                    .SetTitle ("Возникло исключение")
-                    .SetMessage (ex.ToString ())
-                    .SetPositiveButton ("ОК", (s, e) => {
-                })
-                    .Show ();
+                new AlertDialog.Builder(this)
+                    .SetTitle("Возникло исключение")
+                    .SetMessage(ex.ToString())
+                    .SetPositiveButton("ОК", (s, e) =>{})
+                    .Show();
             }
         }
 
-        void SetStatus (string format, params object[] args)
+        protected override void OnDestroy()
         {
-            _statusText.Text = string.Format (format, args);
+            _timer?.Dispose();
+
+            base.OnDestroy();
         }
 
-        void SetDetails (string text)
+        void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (_busy)
+            {
+                return;
+            }
+
+            if (_checkBox.Checked)
+            {
+                RunOnUiThread(() =>
+                {
+                    _updateText.Text = "АВТОМАТИЧЕСКАЯ ПРОВЕРКА";
+                });
+
+                Task.Run(() =>
+                {
+                    UpdateState();
+                    RunOnUiThread(() =>
+                    {
+                        NavigateRequest(_currentIndex, true);
+
+                        if (_activeRequests != null)
+                        {
+                            _updateText.Text = $"Заказов: {_activeRequests.Length} ({DateTime.Now})";
+                        }
+                        else
+                        {
+                            _updateText.Text = string.Empty;
+                        }
+                    });
+
+                    if (!ReferenceEquals(_currentRequest, null))
+                    {
+                        BeepSound();
+                    }
+                });
+            }
+        }
+
+        void SetStatus(string format, params object[] args)
+        {
+            _statusText.Text = string.Format(format, args);
+        }
+
+        void SetDetails(string text)
         {
             _orderView.Text = text;
         }
 
-        void SetUpdate (string format, params object[] args)
+        void SetUpdate(string format, params object[] args)
         {
-            _updateText.Text = string.Format (format, args);
+            _updateText.Text = string.Format(format, args);
         }
 
-        string Today ()
+        string Today()
         {
-            return DateTime.Today.ToString ("yyyyMMdd");
+            return DateTime.Today.ToString("yyyyMMdd");
         }
 
         async Task UpdateStateAsync()
@@ -127,7 +190,7 @@ namespace XamaWatcher
                 return;
             }
 
-            NavigateRequest (_currentIndex, true);
+            NavigateRequest(_currentIndex, true);
 
             if (_activeRequests != null)
             {
@@ -139,7 +202,7 @@ namespace XamaWatcher
             }
         }
 
-        void UpdateState ()
+        void UpdateState()
         {
             if (_busy)
             {
@@ -153,13 +216,13 @@ namespace XamaWatcher
             {
                 _busy = true;
 
-                using (RequestManager reqMan = new RequestManager (_transport))
+                using (RequestManager reqMan = new RequestManager(_transport))
                 {
-                    _activeRequests = reqMan.GetRequests ();
+                    _activeRequests = reqMan.GetRequests();
 
                     foreach (BookRequest request in _activeRequests)
                     {
-                        reqMan.GetAdditionalInfo (request);
+                        reqMan.GetAdditionalInfo(request);
                     }
 
                     _activeRequests = _activeRequests
@@ -171,15 +234,15 @@ namespace XamaWatcher
                         _currentIndex = _activeRequests.Length - 1;
                     }
 
-                    if (_currentIndex < 0) {
+                    if (_currentIndex < 0)
+                    {
                         _currentIndex = 0;
                     }
 
                     if (_activeRequests.Length != 0
-                        && _currentIndex >= 0
                         && _currentIndex < _activeRequests.Length)
                     {
-                        _currentRequest = _activeRequests [_currentIndex];
+                        _currentRequest = _activeRequests[_currentIndex];
                     }
                 }
             }
@@ -203,30 +266,32 @@ namespace XamaWatcher
             }
             else
             {
-                if (_currentIndex >= _activeRequests.Length) {
+                if (_currentIndex >= _activeRequests.Length)
+                {
                     _currentIndex = _activeRequests.Length - 1;
                 }
-                if (_currentIndex < 0) {
+                if (_currentIndex < 0)
+                {
                     _currentIndex = 0;
                 }
                 _currentRequest = _currentIndex >= _activeRequests.Length
                     ? null
-                    : _activeRequests [_currentIndex];
+                    : _activeRequests[_currentIndex];
             }
 
             int length = _activeRequests?.Length ?? 0;
             if (length == 0)
             {
-                SetStatus ("Нет заказов");
+                SetStatus("Нет заказов");
             }
             else
             {
-                SetStatus ("Заказ {0} из {1}", _currentIndex + 1, length);
+                SetStatus("Заказ {0} из {1}", _currentIndex + 1, length);
             }
 
             if (_currentRequest == null)
             {
-                SetDetails ("В настоящее время заказов нет\n\n"
+                SetDetails("В настоящее время заказов нет\n\n"
                 + "Через некоторое время нажмите кнопку ОБНОВИТЬ снова.");
 
                 ArrayAdapter<string> adapter = new ArrayAdapter<string>(this,
@@ -237,7 +302,7 @@ namespace XamaWatcher
             }
             else
             {
-                SetDetails (_currentRequest.ToString ());
+                SetDetails(_currentRequest.ToString());
 
                 string[] numbers = new string[0];
                 if (!_currentRequest.MyNumbers.IsNullOrEmpty())
@@ -257,57 +322,71 @@ namespace XamaWatcher
             }
         }
 
-        void SetDone ()
+        void SetDone()
         {
-            MarcRecord requestRecord = _currentRequest?.Record;
-            if (ReferenceEquals(requestRecord, null))
+            if (_busy)
             {
                 return;
             }
 
-            MarcRecord bookRecord = _currentRequest.BookRecord;
-            if (ReferenceEquals(bookRecord, null))
+            try
             {
-                SetDetails("Нет записи о книге");
-                return;
+                _busy = true;
+
+                MarcRecord requestRecord = _currentRequest?.Record;
+                if (ReferenceEquals(requestRecord, null))
+                {
+                    return;
+                }
+
+                MarcRecord bookRecord = _currentRequest.BookRecord;
+                if (ReferenceEquals(bookRecord, null))
+                {
+                    SetDetails("Нет записи о книге");
+                    return;
+                }
+
+                string myNumber = _spinner?.SelectedItem?.ToString();
+                if (string.IsNullOrEmpty(myNumber))
+                {
+                    SetDetails("Нет доступных экземпляров");
+                    return;
+                }
+
+                RecordField field = bookRecord.Fields
+                    .GetField(910)
+                    .FirstOrDefault(f => f.GetFirstSubFieldValue('b')
+                        .SameString(myNumber));
+                if (ReferenceEquals(field, null))
+                {
+                    SetDetails("Нет поля для экземпляра");
+                    return;
+                }
+
+                // Сведения о забронированном экземпляре
+                RecordField copy = field.Clone().SetSubField('a', "0");
+                requestRecord.Fields.Add(copy);
+
+                // Дата предполагаемого возврата
+                requestRecord.AddField(42, DateTime.Now.AddDays(14).ToString("MM-dd-yyyy  hh:mm:ss"));
+
+                // Дата бронирования
+                requestRecord.AddField(43, DateTime.Now.ToString("MM-dd-yyyy  hh:mm:ss"));
+
+                // Ответственное лицо
+                requestRecord.AddField(50, "kladovka");
+
+                // Статус экземпляра: забронировано
+                field.SetSubField('a', "9");
+
+                using (RequestManager reqMan = new RequestManager(_transport))
+                {
+                    reqMan.WriteRequest(_currentRequest);
+                }
             }
-
-            string myNumber = _spinner?.SelectedItem?.ToString();
-            if (string.IsNullOrEmpty(myNumber))
+            finally
             {
-                SetDetails("Нет доступных экземпляров");
-                return;
-            }
-
-            RecordField field = bookRecord.Fields
-                .GetField(910)
-                .FirstOrDefault(f => f.GetFirstSubFieldValue('b')
-                    .SameString(myNumber));
-            if (ReferenceEquals(field, null))
-            {
-                SetDetails("Нет поля для экземпляра");
-                return;
-            }
-
-            // Сведения о забронированном экземпляре
-            RecordField copy = field.Clone().SetSubField('a', "0");
-            requestRecord.Fields.Add(copy);
-
-            // Дата предполагаемого возврата
-            requestRecord.AddField (42, DateTime.Now.AddDays(14).ToString("MM-dd-yyyy  hh:mm:ss"));
-
-            // Дата бронирования
-            requestRecord.AddField(43, DateTime.Now.ToString("MM-dd-yyyy  hh:mm:ss"));
-
-            // Ответственное лицо
-            requestRecord.AddField(50, "kladovka");
-
-            // Статус экземпляра: забронировано
-            field.SetSubField('a', "9");
-
-            using (RequestManager reqMan = new RequestManager(_transport))
-            {
-                reqMan.WriteRequest (_currentRequest);
+                _busy = false;
             }
         }
 
@@ -316,13 +395,22 @@ namespace XamaWatcher
                 string value
             )
         {
-            MarcRecord record = _currentRequest?.Record;
-            if (ReferenceEquals(record, null))
+            if (_busy)
             {
                 return;
             }
 
-            record.AddField
+            try
+            {
+                _busy = true;
+
+                MarcRecord record = _currentRequest?.Record;
+                if (ReferenceEquals(record, null))
+                {
+                    return;
+                }
+
+                record.AddField
                 (
                     new RecordField
                     (
@@ -331,13 +419,18 @@ namespace XamaWatcher
                         new SubField('b', Today())
                     )
                 );
-            using (RequestManager reqMan = new RequestManager (_transport))
+                using (RequestManager reqMan = new RequestManager(_transport))
+                {
+                    reqMan.WriteRequest(_currentRequest);
+                }
+            }
+            finally
             {
-                reqMan.WriteRequest (_currentRequest);
+                _busy = false;
             }
         }
 
-        void _OnPrevButtonClick (object sender, EventArgs ea)
+        void _OnPrevButtonClick(object sender, EventArgs ea)
         {
             try
             {
@@ -352,15 +445,15 @@ namespace XamaWatcher
                 {
                     newIndex = _activeRequests.Length - 1;
                 }
-                NavigateRequest (newIndex, false);
+                NavigateRequest(newIndex, false);
             }
             catch (Exception ex)
             {
-                _orderView.Text = ex.ToString ();
+                _orderView.Text = ex.ToString();
             }
         }
 
-        void _OnNextButtonClick (object sender, EventArgs ea)
+        void _OnNextButtonClick(object sender, EventArgs ea)
         {
             try
             {
@@ -375,11 +468,11 @@ namespace XamaWatcher
                 {
                     newIndex = 0;
                 }
-                NavigateRequest (newIndex, false);
+                NavigateRequest(newIndex, false);
             }
             catch (Exception ex)
             {
-                _orderView.Text = ex.ToString ();
+                _orderView.Text = ex.ToString();
             }
         }
 
@@ -397,8 +490,8 @@ namespace XamaWatcher
                     return;
                 }
 
-                await Task.Run(() => SetDone ());
-                await UpdateStateAsync ();
+                await Task.Run(() => SetDone());
+                await UpdateStateAsync();
                 _updateText.Text = $"Заказ был выполнен ({DateTime.Now})";
 
                 // Не нужно отправлять письмо
@@ -407,7 +500,7 @@ namespace XamaWatcher
             }
             catch (Exception ex)
             {
-                _orderView.Text = ex.ToString ();
+                _orderView.Text = ex.ToString();
             }
         }
 
@@ -425,14 +518,14 @@ namespace XamaWatcher
                     return;
                 }
 
-                await Task.Run(() => SetReject ("01"));
+                await Task.Run(() => SetReject("01"));
                 await UpdateStateAsync();
                 _updateText.Text = $"Заказ был отменен ({DateTime.Now})";
                 await SendMailAsync(request, true);
             }
             catch (Exception ex)
             {
-                _orderView.Text = ex.ToString ();
+                _orderView.Text = ex.ToString();
             }
         }
 
@@ -444,6 +537,12 @@ namespace XamaWatcher
         {
             // UpdateState ();
             await UpdateStateAsync();
+        }
+
+        void BeepSound()
+        {
+            ToneGenerator tone = new ToneGenerator(Stream.Alarm, 100);
+            tone.StartTone(Tone.DtmfS, 100);
         }
 
         async Task SendMailAsync
