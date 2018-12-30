@@ -446,7 +446,7 @@
         </member>
         <member name="T:AM.ArsMagnaException">
             <summary>
-            
+            Exception base for Ars Magna project.
             </summary>
         </member>
         <member name="T:AM.IAttachmentContainer">
@@ -521,9 +521,9 @@
             </summary>
         </member>
         <member name="T:AM.ConsoleIO.SystemConsole">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:AM.ConsoleIO.IConsoleDriver">
              <summary>
@@ -1580,6 +1580,9 @@
         </member>
         <member name="M:AM.Text.Ranges.NumberRange.Verify(System.Boolean)">
             <inheritdoc cref="M:AM.IVerifiable.Verify(System.Boolean)"/>
+        </member>
+        <member name="M:AM.Text.Ranges.NumberRange.GetHashCode">
+            <inheritdoc cref="M:System.Object.GetHashCode"/>
         </member>
         <member name="M:AM.Text.Ranges.NumberRange.ToString">
             <inheritdoc cref="M:System.Object.ToString"/>
@@ -4489,24 +4492,24 @@
             </exception>
         </member>
         <member name="T:JetBrains.Annotations.AssertionMethodAttribute">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:JetBrains.Annotations.ItemNotNullAttribute">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:JetBrains.Annotations.ItemCanBeNullAttribute">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:JetBrains.Annotations.NoEnumerationAttribute">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:AM.NumericUtility">
             <summary>
@@ -5284,6 +5287,40 @@
         <member name="M:AM.StringUtility.LastIndexOfAny(System.String,System.String[])">
             <summary>
             Get very last index of substrings.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.AfterFirst(System.String,System.String)">
+            <summary>
+            Provides the substring after the search string
+            or <c>null</c>.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.AfterLast(System.String,System.String)">
+            <summary>
+            Provides the substring after the search string
+            or <c>null</c>.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.BeforeFirst(System.String,System.String)">
+            <summary>
+            Provides the substring before the search string
+            or <c>null</c>.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.BeforeLast(System.String,System.String)">
+            <summary>
+            Provides the substring before the search string
+            or <c>null</c>.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.AppendAll(System.Text.StringBuilder,System.Collections.IEnumerable,System.String)">
+            <summary>
+            Shortcut for adding an array of values to a StringBuilder.
+            </summary>
+        </member>
+        <member name="M:AM.StringUtility.AppendAll(System.Text.StringBuilder,System.Collections.IEnumerable,System.Char)">
+            <summary>
+            Shortcut for adding an array of values to a StringBuilder.
             </summary>
         </member>
         <member name="T:AM.Threading.BusyState">
@@ -6225,6 +6262,11 @@
             <summary>
             Serialize.
             </summary>
+        </member>
+        <member name="T:AM.Profiling.IAmProfiler">
+             <summary>
+            
+             </summary>
         </member>
         <member name="T:AM.IO.VersionStream">
             <summary>
@@ -8661,6 +8703,26 @@
             Vertical line.
             </summary>
         </member>
+        <member name="T:AM.Profiling.Profiler">
+            <summary>
+            Profiler stub.
+            </summary>
+        </member>
+        <member name="M:AM.Profiling.Profiler.Step(System.String)">
+            <summary>
+            Start profiling the step.
+            </summary>
+        </member>
+        <member name="M:AM.Profiling.Profiler.GenerateReport">
+            <summary>
+            Generate report.
+            </summary>
+        </member>
+        <member name="P:AM.Profiling.Profiler.Current">
+             <summary>
+            
+             </summary>
+        </member>
         <member name="T:AM.Mathematics.MathUtility">
             <summary>
             Some useful math.
@@ -9860,6 +9922,11 @@
             Borrowed from Stephen Toub book.
             </summary>
         </member>
+        <member name="T:AM.Events.EventManager">
+             <summary>
+            
+             </summary>
+        </member>
         <member name="T:AM.EmptyArray`1">
             <summary>
             
@@ -9993,7 +10060,7 @@
         </member>
         <member name="M:AM.IO.StreamUtility.ReadAsMuchAsPossible(System.IO.Stream,System.Int32)">
             <summary>
-            Read as up to <paramref name="maximum"/> bytes 
+            Read as up to <paramref name="maximum"/> bytes
             from the given stream.
             </summary>
         </member>
@@ -10062,25 +10129,25 @@
         </member>
         <member name="M:AM.IO.StreamUtility.ReadInt16Array(System.IO.Stream)">
             <summary>
-            Reads array of <see cref="T:System.Int16"/> values from the 
+            Reads array of <see cref="T:System.Int16"/> values from the
             <see cref="T:System.IO.Stream"/>.
             </summary>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadUInt16Array(System.IO.Stream)">
             <summary>
-            Reads array of <see cref="T:System.UInt16"/> values from the 
+            Reads array of <see cref="T:System.UInt16"/> values from the
             <see cref="T:System.IO.Stream"/>.
             </summary>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadInt32Array(System.IO.Stream)">
             <summary>
-            Reads array of <see cref="T:System.Int32"/> values from the 
+            Reads array of <see cref="T:System.Int32"/> values from the
             <see cref="T:System.IO.Stream"/>.
             </summary>
         </member>
         <member name="M:AM.IO.StreamUtility.ReadUInt32Array(System.IO.Stream)">
             <summary>
-            Reads array of <see cref="T:System.UInt32"/> values from the 
+            Reads array of <see cref="T:System.UInt32"/> values from the
             <see cref="T:System.IO.Stream"/>.
             </summary>
         </member>
@@ -10098,7 +10165,7 @@
         </member>
         <member name="M:AM.IO.StreamUtility.ReadDecimal(System.IO.Stream)">
             <summary>
-            Reads the <see cref="T:System.Decimal"/> from the specified 
+            Reads the <see cref="T:System.Decimal"/> from the specified
             <see cref="T:System.IO.Stream"/>.
             </summary>
         </member>
@@ -10186,10 +10253,10 @@
             </summary>
             <param name="stream">Stream to write to.</param>
             <param name="values">Array of signed integer numbers.</param>
-            <remarks>Value can be readed with 
+            <remarks>Value can be readed with
             <see cref="M:AM.IO.StreamUtility.ReadInt32Array(System.IO.Stream)"/> or compatible method.
             </remarks>
-            <exception cref="T:System.ArgumentNullException">Either 
+            <exception cref="T:System.ArgumentNullException">Either
             <paramref name="stream"/> or <paramref name="values"/>
             is <c>null</c>.</exception>
             <exception cref="T:System.IO.IOException">An error during stream
@@ -10203,10 +10270,10 @@
             </summary>
             <param name="stream">Stream to write to.</param>
             <param name="values">Array of unsigned integer numbers.</param>
-            <remarks>Value can be readed with 
+            <remarks>Value can be readed with
             <see cref="M:AM.IO.StreamUtility.ReadUInt32Array(System.IO.Stream)"/> or compatible method.
             </remarks>
-            <exception cref="T:System.ArgumentNullException">Either 
+            <exception cref="T:System.ArgumentNullException">Either
             <paramref name="stream"/> or <paramref name="values"/>
             is <c>null</c>.</exception>
             <exception cref="T:System.IO.IOException">An error during stream
@@ -10222,10 +10289,10 @@
             <param name="stream">Stream to write to.</param>
             <param name="values">Array of strings to write.</param>
             <param name="encoding">Encoding to use.</param>
-            <remarks>Value can be readed with 
+            <remarks>Value can be readed with
             <see cref="M:AM.IO.StreamUtility.ReadStringArray(System.IO.Stream,System.Text.Encoding)"/> or compatible method.
             </remarks>
-            <exception cref="T:System.ArgumentNullException">Either 
+            <exception cref="T:System.ArgumentNullException">Either
             <paramref name="stream"/> or <paramref name="values"/>
             is <c>null</c>.</exception>
             <exception cref="T:System.IO.IOException">An error during stream
@@ -10239,10 +10306,10 @@
             </summary>
             <param name="stream">Stream to write to.</param>
             <param name="values">Array of strings to write.</param>
-            <remarks>Value can be readed with 
+            <remarks>Value can be readed with
             <see cref="M:AM.IO.StreamUtility.ReadStringArray(System.IO.Stream)"/> or compatible method.
             </remarks>
-            <exception cref="T:System.ArgumentNullException">Either 
+            <exception cref="T:System.ArgumentNullException">Either
             <paramref name="stream"/> or <paramref name="values"/>
             is <c>null</c>.</exception>
             <exception cref="T:System.IO.IOException">An error during stream
@@ -10266,7 +10333,7 @@
         </member>
         <member name="M:AM.IO.StreamUtility.Write(System.IO.Stream,System.DateTime)">
             <summary>
-            Writes the <see cref="T:System.DateTime"/> to the specified 
+            Writes the <see cref="T:System.DateTime"/> to the specified
             <see cref="T:System.IO.Stream"/>.
             </summary>
         </member>
@@ -12643,6 +12710,17 @@
             Convert the list to array.
             </summary>
         </member>
+        <member name="M:AM.Collections.LocalList`1.ToUniqueList">
+             <summary>
+            
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="M:AM.Collections.LocalList`1.ToList">
+            <summary>
+            Convert the list to <see cref="T:System.Collections.Generic.List`1"/>.
+            </summary>
+        </member>
         <member name="P:AM.Collections.LocalList`1.Count">
             <inheritdoc cref="P:System.Collections.Generic.ICollection`1.Count"/>
         </member>
@@ -12652,11 +12730,21 @@
         <member name="P:AM.Collections.LocalList`1.Item(System.Int32)">
             <inheritdoc cref="P:System.Collections.Generic.IList`1.Item(System.Int32)"/>
         </member>
+        <member name="T:AM.Collections.LocalList`1.Enumerator">
+            <summary>
+            Enumerator for <see cref="T:AM.Collections.LocalList`1"/>.
+            </summary>
+        </member>
+        <member name="M:AM.Collections.LocalList`1.Enumerator.MoveNext">
+            <inheritdoc cref="M:System.Collections.IEnumerator.MoveNext"/>
+        </member>
+        <member name="P:AM.Collections.LocalList`1.Enumerator.Current">
+            <inheritdoc cref="P:System.Collections.Generic.IEnumerator`1.Current"/>
+        </member>
         <member name="T:AM.Collections.ChunkList`1">
              <summary>
             
              </summary>
-             <typeparam name="T"></typeparam>
         </member>
         <member name="F:AM.Collections.ChunkList`1.ChunkSize">
             <summary>
@@ -13767,6 +13855,11 @@
             Property info.
             </summary>
         </member>
+        <member name="T:AM.Profiling.NullProfiler">
+             <summary>
+            
+             </summary>
+        </member>
         <member name="T:AM.Parameters.Parameter">
             <summary>
             Parameter.
@@ -14704,6 +14797,14 @@
             Load assembly from the file.
             </summary>
         </member>
+        <member name="T:AM.Profiling.ProfilerStep">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:AM.Profiling.ProfilerStep.Dispose">
+            <inheritdoc cref="M:System.IDisposable.Dispose"/>
+        </member>
         <member name="T:AM.IO.TextReaderUtility">
             <summary>
             Helpers for <see cref="T:System.IO.TextReader"/>.
@@ -14869,29 +14970,29 @@
             </summary>
         </member>
         <member name="T:Newtonsoft.Json.DefaultValueHandling">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:Newtonsoft.Json.JsonPropertyAttribute">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:Newtonsoft.Json.JsonPropertyAttribute.#ctor">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="M:Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:Newtonsoft.Json.JsonIgnoreAttribute">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="T:AM.DateTimeUtility">
             <summary>
@@ -15203,6 +15304,11 @@
             Gets or sets the name of the field.
             </summary>
             <value>The name of the field.</value>
+        </member>
+        <member name="T:AM.Profiling.MiniWrapper">
+             <summary>
+            
+             </summary>
         </member>
         <member name="T:AM.IO.BinaryReaderUtility">
             <summary>

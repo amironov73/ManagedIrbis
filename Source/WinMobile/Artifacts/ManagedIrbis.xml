@@ -324,6 +324,11 @@
             MFN записи.
             </summary>
         </member>
+        <member name="P:ManagedIrbis.Readers.ReaderInfo.Record">
+            <summary>
+            Биб. запись.
+            </summary>
+        </member>
         <member name="P:ManagedIrbis.Readers.ReaderInfo.Marked">
             <summary>
             Flag for the reader info.
@@ -2900,9 +2905,9 @@
             </summary>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.AbstractClientSocket">
-             <summary>
-            
-             </summary>
+            <summary>
+            Base class for client IRBIS sockets.
+            </summary>
         </member>
         <member name="M:ManagedIrbis.Infrastructure.AbstractClientSocket.#ctor(ManagedIrbis.IIrbisConnection)">
             <summary>
@@ -2958,50 +2963,49 @@
             Send request to server and receive answer.
             </summary>
         </member>
-        <member name="T:ManagedIrbis.Direct.NodeItem">
+        <member name="T:ManagedIrbis.NodeLeader64">
             <summary>
-            Справочник в N01/L01 является таблицей, определяющей
-            поисковый термин. Каждый ключ переменной длины, который
-            есть в записи, представлен в справочнике одним входом,
-            формат которого описывает следующая структура
+            Record leader of L01/N01 file.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Direct.NodeItem.ToString">
+        <member name="M:ManagedIrbis.NodeLeader64.Dump(System.IO.TextWriter)">
+            <summary>
+            Dump the leader.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.NodeLeader64.Read(System.IO.Stream)">
+            <summary>
+            Считывание из потока.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.NodeLeader64.ToString">
             <inheritdoc cref="M:System.Object.ToString"/>
         </member>
-        <member name="P:ManagedIrbis.Direct.NodeItem.Length">
+        <member name="P:ManagedIrbis.NodeLeader64.Number">
             <summary>
-            Длина ключа
+            Номер записи (начиная с 1; в N01 номер первой записи
+            равен номеру корневой записи дерева
             </summary>
         </member>
-        <member name="P:ManagedIrbis.Direct.NodeItem.KeyOffset">
+        <member name="P:ManagedIrbis.NodeLeader64.Previous">
             <summary>
-            Смещение ключа от начала записи
+            Номер предыдущей записи (-1, если нет)
             </summary>
         </member>
-        <member name="P:ManagedIrbis.Direct.NodeItem.LowOffset">
+        <member name="P:ManagedIrbis.NodeLeader64.Next">
             <summary>
-            Младшее слово смещения
+            Номер следующей записи (-1, если нет)
             </summary>
         </member>
-        <member name="P:ManagedIrbis.Direct.NodeItem.HighOffset">
+        <member name="P:ManagedIrbis.NodeLeader64.TermCount">
             <summary>
-            Старшее слово смещения
+            Число ключей в записи
             </summary>
         </member>
-        <member name="P:ManagedIrbis.Direct.NodeItem.FullOffset">
+        <member name="P:ManagedIrbis.NodeLeader64.FreeOffset">
             <summary>
-            Полное смещение
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Direct.NodeItem.RefersToLeaf">
-            <summary>
-            Ссылается на лист?
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Direct.NodeItem.Text">
-            <summary>
-            Текстовое значение ключа
+            Смещение на свободную позицию в записи
+            (от начала записи)
             </summary>
         </member>
         <member name="T:ManagedIrbis.Infrastructure.Sockets.BrokenSocket">
@@ -7133,49 +7137,6 @@
             Throw exception on verification error.
             </summary>
         </member>
-        <member name="T:ManagedIrbis.Direct.NodeRecord">
-            <summary>
-            Запись в файлах L01 и N01.
-            </summary>
-        </member>
-        <member name="F:ManagedIrbis.Direct.NodeRecord.RecordSize">
-            <summary>
-            Длина записи в текущей реализации.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Direct.NodeRecord.#ctor">
-            <summary>
-            Конструктор
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Direct.NodeRecord.#ctor(System.Boolean)">
-            <summary>
-            Конструктор
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Direct.NodeRecord.DumpRecord(System.IO.TextWriter)">
-            <summary>
-            Dump the record.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Direct.NodeRecord.ToString">
-            <inheritdoc cref="M:System.Object.ToString"/>
-        </member>
-        <member name="P:ManagedIrbis.Direct.NodeRecord.IsLeaf">
-            <summary>
-            Лист?
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Direct.NodeRecord.Leader">
-            <summary>
-            Заголовок
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Direct.NodeRecord.Items">
-            <summary>
-            Ссылки
-            </summary>
-        </member>
         <member name="T:ManagedIrbis.Gbl.GblParameter">
             <summary>
             Parameter for GBL file.
@@ -10737,14 +10698,14 @@
             Read given leaf node.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Direct.InvertedFile32.ReadNext(ManagedIrbis.Direct.NodeRecord)">
+        <member name="M:ManagedIrbis.Direct.InvertedFile32.ReadNext(ManagedIrbis.Direct.NodeRecord32)">
             <summary>
             Read next node.
             </summary>
             <returns><c>null</c> if there is no next node.
             </returns>
         </member>
-        <member name="M:ManagedIrbis.Direct.InvertedFile32.ReadPrevious(ManagedIrbis.Direct.NodeRecord)">
+        <member name="M:ManagedIrbis.Direct.InvertedFile32.ReadPrevious(ManagedIrbis.Direct.NodeRecord32)">
             <summary>
             Read previous node.
             </summary>
@@ -10753,7 +10714,7 @@
         </member>
         <member name="M:ManagedIrbis.Direct.InvertedFile32.ReadIfpRecord(System.Int64)">
             <summary>
-            Read <see cref="T:ManagedIrbis.Direct.IfpRecord"/> from given offset.
+            Read <see cref="T:ManagedIrbis.Direct.IfpRecord32"/> from given offset.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Direct.InvertedFile32.SearchExact(System.String)">
@@ -13155,14 +13116,14 @@
             Read leaf node by number.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Direct.InvertedFile64.ReadNext(ManagedIrbis.Direct.NodeRecord)">
+        <member name="M:ManagedIrbis.Direct.InvertedFile64.ReadNext(ManagedIrbis.Direct.NodeRecord64)">
             <summary>
             Read next node.
             </summary>
             <returns><c>null</c> if there is no next node.
             </returns>
         </member>
-        <member name="M:ManagedIrbis.Direct.InvertedFile64.ReadPrevious(ManagedIrbis.Direct.NodeRecord)">
+        <member name="M:ManagedIrbis.Direct.InvertedFile64.ReadPrevious(ManagedIrbis.Direct.NodeRecord64)">
             <summary>
             Read previous node.
             </summary>
@@ -13171,7 +13132,7 @@
         </member>
         <member name="M:ManagedIrbis.Direct.InvertedFile64.ReadIfpRecord(System.Int64)">
             <summary>
-            Read <see cref="T:ManagedIrbis.Direct.IfpRecord"/> from given offset.
+            Read <see cref="T:ManagedIrbis.Direct.IfpRecord64"/> from given offset.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Direct.InvertedFile64.ReadTerms(ManagedIrbis.Search.TermParameters)">
@@ -15492,46 +15453,6 @@
         <member name="P:ManagedIrbis.Infrastructure.Commands.UpdateUserListCommand.UserList">
             <summary>
             User list to update.
-            </summary>
-        </member>
-        <member name="T:ManagedIrbis.NodeLeader">
-            <summary>
-            Record leader of L01/N01 file.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.NodeLeader.Read(System.IO.Stream)">
-            <summary>
-            Считывание из потока.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.NodeLeader.ToString">
-            <inheritdoc cref="M:System.Object.ToString"/>
-        </member>
-        <member name="P:ManagedIrbis.NodeLeader.Number">
-            <summary>
-            Номер записи (начиная с 1; в N01 номер первой записи
-            равен номеру корневой записи дерева
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.NodeLeader.Previous">
-            <summary>
-            Номер предыдущей записи (-1, если нет)
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.NodeLeader.Next">
-            <summary>
-            Номер следующей записи (-1, если нет)
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.NodeLeader.TermCount">
-            <summary>
-            Число ключей в записи
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.NodeLeader.FreeOffset">
-            <summary>
-            Смещение на свободную позицию в записи
-            (от начала записи)
             </summary>
         </member>
         <member name="T:ManagedIrbis.Gbl.GblResult">
@@ -18946,37 +18867,42 @@
         </member>
         <member name="T:ManagedIrbis.RecordStatus">
             <summary>
-            MARC record status
+            MARC record status.
             </summary>
         </member>
         <member name="F:ManagedIrbis.RecordStatus.LogicallyDeleted">
             <summary>
-            Запись логически удалена
+            Запись логически удалена.
             </summary>
         </member>
         <member name="F:ManagedIrbis.RecordStatus.PhysicallyDeleted">
             <summary>
-            Запись физически удалена
+            Запись физически удалена.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.RecordStatus.Deleted">
+            <summary>
+            Запись логически или физически удалена.
             </summary>
         </member>
         <member name="F:ManagedIrbis.RecordStatus.Absent">
             <summary>
-            Запись отсутствует
+            Запись отсутствует.
             </summary>
         </member>
         <member name="F:ManagedIrbis.RecordStatus.NonActualized">
             <summary>
-            Запись не актуализирована
+            Запись не актуализирована.
             </summary>
         </member>
         <member name="F:ManagedIrbis.RecordStatus.Last">
             <summary>
-            Последний экземпляр записи
+            Последний экземпляр записи.
             </summary>
         </member>
         <member name="F:ManagedIrbis.RecordStatus.Locked">
             <summary>
-            Запись заблокирована
+            Запись заблокирована.
             </summary>
         </member>
         <member name="T:ManagedIrbis.RecordField">
@@ -23398,111 +23324,6 @@
         <member name="M:ManagedIrbis.Mx.Commands.ExitCommand.Execute(ManagedIrbis.Mx.MxExecutive,ManagedIrbis.Mx.MxArgument[])">
             <inheritdoc cref="M:ManagedIrbis.Mx.MxCommand.Execute(ManagedIrbis.Mx.MxExecutive,ManagedIrbis.Mx.MxArgument[])"/>
         </member>
-        <member name="T:ManagedIrbis.Direct.IfpRecord">
-            <summary>
-            Inverted file record
-            </summary>
-        </member>
-        <member name="F:ManagedIrbis.Direct.IfpRecord.MinPostingsInBlock">
-            <summary>
-            Число ссылок на термин, после превышения которого
-            используется специальный блок ссылок.
-            </summary>
-        </member>
-        <member name="F:ManagedIrbis.Direct.IfpRecord.LeaderSize">
-            <summary>
-            ibatrak размер лидера записи
-            </summary>
-        </member>
-        <member name="F:ManagedIrbis.Direct.IfpRecord.BlockSize">
-            <summary>
-            ibatrak размер блока
-            </summary>
-        </member>
-        <member name="F:ManagedIrbis.Direct.IfpRecord.TermLinkSize">
-            <summary>
-            ibatrak размер записи ссылки
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Direct.IfpRecord.ReadLeader(System.IO.Stream,System.Int64)">
-            <summary>
-            ibatrak чтение заголовка записи IFP (для подсчета количества ссылок)
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Direct.IfpRecord.Read(System.IO.Stream,System.Int64)">
-            <summary>
-            Считываем из потока.
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Direct.IfpRecord.ToString">
-            <inheritdoc cref="M:System.Object.ToString"/>
-        </member>
-        <member name="P:ManagedIrbis.Direct.IfpRecord.LowOffset">
-            <summary>
-            Младшее слово смещения на следующую запись (если нет - 0).
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Direct.IfpRecord.HighOffset">
-            <summary>
-            Старшее слово смещения на следующую запись (если нет - 0).
-            </summary>
-            <remarks>Признак последнего блока – LOW=HIGH= -1.</remarks>
-        </member>
-        <member name="P:ManagedIrbis.Direct.IfpRecord.FullOffset">
-            <summary>
-            ibatrak ссылка на следующую запись
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Direct.IfpRecord.TotalLinkCount">
-            <summary>
-            Ообщее число ссылок для данного термина
-            (только в первой записи);
-            число ссылок в данном блоке(в следующих записях).
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Direct.IfpRecord.BlockLinkCount">
-            <summary>
-            Число ссылок в данном блоке.
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Direct.IfpRecord.Capacity">
-            <summary>
-            Вместимость записи в ссылках.
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Direct.IfpRecord.Links">
-            <summary>
-            Собственно ссылки.
-            </summary>
-        </member>
-        <member name="T:ManagedIrbis.Direct.IfpRecord.SpecialPostingBlockEntry">
-            <summary>
-            ibatrak структура с описанием спец блока
-            </summary>
-        </member>
-        <member name="M:ManagedIrbis.Direct.IfpRecord.SpecialPostingBlockEntry.ToString">
-            <inheritdoc cref="M:System.Object.ToString"/>
-        </member>
-        <member name="P:ManagedIrbis.Direct.IfpRecord.SpecialPostingBlockEntry.Posting">
-            <summary>
-            1-я ссылка из записи обыкновенного формата
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Direct.IfpRecord.SpecialPostingBlockEntry.Low">
-            <summary>
-            младшее слово смещения на следующую запись (если нет 0)
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Direct.IfpRecord.SpecialPostingBlockEntry.High">
-            <summary>
-            старшее слово смещения на следующую запись (если нет 0)
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Direct.IfpRecord.SpecialPostingBlockEntry.Offset">
-            <summary>
-            Offset.
-            </summary>
-        </member>
         <member name="T:ManagedIrbis.Flc.FlcStatus">
             <summary>
             первый символ результата форматирования определяет
@@ -24534,6 +24355,21 @@
         <member name="P:ManagedIrbis.FictionBook.FbDocument.Binary">
             <summary>
             Двоичные данные (рисунки).
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Features.FeatureManager">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Features.FeatureManager.HaveFeature(System.String)">
+            <summary>
+            Have the feature?
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Features.FeatureManager.RegisterFeature(System.String)">
+            <summary>
+            Register the feature.
             </summary>
         </member>
         <member name="T:ManagedIrbis.Batch.BatchRecordReader">
@@ -26409,13 +26245,18 @@
             Decode record.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Direct.MstRecord32.ToString">
+        <member name="M:ManagedIrbis.Direct.MstRecord32.EncodeField(ManagedIrbis.RecordField)">
             <summary>
-            Returns a <see cref="T:System.String"/>
-            that represents this instance.
+            Encode the field.
             </summary>
-            <returns>A <see cref="T:System.String"/>
-            that represents this instance.</returns>
+        </member>
+        <member name="M:ManagedIrbis.Direct.MstRecord32.EncodeRecord(ManagedIrbis.MarcRecord)">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.MstRecord32.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Direct.MstRecord32.Leader">
             <summary>
@@ -28279,7 +28120,6 @@
             <summary>
             Блокировка базы данных в целом.
             </summary>
-            <param name="flag"></param>
         </member>
         <member name="M:ManagedIrbis.Direct.MstFile32.ReadDatabaseLockedFlag">
             <summary>
@@ -29406,8 +29246,6 @@
             <summary>
             Парсинг строкового представления поля.
             </summary>
-            <param name="line">The line.</param>
-            <returns></returns>
         </member>
         <member name="M:ManagedIrbis.RecordFieldUtility.ToXml(ManagedIrbis.RecordField)">
             <summary>
@@ -31397,6 +31235,11 @@
             <summary>
             Позиция индикатора блокировки базы данных
             в управляющей записи.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.MstControlRecord64.Dump(System.IO.TextWriter)">
+            <summary>
+            Dump the control record.
             </summary>
         </member>
         <member name="M:ManagedIrbis.Direct.MstControlRecord64.Read(System.IO.Stream)">
@@ -34124,12 +33967,7 @@
             </summary>
         </member>
         <member name="M:ManagedIrbis.Direct.MstRecordLeader32.ToString">
-            <summary>
-            Returns a <see cref="T:System.String"/>
-            that represents this instance.
-            </summary>
-            <returns>A <see cref="T:System.String"/>
-            that represents this instance.</returns>
+            <inheritdoc cref="M:System.Object.ToString"/>
         </member>
         <member name="P:ManagedIrbis.Direct.MstRecordLeader32.Mfn">
             <summary>
@@ -34139,11 +33977,6 @@
         <member name="P:ManagedIrbis.Direct.MstRecordLeader32.Length">
             <summary>
             Длина записи (всегда четное число).
-            </summary>
-        </member>
-        <member name="P:ManagedIrbis.Direct.MstRecordLeader32.PreviousBlock">
-            <summary>
-            Number of block containing previous version.
             </summary>
         </member>
         <member name="P:ManagedIrbis.Direct.MstRecordLeader32.PreviousOffset">
@@ -35115,6 +34948,52 @@
         <member name="P:ManagedIrbis.EventDb.EventDates.UserData">
             <summary>
             Arbitrary user data.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Direct.NodeItem32">
+            <summary>
+            Справочник в N01/L01 является таблицей, определяющей
+            поисковый термин. Каждый ключ переменной длины, который
+            есть в записи, представлен в справочнике одним входом,
+            формат которого описывает следующая структура
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.NodeItem32.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeItem32.Length">
+            <summary>
+            Длина ключа
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeItem32.KeyOffset">
+            <summary>
+            Смещение ключа от начала записи
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeItem32.LowOffset">
+            <summary>
+            Младшее слово смещения
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeItem32.HighOffset">
+            <summary>
+            Старшее слово смещения
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeItem32.FullOffset">
+            <summary>
+            Полное смещение
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeItem32.RefersToLeaf">
+            <summary>
+            Ссылается на лист?
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeItem32.Text">
+            <summary>
+            Текстовое значение ключа
             </summary>
         </member>
         <member name="T:ManagedIrbis.Authentication.ICredentialsResolver">
@@ -36572,6 +36451,57 @@
             Бросать исключения при валидации?
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Direct.NodeItem64">
+            <summary>
+            Справочник в N01/L01 является таблицей, определяющей
+            поисковый термин. Каждый ключ переменной длины, который
+            есть в записи, представлен в справочнике одним входом,
+            формат которого описывает следующая структура
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.NodeItem64.Dump(System.IO.TextWriter)">
+            <summary>
+            Dump the item.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.NodeItem64.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeItem64.Length">
+            <summary>
+            Длина ключа
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeItem64.KeyOffset">
+            <summary>
+            Смещение ключа от начала записи
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeItem64.LowOffset">
+            <summary>
+            Младшее слово смещения
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeItem64.HighOffset">
+            <summary>
+            Старшее слово смещения
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeItem64.FullOffset">
+            <summary>
+            Полное смещение
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeItem64.RefersToLeaf">
+            <summary>
+            Ссылается на лист?
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeItem64.Text">
+            <summary>
+            Текстовое значение ключа
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Gbl.GblStatement">
             <summary>
             GBL file item.
@@ -37655,6 +37585,11 @@
         <member name="M:ManagedIrbis.RecordFieldCollection.ToString">
             <inheritdoc cref="M:System.Object.ToString"/>
         </member>
+        <member name="P:ManagedIrbis.RecordFieldCollection.Capacity">
+            <summary>
+            Capacity.
+            </summary>
+        </member>
         <member name="P:ManagedIrbis.RecordFieldCollection.Record">
             <summary>
             Record.
@@ -38581,12 +38516,12 @@
             Ensures that the record(s) will be saved.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.RecordGuard.#ctor(ManagedIrbis.IrbisConnection,ManagedIrbis.MarcRecord)">
+        <member name="M:ManagedIrbis.RecordGuard.#ctor(ManagedIrbis.IIrbisConnection,ManagedIrbis.MarcRecord)">
             <summary>
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.RecordGuard.#ctor(ManagedIrbis.IrbisConnection,ManagedIrbis.MarcRecord[])">
+        <member name="M:ManagedIrbis.RecordGuard.#ctor(ManagedIrbis.IIrbisConnection,ManagedIrbis.MarcRecord[])">
             <summary>
             Constructor.
             </summary>
@@ -42506,6 +42441,16 @@
             Arbitrary user data.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Features.StandardFeatures">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="F:ManagedIrbis.Features.StandardFeatures.IPv6">
+            <summary>
+            IPv6 support.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.EventDb.EventCodes">
             <summary>
             Коды мероприятия. Поле 900.
@@ -42564,6 +42509,111 @@
         <member name="P:ManagedIrbis.EventDb.EventCodes.UserData">
             <summary>
             Arbitrary user data.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Direct.IfpRecord32">
+            <summary>
+            Inverted file record
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Direct.IfpRecord32.MinPostingsInBlock">
+            <summary>
+            Число ссылок на термин, после превышения которого
+            используется специальный блок ссылок.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Direct.IfpRecord32.LeaderSize">
+            <summary>
+            ibatrak размер лидера записи
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Direct.IfpRecord32.BlockSize">
+            <summary>
+            ibatrak размер блока
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Direct.IfpRecord32.TermLinkSize">
+            <summary>
+            ibatrak размер записи ссылки
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.IfpRecord32.ReadLeader(System.IO.Stream,System.Int64)">
+            <summary>
+            ibatrak чтение заголовка записи IFP (для подсчета количества ссылок)
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.IfpRecord32.Read(System.IO.Stream,System.Int64)">
+            <summary>
+            Считываем из потока.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.IfpRecord32.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord32.LowOffset">
+            <summary>
+            Младшее слово смещения на следующую запись (если нет - 0).
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord32.HighOffset">
+            <summary>
+            Старшее слово смещения на следующую запись (если нет - 0).
+            </summary>
+            <remarks>Признак последнего блока – LOW=HIGH= -1.</remarks>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord32.FullOffset">
+            <summary>
+            ibatrak ссылка на следующую запись
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord32.TotalLinkCount">
+            <summary>
+            Ообщее число ссылок для данного термина
+            (только в первой записи);
+            число ссылок в данном блоке(в следующих записях).
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord32.BlockLinkCount">
+            <summary>
+            Число ссылок в данном блоке.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord32.Capacity">
+            <summary>
+            Вместимость записи в ссылках.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord32.Links">
+            <summary>
+            Собственно ссылки.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Direct.IfpRecord32.SpecialPostingBlockEntry">
+            <summary>
+            ibatrak структура с описанием спец блока
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.IfpRecord32.SpecialPostingBlockEntry.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord32.SpecialPostingBlockEntry.Posting">
+            <summary>
+            1-я ссылка из записи обыкновенного формата
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord32.SpecialPostingBlockEntry.Low">
+            <summary>
+            младшее слово смещения на следующую запись (если нет 0)
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord32.SpecialPostingBlockEntry.High">
+            <summary>
+            старшее слово смещения на следующую запись (если нет 0)
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord32.SpecialPostingBlockEntry.Offset">
+            <summary>
+            Offset.
             </summary>
         </member>
         <member name="T:ManagedIrbis.IrbisVersion">
@@ -44110,6 +44160,111 @@
             Получение встроенных полей с указанным тегом.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Direct.IfpRecord64">
+            <summary>
+            Inverted file record
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Direct.IfpRecord64.MinPostingsInBlock">
+            <summary>
+            Число ссылок на термин, после превышения которого
+            используется специальный блок ссылок.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Direct.IfpRecord64.LeaderSize">
+            <summary>
+            ibatrak размер лидера записи
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Direct.IfpRecord64.BlockSize">
+            <summary>
+            ibatrak размер блока
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Direct.IfpRecord64.TermLinkSize">
+            <summary>
+            ibatrak размер записи ссылки
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.IfpRecord64.ReadLeader(System.IO.Stream,System.Int64)">
+            <summary>
+            ibatrak чтение заголовка записи IFP (для подсчета количества ссылок)
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.IfpRecord64.Read(System.IO.Stream,System.Int64)">
+            <summary>
+            Считываем из потока.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.IfpRecord64.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord64.LowOffset">
+            <summary>
+            Младшее слово смещения на следующую запись (если нет - 0).
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord64.HighOffset">
+            <summary>
+            Старшее слово смещения на следующую запись (если нет - 0).
+            </summary>
+            <remarks>Признак последнего блока – LOW=HIGH= -1.</remarks>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord64.FullOffset">
+            <summary>
+            ibatrak ссылка на следующую запись
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord64.TotalLinkCount">
+            <summary>
+            Ообщее число ссылок для данного термина
+            (только в первой записи);
+            число ссылок в данном блоке(в следующих записях).
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord64.BlockLinkCount">
+            <summary>
+            Число ссылок в данном блоке.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord64.Capacity">
+            <summary>
+            Вместимость записи в ссылках.
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord64.Links">
+            <summary>
+            Собственно ссылки.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Direct.IfpRecord64.SpecialPostingBlockEntry">
+            <summary>
+            ibatrak структура с описанием спец блока
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.IfpRecord64.SpecialPostingBlockEntry.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord64.SpecialPostingBlockEntry.Posting">
+            <summary>
+            1-я ссылка из записи обыкновенного формата
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord64.SpecialPostingBlockEntry.Low">
+            <summary>
+            младшее слово смещения на следующую запись (если нет 0)
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord64.SpecialPostingBlockEntry.High">
+            <summary>
+            старшее слово смещения на следующую запись (если нет 0)
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.IfpRecord64.SpecialPostingBlockEntry.Offset">
+            <summary>
+            Offset.
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Direct.XrfFile32">
             <summary>
             Файл перекрестных ссылок XRF представляет собой
@@ -44600,23 +44755,23 @@
             Коллекция полей записи.
             </summary>
         </member>
-        <member name="T:ManagedIrbis.Source.Infrastructure.Sockets.MutliprotocolSocket">
+        <member name="T:ManagedIrbis.Infrastructure.Sockets.MutliprotocolSocket">
             <summary>
             Multiprotocol socket.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Source.Infrastructure.Sockets.MutliprotocolSocket.#ctor(ManagedIrbis.IrbisConnection)">
+        <member name="M:ManagedIrbis.Infrastructure.Sockets.MutliprotocolSocket.#ctor(ManagedIrbis.IrbisConnection)">
             <summary>
             Constructor.
             </summary>
         </member>
-        <member name="M:ManagedIrbis.Source.Infrastructure.Sockets.MutliprotocolSocket.AbortRequest">
+        <member name="M:ManagedIrbis.Infrastructure.Sockets.MutliprotocolSocket.AbortRequest">
             <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.AbortRequest"/>
         </member>
-        <member name="M:ManagedIrbis.Source.Infrastructure.Sockets.MutliprotocolSocket.ExecuteRequest(System.Byte[][])">
+        <member name="M:ManagedIrbis.Infrastructure.Sockets.MutliprotocolSocket.ExecuteRequest(System.Byte[][])">
             <inheritdoc cref="M:ManagedIrbis.Infrastructure.AbstractClientSocket.ExecuteRequest(System.Byte[][])"/>
         </member>
-        <member name="P:ManagedIrbis.Source.Infrastructure.Sockets.MutliprotocolSocket.InnerSockets">
+        <member name="P:ManagedIrbis.Infrastructure.Sockets.MutliprotocolSocket.InnerSockets">
             <summary>
             Socket list.
             </summary>
@@ -44882,6 +45037,49 @@
         <member name="P:ManagedIrbis.Drm.AccessRight.UserData">
             <summary>
             Arbitrary user data.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.Direct.NodeRecord32">
+            <summary>
+            Запись в файлах L01 и N01.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Direct.NodeRecord32.RecordSize">
+            <summary>
+            Длина записи в текущей реализации.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.NodeRecord32.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.NodeRecord32.#ctor(System.Boolean)">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.NodeRecord32.DumpRecord(System.IO.TextWriter)">
+            <summary>
+            Dump the record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.NodeRecord32.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeRecord32.IsLeaf">
+            <summary>
+            Лист?
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeRecord32.Leader">
+            <summary>
+            Заголовок
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeRecord32.Items">
+            <summary>
+            Ссылки
             </summary>
         </member>
         <member name="T:ManagedIrbis.Batch.BatchAccessor">
@@ -47014,6 +47212,49 @@
             Arbitrary user data.
             </summary>
         </member>
+        <member name="T:ManagedIrbis.Direct.NodeRecord64">
+            <summary>
+            Запись в файлах L01 и N01.
+            </summary>
+        </member>
+        <member name="F:ManagedIrbis.Direct.NodeRecord64.RecordSize">
+            <summary>
+            Длина записи в текущей реализации.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.NodeRecord64.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.NodeRecord64.#ctor(System.Boolean)">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.NodeRecord64.Dump(System.IO.TextWriter)">
+            <summary>
+            Dump the record.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.Direct.NodeRecord64.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeRecord64.IsLeaf">
+            <summary>
+            Лист?
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeRecord64.Leader">
+            <summary>
+            Заголовок
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.Direct.NodeRecord64.Items">
+            <summary>
+            Ссылки
+            </summary>
+        </member>
         <member name="T:ManagedIrbis.Infrastructure.SharpRunner">
              <summary>
             
@@ -48235,6 +48476,46 @@
         <member name="P:ManagedIrbis.EventDb.EventTitle.UserData">
             <summary>
             Arbitrary user data.
+            </summary>
+        </member>
+        <member name="T:ManagedIrbis.NodeLeader32">
+            <summary>
+            Record leader of L01/N01 file.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.NodeLeader32.Read(System.IO.Stream)">
+            <summary>
+            Считывание из потока.
+            </summary>
+        </member>
+        <member name="M:ManagedIrbis.NodeLeader32.ToString">
+            <inheritdoc cref="M:System.Object.ToString"/>
+        </member>
+        <member name="P:ManagedIrbis.NodeLeader32.Number">
+            <summary>
+            Номер записи (начиная с 1; в N01 номер первой записи
+            равен номеру корневой записи дерева
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.NodeLeader32.Previous">
+            <summary>
+            Номер предыдущей записи (-1, если нет)
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.NodeLeader32.Next">
+            <summary>
+            Номер следующей записи (-1, если нет)
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.NodeLeader32.TermCount">
+            <summary>
+            Число ключей в записи
+            </summary>
+        </member>
+        <member name="P:ManagedIrbis.NodeLeader32.FreeOffset">
+            <summary>
+            Смещение на свободную позицию в записи
+            (от начала записи)
             </summary>
         </member>
         <member name="T:ManagedIrbis.Direct.MstWriter64">

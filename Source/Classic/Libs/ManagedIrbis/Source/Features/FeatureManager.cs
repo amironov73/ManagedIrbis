@@ -30,17 +30,25 @@ namespace ManagedIrbis.Features
     {
         #region Private members
 
+#if !WINMOBILE && !PocketPC
+
         private static readonly HashSet<string> Features;
+
+#endif
 
         #endregion
 
         #region Construction
+
+#if !WINMOBILD && !PocketPC
 
         static FeatureManager()
         {
             Features = new HashSet<string>();
             RegisterFeature(StandardFeatures.IPv6);
         }
+
+#endif
 
         #endregion
 
@@ -56,7 +64,15 @@ namespace ManagedIrbis.Features
         {
             Code.NotNullNorEmpty(featureName, "featureName");
 
+#if WINMOBILE || PocketPC
+
+            return false;
+
+#else
+
             return Features.Contains(featureName);
+
+#endif
         }
 
         /// <summary>
@@ -69,7 +85,11 @@ namespace ManagedIrbis.Features
         {
             Code.NotNullNorEmpty(featureName, "featureName");
 
+#if !WINMOBILE && !PocketPC
+
             Features.Add(featureName);
+
+#endif
         }
 
         #endregion
