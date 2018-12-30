@@ -33,79 +33,7 @@ namespace UnsafeAM
     [PublicAPI]
     public static class Utility
     {
-        #region Private members
-
-#if FW45
-
-        private const MethodImplOptions Aggressive
-            = MethodImplOptions.AggressiveInlining;
-
-#else
-
-        private const MethodImplOptions Aggressive
-            = (MethodImplOptions)0;
-
-#endif
-
-        #endregion
-
         #region Public methods
-
-        // =========================================================
-
-        /// <summary>
-        /// Calculates the quotient of two 32-bit signed integers
-        /// and also returns the remainder in an output parameter.
-        /// </summary>
-        /// <remarks>
-        /// For compatibility.
-        /// </remarks>
-        [MethodImpl(Aggressive)]
-        public static int DivRem
-            (
-                int a,
-                int b,
-                out int remainder
-            )
-        {
-#if UAP || WinMobile || PocketPC
-
-            remainder = a % b;
-            return a / b;
-
-#else
-
-            return Math.DivRem(a, b, out remainder);
-
-#endif
-        }
-
-        /// <summary>
-        /// Calculates the quotient of two 64-bit signed integers
-        /// and also returns the remainder in an output parameter.
-        /// </summary>
-        /// <remarks>
-        /// For compatibility.
-        /// </remarks>
-        [MethodImpl(Aggressive)]
-        public static long DivRem
-            (
-                long a,
-                long b,
-                out long remainder
-            )
-        {
-#if UAP || WINMOBILE || PocketPC
-
-            remainder = a % b;
-            return a / b;
-
-#else
-
-            return Math.DivRem(a, b, out remainder);
-
-#endif
-        }
 
         // =========================================================
 
@@ -292,9 +220,7 @@ namespace UnsafeAM
                     BindingFlags.Public
                     | BindingFlags.NonPublic
                     | BindingFlags.Instance
-#if !UAP
                     | BindingFlags.GetProperty
-#endif
                 ))
             {
                 // TODO: need to special-case indexable properties
@@ -311,19 +237,13 @@ namespace UnsafeAM
             // compare each field
             foreach (FieldInfo info in type.GetFields
                 (
-#if !UAP
-                    BindingFlags.GetField |
-#endif
-                    BindingFlags.NonPublic
+                    BindingFlags.GetField
+                    | BindingFlags.NonPublic
                     | BindingFlags.Public
                     | BindingFlags.Instance
                 ))
             {
-                if (!MemberwiseEquals
-                    (
-                        info.GetValue(left),
-                        info.GetValue(right))
-                )
+                if (!MemberwiseEquals(info.GetValue(left), info.GetValue(right)))
                 {
                     return false;
                 }
@@ -398,7 +318,7 @@ namespace UnsafeAM
                 [CanBeNull] T defaultValue
             )
         {
-            Code.NotNull(array, "array");
+            Code.NotNull(array, nameof(array));
 
             index = index >= 0
                 ? index
@@ -432,7 +352,7 @@ namespace UnsafeAM
                 [CanBeNull] T defaultValue
             )
         {
-            Code.NotNull(list, "list");
+            Code.NotNull(list, nameof(list));
 
             index = index >= 0
                 ? index
@@ -537,7 +457,6 @@ namespace UnsafeAM
         /// </summary>
         [NotNull]
         [DebuggerStepThrough]
-        [MethodImpl(Aggressive)]
         public static T ThrowIfNull<T>
             (
                 [CanBeNull] this T value
@@ -563,7 +482,6 @@ namespace UnsafeAM
         /// </summary>
         [NotNull]
         [DebuggerStepThrough]
-        [MethodImpl(Aggressive)]
         public static T1 ThrowIfNull<T1, T2>
             (
                 [CanBeNull] this T1 value
@@ -590,7 +508,6 @@ namespace UnsafeAM
         /// </summary>
         [NotNull]
         [DebuggerStepThrough]
-        [MethodImpl(Aggressive)]
         public static T ThrowIfNull<T>
             (
                 [CanBeNull] this T value,
@@ -598,7 +515,7 @@ namespace UnsafeAM
             )
             where T : class
         {
-            Code.NotNull(message, "message");
+            Code.NotNull(message, nameof(message));
 
             if (ReferenceEquals(value, null))
             {

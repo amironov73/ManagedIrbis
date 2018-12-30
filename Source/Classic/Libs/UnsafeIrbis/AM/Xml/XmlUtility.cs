@@ -75,8 +75,8 @@ namespace UnsafeAM.Xml
                 [NotNull] XmlSerializer serializer
             )
         {
-            Code.FileExists(fileName, "fileName");
-            Code.NotNull(serializer, "serializer");
+            Code.FileExists(fileName, nameof(fileName));
+            Code.NotNull(serializer, nameof(serializer));
 
             using (Stream stream = File.OpenRead(fileName))
             {
@@ -92,7 +92,7 @@ namespace UnsafeAM.Xml
                 [NotNull] string fileName
             )
         {
-            Code.FileExists(fileName, "fileName");
+            Code.FileExists(fileName, nameof(fileName));
 
             XmlSerializer serializer = new XmlSerializer
                 (
@@ -114,7 +114,7 @@ namespace UnsafeAM.Xml
                 [NotNull] string xml
             )
         {
-            Code.NotNullNorEmpty(xml, "xml");
+            Code.NotNullNorEmpty(xml, nameof(xml));
 
             StringReader reader = new StringReader(xml);
             XmlSerializer serializer = new XmlSerializer(typeof(T));
@@ -208,9 +208,9 @@ namespace UnsafeAM.Xml
                 object obj
             )
         {
-            Code.NotNullNorEmpty(fileName, "fileName");
-            Code.NotNull(serializer, "serializer");
-            Code.NotNull(obj, "obj");
+            Code.NotNullNorEmpty(fileName, nameof(fileName));
+            Code.NotNull(serializer, nameof(serializer));
+            Code.NotNull(obj, nameof(obj));
 
             using (Stream stream = File.Create(fileName))
             {
@@ -227,14 +227,12 @@ namespace UnsafeAM.Xml
                 T obj
             )
         {
-            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNullNorEmpty(fileName, nameof(fileName));
 
             XmlSerializer serializer
                 = new XmlSerializer(obj.GetType());
             Serialize(fileName, serializer, obj);
         }
-
-#if !UAP
 
         /// <summary>
         /// Dumps the specified reader.
@@ -255,8 +253,6 @@ namespace UnsafeAM.Xml
 
             return reader;
         }
-#endif
-
 
         /// <summary>
         /// Reads the trimmed string.
@@ -281,9 +277,6 @@ namespace UnsafeAM.Xml
         /// <summary>
         /// Gets the boolean.
         /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="name">The name.</param>
-        /// <returns></returns>
         public static bool GetBoolean
             (
                 [NotNull] this XmlReader reader,
@@ -297,9 +290,6 @@ namespace UnsafeAM.Xml
         /// <summary>
         /// Gets the int32.
         /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="name">The name.</param>
-        /// <returns></returns>
         public static int GetInt32
             (
                 [NotNull] this XmlReader reader,
@@ -315,28 +305,16 @@ namespace UnsafeAM.Xml
         /// <summary>
         /// Gets the enum.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="reader">The reader.</param>
-        /// <param name="name">The name.</param>
-        /// <returns></returns>
         public static T GetEnum<T>
             (
                 [NotNull] this XmlReader reader,
                 string name
             )
         {
-#if WINMOBILE || PocketPC
-
-            throw new NotImplementedException();
-
-#else
-
             string value = reader.GetAttribute(name);
             return string.IsNullOrEmpty(value)
                        ? default(T)
                        : (T)Enum.Parse(typeof(T), value);
-
-#endif
         }
 
         /// <summary>
@@ -349,7 +327,7 @@ namespace UnsafeAM.Xml
                 [NotNull] object obj
             )
         {
-            Code.NotNull(obj, "obj");
+            Code.NotNull(obj, nameof(obj));
 
             XmlWriterSettings settings = new XmlWriterSettings
             {

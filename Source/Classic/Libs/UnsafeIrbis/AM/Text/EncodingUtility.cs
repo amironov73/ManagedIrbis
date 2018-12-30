@@ -183,8 +183,6 @@ namespace UnsafeAM.Text
             //            )
             //    );
 
-#if !WINMOBILE && !PocketPC
-
             known.Add
                 (
                     new KnownEncoding
@@ -210,8 +208,6 @@ namespace UnsafeAM.Text
                             )
                         )
                 );
-
-#endif
 
             _KnownEncodings = known.ToArray();
             foreach (KnownEncoding enc in _KnownEncodings)
@@ -244,8 +240,8 @@ namespace UnsafeAM.Text
                 [NotNull] Encoding toEncoding
             )
         {
-            Code.NotNull(fromEncoding, "fromEncoding");
-            Code.NotNull(toEncoding, "toEncoding");
+            Code.NotNull(fromEncoding, nameof(fromEncoding));
+            Code.NotNull(toEncoding, nameof(toEncoding));
 
             if (string.IsNullOrEmpty(text))
             {
@@ -253,11 +249,7 @@ namespace UnsafeAM.Text
             }
 
             byte[] bytes = toEncoding.GetBytes(text);
-            string result = GetString
-                (
-                    fromEncoding,
-                    bytes
-                );
+            string result = fromEncoding.GetString(bytes);
 
             return result;
         }
@@ -272,7 +264,7 @@ namespace UnsafeAM.Text
                 [NotNull] byte[] textWithPreamble
             )
         {
-            Code.NotNull(textWithPreamble, "textWithPreamble");
+            Code.NotNull(textWithPreamble, nameof(textWithPreamble));
 
             foreach (KnownEncoding known in _KnownEncodings)
             {
@@ -328,39 +320,6 @@ namespace UnsafeAM.Text
             {
                 return DetermineTextEncoding(stream);
             }
-        }
-
-        /// <summary>
-        /// Get string from bytes.
-        /// </summary>
-        /// <remarks>
-        /// Reduce if/else preprocessing.
-        /// </remarks>
-        [NotNull]
-        public static string GetString
-            (
-                [NotNull] Encoding encoding,
-                [NotNull] byte[] bytes
-            )
-        {
-            Code.NotNull(encoding, "encoding");
-            Code.NotNull(bytes, "bytes");
-
-            // ReSharper disable JoinDeclarationAndInitializer
-            string result;
-
-#if WINMOBILE || PocketPC
-
-            result = encoding.GetString(bytes, 0, bytes.Length);
-
-#else
-
-            result = encoding.GetString(bytes);
-
-#endif
-
-            return result;
-            // ReSharper restore JoinDeclarationAndInitializer
         }
 
         /// <summary>

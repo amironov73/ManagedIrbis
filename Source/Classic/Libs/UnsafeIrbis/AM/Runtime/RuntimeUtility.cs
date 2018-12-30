@@ -121,8 +121,6 @@ namespace UnsafeAM.Runtime
         {
             Code.NotNull(type, nameof(type));
 
-#if !WINMOBILE && !PocketPC && !UAP
-
             try
             {
                 foreach (MethodInfo method in type.GetMethods())
@@ -138,8 +136,6 @@ namespace UnsafeAM.Runtime
                         exception
                     );
             }
-
-#endif
         }
 
         #endregion

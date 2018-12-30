@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* StreamParser.cs -- 
+/* StreamParser.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -10,12 +10,8 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
-using System.Resources;
 using System.Text;
 
 using AM.IO;
@@ -62,7 +58,7 @@ namespace AM.Text
         /// Underlying <see cref="TextReader"/>
         /// </summary>
         [NotNull]
-        public TextReader Reader { get { return _reader; } }
+        public TextReader Reader { get; private set; }
 
         #endregion
 
@@ -78,7 +74,7 @@ namespace AM.Text
         {
             Code.NotNull(reader, "reader");
 
-            _reader = reader;
+            Reader = reader;
         }
 
         /// <summary>
@@ -92,15 +88,13 @@ namespace AM.Text
         {
             Code.NotNull(reader, "reader");
 
-            _reader = reader;
+            Reader = reader;
             _ownReader = ownReader;
         }
 
         #endregion
 
         #region Private members
-
-        private TextReader _reader;
 
         private bool _ownReader;
 
@@ -112,10 +106,12 @@ namespace AM.Text
             {
                 result.Append(ReadChar());
             }
+
             while (IsDigit())
             {
                 result.Append(ReadChar());
             }
+
             c = PeekChar();
             if (c == '.')
             {
@@ -126,6 +122,7 @@ namespace AM.Text
                 }
                 c = PeekChar();
             }
+
             if ((c == 'e') || (c == 'E'))
             {
                 result.Append(ReadChar());
@@ -138,13 +135,8 @@ namespace AM.Text
                 {
                     result.Append(ReadChar());
                 }
-                c = PeekChar();
             }
-            //if ((c == 'F') || (c == 'f') || (c == 'D') || (c == 'd')
-            //    || (c == 'M') || (c == 'm'))
-            //{
-            //    result.Append(ReadChar());
-            //}
+
             return result;
         }
 
@@ -390,6 +382,7 @@ namespace AM.Text
             {
                 result.Append(ReadChar());
             }
+
             while (IsDigit())
             {
                 result.Append(ReadChar());
@@ -415,6 +408,7 @@ namespace AM.Text
             {
                 result.Append(ReadChar());
             }
+
             while (IsDigit())
             {
                 result.Append(ReadChar());
@@ -439,6 +433,7 @@ namespace AM.Text
             {
                 result.Append(ReadChar());
             }
+
             while (IsDigit())
             {
                 result.Append(ReadChar());
@@ -617,7 +612,7 @@ namespace AM.Text
         {
             if (_ownReader)
             {
-                _reader.Dispose();
+                Reader.Dispose();
             }
         }
 

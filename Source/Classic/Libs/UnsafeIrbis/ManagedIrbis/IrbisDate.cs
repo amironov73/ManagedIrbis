@@ -144,10 +144,6 @@ namespace UnsafeIrbis
                 return DateTime.MinValue;
             }
 
-            DateTime result;
-
-#if !WINMOBILE && !PocketPC
-
             if (date.Length > 8)
             {
                 Match match = Regex.Match(date, @"\d{8}");
@@ -163,20 +159,8 @@ namespace UnsafeIrbis
                     ConversionFormat,
                     CultureInfo.CurrentCulture,
                     DateTimeStyles.None,
-                    out result
+                    out DateTime result
                 );
-
-#else
-
-            result = DateTime.ParseExact
-                (
-                    date,
-                    ConversionFormat,
-                    CultureInfo.CurrentCulture,
-                    DateTimeStyles.None
-                );
-
-#endif
 
             return result;
         }

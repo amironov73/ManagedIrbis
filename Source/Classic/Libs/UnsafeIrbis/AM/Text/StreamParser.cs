@@ -10,12 +10,8 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
-using System.Resources;
 using System.Text;
 
 using UnsafeAM.IO;
@@ -56,7 +52,7 @@ namespace UnsafeAM.Text
         /// Underlying <see cref="TextReader"/>
         /// </summary>
         [NotNull]
-        public TextReader Reader => _reader;
+        public TextReader Reader { get; }
 
         #endregion
 
@@ -72,7 +68,7 @@ namespace UnsafeAM.Text
         {
             Code.NotNull(reader, nameof(reader));
 
-            _reader = reader;
+            Reader = reader;
         }
 
         /// <summary>
@@ -86,15 +82,13 @@ namespace UnsafeAM.Text
         {
             Code.NotNull(reader, nameof(reader));
 
-            _reader = reader;
+            Reader = reader;
             _ownReader = ownReader;
         }
 
         #endregion
 
         #region Private members
-
-        private TextReader _reader;
 
         private bool _ownReader;
 
@@ -106,10 +100,12 @@ namespace UnsafeAM.Text
             {
                 result.Append(ReadChar());
             }
+
             while (IsDigit())
             {
                 result.Append(ReadChar());
             }
+
             c = PeekChar();
             if (c == '.')
             {
@@ -120,6 +116,7 @@ namespace UnsafeAM.Text
                 }
                 c = PeekChar();
             }
+
             if ((c == 'e') || (c == 'E'))
             {
                 result.Append(ReadChar());
@@ -132,13 +129,9 @@ namespace UnsafeAM.Text
                 {
                     result.Append(ReadChar());
                 }
-                c = PeekChar();
+                // c = PeekChar();
             }
-            //if ((c == 'F') || (c == 'f') || (c == 'D') || (c == 'd')
-            //    || (c == 'M') || (c == 'm'))
-            //{
-            //    result.Append(ReadChar());
-            //}
+
             return result;
         }
 
@@ -611,7 +604,7 @@ namespace UnsafeAM.Text
         {
             if (_ownReader)
             {
-                _reader.Dispose();
+                Reader.Dispose();
             }
         }
 

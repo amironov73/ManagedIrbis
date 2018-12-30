@@ -578,10 +578,7 @@ namespace AM.Collections
                 [NotNull] Set<T> right
             )
         {
-            Code.NotNull(left, "left");
-            Code.NotNull(right, "right");
-
-            return left.Count == right.Count
+            return left.Count == right.Count //-V3115
                 && left <= right;
         }
 
@@ -594,9 +591,6 @@ namespace AM.Collections
                 [NotNull] Set<T> right
             )
         {
-            Code.NotNull(left, "left");
-            Code.NotNull(right, "right");
-
             return right < left;
         }
 
@@ -609,9 +603,6 @@ namespace AM.Collections
                 [NotNull] Set<T> right
             )
         {
-            Code.NotNull(left, "left");
-            Code.NotNull(right, "right");
-
             return right <= left;
         }
 
@@ -624,9 +615,6 @@ namespace AM.Collections
                 [NotNull] Set<T> right
             )
         {
-            Code.NotNull(left, "left");
-            Code.NotNull(right, "right");
-
             return !(left == right);
         }
 

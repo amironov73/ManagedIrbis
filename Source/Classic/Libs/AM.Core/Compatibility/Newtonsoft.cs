@@ -1,4 +1,7 @@
-﻿/* JetBrains2.cs --
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* Newtonsoft.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -20,7 +23,7 @@ using System;
 namespace Newtonsoft.Json
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [FlagsAttribute]
     public enum DefaultValueHandling
@@ -38,7 +41,7 @@ namespace Newtonsoft.Json
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed class JsonPropertyAttribute
         : Attribute
@@ -48,14 +51,14 @@ namespace Newtonsoft.Json
         public NullValueHandling NullValueHandling { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public JsonPropertyAttribute()
         {
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public JsonPropertyAttribute(string text)
         {
@@ -63,24 +66,24 @@ namespace Newtonsoft.Json
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed class JsonIgnoreAttribute
         : Attribute
     {
-        
+
     }
 
     namespace Linq
     {
-        public class JToken 
+        public class JToken
         {
             public T Value<T>() { return default(T); }
             public T[] Values<T>() { return new T[0]; }
             public bool HasValues { get { return false; } }
         }
 
-        public class JValue: JToken 
+        public class JValue: JToken
         {
         }
 

@@ -60,7 +60,7 @@ namespace AM.Text.Ranges
         {
             get { return _delimitersOrMinus; }
         }
-        
+
         /// <summary>
         /// Start value.
         /// </summary>
@@ -105,7 +105,7 @@ namespace AM.Text.Ranges
         /// <param name="stop"></param>
         public NumberRange
             (
-                NumberText start, 
+                NumberText start,
                 NumberText stop
             )
         {
@@ -275,8 +275,8 @@ namespace AM.Text.Ranges
             // ReSharper restore NotResolvedInText
 
             for (
-                    NumberText current = Start; 
-                    current.CompareTo(Stop) <= 0; 
+                    NumberText current = Start;
+                    current.CompareTo(Stop) <= 0;
                     current = current.Increment()
                 )
             {
@@ -295,7 +295,7 @@ namespace AM.Text.Ranges
                 NumberRange other
             )
         {
-            // coverity[SWAPPED_ARGUMENTS] 
+            // coverity[SWAPPED_ARGUMENTS]
             return new NumberRange
                 (
                     Stop,
@@ -357,7 +357,7 @@ namespace AM.Text.Ranges
             {
                 yield return current;
             }
-            
+
         }
 
         #endregion
@@ -455,6 +455,24 @@ namespace AM.Text.Ranges
 
         #region Object members
 
+        /// <inheritdoc cref="object.GetHashCode" />
+        public override int GetHashCode()
+        {
+            int result = 0;
+
+            if (!ReferenceEquals(Start, null))
+            {
+                result = Start.GetHashCode();
+            }
+
+            if (!ReferenceEquals(Stop, null))
+            {
+                result = result * 137 + Stop.GetHashCode();
+            }
+
+            return result;
+        }
+
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString()
         {
@@ -463,10 +481,12 @@ namespace AM.Text.Ranges
             {
                 return string.Empty;
             }
+
             if (ReferenceEquals(Start, null))
             {
                 return Stop.ToString(); //-V3125 //-V3095
             }
+
             if (ReferenceEquals(Stop, null))
             {
                 return Start.ToString();

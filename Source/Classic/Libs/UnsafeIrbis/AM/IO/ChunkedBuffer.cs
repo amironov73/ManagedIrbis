@@ -386,7 +386,7 @@ namespace UnsafeAM.IO
                     }
                 }
 
-                return EncodingUtility.GetString(encoding, result.ToArray());
+                return encoding.GetString(result.ToArray());
             }
         }
 

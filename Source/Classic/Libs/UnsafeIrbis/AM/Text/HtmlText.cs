@@ -154,11 +154,7 @@ namespace UnsafeAM.Text
                     string.Empty
                 );
 
-#if FW4
-
             result = WebUtility.HtmlDecode(result);
-
-#endif
 
             return result;
         }

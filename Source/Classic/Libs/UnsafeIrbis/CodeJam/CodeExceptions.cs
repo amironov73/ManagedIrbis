@@ -105,11 +105,8 @@ namespace UnsafeCode
             BreakIfAttached();
             return new ArgumentOutOfRangeException
                 (
-                    argumentName
-
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-
-                    , value,
+                    argumentName,
+                    value,
                     string.Format
                     (
                         "The value of '{0}' ({1}) should be between {2} and {3}",
@@ -118,8 +115,6 @@ namespace UnsafeCode
                         fromValue,
                         toValue
                     )
-
-#endif
                 );
         }
 
@@ -134,11 +129,8 @@ namespace UnsafeCode
             BreakIfAttached();
             return new ArgumentOutOfRangeException
                 (
-                    argumentName
-
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-
-                    , value,
+                    argumentName,
+                    value,
                     string.Format
                     (
                         "The value of '{0}' ({1}) should be greater than {2}",
@@ -146,7 +138,6 @@ namespace UnsafeCode
                         value,
                         fromValue
                     )
-#endif
                 );
         }
 
@@ -161,11 +152,8 @@ namespace UnsafeCode
             BreakIfAttached();
             return new ArgumentOutOfRangeException
                 (
-                    argumentName
-
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-
-                    , value,
+                    argumentName,
+                    value,
                     string.Format
                     (
                         "The value of '{0}' ('{1}') should be between '{2}' and '{3}'",
@@ -174,7 +162,6 @@ namespace UnsafeCode
                         fromValue,
                         toValue
                     )
-#endif
                 );
         }
 
@@ -192,11 +179,8 @@ namespace UnsafeCode
             BreakIfAttached();
             return new ArgumentOutOfRangeException
                 (
-                    argumentName
-
-#if !WINMOBILE && !PocketPC && !SILVERLIGHT
-
-                    , value,
+                    argumentName,
+                    value,
                     string.Format
                         (
                             "The value of '{0}' ('{1}') should be greater than '{2}'.",
@@ -204,7 +188,6 @@ namespace UnsafeCode
                             value,
                             fromValue
                         )
-#endif
                 );
         }
 

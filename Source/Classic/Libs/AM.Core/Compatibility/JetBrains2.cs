@@ -1,4 +1,7 @@
-﻿/* JetBrains2.cs --
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* JetBrains2.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -20,7 +23,7 @@ using System;
 namespace JetBrains.Annotations
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed class AssertionMethodAttribute
         : Attribute
@@ -28,7 +31,7 @@ namespace JetBrains.Annotations
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed class ItemNotNullAttribute
         : Attribute
@@ -36,7 +39,7 @@ namespace JetBrains.Annotations
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed class ItemCanBeNullAttribute
         : Attribute
@@ -49,7 +52,7 @@ namespace JetBrains.Annotations
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed class NoEnumerationAttribute
         : Attribute

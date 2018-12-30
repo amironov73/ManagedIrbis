@@ -612,7 +612,7 @@ namespace UnsafeAM.Text
                 return;
             }
 
-            StringReader reader = new StringReader(text);
+            StringReader reader = new StringReader(text); //-V3114
             Chunk chunk = new Chunk();
             _chunks.AddLast(chunk);
             bool textPart = true;
@@ -671,7 +671,7 @@ namespace UnsafeAM.Text
                 yield break;
             }
 
-            StringReader reader = new StringReader(text);
+            StringReader reader = new StringReader(text); //-V3114
 
             StringBuilder firstBuffer = new StringBuilder();
             StringBuilder secondBuffer = new StringBuilder();
