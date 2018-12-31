@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>ArsMagna.AOT</id>
-    <version>1.9.1.2900</version>
+    <version>1.9.2.3000</version>
     <title>Text processing support for Ars Magna project</title>
     <authors>Mironov Alexey</authors>
     <owners></owners>
@@ -20,12 +20,12 @@
     <iconUrl>http://arsmagna.ru/images/arsmagna-icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
-    <copyright>Copyright Alexey Mironov 2006-2018</copyright>
+    <copyright>Copyright Alexey Mironov 2006-2019</copyright>
     <dependencies>
       <dependency id="JetBrains.Annotations" version="10.2.1" />
       <dependency id="MoonSharp" version="2.0.0.0" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
-      <dependency id="ArsMagna.Core" version="1.9.1" />
+      <dependency id="ArsMagna.Core" version="1.9.2" />
     </dependencies>
     <references></references>
     <tags></tags>

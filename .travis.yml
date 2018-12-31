@@ -15,4 +15,3 @@ addons:
       description: "Managed framework for IRBIS64"
     notification_email: amironov73@gmail.com
     build_command:   "xbuild /p:Configuration=Release Source/ManagedIrbis.travis.sln"
-    branch_pattern: coverity_scan
