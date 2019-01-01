@@ -29,11 +29,7 @@ using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-#if !WINMOBILE && !PocketPC
-
 using Formatting = Newtonsoft.Json.Formatting;
-
-#endif
 
 // ReSharper disable ForCanBeConvertedToForeach
 
@@ -2259,12 +2255,9 @@ namespace UnsafeIrbis
                 bool ignoreCase
             )
         {
-            StringComparison comparison =
-#if UAP
-                ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
-#else
-                ignoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture;
-#endif
+            StringComparison comparison = ignoreCase
+                ? StringComparison.InvariantCultureIgnoreCase
+                : StringComparison.InvariantCulture;
 
             string oldValue = field.GetSubFieldValue(code, 0);
             bool changed = string.Compare(oldValue, newValue, comparison) != 0;
@@ -2337,8 +2330,6 @@ namespace UnsafeIrbis
 
         // ==========================================================
 
-#if !WINMOBILE && !PocketPC
-
         /// <summary>
         /// Convert the field to <see cref="JObject"/>.
         /// </summary>
@@ -2403,8 +2394,6 @@ namespace UnsafeIrbis
 
             return result;
         }
-
-#endif
 
         // ==========================================================
 

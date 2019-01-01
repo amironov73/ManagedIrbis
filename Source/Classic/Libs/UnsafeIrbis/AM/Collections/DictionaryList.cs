@@ -54,8 +54,7 @@ namespace UnsafeAM.Collections
             {
                 lock (_syncRoot)
                 {
-                    List<TKey> result
-                        = new List<TKey>(_dictionary.Keys);
+                    List<TKey> result = new List<TKey>(_dictionary.Keys);
 
                     return result.ToArray();
                 }
@@ -118,12 +117,12 @@ namespace UnsafeAM.Collections
         {
             lock (_syncRoot)
             {
-                List<TValue> list;
-                if (!_dictionary.TryGetValue(key, out list))
+                if (!_dictionary.TryGetValue(key, out var list))
                 {
                     list = new List<TValue>();
                     _dictionary.Add(key, list);
                 }
+
                 list.Add(value);
             }
 
@@ -140,16 +139,16 @@ namespace UnsafeAM.Collections
                 [NotNull] IEnumerable<TValue> values
             )
         {
-            Code.NotNull(values, "values");
+            Code.NotNull(values, nameof(values));
 
             lock (_syncRoot)
             {
-                List<TValue> list;
-                if (!_dictionary.TryGetValue(key, out list))
+                if (!_dictionary.TryGetValue(key, out var list))
                 {
                     list = new List<TValue>();
                     _dictionary.Add(key, list);
                 }
+
                 list.AddRange(values);
             }
 
@@ -181,8 +180,7 @@ namespace UnsafeAM.Collections
         {
             lock (_syncRoot)
             {
-                List<TValue> result;
-                _dictionary.TryGetValue(key, out result);
+                _dictionary.TryGetValue(key, out var result);
 
                 return result;
             }

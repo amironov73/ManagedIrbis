@@ -25,12 +25,6 @@ using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-#if !WINMOBILE
-
-//using AM.Json;
-
-#endif
-
 // ReSharper disable ForCanBeConvertedToForeach
 
 #endregion
@@ -591,8 +585,6 @@ namespace UnsafeIrbis
 
         // ==========================================================
 
-#if !WINMOBILE && !PocketPC
-
         /// <summary>
         /// Convert the subfield to <see cref="JObject"/>.
         /// </summary>
@@ -663,8 +655,6 @@ namespace UnsafeIrbis
 
             return result;
         }
-
-#endif
 
         #endregion
     }

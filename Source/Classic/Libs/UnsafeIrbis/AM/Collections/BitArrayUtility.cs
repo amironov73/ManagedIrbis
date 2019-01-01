@@ -36,8 +36,8 @@ namespace UnsafeAM.Collections
                 [NotNull] BitArray right
             )
         {
-            Code.NotNull(left, "left");
-            Code.NotNull(right, "right");
+            Code.NotNull(left, nameof(left));
+            Code.NotNull(right, nameof(right));
 
             if (left.Length != right.Length)
             {

@@ -38,19 +38,19 @@ namespace UnsafeIrbis
         /// Default single-byte encoding.
         /// </summary>
         [NotNull]
-        public static Encoding Ansi { get { return _ansi; } }
+        public static Encoding Ansi { get; private set; }
 
         /// <summary>
         /// OEM encoding.
         /// </summary>
         [NotNull]
-        public static Encoding Oem { get { return _oem; } }
+        public static Encoding Oem { get; private set; }
 
         /// <summary>
         /// UTF8 encoding.
         /// </summary>
         [NotNull]
-        public static Encoding Utf8 { get { return _utf8; } }
+        public static Encoding Utf8 { get; private set; }
 
         #endregion
 
@@ -59,24 +59,14 @@ namespace UnsafeIrbis
         static IrbisEncoding()
         {
             EncodingUtility.RegisterRequiredProviders();
-            _ansi = EncodingUtility.Windows1251;
-            _oem = EncodingUtility.Cp866;
-            _utf8 = new UTF8Encoding
+            Ansi = EncodingUtility.Windows1251;
+            Oem = EncodingUtility.Cp866;
+            Utf8 = new UTF8Encoding
                 (
                     false, // don't emit UTF-8 prefix
                     true   // throw on invalid bytes
                 );
         }
-
-        #endregion
-
-        #region Private members
-
-        private static Encoding _ansi;
-
-        private static Encoding _oem;
-
-        private static Encoding _utf8;
 
         #endregion
 
@@ -120,8 +110,6 @@ namespace UnsafeIrbis
             return result;
         }
 
-#if CLASSIC || NETCORE
-
         /// <summary>
         /// Get encoding from config file.
         /// </summary>
@@ -131,7 +119,7 @@ namespace UnsafeIrbis
                 [NotNull] string key
             )
         {
-            Code.NotNullNorEmpty(key, "key");
+            Code.NotNullNorEmpty(key, nameof(key));
 
             string name = CM.AppSettings[key];
             Encoding result = ByName(name);
@@ -139,15 +127,13 @@ namespace UnsafeIrbis
             return result;
         }
 
-#endif
-
         /// <summary>
         /// Relax UTF-8 decoder, do not throw exceptions
         /// on invalid bytes.
         /// </summary>
         public static void RelaxUtf8()
         {
-            _utf8 = new UTF8Encoding
+            Utf8 = new UTF8Encoding
                 (
                     false, // don't emit UTF-8 prefix,
                     false  // don't throw on invalid bytes
@@ -160,7 +146,7 @@ namespace UnsafeIrbis
         /// </summary>
         public static void StrongUtf8()
         {
-            _utf8 = new UTF8Encoding
+            Utf8 = new UTF8Encoding
                 (
                     false, // don't emit UTF-8 prefix,
                     true   // throw on invalid bytes
@@ -175,9 +161,7 @@ namespace UnsafeIrbis
                 [NotNull] Encoding encoding
             )
         {
-            Code.NotNull(encoding, "encoding");
-
-#if !WINMOBILE && !PocketPC
+            Code.NotNull(encoding, nameof(encoding));
 
             if (!encoding.IsSingleByte)
             {
@@ -187,12 +171,10 @@ namespace UnsafeIrbis
                         + "not single-byte encoding"
                     );
 
-                throw new ArgumentOutOfRangeException("encoding");
+                throw new ArgumentOutOfRangeException(nameof(encoding));
             }
 
-#endif
-
-            _ansi = encoding;
+            Ansi = encoding;
         }
 
         /// <summary>
@@ -203,9 +185,7 @@ namespace UnsafeIrbis
                 [NotNull] Encoding encoding
             )
         {
-            Code.NotNull(encoding, "encoding");
-
-#if !WINMOBILE && !PocketPC
+            Code.NotNull(encoding, nameof(encoding));
 
             if (!encoding.IsSingleByte)
             {
@@ -215,12 +195,10 @@ namespace UnsafeIrbis
                         + "not single-byte encoding"
                     );
 
-                throw new ArgumentOutOfRangeException("encoding");
+                throw new ArgumentOutOfRangeException(nameof(encoding));
             }
 
-#endif
-
-            _oem = encoding;
+            Oem = encoding;
         }
 
         #endregion

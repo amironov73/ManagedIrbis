@@ -194,12 +194,6 @@ namespace UnsafeIrbis
 
             text = IrbisToWindows(text);
 
-#if PocketPC || WINMOBILE
-
-            string[] result = text.Split(_delimiters);
-
-#else
-
             string[] result = string.IsNullOrEmpty(text)
                 ? new[] { string.Empty }
                 : text.Split
@@ -207,8 +201,6 @@ namespace UnsafeIrbis
                         _delimiters,
                         StringSplitOptions.None
                     );
-
-#endif
 
             return result;
         }

@@ -11,7 +11,6 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 using JetBrains.Annotations;
 
@@ -103,14 +102,7 @@ namespace UnsafeAM.Collections
 
         #region Private members
 
-        private object _syncRoot
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return ((ICollection)this).SyncRoot;
-            }
-        }
+        private object _syncRoot => ((ICollection)this).SyncRoot;
 
         #endregion
 
@@ -130,10 +122,10 @@ namespace UnsafeAM.Collections
         {
             lock (_syncRoot)
             {
-                int value;
-                TryGetValue(key, out value);
+                TryGetValue(key, out int value);
                 value += increment;
                 this[key] = value;
+
                 return value;
             }
         }
@@ -146,9 +138,7 @@ namespace UnsafeAM.Collections
                 [NotNull] TKey key
             )
         {
-            int result;
-
-            TryGetValue(key, out result);
+            TryGetValue(key, out int result);
 
             return result;
         }

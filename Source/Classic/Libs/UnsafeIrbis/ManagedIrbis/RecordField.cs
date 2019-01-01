@@ -408,14 +408,10 @@ namespace UnsafeIrbis
 
         #region Private members
 
-#if !WINMOBILE && !PocketPC
         [NonSerialized]
-#endif
         private bool _modified;
 
-#if !WINMOBILE && !PocketPC
         [NonSerialized]
-#endif
         private object _userData;
 
         [ExcludeFromCodeCoverage]

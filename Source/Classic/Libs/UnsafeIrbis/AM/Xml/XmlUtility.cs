@@ -121,8 +121,6 @@ namespace UnsafeAM.Xml
             return (T)serializer.Deserialize(reader);
         }
 
-#if !ANDROID
-
         ///// <summary>
         ///// Get serializer for tagged classes.
         ///// </summary>
@@ -160,8 +158,6 @@ namespace UnsafeAM.Xml
         //        return ser;
         //    }
         //}
-
-#endif
 
 ///// <summary>
 ///// Get serializer for tagged classes. Scan all assemblies.

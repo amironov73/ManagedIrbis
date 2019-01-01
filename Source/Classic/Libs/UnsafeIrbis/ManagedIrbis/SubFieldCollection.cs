@@ -14,15 +14,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
 using System.Xml.Serialization;
 
 using UnsafeAM;
 using UnsafeAM.Collections;
-using UnsafeAM.IO;
 using UnsafeAM.Logging;
-using UnsafeAM.Runtime;
 
 using UnsafeCode;
 
@@ -43,7 +39,7 @@ namespace UnsafeIrbis
     [PublicAPI]
     [Serializable]
     [XmlRoot("subfields")]
-    [DebuggerDisplay("Count={Count}")]
+    [DebuggerDisplay("Count={" + nameof(Count) + "}")]
     public sealed class SubFieldCollection
         : Collection<SubField>//,
         //IHandmadeSerializable,
@@ -57,7 +53,7 @@ namespace UnsafeIrbis
         [CanBeNull]
         [XmlIgnore]
         [JsonIgnore]
-        public RecordField Field { get { return _field; } }
+        public RecordField Field => _field;
 
         #endregion
 
@@ -88,10 +84,7 @@ namespace UnsafeIrbis
 
         internal void SetModified()
         {
-            if (!ReferenceEquals(Field, null))
-            {
-                Field.SetModified();
-            }
+            Field?.SetModified();
         }
 
         #endregion
@@ -107,7 +100,7 @@ namespace UnsafeIrbis
                 [NotNull] IEnumerable<SubField> subFields
             )
         {
-            Code.NotNull(subFields, "subFields");
+            Code.NotNull(subFields, nameof(subFields));
             ThrowIfReadOnly();
 
             foreach (SubField subField in subFields)
@@ -128,7 +121,7 @@ namespace UnsafeIrbis
             )
         {
             ThrowIfReadOnly();
-            Code.NotNull(other, "other");
+            Code.NotNull(other, nameof(other));
 
             Clear();
             _field = other.Field;
@@ -147,7 +140,7 @@ namespace UnsafeIrbis
             )
         {
             ThrowIfReadOnly();
-            Code.NotNull(other, "other");
+            Code.NotNull(other, nameof(other));
 
             Clear();
             _field = other.Field;
@@ -190,7 +183,7 @@ namespace UnsafeIrbis
                 [NotNull] Predicate<SubField> predicate
             )
         {
-            Code.NotNull(predicate, "predicate");
+            Code.NotNull(predicate, nameof(predicate));
 
             foreach (SubField subField in this)
             {
@@ -212,7 +205,7 @@ namespace UnsafeIrbis
                 [NotNull] Predicate<SubField> predicate
             )
         {
-            Code.NotNull(predicate, "predicate");
+            Code.NotNull(predicate, nameof(predicate));
 
             LocalList<SubField> result = new LocalList<SubField>();
             foreach (SubField subField in this)
@@ -226,8 +219,6 @@ namespace UnsafeIrbis
             return result.ToArray();
         }
 
-#if !WINMOBILE && !PocketPC
-
         /// <summary>
         /// Restore the collection from JSON.
         /// </summary>
@@ -237,13 +228,9 @@ namespace UnsafeIrbis
             [NotNull] string text
         )
         {
-            Code.NotNullNorEmpty(text, "text");
+            Code.NotNullNorEmpty(text, nameof(text));
 
-            SubFieldCollection result
-                = JsonConvert.DeserializeObject<SubFieldCollection>
-                (
-                    text
-                );
+            SubFieldCollection result = JsonConvert.DeserializeObject<SubFieldCollection>(text);
 
             return result;
         }
@@ -258,8 +245,6 @@ namespace UnsafeIrbis
 
             return result;
         }
-
-#endif
 
         #endregion
 
@@ -288,7 +273,7 @@ namespace UnsafeIrbis
             )
         {
             ThrowIfReadOnly();
-            Code.NotNull(item, "item");
+            Code.NotNull(item, nameof(item));
 
             item.Field = Field;
 
@@ -327,7 +312,7 @@ namespace UnsafeIrbis
             )
         {
             ThrowIfReadOnly();
-            Code.NotNull(item, "item");
+            Code.NotNull(item, nameof(item));
 
             item.Field = Field;
 
@@ -375,7 +360,7 @@ namespace UnsafeIrbis
         internal bool _readOnly;
 
         /// <inheritdoc cref="IReadOnly{T}.ReadOnly" />
-        public bool ReadOnly { get { return _readOnly; } }
+        public bool ReadOnly => _readOnly;
 
         // ReSharper restore InconsistentNaming
 
