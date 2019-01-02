@@ -14,8 +14,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-using UnsafeAM.Text;
-
 using UnsafeCode;
 
 using JetBrains.Annotations;
@@ -296,7 +294,8 @@ namespace UnsafeAM.IO
                 offset += portion;
                 count -= portion;
                 total += portion;
-            } while (count > 0);
+            }
+            while (count > 0);
 
             return total;
         }

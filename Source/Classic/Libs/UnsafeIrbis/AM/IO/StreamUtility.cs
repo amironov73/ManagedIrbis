@@ -11,13 +11,11 @@
 
 using System;
 using System.Buffers;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 
 using UnsafeAM.Logging;
-//using AM.Text;
 
 using UnsafeCode;
 
@@ -33,13 +31,6 @@ namespace UnsafeAM.IO
     [PublicAPI]
     public static class StreamUtility
     {
-        #region Private members
-
-        private const MethodImplOptions Aggressive
-            = MethodImplOptions.AggressiveInlining;
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -70,6 +61,7 @@ namespace UnsafeAM.IO
                 {
                     break;
                 }
+
                 destinationStream.Write(buffer, 0, readed);
             }
         }
@@ -161,7 +153,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads <see cref="Boolean"/> value from the <see cref="Stream"/>.
+        /// Read <see cref="bool"/> value from the <see cref="Stream"/>.
         /// </summary>
         public static bool ReadBoolean
             (
@@ -213,7 +205,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads <see cref="Int16"/> value from the <see cref="Stream"/>.
+        /// Reads <see cref="short"/> value from the <see cref="Stream"/>.
         /// </summary>
         public static unsafe short ReadInt16
             (
@@ -227,7 +219,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads <see cref="UInt16"/> value from the <see cref="Stream"/>.
+        /// Reads <see cref="ushort"/> value from the <see cref="Stream"/>.
         /// </summary>
         [CLSCompliant(false)]
         public static unsafe ushort ReadUInt16
@@ -242,7 +234,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads <see cref="Int32"/> value from the <see cref="Stream"/>.
+        /// Reads <see cref="int"/> value from the <see cref="Stream"/>.
         /// </summary>
         public static unsafe int ReadInt32
             (
@@ -256,7 +248,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads <see cref="UInt32"/> value from the <see cref="Stream"/>.
+        /// Reads <see cref="uint"/> value from the <see cref="Stream"/>.
         /// </summary>
         [CLSCompliant(false)]
         public static unsafe uint ReadUInt32
@@ -271,7 +263,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads <see cref="Int64"/> value from the <see cref="Stream"/>.
+        /// Reads <see cref="long"/> value from the <see cref="Stream"/>.
         /// </summary>
         public static unsafe long ReadInt64
             (
@@ -285,7 +277,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads <see cref="UInt64"/> value from the <see cref="Stream"/>.
+        /// Reads <see cref="ulong"/> value from the <see cref="Stream"/>.
         /// </summary>
         [CLSCompliant(false)]
         public static unsafe ulong ReadUInt64
@@ -300,7 +292,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads <see cref="Single"/> value from the <see cref="Stream"/>.
+        /// Reads <see cref="float"/> value from the <see cref="Stream"/>.
         /// </summary>
         public static unsafe float ReadSingle
             (
@@ -314,7 +306,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads <see cref="Double"/> value from the <see cref="Stream"/>.
+        /// Reads <see cref="double"/> value from the <see cref="Stream"/>.
         /// </summary>
         public static unsafe double ReadDouble
             (
@@ -328,11 +320,11 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads <see cref="String"/> value from the <see cref="Stream"/>
+        /// Reads <see cref="string"/> value from the <see cref="Stream"/>
         /// using specified <see cref="Encoding"/>.
         /// </summary>
         /// <seealso cref="Write(Stream,string,Encoding)"/>
-        public static string ReadString
+        public static unsafe string ReadString
             (
                 [NotNull] Stream stream,
                 [NotNull] Encoding encoding
@@ -341,11 +333,34 @@ namespace UnsafeAM.IO
             Code.NotNull(stream, nameof(stream));
             Code.NotNull(encoding, nameof(encoding));
 
-            int count = ReadInt32(stream);
-            byte[] bytes = ReadExact(stream, count);
-            string result = encoding.GetString(bytes);
+            int byteCount = ReadInt32(stream);
+            if (byteCount < 256)
+            {
+                byte* buffer = stackalloc byte[byteCount];
+                ReadExact(stream, buffer, byteCount);
+                int charCount = encoding.GetCharCount(buffer, byteCount);
+                char* chars = stackalloc char[charCount];
+                encoding.GetChars(buffer, byteCount, chars, charCount);
+                string result = new string(chars, 0, charCount);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                ArrayPool<byte> pool = ArrayPool<byte>.Shared;
+                byte[] buffer = pool.Rent(byteCount);
+                try
+                {
+                    ReadExact(stream, buffer, byteCount);
+                    string result = encoding.GetString(buffer, 0, byteCount);
+
+                    return result;
+                }
+                finally
+                {
+                    pool.Return(buffer);
+                }
+            }
         }
 
         /// <summary>
@@ -363,7 +378,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads array of <see cref="Int16"/> values from the
+        /// Reads array of <see cref="short"/> values from the
         /// <see cref="Stream"/>.
         /// </summary>
         public static short[] ReadInt16Array
@@ -384,7 +399,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads array of <see cref="UInt16"/> values from the
+        /// Reads array of <see cref="ushort"/> values from the
         /// <see cref="Stream"/>.
         /// </summary>
         [CLSCompliant(false)]
@@ -406,7 +421,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads array of <see cref="Int32"/> values from the
+        /// Reads array of <see cref="int"/> values from the
         /// <see cref="Stream"/>.
         /// </summary>
         public static int[] ReadInt32Array
@@ -427,7 +442,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads array of <see cref="UInt32"/> values from the
+        /// Reads array of <see cref="uint"/> values from the
         /// <see cref="Stream"/>.
         /// </summary>
         [NotNull]
@@ -450,7 +465,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads array of <see cref="String"/>'s from the given stream until the end
+        /// Reads array of <see cref="string"/>'s from the given stream until the end
         /// of the stream using specified <see cref="Encoding"/>.
         /// </summary>
         [NotNull]
@@ -474,7 +489,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads array of <see cref="String"/>'s from the <see cref="Stream"/>
+        /// Reads array of <see cref="string"/>'s from the <see cref="Stream"/>
         /// using UTF-8 <see cref="Encoding"/>.
         /// </summary>
         [NotNull]
@@ -489,7 +504,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Reads the <see cref="Decimal"/> from the specified
+        /// Reads the <see cref="decimal"/> from the specified
         /// <see cref="Stream"/>.
         /// </summary>
         public static unsafe decimal ReadDecimal
@@ -506,7 +521,6 @@ namespace UnsafeAM.IO
         /// <summary>
         /// Reads the date time.
         /// </summary>
-        /// <param name="stream">The stream.</param>
         public static unsafe DateTime ReadDateTime
             (
                 [NotNull] Stream stream
@@ -560,7 +574,7 @@ namespace UnsafeAM.IO
             {
                 Log.Error
                     (
-                        "StreamUtility::_Read: "
+                        "StreamUtility::ReadExact: "
                         + "unexpected end of stream"
                     );
 
@@ -568,6 +582,50 @@ namespace UnsafeAM.IO
             }
 
             return buffer;
+        }
+
+        /// <summary>
+        /// Чтение точного числа байт.
+        /// </summary>
+        public static void ReadExact
+            (
+                [NotNull] Stream stream,
+                [NotNull] byte[] buffer
+            )
+        {
+            int length = buffer.Length;
+            if (stream.Read(buffer, 0, length) != length)
+            {
+                Log.Error
+                    (
+                        "StreamUtility::ReadExact: "
+                        + "unexpected end of stream"
+                    );
+
+                throw new IOException();
+            }
+        }
+
+        /// <summary>
+        /// Чтение точного числа байт.
+        /// </summary>
+        public static void ReadExact
+            (
+                [NotNull] Stream stream,
+                [NotNull] byte[] buffer,
+                int length
+            )
+        {
+            if (stream.Read(buffer, 0, length) != length)
+            {
+                Log.Error
+                    (
+                        "StreamUtility::ReadExact: "
+                        + "unexpected end of stream"
+                    );
+
+                throw new IOException();
+            }
         }
 
         /// <summary>
@@ -589,7 +647,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Writes the <see cref="Boolean"/> value to the <see cref="Stream"/>.
+        /// Writes the <see cref="bool"/> value to the <see cref="Stream"/>.
         /// </summary>
         public static void Write
             (
@@ -608,7 +666,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Writes the <see cref="Int16"/> value to the <see cref="Stream"/>.
+        /// Writes the <see cref="short"/> value to the <see cref="Stream"/>.
         /// </summary>
         public static unsafe void Write
             (
@@ -621,7 +679,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Writes the <see cref="UInt16"/> value to the <see cref="Stream"/>.
+        /// Writes the <see cref="ushort"/> value to the <see cref="Stream"/>.
         /// </summary>
         [CLSCompliant(false)]
         public static unsafe void Write
@@ -635,7 +693,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Writes the <see cref="Int32"/> to the <see cref="Stream"/>.
+        /// Writes the <see cref="int"/> to the <see cref="Stream"/>.
         /// </summary>
         public static unsafe void Write
             (
@@ -648,7 +706,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Writes the <see cref="UInt32"/> to the <see cref="Stream"/>.
+        /// Writes the <see cref="uint"/> to the <see cref="Stream"/>.
         /// </summary>
         [CLSCompliant(false)]
         public static unsafe void Write
@@ -662,7 +720,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Writes the <see cref="Int64"/> to the <see cref="Stream"/>.
+        /// Writes the <see cref="long"/> to the <see cref="Stream"/>.
         /// </summary>
         public static unsafe void Write
             (
@@ -675,7 +733,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Writes the <see cref="UInt64"/> to the <see cref="Stream"/>.
+        /// Writes the <see cref="ulong"/> to the <see cref="Stream"/>.
         /// </summary>
         [CLSCompliant(false)]
         public static unsafe void Write
@@ -689,7 +747,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Writes the <see cref="Single"/> to the <see cref="Stream"/>.
+        /// Writes the <see cref="float"/> to the <see cref="Stream"/>.
         /// </summary>
         public static unsafe void Write
             (
@@ -702,7 +760,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Writes the <see cref="Double"/> to the <see cref="Stream"/>.
+        /// Writes the <see cref="double"/> to the <see cref="Stream"/>.
         /// </summary>
         public static unsafe void Write
             (
@@ -715,10 +773,10 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Writes the <see cref="String"/> to the <see cref="Stream"/>
+        /// Writes the <see cref="string"/> to the <see cref="Stream"/>
         /// using specified <see cref="Encoding"/>.
         /// </summary>
-        public static void Write
+        public static unsafe void Write
             (
                 [NotNull] Stream stream,
                 [NotNull] string value,
@@ -729,13 +787,35 @@ namespace UnsafeAM.IO
             Code.NotNull(value, nameof(value));
             Code.NotNull(encoding, nameof(encoding));
 
-            byte[] bytes = encoding.GetBytes(value);
-            Write(stream, bytes.Length);
-            stream.Write(bytes, 0, bytes.Length);
+            int byteCount = encoding.GetByteCount(value);
+            Write(stream, byteCount);
+            if (byteCount < 10)
+            {
+                byte* buffer = stackalloc byte[byteCount];
+                fixed (char* chars = value)
+                {
+                    encoding.GetBytes(chars, value.Length, buffer, byteCount);
+                    Write(stream, buffer, byteCount);
+                }
+            }
+            else
+            {
+                var pool = ArrayPool<byte>.Shared;
+                byte[] buffer = pool.Rent(byteCount);
+                try
+                {
+                    encoding.GetBytes(value, 0, value.Length, buffer, 0);
+                    stream.Write(buffer, 0, byteCount);
+                }
+                finally
+                {
+                    pool.Return(buffer);
+                }
+            }
         }
 
         /// <summary>
-        /// Writes the <see cref="String"/> to the <see cref="Stream"/>
+        /// Writes the <see cref="string"/> to the <see cref="Stream"/>
         /// using UTF-8 <see cref="Encoding"/>.
         /// </summary>
         public static void Write
@@ -751,7 +831,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Writes the array of <see cref="Int16"/> to the <see cref="Stream"/>.
+        /// Writes the array of <see cref="short"/> to the <see cref="Stream"/>.
         /// </summary>
         public static void Write
             (
@@ -763,11 +843,9 @@ namespace UnsafeAM.IO
             Code.NotNull(values, nameof(values));
 
             Write(stream, values.Length);
-
-            // ReSharper disable once ForCanBeConvertedToForeach
-            for (int i = 0; i < values.Length; i++)
+            foreach (var value in values)
             {
-                Write(stream, values[i]);
+                Write(stream, value);
             }
         }
 
@@ -785,29 +863,15 @@ namespace UnsafeAM.IO
             Code.NotNull(values, nameof(values));
 
             Write(stream, values.Length);
-
-            // ReSharper disable once ForCanBeConvertedToForeach
-            for (int i = 0; i < values.Length; i++)
+            foreach (var value in values)
             {
-                Write(stream, values[i]);
+                Write(stream, value);
             }
         }
 
         /// <summary>
         /// Writes the array of <see cref="Int32"/> to the <see cref="Stream"/>.
         /// </summary>
-        /// <param name="stream">Stream to write to.</param>
-        /// <param name="values">Array of signed integer numbers.</param>
-        /// <remarks>Value can be readed with
-        /// <see cref="ReadInt32Array"/> or compatible method.
-        /// </remarks>
-        /// <exception cref="ArgumentNullException">Either
-        /// <paramref name="stream"/> or <paramref name="values"/>
-        /// is <c>null</c>.</exception>
-        /// <exception cref="IOException">An error during stream
-        /// output happens.</exception>
-        /// <see cref="Write(Stream,uint[])"/>
-        /// <see cref="ReadInt32Array"/>
         public static void Write
             (
                 [NotNull] Stream stream,
@@ -818,29 +882,15 @@ namespace UnsafeAM.IO
             Code.NotNull(values, nameof(values));
 
             Write(stream, values.Length);
-
-            // ReSharper disable once ForCanBeConvertedToForeach
-            for (int i = 0; i < values.Length; i++)
+            foreach (var value in values)
             {
-                Write(stream, values[i]);
+                Write(stream, value);
             }
         }
 
         /// <summary>
-        /// Writes the array of <see cref="UInt32"/> to the <see cref="Stream"/>.
+        /// Writes the array of <see cref="uint"/> to the <see cref="Stream"/>.
         /// </summary>
-        /// <param name="stream">Stream to write to.</param>
-        /// <param name="values">Array of unsigned integer numbers.</param>
-        /// <remarks>Value can be readed with
-        /// <see cref="ReadUInt32Array"/> or compatible method.
-        /// </remarks>
-        /// <exception cref="ArgumentNullException">Either
-        /// <paramref name="stream"/> or <paramref name="values"/>
-        /// is <c>null</c>.</exception>
-        /// <exception cref="IOException">An error during stream
-        /// output happens.</exception>
-        /// <seealso cref="Write(Stream,int[])"/>
-        /// <see cref="ReadUInt32Array"/>
         [CLSCompliant(false)]
         public static void Write
             (
@@ -852,31 +902,16 @@ namespace UnsafeAM.IO
             Code.NotNull(values, nameof(values));
 
             Write(stream, values.Length);
-
-            // ReSharper disable once ForCanBeConvertedToForeach
-            for (int i = 0; i < values.Length; i++)
+            foreach (var value in values)
             {
-                Write(stream, values[i]);
+                Write(stream, value);
             }
         }
 
         /// <summary>
-        /// Writes the array of <see cref="String"/> to the <see cref="Stream"/>
+        /// Writes the array of <see cref="string"/> to the <see cref="Stream"/>
         /// using specified <see cref="Encoding"/>.
         /// </summary>
-        /// <param name="stream">Stream to write to.</param>
-        /// <param name="values">Array of strings to write.</param>
-        /// <param name="encoding">Encoding to use.</param>
-        /// <remarks>Value can be readed with
-        /// <see cref="ReadStringArray(Stream,Encoding)"/> or compatible method.
-        /// </remarks>
-        /// <exception cref="ArgumentNullException">Either
-        /// <paramref name="stream"/> or <paramref name="values"/>
-        /// is <c>null</c>.</exception>
-        /// <exception cref="IOException">An error during stream
-        /// output happens.</exception>
-        /// <seealso cref="Write(Stream,string[])"/>
-        /// <see cref="ReadStringArray(Stream,Encoding)"/>
         public static void Write
             (
                 [NotNull] Stream stream,
@@ -898,20 +933,8 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Writes the array of <see cref="String"/> to the <see cref="Stream"/>.
+        /// Writes the array of <see cref="string"/> to the <see cref="Stream"/>.
         /// </summary>
-        /// <param name="stream">Stream to write to.</param>
-        /// <param name="values">Array of strings to write.</param>
-        /// <remarks>Value can be readed with
-        /// <see cref="ReadStringArray(Stream)"/> or compatible method.
-        /// </remarks>
-        /// <exception cref="ArgumentNullException">Either
-        /// <paramref name="stream"/> or <paramref name="values"/>
-        /// is <c>null</c>.</exception>
-        /// <exception cref="IOException">An error during stream
-        /// output happens.</exception>
-        /// <seealso cref="Write(Stream,string[],Encoding)"/>
-        /// <seealso cref="ReadStringArray(Stream)"/>
         public static void Write
             (
                 [NotNull] Stream stream,
@@ -925,17 +948,8 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Writes the <see cref="Decimal"/> to the specified <see cref="Stream"/>.
+        /// Writes the <see cref="decimal"/> to the specified <see cref="Stream"/>.
         /// </summary>
-        /// <param name="stream">The stream.</param>
-        /// <param name="value">The value.</param>
-        /// <remarks>Value can be readed with <see cref="ReadDecimal"/>
-        /// or compatible method.</remarks>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="stream"/> is <c>null</c>.</exception>
-        /// <exception cref="IOException">Error during stream output
-        /// happens.</exception>
-        /// <seealso cref="ReadDecimal"/>
         public static unsafe void Write
             (
                 [NotNull] Stream stream,
@@ -962,7 +976,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Network to host byte conversion.
+        /// Network to host byte conversion for 16-bit integer.
         /// </summary>
         public static void NetworkToHost16
             (
@@ -976,7 +990,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Network to host byte conversion.
+        /// Network to host byte conversion for 16-bit integer.
         /// </summary>
         [CLSCompliant(false)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -991,7 +1005,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Network to host byte conversion.
+        /// Network to host byte conversion for 32-bit integer.
         /// </summary>
         public static void NetworkToHost32
             (
@@ -1008,7 +1022,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Network to host byte conversion.
+        /// Network to host byte conversion for 32-bit integer.
         /// </summary>
         [CLSCompliant(false)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1026,7 +1040,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Network to host byte conversion.
+        /// Network to host byte conversion for 64-bit integer.
         /// </summary>
         /// <remarks>IRBIS64-oriented!</remarks>
         public static void NetworkToHost64
@@ -1040,7 +1054,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Network to host byte conversion.
+        /// Network to host byte conversion for 64-bit integer.
         /// </summary>
         /// <remarks>IRBIS64-oriented!</remarks>
         [CLSCompliant(false)]
@@ -1054,7 +1068,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Host to network byte conversion.
+        /// Host to network byte conversion for 16-bit integer.
         /// </summary>
         public static void HostToNetwork16
             (
@@ -1068,7 +1082,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Host to network byte conversion.
+        /// Host to network byte conversion for 16-bit integer.
         /// </summary>
         [CLSCompliant(false)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1083,7 +1097,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Host to network byte conversion.
+        /// Host to network byte conversion for 32-bit integer.
         /// </summary>
         public static void HostToNetwork32
             (
@@ -1100,7 +1114,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Host to network byte conversion.
+        /// Host to network byte conversion for 32-bit integer.
         /// </summary>
         [CLSCompliant(false)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1118,7 +1132,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Host to network byte conversion.
+        /// Host to network byte conversion for 64-bit integer.
         /// </summary>
         /// <remarks>IRBIS64-oriented!</remarks>
         public static void HostToNetwork64
@@ -1132,7 +1146,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Host to network byte conversion.
+        /// Host to network byte conversion for 64-bit integer.
         /// </summary>
         /// <remarks>IRBIS64-oriented!</remarks>
         [CLSCompliant(false)]
@@ -1146,7 +1160,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Read integer in network byte order.
+        /// Read 16-bit integer in network byte order.
         /// </summary>
         public static unsafe short ReadInt16Network
             (
@@ -1161,7 +1175,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Read integer in host byte order.
+        /// Read 16-bit integer in host byte order.
         /// </summary>
         public static unsafe short ReadInt16Host
             (
@@ -1175,7 +1189,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Read integer in network byte order.
+        /// Read 32-bit integer in network byte order.
         /// </summary>
         public static unsafe int ReadInt32Network
             (
@@ -1190,7 +1204,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Read integer in host byte order.
+        /// Read 32-bit integer in host byte order.
         /// </summary>
         public static unsafe int ReadInt32Host
             (
@@ -1204,7 +1218,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Read integer in network byte order.
+        /// Read 32-bit integer in network byte order.
         /// </summary>
         public static unsafe long ReadInt64Network
             (
@@ -1219,7 +1233,7 @@ namespace UnsafeAM.IO
         }
 
         /// <summary>
-        /// Read integer in host byte order.
+        /// Read 64-bit integer in host byte order.
         /// </summary>
         public static unsafe long ReadInt64Host
             (
@@ -1247,52 +1261,22 @@ namespace UnsafeAM.IO
         {
             Code.NotNull(stream, nameof(stream));
 
-            MemoryStream result = new MemoryStream(); //-V3114
-
-            while (true)
+            ChunkedBuffer result = new ChunkedBuffer();
             {
-                byte[] buffer = new byte[50 * 1024];
-                int read = stream.Read(buffer, 0, buffer.Length);
-                if (read <= 0)
+                byte[] buffer = new byte[4 * 1024];
+                while (true)
                 {
-                    break;
+                    int read = stream.Read(buffer, 0, buffer.Length);
+                    if (read <= 0)
+                    {
+                        break;
+                    }
+
+                    result.Write(buffer, 0, read);
                 }
-                result.Write(buffer, 0, read);
+
+                return result.ToBigArray();
             }
-
-            return result.ToArray();
-        }
-
-        /// <summary>
-        /// Lock the file.
-        /// </summary>
-        /// <remarks>For WinMobile compatibility.</remarks>
-        [MethodImpl(Aggressive)]
-        [ExcludeFromCodeCoverage]
-        public static void Lock
-            (
-                [NotNull] FileStream stream,
-                long position,
-                long length
-            )
-        {
-            stream.Lock(position, length);
-        }
-
-        /// <summary>
-        /// Unlock the file.
-        /// </summary>
-        /// <remarks>For WinMobile compatibility.</remarks>
-        [MethodImpl(Aggressive)]
-        [ExcludeFromCodeCoverage]
-        public static void Unlock
-            (
-                [NotNull] FileStream stream,
-                long position,
-                long length
-            )
-        {
-            stream.Unlock(position, length);
         }
 
         /// <summary>

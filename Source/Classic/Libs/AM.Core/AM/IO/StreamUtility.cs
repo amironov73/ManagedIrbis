@@ -1138,20 +1138,20 @@ namespace AM.IO
         {
             Code.NotNull(stream, "stream");
 
-            MemoryStream result = new MemoryStream(); //-V3114
-
+            ChunkedBuffer result = new ChunkedBuffer();
+            byte[] buffer = new byte[50 * 1024];
             while (true)
             {
-                byte[] buffer = new byte[50 * 1024];
                 int read = stream.Read(buffer, 0, buffer.Length);
                 if (read <= 0)
                 {
                     break;
                 }
+
                 result.Write(buffer, 0, read);
             }
 
-            return result.ToArray();
+            return result.ToBigArray();
         }
 
         /// <summary>

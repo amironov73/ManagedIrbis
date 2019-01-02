@@ -199,10 +199,14 @@
     <Compile Include="AM\Xml\XmlUtility.cs" />
     <Compile Include="CodeJam\Code.cs" />
     <Compile Include="CodeJam\CodeExceptions.cs" />
+    <Compile Include="ManagedIrbis\ClientInfo.cs" />
+    <Compile Include="ManagedIrbis\ConnectionElement.cs" />
+    <Compile Include="ManagedIrbis\ConnectionFactory.cs" />
     <Compile Include="ManagedIrbis\Direct\FoundRecord.cs" />
     <Compile Include="ManagedIrbis\Direct\NodeItem64.cs" />
     <Compile Include="ManagedIrbis\Direct\NodeLeader64.cs" />
     <Compile Include="ManagedIrbis\Direct\XrfRecord64.cs" />
+    <Compile Include="ManagedIrbis\EmbeddedField.cs" />
     <Compile Include="ManagedIrbis\FieldTag.cs" />
     <Compile Include="ManagedIrbis\FieldValue.cs" />
     <Compile Include="ManagedIrbis\IIrbisConnection.cs" />

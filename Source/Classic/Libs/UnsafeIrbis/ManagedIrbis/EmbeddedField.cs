@@ -12,24 +12,21 @@
 using System;
 using System.Collections.Generic;
 
-using AM.Collections;
-using AM.Logging;
+using UnsafeAM;
+using UnsafeAM.Logging;
 
-using CodeJam;
+using UnsafeCode;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
-namespace ManagedIrbis
+namespace UnsafeIrbis
 {
     /// <summary>
     /// Работа со встроенными полями.
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
     public static class EmbeddedField
     {
         #region Constants
@@ -53,7 +50,7 @@ namespace ManagedIrbis
                 [NotNull] this RecordField field
             )
         {
-            Code.NotNull(field, "field");
+            Code.NotNull(field, nameof(field));
 
             return GetEmbeddedFields
                 (
@@ -73,10 +70,12 @@ namespace ManagedIrbis
                 char sign
             )
         {
-            Code.NotNull(subfields, "subfields");
+            Code.NotNull(subfields, nameof(subfields));
 
-            LocalList<RecordField> result = new LocalList<RecordField>();
+            List<RecordField> result = new List<RecordField>();
+
             RecordField found = null;
+
             foreach (SubField subField in subfields)
             {
                 if (subField.Code == sign)
@@ -85,6 +84,7 @@ namespace ManagedIrbis
                     {
                         result.Add(found);
                     }
+
                     string value = subField.Value;
                     if (string.IsNullOrEmpty(value))
                     {
@@ -97,21 +97,16 @@ namespace ManagedIrbis
                         throw new FormatException();
                     }
 
-                    string tag = value.Substring(0, 3);
+                    int tag = FastNumber.ParseInt32(value.Substring(0, 3));
                     found = new RecordField(tag);
-                    if (tag.StartsWith("00")
-                        && value.Length > 3
-                       )
+                    if (value.Length > 3)
                     {
                         found.Value = value.Substring(3);
                     }
                 }
                 else
                 {
-                    if (!ReferenceEquals(found, null))
-                    {
-                        found.AddSubField(subField.Code, subField.Value);
-                    }
+                    found?.AddSubField(subField.Code, subField.Value);
                 }
             }
 
@@ -134,7 +129,7 @@ namespace ManagedIrbis
                 int tag
             )
         {
-            Code.NotNull(field, "field");
+            Code.NotNull(field, nameof(field));
 
             RecordField[] result = GetEmbeddedFields
                 (

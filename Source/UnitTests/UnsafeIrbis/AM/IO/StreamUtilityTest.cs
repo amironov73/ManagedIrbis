@@ -351,6 +351,19 @@ namespace UnitTests.UnsafeAM.IO
         }
 
         [TestMethod]
+        public void StreamUtility_ReadString_3()
+        {
+            MemoryStream stream = new MemoryStream();
+            string expected = new string('A', 300);
+            Encoding encoding = Encoding.ASCII;
+            StreamUtility.Write(stream, expected, encoding);
+            byte[] buffer = stream.ToArray();
+            stream = new MemoryStream(buffer);
+            string actual = StreamUtility.ReadString(stream, encoding);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void StreamUtility_ReadStringArray_1()
         {
             MemoryStream stream = new MemoryStream();
@@ -547,6 +560,36 @@ namespace UnitTests.UnsafeAM.IO
             byte[] buffer = { 1, 2 };
             MemoryStream stream = new MemoryStream(buffer);
             StreamUtility.ReadInt32(stream);
+        }
+
+        [TestMethod]
+        public void StreamUtility_ReadExact_4()
+        {
+            byte[] buffer1 = { 1, 2, 3, 4 };
+            MemoryStream stream = new MemoryStream(buffer1);
+            byte[] buffer2 = new byte[4];
+            StreamUtility.ReadExact(stream, buffer2);
+            CollectionAssert.AreEqual(buffer1, buffer2);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IOException))]
+        public void StreamUtility_ReadExact_5()
+        {
+            byte[] buffer1 = { 1, 2, 3 };
+            MemoryStream stream = new MemoryStream(buffer1);
+            byte[] buffer2 = new byte[4];
+            StreamUtility.ReadExact(stream, buffer2);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IOException))]
+        public void StreamUtility_ReadExact_6()
+        {
+            byte[] buffer1 = { 1, 2, 3 };
+            MemoryStream stream = new MemoryStream(buffer1);
+            byte[] buffer2 = new byte[4];
+            StreamUtility.ReadExact(stream, buffer2, 4);
         }
 
         [TestMethod]

@@ -525,7 +525,8 @@ namespace AM.IO
                 _position += portion;
                 count -= portion;
                 offset += portion;
-            } while (count > 0);
+            }
+            while (count > 0);
         }
 
         /// <summary>
