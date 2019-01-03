@@ -1,12 +1,12 @@
 ﻿using System;
 
-using AM.Runtime;
+using UnsafeAM.Runtime;
 
-using ManagedIrbis;
+using UnsafeIrbis;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.ManagedIrbis
+namespace UnitTests.UnsafeIrbis
 {
     [TestClass]
     public class IrbisDateTest
@@ -175,7 +175,6 @@ namespace UnitTests.ManagedIrbis
             Assert.AreEqual(11, time.Minutes);
             Assert.AreEqual(12, time.Seconds);
         }
-
 
         [TestMethod]
         public void IrbisDate_SafeParse_1()

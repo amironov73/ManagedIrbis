@@ -440,6 +440,29 @@ namespace UnsafeAM
             return result;
         }
 
+        /// <summary>
+        /// Превращает строку в видимую.
+        /// Пример: "(null)".
+        /// </summary>
+        [NotNull]
+        public static string ToVisibleString
+            (
+                [CanBeNull] this string text
+            )
+        {
+            if (ReferenceEquals(text, null))
+            {
+                return "(null)";
+            }
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return "(empty)";
+            }
+
+            return text;
+        }
+
         #endregion
     }
 }

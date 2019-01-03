@@ -1,17 +1,17 @@
 ﻿using System;
 using System.IO;
 
-using AM.Runtime;
+using UnsafeAM.Runtime;
 
 using JetBrains.Annotations;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using ManagedIrbis;
+using UnsafeIrbis;
 
 // ReSharper disable UseObjectOrCollectionInitializer
 
-namespace UnitTests.ManagedIrbis
+namespace UnitTests.UnsafeIrbis
 {
     [TestClass]
     public class IlfFileTest

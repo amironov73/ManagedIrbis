@@ -65,6 +65,11 @@ namespace AM.Text
         public static readonly char[] Minus = { '-' };
 
         /// <summary>
+        /// MS-DOS line separator.
+        /// </summary>
+        public static readonly string[] MsDos = { "\r\n" };
+
+        /// <summary>
         /// Newline.
         /// </summary>
         public static readonly char[] NewLine = { '\r', '\n' };

@@ -917,6 +917,8 @@
     <Compile Include="UnsafeIrbis\AM\Xml\XmlUtilityTest.cs" />
     <Compile Include="UnsafeIrbis\ManagedIrbis\FieldTagTest.cs" />
     <Compile Include="UnsafeIrbis\ManagedIrbis\FieldValueTest.cs" />
+    <Compile Include="UnsafeIrbis\ManagedIrbis\IlfFileTest.cs" />
+    <Compile Include="UnsafeIrbis\ManagedIrbis\IrbisDateTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Classic\Libs\AM.AOT\AM.AOT.csproj">

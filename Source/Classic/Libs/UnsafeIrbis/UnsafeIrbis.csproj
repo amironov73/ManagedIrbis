@@ -153,6 +153,7 @@
     <Compile Include="AM\Runtime\SerializationUtility.cs" />
     <Compile Include="AM\Text\CharacterClass.cs" />
     <Compile Include="AM\Text\CharacterClassifier.cs" />
+    <Compile Include="AM\Text\CommonSeparators.cs" />
     <Compile Include="AM\Text\HtmlText.cs" />
     <Compile Include="AM\Text\Hyphenation\EnglishHyphenator.cs" />
     <Compile Include="AM\Text\Hyphenation\Hyphenator.cs" />
@@ -210,10 +211,13 @@
     <Compile Include="ManagedIrbis\FieldTag.cs" />
     <Compile Include="ManagedIrbis\FieldValue.cs" />
     <Compile Include="ManagedIrbis\IIrbisConnection.cs" />
+    <Compile Include="ManagedIrbis\IlfFile.cs" />
     <Compile Include="ManagedIrbis\ImportExport\ProtocolText.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\IrbisNetworkException.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\IrbisReturnCode.cs" />
     <Compile Include="ManagedIrbis\Infrastructure\ServerResponse.cs" />
+    <Compile Include="ManagedIrbis\IrbisCatalog.cs" />
+    <Compile Include="ManagedIrbis\IrbisConstants.cs" />
     <Compile Include="ManagedIrbis\IrbisDate.cs" />
     <Compile Include="ManagedIrbis\IrbisEncoding.cs" />
     <Compile Include="ManagedIrbis\IrbisException.cs" />

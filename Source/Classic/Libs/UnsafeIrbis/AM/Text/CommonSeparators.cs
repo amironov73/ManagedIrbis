@@ -13,8 +13,6 @@ using System.Diagnostics.CodeAnalysis;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
 namespace UnsafeAM.Text
@@ -23,7 +21,6 @@ namespace UnsafeAM.Text
     /// Common separators.
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
     [ExcludeFromCodeCoverage]
     public static class CommonSeparators
     {
@@ -63,6 +60,11 @@ namespace UnsafeAM.Text
         /// Minus sign.
         /// </summary>
         public static readonly char[] Minus = { '-' };
+
+        /// <summary>
+        /// MS-DOS line separator.
+        /// </summary>
+        public static readonly string[] MsDos = { "\r\n" };
 
         /// <summary>
         /// Newline.

@@ -15,21 +15,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Logging;
-using AM.Runtime;
+using UnsafeAM;
+using UnsafeAM.Collections;
+using UnsafeAM.IO;
+using UnsafeAM.Logging;
+using UnsafeAM.Runtime;
+using UnsafeAM.Text;
 
-using CodeJam;
+using UnsafeCode;
 
 using JetBrains.Annotations;
 
-using MoonSharp.Interpreter;
-
 #endregion
 
-namespace ManagedIrbis
+namespace UnsafeIrbis
 {
     //
     // ILF - Архив текстовых файлов Irbis Library Files
@@ -51,17 +50,16 @@ namespace ManagedIrbis
     //
     // * Сервер ищет файлы сначала в ilf затем в директории БД.
     // * Сервер пересылает клиенту ИРБИС64 файлы по одному.
-    // * Клиент ИРБИС64 кэширует скачанные файлы. Так чтобы 
+    // * Клиент ИРБИС64 кэширует скачанные файлы. Так чтобы
     // заметить изменения, например в рабочих листах,
     // нужно выполнить режим ОБНОВИТЬ КОНТЕКСТ.
     // * Распаковка ILF - это задача исключительно сервера.
     //
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
-    [MoonSharpUserData]
     public sealed class IlfFile
         : IHandmadeSerializable,
         IVerifiable
@@ -80,7 +78,6 @@ namespace ManagedIrbis
         /// <summary>
         /// Entry.
         /// </summary>
-        [MoonSharpUserData]
         [DebuggerDisplay("[{Number}] {Name}")]
         public sealed class Entry
             : IHandmadeSerializable,
@@ -149,13 +146,7 @@ namespace ManagedIrbis
                     BinaryReader reader
                 )
             {
-                Code.NotNull(reader, "reader");
-
-#if WINMOBILE || PocketPC
-
-                throw new System.NotImplementedException();
-
-#else
+                Code.NotNull(reader, nameof(reader));
 
                 Position = reader.ReadPackedInt32();
                 Date = reader.ReadDateTime();
@@ -166,8 +157,6 @@ namespace ManagedIrbis
                 DataLength = reader.ReadPackedInt32();
                 Description = reader.ReadNullableString();
                 Data = reader.ReadNullableString();
-
-#endif
             }
 
             /// <summary>
@@ -178,13 +167,7 @@ namespace ManagedIrbis
                     BinaryWriter writer
                 )
             {
-                Code.NotNull(writer, "writer");
-
-#if WINMOBILE || PocketPC
-
-                throw new System.NotImplementedException();
-
-#else
+                Code.NotNull(writer, nameof(writer));
 
                 writer.WritePackedInt32(Position);
                 writer.Write(Date);
@@ -195,9 +178,8 @@ namespace ManagedIrbis
                 writer.WritePackedInt32(DataLength);
                 writer.WriteNullable(Description);
                 writer.WriteNullable(Data);
-
-#endif
             }
+
 
             #endregion
 
@@ -214,8 +196,8 @@ namespace ManagedIrbis
                 Verifier<Entry> verifier = new Verifier<Entry>(this, throwOnError);
 
                 verifier
-                    .NotNullNorEmpty(Name, "Name")
-                    .NotNullNorEmpty(Data, "Data");
+                    .NotNullNorEmpty(Name, nameof(Name))
+                    .NotNullNorEmpty(Data, nameof(Data));
 
                 return verifier.Result;
             }
@@ -256,10 +238,7 @@ namespace ManagedIrbis
         /// Entries.
         /// </summary>
         [NotNull]
-        public NonNullCollection<Entry> Entries
-        {
-            get { return _entries; }
-        }
+        public NonNullCollection<Entry> Entries { get; }
 
         #endregion
 
@@ -270,14 +249,12 @@ namespace ManagedIrbis
         /// </summary>
         public IlfFile()
         {
-            _entries = new NonNullCollection<Entry>();
+            Entries = new NonNullCollection<Entry>();
         }
 
         #endregion
 
         #region Private members
-
-        private readonly NonNullCollection<Entry> _entries;
 
         #region Borrowed from reference source
 
@@ -298,7 +275,7 @@ namespace ManagedIrbis
 
         private const int MillisPerSecond = 1000;
         private const int MillisPerMinute = MillisPerSecond * 60;
-        private const int MillisPerHour = MillisPerMinute * 60; 
+        private const int MillisPerHour = MillisPerMinute * 60;
         private const int MillisPerDay = MillisPerHour * 24;
 
         private const long DoubleDateOffset = DaysTo1899 * TicksPerDay;
@@ -343,14 +320,9 @@ namespace ManagedIrbis
                 [NotNull] string fileName
             )
         {
-            Entry entry = Entries.FirstOrDefault
-                (
-                    e => e.Name.SameString(fileName)
-                );
+            Entry entry = Entries.FirstOrDefault(e => e.Name.SameString(fileName));
 
-            return ReferenceEquals(entry, null)
-                ? null
-                : entry.Data;
+            return entry?.Data;
         }
 
         /// <summary>
@@ -363,8 +335,8 @@ namespace ManagedIrbis
                 [NotNull] Encoding encoding
             )
         {
-            Code.NotNullNorEmpty(fileName, "fileName");
-            Code.NotNull(encoding, "encoding");
+            Code.NotNullNorEmpty(fileName, nameof(fileName));
+            Code.NotNull(encoding, nameof(encoding));
 
             IlfFile result = new IlfFile();
 
@@ -376,7 +348,7 @@ namespace ManagedIrbis
                 {
                     Log.Error
                         (
-                            "IlfFile::ReadLocalFile: "
+                            nameof(IlfFile) + "::" + nameof(ReadLocalFile) + ": "
                             + "wrong magic string="
                             + magicString
                         );
@@ -404,7 +376,7 @@ namespace ManagedIrbis
                     result.Entries.Add(entry);
                 }
 
-                string[] separators = {"\r\n"};
+                string[] separators = CommonSeparators.MsDos;
 
                 foreach (Entry entry in result.Entries)
                 {
@@ -415,23 +387,12 @@ namespace ManagedIrbis
                     char[] chars = reader.ReadChars(entry.DataLength);
                     string text = new string(chars);
 
-#if !WINMOBILE && !PocketPC
-
                     string[] parts = text.Split
                         (
                             separators,
                             2,
                             StringSplitOptions.None
                         );
-
-#else
-
-                    string[] parts = text
-                        .Replace("\r", string.Empty)
-                        .Split('\n');
-
-#endif
-
                     entry.Description = parts[0];
                     entry.Data = parts.Length > 1
                         ? parts[1]
@@ -452,17 +413,9 @@ namespace ManagedIrbis
                 BinaryReader reader
             )
         {
-            Code.NotNull(reader, "reader");
-
-#if WINMOBILE || PocketPC
-
-            throw new NotImplementedException();
-
-#else
+            Code.NotNull(reader, nameof(reader));
 
             reader.ReadCollection(Entries);
-
-#endif
         }
 
         /// <inheritdoc cref="IHandmadeSerializable.SaveToStream"/>
@@ -471,17 +424,9 @@ namespace ManagedIrbis
                 BinaryWriter writer
             )
         {
-            Code.NotNull(writer, "writer");
-
-#if WINMOBILE || PocketPC
-
-            throw new NotImplementedException();
-
-#else
+            Code.NotNull(writer, nameof(writer));
 
             writer.WriteCollection(Entries);
-
-#endif
         }
 
 
@@ -499,7 +444,7 @@ namespace ManagedIrbis
 
             foreach (Entry entry in Entries)
             {
-                verifier.VerifySubObject(entry, "entry");
+                verifier.VerifySubObject(entry, nameof(entry));
             }
 
             return verifier.Result;

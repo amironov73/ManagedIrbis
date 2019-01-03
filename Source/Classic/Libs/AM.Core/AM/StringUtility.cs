@@ -1978,6 +1978,7 @@ namespace AM
             {
                 return "(null)";
             }
+
             if (string.IsNullOrEmpty(text))
             {
                 return "(empty)";
