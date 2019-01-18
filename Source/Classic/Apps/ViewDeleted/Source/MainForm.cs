@@ -356,10 +356,11 @@ namespace ViewDeleted
             int mfn = CurrentMfn;
             if (mfn != 0)
             {
-                MarcRecord record = _client.ReadRecord(mfn);
+                MarcRecord record = _client.ReadRecord(_databaseBox.Text, mfn, false, null);
                 if (record.Deleted)
                 {
-                    _client.UndeleteRecord(record.Mfn);
+                    record.Deleted = false;
+                    _client.WriteRecord(record, true);
                 }
             }
         }
