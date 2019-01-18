@@ -41,7 +41,7 @@ using System.Threading.Tasks;
 namespace ManagedIrbis.Batch
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -252,64 +252,64 @@ namespace ManagedIrbis.Batch
                 return new[] { record };
             }
 
-#if FW4
+//#if FW4
 
-            using (_records = new BlockingCollection<MarcRecord>(array.Length))
-            {
-                int[][] slices = array.Slice(1000).ToArray();
+//            using (_records = new BlockingCollection<MarcRecord>(array.Length))
+//            {
+//                int[][] slices = array.Slice(1000).ToArray();
 
-                foreach (int[] slice in slices)
-                {
-                    if (slice.Length == 1)
-                    {
-                        MarcRecord record = Connection.ReadRecord
-                            (
-                                database,
-                                slice[0],
-                                false,
-                                null
-                            );
+//                foreach (int[] slice in slices)
+//                {
+//                    if (slice.Length == 1)
+//                    {
+//                        MarcRecord record = Connection.ReadRecord
+//                            (
+//                                database,
+//                                slice[0],
+//                                false,
+//                                null
+//                            );
 
-                        _records.Add(record);
-                    }
-                    else
-                    {
-                        FormatCommand command
-                            = Connection.CommandFactory.GetFormatCommand();
-                        command.Database = database;
-                        command.FormatSpecification = IrbisFormat.All;
-                        command.MfnList.AddRange(slice);
+//                        _records.Add(record);
+//                    }
+//                    else
+//                    {
+//                        FormatCommand command
+//                            = Connection.CommandFactory.GetFormatCommand();
+//                        command.Database = database;
+//                        command.FormatSpecification = IrbisFormat.All;
+//                        command.MfnList.AddRange(slice);
 
-                        Connection.ExecuteCommand(command);
+//                        Connection.ExecuteCommand(command);
 
-                        string[] lines = command.FormatResult
-                            .ThrowIfNullOrEmpty
-                                (
-                                    "command.FormatResult"
-                                );
+//                        string[] lines = command.FormatResult
+//                            .ThrowIfNullOrEmpty
+//                                (
+//                                    "command.FormatResult"
+//                                );
 
-                        Debug.Assert
-                            (
-                                lines.Length == slice.Length,
-                                "some records not retrieved"
-                            );
+//                        Debug.Assert
+//                            (
+//                                lines.Length == slice.Length,
+//                                "some records not retrieved"
+//                            );
 
-                        Parallel.ForEach
-                            (
-                                lines,
-                                line => _ParseRecord(line, database)
-                            );
-                    }
-                }
+//                        Parallel.ForEach
+//                            (
+//                                lines,
+//                                line => _ParseRecord(line, database)
+//                            );
+//                    }
+//                }
 
-                _records.CompleteAdding();
+//                _records.CompleteAdding();
 
-                return _records.ToArray();
-            }
+//                return _records.ToArray();
+//            }
 
-#else
+//#else
 
-            FormatCommand command 
+            FormatCommand command
                 = Connection.CommandFactory.GetFormatCommand();
             command.Database = database;
             command.FormatSpecification = IrbisFormat.All;
@@ -337,7 +337,7 @@ namespace ManagedIrbis.Batch
 
             return result;
 
-#endif
+//#endif
         }
 
         /// <summary>
@@ -449,7 +449,7 @@ namespace ManagedIrbis.Batch
 
 #else
 
-            FormatCommand command 
+            FormatCommand command
                 = Connection.CommandFactory.GetFormatCommand();
             command.Database = database;
             command.FormatSpecification = IrbisFormat.All;

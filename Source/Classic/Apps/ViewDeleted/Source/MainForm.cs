@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* MainForm.cs -- 
+/* MainForm.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+
+using IrbisUI;
 
 using ManagedIrbis;
 using ManagedIrbis.Batch;
@@ -40,20 +42,28 @@ namespace ViewDeleted
 
         private void MainForm_Load
             (
-                object sender, 
+                object sender,
                 EventArgs e
             )
         {
             _client = new IrbisConnection();
             string connectionString = CM.AppSettings["connection-string"];
             _client.ParseConnectionString(connectionString);
+            if ((string.IsNullOrEmpty(_client.Username)
+                 || string.IsNullOrEmpty(_client.Password))
+                && !IrbisLoginCenter.Login(_client, null))
+            {
+                Application.Exit();
+            }
+
             try
             {
                 _client.Connect();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.ToString(), "ОШИБКА",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
 
@@ -65,7 +75,7 @@ namespace ViewDeleted
 
         private void MainForm_FormClosed
             (
-                object sender, 
+                object sender,
                 FormClosedEventArgs e
             )
         {
@@ -74,7 +84,7 @@ namespace ViewDeleted
 
         private void _databaseBox_SelectedIndexChanged
             (
-                object sender, 
+                object sender,
                 EventArgs e
             )
         {
@@ -85,19 +95,34 @@ namespace ViewDeleted
 
             string database = ((DatabaseInfo)_databaseBox.SelectedItem).Name;
 
-            DatabaseInfo info = _client.GetDatabaseInfo(database);
-            _deletedRecords = info.LogicallyDeletedRecords;
+            try
+            {
+                DatabaseInfo info = _client.GetDatabaseInfo(database);
+                _deletedRecords = info.LogicallyDeletedRecords;
+            }
+            catch (Exception exception)
+            {
+                _web.DocumentText = exception.ToString();
+                _SetStatus("Ошибка при получении списка удалённых записей");
+                return;
+            }
+
             _allBox.BeginUpdate();
+
             foreach (int mfn in _deletedRecords)
             {
                 _allBox.Items.Add(mfn);
             }
+
             _allBox.EndUpdate();
+
             if (_formatBox.Items.Count != 0)
             {
                 _formatBox.SelectedIndex = 0;
             }
+
             _SetStatus("Всего удалённых записей: {0}", _deletedRecords.Length);
+
             if (_allBox.Items.Count != 0)
             {
                 _allBox.SelectedIndex = 0;
@@ -117,29 +142,52 @@ namespace ViewDeleted
                 {
                     return 0;
                 }
+
                 return (int) box.SelectedItem;
+            }
+        }
+
+        private void _PrepareWeb()
+        {
+            _web.Navigate("about:blank");
+            while (_web.IsBusy)
+            {
+                Application.DoEvents();
+            }
+
+            _web.DocumentText = "<p>&nbsp;</p>";
+            while (_web.IsBusy)
+            {
+                Application.DoEvents();
             }
         }
 
         private void _ShowCurrentRecord()
         {
-            _web.Navigate("about:blank");
+            _PrepareWeb();
+
             int mfn = CurrentMfn;
             if (mfn <= 0)
             {
                 return;
             }
-            string formatted = _client.FormatRecord
-                (
-                    _formatBox.Text, 
-                    mfn
-                );
+
+            string formatted;
+            try
+            {
+                formatted = _client.FormatRecord(_databaseBox.Text, _formatBox.Text, mfn);
+            }
+            catch (Exception exception)
+            {
+                formatted = exception.ToString();
+            }
+
             _web.DocumentText = formatted;
         }
 
         private void _allBox_SelectedIndexChanged
             (
-                object sender, 
+                object sender,
                 EventArgs e
             )
         {
@@ -160,7 +208,7 @@ namespace ViewDeleted
 
         private void _formatBox_SelectedIndexChanged
             (
-                object sender, 
+                object sender,
                 EventArgs e
             )
         {
@@ -169,7 +217,7 @@ namespace ViewDeleted
 
         private void _modeBox_CheckedChanged
             (
-                object sender, 
+                object sender,
                 EventArgs e
             )
         {
@@ -178,7 +226,7 @@ namespace ViewDeleted
 
         private void _searchButton_Click
             (
-                object sender, 
+                object sender,
                 EventArgs e
             )
         {
@@ -188,7 +236,7 @@ namespace ViewDeleted
             _targetText = _valueBox.Text.Trim().ToUpperInvariant();
             _targetWords = _targetText.Split
                 (
-                    new []{' '}, 
+                    new []{' '},
                     StringSplitOptions.RemoveEmptyEntries
                 );
             _progressBar.Value = 0;
@@ -203,12 +251,13 @@ namespace ViewDeleted
             }
 
             _progressBar.Maximum = _deletedRecords.Length;
+            _client.Database = _databaseBox.Text;
             _backgroundWorker.RunWorkerAsync ();
         }
 
         private void _backgroundWorker_DoWork
             (
-                object sender, 
+                object sender,
                 DoWorkEventArgs e
             )
         {
@@ -251,7 +300,7 @@ namespace ViewDeleted
 
         private void _backgroundWorker_ProgressChanged
             (
-                object sender, 
+                object sender,
                 ProgressChangedEventArgs e
             )
         {
@@ -260,7 +309,7 @@ namespace ViewDeleted
 
         private void _backgroundWorker_RunWorkerCompleted
             (
-                object sender, 
+                object sender,
                 RunWorkerCompletedEventArgs e
             )
         {
@@ -272,7 +321,7 @@ namespace ViewDeleted
             foreach (int mfn in _foundRecords)
             {
                 _foundBox.Items.Add(mfn);
-            }            
+            }
             _foundBox.EndUpdate();
 
             if (_foundRecords.Count == 0)
@@ -283,12 +332,12 @@ namespace ViewDeleted
             {
                 _modeBox.Checked = true;
                 _foundBox.SelectedIndex = 0;
-            }            
+            }
         }
 
         private void _foundBox_SelectedIndexChanged
             (
-                object sender, 
+                object sender,
                 EventArgs e
             )
         {
@@ -300,7 +349,7 @@ namespace ViewDeleted
 
         private void _undeleteButton_Click
             (
-                object sender, 
+                object sender,
                 EventArgs e
             )
         {
@@ -313,6 +362,12 @@ namespace ViewDeleted
                     _client.UndeleteRecord(record.Mfn);
                 }
             }
+        }
+
+        private void _timer_Tick(object sender, EventArgs e)
+        {
+            _timer.Enabled = false;
+            _ShowCurrentRecord();
         }
     }
 }

@@ -57,6 +57,11 @@ namespace IrbisUI
                         connection.Host
                     );
 
+                if (ReferenceEquals(owner, null))
+                {
+                    form.StartPosition = FormStartPosition.CenterScreen;
+                }
+
                 DialogResult result = form.ShowDialog
                     (
                         owner

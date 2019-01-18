@@ -114,6 +114,11 @@ namespace ManagedIrbis.Infrastructure
         /// </summary>
         public bool Relaxed { get; private set; }
 
+        /// <summary>
+        /// Требовать наличия кода возврата в ответе сервера.
+        /// </summary>
+        public static bool RequireReturnCode = true;
+
         #endregion
 
         #region Construction
@@ -492,7 +497,10 @@ namespace ManagedIrbis.Infrastructure
 
             if (!ReturnCodeRetrieved)
             {
-                _returnCode = RequireInt32();
+                _returnCode = RequireReturnCode
+                    ? RequireInt32()
+                    : GetInt32(0);
+
                 ReturnCodeRetrieved = true;
             }
 

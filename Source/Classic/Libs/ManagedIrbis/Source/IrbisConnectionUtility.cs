@@ -331,8 +331,11 @@ namespace ManagedIrbis
                 .GetFormatCommand();
             command.Database = database;
             command.FormatSpecification = format;
-            command.UtfFormat = true;
             command.MfnList.Add(mfn);
+            if (!format.StartsWith("@"))
+            {
+                command.UtfFormat = true;
+            }
 
             connection.ExecuteCommand(command);
 
