@@ -289,17 +289,34 @@ namespace InventoryControl
                     );
             }
 
-            InvReport.ShowModal
-                (
-                    this,
-                    _dal,
-                    books,
-                    "Фонд " + place.Code + appendix,
-                    sortByTitle,
-                    wrapDescriptions,
-                    numberIndex,
-                    startNumber
-                );
+            if (numberIndex)
+            {
+                InvReport2.ShowModal
+                    (
+                        this,
+                        _dal,
+                        books,
+                        "Фонд " + place.Code + appendix,
+                        sortByTitle,
+                        wrapDescriptions,
+                        numberIndex,
+                        startNumber
+                    );
+            }
+            else
+            {
+                InvReport.ShowModal
+                    (
+                        this,
+                        _dal,
+                        books,
+                        "Фонд " + place.Code + appendix,
+                        sortByTitle,
+                        wrapDescriptions,
+                        numberIndex,
+                        startNumber
+                    );
+            }
         }
 
         private void _showAllButton_Click

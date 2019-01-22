@@ -10,7 +10,7 @@
 #region Using directives
 
 using System;
-
+using AM.Reflection;
 using CodeJam;
 
 using ManagedIrbis;
@@ -82,6 +82,21 @@ namespace InventoryControl
 
         #endregion
 
+        #region Private members
+
+        private static void _SetConnectedState
+            (
+                IrbisConnection connection,
+                bool state
+            )
+        {
+            FieldAccessor<IrbisConnection, bool> accessor
+                = new FieldAccessor<IrbisConnection, bool>("_connected");
+            accessor.Set(connection, state);
+        }
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -106,12 +121,28 @@ namespace InventoryControl
         /// <returns>Клиента.</returns>
         public IrbisConnection RestoreContext()
         {
-            Connection.Host = Host;
-            Connection.Port = Port;
-            Connection.Username = Username;
-            Connection.Password = Password;
-            Connection.Database = Database;
-            Connection.Workstation = Workstation;
+            bool connected = Connection.Connected;
+            if (connected)
+            {
+                _SetConnectedState(Connection, false);
+            }
+
+            try
+            {
+                Connection.Host = Host;
+                Connection.Port = Port;
+                Connection.Username = Username;
+                Connection.Password = Password;
+                Connection.Database = Database;
+                Connection.Workstation = Workstation;
+            }
+            finally
+            {
+                if (connected)
+                {
+                    _SetConnectedState(Connection, true);
+                }
+            }
 
             return Connection;
         }
@@ -120,11 +151,7 @@ namespace InventoryControl
 
         #region IDisposable members
 
-        /// <summary>
-        /// Performs application-defined tasks associated
-        /// with freeing, releasing, or resetting
-        /// unmanaged resources.
-        /// </summary>
+        /// <inheritdoc cref="IDisposable" />
         public void Dispose()
         {
             RestoreContext();

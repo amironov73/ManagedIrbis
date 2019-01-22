@@ -155,6 +155,12 @@
     <Compile Include="Source\InvReport.designer.cs">
       <DependentUpon>InvReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\InvReport2.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Source\InvReport2.Designer.cs">
+      <DependentUpon>InvReport2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Source\IrbisContextSaver.cs" />
     <Compile Include="Source\MainForm.cs">
       <SubType>Form</SubType>
@@ -166,6 +172,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Source\InvReport.resx">
       <DependentUpon>InvReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\InvReport2.resx">
+      <DependentUpon>InvReport2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Source\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

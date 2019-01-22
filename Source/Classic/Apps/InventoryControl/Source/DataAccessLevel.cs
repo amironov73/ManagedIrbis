@@ -629,10 +629,16 @@ namespace InventoryControl
                         book.Mfn
                     );
 
+
+                if (!string.IsNullOrEmpty(book.Number))
+                {
+                    book.Number = book.Number.Trim();
+                }
+
                 bool needLongWork =
                     string.IsNullOrEmpty(book.Issue)
                     && !book.Number.StartsWith("П")
-                    && !book.Number.OneOf("1", "2", "3");
+                    && !book.Number.OneOf("0", "1", "2", "3");
 
                 if (needLongWork)
                 {

@@ -439,7 +439,10 @@ namespace ManagedIrbis.Infrastructure.Commands
                     .ThrowIfNull("Found");
                 Found = foundList;
 
-                _FetchRemaining(result, expected);
+                if (FirstRecord > 0)
+                {
+                    _FetchRemaining(result, expected);
+                }
 
                 if (!_subCommand
                     && FirstRecord == 1

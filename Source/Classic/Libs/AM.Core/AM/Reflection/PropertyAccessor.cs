@@ -177,8 +177,6 @@ namespace AM.Reflection
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="target"></param>
-        /// <param name="propertyName"></param>
         public PropertyAccessor
             (
                 [CanBeNull] T target,
