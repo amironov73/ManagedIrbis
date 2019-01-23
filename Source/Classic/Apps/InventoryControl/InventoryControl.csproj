@@ -148,7 +148,7 @@
     <Compile Include="Source\CeContext.cs" />
     <Compile Include="Source\ConfigDatabase.cs" />
     <Compile Include="Source\DataAccessLevel.cs" />
-    <Compile Include="Source\ExemplarInfo.cs" />
+    <Compile Include="Source\ExemplarInfo2.cs" />
     <Compile Include="Source\InvReport.cs">
       <SubType>Component</SubType>
     </Compile>

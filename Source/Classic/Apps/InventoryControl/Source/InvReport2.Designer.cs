@@ -126,7 +126,7 @@
             this._numberCell.StylePriority.UseTextAlignment = false;
             this._numberCell.Text = "_numberCell";
             this._numberCell.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
-            this._numberCell.Weight = 0.33803615590217928D;
+            this._numberCell.Weight = 0.23803615590217928D;
             this._numberCell.WordWrap = false;
             //
             // _descriptionCell
@@ -138,7 +138,7 @@
             this._descriptionCell.Text = "_descriptionCell";
             this._descriptionCell.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             this._descriptionCell.TextTrimming = System.Drawing.StringTrimming.EllipsisCharacter;
-            this._descriptionCell.Weight = 1.1879008452003004D;
+            this._descriptionCell.Weight = 1.2879008452003004D;
             this._descriptionCell.WordWrap = false;
             //
             // _yearCell
@@ -153,11 +153,21 @@
             this._yearCell.Weight = 0.21072918663803292D;
             this._yearCell.WordWrap = false;
             //
+            // _issueCell
+            //
+            this._issueCell.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+                new DevExpress.XtraReports.UI.XRBinding("Text", null, "Issue")});
+            this._issueCell.Multiline = false;
+            this._issueCell.Name = "_issueCell";
+            this._issueCell.StylePriority.UseTextAlignment = false;
+            this._issueCell.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this._issueCell.Weight = 0.17945071744518842D;
+            //
             // _indexCell
             //
             this._indexCell.CanGrow = false;
             this._indexCell.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Sign")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Bbk")});
             this._indexCell.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this._indexCell.Name = "_indexCell";
             this._indexCell.StylePriority.UseFont = false;
@@ -247,13 +257,13 @@
             //
             this.xrTableCell5.Name = "xrTableCell5";
             this.xrTableCell5.Text = "Номер";
-            this.xrTableCell5.Weight = 0.33803601143910345D;
+            this.xrTableCell5.Weight = 0.23803601143910345D;
             //
             // xrTableCell2
             //
             this.xrTableCell2.Name = "xrTableCell2";
             this.xrTableCell2.Text = "Автор и заглавие";
-            this.xrTableCell2.Weight = 1.1879003841364035D;
+            this.xrTableCell2.Weight = 1.2879003841364035D;
             //
             // xrTableCell6
             //
@@ -370,16 +380,6 @@
             this.xrTableCell4.Name = "xrTableCell4";
             this.xrTableCell4.Text = "Вып";
             this.xrTableCell4.Weight = 0.17945064382872789D;
-            //
-            // _issueCell
-            //
-            this._issueCell.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Issue")});
-            this._issueCell.Multiline = true;
-            this._issueCell.Name = "_issueCell";
-            this._issueCell.StylePriority.UseTextAlignment = false;
-            this._issueCell.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
-            this._issueCell.Weight = 0.17945071744518842D;
             //
             // InvReport
             //

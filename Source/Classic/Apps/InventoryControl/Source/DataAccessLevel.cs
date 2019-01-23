@@ -20,6 +20,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using AM;
+using AM.Collections;
 using AM.Text;
 using AM.Text.Output;
 
@@ -92,6 +93,8 @@ namespace InventoryControl
 
         private Dictionary<string, bool> _newspapers;
 
+        private static char[] _badCharacters = {'\0', '.', ',', '/', '(', ')'};
+
         #endregion
 
         #region Public methods
@@ -160,6 +163,8 @@ namespace InventoryControl
             int index = 0;
             int totalExemplars = 0;
 
+            Dictionary<string, string> magazineBbk
+                = new CaseInsensitiveDictionary<string>();
             BatchRecordReader batch = (BatchRecordReader) BatchRecordReader.Search
                 (
                     Client,
@@ -206,27 +211,23 @@ namespace InventoryControl
                     continue;
                 }
 
-                ExemplarInfo[] allExemplars = ExemplarInfo.Parse(record);
-                ExemplarInfo[] goodExemplars = allExemplars
+                ExemplarInfo2[] allExemplars = ExemplarInfo2.Parse(record);
+                ExemplarInfo2[] goodExemplars = allExemplars
                     .Where(e => e.Place.SameString(place)
                     || e.RealPlace.SameString(place)
                     || StringUtility.SafeStarts(e.CheckedDate, place))
                     .Where(e => !e.Status.SameString("p"))
                     .ToArray();
+
                 if (goodExemplars.Length != 0)
                 {
-                    string description = Client
-                        .FormatRecord
-                        (
-                            "@sbrief",
-                            record.Mfn
-                        );
+                    string description = Client.FormatRecord("@sbrief", record.Mfn);
 
                     string bookIndex = record.FM(906)
                         ?? record.FM(621)
                         ?? record.FM(686);
 
-                    foreach (ExemplarInfo ex in goodExemplars)
+                    foreach (ExemplarInfo2 ex in goodExemplars)
                     {
                         if (!string.IsNullOrEmpty(description))
                         {
@@ -253,11 +254,43 @@ namespace InventoryControl
                         {
                             ex.Year = GetYear(record);
                         }
+
                         ex.Price = GetPrice(record, ex);
                         if (string.IsNullOrEmpty(ex.ShelfIndex))
                         {
                             ex.ShelfIndex = bookIndex;
                         }
+
+                        ex.Index = record.FM(903);
+                        ex.Bbk = record.FM(621) ?? record.FM(621, 'a');
+                        ex.Issue = record.FM(936);
+
+                        if (worklist.SafeContains("NJ") && string.IsNullOrEmpty(ex.Bbk))
+                        {
+                            string magazineReference = record.FM(933);
+                            if (!string.IsNullOrEmpty(magazineReference))
+                            {
+                                string bbk;
+                                if (!magazineBbk.TryGetValue(magazineReference, out bbk))
+                                {
+                                    MarcRecord magazineRecord
+                                        = Client.SearchReadOneRecord("\"I={0}\"", magazineReference);
+                                    if (!ReferenceEquals(magazineRecord, null))
+                                    {
+                                        bbk = magazineRecord.FM(621) ?? magazineRecord.FM(621, 'a');
+                                        if (string.IsNullOrEmpty(bbk))
+                                        {
+                                            WriteLine("Журнал {0} без ББК", magazineRecord.FM(200, 'a'));
+                                        }
+
+                                        magazineBbk[magazineReference] = bbk;
+                                    }
+                                }
+
+                                ex.Bbk = bbk;
+                            }
+                        }
+
                     }
 
                     try
@@ -268,7 +301,7 @@ namespace InventoryControl
                     {
                         //WriteLine(ex.ToString());
 
-                        foreach (ExemplarInfo exemplar in goodExemplars)
+                        foreach (ExemplarInfo2 exemplar in goodExemplars)
                         {
                             WriteLine
                                 (
@@ -457,7 +490,7 @@ namespace InventoryControl
 
         public BookInfo BookFromExemplar
             (
-                ExemplarInfo exemplar
+                ExemplarInfo2 exemplar
             )
         {
             BookInfo result = new BookInfo
@@ -470,8 +503,18 @@ namespace InventoryControl
                 Price = exemplar.Price,
                 Barcode = exemplar.Barcode,
                 Sign = exemplar.ShelfIndex,
-                Issue = exemplar.Issue
+                Issue = exemplar.Issue,
+                Index = exemplar.Index,
+                Bbk = exemplar.Bbk
             };
+
+            char firstChar = result.Description.FirstChar();
+            if (_badCharacters.Contains(firstChar))
+            {
+                result.Description = "!!! MFN=" + result.Mfn + ": "
+                    + result.Description.ToVisibleString();
+            }
+
             if (!string.IsNullOrEmpty(exemplar.CheckedDate))
             {
                 DateTime date;
@@ -491,7 +534,7 @@ namespace InventoryControl
             return result;
         }
 
-        public ExemplarInfo[] GetAllExemplars()
+        public ExemplarInfo2[] GetAllExemplars()
         {
             EnsureDatabaseOpen();
             return Db.Exemplar.ToArray();
@@ -672,7 +715,7 @@ namespace InventoryControl
 
         public bool IsDefectBook
             (
-                ExemplarInfo exemplar
+                ExemplarInfo2 exemplar
             )
         {
             return string.IsNullOrEmpty(exemplar.Description)
@@ -696,7 +739,7 @@ namespace InventoryControl
         private string GetPrice
             (
                 MarcRecord record,
-                ExemplarInfo exemplar
+                ExemplarInfo2 exemplar
             )
         {
             if (!string.IsNullOrEmpty(exemplar.Price))

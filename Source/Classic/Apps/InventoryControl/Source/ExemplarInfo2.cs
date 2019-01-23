@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ExemplarInfo.cs -- информация об экземпляре (поле 910).
+/* ExemplarInfo2.cs -- информация об экземпляре (поле 910).
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -48,7 +48,7 @@ namespace ManagedIrbis.Fields
     [PublicAPI]
     [XmlRoot("exemplar")]
     [TableName("exemplars")]
-    public sealed class ExemplarInfo
+    public sealed class ExemplarInfo2
         : IHandmadeSerializable
     {
         #region Constants
@@ -384,7 +384,7 @@ namespace ManagedIrbis.Fields
         /// ББК.
         /// </summary>
         [CanBeNull]
-        [MapIgnore]
+        [MapField("bbk")]
         [XmlAttribute("bbk")]
         [JsonProperty("bbk")]
         public string Bbk { get; set; }
@@ -393,10 +393,16 @@ namespace ManagedIrbis.Fields
         /// Номер выпуска (для журналов).
         /// </summary>
         [CanBeNull]
-        [MapIgnore]
+        [MapField("issue")]
         [XmlAttribute("issue")]
         [JsonProperty("issue")]
         public string Issue { get; set; }
+
+        [CanBeNull]
+        [MapField("index")]
+        [XmlAttribute("index")]
+        [JsonProperty("index")]
+        public string Index { get; set; }
 
         /// <summary>
         /// Номер по порядку (для списков).
@@ -502,14 +508,14 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Parses the specified field.
         /// </summary>
-        public static ExemplarInfo Parse
+        public static ExemplarInfo2 Parse
             (
                 RecordField field
             )
         {
             Code.NotNull(field, "field");
 
-            ExemplarInfo result = new ExemplarInfo
+            ExemplarInfo2 result = new ExemplarInfo2
                 {
                     Status = field.GetFirstSubFieldValue('a'),
                     Number = field.GetFirstSubFieldValue('b'),
@@ -551,7 +557,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Разбор записи на экземпляры.
         /// </summary>
-        public static ExemplarInfo[] Parse
+        public static ExemplarInfo2[] Parse
             (
                 MarcRecord record,
                 int tagNumber
@@ -559,12 +565,12 @@ namespace ManagedIrbis.Fields
         {
             Code.NotNull(record, "record");
 
-            ExemplarInfo[] result = record.Fields
+            ExemplarInfo2[] result = record.Fields
                 .GetField(tagNumber)
                 .Select(field => Parse(field))
                 .ToArray();
 
-            foreach (ExemplarInfo exemplar in result)
+            foreach (ExemplarInfo2 exemplar in result)
             {
                 exemplar.Mfn = record.Mfn;
                 exemplar.Description = record.Description;
@@ -578,7 +584,7 @@ namespace ManagedIrbis.Fields
         /// Разбор записи на экземпляры.
         /// </summary>
         [ItemNotNull]
-        public static ExemplarInfo[] Parse
+        public static ExemplarInfo2[] Parse
             (
                 MarcRecord record
             )
@@ -652,8 +658,8 @@ namespace ManagedIrbis.Fields
         /// </summary>
         public static int CompareNumbers
             (
-                ExemplarInfo first,
-                ExemplarInfo second
+                ExemplarInfo2 first,
+                ExemplarInfo2 second
             )
         {
             Code.NotNull(first, "first");

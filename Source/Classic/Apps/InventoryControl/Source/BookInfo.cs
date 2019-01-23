@@ -55,6 +55,10 @@ namespace InventoryControl
 
         public string Issue { get; set; }
 
+        public string Index { get; set; }
+
+        public string Bbk { get; set; }
+
         #endregion
 
         #region Public methods

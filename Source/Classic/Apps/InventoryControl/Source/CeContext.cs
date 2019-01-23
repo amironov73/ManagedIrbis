@@ -31,9 +31,9 @@ namespace InventoryControl
         /// <summary>
         /// Экземпляры.
         /// </summary>
-        public Table<ExemplarInfo> Exemplar
+        public Table<ExemplarInfo2> Exemplar
         {
-            get { return GetTable<ExemplarInfo>(); }
+            get { return GetTable<ExemplarInfo2>(); }
         }
 
         #endregion

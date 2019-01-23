@@ -238,8 +238,15 @@ namespace InventoryControl
         {
             if (_dal != null)
             {
-                _dal.Client.NoOp();
-                _logBox.Output.WriteLine("NO-OP");
+                try
+                {
+                    _dal.Client.NoOp();
+                    _logBox.Output.WriteLine("NO-OP");
+                }
+                catch (Exception ex)
+                {
+                    _logBox.Output.WriteLine("Exception: {0}", ex.Message);
+                }
             }
         }
 
