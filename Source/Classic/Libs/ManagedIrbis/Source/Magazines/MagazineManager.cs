@@ -94,7 +94,7 @@ namespace ManagedIrbis.Magazines
                 (
                     Connection,
                     Connection.Database,
-                    Newspaper + " + " + Magazine,
+                    "VRL=J",
                     1000
                 );
             foreach (MarcRecord record in batch)
@@ -165,11 +165,10 @@ namespace ManagedIrbis.Magazines
 
             string searchExpression = string.Format
                 (
-                        "\"I={0}/$\"",
+                        "\"I933={0}/$\"",
                         magazine.Index
                 );
-            IEnumerable<MarcRecord> records
-                = BatchRecordReader.Search
+            IEnumerable<MarcRecord> records = BatchRecordReader.Search
                 (
                     Connection,
                     Connection.Database,
@@ -204,8 +203,7 @@ namespace ManagedIrbis.Magazines
                         magazine.Index,
                         year
                 );
-            IEnumerable<MarcRecord> records
-                = BatchRecordReader.Search
+            IEnumerable<MarcRecord> records = BatchRecordReader.Search
                 (
                     Connection,
                     Connection.Database,
@@ -232,13 +230,45 @@ namespace ManagedIrbis.Magazines
         {
             Code.NotNull(issue, "issue");
 
-            Log.Error
+            string searchExpression = string.Format
                 (
-                    "MagazineManager::GetArticles: "
-                    + "not implemented"
+                    "\"II={0}\"",
+                    issue.Index
+                );
+            IEnumerable<MarcRecord> records = BatchRecordReader.Search
+                (
+                    Connection,
+                    Connection.Database,
+                    searchExpression,
+                    1000
                 );
 
-            throw new NotImplementedException();
+            MagazineArticleInfo[] result = records
+                .Select(record => MagazineArticleInfo.ParseAsp(record))
+                .NonNullItems()
+                .ToArray();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Подсчёт числа статей, расписанных в рабочем листе ASP.
+        /// </summary>
+        public int CountExternalArticles
+            (
+                [NotNull] MagazineIssueInfo issue
+            )
+        {
+            Code.NotNull(issue, "issue");
+
+            string searchExpression = string.Format
+                (
+                    "\"II={0}\"",
+                    issue.Index
+                );
+            int result = Connection.SearchCount(searchExpression);
+
+            return result;
         }
 
         /// <summary>

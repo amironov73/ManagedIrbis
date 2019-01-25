@@ -30,6 +30,8 @@ using Newtonsoft.Json;
 
 #endregion
 
+// ReSharper disable StringLiteralTypo
+
 namespace ManagedIrbis.Magazines
 {
     /// <summary>

@@ -59,6 +59,13 @@ namespace ManagedIrbis.Magazines
         public int Mfn { get; set; }
 
         /// <summary>
+        /// Шифр записи.
+        /// </summary>
+        [XmlAttribute("index")]
+        [JsonProperty("index", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Index { get; set; }
+
+        /// <summary>
         /// Библиографическое описание.
         /// </summary>
         [CanBeNull]
@@ -170,6 +177,16 @@ namespace ManagedIrbis.Magazines
         public int LoanCount { get; set; }
 
         /// <summary>
+        /// Это подшивка?
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        public bool IsBinding
+        {
+            get { return Worksheet.SameString("NJK"); }
+        }
+
+        /// <summary>
         /// Record.
         /// </summary>
         [CanBeNull]
@@ -203,6 +220,7 @@ namespace ManagedIrbis.Magazines
             MagazineIssueInfo result = new MagazineIssueInfo
             {
                 Mfn = record.Mfn,
+                Index = record.FM(903),
                 DocumentCode = record.FM(903),
                 MagazineCode = record.FM(933),
                 Year = record.FM(934),
@@ -292,6 +310,7 @@ namespace ManagedIrbis.Magazines
             )
         {
             Mfn = reader.ReadPackedInt32();
+            Index = reader.ReadNullableString();
             Description = reader.ReadNullableString();
             DocumentCode = reader.ReadNullableString();
             MagazineCode = reader.ReadNullableString();
@@ -314,6 +333,7 @@ namespace ManagedIrbis.Magazines
         {
             writer
                 .WritePackedInt32(Mfn)
+                .WriteNullable(Index)
                 .WriteNullable(Description)
                 .WriteNullable(DocumentCode)
                 .WriteNullable(MagazineCode)
