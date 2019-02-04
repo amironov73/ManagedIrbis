@@ -51,8 +51,9 @@ namespace IrbisBot
             {
                 new StartCommand(),
                 new HelpCommand(),
-                new TimeCommand(),
-                //new SearchCommand()
+                //new TimeCommand(),
+                //new SearchCommand(),
+                new AnnouncementsCommand(),
                 new SearchWebCommand()
             };
 

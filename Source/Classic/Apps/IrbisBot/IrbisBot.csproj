@@ -80,6 +80,7 @@
   </ItemGroup>
   <!-- BEGIN -->
   <ItemGroup>
+    <Compile Include="Source\Announcement.cs" />
     <Compile Include="Source\ApplicationInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -87,6 +88,7 @@
     <Compile Include="Source\BotService.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Source\Commands\AnnouncementsCommand.cs" />
     <Compile Include="Source\Commands\BotCommand.cs" />
     <Compile Include="Source\Commands\EchoCommand.cs" />
     <Compile Include="Source\Commands\HelloCommand.cs" />
