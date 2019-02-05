@@ -10,19 +10,12 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-using AM.Configuration;
-
-using ManagedIrbis;
 using Telegram.Bot.Types.Enums;
 
 #endregion
@@ -31,6 +24,9 @@ using Telegram.Bot.Types.Enums;
 
 namespace IrbisBot.Commands
 {
+    /// <summary>
+    /// Поиск с обращением к Web-ИРБИС.
+    /// </summary>
     class SearchWebCommand
         : BotCommand
     {
@@ -57,7 +53,6 @@ namespace IrbisBot.Commands
             + "&S21SRW=GOD"
             + "&S21SRD=DOWN";
 
-        //private static readonly string[] _goodTags = { "a", "/a", "b", "/b" };
         private static readonly string[] _goodTags = { "b", "/b" };
         private static readonly string[] _splits = { "<br>", "<br/>" };
 

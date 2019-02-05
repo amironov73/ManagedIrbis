@@ -10,10 +10,7 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -26,6 +23,9 @@ using ManagedIrbis;
 
 namespace IrbisBot.Commands
 {
+    /// <summary>
+    /// Поиск с обращением к ИРБИС-серверу.
+    /// </summary>
     class SearchCommand
         : BotCommand
     {

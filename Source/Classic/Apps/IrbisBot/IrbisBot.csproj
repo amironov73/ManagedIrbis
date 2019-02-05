@@ -90,13 +90,13 @@
     </Compile>
     <Compile Include="Source\Commands\AnnouncementsCommand.cs" />
     <Compile Include="Source\Commands\BotCommand.cs" />
+    <Compile Include="Source\Commands\ContactsCommand.cs" />
     <Compile Include="Source\Commands\EchoCommand.cs" />
-    <Compile Include="Source\Commands\HelloCommand.cs" />
     <Compile Include="Source\Commands\HelpCommand.cs" />
+    <Compile Include="Source\Commands\HoursCommand.cs" />
     <Compile Include="Source\Commands\SearchCommand.cs" />
     <Compile Include="Source\Commands\SearchWebCommand.cs" />
     <Compile Include="Source\Commands\StartCommand.cs" />
-    <Compile Include="Source\Commands\TimeCommand.cs" />
     <Compile Include="Source\Program.cs" />
     <Compile Include="Source\ServiceInstallerUtility.cs" />
   </ItemGroup>

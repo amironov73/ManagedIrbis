@@ -11,9 +11,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 
 using AM;
 using AM.Configuration;
+using AM.Runtime;
 using AM.Text;
 
 using MihaZupan;
@@ -40,6 +43,39 @@ namespace IrbisBot
 
         private static TelegramBotClient _client;
 
+        private static TextWriter GetLogWriter()
+        {
+            string exeName = RuntimeUtility.ExecutableFileName;
+            string logName = Path.ChangeExtension(exeName, ".log");
+            StreamWriter result = new StreamWriter(logName, true);
+
+            return result;
+        }
+
+        public static void WriteLog(string line)
+        {
+            if (ReferenceEquals(_client, null))
+            {
+                return;
+            }
+
+            lock (_client)
+            {
+                try
+                {
+                    using (TextWriter writer = GetLogWriter())
+                    {
+                        writer.Write("{0:yyyy-MM-dd HH:mm:ss} ", DateTime.Now);
+                        writer.WriteLine(line);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Trace.WriteLine(exception.Message);
+                }
+            }
+        }
+
         public static TelegramBotClient GetClient()
         {
             if (!ReferenceEquals(_client, null))
@@ -51,9 +87,10 @@ namespace IrbisBot
             {
                 new StartCommand(),
                 new HelpCommand(),
-                //new TimeCommand(),
-                //new SearchCommand(),
+                new ContactsCommand(),
+                new HoursCommand(),
                 new AnnouncementsCommand(),
+                new EchoCommand(),
                 new SearchWebCommand()
             };
 
@@ -86,8 +123,7 @@ namespace IrbisBot
             var me = _client.GetMeAsync().Result;
             Console.WriteLine("ME: {0}", me.Username);
             _client.StartReceiving(new UpdateType[0]);
-            //Console.WriteLine("Start listening");
-            //Console.WriteLine("Press ENTER to stop");
+            WriteLog("MESSAGE LOOP STARTED");
         }
 
         private static void OnMessage
@@ -114,6 +150,7 @@ namespace IrbisBot
 
             var text = message.Text;
             Console.WriteLine("Got command: {0}", text);
+            WriteLog($"[{message.From.Username}] {message.Text}");
             foreach (var command in Commands)
             {
                 if (command.Contains(text))

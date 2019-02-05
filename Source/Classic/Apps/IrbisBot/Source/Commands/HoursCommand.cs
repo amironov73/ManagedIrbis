@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* EchoCommand.cs --
+/* HoursCommand.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -17,23 +17,24 @@ using Telegram.Bot.Types;
 namespace IrbisBot.Commands
 {
     /// <summary>
-    /// Эхо-команда (чисто для тестирования).
+    /// Режим работы библиотеки.
     /// </summary>
-    class EchoCommand
+    class HoursCommand
         : BotCommand
     {
-        public override string Name => "echo";
+        public override string Name => "hours";
+        public override string Alias => "Режим";
 
         public override void Execute(Message message, TelegramBotClient client)
         {
             var chatId = message.Chat.Id;
-            char[] separators = {' '};
-            string[] splitted = message.Text.Split(separators, 2);
-            if (splitted.Length > 1)
-            {
-                string text = splitted[1];
-                client.SendTextMessageAsync(chatId, text).Wait();
-            }
+            string text = "<b>Режим работы:</b>\n\n"
+                + "ВТ-ВС 11.00-20.00 (до 22.00 в режиме читального зала)\n"
+                + "ПН - выходной,\n"
+                + "последняя пятница месяца - санитарный день";
+
+
+            SendMessage(client, chatId, text);
         }
     }
 }

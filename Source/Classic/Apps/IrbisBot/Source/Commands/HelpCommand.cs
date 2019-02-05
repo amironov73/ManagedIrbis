@@ -9,12 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -22,15 +16,26 @@ using Telegram.Bot.Types;
 
 namespace IrbisBot.Commands
 {
+    /// <summary>
+    /// Помощь по работе с ботом.
+    /// </summary>
     class HelpCommand
         : BotCommand
     {
         public override string Name => "help";
+        public override string Alias => "Помощь";
 
         public override void Execute(Message message, TelegramBotClient client)
         {
-            var chatId = message.Chat.Id;
-            client.SendTextMessageAsync(chatId, "Тут какой-то развесистый хелп").Wait();
+            ChatId chatId = message.Chat.Id;
+            string text = "Бот показывает анонсы мероприятий библиотеки, её контакты и режим работы.\n"
+                + "Кроме того, бот ищет книги или статьи в электронном каталоге. "
+                + "Для поиска введите ключевое слово (например, <i>черемша</i>), "
+                + "заглавие книги (например, <i>Голодные игры</i>) "
+                + "или фамилию автора (например, <i>Акунин</i>)\n"
+                + "Для расширения поиска используйте усечение окончаний слов "
+                + "(<i>черемша</i> \x2192 <i>черемш</i>).";
+            SendMessage(client, chatId, text);
         }
     }
 }
