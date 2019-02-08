@@ -52,7 +52,7 @@ namespace IrbisBot.Commands
                 },
                 new List<KeyboardButton>
                 {
-                    new KeyboardButton() { Text = "Режим" },
+                    new KeyboardButton() { Text = "Режим работы" },
                     new KeyboardButton() { Text = "Помощь" }
                 }
 

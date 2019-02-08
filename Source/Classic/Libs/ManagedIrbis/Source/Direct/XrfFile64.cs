@@ -96,15 +96,15 @@ namespace ManagedIrbis.Direct
         [NotNull]
         private Stream _stream;
 
-        private long _GetOffset
+        internal static long _GetOffset
             (
-                int mfn
+                long mfn
             )
         {
             // ibatrak умножение в Int32 с преобразованием результата в Int64,
             // при больших mfn вызывает переполнение и результат
             // становится отрицательным
-            long result = (long)XrfRecord64.RecordSize * (mfn - 1);
+            long result = XrfRecord64.RecordSize * (mfn - 1);
 
             return result;
         }

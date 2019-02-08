@@ -118,6 +118,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\IfpRecord32.cs">
       <Link>Source\Direct\IfpRecord32.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstStat64.cs">
+      <Link>Source\Direct\MstStat64.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Direct\MstWriter64.cs">
       <Link>Source\Direct\MstWriter64.cs</Link>
     </Compile>
