@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Program.cs -- 
+/* Program.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -45,7 +45,7 @@ using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
-namespace Binder2017
+namespace BeriChitai
 {
     static class Program
     {
@@ -72,9 +72,9 @@ namespace Binder2017
             try
             {
                 Application.SetUnhandledExceptionMode
-                    (
-                        UnhandledExceptionMode.Automatic
-                    );
+                (
+                    UnhandledExceptionMode.Automatic
+                );
                 Application.ThreadException += _ThreadException;
 
                 Application.EnableVisualStyles();
