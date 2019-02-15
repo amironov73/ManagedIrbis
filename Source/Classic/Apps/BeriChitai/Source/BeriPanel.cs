@@ -13,14 +13,17 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using AM;
+using AM.Collections;
 using AM.Configuration;
 using AM.Data;
 using AM.IO;
@@ -43,11 +46,12 @@ using JetBrains.Annotations;
 using ManagedIrbis;
 using ManagedIrbis.Client;
 using ManagedIrbis.Fields;
-
+using ManagedIrbis.Readers;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Timer = System.Windows.Forms.Timer;
 
 #endregion
 
@@ -62,22 +66,22 @@ namespace BeriChitai
         /// Busy state controller.
         /// </summary>
         [NotNull]
-        public BusyController Controller
-        {
-            get
-            {
-                return MainForm
-                    .ThrowIfNull("MainForm")
-                    .Controller
-                    .ThrowIfNull("MainForm.Controller");
-            }
-        }
+        public BusyController Controller =>
+            MainForm
+                .ThrowIfNull("MainForm")
+                .Controller
+                .ThrowIfNull("MainForm.Controller");
+
+        [NotNull] private BeriManager BeriMan { get; set; }
 
         [NotNull]
-        public IIrbisConnection Connection
-        {
-            get { return GetConnection(); }
-        }
+        public IIrbisConnection Connection => GetConnection();
+
+        [NotNull]
+        BeriInfo[] SelectedBooks { get; set; }
+
+        [NotNull]
+        private string[] SelectedReaders { get; set; }
 
         #endregion
 
@@ -86,7 +90,9 @@ namespace BeriChitai
         /// <summary>
         /// Constructor.
         /// </summary>
+        // ReSharper disable NotNullMemberIsNotInitialized
         protected BeriPanel()
+        // ReSharper restore NotNullMemberIsNotInitialized
             : base(null)
         {
             // Constructor for WinForms Designer only.
@@ -100,6 +106,8 @@ namespace BeriChitai
         {
             InitializeComponent();
 
+            IrbisConnection connection = (IrbisConnection)Connection.ThrowIfNull("Connection");
+            BeriMan = new BeriManager(connection);
         }
 
         #endregion
@@ -117,7 +125,193 @@ namespace BeriChitai
             return result;
         }
 
+        private void InitializeReaders()
+        {
+            Run(() =>
+            {
+                SelectedBooks = BeriMan.GetReservedBooks();
+            });
+
+            SelectedReaders = EmptyArray<string>.Value;
+
+            WriteLine
+                (
+                    "Поиск заказанных книг выдал: {0} шт.",
+                    SelectedBooks.Length
+                );
+
+            SelectedReaders = SelectedBooks
+                .Select(b => b.Reader)
+                .NonNullItems()
+                .Select(r => r.FullName)
+                .NonEmptyLines()
+                .OrderBy(name => name)
+                .Distinct()
+                .ToArray();
+            _readerSource.DataSource = SelectedReaders;
+            _readerList.DataSource = _readerSource;
+
+            if (_readerSource.Count != 0)
+            {
+                _readerSource.Position = 0;
+            }
+
+            UniversalForm mainForm = MainForm.ThrowIfNull("MainForm");
+            mainForm.ReleaseProvider();
+        }
+
+        private void _timer1_Tick(object sender, EventArgs e)
+        {
+            Timer timer = (Timer) sender;
+            timer.Enabled = false;
+            InitializeReaders();
+        }
 
         #endregion
+
+        #region Public methods
+
+        public void Phase2()
+        {
+            _timer1.Enabled = true;
+        }
+
+        [CanBeNull]
+        public ReaderInfo FindReader
+            (
+                [NotNull] string name
+            )
+        {
+            Code.NotNullNorEmpty(name, nameof(name));
+
+            foreach (BeriInfo book in SelectedBooks)
+            {
+                ReaderInfo reader = book.Reader;
+                if (!ReferenceEquals(reader, null))
+                {
+                    if (reader.FullName.SameString(name))
+                    {
+                        return reader;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        [NotNull]
+        BeriInfo[] FindBooks
+            (
+                [NotNull] ReaderInfo reader
+            )
+        {
+            Code.NotNull(reader, nameof(reader));
+
+            LocalList<BeriInfo> result = new LocalList<BeriInfo>();
+            foreach (BeriInfo book in SelectedBooks)
+            {
+                ReaderInfo candidate = book.Reader;
+                if (!ReferenceEquals(candidate, null)
+                   && candidate.Ticket.SameString(reader.Ticket))
+                {
+                    result.Add(book);
+                }
+            }
+
+            return result.ToArray();
+        }
+
+        public bool PrepareBrowser(WebBrowser browser)
+        {
+            if (browser.Disposing || browser.IsDisposed)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < 2; i++)
+            {
+                try
+                {
+                    browser.Navigate("about:blank");
+                    while (browser.IsBusy)
+                    {
+                        Application.DoEvents();
+                    }
+
+                    browser.DocumentText = "&nbsp;";
+
+                    PseudoAsync.SleepALittle();
+                }
+                catch (Exception exception)
+                {
+                    Debug.WriteLine(exception.Message);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        #endregion
+
+        private void _readerList_SelectedIndexChanged
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            _bookList.DataSource = null;
+            if (!PrepareBrowser(_readerBrowser)
+             || !PrepareBrowser(_bookBrowser))
+            {
+                return;
+            }
+
+            string name = _readerSource.Current as string;
+            if (string.IsNullOrEmpty(name))
+            {
+                return;
+            }
+
+            ReaderInfo reader = FindReader(name);
+            if (ReferenceEquals(reader, null))
+            {
+                return;
+            }
+
+            _readerBrowser.DocumentText = reader.Description;
+
+            BeriInfo[] books = FindBooks(reader)
+                .OrderBy(b => b.ShortDescription)
+                .ToArray();
+
+            _bookSource.DataSource = books;
+            _bookList.DataSource = _bookSource;
+            _bookList.DisplayMember = "ShortDescription";
+            if (_bookSource.Count != 0)
+            {
+                _bookSource.Position = 0;
+            }
+        }
+
+        private void _bookList_SelectedIndexChanged
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            if (!PrepareBrowser(_bookBrowser))
+            {
+                return;
+            }
+
+            BeriInfo book = _bookSource.Current as BeriInfo;
+            if (ReferenceEquals(book, null))
+            {
+                return;
+            }
+
+            _bookBrowser.DocumentText = book.Description;
+        }
     }
 }

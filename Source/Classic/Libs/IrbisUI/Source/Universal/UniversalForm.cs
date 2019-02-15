@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* UniversalForm.cs -- 
+/* UniversalForm.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -242,7 +242,7 @@ namespace IrbisUI.Universal
             {
                 form.WriteLine
                     (
-                        "{0}: {1}", 
+                        "{0}: {1}",
                         exception.GetType().Name,
                         exception.Message
                     );
@@ -540,8 +540,7 @@ namespace IrbisUI.Universal
         {
             bool result = false;
 
-            EventHandler<ExceptionEventArgs> handler
-                = (sender, args) =>
+            EventHandler<ExceptionEventArgs> handler = (sender, args) =>
                 {
                     Exception ex = args.Exception;
 
@@ -566,17 +565,17 @@ namespace IrbisUI.Universal
                 Exception unwrapped = ExceptionUtility.Unwrap(exception);
 
                 Log.TraceException
-                (
-                    "MainForm::TestProviderConnection: ",
-                    unwrapped
-                );
+                    (
+                        "MainForm::TestProviderConnection: ",
+                        unwrapped
+                    );
 
                 WriteLine
-                (
-                    unwrapped.GetType().Name
-                    + ": "
-                    + unwrapped.Message
-                );
+                    (
+                        unwrapped.GetType().Name
+                        + ": "
+                        + unwrapped.Message
+                    );
             }
 
             Controller.ExceptionOccur -= handler;

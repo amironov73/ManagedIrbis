@@ -129,6 +129,18 @@ namespace BeriChitai
         [JsonIgnore]
         public string Description { get; set; }
 
+        public string ShortDescription
+        {
+            get
+            {
+                string date = IrbisDate.ConvertStringToDate(BookingDate)
+                    .ToString("dd MMM yyyy");
+                string result = $"№ {Index}: {date}";
+
+                return result;
+            }
+        }
+
         /// <summary>
         /// Соответствующая запись.
         /// </summary>
@@ -144,6 +156,14 @@ namespace BeriChitai
         [XmlIgnore]
         [JsonIgnore]
         public RecordField Field { get; set; }
+
+        /// <summary>
+        /// Читатель, заказавший книгу.
+        /// </summary>
+        [CanBeNull]
+        [XmlIgnore]
+        [JsonIgnore]
+        public ReaderInfo Reader { get; set; }
 
         /// <summary>
         /// Произвольные пользовательские данные.
@@ -172,7 +192,7 @@ namespace BeriChitai
                 .ApplySubField('b', Ticket)
                 .ApplySubField('c', IssueDate)
                 .ApplySubField('d', Notes)
-                .AddSubField('e', Locality);
+                .ApplySubField('e', Locality);
         }
 
         /// <summary>

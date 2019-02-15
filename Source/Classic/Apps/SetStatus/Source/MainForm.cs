@@ -22,6 +22,7 @@ using System.Windows.Forms;
 using AM;
 using AM.Threading;
 using AM.Windows.Forms;
+
 using IrbisUI;
 
 using JetBrains.Annotations;
@@ -51,17 +52,29 @@ namespace SetStatus
 
         private IrbisConnection GetConnection()
         {
-            IrbisConnection result 
+            IrbisConnection result
                 = IrbisConnectionUtility.GetClientFromConfig();
 
+            #if NOTDEF
+
+            bool connected = result.Connected;
+            result.Suspend();
+
             SlowSocket socket = new SlowSocket(result, result.Socket)
-                {
-                    Delay = 1000
-                };
+            {
+                Delay = 1000
+            };
             result.SetSocket(socket);
 
             result.Busy.StateChanged += Busy_StateChanged;
             result.Disposing += Connection_Disposing;
+
+            if (connected)
+            {
+                result.Rise();
+            }
+
+            #endif
 
             return result;
         }

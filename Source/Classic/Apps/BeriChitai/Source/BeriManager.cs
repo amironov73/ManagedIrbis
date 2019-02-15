@@ -22,30 +22,27 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
-using AM.Windows.Forms;
 
 using CodeJam;
-
-using IrbisUI;
-using IrbisUI.Universal;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Batch;
-using ManagedIrbis.Infrastructure.Commands;
-using ManagedIrbis.Mapping;
 using ManagedIrbis.Readers;
-
-using Newtonsoft.Json;
 
 using CM = System.Configuration.ConfigurationManager;
 
 #endregion
+
+// ReSharper disable ConvertClosureToMethodGroup
+// ReSharper disable UseStringInterpolation
+// ReSharper disable UseNameofExpression
+// ReSharper disable UnusedMember.Global
+// ReSharper disable StringLiteralTypo
 
 namespace BeriChitai
 {
@@ -125,6 +122,35 @@ namespace BeriChitai
 
         #endregion
 
+        #region Private members
+
+        [CanBeNull]
+        private static string PrepareDescription
+            (
+                [CanBeNull] string description
+            )
+        {
+            if (string.IsNullOrEmpty(description))
+            {
+                return description;
+            }
+
+            string result = description.Replace
+                (
+                    "</><dd> (Нет сведений об экземплярах)<br>",
+                    string.Empty
+                );
+            result = result.Replace
+                (
+                    "<b> Нет сведений об экземплярах</b>",
+                    string.Empty
+                );
+
+            return result;
+        }
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -137,19 +163,49 @@ namespace BeriChitai
         {
             Code.NotNull(books, "books");
 
+            Connection.Connect();
+            BeriInfo[] array = books.ToArray();
+
             if (!string.IsNullOrEmpty(Format))
             {
-                foreach (BeriInfo book in books)
+                foreach (BeriInfo book in array)
                 {
-                    if (!ReferenceEquals(book.Record, null))
+                    if (string.IsNullOrEmpty(book.Description)
+                        && !ReferenceEquals(book.Record, null))
                     {
-                        book.Description = Connection.FormatRecord
+                        string description = Connection.FormatRecord
                             (
                                 Format,
                                 book.Record.Mfn
                             );
+                        description = PrepareDescription(description);
+                        book.Description = description;
                     }
                 }
+            }
+
+            Connection.PushDatabase(StandardDatabases.Readers);
+            try
+            {
+                ReaderManager readerManager = new ReaderManager(Connection);
+                foreach (BeriInfo book in array)
+                {
+                    string ticket = book.Ticket;
+                    if (ReferenceEquals(book.Reader, null)
+                        && !string.IsNullOrEmpty(ticket))
+                    {
+                        ReaderInfo reader = readerManager.GetReader(ticket);
+                        book.Reader = reader;
+                        if (!ReferenceEquals(reader, null))
+                        {
+                            reader.Description = Connection.FormatRecord("@", reader.Mfn);
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                Connection.PopDatabase();
             }
         }
 
@@ -158,6 +214,8 @@ namespace BeriChitai
         /// </summary>
         public BeriInfo[] GetBooksWithStatus(string status)
         {
+            Connection.Connect();
+
             string expression = string.Format
                 (
                     "\"{0}{1}\"",
@@ -165,16 +223,15 @@ namespace BeriChitai
                     status
                 );
 
-            BatchRecordReader reader
-                = (BatchRecordReader)BatchRecordReader.Search
+            MarcRecord[] records = BatchRecordReader.Search
                 (
                     Connection,
                     Connection.Database,
                     expression,
                     500
-                );
+                ).ToArray();
 
-            BeriInfo[] result = reader
+            BeriInfo[] result = records
                 .SelectMany(record => BeriInfo.Parse(record))
                 .ToArray();
 
@@ -196,12 +253,81 @@ namespace BeriChitai
         /// </summary>
         public BeriInfo[] GetReservedBooks()
         {
-            return GetBooksWithStatus(ReservedBook);
+            BeriInfo[] result = GetBooksWithStatus(ReservedBook);
+            ExtendInfo(result);
+
+            return result;
         }
 
+        /// <summary>
+        /// Получение списка выданных читателю книг.
+        /// </summary>
         public BeriInfo[] GetSurrenderedBooks()
         {
-            return GetBooksWithStatus(SurrenderedBook);
+            BeriInfo[] result = GetBooksWithStatus(SurrenderedBook);
+            ExtendInfo(result);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Может ли читатель получать книги.
+        /// </summary>
+        public bool IsReaderEnabled
+            (
+                [NotNull] ReaderInfo reader
+            )
+        {
+            Code.NotNull(reader, "reader");
+
+            return false;
+        }
+
+        /// <summary>
+        /// Создание заказа на книгу.
+        /// </summary>
+        public bool CreateBooking
+            (
+                [NotNull] string index,
+                [NotNull] ReaderInfo reader
+            )
+        {
+            Code.NotNullNorEmpty(index, "index");
+            Code.NotNull(reader, "reader");
+
+            return false;
+        }
+
+        /// <summary>
+        /// Регистрация выдачи книги.
+        /// </summary>
+        public bool GiveBook
+            (
+                [NotNull] BeriInfo book
+            )
+        {
+            Code.NotNull(book, "book");
+
+            ReaderInfo reader = book.Reader.ThrowIfNull("book.Reader");
+            MarcRecord record = book.Record.ThrowIfNull("book.Record");
+
+            return false;
+        }
+
+        /// <summary>
+        /// Отменить заказ на книгу.
+        /// </summary>
+        public bool CancelBooking
+            (
+                [NotNull] BeriInfo book
+            )
+        {
+            Code.NotNull(book, "book");
+
+            ReaderInfo reader = book.Reader.ThrowIfNull("book.Reader");
+            MarcRecord record = book.Record.ThrowIfNull("book.Record");
+
+            return false;
         }
 
         #endregion

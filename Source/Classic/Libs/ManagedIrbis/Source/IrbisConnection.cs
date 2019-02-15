@@ -1276,8 +1276,7 @@ namespace ManagedIrbis
         {
             Code.NotNullNorEmpty(state, "state");
 
-            ConnectionSettings settings
-                = ConnectionSettings.Decrypt(state);
+            ConnectionSettings settings = ConnectionSettings.Decrypt(state);
 
             if (ReferenceEquals(settings, null))
             {
@@ -1292,6 +1291,18 @@ namespace ManagedIrbis
 
             return result;
         }
+
+        // =========================================================
+
+        /// <summary>
+        /// Восстановление флага подключения, ранее погашенного
+        /// при помощи <see cref="Suspend"/>.
+        /// </summary>
+        public virtual void Rise()
+        {
+            _connected = true;
+        }
+
 
         // =========================================================
 
@@ -1556,6 +1567,8 @@ namespace ManagedIrbis
         /// <summary>
         /// Temporary "shutdown" the connection for some reason.
         /// </summary>
+        /// <seealso cref="Restore"/>
+        /// <seealso cref="Rise"/>
         [NotNull]
         public virtual string Suspend()
         {

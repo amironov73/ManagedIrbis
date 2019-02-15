@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Program.cs -- 
+/* Program.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -17,8 +17,9 @@ using System.Linq;
 using AM;
 using AM.Text;
 
-using JetBrains.Annotations;
+using DevExpress.Spreadsheet;
 
+using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Fields;
@@ -38,6 +39,24 @@ namespace LackedMagazines
         private static string _year;
         private static string _period;
         private static List<PeriodInfo> _list;
+        private static Workbook workbook;
+        private static Worksheet worksheet;
+        private static int currentRow;
+
+        static Cell WriteCell(int column, string text)
+        {
+            Cell result = worksheet.Cells[currentRow, column];
+            //if (int.TryParse(text, out int value))
+            //{
+            //    result.Value = value;
+            //}
+            //else
+            //{
+                result.Value = text;
+            //}
+
+            return result;
+        }
 
         private static bool Match
             (
@@ -94,6 +113,7 @@ namespace LackedMagazines
                 Console.WriteLine(Resources.HaventOrders);
                 return;
             }
+
             QuarterlyOrderInfo order = magazine.QuarterlyOrders.FirstOrDefault
                 (
                     o => o.Period.SameString(_period)
@@ -149,20 +169,26 @@ namespace LackedMagazines
                 [NotNull] PeriodInfo info
             )
         {
-            _writer.WriteLine("<tr>");
-            _writer.WriteLine("<td>");
-            _writer.WriteLine(HtmlText.Encode(info.Title));
-            _writer.WriteLine("</td>");
-            _writer.WriteLine("<td>");
-            _writer.WriteLine(HtmlText.Encode(info.Expected));
-            _writer.WriteLine("</td>");
-            _writer.WriteLine("<td>");
-            _writer.WriteLine(HtmlText.Encode(info.Registered));
-            _writer.WriteLine("</td>");
-            _writer.WriteLine("<td>");
-            _writer.WriteLine(HtmlText.Encode(info.Missing));
-            _writer.WriteLine("</td>");
-            _writer.WriteLine("</tr>");
+            WriteCell(0, info.Title);
+            WriteCell(1, info.Expected);
+            WriteCell(2, info.Registered);
+            WriteCell(3, info.Missing);
+            currentRow++;
+
+            //_writer.WriteLine("<tr>");
+            //_writer.WriteLine("<td>");
+            //_writer.WriteLine(HtmlText.Encode(info.Title));
+            //_writer.WriteLine("</td>");
+            //_writer.WriteLine("<td>");
+            //_writer.WriteLine(HtmlText.Encode(info.Expected));
+            //_writer.WriteLine("</td>");
+            //_writer.WriteLine("<td>");
+            //_writer.WriteLine(HtmlText.Encode(info.Registered));
+            //_writer.WriteLine("</td>");
+            //_writer.WriteLine("<td>");
+            //_writer.WriteLine(HtmlText.Encode(info.Missing));
+            //_writer.WriteLine("</td>");
+            //_writer.WriteLine("</tr>");
         }
 
         static void Main(string[] args)
@@ -181,7 +207,7 @@ namespace LackedMagazines
                 _list = new List<PeriodInfo>();
                 _year = _period.Substring(0, 4);
 
-                using (_writer = new StreamWriter(fileName))
+                //using (_writer = new StreamWriter(fileName))
                 using (_connection = new IrbisConnection(connectionString))
                 {
                     _manager = new MagazineManager(_connection);
@@ -193,22 +219,38 @@ namespace LackedMagazines
 
                     _list = _list.OrderBy(i => i.Title).ToList();
 
-                    _writer.WriteLine("<h3>");
-                    _writer.WriteLine(Resources.MagazineRegistrationForPeriod);
-                    _writer.WriteLine(HtmlText.Encode(_period));
-                    _writer.WriteLine("</h3>");
-                    _writer.WriteLine("<table border='1' cellpadding='3' cellspacing='0'>");
-                    _writer.WriteLine("<tr>");
-                    _writer.WriteLine(Resources.MagazineTitle);
-                    _writer.WriteLine(Resources.ExpectedIssueNumbers);
-                    _writer.WriteLine(Resources.RegisteredIssues);
-                    _writer.WriteLine(Resources.MissedIssues);
-                    _writer.WriteLine("</tr>");
+                    workbook= new Workbook();
+                    worksheet = workbook.Worksheets[0];
+                    WriteCell(0, "Заглавие");
+                    WriteCell(1, "Ожидались");
+                    WriteCell(2, "Поступили");
+                    WriteCell(3, "Отсутствуют");
+                    currentRow++;
                     foreach (PeriodInfo info in _list)
                     {
                         PrintMagazine(info);
                     }
-                    _writer.WriteLine("</table>");
+
+                    Console.Write("Saving... ");
+                    workbook.SaveDocument(fileName);
+                    Console.WriteLine("saved");
+
+                    //_writer.WriteLine("<h3>");
+                    //_writer.WriteLine(Resources.MagazineRegistrationForPeriod);
+                    //_writer.WriteLine(HtmlText.Encode(_period));
+                    //_writer.WriteLine("</h3>");
+                    //_writer.WriteLine("<table border='1' cellpadding='3' cellspacing='0'>");
+                    //_writer.WriteLine("<tr>");
+                    //_writer.WriteLine(Resources.MagazineTitle);
+                    //_writer.WriteLine(Resources.ExpectedIssueNumbers);
+                    //_writer.WriteLine(Resources.RegisteredIssues);
+                    //_writer.WriteLine(Resources.MissedIssues);
+                    //_writer.WriteLine("</tr>");
+                    //foreach (PeriodInfo info in _list)
+                    //{
+                    //    PrintMagazine(info);
+                    //}
+                    //_writer.WriteLine("</table>");
                 }
             }
             catch (Exception exception)

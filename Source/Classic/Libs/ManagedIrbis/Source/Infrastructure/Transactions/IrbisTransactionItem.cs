@@ -23,6 +23,7 @@ namespace ManagedIrbis.Infrastructure.Transactions
     /// Данные об элементе транзакции.
     /// </summary>
     [PublicAPI]
+    [Serializable]
     [MoonSharpUserData]
     public sealed class IrbisTransactionItem
     {
@@ -49,6 +50,16 @@ namespace ManagedIrbis.Infrastructure.Transactions
         /// MFN записи, с которой происходило действие.
         /// </summary>
         public int Mfn { get; set; }
+
+        /// <summary>
+        /// Шифр документа.
+        /// </summary>
+        public string Index { get; set; }
+
+        /// <summary>
+        /// Версия документа.
+        /// </summary>
+        public int Version { get; set; }
 
         #endregion
     }
