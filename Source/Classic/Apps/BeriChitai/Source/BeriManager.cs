@@ -21,7 +21,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 using AM;
 using AM.Collections;
@@ -46,7 +45,7 @@ using CM = System.Configuration.ConfigurationManager;
 
 namespace BeriChitai
 {
-    class BeriManager
+    public class BeriManager
     {
         #region Constants
 
@@ -280,7 +279,7 @@ namespace BeriChitai
         {
             Code.NotNull(reader, "reader");
 
-            return false;
+            return string.IsNullOrEmpty(reader.Rights);
         }
 
         /// <summary>
@@ -295,7 +294,54 @@ namespace BeriChitai
             Code.NotNullNorEmpty(index, "index");
             Code.NotNull(reader, "reader");
 
-            return false;
+            MarcRecord record = Connection.SearchReadOneRecord("\"I={0}\"", index);
+            if (ReferenceEquals(record, null))
+            {
+                return false;
+            }
+
+            BeriInfo[] already = BeriInfo.Parse(record);
+            if (already.Length != 0)
+            {
+                return false;
+            }
+
+            string ticket = reader.Ticket;
+            if (string.IsNullOrEmpty(ticket))
+            {
+                return false;
+            }
+
+            RecordField field = new RecordField(BeriInfo.BeriTag)
+                .AddSubField('a', IrbisDate.TodayText)
+                .AddSubField('b', ticket);
+            record.AddField(field);
+
+            Connection.WriteRecord(record, false, true, false);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Находим книгу по указанному индексу.
+        /// </summary>
+        [CanBeNull]
+        public BeriInfo[] GetBook
+            (
+                [NotNull] string index
+            )
+        {
+            Code.NotNullNorEmpty(index, "index");
+
+            MarcRecord record = Connection.SearchReadOneRecord("\"I={0}\"", index);
+            if (ReferenceEquals(record, null))
+            {
+                return null;
+            }
+
+            BeriInfo[] result = BeriInfo.Parse(record);
+
+            return result;
         }
 
         /// <summary>
@@ -308,10 +354,19 @@ namespace BeriChitai
         {
             Code.NotNull(book, "book");
 
-            ReaderInfo reader = book.Reader.ThrowIfNull("book.Reader");
             MarcRecord record = book.Record.ThrowIfNull("book.Record");
+            RecordField field = book.Field.ThrowIfNull("book.Field");
+            if (!ReferenceEquals(field.Record, record))
+            {
+                throw new IrbisException("the field doesn't belong the record");
+            }
 
-            return false;
+            field.SetSubField('c', IrbisDate.TodayText);
+
+            Connection.Connect();
+            Connection.WriteRecord(record, true);
+
+            return true;
         }
 
         /// <summary>
@@ -326,8 +381,18 @@ namespace BeriChitai
 
             ReaderInfo reader = book.Reader.ThrowIfNull("book.Reader");
             MarcRecord record = book.Record.ThrowIfNull("book.Record");
+            RecordField field = book.Field.ThrowIfNull("book.Field");
+            if (!ReferenceEquals(field.Record, record))
+            {
+                throw new IrbisException("the field doesn't belong the record");
+            }
 
-            return false;
+            record.Fields.Remove(field);
+
+            Connection.Connect();
+            Connection.WriteRecord(record, true);
+
+            return true;
         }
 
         #endregion

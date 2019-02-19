@@ -21,17 +21,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Xml.Serialization;
 
 using AM;
 using AM.Collections;
-using AM.Windows.Forms;
 
 using CodeJam;
-
-using IrbisUI;
-using IrbisUI.Universal;
 
 using JetBrains.Annotations;
 
@@ -49,7 +44,7 @@ using CM = System.Configuration.ConfigurationManager;
 
 namespace BeriChitai
 {
-    class BeriInfo
+    public class BeriInfo
     {
         #region Constants
 

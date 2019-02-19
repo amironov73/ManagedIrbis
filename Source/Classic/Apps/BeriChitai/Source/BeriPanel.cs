@@ -55,6 +55,8 @@ using Timer = System.Windows.Forms.Timer;
 
 #endregion
 
+// ReSharper disable StringLiteralTypo
+
 namespace BeriChitai
 {
     public partial class BeriPanel
@@ -312,6 +314,123 @@ namespace BeriChitai
             }
 
             _bookBrowser.DocumentText = book.Description;
+        }
+
+        private void _refreshButton_Click(object sender, EventArgs e)
+        {
+            WriteLine("Обновляем данные...");
+
+            if (!PrepareBrowser(_readerBrowser)
+                || !PrepareBrowser(_bookBrowser))
+            {
+                return;
+            }
+
+            SelectedBooks = EmptyArray<BeriInfo>.Value;
+            SelectedReaders = EmptyArray<string>.Value;
+            _readerSource.DataSource = SelectedReaders;
+            _readerList.DataSource = _readerSource;
+            Application.DoEvents();
+
+            InitializeReaders();
+
+            if (_readerSource.Count != 0)
+            {
+                _readerSource.Position = 0;
+            }
+
+            WriteLine("Обновление данных завершено");
+        }
+
+        private void _giveButton_Click(object sender, EventArgs e)
+        {
+            BeriInfo book = _bookSource.Current as BeriInfo;
+            if (ReferenceEquals(book, null))
+            {
+                return;
+            }
+
+            WriteLine($"КНИГА: {book.ShortDescription}");
+
+            WriteLine("Регистрируем выдачу книги");
+            if (!Run(() =>
+            {
+                if (!BeriMan.GiveBook(book))
+                {
+                    throw new IrbisException("Ошибка при выдаче книги");
+                }
+            }))
+            {
+                WriteLine("Что-то пошло не так");
+                return;
+            }
+
+            WriteLine("Книга успешно выдана");
+
+            _refreshButton_Click(this, EventArgs.Empty);
+        }
+
+        private void _rejectButton_Click(object sender, EventArgs e)
+        {
+            BeriInfo book = _bookSource.Current as BeriInfo;
+            if (ReferenceEquals(book, null))
+            {
+                return;
+            }
+
+            ReaderInfo reader = book.Reader.ThrowIfNull("book.Reader");
+
+            WriteLine($"КНИГА: {book.ShortDescription}");
+            WriteLine($"ЧИТАТЕЛЬ: {reader.FullName}");
+
+            WriteLine("Отменяем заказ книги");
+            if (!Run(() =>
+            {
+                if (!BeriMan.GiveBook(book))
+                {
+                    throw new IrbisException("Ошибка при отмене заказа");
+                }
+            }))
+            {
+                WriteLine("Что-то пошло не так");
+                return;
+            }
+
+            WriteLine("Заказ отменён, книга вновь доступна для заказа");
+
+            _refreshButton_Click(this, EventArgs.Empty);
+
+        }
+
+        private void _readerSource_CurrentChanged(object sender, EventArgs e)
+        {
+            _mailBox.Clear();
+            _phoneBox.Clear();
+
+            string name = _readerSource.Current as string;
+            if (string.IsNullOrEmpty(name))
+            {
+                return;
+            }
+
+            ReaderInfo reader = FindReader(name);
+            if (ReferenceEquals(reader, null))
+            {
+                return;
+            }
+
+            _mailBox.Text = reader.Email;
+            _phoneBox.Text = reader.HomePhone;
+        }
+
+        private void _copyPhoneButton_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(_phoneBox.Text);
+        }
+
+        private void _copyMailButton_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(_mailBox.Text);
         }
     }
 }

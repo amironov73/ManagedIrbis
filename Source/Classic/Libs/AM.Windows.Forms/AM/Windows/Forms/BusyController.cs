@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* BusyController.cs -- 
+/* BusyController.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -34,7 +34,7 @@ using MoonSharp.Interpreter;
 namespace AM.Windows.Forms
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -250,10 +250,10 @@ namespace AM.Windows.Forms
                         );
 
                     Log.Trace
-                    (
-                        "BusyController::Run: "
-                        + "normal after"
-                    );
+                        (
+                            "BusyController::Run: "
+                            + "normal after"
+                        );
 
                     result = true;
                 }
@@ -270,6 +270,8 @@ namespace AM.Windows.Forms
                             exception.GetType().Name,
                             exception.Message
                         );
+
+                    result = false;
 
                     OnExceptionOccur(exception);
                 }

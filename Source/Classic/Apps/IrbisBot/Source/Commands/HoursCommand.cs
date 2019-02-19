@@ -23,7 +23,7 @@ namespace IrbisBot.Commands
         : BotCommand
     {
         public override string Name => "hours";
-        public override string Alias => "Режим";
+        public override string Alias => "Режим работы";
 
         public override void Execute(Message message, TelegramBotClient client)
         {
