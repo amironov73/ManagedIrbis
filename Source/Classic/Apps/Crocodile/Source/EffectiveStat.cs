@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+#region Using directives
+
+using System;
 
 using AM;
 
@@ -11,7 +11,7 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
-using ManagedIrbis.Reports;
+#endregion
 
 namespace Crocodile
 {
@@ -80,14 +80,9 @@ namespace Crocodile
 
         public void Output
             (
-                bool indent
+                [NotNull] EffectiveEngine engine
             )
         {
-            if (indent)
-            {
-                Console.WriteLine();
-            }
-
             decimal loanCost = LoanCount == 0
                 ? TotalCost
                 : TotalCost / LoanCount;
@@ -109,52 +104,21 @@ namespace Crocodile
                   ? 0
                   : LoanCount / TotalCost / days * 100000m;
 
-            Console.WriteLine
-                (
-                    string.Format
-                        (
-                            CultureInfo.InvariantCulture,
-                            "{0}\t{1:d}\t{2}\t{3}\t{4}\t{5}\t{6:F0}\t{7}\t{8:F2}\t{9:F2}\t{10:F2}\t{11:F2}\t{12:F2}",
-                            Description,
-                            Date,
-                            Sigla,
-                            Bbk,
-                            TitleCount,
-                            ExemplarCount,
-                            TotalCost,
-                            LoanCount,
-                            meanLoan,
-                            loanCost,
-                            dayLoan,
-                            rdrEff,
-                            finEff
-                        )
-                );
-
-            ReportBand band = new ReportBand();
-            band.Cells.Add(new TextCell(Description));
-            band.Cells.Add(new TextCell(Date.ToShortDateString()));
-            band.Cells.Add(new TextCell(Sigla));
-            band.Cells.Add(new TextCell(Bbk));
-            band.Cells.Add(new TextCell(TitleCount.ToInvariantString(),
-                new ReportAttribute(ReportAttribute.Number, "0")));
-            band.Cells.Add(new TextCell(ExemplarCount.ToInvariantString(),
-                new ReportAttribute(ReportAttribute.Number, "0")));
-            band.Cells.Add(new TextCell(TotalCost.ToInvariantString("F0"),
-                new ReportAttribute(ReportAttribute.Number, "0")));
-            band.Cells.Add(new TextCell(LoanCount.ToInvariantString(),
-                new ReportAttribute(ReportAttribute.Number, "0")));
-            band.Cells.Add(new TextCell(meanLoan.ToInvariantString("F2"),
-                new ReportAttribute(ReportAttribute.Number, "0.00")));
-            band.Cells.Add(new TextCell(loanCost.ToInvariantString("F2"),
-                new ReportAttribute(ReportAttribute.Number, "0.00")));
-            band.Cells.Add(new TextCell(dayLoan.ToInvariantString("F2"),
-                new ReportAttribute(ReportAttribute.Number, "0.00")));
-            band.Cells.Add(new TextCell(rdrEff.ToInvariantString("F2"),
-                new ReportAttribute(ReportAttribute.Number, "0.00")));
-            band.Cells.Add(new TextCell(finEff.ToInvariantString("F2"),
-                new ReportAttribute(ReportAttribute.Number, "0.00")));
-            EffectiveReport.Instance.Body.Add(band);
+            EffectiveSheet sheet = engine.Sheet;
+            sheet.WriteCell(0, Description);
+            sheet.WriteCell(1, Date.ToShortDateString());
+            sheet.WriteCell(2, Sigla);
+            sheet.WriteCell(3, Bbk);
+            sheet.WriteCell(4, TitleCount);
+            sheet.WriteCell(5, ExemplarCount);
+            sheet.WriteCell(6, TotalCost, "0.00");
+            sheet.WriteCell(7, LoanCount);
+            sheet.WriteCell(8, meanLoan, "0.00");
+            sheet.WriteCell(9, loanCost, "0.00");
+            sheet.WriteCell(10, dayLoan, "0.00");
+            sheet.WriteCell(11, rdrEff, "0.00");
+            sheet.WriteCell(12, finEff, "0.00");
+            sheet.NewLine();
         }
     }
 }

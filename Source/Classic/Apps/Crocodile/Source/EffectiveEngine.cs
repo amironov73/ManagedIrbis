@@ -1,13 +1,15 @@
-﻿using System;
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+#region Using directives
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
-using AM.Configuration;
-using AM.IO;
+using AM.Text.Output;
 
 using CodeJam;
 
@@ -17,19 +19,38 @@ using ManagedIrbis;
 using ManagedIrbis.Batch;
 using ManagedIrbis.Client;
 using ManagedIrbis.Fields;
-using ManagedIrbis.Menus;
-using ManagedIrbis.Reports;
+
+#endregion
+
+// ReSharper disable StringLiteralTypo
 
 namespace Crocodile
 {
     class EffectiveEngine
     {
-        private static IrbisConnection _connection;
-        private static IrbisProvider _provider;
-        private static bool _outputBooks;
+        public AbstractOutput Log { get; set; }
+        public IrbisConnection Connection { get; set; }
+        public IrbisProvider Provider { get; set; }
+        public bool OutputBooks { get; set; }
+        public string[] Selected { get; set; }
+        public EffectiveSheet Sheet { get; set; }
+
+        public void WriteLine()
+        {
+            Log.WriteLine(string.Empty);
+        }
+
+        public void WriteLine
+            (
+                string format,
+                params object[] args
+            )
+        {
+            Log.WriteLine(format, args);
+        }
 
         [NotNull]
-        static EffectiveStat ProcessBook
+        public EffectiveStat ProcessBook
             (
                 [NotNull] MarcRecord record,
                 [NotNull] string ksu
@@ -37,7 +58,7 @@ namespace Crocodile
         {
             Code.NotNull(record, "record");
 
-            BookInfo book = new BookInfo(_provider, record);
+            BookInfo book = new BookInfo(Provider, record);
             ExemplarInfo[] selected = book.Exemplars.Where
                 (
                     ex => ex.KsuNumber1.SameString(ksu)
@@ -46,7 +67,7 @@ namespace Crocodile
             Debug.Assert(selected.Length != 0, "exemplars.Length != 0");
             EffectiveStat result = new EffectiveStat
             {
-                Description = _outputBooks ? book.Description : string.Empty,
+                Description = OutputBooks ? book.Description : string.Empty,
                 TitleCount = 1
             };
 
@@ -115,46 +136,39 @@ namespace Crocodile
         }
 
         [NotNull]
-        static EffectiveStat ProcessKsu
+        public EffectiveStat ProcessKsu
             (
-                [NotNull] MenuEntry entry
+                [NotNull] string ksu
             )
         {
-            Code.NotNull(entry, "entry");
+            Code.NotNull(ksu, "ksu");
 
-            string ksu = entry.Code.ThrowIfNull("entry.Code");
-
-            if (_outputBooks)
-            {
-                Console.WriteLine();
-                Console.WriteLine("КСУ {0} {1}", ksu, entry.Comment);
-                Console.WriteLine();
-            }
+            WriteLine("КСУ {0}", ksu);
+            Sheet.WriteLine("КСУ {0}", ksu);
 
             EffectiveStat result = new EffectiveStat
             {
                 Description = string.Format
                     (
-                        _outputBooks ? "Итого по КСУ {0}" : "{0} {1}",
-                        ksu,
-                        entry.Comment
+                        "Итого по КСУ {0}",
+                        ksu
                     )
             };
 
             string expression = string.Format("\"NKSU={0}\"", ksu);
             IEnumerable<MarcRecord> batch = BatchRecordReader.Search
                 (
-                    _connection,
-                    _connection.Database,
+                    Connection,
+                    Connection.Database,
                     expression,
                     500
                 );
             foreach (MarcRecord record in batch)
             {
                 EffectiveStat bookStat = ProcessBook(record, ksu);
-                if (_outputBooks)
+                if (OutputBooks)
                 {
-                    bookStat.Output(false);
+                    bookStat.Output(this);
                 }
                 result.Add(bookStat);
             }
@@ -162,67 +176,54 @@ namespace Crocodile
             return result;
         }
 
-        public static void Process()
+        public void Process
+            (
+                string[] selected
+            )
         {
             try
             {
-                _outputBooks = ConfigurationUtility.GetBoolean("books", false);
-                string connectionString
-                    = IrbisConnectionUtility.GetStandardConnectionString();
-                using (_connection = new IrbisConnection(connectionString))
+                Provider = new ConnectedClient(Connection);
+                EffectiveStat totalStat = new EffectiveStat
                 {
-                    _provider = new ConnectedClient(_connection);
-                    //_provider = new SemiConnectedClient(_connection);
-                    EffectiveReport.Instance = new EffectiveReport(_provider);
-                    MenuFile menu = MenuFile.ParseLocalFile("ksu.mnu");
-                    EffectiveStat totalStat = new EffectiveStat
-                    {
-                        Description = "Всего по всем КСУ"
-                    };
-                    bool first = true;
+                    Description = "Всего по всем КСУ"
+                };
+                bool first = true;
 
-                    foreach (MenuEntry entry in menu.Entries)
+                foreach (string ksu in selected)
+                {
+                    if (OutputBooks)
                     {
-                        if (_outputBooks)
+                        if (!first)
                         {
-                            if (!first)
-                            {
-                                EffectiveReport.AddLine(string.Empty);
-                            }
-
-                            first = false;
-
-                            string title = string.Format
-                                (
-                                    "{0} {1}",
-                                    entry.Code,
-                                    entry.Comment
-                                );
-                            EffectiveReport.BoldLine(title);
+                            Sheet.NewLine();
                         }
 
-                        EffectiveStat ksuStat = ProcessKsu(entry);
-                        ksuStat.Output(false);
-                        totalStat.Add(ksuStat);
+                        first = false;
+
+                        //string title = string.Format
+                        //(
+                        //    "{0} {1}",
+                        //    entry.Code,
+                        //    entry.Comment
+                        //);
+                        //EffectiveReport.BoldLine(title);
                     }
 
-                    EffectiveReport.AddLine(string.Empty);
-                    totalStat.Output(false);
+                    EffectiveStat ksuStat = ProcessKsu(ksu);
+                    ksuStat.Output(this);
+                    totalStat.Add(ksuStat);
                 }
 
-                ExcelDriver driver = new ExcelDriver();
-                string fileName = "output.xlsx";
-                FileUtility.DeleteIfExists(fileName);
-                driver.OutputFile = fileName;
-                EffectiveReport report = EffectiveReport.Instance;
-                report.Context.SetDriver(driver);
-
-                report.Render(report.Context);
+                if (selected.Length > 1)
+                {
+                    Sheet.NewLine();
+                    totalStat.Output(this);
+                }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                WriteLine(e.ToString());
             }
         }
     }
