@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+#region Using directives
+
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 using AM.Text;
@@ -19,14 +12,20 @@ using AM.Text.Ranges;
 
 using ManagedIrbis;
 using ManagedIrbis.Magazines;
+
+#endregion
+
 using CM = System.Configuration.ConfigurationManager;
+
+// ReSharper disable StringLiteralTypo
 
 namespace FastBinder
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
+        : Window
     {
         public MainWindow()
         {
@@ -52,7 +51,7 @@ namespace FastBinder
             if (string.IsNullOrEmpty(_index)
                 || string.IsNullOrEmpty(_year)
                 || string.IsNullOrEmpty(_issues)
-                || string.IsNullOrEmpty(_month)
+                // || string.IsNullOrEmpty(_month)
                 || string.IsNullOrEmpty(_number)
                 || string.IsNullOrEmpty(_inventory)
                 || string.IsNullOrEmpty(_fond)
@@ -64,7 +63,9 @@ namespace FastBinder
 
             var collection = NumberRangeCollection.Parse(_issues);
 
-            _description = $"Подшивка N{_number} {_month} ({_issues})";
+            _description = string.IsNullOrEmpty(_month)
+                ? $"Подшивка N{_number} ({_issues})"
+                : $"Подшивка N{_number} {_month} ({_issues})";
             _reference = $"{_index}/{_year}/{_description}";
 
             string connectionString = CM.AppSettings["connectionString"];

@@ -36,6 +36,7 @@
             this._booksBox = new AM.Windows.Forms.ToolStripCheckBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this._goButton = new System.Windows.Forms.ToolStripButton();
+            this._saveButton = new System.Windows.Forms.ToolStripButton();
             this._splitContainer = new System.Windows.Forms.SplitContainer();
             this._termGrid = new System.Windows.Forms.DataGridView();
             this.countDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,8 +44,12 @@
             this.termInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this._termSource = new System.Windows.Forms.BindingSource(this.components);
             this._logBox = new AM.Windows.Forms.LogBox();
-            this._saveButton = new System.Windows.Forms.ToolStripButton();
             this._saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this._fondBox = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this._stopButton = new System.Windows.Forms.ToolStripButton();
+            this._fastBox = new AM.Windows.Forms.ToolStripCheckBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._splitContainer)).BeginInit();
             this._splitContainer.Panel1.SuspendLayout();
@@ -59,9 +64,14 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this._yearBox,
+            this.toolStripLabel2,
+            this._fondBox,
             this._booksBox,
+            this._fastBox,
             this.toolStripSeparator1,
             this._goButton,
+            this._stopButton,
+            this.toolStripSeparator2,
             this._saveButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -92,7 +102,7 @@
             this._booksBox.CheckBox.BackColor = System.Drawing.Color.Transparent;
             this._booksBox.CheckBox.Checked = true;
             this._booksBox.CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this._booksBox.CheckBox.Location = new System.Drawing.Point(158, 1);
+            this._booksBox.CheckBox.Location = new System.Drawing.Point(317, 1);
             this._booksBox.CheckBox.Name = "_booksBox";
             this._booksBox.CheckBox.Size = new System.Drawing.Size(84, 22);
             this._booksBox.CheckBox.TabIndex = 1;
@@ -112,9 +122,18 @@
             this._goButton.Image = ((System.Drawing.Image)(resources.GetObject("_goButton.Image")));
             this._goButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._goButton.Name = "_goButton";
-            this._goButton.Size = new System.Drawing.Size(65, 22);
-            this._goButton.Text = "Запуск";
+            this._goButton.Size = new System.Drawing.Size(54, 22);
+            this._goButton.Text = "Пуск";
             this._goButton.Click += new System.EventHandler(this._goButton_Click);
+            // 
+            // _saveButton
+            // 
+            this._saveButton.Image = ((System.Drawing.Image)(resources.GetObject("_saveButton.Image")));
+            this._saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._saveButton.Name = "_saveButton";
+            this._saveButton.Size = new System.Drawing.Size(85, 22);
+            this._saveButton.Text = "Сохранить";
+            this._saveButton.Click += new System.EventHandler(this._saveButton_Click);
             // 
             // _splitContainer
             // 
@@ -143,7 +162,6 @@
             this._termGrid.DataSource = this.termInfoBindingSource;
             this._termGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this._termGrid.Location = new System.Drawing.Point(0, 0);
-            this._termGrid.MultiSelect = false;
             this._termGrid.Name = "_termGrid";
             this._termGrid.ReadOnly = true;
             this._termGrid.RowHeadersVisible = false;
@@ -189,18 +207,53 @@
             this._logBox.Size = new System.Drawing.Size(908, 108);
             this._logBox.TabIndex = 2;
             // 
-            // _saveButton
-            // 
-            this._saveButton.Image = ((System.Drawing.Image)(resources.GetObject("_saveButton.Image")));
-            this._saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._saveButton.Name = "_saveButton";
-            this._saveButton.Size = new System.Drawing.Size(85, 22);
-            this._saveButton.Text = "Сохранить";
-            this._saveButton.Click += new System.EventHandler(this._saveButton_Click);
-            // 
             // _saveFileDialog
             // 
             this._saveFileDialog.Filter = "XLSX|*.xlsx|All|*.*";
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(36, 22);
+            this.toolStripLabel2.Text = "Фонд";
+            // 
+            // _fondBox
+            // 
+            this._fondBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._fondBox.Name = "_fondBox";
+            this._fondBox.Size = new System.Drawing.Size(121, 25);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // _stopButton
+            // 
+            this._stopButton.Image = ((System.Drawing.Image)(resources.GetObject("_stopButton.Image")));
+            this._stopButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._stopButton.Name = "_stopButton";
+            this._stopButton.Size = new System.Drawing.Size(54, 22);
+            this._stopButton.Text = "Стоп";
+            this._stopButton.Click += new System.EventHandler(this._stopButton_Click);
+            // 
+            // _fastBox
+            // 
+            this._fastBox.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // _fastBox
+            // 
+            this._fastBox.CheckBox.AccessibleName = "_fastBox";
+            this._fastBox.CheckBox.BackColor = System.Drawing.Color.Transparent;
+            this._fastBox.CheckBox.Location = new System.Drawing.Point(401, 1);
+            this._fastBox.CheckBox.Name = "_fastBox";
+            this._fastBox.CheckBox.Size = new System.Drawing.Size(67, 22);
+            this._fastBox.CheckBox.TabIndex = 3;
+            this._fastBox.CheckBox.Text = "Быстро";
+            this._fastBox.CheckBox.UseVisualStyleBackColor = false;
+            this._fastBox.Name = "_fastBox";
+            this._fastBox.Size = new System.Drawing.Size(67, 22);
+            this._fastBox.Text = "Быстро";
             // 
             // MainForm
             // 
@@ -244,6 +297,11 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton _saveButton;
         private System.Windows.Forms.SaveFileDialog _saveFileDialog;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripComboBox _fondBox;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton _stopButton;
+        private AM.Windows.Forms.ToolStripCheckBox _fastBox;
     }
 }
 

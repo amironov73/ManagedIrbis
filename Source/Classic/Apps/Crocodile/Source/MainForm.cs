@@ -19,9 +19,12 @@ using AM.Text.Output;
 using DevExpress.XtraSpreadsheet;
 
 using ManagedIrbis;
+using ManagedIrbis.Infrastructure;
+using ManagedIrbis.Menus;
 using ManagedIrbis.Search;
 
-using CM=System.Configuration.ConfigurationManager;
+using CM = System.Configuration.ConfigurationManager;
+using DataGridViewRow = System.Windows.Forms.DataGridViewRow;
 
 #endregion
 
@@ -32,9 +35,11 @@ namespace Crocodile
     public partial class MainForm : Form
     {
         private const string Nksu = "NKSU=";
+        private Reference<bool> stopFlag = null;
 
         public AbstractOutput Log => _logBox.Output;
         public SpreadsheetControl Spreadsheet { get; set; }
+        public bool Busy { get; private set; } = false;
 
         public MainForm()
         {
@@ -77,6 +82,26 @@ namespace Crocodile
             }
 
             _yearBox.SelectedIndex = 0;
+
+            MenuFile menu = new MenuFile();
+            using (IrbisConnection connection = GetConnection())
+            {
+                FileSpecification specification = new FileSpecification
+                    (
+                        IrbisPath.MasterFile,
+                        connection.Database,
+                        "mhr.mnu"
+                    );
+                menu = connection.ReadMenu(specification);
+            }
+
+            _fondBox.Items.Add(new MenuEntry() { Code = "*", Comment = "Все фонды" });
+            foreach (MenuEntry entry in menu.Entries)
+            {
+                _fondBox.Items.Add(entry);
+            }
+
+            _fondBox.SelectedIndex = 0;
         }
 
         public TermInfo[] ReadTerms()
@@ -143,9 +168,9 @@ namespace Crocodile
         {
             LocalList<string> list = new LocalList<string>();
             var rows = _termGrid.SelectedRows;
-            foreach (var row in rows)
+            foreach (DataGridViewRow row in rows)
             {
-                TermInfo term = row as TermInfo;
+                TermInfo term = row.DataBoundItem as TermInfo;
                 if (!ReferenceEquals(term, null))
                 {
                     list.Add(term.Text);
@@ -178,11 +203,27 @@ namespace Crocodile
                 worksheet.Clear(worksheet.Cells);
             }
 
+            string fond = "*";
+            MenuEntry entry = _fondBox.SelectedItem as MenuEntry;
+            if (!ReferenceEquals(entry, null))
+            {
+                fond = entry.Code;
+            }
+
+            if (ReferenceEquals(stopFlag, null))
+            {
+                stopFlag = new Reference<bool>(false);
+            }
+
+            stopFlag.Target = false;
+
             EffectiveEngine engine = new EffectiveEngine
             {
+                StopFlag = stopFlag,
                 Log = Log,
+                Fond = fond,
                 OutputBooks = _booksBox.CheckBox.Checked,
-                Selected = list.ToArray(),
+                Selected = NumberText.Sort(list.ToArray()).ToArray(),
                 Connection = GetConnection(),
                 Sheet = new EffectiveSheet(Spreadsheet.Document)
                 {
@@ -202,17 +243,46 @@ namespace Crocodile
 
         private async void _goButton_Click(object sender, EventArgs e)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            WriteLine("СТАРТ");
+            if (Busy)
+            {
+                return;
+            }
 
-            await Run();
+            bool fast = _fastBox.CheckBox.Checked;
 
-            WriteLine("СТОП");
-            stopwatch.Stop();
-            WriteLine("Затрачено времени: "
-                      + stopwatch.Elapsed.TotalMinutes.ToString("F2")
-                      + " мин.");
+            try
+            {
+                Busy = true;
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                WriteLine("СТАРТ");
+
+                if (fast)
+                {
+                    var sheet = Spreadsheet.Document.Worksheets[0];
+                    sheet.Clear(sheet.Cells);
+                    Application.DoEvents();
+
+                    Spreadsheet.BeginUpdate();
+                }
+
+                await Run();
+
+                WriteLine("СТОП");
+                stopwatch.Stop();
+                WriteLine("Затрачено времени: "
+                          + stopwatch.Elapsed.TotalMinutes.ToString("F2")
+                          + " мин.");
+            }
+            finally
+            {
+                if (fast)
+                {
+                    Spreadsheet.EndUpdate();
+                }
+
+                Busy = false;
+            }
         }
 
         private void _termGrid_DoubleClick(object sender, EventArgs e)
@@ -225,6 +295,14 @@ namespace Crocodile
             if (_saveFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 Spreadsheet.SaveDocument(_saveFileDialog.FileName);
+            }
+        }
+
+        private void _stopButton_Click(object sender, EventArgs e)
+        {
+            if (stopFlag != null)
+            {
+                stopFlag.Target = true;
             }
         }
     }

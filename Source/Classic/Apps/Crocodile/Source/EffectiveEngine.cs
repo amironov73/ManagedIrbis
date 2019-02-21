@@ -6,13 +6,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 
 using AM;
 using AM.Text.Output;
 
 using CodeJam;
-
+using DevExpress.Spreadsheet;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
@@ -34,6 +35,10 @@ namespace Crocodile
         public bool OutputBooks { get; set; }
         public string[] Selected { get; set; }
         public EffectiveSheet Sheet { get; set; }
+        public string Fond { get; set; }
+        public Reference<bool> StopFlag { get; set; }
+
+        public bool IsStop => StopFlag.Target;
 
         public void WriteLine()
         {
@@ -49,14 +54,19 @@ namespace Crocodile
             Log.WriteLine(format, args);
         }
 
-        [NotNull]
+        [CanBeNull]
         public EffectiveStat ProcessBook
             (
                 [NotNull] MarcRecord record,
                 [NotNull] string ksu
             )
         {
-            Code.NotNull(record, "record");
+            Code.NotNull(record, nameof(record));
+
+            if (IsStop)
+            {
+                return null;
+            }
 
             BookInfo book = new BookInfo(Provider, record);
             ExemplarInfo[] selected = book.Exemplars.Where
@@ -64,7 +74,21 @@ namespace Crocodile
                     ex => ex.KsuNumber1.SameString(ksu)
                 )
                 .ToArray();
-            Debug.Assert(selected.Length != 0, "exemplars.Length != 0");
+
+            if (Fond != "*")
+            {
+                selected = selected.Where
+                    (
+                        ex => ex.Place.SameString(Fond)
+                    )
+                    .ToArray();
+            }
+
+            if (selected.Length == 0)
+            {
+                return null;
+            }
+
             EffectiveStat result = new EffectiveStat
             {
                 Description = OutputBooks ? book.Description : string.Empty,
@@ -141,21 +165,20 @@ namespace Crocodile
                 [NotNull] string ksu
             )
         {
-            Code.NotNull(ksu, "ksu");
+            Code.NotNull(ksu, nameof(ksu));
 
             WriteLine("КСУ {0}", ksu);
-            Sheet.WriteLine("КСУ {0}", ksu);
+            if (OutputBooks)
+            {
+                Sheet.Invoke(() => Sheet.WriteLine("КСУ {0}", ksu).Bold());
+            }
 
             EffectiveStat result = new EffectiveStat
             {
-                Description = string.Format
-                    (
-                        "Итого по КСУ {0}",
-                        ksu
-                    )
+                Description = $"Итого по КСУ {ksu}"
             };
 
-            string expression = string.Format("\"NKSU={0}\"", ksu);
+            string expression = $"\"NKSU={ksu}\"";
             IEnumerable<MarcRecord> batch = BatchRecordReader.Search
                 (
                     Connection,
@@ -163,14 +186,42 @@ namespace Crocodile
                     expression,
                     500
                 );
+            int topRow = Sheet.CurrentRow;
             foreach (MarcRecord record in batch)
             {
-                EffectiveStat bookStat = ProcessBook(record, ksu);
-                if (OutputBooks)
+                if (IsStop)
                 {
-                    bookStat.Output(this);
+                    break;
                 }
-                result.Add(bookStat);
+
+                EffectiveStat bookStat = ProcessBook(record, ksu);
+                if (IsStop)
+                {
+                    break;
+                }
+
+                if (!ReferenceEquals(bookStat, null))
+                {
+                    if (OutputBooks)
+                    {
+                        bookStat.Output(this);
+                    }
+
+                    result.Add(bookStat);
+                }
+            }
+
+            int bottomRow = Sheet.CurrentRow;
+            if (topRow != bottomRow)
+            {
+                bottomRow--;
+                Range range = Sheet.GetRange(8, topRow, bottomRow);
+                Sheet.Invoke(() => range.Conditional2Colors
+                        (
+                            Color.FromArgb(255, 255, 150, 150),
+                            Color.FromArgb(255, 50, 255, 50)
+                        )
+                );
             }
 
             return result;
@@ -186,12 +237,17 @@ namespace Crocodile
                 Provider = new ConnectedClient(Connection);
                 EffectiveStat totalStat = new EffectiveStat
                 {
-                    Description = "Всего по всем КСУ"
+                    Description = "Итого по всем КСУ"
                 };
                 bool first = true;
 
                 foreach (string ksu in selected)
                 {
+                    if (IsStop)
+                    {
+                        break;
+                    }
+
                     if (OutputBooks)
                     {
                         if (!first)
@@ -200,25 +256,17 @@ namespace Crocodile
                         }
 
                         first = false;
-
-                        //string title = string.Format
-                        //(
-                        //    "{0} {1}",
-                        //    entry.Code,
-                        //    entry.Comment
-                        //);
-                        //EffectiveReport.BoldLine(title);
                     }
 
                     EffectiveStat ksuStat = ProcessKsu(ksu);
-                    ksuStat.Output(this);
+                    ksuStat.Output(this, true);
                     totalStat.Add(ksuStat);
                 }
 
-                if (selected.Length > 1)
+                if (selected.Length > 1 && !IsStop)
                 {
                     Sheet.NewLine();
-                    totalStat.Output(this);
+                    totalStat.Output(this, true);
                 }
             }
             catch (Exception e)

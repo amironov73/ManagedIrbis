@@ -21,8 +21,10 @@ namespace Crocodile
     {
         public Control Control;
         public IWorkbook Workbook;
-        private Worksheet _worksheet;
+        private readonly Worksheet _worksheet;
         private int _currentRow;
+
+        public int CurrentRow => _currentRow;
 
         public EffectiveSheet()
         {
@@ -46,11 +48,18 @@ namespace Crocodile
             _worksheet.Clear(_worksheet.Cells);
         }
 
+        [NotNull]
+        public Row CurrentLine()
+        {
+            return _worksheet.Rows[_currentRow];
+        }
+
         public void Dispose()
         {
             Workbook.Dispose();
         }
 
+        [NotNull]
         public Cell WriteCell(int column, string text)
         {
             Cell result = null;
@@ -63,6 +72,7 @@ namespace Crocodile
             return result;
         }
 
+        [NotNull]
         public Cell WriteCell(int column, int value)
         {
             Cell result = null;
@@ -75,6 +85,7 @@ namespace Crocodile
             return result;
         }
 
+        [NotNull]
         public Cell WriteCell(int column, double value, string format)
         {
             Cell result = null;
@@ -88,6 +99,7 @@ namespace Crocodile
             return result;
         }
 
+        [NotNull]
         public Cell WriteCell(int column, decimal value, string format)
         {
             Cell result = null;
@@ -101,19 +113,39 @@ namespace Crocodile
             return result;
         }
 
-        public void WriteLine
+        [NotNull]
+        public Row WriteLine
             (
                 string format,
                 params object[] args
             )
         {
             WriteCell(0, string.Format(format, args));
+            var result = CurrentLine();
             NewLine();
+
+            return result;
+        }
+
+        [NotNull]
+        public EffectiveSheet Invoke
+            (
+                [NotNull] MethodInvoker action
+            )
+        {
+            Control.InvokeIfRequired(action);
+
+            return this;
         }
 
         public void NewLine()
         {
             _currentRow++;
+        }
+
+        public Range GetRange(int column, int topRow, int bottomRow)
+        {
+            return _worksheet.Range.FromLTRB(column, topRow, column, bottomRow);
         }
 
         public void SaveDocument

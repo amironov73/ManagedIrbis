@@ -80,14 +80,22 @@ namespace Crocodile
 
         public void Output
             (
-                [NotNull] EffectiveEngine engine
+                [NotNull] EffectiveEngine engine,
+                bool bold = false
             )
         {
+            if (ExemplarCount == 0)
+            {
+                return;
+            }
+
             decimal loanCost = LoanCount == 0
                 ? TotalCost
                 : TotalCost / LoanCount;
 
-            decimal meanLoan = (decimal)LoanCount / ExemplarCount;
+            decimal meanLoan = ExemplarCount == 0
+                ? LoanCount
+                : (decimal)LoanCount / ExemplarCount;
 
             int days = Date == DateTime.MinValue
                 ? 0
@@ -118,6 +126,12 @@ namespace Crocodile
             sheet.WriteCell(10, dayLoan, "0.00");
             sheet.WriteCell(11, rdrEff, "0.00");
             sheet.WriteCell(12, finEff, "0.00");
+
+            if (bold)
+            {
+                sheet.Invoke(() => sheet.CurrentLine().Bold());
+            }
+
             sheet.NewLine();
         }
     }

@@ -197,6 +197,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <None Include="ArsMagna.private.snk" />
+    <Compile Include="Source\CellExtensions.cs" />
     <Compile Include="Source\EffectiveEngine.cs" />
     <Compile Include="Source\EffectiveSheet.cs" />
     <Compile Include="Source\EffectiveStat.cs" />
