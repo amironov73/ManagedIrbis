@@ -193,7 +193,9 @@ namespace UnitTests.AM
         public void ArrayUtility_Merge_2()
         {
             int[] array1 = { 1, 2, 3 };
-            int[] result = ArrayUtility.Merge(array1);
+            // ReSharper disable RedundantTypeArgumentsOfMethod
+            int[] result = ArrayUtility.Merge<int>(array1); // for Mono
+            // ReSharper restore RedundantTypeArgumentsOfMethod
             Assert.AreEqual(array1.Length, result.Length);
             Assert.AreEqual(array1[0], result[0]);
             Assert.AreEqual(array1[1], result[1]);

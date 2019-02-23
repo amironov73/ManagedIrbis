@@ -244,6 +244,72 @@ namespace AM.IO
         }
 
         /// <summary>
+        /// Find file ignoring character case.
+        /// </summary>
+        /// <remarks>Designed to resolve Windows-to-UNIX filename case mess.
+        /// </remarks>
+        [CanBeNull]
+        public static string FindFileNix
+            (
+                [NotNull] string whatToFind,
+                bool throwOnError
+            )
+        {
+            Code.NotNullNorEmpty(whatToFind, "whatToFind");
+
+            whatToFind = whatToFind.Replace('\\', '/');
+            if (File.Exists(whatToFind))
+            {
+                return whatToFind;
+            }
+
+            string directoryName = Path.GetDirectoryName(whatToFind);
+            if (string.IsNullOrEmpty(directoryName))
+            {
+                directoryName = ".";
+            }
+
+            if (!Directory.Exists(directoryName))
+            {
+                // TODO find the directory
+
+                throw new ArsMagnaException("Can't find directory: " + whatToFind);
+            }
+
+            string fileName = Path.GetFileName(whatToFind);
+            string[] allFiles = Directory.GetFiles(directoryName);
+            foreach (string candidate in allFiles)
+            {
+                if (candidate.SameString(fileName))
+                {
+                    return Path.Combine(directoryName, candidate);
+                }
+            }
+
+            if (throwOnError)
+            {
+                throw new ArsMagnaException("Can't find file: " + whatToFind);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Find file ignoring character case.
+        /// </summary>
+        [NotNull]
+        public static string FindFileNix
+            (
+                [NotNull] string whatToFind
+            )
+        {
+            Code.NotNullNorEmpty(whatToFind, "whatToFind");
+
+            return FindFileNix(whatToFind, true)
+                .ThrowIfNull("FindFileNix");
+        }
+
+        /// <summary>
         /// Find file in path.
         /// </summary>
         [CanBeNull]

@@ -1,4 +1,4 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* ServerWatchdog.cs --
@@ -34,6 +34,15 @@ namespace ManagedIrbis.Server
     [MoonSharpUserData]
     public sealed class ServerWatchdog
     {
+        #region Constants
+
+        /// <summary>
+        /// Default timeout, seconds.
+        /// </summary>
+        public const int DefaultTimeout = 30;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -74,6 +83,7 @@ namespace ManagedIrbis.Server
             Engine = engine;
             Token = engine.GetCancellationToken();
             Task = new Task(MainLoop);
+            Timeout = DefaultTimeout;
         }
 
         #endregion
@@ -89,6 +99,12 @@ namespace ManagedIrbis.Server
         /// </summary>
         public void MainLoop()
         {
+            if (Timeout <= 0)
+            {
+                // TODO is it right decision?
+                return;
+            }
+
             while (!Token.IsCancellationRequested)
             {
                 ThreadUtility.Sleep(100);

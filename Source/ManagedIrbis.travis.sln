@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnsafeIrbis", "Classic\Libs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Asn1", "Classic\Libs\AM.Asn1\AM.Asn1.csproj", "{FAFFFFD8-B105-4475-AC54-BA4CF34A629A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisPing", "Classic\Apps\IrbisPing\IrbisPing.csproj", "{1CCC6888-E4BD-4002-8D61-C69AB843EEF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -221,6 +223,14 @@ Global
 		{FAFFFFD8-B105-4475-AC54-BA4CF34A629A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FAFFFFD8-B105-4475-AC54-BA4CF34A629A}.Release|x86.ActiveCfg = Release|Any CPU
 		{FAFFFFD8-B105-4475-AC54-BA4CF34A629A}.Release|x86.Build.0 = Release|Any CPU
+		{1CCC6888-E4BD-4002-8D61-C69AB843EEF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CCC6888-E4BD-4002-8D61-C69AB843EEF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CCC6888-E4BD-4002-8D61-C69AB843EEF7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1CCC6888-E4BD-4002-8D61-C69AB843EEF7}.Debug|x86.Build.0 = Debug|Any CPU
+		{1CCC6888-E4BD-4002-8D61-C69AB843EEF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CCC6888-E4BD-4002-8D61-C69AB843EEF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CCC6888-E4BD-4002-8D61-C69AB843EEF7}.Release|x86.ActiveCfg = Release|Any CPU
+		{1CCC6888-E4BD-4002-8D61-C69AB843EEF7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
