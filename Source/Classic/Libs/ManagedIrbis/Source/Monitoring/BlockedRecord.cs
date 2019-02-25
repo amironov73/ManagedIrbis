@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* BlockedRecord.cs -- 
+/* BlockedRecord.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -34,7 +34,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Monitoring
 {
     /// <summary>
-    /// 
+    /// Информация о заблокированной записи.
     /// </summary>
     [PublicAPI]
     [XmlRoot("blocked")]
@@ -62,7 +62,8 @@ namespace ManagedIrbis.Monitoring
         public int Mfn { get; set; }
 
         /// <summary>
-        /// Count.
+        /// Сколько раз запись обнаруживалась заблокированной
+        /// системой мониторинга.
         /// </summary>
         [XmlAttribute("count")]
         [JsonProperty("count", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -76,19 +77,11 @@ namespace ManagedIrbis.Monitoring
         public DateTime Since { get; set; }
 
         /// <summary>
-        /// Mark.
+        /// Пометка.
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
         public bool Marked { get; set; }
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
 
         #endregion
 
@@ -119,6 +112,7 @@ namespace ManagedIrbis.Monitoring
                 {
                     continue;
                 }
+
                 foreach (int mfn in lockedRecords)
                 {
                     BlockedRecord found = null;
@@ -133,6 +127,7 @@ namespace ManagedIrbis.Monitoring
                             found.Count++;
                         }
                     }
+
                     if (ReferenceEquals(found, null))
                     {
                         BlockedRecord record = new BlockedRecord

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IrbisMonitor.cs -- 
+/* IrbisMonitor.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -13,17 +13,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using AM;
 using AM.Collections;
-using AM.IO;
 using AM.Logging;
-using AM.Runtime;
 
 using CodeJam;
 
@@ -36,7 +31,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Monitoring
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -47,7 +42,7 @@ namespace ManagedIrbis.Monitoring
         /// <summary>
         /// Default interval value, milliseconds.
         /// </summary>
-        public const int DefaultInterval = 1000;
+        public const int DefaultInterval = 60 * 1000;
 
         #endregion
 
@@ -65,7 +60,7 @@ namespace ManagedIrbis.Monitoring
         public IIrbisConnection Connection { get; private set; }
 
         /// <summary>
-        /// Database name.
+        /// Database names.
         /// </summary>
         [NotNull]
         public NonEmptyStringCollection Databases { get; private set; }
@@ -73,7 +68,7 @@ namespace ManagedIrbis.Monitoring
         /// <summary>
         /// Interval between measuring, milliseconds.
         /// </summary>
-        public int Interval 
+        public int Interval
         {
             get { return _interval; }
             set
@@ -121,8 +116,10 @@ namespace ManagedIrbis.Monitoring
             {
                 Databases.Add(database);
             }
+
             _interval = DefaultInterval;
             Sink = new NullMonitoringSink();
+            _cancellationTokenSource = new CancellationTokenSource();
         }
 
         #endregion
@@ -133,18 +130,36 @@ namespace ManagedIrbis.Monitoring
 
         private Task _workerTask;
 
+        private readonly CancellationTokenSource _cancellationTokenSource;
+
         private void _MonitoringRoutine()
         {
             while (Active)
             {
-                MonitoringData data = GetDataPortion();
-                if (!Sink.Value.WriteData(data))
+                try
                 {
-                    Active = false;
+                    MonitoringData data = GetDataPortion();
+                    if (!Sink.Value.WriteData(data))
+                    {
+                        Active = false;
+                        break;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Log.TraceException
+                        (
+                            "IrbisMonitor::_MonitoringRoutine",
+                            exception
+                        );
+                }
+
+                if (!Active)
+                {
                     break;
                 }
 
-                Task.Delay(Interval).Wait();
+                Task.Delay(Interval).Wait(_cancellationTokenSource.Token);
             }
         }
 
@@ -163,30 +178,39 @@ namespace ManagedIrbis.Monitoring
                 Moment = DateTime.Now
             };
 
-            ServerStat serverStat = Connection.GetServerStat();
-            ClientInfo[] clients = serverStat.RunningClients;
-            result.Clients = ReferenceEquals(clients, null)
-                ? 0
-                : clients.Length;
-            result.Commands = serverStat.TotalCommandCount;
-
-            List<DatabaseData> list = new List<DatabaseData>(Databases.Count);
-            foreach (string database in Databases)
+            try
             {
-                DatabaseInfo databaseInfo = Connection.GetDatabaseInfo(database);
-                DatabaseData data = new DatabaseData();
-                if (!ReferenceEquals(databaseInfo.LogicallyDeletedRecords, null))
-                {
-                    data.DeletedRecords = databaseInfo.LogicallyDeletedRecords.Length;
-                }
-                if (!ReferenceEquals(databaseInfo.LockedRecords, null))
-                {
-                    data.LockedRecords = databaseInfo.LockedRecords;
-                }
-                list.Add(data);
-            }
+                ServerStat serverStat = Connection.GetServerStat();
+                ClientInfo[] clients = serverStat.RunningClients;
+                result.Clients = ReferenceEquals(clients, null)
+                    ? 0
+                    : clients.Length;
+                result.Commands = serverStat.TotalCommandCount;
 
-            result.Databases = list.ToArray();
+                List<DatabaseData> list = new List<DatabaseData>(Databases.Count);
+                foreach (string database in Databases)
+                {
+                    DatabaseInfo databaseInfo = Connection.GetDatabaseInfo(database);
+                    DatabaseData data = new DatabaseData();
+                    if (!ReferenceEquals(databaseInfo.LogicallyDeletedRecords, null))
+                    {
+                        data.DeletedRecords = databaseInfo.LogicallyDeletedRecords.Length;
+                    }
+
+                    if (!ReferenceEquals(databaseInfo.LockedRecords, null))
+                    {
+                        data.LockedRecords = databaseInfo.LockedRecords;
+                    }
+
+                    list.Add(data);
+                }
+
+                result.Databases = list.ToArray();
+            }
+            catch (Exception exception)
+            {
+                result.ErrorMessage = exception.GetType().Name + ": " + exception.Message;
+            }
 
             return result;
         }
@@ -220,6 +244,7 @@ namespace ManagedIrbis.Monitoring
 
             if (!ReferenceEquals(_workerTask, null))
             {
+                _cancellationTokenSource.Cancel();
                 //_workerTask.Wait();
                 _workerTask = null;
             }

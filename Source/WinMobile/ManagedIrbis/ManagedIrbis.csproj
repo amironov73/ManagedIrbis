@@ -961,8 +961,17 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Metadata\WizFolio.cs">
       <Link>Source\Metadata\WizFolio.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Monitoring\BinaryMonitoringSink.cs">
+      <Link>Source\Monitoring\BinaryMonitoringSink.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Monitoring\BlockedRecord.cs">
       <Link>Source\Monitoring\BlockedRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Monitoring\MonitoringConfiguration.cs">
+      <Link>Source\Monitoring\MonitoringConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Monitoring\TeeMonitoringSink.cs">
+      <Link>Source\Monitoring\TeeMonitoringSink.cs</Link>
     </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Mx\Commands\BangCommand.cs">
       <Link>Source\Mx\Commands\BangCommand.cs</Link>

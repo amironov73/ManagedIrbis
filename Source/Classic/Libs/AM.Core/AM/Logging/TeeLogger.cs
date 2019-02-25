@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* TeeLogger.cs --
+/* TeeLogger.cs -- logger delegating to collection of loggers
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -20,7 +20,7 @@ using MoonSharp.Interpreter;
 namespace AM.Logging
 {
     /// <summary>
-    /// 
+    /// Logger delegating to collection of loggers.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]

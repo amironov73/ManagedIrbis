@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* MonitoringData.cs -- 
+/* MonitoringData.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -32,7 +32,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Monitoring
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -50,6 +50,14 @@ namespace ManagedIrbis.Monitoring
         public DateTime Moment { get; set; }
 
         /// <summary>
+        /// Сообщение об ошибке (исключении).
+        /// </summary>
+        [CanBeNull]
+        [XmlAttribute("error")]
+        [JsonProperty("error", NullValueHandling = NullValueHandling.Ignore)]
+        public string ErrorMessage { get; set; }
+
+        /// <summary>
         /// Number of running clients.
         /// </summary>
         [XmlAttribute("clients")]
@@ -62,6 +70,13 @@ namespace ManagedIrbis.Monitoring
         [XmlAttribute("commands")]
         [JsonProperty("commands", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Commands { get; set; }
+
+        /// <summary>
+        /// Ping duration.
+        /// </summary>
+        [XmlAttribute("ping")]
+        [JsonProperty("ping", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int PingDuration { get; set; }
 
         /// <summary>
         /// Data for databases.
@@ -85,8 +100,10 @@ namespace ManagedIrbis.Monitoring
 
             long ticks = reader.ReadInt64();
             Moment = new DateTime(ticks);
+            ErrorMessage = reader.ReadNullableString();
             Clients = reader.ReadPackedInt32();
             Commands = reader.ReadPackedInt32();
+            PingDuration = reader.ReadPackedInt32();
             Databases = reader.ReadNullableArray<DatabaseData>();
         }
 
@@ -100,8 +117,10 @@ namespace ManagedIrbis.Monitoring
 
             writer.Write(Moment.Ticks);
             writer
+                .WriteNullable(ErrorMessage)
                 .WritePackedInt32(Clients)
                 .WritePackedInt32(Commands)
+                .WritePackedInt32(PingDuration)
                 .WriteNullableArray(Databases);
         }
 

@@ -369,7 +369,10 @@
     <Compile Include="Source\Metadata\Ris\RisTag.cs" />
     <Compile Include="Source\Metadata\TimeML.cs" />
     <Compile Include="Source\Metadata\WizFolio.cs" />
+    <Compile Include="Source\Monitoring\BinaryMonitoringSink.cs" />
     <Compile Include="Source\Monitoring\BlockedRecord.cs" />
+    <Compile Include="Source\Monitoring\MonitoringConfiguration.cs" />
+    <Compile Include="Source\Monitoring\TeeMonitoringSink.cs" />
     <Compile Include="Source\Mx\Commands\BangCommand.cs" />
     <Compile Include="Source\Mx\Commands\ClsCommand.cs" />
     <Compile Include="Source\Mx\Commands\DbCommand.cs" />
