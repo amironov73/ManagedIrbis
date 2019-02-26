@@ -17,7 +17,7 @@ using AM.Text;
 using AM.Text.Output;
 
 using DevExpress.XtraSpreadsheet;
-
+using IrbisUI;
 using ManagedIrbis;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
@@ -40,6 +40,7 @@ namespace Crocodile
         public AbstractOutput Log => _logBox.Output;
         public SpreadsheetControl Spreadsheet { get; set; }
         public bool Busy { get; private set; } = false;
+        private string _connectionString;
 
         public MainForm()
         {
@@ -61,17 +62,86 @@ namespace Crocodile
             }
         }
 
-        public IrbisConnection GetConnection()
+        public string GetConnectionString()
         {
-            string connectionString = ConfigurationUtility
+            if (!string.IsNullOrEmpty(_connectionString))
+            {
+                return _connectionString;
+            }
+
+            string result = ConfigurationUtility
                 .GetString("connectionString")
                 .ThrowIfNull("connectionString");
+
+            return result;
+        }
+
+        public IrbisConnection GetConnection()
+        {
+            string connectionString = GetConnectionString();
 
             return new IrbisConnection(connectionString);
         }
 
+        private bool SetupLogin()
+        {
+            string connectionString = GetConnectionString()
+                .ThrowIfNull("connectionString");
+            IrbisConnection client = new IrbisConnection();
+            client.ParseConnectionString(connectionString);
+
+            if ((string.IsNullOrEmpty(client.Username)
+                 || string.IsNullOrEmpty(client.Password)))
+            {
+                if (!IrbisLoginCenter.Login(client, null))
+                {
+                    client.Dispose();
+
+                    return false;
+                }
+
+                ConnectionSettings settings
+                    = ConnectionSettings.FromConnection(client);
+                _connectionString = settings.Encode();
+            }
+
+            client.Dispose();
+
+            connectionString = GetConnectionString();
+            client = new IrbisConnection();
+            client.ParseConnectionString(connectionString);
+
+            try
+            {
+                client.Connect();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show
+                    (
+                        ex.ToString(),
+                        "ОШИБКА",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                client.Dispose();
+
+                return false;
+            }
+
+            client.Dispose();
+
+            return true;
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
+            if (!SetupLogin())
+            {
+                Application.Exit();
+                return;
+            }
+
             ComboBox.ObjectCollection items = _yearBox.Items;
             items.Clear();
             int year = DateTime.Today.Year;

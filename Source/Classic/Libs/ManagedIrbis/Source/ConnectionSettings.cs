@@ -418,6 +418,7 @@ namespace ManagedIrbis
         /// Encode parameters to text representation.
         /// </summary>
         [NotNull]
+        [MustUseReturnValue]
         public string Encode()
         {
             List<Parameter> parameters = new List<Parameter>();
