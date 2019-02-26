@@ -45,7 +45,7 @@ using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
-namespace BeriChitai
+namespace WriteOffER
 {
     public partial class MainForm
         : UniversalForm
@@ -53,7 +53,7 @@ namespace BeriChitai
         #region Properties
 
         [NotNull]
-        public BeriPanel Panel { get; private set; }
+        public OffPanel Panel { get; private set; }
 
         #endregion
 
@@ -68,7 +68,7 @@ namespace BeriChitai
             HideMainMenu();
             HideToolStrip();
             HideStatusStrip();
-            Panel = new BeriPanel(this);
+            Panel = new OffPanel(this);
             SetupCentralControl(Panel);
         }
 
@@ -77,12 +77,12 @@ namespace BeriChitai
         #region Private members
 
         private void _Initialize
-            (
-                object sender,
-                EventArgs e
-            )
+        (
+            object sender,
+            EventArgs e
+        )
         {
-            Icon = Properties.Resources.Garbage;
+            Icon = Properties.Resources.WriteOff;
 
             if (TestProviderConnection())
             {
@@ -103,8 +103,7 @@ namespace BeriChitai
                 return;
             }
 
-            WriteLine("BeriChitai ready");
-            Panel.Phase2();
+            WriteLine("WriteOffER ready");
         }
 
         #endregion

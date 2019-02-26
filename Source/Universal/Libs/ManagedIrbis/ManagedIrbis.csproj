@@ -373,6 +373,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Magazines\BindingManager.cs">
       <Link>Source\Magazines\BindingManager.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Menus\PriceMenu.cs">
+      <Link>Source\Menus\PriceMenu.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Metadata\BibFrame\BibAgent.cs">
       <Link>Source\Metadata\BibFrame\BibAgent.cs</Link>
     </Compile>

@@ -45,7 +45,7 @@ using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
-namespace BeriChitai
+namespace WriteOffER
 {
     static class Program
     {
@@ -57,10 +57,10 @@ namespace BeriChitai
         {
             ExceptionBox.Show(eventArgs.Exception);
             Environment.FailFast
-                (
-                    "Shutting down",
-                    eventArgs.Exception
-                );
+            (
+                "Shutting down",
+                eventArgs.Exception
+            );
         }
 
         /// <summary>
@@ -72,9 +72,9 @@ namespace BeriChitai
             try
             {
                 Application.SetUnhandledExceptionMode
-                    (
-                       UnhandledExceptionMode.Automatic
-                    );
+                (
+                    UnhandledExceptionMode.Automatic
+                );
                 Application.ThreadException += _ThreadException;
 
                 Application.EnableVisualStyles();

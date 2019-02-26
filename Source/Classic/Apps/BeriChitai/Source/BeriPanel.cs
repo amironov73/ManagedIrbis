@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ListPanel.cs --
+/* BeriPanel.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -47,10 +47,12 @@ using ManagedIrbis;
 using ManagedIrbis.Client;
 using ManagedIrbis.Fields;
 using ManagedIrbis.Readers;
+
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 using Timer = System.Windows.Forms.Timer;
 
 #endregion
