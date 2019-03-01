@@ -257,10 +257,27 @@ namespace AM.IO
         {
             Code.NotNullNorEmpty(whatToFind, "whatToFind");
 
+            if (File.Exists(whatToFind))
+            {
+                return whatToFind;
+            }
+
             whatToFind = whatToFind.Replace('\\', '/');
             if (File.Exists(whatToFind))
             {
                 return whatToFind;
+            }
+
+            string lowered = whatToFind.ToLowerInvariant();
+            if (File.Exists(lowered))
+            {
+                return lowered;
+            }
+
+            string uppered = whatToFind.ToUpperInvariant();
+            if (File.Exists(uppered))
+            {
+                return uppered;
             }
 
             string directoryName = Path.GetDirectoryName(whatToFind);

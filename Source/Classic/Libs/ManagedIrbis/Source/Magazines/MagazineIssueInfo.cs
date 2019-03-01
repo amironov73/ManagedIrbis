@@ -248,6 +248,43 @@ namespace ManagedIrbis.Magazines
         }
 
         /// <summary>
+        /// Превращение в запись.
+        /// </summary>
+        [NotNull]
+        public MarcRecord ToRecord()
+        {
+            MarcRecord result = new MarcRecord();
+            result
+                .AddNonEmptyField(903, Index)
+                .AddNonEmptyField(933, MagazineCode)
+                .AddNonEmptyField(934, Year)
+                .AddNonEmptyField(935, Volume)
+                .AddNonEmptyField(936, Number)
+                .AddNonEmptyField(920, Worksheet)
+                .AddNonEmptyField(999, LoanCount);
+
+            MagazineArticleInfo[] articles = Articles;
+            if (!ReferenceEquals(articles, null))
+            {
+                foreach (MagazineArticleInfo article in articles)
+                {
+                    result.Fields.Add(article.ToField());
+                }
+            }
+
+            ExemplarInfo[] exemplars = Exemplars;
+            if (!ReferenceEquals(exemplars, null))
+            {
+                foreach (ExemplarInfo exemplar in exemplars)
+                {
+                    result.Fields.Add(exemplar.ToField());
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Should serialize the <see cref="Articles"/> field?
         /// </summary>
         [ExcludeFromCodeCoverage]

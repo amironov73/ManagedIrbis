@@ -21,6 +21,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.Batch;
+using ManagedIrbis.Fields;
 
 using MoonSharp.Interpreter;
 
@@ -153,6 +154,31 @@ namespace ManagedIrbis.Magazines
         }
 
         /// <summary>
+        /// Получение выпуска журнала с указанным номером.
+        /// </summary>
+        [CanBeNull]
+        public MagazineIssueInfo GetIssue
+            (
+                [NotNull] MagazineInfo magazine,
+                [NotNull] string year,
+                [NotNull] string number
+            )
+        {
+            Code.NotNull(magazine, "magazine");
+            Code.NotNullNorEmpty(year, "year");
+            Code.NotNullNorEmpty(number, "number");
+
+            string index = magazine.Index + "/" + year + "/" + number;
+            MarcRecord record = Connection.SearchReadOneRecord("\"I={0}\"", index);
+            if (ReferenceEquals(record, null))
+            {
+                return null;
+            }
+
+            return MagazineIssueInfo.Parse(record);
+        }
+
+        /// <summary>
         /// Получение списка выпусков данного журнала.
         /// </summary>
         [NotNull]
@@ -274,21 +300,32 @@ namespace ManagedIrbis.Magazines
         /// <summary>
         /// Создание журнала в базе по описанию.
         /// </summary>
-        [CanBeNull]
-        public MagazineManager CreateMagazine
+        [NotNull]
+        public MagazineIssueInfo CreateMagazine
             (
-                [NotNull] MagazineInfo magazine
+                [NotNull] MagazineInfo magazine,
+                [NotNull] string year,
+                [NotNull] string issue,
+                [CanBeNull] ExemplarInfo[] exemplars
             )
         {
             Code.NotNull(magazine, "magazine");
+            Code.NotNullNorEmpty(year, "year");
+            Code.NotNullNorEmpty(issue, "issue");
 
-            Log.Error
-                (
-                    "MagazineManager::CreateMagazine:: "
-                    + "not implemented"
-                );
+            string fullIndex = magazine.Index + "/" + year + "/" + issue;
+            MagazineIssueInfo result = new MagazineIssueInfo
+            {
+                Index = fullIndex,
+                DocumentCode = fullIndex,
+                MagazineCode = magazine.Index,
+                Year = year,
+                Number = issue,
+                Worksheet = "NJ",
+                Exemplars = exemplars
+            };
 
-            throw new NotImplementedException();
+            return result;
         }
 
         #endregion

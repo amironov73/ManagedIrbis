@@ -1,6 +1,12 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+/* Program.cs --
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
+ */
+
 #region Using directives
 
 using System;
@@ -9,6 +15,8 @@ using System.Windows.Forms;
 using DevExpress.LookAndFeel;
 using DevExpress.Skins;
 using DevExpress.XtraEditors;
+
+using IrbisUI.Universal;
 
 using CM = System.Configuration.ConfigurationManager;
 
@@ -48,19 +56,29 @@ namespace FastGazettes
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.Automatic);
             Application.ThreadException += Application_ThreadException;
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            try
+            {
 
-            DevExpress.UserSkins.BonusSkins.Register();
-            SkinManager.EnableFormSkins();
-            string skinName = CM.AppSettings["form-skin"];
-            UserLookAndFeel.Default.SkinName = skinName;
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.Run(new MainForm());
+                DevExpress.UserSkins.BonusSkins.Register();
+                SkinManager.EnableFormSkins();
+                string skinName = CM.AppSettings["form-skin"];
+                UserLookAndFeel.Default.SkinName = skinName;
+
+                UniversalForm form = new MainForm();
+                UniversalForm.Run(form, args);
+            }
+            catch (Exception exception)
+            {
+                ShowException(exception);
+            }
         }
     }
 }

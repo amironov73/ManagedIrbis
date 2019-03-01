@@ -159,6 +159,7 @@
     <Compile Include="Source\IrbisGuid.cs" />
     <Compile Include="Source\Magazines\BindingSpecification.cs" />
     <Compile Include="Source\Magazines\BindingManager.cs" />
+    <Compile Include="Source\Magazines\MagazineComparer.cs" />
     <Compile Include="Source\Menus\PriceMenu.cs" />
     <Compile Include="Source\Metadata\BibFrame\BibAgent.cs" />
     <Compile Include="Source\Metadata\BibFrame\BibEvent.cs" />

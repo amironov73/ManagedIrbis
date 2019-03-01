@@ -110,7 +110,7 @@ namespace ManagedIrbis.Magazines
         public string SeriesTitle { get; set; }
 
         /// <summary>
-        /// Расширенное заглавие. 
+        /// Расширенное заглавие.
         /// Включает заголовок выпуск и заголовок серии.
         /// </summary>
         [NotNull]

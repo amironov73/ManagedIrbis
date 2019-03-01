@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -172,6 +173,18 @@ namespace ManagedIrbis.Magazines
 
             return result;
         }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [NotNull]
+        public RecordField ToField()
+        {
+            // TODO implement
+
+            throw new NotImplementedException();
+        }
+
 
         #endregion
 

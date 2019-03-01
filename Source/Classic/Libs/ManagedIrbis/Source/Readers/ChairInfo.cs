@@ -204,8 +204,6 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Загрузка с сервера.
         /// </summary>
-        /// <param name="connection"></param>
-        /// <returns></returns>
         [NotNull]
         [ItemNotNull]
         public static ChairInfo[] Read
