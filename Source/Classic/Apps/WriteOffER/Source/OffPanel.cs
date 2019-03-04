@@ -37,6 +37,8 @@ using AM.UI;
 using AM.Windows.Forms;
 
 using CodeJam;
+using DevExpress.Spreadsheet;
+using DevExpress.XtraSpreadsheet;
 
 using IrbisUI;
 using IrbisUI.Universal;
@@ -57,6 +59,8 @@ using Timer = System.Windows.Forms.Timer;
 
 #endregion
 
+// ReSharper disable StringLiteralTypo
+
 namespace WriteOffER
 {
     public partial class OffPanel
@@ -73,6 +77,8 @@ namespace WriteOffER
                 .ThrowIfNull("MainForm")
                 .Controller
                 .ThrowIfNull("MainForm.Controller");
+
+        public SpreadsheetControl Spreadsheet { get; set; }
 
         // [NotNull] private BeriManager BeriMan { get; set; }
 
@@ -108,13 +114,51 @@ namespace WriteOffER
         {
             InitializeComponent();
 
-            IrbisConnection connection = (IrbisConnection)Connection.ThrowIfNull("Connection");
+            //IrbisConnection connection = (IrbisConnection)Connection.ThrowIfNull("Connection");
             //BeriMan = new BeriManager(connection);
+
+            _toolStrip = new ToolStrip
+            {
+                Dock = DockStyle.Top
+            };
+            Controls.Add(_toolStrip);
+            var prefixes = new PrefixInfo[]
+            {
+            };
+            var prefixBox = new ToolStripComboBox()
+            {
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Items =
+                {
+                    new PrefixInfo{Prefix="NS=", Description = "Карточка комплектования"},
+                    new PrefixInfo{Prefix="IN=", Description = "Инвентарный номер"},
+                    new PrefixInfo{Prefix="NKSU=", Description = "Номер КСУ"}
+                },
+                SelectedIndex = 0
+            };
+            _toolStrip.Items.Add(prefixBox);
+            var clearButton = new ToolStripButton("Очистить");
+            _toolStrip.Items.Add(clearButton);
+            var goButton = new ToolStripButton("Рассчивать");
+            _toolStrip.Items.Add(goButton);
+            var saveButton = new ToolStripButton("Сохранить");
+            _toolStrip.Items.Add(saveButton);
+            var loadButton = new ToolStripButton("Загрузить");
+            _toolStrip.Items.Add(loadButton);
+
+            Spreadsheet = new SpreadsheetControl
+            {
+                Dock = DockStyle.Fill
+            };
+            Controls.Add(Spreadsheet);
+            ClearTable();
         }
 
         #endregion
 
         #region Private members
+
+        private ToolStrip _toolStrip;
 
         [NotNull]
         private IIrbisConnection GetConnection()
@@ -131,7 +175,11 @@ namespace WriteOffER
 
         #region Public methods
 
-
+        public void ClearTable()
+        {
+            byte[] template = Properties.Resources.Template;
+            Spreadsheet.LoadDocument(template, DocumentFormat.Xlsx);
+        }
 
         #endregion
     }
