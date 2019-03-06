@@ -44,6 +44,8 @@ using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
+// ReSharper disable UseNameofExpression
+
 namespace WriteOffER
 {
     /// <summary>
@@ -55,11 +57,11 @@ namespace WriteOffER
         #region Properties
 
         /// <summary>
-        /// Инвентарный номер экземпляра.
+        /// Инвентарный номер экземпляра или номер карточки комплектования.
         /// </summary>
-        [XmlAttribute("inventory")]
-        [JsonProperty("inventory", NullValueHandling = NullValueHandling.Ignore)]
-        public string Inventory { get; set; }
+        [XmlAttribute("number")]
+        [JsonProperty("number", NullValueHandling = NullValueHandling.Ignore)]
+        public string Number { get; set; }
 
         /// <summary>
         /// Библиографическое описание.
@@ -67,6 +69,41 @@ namespace WriteOffER
         [XmlAttribute("description")]
         [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
+
+        /// <summary>
+        /// Год издания.
+        /// </summary>
+        [XmlAttribute("year")]
+        [JsonProperty("year", NullValueHandling = NullValueHandling.Ignore)]
+        public string Year { get; set; }
+
+        /// <summary>
+        /// Цена.
+        /// </summary>
+        [XmlAttribute("price")]
+        [JsonProperty("price", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public decimal Price { get; set; }
+
+        /// <summary>
+        /// Коэффициент переоценки.
+        /// </summary>
+        [XmlAttribute("coefficient")]
+        [JsonProperty("coefficient", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public decimal Coefficient { get; set; }
+
+        /// <summary>
+        /// Количество экземпляров.
+        /// </summary>
+        [XmlAttribute("amount")]
+        [JsonProperty("amount", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int Amount { get; set; }
+
+        /// <summary>
+        /// Сумма.
+        /// </summary>
+        [XmlAttribute("summa")]
+        [JsonProperty("summa", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public decimal Summa { get; set; }
 
         /// <summary>
         /// MFN.
@@ -118,8 +155,13 @@ namespace WriteOffER
         {
             Code.NotNull(reader, "reader");
 
-            Inventory = reader.ReadNullableString();
+            Number = reader.ReadNullableString();
             Description = reader.ReadNullableString();
+            Year = reader.ReadNullableString();
+            Price = reader.ReadDecimal();
+            Coefficient = reader.ReadDecimal();
+            Amount = reader.ReadPackedInt32();
+            Summa = reader.ReadDecimal();
             Mfn = reader.ReadPackedInt32();
             Error = reader.ReadNullableString();
         }
@@ -133,9 +175,14 @@ namespace WriteOffER
             Code.NotNull(writer, "writer");
 
             writer
-                .WriteNullable(Inventory)
+                .WriteNullable(Number)
                 .WriteNullable(Description)
-                .WritePackedInt32(Mfn)
+                .WriteNullable(Year)
+                .Write(Price);
+            writer.Write(Coefficient);
+            writer.WritePackedInt32(Amount);
+            writer.Write(Summa);
+            writer.WritePackedInt32(Mfn)
                 .WriteNullable(Error);
         }
 

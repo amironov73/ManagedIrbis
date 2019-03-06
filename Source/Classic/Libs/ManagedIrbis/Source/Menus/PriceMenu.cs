@@ -12,16 +12,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using AM;
 
 using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Client;
 using ManagedIrbis.Infrastructure;
 
 #endregion
-
 
 namespace ManagedIrbis.Menus
 {
@@ -202,7 +203,8 @@ namespace ManagedIrbis.Menus
             FileSpecification specification = new FileSpecification
                 (
                     IrbisPath.MasterFile,
-                    StandardDatabases.Readers
+                    connection.Database,
+                    fileName
                 );
             MenuFile menu = MenuFile.ReadFromServer(connection, specification)
                 .ThrowIfNull("menu");
@@ -256,7 +258,7 @@ namespace ManagedIrbis.Menus
             FileSpecification specification = new FileSpecification
                 (
                     IrbisPath.MasterFile,
-                    StandardDatabases.Readers,
+                    provider.Database,
                     fileName
                 );
             MenuFile menu = provider.ReadMenuFile(specification)

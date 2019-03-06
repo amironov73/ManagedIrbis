@@ -478,6 +478,24 @@ namespace AM
             }
         }
 
+        /// <summary>
+        /// Пытается пройтись по последовательности, съедая исключения.
+        /// </summary>
+        [NotNull]
+        public static IEnumerable<T> WithoutExceptions<T>
+            (
+                [NotNull] IEnumerable<T> inner
+            )
+        {
+            Code.NotNull(inner, "inner");
+
+            ExceptionEater<T> eater = new ExceptionEater<T>(inner);
+            foreach (T item in eater)
+            {
+                yield return item;
+            }
+        }
+
         #endregion
     }
 }

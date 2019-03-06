@@ -80,16 +80,15 @@ namespace WriteOffER
 
         public SpreadsheetControl Spreadsheet { get; set; }
 
-        // [NotNull] private BeriManager BeriMan { get; set; }
-
         [NotNull]
         public IIrbisConnection Connection => GetConnection();
 
-        //[NotNull]
-        //BeriInfo[] SelectedBooks { get; set; }
+        private Worksheet _worksheet;
+        private int _currentRow;
 
-        //[NotNull]
-        //private string[] SelectedReaders { get; set; }
+        public int CurrentRow => _currentRow;
+
+        private ToolStripComboBox _prefixBox;
 
         #endregion
 
@@ -107,25 +106,19 @@ namespace WriteOffER
         }
 
         public OffPanel
-        (
-            MainForm mainForm
-        )
+            (
+                MainForm mainForm
+            )
             : base(mainForm)
         {
             InitializeComponent();
-
-            //IrbisConnection connection = (IrbisConnection)Connection.ThrowIfNull("Connection");
-            //BeriMan = new BeriManager(connection);
 
             _toolStrip = new ToolStrip
             {
                 Dock = DockStyle.Top
             };
             Controls.Add(_toolStrip);
-            var prefixes = new PrefixInfo[]
-            {
-            };
-            var prefixBox = new ToolStripComboBox()
+            _prefixBox = new ToolStripComboBox()
             {
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 Items =
@@ -136,14 +129,18 @@ namespace WriteOffER
                 },
                 SelectedIndex = 0
             };
-            _toolStrip.Items.Add(prefixBox);
+            _toolStrip.Items.Add(_prefixBox);
             var clearButton = new ToolStripButton("Очистить");
+            clearButton.Click += ClearButtonOnClick;
             _toolStrip.Items.Add(clearButton);
             var goButton = new ToolStripButton("Рассчивать");
+            goButton.Click += GoButtonOnClick;
             _toolStrip.Items.Add(goButton);
             var saveButton = new ToolStripButton("Сохранить");
+            saveButton.Click += SaveButtonOnClick;
             _toolStrip.Items.Add(saveButton);
             var loadButton = new ToolStripButton("Загрузить");
+            loadButton.Click += LoadButtonOnClick;
             _toolStrip.Items.Add(loadButton);
 
             Spreadsheet = new SpreadsheetControl
@@ -151,6 +148,27 @@ namespace WriteOffER
                 Dock = DockStyle.Fill
             };
             Controls.Add(Spreadsheet);
+            ClearTable();
+        }
+
+        private void LoadButtonOnClick(object sender, EventArgs e)
+        {
+            Spreadsheet.LoadDocument(this);
+            SetupTable();
+        }
+
+        private void SaveButtonOnClick(object sender, EventArgs e)
+        {
+            Spreadsheet.SaveDocumentAs(this);
+        }
+
+        private void GoButtonOnClick(object sender, EventArgs e)
+        {
+            Run(ProcessTable);
+        }
+
+        private void ClearButtonOnClick(object sender, EventArgs e)
+        {
             ClearTable();
         }
 
@@ -171,6 +189,12 @@ namespace WriteOffER
             return result;
         }
 
+        private void SetupTable()
+        {
+            _worksheet = Spreadsheet.ActiveWorksheet;
+            _currentRow = 6;
+        }
+
         #endregion
 
         #region Public methods
@@ -179,6 +203,154 @@ namespace WriteOffER
         {
             byte[] template = Properties.Resources.Template;
             Spreadsheet.LoadDocument(template, DocumentFormat.Xlsx);
+            SetupTable();
+        }
+
+        [NotNull]
+        public Row CurrentLine()
+        {
+            return _worksheet.Rows[_currentRow];
+        }
+
+        [NotNull]
+        public Cell WriteCell(int column, string text)
+        {
+            Cell result = null;
+            Spreadsheet.InvokeIfRequired(() =>
+            {
+                result = _worksheet.Cells[_currentRow, column];
+                result.Value = text;
+            });
+
+            return result;
+        }
+
+        [NotNull]
+        public Cell WriteCell(int column, int value)
+        {
+            Cell result = null;
+            Spreadsheet.InvokeIfRequired(() =>
+            {
+                result = _worksheet.Cells[_currentRow, column];
+                result.Value = value;
+            });
+
+            return result;
+        }
+
+        [NotNull]
+        public Cell WriteCell(int column, double value, string format)
+        {
+            Cell result = null;
+            Spreadsheet.InvokeIfRequired(() =>
+            {
+                result = _worksheet.Cells[_currentRow, column];
+                result.Value = value;
+                result.NumberFormat = format;
+            });
+
+            return result;
+        }
+
+        [NotNull]
+        public Cell WriteCell(int column, decimal value, string format)
+        {
+            Cell result = null;
+            Spreadsheet.InvokeIfRequired(() =>
+            {
+                result = _worksheet.Cells[_currentRow, column];
+                result.Value = (double)value;
+                result.NumberFormat = format;
+            });
+
+            return result;
+        }
+
+        [CanBeNull]
+        public string ReadCell(int column)
+        {
+            Cell cell = _worksheet.Cells[_currentRow, column];
+            string result = cell.Value.ToString();
+            if (!string.IsNullOrEmpty(result))
+            {
+                result = result.Trim();
+            }
+
+            return result;
+        }
+
+        [NotNull]
+        public Row WriteTableLine
+            (
+                string format,
+                params object[] args
+            )
+        {
+            WriteCell(0, string.Format(format, args));
+            var result = CurrentLine();
+            NewLine();
+
+            return result;
+        }
+
+        [NotNull]
+        public OffPanel Invoke
+            (
+                [NotNull] MethodInvoker action
+            )
+        {
+            Spreadsheet.InvokeIfRequired(action);
+
+            return this;
+        }
+
+        public void NewLine()
+        {
+            _currentRow++;
+        }
+
+        public Range GetRange(int column, int topRow, int bottomRow)
+        {
+            return _worksheet.Range.FromLTRB(column, topRow, column, bottomRow);
+        }
+
+        public void ProcessTable()
+        {
+            PrefixInfo prefix = null;
+            Invoke(() =>
+            {
+                prefix = _prefixBox.SelectedItem as PrefixInfo;
+            });
+            if (ReferenceEquals(prefix, null))
+            {
+                return;
+            }
+
+            SetupTable();
+            OffManager manager = new OffManager(Output, Connection, prefix);
+
+            int index = 1;
+            while (true)
+            {
+                string number = ReadCell(1);
+                if (string.IsNullOrEmpty(number))
+                {
+                    break;
+                }
+
+                WriteCell(0, index);
+                OffInfo info = manager.GetInfo(number);
+                if (!ReferenceEquals(info, null))
+                {
+                    WriteCell(2, info.Description);
+                    WriteCell(3, info.Year);
+                    WriteCell(4, info.Price, "0.00");
+                    WriteCell(5, info.Coefficient, "0.00");
+                }
+
+                NewLine();
+                index++;
+            }
         }
 
         #endregion

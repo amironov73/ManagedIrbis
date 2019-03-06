@@ -102,6 +102,7 @@
     <Compile Include="AM\Collections\DictionaryUtility.cs" />
     <Compile Include="AM\Collections\DisposableCollection.cs" />
     <Compile Include="AM\Collections\DoublyLinkedList.cs" />
+    <Compile Include="AM\ExceptionEater.cs" />
     <Compile Include="AM\Collections\FrugalList.cs" />
     <Compile Include="AM\Collections\IIndexable.cs" />
     <Compile Include="AM\Collections\IndexableConverter.cs" />

@@ -150,6 +150,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\DoublyLinkedList.cs">
       <Link>AM\Collections\DoublyLinkedList.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\ExceptionEater.cs">
+      <Link>AM\ExceptionEater.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Collections\FrugalList.cs">
       <Link>AM\Collections\FrugalList.cs</Link>
     </Compile>
