@@ -393,6 +393,80 @@ namespace AM.IO
             }
         }
 
+        ///<summary>
+        /// Получение непрочитанных байт одним большим куском. Позиция не сдвигается.
+        /// </summary>
+        public byte[] ReadRemaining()
+        {
+            byte[] result = new byte[RemainingLength()];
+
+            if (!ReferenceEquals(_current, null))
+            {
+                int offset=0, length;
+
+                if (ReferenceEquals(_current, _last))
+                {
+                    length = _position - _read;
+                    Array.Copy(_current.Buffer, _read, result, 0, length);
+                }
+                else
+                {
+                    length = _chunkSize - _read;
+                    Array.Copy(_current.Buffer, _read, result, offset, length);
+
+                    for
+                        (
+                            Chunk chunk = _current.Next;
+                            !ReferenceEquals(chunk, _last);
+                            chunk = chunk.Next
+                        )
+                    {
+                        Array.Copy(chunk.Buffer, 0, result, offset, _chunkSize);
+                        offset += _chunkSize;
+                    }
+
+                    length = _chunkSize - _position;
+                    Array.Copy(_last.Buffer, 0, result, offset, length);
+                }
+            }
+
+            return result;
+        }
+
+        ///<summary>
+        /// Количество непрочитанных байт.
+        ///</summary>
+        public int RemainingLength()
+        {
+            int result = 0;
+
+            if (!ReferenceEquals(_current, null))
+            {
+                if (ReferenceEquals(_current, _last))
+                {
+                    result = _position - _read;
+                }
+                else
+                {
+                    result += _chunkSize - _read;
+
+                    for
+                    (
+                        Chunk chunk = _current.Next;
+                        !ReferenceEquals(chunk, _last);
+                        chunk = chunk.Next
+                    )
+                    {
+                        result += _chunkSize;
+                    }
+
+                    result += _position - _read;
+                }
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Rewind to the beginning.
         /// </summary>
