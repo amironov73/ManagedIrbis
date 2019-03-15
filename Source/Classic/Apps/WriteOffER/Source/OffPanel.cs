@@ -37,6 +37,7 @@ using AM.UI;
 using AM.Windows.Forms;
 
 using CodeJam;
+
 using DevExpress.Spreadsheet;
 using DevExpress.XtraSpreadsheet;
 
@@ -280,6 +281,33 @@ namespace WriteOffER
         }
 
         [NotNull]
+        public string CellReference(int row, int column)
+        {
+            Cell cell = _worksheet.Cells[row, column];
+            string result = Spreadsheet.Document.DocumentSettings.R1C1ReferenceStyle
+                ? cell.GetReferenceR1C1(ReferenceElement.ColumnAbsolute|ReferenceElement.RowAbsolute, cell)
+                : cell.GetReferenceA1();
+
+            return result;
+        }
+
+        [NotNull]
+        public string CellReference(int column)
+        {
+            return CellReference(_currentRow, column);
+        }
+
+        [NotNull]
+        public Cell SetFormula(int column, string formula)
+        {
+            Cell result = _worksheet.Cells[_currentRow, column];
+            //result.Formula = formula;
+            result.FormulaInvariant = formula;
+
+            return result;
+        }
+
+        [NotNull]
         public Row WriteTableLine
             (
                 string format,
@@ -291,6 +319,39 @@ namespace WriteOffER
             NewLine();
 
             return result;
+        }
+
+
+        public void SetupBorder(Border border)
+        {
+            border.Color = Color.Black;
+            border.LineStyle = BorderLineStyle.Thin;
+        }
+
+        public void SetupBorders(Cell cell)
+        {
+            SetupBorder(cell.Borders.BottomBorder);
+            SetupBorder(cell.Borders.TopBorder);
+            SetupBorder(cell.Borders.LeftBorder);
+            SetupBorder(cell.Borders.RightBorder);
+        }
+
+        public void BeautifyCell(Cell cell)
+        {
+            Invoke(() =>
+            {
+                cell.Alignment.Horizontal = SpreadsheetHorizontalAlignment.Center;
+                cell.Alignment.Vertical = SpreadsheetVerticalAlignment.Center;
+                SetupBorders(cell);
+            });
+        }
+        public void BeautifyCell(int column)
+        {
+            Invoke(() =>
+            {
+                Cell cell = _worksheet.Cells[_currentRow, column];
+                BeautifyCell(cell);
+            });
         }
 
         [NotNull]
@@ -329,6 +390,7 @@ namespace WriteOffER
             SetupTable();
             OffManager manager = new OffManager(Output, Connection, prefix);
 
+            int startRow = CurrentRow;
             int index = 1;
             while (true)
             {
@@ -338,19 +400,60 @@ namespace WriteOffER
                     break;
                 }
 
+                int amount = ReadCell(6).SafeToInt32();
+                if (amount <= 0)
+                {
+                    break;
+                }
+
                 WriteCell(0, index);
                 OffInfo info = manager.GetInfo(number);
                 if (!ReferenceEquals(info, null))
                 {
-                    WriteCell(2, info.Description);
+                    Cell descriptionCell = WriteCell(2, info.Description);
                     WriteCell(3, info.Year);
                     WriteCell(4, info.Price, "0.00");
                     WriteCell(5, info.Coefficient, "0.00");
+
+                    string formula = CellReference(4) + "*"
+                                     + CellReference(5) + "*"
+                                     + CellReference(6);
+                    Invoke(() =>
+                    {
+                        descriptionCell.Alignment.WrapText = true;
+                        SetupBorders(descriptionCell);
+                        SetFormula(7, formula);
+                        Row row = descriptionCell.Worksheet.Rows[descriptionCell.RowIndex];
+                        row.AutoFit();
+                        BeautifyCell(0);
+                        BeautifyCell(1);
+                        BeautifyCell(3);
+                        BeautifyCell(4);
+                        BeautifyCell(5);
+                        BeautifyCell(6);
+                        BeautifyCell(7);
+                    });
                 }
 
                 NewLine();
                 index++;
             }
+
+            int endRow = CurrentRow - 1;
+            if (endRow > startRow)
+            {
+                Invoke(() =>
+                {
+                    string topCell = CellReference(startRow, 6);
+                    string bottomCell = CellReference(endRow, 6);
+                    Cell sumCell = _worksheet.Cells[_currentRow, 6];
+                    sumCell.FormulaInvariant = "SUM(" + topCell + ":" + bottomCell + ")";
+                    sumCell.Font.Bold = true;
+                    BeautifyCell(sumCell);
+                });
+
+            }
+
         }
 
         #endregion
