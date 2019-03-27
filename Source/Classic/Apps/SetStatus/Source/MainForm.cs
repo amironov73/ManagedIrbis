@@ -50,6 +50,8 @@ namespace SetStatus
 
         #region Private members
 
+        private int _targetMfn;
+
         private IrbisConnection GetConnection()
         {
             IrbisConnection result
@@ -200,11 +202,12 @@ namespace SetStatus
                         return;
                     }
 
+                    _targetMfn = records[0];
 
                     string html = await client.FormatRecordAsync
                         (
                             "@",
-                            records[0]
+                            _targetMfn
                         );
                     _browser.DocumentText = html;
                 }
@@ -214,6 +217,62 @@ namespace SetStatus
                 }
             }
 
+        }
+
+        private async void _statusButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            if (_targetMfn <= 0)
+            {
+                return;
+            }
+
+            var number = _numberBox.Text.Trim();
+            if (string.IsNullOrEmpty(number))
+            {
+                return;
+            }
+
+            var status = ((MenuEntry)_statusBox.SelectedItem).Code;
+            if (string.IsNullOrEmpty(status))
+            {
+                return;
+            }
+
+            using (IrbisConnection client = GetConnection())
+            {
+                _browser.Navigate("about:blank");
+                try
+                {
+                    var record = await client.ReadRecordAsync(_targetMfn);
+                    var fields = record.Fields.GetField(910);
+                    var field = fields.GetField('b', number)
+                        .FirstOrDefault();
+                    if (field == null)
+                    {
+                        _browser.DocumentText = "Не найдено поле";
+                        return;
+                    }
+
+                    field.SetSubField('a', status);
+                    await client.WriteRecordAsync(record);
+                    string html = await client.FormatRecordAsync
+                        (
+                            "@",
+                            _targetMfn
+                        );
+                    _browser.DocumentText = html;
+                }
+                catch (Exception ex)
+                {
+                    _browser.DocumentText = ex.ToString();
+                }
+            }
+
+            _targetMfn = -1;
         }
     }
 }
