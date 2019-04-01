@@ -164,6 +164,7 @@
     <Content Include="authors_extended.pft">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="kraeved.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="FoodProcessor.ico" />

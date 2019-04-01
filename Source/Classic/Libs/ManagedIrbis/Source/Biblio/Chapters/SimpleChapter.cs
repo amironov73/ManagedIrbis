@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* SimpleChapter.cs -- 
+/* SimpleChapter.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using AM;
@@ -44,7 +45,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Biblio
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -118,6 +119,102 @@ namespace ManagedIrbis.Biblio
             return result;
         }
 
+        static string Propis(int number)
+        {
+            int[] array_int = new int[4];
+            string[,] array_string = new string[4, 3]
+            {
+                {" миллиард", " миллиарда", " миллиардов"},
+                {" миллион", " миллиона", " миллионов"},
+                {" тысяча", " тысячи", " тысяч"},
+                {"", "", ""}
+
+            };
+            array_int[0] = (number - (number % 1000000000)) / 1000000000;
+            array_int[1] = ((number % 1000000000) - (number % 1000000)) / 1000000;
+            array_int[2] = ((number % 1000000) - (number % 1000)) / 1000;
+            array_int[3] = number % 1000;
+            string result = "";
+            for (int i = 0; i < 4; i++)
+            {
+                if (array_int[i] != 0)
+                {
+                    if (((array_int[i] - (array_int[i] % 100)) / 100) != 0)
+                        switch (((array_int[i] - (array_int[i] % 100)) / 100))
+                        {
+                            case 1: result += " сто"; break;
+                            case 2: result += " двести"; break;
+                            case 3: result += " триста"; break;
+                            case 4: result += " четыреста"; break;
+                            case 5: result += " пятьсот"; break;
+                            case 6: result += " шестьсот"; break;
+                            case 7: result += " семьсот"; break;
+                            case 8: result += " восемьсот"; break;
+                            case 9: result += " девятьсот"; break;
+                        }
+                    if (((array_int[i] % 100) - ((array_int[i] % 100) % 10)) / 10 != 1)
+                    {
+                        switch (((array_int[i] % 100) - ((array_int[i] % 100) % 10)) / 10)
+                        {
+                            case 2: result += " двадцать"; break;
+                            case 3: result += " тридцать"; break;
+                            case 4: result += " сорок"; break;
+                            case 5: result += " пятьдесят"; break;
+                            case 6: result += " шестьдесят"; break;
+                            case 7: result += " семьдесят"; break;
+                            case 8: result += " восемьдесят"; break;
+                            case 9: result += " девяносто"; break;
+                        }
+                    }
+                    switch (array_int[i] % 100)
+                    {
+                        case 1: if (i == 2) result += " одна"; else result += " один"; break;
+                        case 2: if (i == 2) result += " две"; else result += " два"; break;
+                        case 3: result += " три"; break;
+                        case 4: result += " четыре"; break;
+                        case 5: result += " пять"; break;
+                        case 6: result += " шесть"; break;
+                        case 7: result += " семь"; break;
+                        case 8: result += " восемь"; break;
+                        case 9: result += " девять"; break;
+                        case 10: result += " десять"; break;
+                        case 11: result += " одиннадцать"; break;
+                        case 12: result += " двенадцать"; break;
+                        case 13: result += " тринадцать"; break;
+                        case 14: result += " четырнадцать"; break;
+                        case 15: result += " пятнадцать"; break;
+                        case 16: result += " шестнадцать"; break;
+                        case 17: result += " семнадцать"; break;
+                        case 18: result += " восемнадцать"; break;
+                        case 19: result += " девятнадцать"; break;
+                    }
+
+                    if (array_int[i] % 100 >= 10 && array_int[i] % 100 <= 19)
+                    {
+                        result += " " + array_string[i, 2] + " ";
+                    }
+                    else
+                    {
+                        switch (array_int[i] % 100)
+                        {
+                            case 1: result += " " + array_string[i, 0] + " "; break;
+                            case 2:
+                            case 3:
+                            case 4: result += " " + array_string[i, 1] + " "; break;
+                            case 5:
+                            case 6:
+                            case 7:
+                            case 8:
+                            case 9: result += " " + array_string[i, 2] + " "; break;
+
+                        }
+                    }
+                }
+
+            }
+            return result;
+        }
+
         #endregion
 
         #region Public methods
@@ -154,6 +251,11 @@ namespace ManagedIrbis.Biblio
 
                 int[] mfns = Records.Select(r => r.Mfn).ToArray();
                 string[] formatted = formatter.FormatRecords(mfns);
+
+                if (ReferenceEquals(Items, null))
+                {
+                    Items = new ItemCollection();
+                }
 
                 for (int i = 0; i < Records.Count; i++)
                 {
@@ -192,6 +294,8 @@ namespace ManagedIrbis.Biblio
                 int[] mfns = Records.Select(r => r.Mfn).ToArray();
                 string[] formatted = formatter.FormatRecords(mfns);
 
+                Regex fioRegex = new Regex(@"^[А-Я]\.(\s+[А-Я]\.)");
+
                 for (int i = 0; i < Items.Count; i++)
                 {
                     log.Write(".");
@@ -199,6 +303,46 @@ namespace ManagedIrbis.Biblio
                     string order = formatted[i].TrimEnd('\u001F');
 
                     // TODO handle string.IsNullOrEmpty(order)
+
+                    if (order.StartsWith("["))
+                    {
+                        order = order.Substring(1);
+                    }
+
+                    var firstChar = order.FirstChar();
+                    if (char.IsDigit(firstChar))
+                    {
+                        var numberText = "";
+                        while (order.Length != 0)
+                        {
+                            firstChar = order.FirstChar();
+                            if (!char.IsDigit(firstChar) && char.IsWhiteSpace(firstChar))
+                            {
+                                break;
+                            }
+
+                            if (char.IsDigit(firstChar))
+                            {
+                                numberText += firstChar;
+                            }
+
+                            order = order.Substring(1);
+                        }
+
+                        numberText = numberText.Trim();
+                        var numberValue = int.Parse(numberText);
+                        numberText = Propis(numberValue).Trim();
+                        numberText = char.ToUpperInvariant(numberText.FirstChar())
+                                     + numberText.Substring(1);
+                        order = numberText + " " + order;
+                    }
+
+                    Match match = fioRegex.Match(order);
+                    if (match.Success)
+                    {
+                        var length = match.Value.Length;
+                        order = order.Substring(length).TrimStart();
+                    }
 
                     //item.Order = RichText.Decode(order);
                     item.Order = order;
@@ -306,6 +450,14 @@ namespace ManagedIrbis.Biblio
             IrbisReport report = processor.Report
                 .ThrowIfNull("processor.Report");
 
+
+            bool showOrder =
+#if WINMOBILE || PocketPC
+                false;
+#else
+                context.Document.CommonSettings.Value<bool?>("showOrder") ?? false;
+#endif
+
             if (Records.Count != 0
                 || Duplicates.Count != 0
                 || Children.Count != 0)
@@ -325,7 +477,24 @@ namespace ManagedIrbis.Biblio
                             number.ToInvariantString() + ") "
                         );
                     report.Body.Add(band);
-                    band.Cells.Add(new SimpleTextCell(description));
+                    band.Cells.Add(new SimpleTextCell(
+                            description
+                            //RichText.Encode3(description, UnicodeRange.Russian, "\\f2")
+                        ));
+
+                    MarcRecord record = item.Record;
+
+                    // Для отладки: проверить упорядочение
+                    if (showOrder)
+                    {
+                        if (!ReferenceEquals(record, null))
+                        {
+                            band = new ParagraphBand("MFN " + record.Mfn + " " + item.Order);
+                            report.Body.Add(band);
+                            report.Body.Add(new ParagraphBand());
+                        }
+                    }
+
                 }
 
                 log.WriteLine(" done");
