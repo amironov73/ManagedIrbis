@@ -321,6 +321,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComplectList", "Classic\App
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastGazettes", "Classic\Apps\FastGazettes\FastGazettes.csproj", "{C0D0DB59-0023-498F-B63E-714EC83BDCF0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportEBS", "Classic\Apps\ImportEBS\ImportEBS.csproj", "{D3679B86-94B6-4E4E-B4F1-1C7260D7FCE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1569,6 +1571,14 @@ Global
 		{C0D0DB59-0023-498F-B63E-714EC83BDCF0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C0D0DB59-0023-498F-B63E-714EC83BDCF0}.Release|x86.ActiveCfg = Release|Any CPU
 		{C0D0DB59-0023-498F-B63E-714EC83BDCF0}.Release|x86.Build.0 = Release|Any CPU
+		{D3679B86-94B6-4E4E-B4F1-1C7260D7FCE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3679B86-94B6-4E4E-B4F1-1C7260D7FCE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3679B86-94B6-4E4E-B4F1-1C7260D7FCE3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D3679B86-94B6-4E4E-B4F1-1C7260D7FCE3}.Debug|x86.Build.0 = Debug|Any CPU
+		{D3679B86-94B6-4E4E-B4F1-1C7260D7FCE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3679B86-94B6-4E4E-B4F1-1C7260D7FCE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3679B86-94B6-4E4E-B4F1-1C7260D7FCE3}.Release|x86.ActiveCfg = Release|Any CPU
+		{D3679B86-94B6-4E4E-B4F1-1C7260D7FCE3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1727,6 +1737,7 @@ Global
 		{7B656DD4-0DBE-44B9-B994-D2A766B4CC41} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{2A8F738C-C51A-413C-A4EC-1AAD9998F296} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{C0D0DB59-0023-498F-B63E-714EC83BDCF0} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{D3679B86-94B6-4E4E-B4F1-1C7260D7FCE3} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9210D671-3170-4F79-9CE3-2FE2B1208056}
