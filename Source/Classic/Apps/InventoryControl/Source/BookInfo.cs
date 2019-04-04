@@ -59,6 +59,8 @@ namespace InventoryControl
 
         public string Bbk { get; set; }
 
+        public string RealType { get; set; }
+
         #endregion
 
         #region Public methods

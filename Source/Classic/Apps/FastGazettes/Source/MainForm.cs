@@ -51,10 +51,10 @@ namespace FastGazettes
         #region Private members
 
         private void _Initialize
-        (
-            object sender,
-            EventArgs e
-        )
+            (
+                object sender,
+                EventArgs e
+            )
         {
             Icon = Properties.Resources.Gazette;
 

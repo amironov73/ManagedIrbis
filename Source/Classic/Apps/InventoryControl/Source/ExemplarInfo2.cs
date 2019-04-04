@@ -56,7 +56,7 @@ namespace ManagedIrbis.Fields
         /// <summary>
         /// Известные коды подполей.
         /// </summary>
-        public const string KnownCodes = "!=0124abcdefhiknpqrstuvwxyz";
+        public const string KnownCodes = "!=01245abcdefhiknpqrstuvwxyz";
 
         /// <summary>
         /// Тег полей, содержащих сведения об экземплярах.
@@ -398,6 +398,15 @@ namespace ManagedIrbis.Fields
         [JsonProperty("issue")]
         public string Issue { get; set; }
 
+        /// <summary>
+        /// Реальный тип/вид издания.
+        /// </summary>
+        [CanBeNull]
+        [MapField("realType")]
+        [XmlAttribute("realType")]
+        [JsonProperty("realType")]
+        public string RealType { get; set; }
+
         [CanBeNull]
         [MapField("index")]
         [XmlAttribute("index")]
@@ -502,7 +511,8 @@ namespace ManagedIrbis.Fields
                 .ApplySubField('0', CheckedAmount)
                 .ApplySubField('!', RealPlace)
                 .ApplySubField('p', BindingIndex)
-                .ApplySubField('i', BindingNumber);
+                .ApplySubField('i', BindingNumber)
+                .ApplySubField('5', RealType);
         }
 
         /// <summary>
@@ -544,6 +554,7 @@ namespace ManagedIrbis.Fields
                     RealPlace = field.GetFirstSubFieldValue('!'),
                     BindingIndex = field.GetFirstSubFieldValue('p'),
                     BindingNumber = field.GetFirstSubFieldValue('i'),
+                    RealType = field.GetFirstSubFieldValue('5'),
                     OtherSubFields = field.SubFields
                         .Where(sub => KnownCodes
                             .IndexOf(char.ToLower(sub.Code)) < 0)
@@ -640,7 +651,8 @@ namespace ManagedIrbis.Fields
                 .AddNonEmptySubField('0', CheckedAmount)
                 .AddNonEmptySubField('!', RealPlace)
                 .AddNonEmptySubField('p', BindingIndex)
-                .AddNonEmptySubField('i', BindingNumber);
+                .AddNonEmptySubField('i', BindingNumber)
+                .AddNonEmptySubField('5', RealType);
 
             if (OtherSubFields != null)
             {
@@ -715,6 +727,7 @@ namespace ManagedIrbis.Fields
             Description = reader.ReadNullableString();
             Bbk = reader.ReadNullableString();
             Issue = reader.ReadNullableString();
+            RealType = reader.ReadNullableString();
             OrderingData = reader.ReadNullableString();
             Mfn = reader.ReadInt32();
         }
@@ -758,6 +771,7 @@ namespace ManagedIrbis.Fields
                 .WriteNullable(Description)
                 .WriteNullable(Bbk)
                 .WriteNullable(Issue)
+                .WriteNullable(RealType)
                 .WriteNullable(OrderingData);
             writer.Write(Mfn);
         }

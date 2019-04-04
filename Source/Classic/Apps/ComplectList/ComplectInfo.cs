@@ -17,6 +17,8 @@ namespace ComplectList
 
         public string Issue { get; set; }
 
+        public string Index { get; set; }
+
         #endregion
 
         //#region IComparable<T> members

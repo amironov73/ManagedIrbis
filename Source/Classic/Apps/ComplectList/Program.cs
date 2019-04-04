@@ -36,6 +36,14 @@ namespace ComplectList
             result.Value = text;
         }
 
+        static string GetIndex(MarcRecord record)
+        {
+            return record.FM(906) ??
+                   record.FM(621) ??
+                   record.FM(675) ??
+                   record.FM(686);
+        }
+
         static void Main(string[] args)
         {
             if (args.Length != 3)
@@ -54,9 +62,10 @@ namespace ComplectList
 
             WriteCell(0, "№");
             WriteCell(1, "Газета");
-            WriteCell(2, "Год");
-            WriteCell(3, "Выпуски");
-            WriteCell(4, "Отметки");
+            WriteCell(2, "Шифр");
+            WriteCell(3, "Год");
+            WriteCell(4, "Выпуски");
+            WriteCell(5, "Отметки");
             _currentRow++;
 
             try
@@ -94,6 +103,8 @@ namespace ComplectList
                                 title
                             );
 
+                        string index = GetIndex(magazine.Record);
+
                         MagazineIssueInfo[] issues = manager.GetIssues(magazine);
                         foreach (MagazineIssueInfo issue in issues)
                         {
@@ -118,11 +129,17 @@ namespace ComplectList
                                         continue;
                                     }
 
+                                    if (!string.IsNullOrEmpty(index))
+                                    {
+                                        Console.WriteLine("NO INDEX: {0}", title);
+                                    }
+
                                     ComplectInfo complect = new ComplectInfo
                                     {
                                         Title = title,
                                         Year = year,
-                                        Issue = issue.Number
+                                        Issue = issue.Number,
+                                        Index = index
                                     };
                                     Complects.Add(complect);
                                 }
@@ -143,6 +160,7 @@ namespace ComplectList
                     foreach (var byYear in byTitle.GroupBy(c => c.Year).OrderBy(_ => _.Key))
                     {
                         string year = byYear.Key;
+                        string index = byYear.FirstOrDefault()?.Index;
                         Console.Write(" {0}", year);
                         string[] issues = byYear.Select(c => c.Issue)
                             .Distinct().ToArray();
@@ -152,8 +170,9 @@ namespace ComplectList
                         string cumulated = ranges.ToString();
                         WriteCell(0, _counter.ToInvariantString());
                         WriteCell(1, title);
-                        WriteCell(2, year);
-                        WriteCell(3, cumulated);
+                        WriteCell(2, index);
+                        WriteCell(3, year);
+                        WriteCell(4, cumulated);
                         _currentRow++;
                         _counter++;
                     }

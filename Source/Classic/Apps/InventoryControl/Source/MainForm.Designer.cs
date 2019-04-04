@@ -36,6 +36,7 @@
             this._mainTab = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this._patternBox = new System.Windows.Forms.ComboBox();
+            this._realBox = new System.Windows.Forms.ComboBox();
             this._startNumber = new System.Windows.Forms.NumericUpDown();
             this._SeenPlusHandsButton = new System.Windows.Forms.Button();
             this._booksOnHandsButton = new System.Windows.Forms.Button();
@@ -90,6 +91,7 @@
             //
             this._mainTab.Controls.Add(this.label1);
             this._mainTab.Controls.Add(this._patternBox);
+            this._mainTab.Controls.Add(this._realBox);
             this._mainTab.Controls.Add(this._startNumber);
             this._mainTab.Controls.Add(this._SeenPlusHandsButton);
             this._mainTab.Controls.Add(this._booksOnHandsButton);
@@ -131,6 +133,16 @@
             this._patternBox.Name = "_patternBox";
             this._patternBox.Size = new System.Drawing.Size(161, 21);
             this._patternBox.TabIndex = 13;
+            //
+            // _realBox
+            //
+            this._realBox.FormattingEnabled = true;
+            this._realBox.Items.AddRange(new object[] {
+                "журнал",
+                "книга"});
+            this._realBox.Location = new System.Drawing.Point(391, 18);
+            this._realBox.Name = "_realBox";
+            this._realBox.Size = new System.Drawing.Size(161, 21);
             //
             // _startNumber
             //
@@ -345,6 +357,7 @@
         private System.Windows.Forms.NumericUpDown _startNumber;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox _patternBox;
+        private System.Windows.Forms.ComboBox _realBox;
 
     }
 }

@@ -16,10 +16,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-
+using AM;
 using DevExpress.Utils.Taskbar.Core;
 using DevExpress.XtraEditors;
-
+using JetBrains.Annotations;
 using ManagedIrbis.Readers;
 
 using CM=System.Configuration.ConfigurationManager;
@@ -250,6 +250,46 @@ namespace InventoryControl
             }
         }
 
+        private static bool FilterBook
+            (
+                [NotNull] BookInfo book,
+                [CanBeNull] Regex inventoryRegex,
+                [CanBeNull] string realType
+            )
+        {
+            if (!ReferenceEquals(inventoryRegex, null))
+            {
+                if (inventoryRegex.IsMatch(book.Number))
+                {
+                    if (!string.IsNullOrEmpty(realType))
+                    {
+                        string bookType = book.RealType;
+                        if (!string.IsNullOrEmpty(bookType))
+                        {
+                            return realType.SameString(bookType);
+                        }
+                    }
+
+                    return true;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(realType))
+            {
+                string bookType = book.RealType;
+                if (!string.IsNullOrEmpty(bookType))
+                {
+                    return realType.SameString(book.RealType);
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private void _ShowBooks
             (
                 Func<string, BookInfo[]> selector,
@@ -258,7 +298,8 @@ namespace InventoryControl
                 bool wrapDescriptions,
                 bool numberIndex,
                 int startNumber,
-                string inventoryPattern
+                string inventoryPattern,
+                string realType
             )
         {
             ChairInfo place = CurrentPlace;
@@ -275,18 +316,23 @@ namespace InventoryControl
                     + books.Length
                 );
 
-            if (!string.IsNullOrEmpty(inventoryPattern))
+            if (!string.IsNullOrEmpty(inventoryPattern)
+                || !string.IsNullOrEmpty(realType))
             {
-                Regex regex = new Regex
-                    (
-                        inventoryPattern,
-                        RegexOptions.IgnoreCase
-                        |RegexOptions.IgnorePatternWhitespace
-                    );
+                Regex regex = null;
+                if (!string.IsNullOrEmpty(inventoryPattern))
+                {
+                    regex = new Regex
+                        (
+                            inventoryPattern,
+                            RegexOptions.IgnoreCase
+                            | RegexOptions.IgnorePatternWhitespace
+                        );
+                }
 
                 books = books.Where
                     (
-                        book => regex.IsMatch(book.Number)
+                        book => FilterBook(book, regex, realType)
                     )
                     .ToArray();
                 _logBox.Output.WriteLine
@@ -340,7 +386,8 @@ namespace InventoryControl
                     _wrapDescriptionBox.Checked,
                     _numberIndexBox.Checked,
                     (int)_startNumber.Value,
-                    _patternBox.Text
+                    _patternBox.Text,
+                    _realBox.Text
                 );
         }
 
@@ -358,7 +405,8 @@ namespace InventoryControl
                     _wrapDescriptionBox.Checked,
                     _numberIndexBox.Checked,
                     (int)_startNumber.Value,
-                    _patternBox.Text
+                    _patternBox.Text,
+                    _realBox.Text
                 );
         }
 
@@ -376,7 +424,8 @@ namespace InventoryControl
                     _wrapDescriptionBox.Checked,
                     _numberIndexBox.Checked,
                     (int)_startNumber.Value,
-                    _patternBox.Text
+                    _patternBox.Text,
+                    _realBox.Text
                 );
         }
 
@@ -394,7 +443,8 @@ namespace InventoryControl
                     _wrapDescriptionBox.Checked,
                     _numberIndexBox.Checked,
                     (int)_startNumber.Value,
-                    _patternBox.Text
+                    _patternBox.Text,
+                    _realBox.Text
                 );
         }
 
@@ -455,7 +505,8 @@ namespace InventoryControl
                     _wrapDescriptionBox.Checked,
                     _numberIndexBox.Checked,
                     (int)_startNumber.Value,
-                    _patternBox.Text
+                    _patternBox.Text,
+                    _realBox.Text
                 );
         }
 
@@ -473,7 +524,8 @@ namespace InventoryControl
                     _wrapDescriptionBox.Checked,
                     _numberIndexBox.Checked,
                     (int)_startNumber.Value,
-                    _patternBox.Text
+                    _patternBox.Text,
+                    _realBox.Text
                 );
         }
     }

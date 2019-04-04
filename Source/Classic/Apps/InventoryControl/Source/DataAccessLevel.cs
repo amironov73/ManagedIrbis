@@ -505,7 +505,8 @@ namespace InventoryControl
                 Sign = exemplar.ShelfIndex,
                 Issue = exemplar.Issue,
                 Index = exemplar.Index,
-                Bbk = exemplar.Bbk
+                Bbk = exemplar.Bbk,
+                RealType = exemplar.RealType
             };
 
             char firstChar = result.Description.FirstChar();
