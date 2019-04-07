@@ -56,6 +56,11 @@ namespace ManagedIrbis
         public const string CatalogerDatabaseList = "dbnam2.mnu";
 
         /// <summary>
+        /// Длина записи (размер полки) -- ограничение при форматировании.
+        /// </summary>
+        public const int MaxRecord = 32000;
+
+        /// <summary>
         /// Max postings in the packet.
         /// </summary>
         public const int MaxPostings = 32758;

@@ -59,10 +59,12 @@ namespace SetRealType
                             continue;
                         }
 
-                        string value = field.GetFirstSubFieldValue('5');
-                        if (!value.SameString(realType))
+                        //string value = field.GetFirstSubFieldValue('5');
+                        //if (!value.SameString(realType))
                         {
                             field.SetSubField('5', realType);
+                            field.SetSubField('s', IrbisDate.TodayText);
+                            field.SetSubField('!', "Ф602");
                             connection.WriteRecord(record, false);
                         }
 

@@ -53,9 +53,40 @@ namespace ManagedIrbis.Infrastructure
         BadBufferSize = -4,
 
         /// <summary>
+        /// Ошибка выделения памяти.
+        /// </summary>
+        MemoryAllocationError = -100,
+
+        /// <summary>
+        /// Размер полки меньше размера записи.
+        /// </summary>
+        ShelfSizeError = -101,
+
+        /// <summary>
+        /// Номер полки больше числа полок.
+        /// </summary>
+        ShelfNumberError = -102,
+
+        /// <summary>
         /// Заданный MFN вне пределов БД.
         /// </summary>
         WrongMfn = -140,
+
+        /// <summary>
+        /// Ошибка чтения записи, она требует физического удаления.
+        /// </summary>
+        ReadRecordError = -141,
+
+        /// <summary>
+        /// Заданного поля нет.
+        /// isisfldrep irbisfldadd = пустое поле.
+        /// </summary>
+        FieldNotExist = -200,
+
+        /// <summary>
+        /// Нет предыдущей версии записи.
+        /// </summary>
+        PreviousVersionNotExist = -201,
 
         /// <summary>
         /// Нет запрошенного значения в поисковом индексе.
@@ -79,6 +110,31 @@ namespace ManagedIrbis.Infrastructure
         DatabaseLocked = -300,
 
         /// <summary>
+        /// Блокировка ввода - не используется в IRBIS64.
+        /// </summary>
+        DatabaseLockedForEdit = -301,
+
+        /// <summary>
+        /// Ошибка при открытии файла MST или XRF.
+        /// </summary>
+        OpenMstError = -400,
+
+        /// <summary>
+        /// Ошибка при открытии файлов поискового индекса.
+        /// </summary>
+        OpenIndexError = -401,
+
+        /// <summary>
+        /// Ошибка при записи в файл.
+        /// </summary>
+        WriteError = -402,
+
+        /// <summary>
+        /// Ошибка при актуализации.
+        /// </summary>
+        ActualizationError = -403,
+
+        /// <summary>
         /// Запись заблокирована на ввод.
         /// </summary>
         RecordLocked = -602,
@@ -94,9 +150,64 @@ namespace ManagedIrbis.Infrastructure
         PhysicallyDeleted = -605,
 
         /// <summary>
+        /// Ошибка в Autoin.gbl.
+        /// </summary>
+        AutoinError = -607,
+
+        /// <summary>
         /// При записи обнаружено несоответствие версий.
         /// </summary>
         VersionError = -608,
+
+        /// <summary>
+        /// Ошибка в GUID. Появилась в IRBIS64+.
+        /// </summary>
+        GuidError = -609,
+
+        /// <summary>
+        /// Ошибка при создании страховой копии.
+        /// </summary>
+        BackupCreationError = -700,
+
+        /// <summary>
+        /// Ошибка при восстановлении из страховой копии.
+        /// </summary>
+        BackupRestoreError = -701,
+
+        /// <summary>
+        /// Ошибка при сортировке.
+        /// </summary>
+        ErrorWhileSorting = -702,
+
+        /// <summary>
+        /// Ошибка при отборе терминов словаря.
+        /// </summary>
+        TermCreationError = -703,
+
+        /// <summary>
+        /// Ошибка при разгрузке словаря.
+        /// </summary>
+        LinkCreationError = -704,
+
+        /// <summary>
+        /// Ошибка при загрузке словаря.
+        /// </summary>
+        LinkLoadError = -705,
+
+        /// <summary>
+        /// Количество параметров GBL не число.
+        /// </summary>
+        GblParameterError = -800,
+
+        /// <summary>
+        /// Повторение задано не числом.
+        /// </summary>
+        GblOccurrenceError = -801,
+
+        /// <summary>
+        /// Метка задана не числом.
+        /// </summary>
+        GblTagError = -802, 
 
         /// <summary>
         /// Ошибка в клиентском файле формата.

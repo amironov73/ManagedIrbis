@@ -283,7 +283,7 @@ namespace InventoryControl
                 }
                 else
                 {
-                    return true;
+                    return false;
                 }
             }
 

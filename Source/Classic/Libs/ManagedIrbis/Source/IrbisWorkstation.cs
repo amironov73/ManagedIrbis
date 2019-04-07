@@ -51,6 +51,11 @@ namespace ManagedIrbis
         Provision = (byte)'K',
 
         /// <summary>
+        /// Java апплет.
+        /// </summary>
+        JavaApplet = (byte)'J',
+
+        /// <summary>
         /// Не задан
         /// </summary>
         None = 0
