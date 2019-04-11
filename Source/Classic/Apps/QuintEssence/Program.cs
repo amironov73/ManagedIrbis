@@ -13,20 +13,11 @@ namespace QuintEssence
 {
     class Program
     {
-        static void Main(string[] args)
+        static void ProcessFile(string inputFile, string outputFile)
         {
-            if (args.Length != 2)
-            {
-                return;
-            }
-
-            Stopwatch stopwatch = Stopwatch.StartNew();
-
+            Console.WriteLine("{0} => {1}", inputFile, outputFile);
             try
             {
-
-                string inputFile = args[0];
-                string outputFile = args[1];
                 List<string> list = new List<string>();
 
                 using (DirectAccess64 accessor
@@ -80,6 +71,34 @@ namespace QuintEssence
             catch (Exception exception)
             {
                 Console.WriteLine(exception);
+            }
+
+            Console.WriteLine();
+        }
+
+        static void Main(string[] args)
+        {
+            if (args.Length != 2)
+            {
+                return;
+            }
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
+            string inputPath = args[0];
+            string outputPath = args[1];
+
+            string[] inputFiles = Directory.GetFiles
+                (
+                    inputPath,
+                    "*.mst",
+                    SearchOption.AllDirectories
+                );
+            foreach (string inputFile in inputFiles)
+            {
+                string name = Path.GetFileName(Path.GetDirectoryName(inputFile));
+                string outputFile = Path.Combine(outputPath, name + ".txt");
+                ProcessFile(inputFile, outputFile);
             }
 
             Console.WriteLine();

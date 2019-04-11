@@ -341,7 +341,18 @@ namespace ManagedIrbis.Search
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(database, "database");
 
-            throw new NotImplementedException();
+            IniFile iniFile = connection.IniFile.ThrowIfNull("IniFile");
+            string searchName = iniFile.GetValue("Main", "SearchIni", "");
+            if (string.IsNullOrEmpty(searchName))
+            {
+                searchName = database + ".ini";
+            }
+
+            IniFile searchIni = connection.ReadIniFile(searchName);
+
+
+            SearchScenario[] result = SearchScenario.ParseIniFile(searchIni);
+            return result;
         }
 
         #endregion
