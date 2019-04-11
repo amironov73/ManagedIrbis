@@ -26,23 +26,39 @@ namespace ImportEBS
 
         static MarcRecord FindRecord(string[] numbers)
         {
-            connection.Database = "ISTU";
-            foreach (string number in numbers)
-            {
-                MarcRecord record = connection.SearchReadOneRecord("\"IN={0}\"", number);
-                if (record != null)
-                {
-                    return record;
-                }
+            string[] databases = {"ISTU", "NTD", "PERIO"};
 
-                if (number.StartsWith("dsk"))
+            foreach (string database in databases)
+            {
+                connection.Database = database;
+                foreach (string number in numbers)
                 {
-                    string number2 = "ДСК" + number.Substring(3);
-                    record = connection.SearchReadOneRecord("\"IN={0}\"", number2);
+                    MarcRecord record = connection.SearchReadOneRecord("\"IN={0}\"", number);
                     if (record != null)
                     {
-                        Console.WriteLine("=> {0}", number2);
                         return record;
+                    }
+
+                    if (number.StartsWith("dsk"))
+                    {
+                        string number2 = "ДСК" + number.Substring(3);
+                        record = connection.SearchReadOneRecord("\"IN={0}\"", number2);
+                        if (record != null)
+                        {
+                            Console.WriteLine("=> {0}", number2);
+                            return record;
+                        }
+                    }
+
+                    if (number.StartsWith("er"))
+                    {
+                        string number2 = "ЭР" + number.Substring(4);
+                        record = connection.SearchReadOneRecord("\"IN={0}\"", number2);
+                        if (record != null)
+                        {
+                            Console.WriteLine("=> {0}", number2);
+                            return record;
+                        }
                     }
                 }
             }
@@ -55,6 +71,7 @@ namespace ImportEBS
             record.AddNonEmptyField(3001, download);
             record.AddNonEmptyField(3002, others);
             record.Database = "EBS";
+            record.Mfn = 0;
             record.Version = 0;
             record.Status = 0;
             connection.WriteRecord(record);
@@ -80,9 +97,9 @@ namespace ImportEBS
             string download = worksheet.Cells[rowNumber, 7].Value.ToString();
             string others = worksheet.Cells[rowNumber, 8].Value.ToString();
 
-            ProcessRecord(record, download, others);
+            //ProcessRecord(record, download, others);
 
-            Console.WriteLine(rawText);
+            //Console.WriteLine(rawText);
         }
 
         static void Main()
@@ -105,7 +122,7 @@ namespace ImportEBS
                     workbook.LoadDocument("EBS.xlsx");
                     worksheet = workbook.Worksheets[1];
 
-                    connection.TruncateDatabase("EBS");
+                    //connection.TruncateDatabase("EBS");
 
                     for (int rowNumber = 2; rowNumber < 22500; rowNumber++)
                     {

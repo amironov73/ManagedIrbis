@@ -127,7 +127,7 @@
             //
             this._patternBox.FormattingEnabled = true;
             this._patternBox.Items.AddRange(new object[] {
-            "^[0123456789CАБИКМНФ][^н]{2,}$",
+            "^[0123456789CАБИКМНСФ][^н]{2,}$",
             "^(\\d|\\d\\d|[ГЖП]\\d+|б/н)$"});
             this._patternBox.Location = new System.Drawing.Point(191, 130);
             this._patternBox.Name = "_patternBox";

@@ -325,6 +325,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportEBS", "Classic\Apps\I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetRealType", "Classic\Apps\SetRealType\SetRealType.csproj", "{5C704516-B2D7-4CC6-9E7D-DF300ADCEC2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuintEssence", "Classic\Apps\QuintEssence\QuintEssence.csproj", "{ECEF9ED3-F2B6-46CB-9E5E-2E0B41767648}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1589,6 +1591,14 @@ Global
 		{5C704516-B2D7-4CC6-9E7D-DF300ADCEC2F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5C704516-B2D7-4CC6-9E7D-DF300ADCEC2F}.Release|x86.ActiveCfg = Release|Any CPU
 		{5C704516-B2D7-4CC6-9E7D-DF300ADCEC2F}.Release|x86.Build.0 = Release|Any CPU
+		{ECEF9ED3-F2B6-46CB-9E5E-2E0B41767648}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECEF9ED3-F2B6-46CB-9E5E-2E0B41767648}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECEF9ED3-F2B6-46CB-9E5E-2E0B41767648}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ECEF9ED3-F2B6-46CB-9E5E-2E0B41767648}.Debug|x86.Build.0 = Debug|Any CPU
+		{ECEF9ED3-F2B6-46CB-9E5E-2E0B41767648}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECEF9ED3-F2B6-46CB-9E5E-2E0B41767648}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECEF9ED3-F2B6-46CB-9E5E-2E0B41767648}.Release|x86.ActiveCfg = Release|Any CPU
+		{ECEF9ED3-F2B6-46CB-9E5E-2E0B41767648}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1749,6 +1759,7 @@ Global
 		{C0D0DB59-0023-498F-B63E-714EC83BDCF0} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{D3679B86-94B6-4E4E-B4F1-1C7260D7FCE3} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{5C704516-B2D7-4CC6-9E7D-DF300ADCEC2F} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{ECEF9ED3-F2B6-46CB-9E5E-2E0B41767648} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9210D671-3170-4F79-9CE3-2FE2B1208056}

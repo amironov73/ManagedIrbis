@@ -204,6 +204,22 @@ namespace ManagedIrbis.Direct
         }
 
         /// <summary>
+        /// Get first field with specified tag.
+        /// </summary>
+        public string GetField(int tag)
+        {
+            foreach (MstDictionaryEntry64 entry in Dictionary)
+            {
+                if (entry.Tag == tag)
+                {
+                    return entry.Text;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Prepare the record for serialization.
         /// </summary>
         public void Prepare()
