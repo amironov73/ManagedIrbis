@@ -634,6 +634,62 @@ namespace ManagedIrbis
         // ========================================================
 
         /// <summary>
+        /// Чтение всех терминов с указанным префиксом.
+        /// </summary>
+        [NotNull]
+        public static TermInfo[] ReadAllTerms
+            (
+                [NotNull] this IIrbisConnection connection,
+                [NotNull] string prefix
+            )
+        {
+            LocalList<TermInfo> list = new LocalList<TermInfo>();
+            string startTerm = prefix;
+
+            // TODO skip duplicates
+            bool flag = true;
+            while (flag)
+            {
+                TermParameters parameters = new TermParameters
+                {
+                    Database = connection.Database,
+                    StartTerm = startTerm,
+                    NumberOfTerms = 200
+                };
+                TermInfo[] terms = connection.ReadTerms(parameters);
+                if (terms.Length == 0)
+                {
+                    break;
+                }
+
+                foreach (TermInfo term in terms)
+                {
+                    if (!term.Text.SafeStarts(prefix))
+                    {
+                        flag = false;
+                        break;
+                    }
+                    list.Add(term);
+                }
+
+                startTerm = terms.Last().Text;
+            }
+
+            Comparison<TermInfo> comparison =
+                (
+                    (TermInfo left, TermInfo right) => NumberText.Compare(left.Text, right.Text)
+                );
+
+            TermInfo[] result = TermInfo.TrimPrefix(list.ToArray(), prefix);
+            // Array.Sort<TermInfo>(result, comparison);
+
+            return result;
+        }
+
+
+        // ========================================================
+
+        /// <summary>
         /// Read any binary file from the server.
         /// </summary>
         /// <remarks>
