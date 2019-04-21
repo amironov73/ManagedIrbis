@@ -62,83 +62,9 @@ namespace Alligator
         /// </summary>
         public string KnowledgeSection;
 
-        public void Add
-            (
-                [NotNull] EffectiveStat other
-            )
-        {
-            Code.NotNull(other, "other");
-
-            TitleCount += other.TitleCount;
-            ExemplarCount += other.ExemplarCount;
-            TotalCost += other.TotalCost;
-            LoanCount += other.LoanCount;
-            if (Date == DateTime.MinValue)
-            {
-                Date = other.Date;
-            }
-            else if (other.Date != DateTime.MinValue && other.Date < Date)
-            {
-                Date = other.Date;
-            }
-        }
-
-        public void Output
-            (
-                [NotNull] EffectiveEngine engine,
-                bool bold = false
-            )
-        {
-            if (ExemplarCount == 0)
-            {
-                return;
-            }
-
-            decimal loanCost = LoanCount == 0
-                ? TotalCost
-                : TotalCost / LoanCount;
-
-            decimal meanLoan = ExemplarCount == 0
-                ? LoanCount
-                : (decimal)LoanCount / ExemplarCount;
-
-            int days = Date == DateTime.MinValue
-                ? 0
-                : (DateTime.Today - Date).Days + 1;
-            decimal dayLoan = days == 0
-                ? 0
-                : (decimal) LoanCount / days;
-            decimal rdrEff = days == 0
-                ? 0
-                : (decimal) LoanCount / ExemplarCount / days * 1000m;
-            decimal finEff = days == 0
-                ? 0
-                : TotalCost == 0
-                  ? 0
-                  : LoanCount / TotalCost / days * 100000m;
-
-            EffectiveSheet sheet = engine.Sheet;
-            sheet.WriteCell(0, Description);
-            sheet.WriteCell(1, Date.ToShortDateString());
-            sheet.WriteCell(2, Sigla);
-            sheet.WriteCell(3, Bbk);
-            sheet.WriteCell(4, KnowledgeSection);
-            sheet.WriteCell(5, TitleCount);
-            sheet.WriteCell(6, ExemplarCount);
-            sheet.WriteCell(7, TotalCost, "0.00");
-            sheet.WriteCell(8, LoanCount);
-            sheet.WriteCell(9, meanLoan, "0.00");
-            sheet.WriteCell(10, loanCost, "0.00");
-            sheet.WriteCell(11, dayLoan, "0.00");
-            sheet.WriteCell(12, rdrEff, "0.00");
-            sheet.WriteCell(13, finEff, "0.00");
-
-            if (bold)
-            {
-                sheet.Invoke(() => sheet.CurrentLine().Bold());
-            }
-
-            sheet.NewLine();
-        }
+        /// <summary>
+        /// Скорость выдачи.
+        /// </summary>
+        public double Speed;
     }
 }

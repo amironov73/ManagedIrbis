@@ -196,8 +196,6 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Source\CellExtensions.cs" />
-    <Compile Include="Source\EffectiveEngine.cs" />
-    <Compile Include="Source\EffectiveSheet.cs" />
     <Compile Include="Source\EffectiveStat.cs" />
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\LocalAssemblyInfo.cs" />
