@@ -47,8 +47,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM.Asn1", "Classic\Libs\AM.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisPing", "Classic\Apps\IrbisPing\IrbisPing.csproj", "{1CCC6888-E4BD-4002-8D61-C69AB843EEF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alligator", "Classic\Apps\Alligator\Alligator.csproj", "{1B79F475-AEDA-45D4-B882-D5990E95EDBE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -233,14 +231,6 @@ Global
 		{1CCC6888-E4BD-4002-8D61-C69AB843EEF7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1CCC6888-E4BD-4002-8D61-C69AB843EEF7}.Release|x86.ActiveCfg = Release|Any CPU
 		{1CCC6888-E4BD-4002-8D61-C69AB843EEF7}.Release|x86.Build.0 = Release|Any CPU
-		{1B79F475-AEDA-45D4-B882-D5990E95EDBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1B79F475-AEDA-45D4-B882-D5990E95EDBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1B79F475-AEDA-45D4-B882-D5990E95EDBE}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1B79F475-AEDA-45D4-B882-D5990E95EDBE}.Debug|x86.Build.0 = Debug|Any CPU
-		{1B79F475-AEDA-45D4-B882-D5990E95EDBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1B79F475-AEDA-45D4-B882-D5990E95EDBE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1B79F475-AEDA-45D4-B882-D5990E95EDBE}.Release|x86.ActiveCfg = Release|Any CPU
-		{1B79F475-AEDA-45D4-B882-D5990E95EDBE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

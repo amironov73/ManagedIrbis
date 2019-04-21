@@ -1,4 +1,9 @@
-﻿using System;
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+#region Using directives
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -13,7 +18,10 @@ using ManagedIrbis;
 using ManagedIrbis.Client;
 using ManagedIrbis.Fields;
 using ManagedIrbis.Infrastructure;
+
 using static System.Console;
+
+#endregion
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable LocalizableElement
