@@ -5,18 +5,17 @@
 
 using System;
 
-using AM;
-
-using CodeJam;
-
-using JetBrains.Annotations;
-
 #endregion
 
 namespace Alligator
 {
     class EffectiveStat
     {
+        /// <summary>
+        /// Шифр в базе.
+        /// </summary>
+        public string Index;
+
         /// <summary>
         /// Описание.
         /// </summary>
@@ -66,5 +65,25 @@ namespace Alligator
         /// Скорость выдачи.
         /// </summary>
         public double Speed;
+
+        /// <summary>
+        /// КСУ.
+        /// </summary>
+        public string Ksu;
+
+        /// <summary>
+        /// Автор.
+        /// </summary>
+        public string Author;
+
+        /// <summary>
+        /// Издательство.
+        /// </summary>
+        public string Publisher;
+
+        /// <summary>
+        /// Доля.
+        /// </summary>
+        public double Fraction;
     }
 }
