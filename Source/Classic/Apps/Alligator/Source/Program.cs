@@ -161,7 +161,8 @@ namespace Alligator
         private static readonly string[] fonds =
         {
             "Ф201", "Ф202", "Ф302", "Ф303", "Ф404",
-            "Ф501", "Ф502", "Ф503", "Ф504", "Ф505", "Ф506"
+            "Ф501", "Ф502", "Ф503", "Ф504", "Ф505",
+            "Ф506", "ФКХ"
         };
         private static IrbisConnection connection;
         private static IrbisProvider provider;
@@ -178,7 +179,11 @@ namespace Alligator
                          ?? record.FM(461, 'g');
             if (!string.IsNullOrEmpty(result))
             {
-                result = result.Trim().ToUpperInvariant();
+                result = result
+                    .Trim()
+                    .Unquote('[', ']')
+                    .Unquote('"')
+                    .ToUpperInvariant();
             }
 
             return result;
@@ -234,6 +239,7 @@ namespace Alligator
                 }
 
                 result.Index = record.FM(903);
+                result.Status = exemplar.Status;
                 result.Author = record.FM(700, 'a');
                 result.Ksu = exemplar.KsuNumber1;
                 result.Publisher = GetPublisher(record);
@@ -274,6 +280,17 @@ namespace Alligator
 
             double years = (DateTime.Today - result.Date).Days / 365.0;
             result.Speed = result.LoanCount / years;
+
+            // Проверяем, не портит ли экземпляр статистику.
+            // Плохие (выпадающие) экземпляры не берём.
+
+            if (result.Status == "1" || result.Status == "6")
+            {
+                if (result.LoanCount < 3)
+                {
+                    return;
+                }
+            }
 
             stat.Add(result);
         }
@@ -602,6 +619,41 @@ namespace Alligator
             }
         }
 
+        static void ProcessAuthors(int year)
+        {
+            var name = $"{year.ToInvariantString()}-авт";
+            worksheet = workbook.Worksheets.Add(name);
+            worksheet.Columns[0].Width = 70;
+            worksheet.Columns[1].Width = 20;
+            currentLine = 0;
+
+            var lightGray = Color.FromArgb(200, 200, 200);
+            WriteCell(0, "Автор")
+                .Bold().Background(lightGray).SetBorders();
+            WriteCell(1, "Выдач")
+                .Bold().Background(lightGray).SetBorders();
+            currentLine++;
+
+            var counter = new DictionaryCounterInt32<string>();
+
+            foreach (var book in stat)
+            {
+                if (!string.IsNullOrEmpty(book.Author))
+                {
+                    counter.Augment(book.Author, book.LoanCount);
+                }
+            }
+
+            var pairs = counter.OrderByDescending(p=>p.Value).ToArray();
+
+            foreach (var pair in pairs)
+            {
+                WriteCell(0, pair.Key).SetBorders();
+                WriteCell(1, pair.Value).SetBorders();
+                currentLine++;
+            }
+        }
+
         static void ProcessYear(int year, params int[] lines)
         {
             WriteLine($"YEAR: {year}");
@@ -620,6 +672,7 @@ namespace Alligator
             }
 
             ProcessPublishers(year);
+            ProcessAuthors(year);
 
             WriteLine();
         }
@@ -673,7 +726,7 @@ namespace Alligator
                     provider = new ConnectedClient(connection);
                     ProcessYear(2016, 38, 43, 45, 47, 48, 49, 53, 56, 62, 71, 73, 79, 80, 82, 90, 93, 97);
                     ProcessYear(2017, 51, 61, 65, 72, 73, 78, 83, 87, 92, 103, 112, 114, 115, 116, 118);
-                    ProcessYear(2018, 20, 23, 30, 40, 49, 50, 90, 93, 95);
+                    ProcessYear(2018, 20, 23, 30, 40, 49, 50, 56, 90, 93, 95);
                 }
 
                 workbook.SaveDocument("effective.xlsx");

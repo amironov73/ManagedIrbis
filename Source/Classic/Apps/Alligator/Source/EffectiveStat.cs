@@ -17,6 +17,11 @@ namespace Alligator
         public string Index;
 
         /// <summary>
+        /// Статус экземпляра.
+        /// </summary>
+        public string Status;
+
+        /// <summary>
         /// Описание.
         /// </summary>
         public string Description;
