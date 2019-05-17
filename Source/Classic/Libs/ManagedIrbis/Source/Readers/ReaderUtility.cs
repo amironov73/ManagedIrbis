@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 using AM;
@@ -72,6 +73,146 @@ namespace ManagedIrbis.Readers
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Fix the reader email.
+        /// </summary>
+        /// <returns></returns>
+        [CanBeNull]
+        public static string FixEmail
+            (
+                [CanBeNull] string email
+            )
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return email;
+            }
+
+            email = email.Replace(" ", string.Empty);
+
+            return email;
+        }
+
+        /// <summary>
+        /// Fix the reader name: remove extra spaces.
+        /// </summary>
+        [CanBeNull]
+        public static string FixName
+            (
+                [CanBeNull] string name
+            )
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return name;
+            }
+
+            name = name.Trim();
+            name = name.Replace(',', ' ');
+            name = name.Replace('.', ' ');
+            while (name.Contains("  "))
+            {
+                name = name.Replace("  ", " ");
+            }
+
+            return name;
+        }
+
+        /// <summary>
+        /// Fix the phone number: remove spaces
+        /// and bad characters.
+        /// </summary>
+        [CanBeNull]
+        public static string FixPhone
+            (
+                [CanBeNull] string phone
+            )
+        {
+            if (string.IsNullOrEmpty(phone))
+            {
+                return phone;
+            }
+
+            phone = phone.Trim();
+            if (phone.StartsWith("+7"))
+            {
+                phone = "8" + phone.Substring(2);
+            }
+
+            StringBuilder result = new StringBuilder(phone.Length);
+            foreach (char c in phone)
+            {
+                if (c.IsArabicDigit())
+                {
+                    result.Append(c);
+                }
+            }
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Fix the ticket number: remove spaces,
+        /// convert cyrillic characters to latin equivalents.
+        /// </summary>
+        [CanBeNull]
+        public static string FixTicket
+            (
+                [CanBeNull] string ticket
+            )
+        {
+            if (string.IsNullOrEmpty(ticket))
+            {
+                return ticket;
+            }
+
+            StringBuilder result = new StringBuilder(ticket.Length);
+            foreach (char c in ticket)
+            {
+                if (c <= ' ')
+                {
+                    continue;
+                }
+
+                switch (c)
+                {
+                    case 'А':
+                    case 'а':
+                        result.Append('A');
+                        break;
+
+                    case 'В':
+                    case 'в':
+                        result.Append('B');
+                        break;
+
+                    case 'Е':
+                    case 'е':
+                        result.Append('E');
+                        break;
+
+                    case 'О':
+                    case 'о':
+                        result.Append('0');
+                        break;
+
+                    case 'С':
+                    case 'с':
+                        result.Append('C');
+                        break;
+
+                    default:
+                        if (c < (int) 256)
+                        {
+                            result.Append(char.ToUpper(c));
+                        }
+                        break;
+                }
+            }
+
+            return result.ToString();
+        }
 
         /// <summary>
         /// Слияние записей о читателях из разных баз.

@@ -754,6 +754,7 @@
     <Compile Include="ManagedIrbis\Quality\Rules\RuleTest.cs" />
     <Compile Include="ManagedIrbis\RawRecordTest.cs" />
     <Compile Include="ManagedIrbis\Readers\ArchiveReaderInfoTest.cs" />
+    <Compile Include="ManagedIrbis\Readers\ReaderUtilityTest.cs" />
     <Compile Include="ManagedIrbis\RecordComparatorTest.cs" />
     <Compile Include="ManagedIrbis\RecordFieldUtilityTest.cs" />
     <Compile Include="ManagedIrbis\Reports\CellCollectionTest.cs" />
