@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ChapterWithDictionary.cs -- 
+/* ChapterWithDictionary.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -43,7 +43,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Biblio
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -215,7 +215,7 @@ namespace ManagedIrbis.Biblio
                                     .Distinct()
                                     .ToArray();
                             }
-                            for (int j = 0; j < lines.Length; j++)
+                            for (int j = 0; j < lines.Length && j < lines2.Length; j++)
                             {
                                 string line1 = lines[j];
                                 string line2 = lines2[j];

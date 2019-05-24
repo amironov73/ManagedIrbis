@@ -136,5 +136,19 @@ if not v920:'ASP' then |. - |v327, fi
 
 o470f
 
+(if p(v606) then
+'\par \b \u8658;\~ \b0 ', v606^a,
+fi,),
+
+&uf('+7W100#',(v907^b/)),
+&uf('+7G100'),
+'\par\b ÚÓ: \b0 ',
+(
+  if &uf('+7R100') = '' then break else
+    if &uf('+90') = '1' then else ', ', fi,
+    &uf('+7R100'),
+  fi
+)
+
 '\par\pard ',
 mpl, &uf('!'),

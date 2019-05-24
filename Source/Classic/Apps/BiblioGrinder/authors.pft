@@ -3,3 +3,10 @@
 (if p(v702) then v702^a, | (|v702^1|) |, if p(v702^g) then |, |v702^g else | |v702^b fi, /, fi),
 
 (if p(v961) then v961^a, | (|v961^1|) |, if p(v961^g) then |, |v961^g else | |v961^b fi, /, fi),
+
+(if p(v606) then
+  if &uf('DATHRS,/I=', v606^3, '/,v920') = 'ATHRA' then
+     &uf('DATHRS,/I=', v606^3, '/,@brief')
+  fi, /,
+fi),
+

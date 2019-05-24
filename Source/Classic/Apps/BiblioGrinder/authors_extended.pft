@@ -1,51 +1,57 @@
 (if p(v700) then v700^a, | (|v700^1|) |, if p(v700^g) then |, |v700^g else | |v700^b fi,
 | (|v700^r|)|,
-if s(v700^1,v700^c,v700^f)<>'' then 
+if s(v700^1,v700^c,v700^f)<>'' then
   ' (',
-  v700^1, 
+  v700^1,
   if p(v700^1) and p(v700^c) then ' ; ' fi,
   v700^c,
   if s(v700^1,v700^c)<>'' and p(v700^f) then ' ; ' fi,
   v700^f,
-  ')', 
+  ')',
 fi,
  /, fi),
 
 (if p(v701) then v701^a, | (|v701^1|) |, if p(v701^g) then |, |v701^g else | |v701^b fi,
 | (|v701^r|)|,
-if s(v701^1,v701^c,v701^f)<>'' then 
+if s(v701^1,v701^c,v701^f)<>'' then
   ' (',
-  v701^1, 
+  v701^1,
   if p(v701^1) and p(v701^c) then ' ; ' fi,
   v701^c,
   if s(v701^1,v701^c)<>'' and p(v701^f) then ' ; ' fi,
   v701^f,
-  ')', 
+  ')',
 fi,
  /, fi),
 
 (if p(v702) then v702^a, | (|v702^1|) |, if p(v702^g) then |, |v702^g else | |v702^b fi,
 | (|v702^r|)|,
-if s(v702^1,v702^c,v702^f)<>'' then 
+if s(v702^1,v702^c,v702^f)<>'' then
   ' (',
-  v702^1, 
+  v702^1,
   if p(v702^1) and p(v702^c) then ' ; ' fi,
   v702^c,
   if s(v702^1,v702^c)<>'' and p(v702^f) then ' ; ' fi,
   v702^f,
-  ')', 
+  ')',
 fi,
  /, fi),
 
 (if p(v961) then v961^a, | (|v961^1|) |, if p(v961^g) then |, |v961^g else | |v961^b fi,
 | (|v961^r|)|,
-if s(v961^1,v961^c,v961^f)<>'' then 
+if s(v961^1,v961^c,v961^f)<>'' then
   ' (',
-  v961^1, 
+  v961^1,
   if p(v961^1) and p(v961^c) then ' ; ' fi,
   v961^c,
   if s(v961^1,v961^c)<>'' and p(v961^f) then ' ; ' fi,
   v961^f,
-  ')', 
+  ')',
 fi,
  /, fi),
+
+(if p(v606) then
+  if &uf('DATHRS,/I=', v606^3, '/,v920') = 'ATHRA' then
+     &uf('DATHRS,/I=', v606^3, '/,@brief')
+  fi, /,
+fi),
