@@ -4,9 +4,32 @@
 
 (if p(v961) then v961^a, | (|v961^1|) |, if p(v961^g) then |, |v961^g else | |v961^b fi, /, fi),
 
-(if p(v606) then
-  if &uf('DATHRS,/I=', v606^3, '/,v920') = 'ATHRA' then
-     &uf('DATHRS,/I=', v606^3, '/,@brief')
-  fi, /,
+(if p(v600) then
+  if v600^) = '600' then
+    &uf('E1',v600^a),
+    |, |v600^g,
+    if s(v600^c,v600^f) <> '' then
+      ' (',
+      if p(v600^c) then
+        v600^c,
+        if p(v600^f) then '; ', v600^f, fi,
+      else
+        v600^f,
+      fi,
+      ')',
+    fi,
+  fi,
+  /,
 fi),
 
+(if p(v606) then
+  if p(v606^3) then
+    if &uf('DATHRS,/I=', v606^3, '/,v920') = 'ATHRA' then
+       &uf('E1',&uf('DATHRS,/I=', v606^3, '/,@head210')),
+       if &uf('F1',&uf('DATHRS,/I=', v606^3, '/,@head210')) <> '' then
+         ', ',
+         &uf('F1',&uf('DATHRS,/I=', v606^3, '/,@head210')),
+       fi,
+    fi,
+  fi, /,
+fi),

@@ -140,6 +140,25 @@ if not v920:'ASP' then |. - |v327, fi
 '\par \b \u8658;\~ \b0 ', v606^a,
 fi,),
 
+(if p(v600) then
+  if v600^) = '600' then
+    '\par \b \u8658;\~ \b0 ',
+    &uf('E1',v600^a),
+    |, |v600^g,
+    if s(v600^c,v600^f) <> '' then
+      ' (',
+      if p(v600^c) then
+        v600^c,
+        if p(v600^f) then '; ', v600^f, fi,
+      else
+        v600^f,
+      fi,
+      ')',
+    fi,
+  fi,
+fi),
+
+
 &uf('+7W100#',(v907^b/)),
 &uf('+7G100'),
 '\par\b ÚÓ: \b0 ',
@@ -148,7 +167,8 @@ fi,),
     if &uf('+90') = '1' then else ', ', fi,
     &uf('+7R100'),
   fi
-)
+),
+
 
 '\par\pard ',
 mpl, &uf('!'),
