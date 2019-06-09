@@ -9,22 +9,10 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 using AM;
-using AM.Collections;
-using AM.IO;
-using AM.Logging;
-using AM.Runtime;
-using AM.Text;
 
 using CodeJam;
 
@@ -32,7 +20,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Client;
 using ManagedIrbis.Pft;
-
+using ManagedIrbis.Pft.Infrastructure.Unifors;
 using MoonSharp.Interpreter;
 
 using Newtonsoft.Json;
@@ -103,7 +91,14 @@ namespace ManagedIrbis.Fields
         /// </summary>
         public string Description
         {
-            get { return Record.Description ?? _ExecuteScript(_descriptionScript); }
+            get
+            {
+                string result = Record.Description
+                                ?? _ExecuteScript(_descriptionScript);
+                result = UniforPlusS.DecodeTitle("1" + result);
+
+                return result;
+            }
         }
 
         /// <summary>
@@ -189,6 +184,14 @@ namespace ManagedIrbis.Fields
         }
 
         /// <summary>
+        /// Количество страниц.
+        /// </summary>
+        public int Pages
+        {
+            get { return CountPages(Volume); }
+        }
+
+        /// <summary>
         /// Цена, общая для всех экземпляров.
         /// </summary>
         public decimal Price
@@ -239,6 +242,15 @@ namespace ManagedIrbis.Fields
         public int UsageCount
         {
             get { return Record.FM(999).SafeToInt32(); }
+        }
+
+        /// <summary>
+        /// Объем издания (цифры).
+        /// </summary>
+        [CanBeNull]
+        public string Volume
+        {
+            get { return Record.FM(215, 'a'); }
         }
 
         /// <summary>
@@ -332,6 +344,53 @@ namespace ManagedIrbis.Fields
             formatter.SetProvider(Provider);
             formatter.ParseProgram(script);
             string result = formatter.FormatRecord(Record);
+
+            return result;
+        }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Count pages.
+        /// </summary>
+        public static int CountPages
+            (
+                [CanBeNull] string text
+            )
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return 0;
+            }
+
+            text = text.Trim();
+            if (string.IsNullOrEmpty(text))
+            {
+                return 0;
+            }
+
+            int result = 0;
+
+            MatchCollection matches = Regex.Matches
+                (
+                    text,
+                    @"[ivxlcm]+",
+                    RegexOptions.IgnoreCase
+                );
+            foreach (Match match in matches)
+            {
+                int value = UniforPlus9.ToArabicNumber(match.Value);
+                result += value;
+            }
+
+            matches = Regex.Matches(text, @"[0-9]+");
+            foreach (Match match in matches)
+            {
+                int value = FastNumber.ParseInt32(match.Value);
+                result += value;
+            }
 
             return result;
         }

@@ -1447,7 +1447,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         /// </summary>
         /// <param name="romanNumber">the Roman number string</param>
         /// <returns>the Arabic number (0 if the given string is not convertible to a Roman number)</returns>
-        private static int ToArabicNumber
+        internal static int ToArabicNumber
             (
                 [NotNull] string romanNumber
             )

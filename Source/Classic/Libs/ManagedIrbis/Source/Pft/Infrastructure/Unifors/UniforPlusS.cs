@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* UniforPlusS.cs -- 
+/* UniforPlusS.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -98,6 +98,40 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
 
         #region Public methods
 
+        /// <summary>
+        /// Декодирование конструкции &lt;=&gt;.
+        /// </summary>
+        [CanBeNull]
+        public static string DecodeTitle
+            (
+                [CanBeNull]string expression
+            )
+        {
+            string result = string.Empty;
+            if (!string.IsNullOrEmpty(expression))
+            {
+                TextNavigator navigator = new TextNavigator(expression);
+                char index = navigator.ReadChar();
+                string input = navigator.GetRemainingText();
+                if (!string.IsNullOrEmpty(input))
+                {
+                    MatchEvaluator evaluator = _SecondEvaluator;
+                    if (index != '0')
+                    {
+                        evaluator = _FirstEvaluator;
+                    }
+
+                    result = Regex.Replace
+                        (
+                            input,
+                            "[<](?<first>.+?)(?:[=](?<second>.+?))?[>]",
+                            evaluator
+                        );
+                }
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Decode title.
@@ -111,24 +145,8 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
         {
             if (!string.IsNullOrEmpty(expression))
             {
-                TextNavigator navigator = new TextNavigator(expression);
-                char index = navigator.ReadChar();
-                string input = navigator.GetRemainingText();
-                if (!string.IsNullOrEmpty(input))
-                {
-                    MatchEvaluator evaluator = _SecondEvaluator;
-                    if (index != '0')
-                    {
-                        evaluator = _FirstEvaluator;
-                    }
-                    string output = Regex.Replace
-                        (
-                            input,
-                            "[<](?<first>.+?)(?:[=](?<second>.+?))?[>]",
-                            evaluator
-                        );
-                    context.WriteAndSetFlag(node, output);
-                }
+                string output = DecodeTitle(expression);
+                context.WriteAndSetFlag(node, output);
             }
         }
 

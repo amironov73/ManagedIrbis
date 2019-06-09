@@ -11,6 +11,8 @@ using CodeJam;
 
 using JetBrains.Annotations;
 
+// ReSharper disable UseNameofExpression
+
 #endregion
 
 namespace Crocodile
@@ -56,6 +58,11 @@ namespace Crocodile
         /// ББК.
         /// </summary>
         public string Bbk;
+
+        /// <summary>
+        /// Количество страниц.
+        /// </summary>
+        public int PageCount;
 
         public void Add
             (
@@ -117,15 +124,16 @@ namespace Crocodile
             sheet.WriteCell(1, Date.ToShortDateString());
             sheet.WriteCell(2, Sigla);
             sheet.WriteCell(3, Bbk);
-            sheet.WriteCell(4, TitleCount);
-            sheet.WriteCell(5, ExemplarCount);
-            sheet.WriteCell(6, TotalCost, "0.00");
-            sheet.WriteCell(7, LoanCount);
-            sheet.WriteCell(8, meanLoan, "0.00");
-            sheet.WriteCell(9, loanCost, "0.00");
-            sheet.WriteCell(10, dayLoan, "0.00");
-            sheet.WriteCell(11, rdrEff, "0.00");
-            sheet.WriteCell(12, finEff, "0.00");
+            sheet.WriteCell(4, PageCount);
+            sheet.WriteCell(5, TitleCount);
+            sheet.WriteCell(6, ExemplarCount);
+            sheet.WriteCell(7, TotalCost, "0.00");
+            sheet.WriteCell(8, LoanCount);
+            sheet.WriteCell(9, meanLoan, "0.00");
+            sheet.WriteCell(10, loanCost, "0.00");
+            sheet.WriteCell(11, dayLoan, "0.00");
+            sheet.WriteCell(12, rdrEff, "0.00");
+            sheet.WriteCell(13, finEff, "0.00");
 
             if (bold)
             {

@@ -92,7 +92,8 @@ namespace Crocodile
             EffectiveStat result = new EffectiveStat
             {
                 Description = OutputBooks ? book.Description : string.Empty,
-                TitleCount = 1
+                TitleCount = 1,
+                PageCount = book.Pages
             };
 
             int totalExemplars = 0;
