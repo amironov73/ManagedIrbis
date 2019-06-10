@@ -333,6 +333,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alligator", "Classic\Apps\A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cayman", "Classic\Apps\Cayman\Cayman.csproj", "{FE331879-CDDB-48FF-AD5E-5A13258ACB2E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gavialis", "Classic\Apps\Gavialis\Gavialis.csproj", "{31A3DC27-4BEE-4253-8C23-1142E5F8C50B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1629,6 +1631,14 @@ Global
 		{FE331879-CDDB-48FF-AD5E-5A13258ACB2E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FE331879-CDDB-48FF-AD5E-5A13258ACB2E}.Release|x86.ActiveCfg = Release|Any CPU
 		{FE331879-CDDB-48FF-AD5E-5A13258ACB2E}.Release|x86.Build.0 = Release|Any CPU
+		{31A3DC27-4BEE-4253-8C23-1142E5F8C50B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31A3DC27-4BEE-4253-8C23-1142E5F8C50B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31A3DC27-4BEE-4253-8C23-1142E5F8C50B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{31A3DC27-4BEE-4253-8C23-1142E5F8C50B}.Debug|x86.Build.0 = Debug|Any CPU
+		{31A3DC27-4BEE-4253-8C23-1142E5F8C50B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31A3DC27-4BEE-4253-8C23-1142E5F8C50B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31A3DC27-4BEE-4253-8C23-1142E5F8C50B}.Release|x86.ActiveCfg = Release|Any CPU
+		{31A3DC27-4BEE-4253-8C23-1142E5F8C50B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1793,6 +1803,7 @@ Global
 		{7C9B5C9A-FF04-439D-8F17-EC6179D996FC} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{1B79F475-AEDA-45D4-B882-D5990E95EDBE} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{FE331879-CDDB-48FF-AD5E-5A13258ACB2E} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{31A3DC27-4BEE-4253-8C23-1142E5F8C50B} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9210D671-3170-4F79-9CE3-2FE2B1208056}

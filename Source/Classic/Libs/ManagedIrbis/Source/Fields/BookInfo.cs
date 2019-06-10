@@ -102,6 +102,24 @@ namespace ManagedIrbis.Fields
         }
 
         /// <summary>
+        /// Характер документа (первый из).
+        /// </summary>
+        [CanBeNull]
+        public string DocumentCharacter
+        {
+            get { return Record.FM(900, 'c'); }
+        }
+
+        /// <summary>
+        /// Тип документа.
+        /// </summary>
+        [CanBeNull]
+        public string DocumentType
+        {
+            get { return Record.FM(900, 't'); }
+        }
+
+        /// <summary>
         /// Электронный ресурс?
         /// </summary>
         public bool Electronic
@@ -113,7 +131,7 @@ namespace ManagedIrbis.Fields
                 // 2. Те, у которых единица измерения r, j или o
                 // 3. Те, к которым прикреплен файл, и это не обложка
 
-                string documentType = Record.FM(900, 't');
+                string documentType = DocumentType;
                 if (documentType.OneOf("l", "m"))
                 {
                     return true;
@@ -146,6 +164,36 @@ namespace ManagedIrbis.Fields
         public ExemplarInfo[] Exemplars
         {
             get { return ExemplarInfo.Parse(Record); }
+        }
+
+        /// <summary>
+        /// Число экземпляров.
+        /// </summary>
+        public int ExemplarCount
+        {
+            get
+            {
+                int result = 0;
+                foreach (ExemplarInfo exemplar in Exemplars)
+                {
+                    string status = exemplar.Status;
+                    if (status != "0"
+                        && status != "1"
+                        && status != "5"
+                        && status != "9")
+                        continue;
+
+                    int amount = exemplar.Amount.SafeToInt32();
+                    if (amount == 0)
+                    {
+                        amount = 1;
+                    }
+
+                    result += amount;
+                }
+
+                return result;
+            }
         }
 
         /// <summary>
