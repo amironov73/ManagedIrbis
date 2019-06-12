@@ -164,7 +164,10 @@ namespace ManagedIrbis.Infrastructure.Commands
                         result,
                         record
                     );
-                record.Verify(ThrowOnVerify);
+                if (ThrowOnVerify)
+                {
+                    record.Verify(ThrowOnVerify);
+                }
 
                 if (ThrowOnEmptyRecord)
                 {

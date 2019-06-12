@@ -29,6 +29,9 @@ using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
+// ReSharper disable LocalizableElement
+// ReSharper disable InconsistentNaming
+
 namespace ExemplarKiller
 {
     class Program
@@ -38,6 +41,7 @@ namespace ExemplarKiller
         private static string readers;
         private static string[] databases;
         private static bool doDelete;
+        private static string actNumber;
         private static IrbisConnection connection;
 
         private static void ReturnExemplar
@@ -113,6 +117,10 @@ namespace ExemplarKiller
             else
             {
                 found.SetSubField('a', "6");
+                if (!string.IsNullOrEmpty(actNumber))
+                {
+                    found.SetSubField('v', actNumber);
+                }
                 Console.Write(" <written off>");
                 connection.WriteRecord(bookRecord);
 
@@ -257,8 +265,15 @@ namespace ExemplarKiller
                     );
             if (databases.Length == 0)
             {
-                throw new Exception("Empty database list");
+                Console.WriteLine ("Empty database list");
+                return;
             }
+
+            if (args.Length > 2)
+            {
+                actNumber = args[2];
+            }
+
             prefix = ConfigurationUtility.GetString
                 (
                     "prefix",

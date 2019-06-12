@@ -258,7 +258,7 @@ namespace ManagedIrbis.Fields
         public string Moving { get; set; }
 
         /// <summary>
-        /// Нове место хранения. Подполе m.
+        /// Новое место хранения. Подполе m.
         /// </summary>
         [CanBeNull]
         [SubField('m')]
@@ -566,7 +566,7 @@ namespace ManagedIrbis.Fields
         [NotNull]
         public RecordField ToField()
         {
-            RecordField result = new RecordField("910")
+            RecordField result = new RecordField(910)
                 .AddNonEmptySubField('a', Status)
                 .AddNonEmptySubField('b', Number)
                 .AddNonEmptySubField('c', Date)

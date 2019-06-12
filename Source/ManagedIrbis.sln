@@ -335,6 +335,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cayman", "Classic\Apps\Caym
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gavialis", "Classic\Apps\Gavialis\Gavialis.csproj", "{31A3DC27-4BEE-4253-8C23-1142E5F8C50B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Casquette", "Classic\Apps\Casquette\Casquette.csproj", "{B89FCC59-ECE2-4C10-8000-FAB06A4592B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1639,6 +1641,14 @@ Global
 		{31A3DC27-4BEE-4253-8C23-1142E5F8C50B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{31A3DC27-4BEE-4253-8C23-1142E5F8C50B}.Release|x86.ActiveCfg = Release|Any CPU
 		{31A3DC27-4BEE-4253-8C23-1142E5F8C50B}.Release|x86.Build.0 = Release|Any CPU
+		{B89FCC59-ECE2-4C10-8000-FAB06A4592B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B89FCC59-ECE2-4C10-8000-FAB06A4592B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B89FCC59-ECE2-4C10-8000-FAB06A4592B0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B89FCC59-ECE2-4C10-8000-FAB06A4592B0}.Debug|x86.Build.0 = Debug|Any CPU
+		{B89FCC59-ECE2-4C10-8000-FAB06A4592B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B89FCC59-ECE2-4C10-8000-FAB06A4592B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B89FCC59-ECE2-4C10-8000-FAB06A4592B0}.Release|x86.ActiveCfg = Release|Any CPU
+		{B89FCC59-ECE2-4C10-8000-FAB06A4592B0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1804,6 +1814,7 @@ Global
 		{1B79F475-AEDA-45D4-B882-D5990E95EDBE} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{FE331879-CDDB-48FF-AD5E-5A13258ACB2E} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{31A3DC27-4BEE-4253-8C23-1142E5F8C50B} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{B89FCC59-ECE2-4C10-8000-FAB06A4592B0} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9210D671-3170-4F79-9CE3-2FE2B1208056}

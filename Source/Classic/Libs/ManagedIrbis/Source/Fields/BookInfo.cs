@@ -376,7 +376,7 @@ namespace ManagedIrbis.Fields
 
         private static string _amountScript = "f(rsum((if p(v910) then if '0159': v910^a then '1' fi, if 'CU': v910^a then v910^1 fi, ';' fi)),0,0)";
 
-        private static string _descriptionScript = "@sbrief";
+        private static string _descriptionScript = "@brief";
 
         private static string _linkScript = "(if p(v951^i) then if not v951^h:'02' then v951^i, break, fi, fi)";
 
