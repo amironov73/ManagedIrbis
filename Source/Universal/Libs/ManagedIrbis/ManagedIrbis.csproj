@@ -2899,6 +2899,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\PostingParameters.cs">
       <Link>Source\Search\PostingParameters.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\Query.cs">
+      <Link>Source\Search\Query.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\SearchException.cs">
       <Link>Source\Search\SearchException.cs</Link>
     </Compile>

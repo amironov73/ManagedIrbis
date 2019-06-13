@@ -790,6 +790,7 @@
     <Compile Include="ManagedIrbis\Search\FoundItemTest.cs" />
     <Compile Include="ManagedIrbis\Search\Infrastructure\SearchQueryParserTest.cs" />
     <Compile Include="ManagedIrbis\Search\PostingParametersTest.cs" />
+    <Compile Include="ManagedIrbis\Search\QueryTest.cs" />
     <Compile Include="ManagedIrbis\Search\SearchContextTest.cs" />
     <Compile Include="ManagedIrbis\Search\SearchExceptionTest.cs" />
     <Compile Include="ManagedIrbis\Search\SearchManagerTest.cs" />

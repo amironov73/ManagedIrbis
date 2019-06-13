@@ -1001,6 +1001,7 @@
     <Compile Include="Source\Search\Infrastructure\TermLinkComparer.cs" />
     <Compile Include="Source\Search\KeywordPermutator.cs" />
     <Compile Include="Source\Search\PostingParameters.cs" />
+    <Compile Include="Source\Search\Query.cs" />
     <Compile Include="Source\Search\SearchException.cs" />
     <Compile Include="Source\Search\SearchManager.cs" />
     <Compile Include="Source\Search\SearchParameters.cs" />
