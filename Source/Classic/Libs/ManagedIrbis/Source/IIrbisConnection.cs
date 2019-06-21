@@ -286,7 +286,7 @@ namespace ManagedIrbis
         /// <summary>
         /// Получение информации о базе данных.
         /// </summary>
-        /// <returns>Cписок логически удаленных, физически удаленных, 
+        /// <returns>Cписок логически удаленных, физически удаленных,
         /// неактуализированных и заблокированных записей.</returns>
         [NotNull]
         DatabaseInfo GetDatabaseInfo
@@ -314,6 +314,16 @@ namespace ManagedIrbis
         int GetMaxMfn
             (
                 [CanBeNull] string database
+            );
+
+        /// <summary>
+        /// Get term postings for given mfn and prefix.
+        /// </summary>
+        [NotNull]
+        TermPosting[] GetRecordPostings
+            (
+                int mfn,
+                [NotNull] string prefix
             );
 
         /// <summary>
@@ -566,7 +576,7 @@ namespace ManagedIrbis
             );
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         void SetRetry
             (

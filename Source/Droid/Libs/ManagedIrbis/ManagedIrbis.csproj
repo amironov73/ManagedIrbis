@@ -278,6 +278,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ImportExport\Csl.cs">
       <Link>Source\ImportExport\Csl.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\Commands\GetRecordPostingsCommand.cs">
+      <Link>Source\Infrastructure\Commands\GetRecordPostingsCommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Infrastructure\FastEngine.cs">
       <Link>Source\Infrastructure\FastEngine.cs</Link>
     </Compile>

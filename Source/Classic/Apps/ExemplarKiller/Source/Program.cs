@@ -236,11 +236,11 @@ namespace ExemplarKiller
         static void Main(string[] args)
         {
             if (args.Length < 1
-                || args.Length > 2)
+                || args.Length > 3)
             {
                 Console.WriteLine
                     (
-                        "Usage: ExemplarKiller <bookList>"
+                        "Usage: ExemplarKiller <bookList> [connectionString] [actNumber]"
                     );
 
                 return;
@@ -296,7 +296,7 @@ namespace ExemplarKiller
             try
             {
                 string connectionString = args.Length > 1
-                    ? args[2]
+                    ? args[1]
                     : CM.AppSettings["connectionString"];
 
                 string[] numbers = File.ReadAllLines
@@ -314,10 +314,7 @@ namespace ExemplarKiller
                 {
                     connection.SetRetry(10, ExceptionResolver);
 
-                    connection.ParseConnectionString
-                        (
-                            connectionString
-                        );
+                    connection.ParseConnectionString(connectionString);
                     connection.Connect();
 
                     Console.WriteLine("Connected");

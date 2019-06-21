@@ -37,6 +37,7 @@
     "FstRusmarcTest.cs",
     //"GblVirtualTest.cs",
     //"GblBuilderTest.cs",
+    //"GetRecordPostingsTest.cs",
     //"GblTest.cs",
     //"GlobalCorrectorTest.cs",
     "ListDatabasesTest.cs",

@@ -149,6 +149,7 @@
     <Compile Include="Source\Gbl\Infrastructure\GblParser.cs" />
     <Compile Include="Source\Gbl\Infrastructure\RecordSource.cs" />
     <Compile Include="Source\ImportExport\Csl.cs" />
+    <Compile Include="Source\Infrastructure\Commands\GetRecordPostingsCommand.cs" />
     <Compile Include="Source\Infrastructure\FastEngine.cs" />
     <Compile Include="Source\Infrastructure\MemoryManager.cs" />
     <Compile Include="Source\Infrastructure\Sockets\CompressSocket.cs" />

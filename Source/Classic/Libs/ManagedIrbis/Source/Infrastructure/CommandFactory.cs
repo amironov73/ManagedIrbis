@@ -314,6 +314,15 @@ namespace ManagedIrbis.Infrastructure
         }
 
         /// <summary>
+        /// Get GetRecordPostingsCommand.
+        /// </summary>
+        [NotNull]
+        public virtual GetRecordPostingsCommand GetRecordPostingsCommand()
+        {
+            return new GetRecordPostingsCommand(Connection);
+        }
+
+        /// <summary>
         /// Get <see cref="ReloadDictionaryCommand"/>.
         /// </summary>
         [NotNull]

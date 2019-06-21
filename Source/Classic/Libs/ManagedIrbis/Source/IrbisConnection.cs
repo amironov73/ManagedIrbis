@@ -799,6 +799,25 @@ namespace ManagedIrbis
 
         // =========================================================
 
+        /// <inheritdoc cref="IIrbisConnection.GetRecordPostings" />
+        public virtual TermPosting[] GetRecordPostings
+            (
+                int mfn,
+                string prefix
+            )
+        {
+            GetRecordPostingsCommand command = CommandFactory.GetRecordPostingsCommand();
+            command.Mfn = mfn;
+            command.Prefix = prefix;
+
+            ExecuteCommand(command);
+            TermPosting[] result = command.Result;
+
+            return result;
+        }
+
+        // =========================================================
+
         /// <inheritdoc cref="IIrbisConnection.GetServerStat" />
         public virtual ServerStat GetServerStat()
         {
