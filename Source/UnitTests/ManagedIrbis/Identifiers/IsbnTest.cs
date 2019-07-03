@@ -93,5 +93,29 @@ namespace UnitTests.ManagedIrbis.Identifiers
         {
             Isbn.Validate("5-02-0032239-5", true);
         }
+
+        [TestMethod]
+        public void Isbn_FixIsbn_1()
+        {
+            Assert.AreEqual("5-02-003206-9", Isbn.FixIsbn(" 5-02-003206-9 "));
+            Assert.AreEqual("5-02-003206-9", Isbn.FixIsbn("( 5-02-003206-9 )"));
+
+            Assert.AreEqual("5-02-003206-9", Isbn.FixIsbn("ISBN 5-02-003206-9"));
+            Assert.AreEqual("5-02-003206-9", Isbn.FixIsbn("(ISBN 5-02-003206-9)."));
+
+            Assert.AreEqual("5-02-003206-9", Isbn.FixIsbn("5-O2-003206-9"));
+            Assert.AreEqual("5-02-003206-9", Isbn.FixIsbn("5-o2-003206-9"));
+            Assert.AreEqual("5-02-003206-9", Isbn.FixIsbn("5-О2-003206-9"));
+            Assert.AreEqual("5-02-003206-9", Isbn.FixIsbn("5-о2-003206-9"));
+
+            Assert.AreEqual("5-02-003206-X", Isbn.FixIsbn("5-02-003206-Х"));
+            Assert.AreEqual("5-02-003206-X", Isbn.FixIsbn("5-02-003206-х"));
+            Assert.AreEqual("5-02-003206-X", Isbn.FixIsbn("5-02-003206-x"));
+
+            Assert.AreEqual("5-X2-003206-9", Isbn.FixIsbn("5\x2013X2-003206-9"));
+            Assert.AreEqual("5-X2-003206-9", Isbn.FixIsbn("5\x2014X2-003206-9"));
+
+            Assert.AreEqual("5-02-003206-9", Isbn.FixIsbn("5 02 003206 9"));
+        }
     }
 }

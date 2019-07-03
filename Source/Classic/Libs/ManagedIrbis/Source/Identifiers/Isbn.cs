@@ -62,7 +62,7 @@ namespace ManagedIrbis.Identifiers
     // В России до 9 декабря 2013 года этим занималась Российская
     // книжная палата, в Беларуси — Национальная книжная палата,
     // на Украине — Книжная палата Украины, в Казахстане — Национальная
-    // государственная книжная палата Республики Казахстан. 
+    // государственная книжная палата Республики Казахстан.
     // Международные стандартные книжные номера, присвоенные книгам
     // до 2006-го года издания включительно, состоят из аббревиатуры
     // международного стандартного книжного номера (независимо от
@@ -184,7 +184,7 @@ namespace ManagedIrbis.Identifiers
         /// </summary>
         /// <param name="isbn">Проверяемая строка.</param>
         /// <param name="hyphen">Символ дефиса.</param>
-        /// <returns><c>true</c> если вычисленная и фактическая 
+        /// <returns><c>true</c> если вычисленная и фактическая
         /// контрольные цифры совпадают.</returns>
         public static bool CheckControlDigit
             (
@@ -312,6 +312,44 @@ namespace ManagedIrbis.Identifiers
                     isbn,
                     StandardHyphen
                 );
+        }
+
+        /// <summary>
+        /// Исправляет самые распространенные ошибки.
+        /// </summary>
+        [NotNull]
+        public static string FixIsbn
+            (
+                [NotNull] string isbn
+            )
+        {
+            CodeJam.Code.NotNullNorEmpty(isbn, "isbn");
+
+            string result = isbn.Trim().Trim('(', ')', '.').Trim();
+            if (result.StartsWith("ISBN"))
+            {
+                result = result.Substring(4).TrimStart();
+            }
+
+            result = result
+                .Replace('\x004F', '0')
+                .Replace('\x006F', '0')
+                .Replace('\x041E', '0')
+                .Replace('\x043E', '0');
+
+            result = result
+                .Replace('\x0425', 'X')
+                .Replace('\x0445', 'X')
+                .Replace('x', 'X');
+
+            result = result
+                .Replace('\x2013',StandardHyphen)
+                .Replace('\x2014', StandardHyphen);
+
+            result = result
+                .Replace(' ', StandardHyphen);
+
+            return result;
         }
 
         /// <summary>
