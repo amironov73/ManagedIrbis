@@ -4,53 +4,84 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using ManagedIrbis;
 using ManagedIrbis.Direct;
+using ManagedIrbis.Fields;
 
 // ReSharper disable LocalizableElement
 // ReSharper disable InconsistentNaming
 
-using Counter= AM.Collections.DictionaryCounterInt32<string>;
+//using Counter= AM.Collections.DictionaryCounterInt32<string>;
 
 namespace DumpFields
 {
     class Program
     {
-        private static readonly Counter _authors
-            = new Counter(StringComparer.InvariantCultureIgnoreCase);
-        private static readonly Counter _titles
-            = new Counter(StringComparer.InvariantCultureIgnoreCase);
-        private static readonly Counter _series
-            = new Counter(StringComparer.InvariantCultureIgnoreCase);
-        private static readonly Counter _publishers
-            = new Counter(StringComparer.InvariantCultureIgnoreCase);
+        private static readonly Counter _authors = new Counter("authors");
+        private static readonly Counter _titles = new Counter("titles");
+        private static readonly Counter _series = new Counter("series");
+        private static readonly Counter _publishers = new Counter("publishers");
 
         private static DirectAccess64 _access;
 
-        static void ProcessData(Counter counter, string value)
+        static void ProcessData
+            (
+                Counter counter,
+                string title,
+                int exemplarCount,
+                int loanCount,
+                double years//,
+                //double meanLoan
+            )
         {
-            if (!string.IsNullOrEmpty(value))
+            if (!string.IsNullOrEmpty(title))
             {
-                counter.Increment(value);
+                counter.Add(title, exemplarCount, loanCount, years);
             }
         }
 
-        static void ProcessData(Counter counter, string[] values)
+        static void ProcessData
+            (
+                Counter counter,
+                string[] titles,
+                int exemplarCount,
+                int loanCount,
+                double years//,
+                //double meanLoan
+            )
         {
-            foreach (string value in values)
+            foreach (string title in titles)
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(title))
                 {
-                    counter.Increment(value);
+                    counter.Add(title, exemplarCount, loanCount, years);
                 }
             }
+        }
+
+        static DateTime GetDate(IEnumerable<ExemplarInfo> exemplars)
+        {
+            DateTime result = DateTime.MinValue;
+            foreach (ExemplarInfo exemplar in exemplars)
+            {
+                DateTime date = IrbisDate.ConvertStringToDate(exemplar.Date);
+                if (date != DateTime.MinValue)
+                {
+                    if (result == DateTime.MinValue)
+                        result = date;
+                    else if (date < result)
+                        result = date;
+                }
+            }
+
+            return result;
         }
 
         static void ProcessRecord(int mfn)
         {
             if ((mfn % 50) == 1)
-                Console.Write($"\n{mfn-1:00000000}>");
+                Console.Write($"\n{mfn-1:000,000,000}>");
             if ((mfn % 10) == 1)
                 Console.Write(" ");
 
@@ -81,28 +112,44 @@ namespace DumpFields
                 return;
             }
 
-            ProcessData(_authors, record.FM(700, 'a'));
-            ProcessData(_authors, record.FMA(701, 'a'));
-            ProcessData(_titles, record.FM(200, 'a'));
-            ProcessData(_titles, record.FMA(461, 'c'));
-            ProcessData(_series, record.FM(225, 'a'));
-            ProcessData(_series, record.FMA(46, 'a'));
-            ProcessData(_publishers, record.FM(210, 'c'));
-            ProcessData(_publishers, record.FMA(461, 'g'));
+            ExemplarInfo[] exemplars = ExemplarInfo.Parse(record);
+            if (exemplars.Length == 0)
+            {
+                Console.Write('.');
+                return;
+            }
+
+            int exemplarCount = exemplars.Length;
+            int loanCount = record.FM(999).SafeToInt32();
+            DateTime date = GetDate(exemplars);
+            if (date == DateTime.MinValue)
+            {
+                date = IrbisDate.ConvertStringToDate(record.FM(907, 'a'));
+                if (date == DateTime.MinValue)
+                {
+                    Console.Write('.');
+                    return;
+                }
+            }
+
+            double years = (DateTime.Today - date).Days / 365.0;
+            if (years < 1.0)
+            {
+                Console.Write('<');
+                return;
+            }
+            //double meanLoan = (((double)loanCount) / exemplarCount) / years;
+
+            ProcessData(_authors, record.FM(700, 'a'), exemplarCount, loanCount, years);
+            ProcessData(_authors, record.FMA(701, 'a'), exemplarCount, loanCount, years);
+            ProcessData(_titles, record.FM(200, 'a'), exemplarCount, loanCount, years);
+            ProcessData(_titles, record.FMA(461, 'c'), exemplarCount, loanCount, years);
+            ProcessData(_series, record.FM(225, 'a'), exemplarCount, loanCount, years);
+            ProcessData(_series, record.FMA(46, 'a'), exemplarCount, loanCount, years);
+            ProcessData(_publishers, record.FM(210, 'c'), exemplarCount, loanCount, years);
+            ProcessData(_publishers, record.FMA(461, 'g'), exemplarCount, loanCount, years);
 
             Console.Write('*');
-        }
-
-        static void DumpCounter(Counter counter, string fileName)
-        {
-            Console.WriteLine(fileName);
-            using (StreamWriter writer = File.CreateText(fileName))
-            {
-                string[] keys = counter.Keys.ToArray();
-                Array.Sort(keys);
-                foreach (string key in keys)
-                    writer.WriteLine($"{key}\t{counter[key]}");
-            }
         }
 
         static void Main(string[] args)
@@ -132,10 +179,10 @@ namespace DumpFields
 
             Console.WriteLine();
             Console.WriteLine();
-            DumpCounter(_authors, "authors.txt");
-            DumpCounter(_titles, "titles.txt");
-            DumpCounter(_series, "series.txt");
-            DumpCounter(_publishers, "publishers.txt");
+            _authors.Save();
+            _titles.Save();
+            _series.Save();
+            _publishers.Save();
         }
     }
 }
