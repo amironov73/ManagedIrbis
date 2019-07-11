@@ -111,8 +111,7 @@ namespace ManagedIrbis.Client
             get
             {
                 // coverity[dereference]
-                return Main["ServerIP"]
-                    .ThrowIfNull("ServerIP");
+                return Main["ServerIP"] ?? "127.0.0.1";
             }
         }
 
@@ -126,8 +125,7 @@ namespace ManagedIrbis.Client
                 // coverity[dereference]
                 int result = Convert.ToInt32
                     (
-                        Main["ServerPort"]
-                            .ThrowIfNull("ServerPort")
+                        Main["ServerPort"] ?? "6666"
                     );
 
                 return result;

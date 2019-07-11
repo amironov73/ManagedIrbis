@@ -33,7 +33,7 @@ namespace ManagedIrbis
         /// путь на словарь базы данных
         /// </summary>
         InvertedFile = 3,
-        
+
         /// <summary>
         /// путь на параметрию базы данных
         /// </summary>
@@ -43,7 +43,7 @@ namespace ManagedIrbis
         /// Полный текст
         /// </summary>
         FullText = 11,
-        
+
         /// <summary>
         /// Внутренний ресурс
         /// </summary>
