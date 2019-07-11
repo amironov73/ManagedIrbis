@@ -101,6 +101,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ClientContext.cs">
       <Link>Source\Client\ClientContext.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ClientEngine.cs">
+      <Link>Source\Client\ClientEngine.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\IfpRecord32.cs">
       <Link>Source\Direct\IfpRecord32.cs</Link>
     </Compile>

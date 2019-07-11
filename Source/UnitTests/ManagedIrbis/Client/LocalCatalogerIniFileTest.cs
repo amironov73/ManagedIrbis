@@ -34,7 +34,7 @@ namespace UnitTests.ManagedIrbis.Client
             IniFile iniFile = new IniFile();
             LocalCatalogerIniFile file = new LocalCatalogerIniFile(iniFile);
             Assert.AreSame(iniFile, file.Ini);
-            Assert.IsNotNull(file.MainSection);
+            Assert.IsNotNull(file.Main);
         }
 
         [TestMethod]
@@ -62,7 +62,7 @@ namespace UnitTests.ManagedIrbis.Client
         public void LocalCatalogerIniFile_GetValue_1()
         {
             LocalCatalogerIniFile file = _GetFile();
-            string actual = file.GetValue(LocalCatalogerIniFile.Main, "FontName", "Arial");
+            string actual = file.GetValue("Main", "FontName", "Arial");
             Assert.AreEqual("Arial", actual);
         }
 
@@ -70,7 +70,7 @@ namespace UnitTests.ManagedIrbis.Client
         public void LocalCatalogerIniFile_GetValue_2()
         {
             LocalCatalogerIniFile file = _GetFile();
-            string actual = file.GetValue(LocalCatalogerIniFile.Main, "FontCharSet", "204");
+            string actual = file.GetValue("Main", "FontCharSet", "204");
             Assert.AreEqual("204", actual);
         }
 

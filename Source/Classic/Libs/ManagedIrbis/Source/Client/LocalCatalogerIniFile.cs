@@ -35,15 +35,10 @@ namespace ManagedIrbis.Client
     {
         #region Constants
 
-        /// <summary>
-        /// Main section.
-        /// </summary>
-        public const string Main = "Main";
-
         #endregion
 
         #region Properties
-        
+
         /// <summary>
         /// INI-file.
         /// </summary>
@@ -51,17 +46,51 @@ namespace ManagedIrbis.Client
         public IniFile Ini { get; private set; }
 
         /// <summary>
-        /// Main section.
+        /// Context section.
         /// </summary>
         [NotNull]
-        public IniFile.Section MainSection
+        public ContextIniSection Context
+        {
+            get { return _contextIniSection; }
+        }
+
+        /// <summary>
+        /// Desktop section.
+        /// </summary>
+        [NotNull]
+        private DesktopIniSection Desktop
+        {
+            get { return _desktopIniSection; }
+        }
+
+
+        /// <summary>
+        /// Magna section.
+        /// </summary>
+        [NotNull]
+        public IniFile.Section MagnaSection
         {
             get
             {
                 IniFile ini = Ini;
-                IniFile.Section result = ini.GetOrCreateSection(Main);
+                IniFile.Section result = ini.GetOrCreateSection("Magna");
 
-                return result; 
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Main section.
+        /// </summary>
+        [NotNull]
+        public IniFile.Section Main
+        {
+            get
+            {
+                IniFile ini = Ini;
+                IniFile.Section result = ini.GetOrCreateSection("Main");
+
+                return result;
             }
         }
 
@@ -70,7 +99,7 @@ namespace ManagedIrbis.Client
         /// </summary>
         public string Organization
         {
-            get { return MainSection["User"]; }
+            get { return Main["User"]; }
         }
 
         /// <summary>
@@ -82,7 +111,7 @@ namespace ManagedIrbis.Client
             get
             {
                 // coverity[dereference]
-                return MainSection["ServerIP"]
+                return Main["ServerIP"]
                     .ThrowIfNull("ServerIP");
             }
         }
@@ -97,11 +126,37 @@ namespace ManagedIrbis.Client
                 // coverity[dereference]
                 int result = Convert.ToInt32
                     (
-                        MainSection["ServerPort"]
+                        Main["ServerPort"]
                             .ThrowIfNull("ServerPort")
                     );
 
                 return result;
+            }
+        }
+
+        /// <summary>
+        /// User login.
+        /// </summary>
+        [CanBeNull]
+        public string UserName
+        {
+            get
+            {
+                const string Login = "UserName";
+                return Context.UserName ?? MagnaSection[Login];
+            }
+        }
+
+        /// <summary>
+        /// User password.
+        /// </summary>
+        [CanBeNull]
+        public string UserPassword
+        {
+            get
+            {
+                const string Password = "UserPassword";
+                return Context.Password ?? MagnaSection[Password];
             }
         }
 
@@ -120,11 +175,37 @@ namespace ManagedIrbis.Client
             Code.NotNull(iniFile, "iniFile");
 
             Ini = iniFile;
+            _contextIniSection = new ContextIniSection(iniFile);
+            _desktopIniSection = new DesktopIniSection(iniFile);
         }
 
         #endregion
 
+        #region Private members
+
+        private readonly  ContextIniSection _contextIniSection;
+        private readonly DesktopIniSection _desktopIniSection;
+
+        #endregion
+
         #region Public methods
+
+        /// <summary>
+        /// Build connection string.
+        /// </summary>
+        [NotNull]
+        public string BuildConnectionString()
+        {
+            ConnectionSettings settings = new ConnectionSettings
+            {
+                Host = ServerIP,
+                Port = ServerPort,
+                Username = UserName.EmptyToNull(),
+                Password = UserPassword.EmptyToNull()
+            };
+
+            return settings.ToString();
+        }
 
         /// <summary>
         /// Get value.
