@@ -229,6 +229,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\AthrsRecord.cs">
       <Link>Source\Fields\AthrsRecord.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ContentType.cs">
+      <Link>Source\Fields\ContentType.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\Field203.cs">
       <Link>Source\Fields\Field203.cs</Link>
     </Compile>

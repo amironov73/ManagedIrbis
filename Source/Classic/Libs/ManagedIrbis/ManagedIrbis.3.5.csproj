@@ -130,6 +130,7 @@
     <Compile Include="Source\Fields\AthrcRecord.cs" />
     <Compile Include="Source\Fields\AthrgRecord.cs" />
     <Compile Include="Source\Fields\AthrsRecord.cs" />
+    <Compile Include="Source\Fields\ContentType.cs" />
     <Compile Include="Source\Fields\Field203.cs" />
     <Compile Include="Source\Fields\FullTextInfo.cs" />
     <Compile Include="Source\Fields\LogManager.cs" />
