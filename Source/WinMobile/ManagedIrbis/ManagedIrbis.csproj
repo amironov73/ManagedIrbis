@@ -244,6 +244,9 @@
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\LogRecord.cs">
       <Link>Source\Fields\LogRecord.cs</Link>
     </Compile>
+    <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\MediumType.cs">
+      <Link>Source\Fields\MediumType.cs</Link>
+    </Compile>
     <Compile Include="..\..\Classic\Libs\ManagedIrbis\Source\Fields\ThesaurusRecord.cs">
       <Link>Source\Fields\ThesaurusRecord.cs</Link>
     </Compile>

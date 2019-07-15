@@ -133,6 +133,7 @@
     <Compile Include="Source\Fields\FullTextInfo.cs" />
     <Compile Include="Source\Fields\LogManager.cs" />
     <Compile Include="Source\Fields\LogRecord.cs" />
+    <Compile Include="Source\Fields\MediumType.cs" />
     <Compile Include="Source\Fields\ThesaurusRecord.cs" />
     <Compile Include="Source\Fields\ZaprInfo.cs" />
     <Compile Include="Source\Fields\ZaprRecord.cs" />
