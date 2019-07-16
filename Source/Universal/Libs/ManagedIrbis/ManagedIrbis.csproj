@@ -160,6 +160,9 @@
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Client\ClientEngine.cs">
       <Link>Source\Client\ClientEngine.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisFileNotFoundException.cs">
+      <Link>Source\IrbisFileNotFoundException.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Direct\IfpRecord32.cs">
       <Link>Source\Direct\IfpRecord32.cs</Link>
     </Compile>
@@ -381,6 +384,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisGuid.cs">
       <Link>Source\IrbisGuid.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\IrbisResource.cs">
+      <Link>Source\IrbisResource.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Magazines\BindingSpecification.cs">
       <Link>Source\Magazines\BindingSpecification.cs</Link>
@@ -2841,6 +2847,9 @@
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Reservations\ReservationUtility.cs">
       <Link>Source\Reservations\ReservationUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\ResourceDictionary.cs">
+      <Link>Source\ResourceDictionary.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Classic\Libs\ManagedIrbis\Source\Search\CommonSearches.cs">
       <Link>Source\Search\CommonSearches.cs</Link>

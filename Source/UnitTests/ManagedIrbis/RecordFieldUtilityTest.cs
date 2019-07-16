@@ -8,6 +8,7 @@ using JetBrains.Annotations;
 using ManagedIrbis;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Newtonsoft.Json.Linq;
 
 // ReSharper disable PossiblyMistakenUseOfParamsMethod

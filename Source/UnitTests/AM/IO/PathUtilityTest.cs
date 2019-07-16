@@ -28,6 +28,16 @@ namespace UnitTests.AM.IO
         }
 
         [TestMethod]
+        public void PathUtility_Combine_1()
+        {
+            Assert.AreEqual
+                (
+                    "1" + _bs + "2" + _bs + "3",
+                    PathUtility.Combine("1", "2", "3")
+                );
+        }
+
+        [TestMethod]
         public void PathUtility_ConvertSlashes_1()
         {
             string source = "Some" + _sl + "Path";
@@ -38,6 +48,78 @@ namespace UnitTests.AM.IO
             source = "Some" + _bs + "Path";
             actual = PathUtility.ConvertSlashes(source);
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void PathUtility_ExpandHomePath_1()
+        {
+            string sourcePath = "~/Pictures";
+            string expandedPath = PathUtility.ExpandHomePath(sourcePath);
+            Assert.IsNotNull(expandedPath);
+            Assert.IsTrue(expandedPath.EndsWith("Pictures"));
+        }
+
+        [TestMethod]
+        public void PathUtility_ExpandHomePath_2()
+        {
+            string sourcePath = null;
+            string expandedPath = PathUtility.ExpandHomePath(sourcePath);
+            Assert.IsNull(expandedPath);
+        }
+
+        [TestMethod]
+        public void PathUtility_ExpandHomePath_3()
+        {
+            string sourcePath = string.Empty;
+            string expandedPath = PathUtility.ExpandHomePath(sourcePath);
+            Assert.AreEqual(expandedPath, string.Empty);
+        }
+
+        [TestMethod]
+        public void PathUtility_ExpandHomePath_4()
+        {
+            string sourcePath = "some_file.txt";
+            string expandedPath = PathUtility.ExpandHomePath(sourcePath);
+            Assert.AreEqual(sourcePath, expandedPath);
+        }
+
+        [TestMethod]
+        public void PathUtility_GetRelativePath_1()
+        {
+            string firstPath = "hello" + _bs + "world";
+            string secondPath = "hello" + _bs + "dotnet";
+            string actual = PathUtility.GetRelativePath(secondPath, firstPath);
+            string expected = ".." + _bs + "dotnet";
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void PathUtility_GetRelativePath_2()
+        {
+            string firstPath = "hello" + _bs + "world";
+            string secondPath = "nothing" + _bs + "common";
+            PathUtility.GetRelativePath(secondPath, firstPath);
+        }
+
+        [TestMethod]
+        public void PathUtility_GetRelativePath_3()
+        {
+            string firstPath = _bs + "hello" + _bs + "world";
+            string secondPath = _bs + "nothing" + _bs + "common";
+            string actual = PathUtility.GetRelativePath(secondPath, firstPath);
+            string expected = ".." + _bs + ".." + secondPath;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void PathUtiltity_GetRelativePath_4()
+        {
+            string firstPath = "hello" + _bs + "very" + _bs + "long" + _bs + "path";
+            string secondPath = "hello" + _bs + "other" + _bs + "path";
+            string actual = PathUtility.GetRelativePath(secondPath, firstPath);
+            string excpected = ".." + _bs + ".." + _bs + ".." + _bs + "other" + _bs + "path";
+            Assert.AreEqual(excpected, actual);
         }
 
         [TestMethod]

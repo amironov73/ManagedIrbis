@@ -207,9 +207,10 @@ namespace ManagedIrbis.Server
             _VerifyDirectoryReadable(DataPath);
             DepositPath = Path.Combine(DataPath, "Deposit");
             DepositUserPath = Path.Combine(DataPath, "Deposit_USER");
-            WorkDir = ReferenceEquals(rootPathOverride, null)
-                ? IniFile.WorkDir.ThrowIfNull("WorkDir")
-                : Path.Combine(rootPathOverride, "workdir");
+            string workdirOverride = setup.WorkdirOverride;
+            WorkDir = workdirOverride
+                ?? IniFile.WorkDir.ThrowIfNull("WorkDir");
+            Log.Trace("WorkDir=" + WorkDir);
             if (!Directory.Exists(WorkDir))
             {
                 Directory.CreateDirectory(WorkDir);

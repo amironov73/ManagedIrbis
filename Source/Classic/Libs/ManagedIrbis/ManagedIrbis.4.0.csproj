@@ -88,6 +88,7 @@
     <Compile Include="Source\Batch\BatchSearcher.cs" />
     <Compile Include="Source\Client\ClientContext.cs" />
     <Compile Include="Source\Client\ClientEngine.cs" />
+    <Compile Include="Source\IrbisFileNotFoundException.cs" />
     <Compile Include="Source\Direct\IfpRecord32.cs" />
     <Compile Include="Source\Direct\MstStat64.cs" />
     <Compile Include="Source\Direct\MstWriter64.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="Source\Infrastructure\Sockets\SimpleClientSocketV6.cs" />
     <Compile Include="Source\Infrastructure\Sockets\UnixDomainSocket.cs" />
     <Compile Include="Source\IrbisGuid.cs" />
+    <Compile Include="Source\IrbisResource.cs" />
     <Compile Include="Source\Magazines\BindingSpecification.cs" />
     <Compile Include="Source\Magazines\BindingManager.cs" />
     <Compile Include="Source\Magazines\MagazineComparer.cs" />
@@ -982,6 +984,7 @@
     <Compile Include="Source\Reservations\ReservationStatus.cs" />
     <Compile Include="Source\Reservations\HistoryInfo.cs" />
     <Compile Include="Source\Reservations\ReservationUtility.cs" />
+    <Compile Include="Source\ResourceDictionary.cs" />
     <Compile Include="Source\Search\CommonSearches.cs" />
     <Compile Include="Source\Search\FoundLine.cs" />
     <Compile Include="Source\Search\Infrastructure\ComplexLevel.cs" />

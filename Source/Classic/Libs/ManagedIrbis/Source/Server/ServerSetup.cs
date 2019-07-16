@@ -46,6 +46,12 @@ namespace ManagedIrbis.Server
         public int PortNumberOverride { get; set; }
 
         /// <summary>
+        /// Override for workdir path.
+        /// </summary>
+        [CanBeNull]
+        public string WorkdirOverride { get; set; }
+
+        /// <summary>
         /// Use TCP/IP v4 (enabled by default).
         /// </summary>
         public bool UseTcpIpV4 { get; set; }

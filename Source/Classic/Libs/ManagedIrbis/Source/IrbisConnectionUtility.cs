@@ -1266,14 +1266,33 @@ namespace ManagedIrbis
             Code.NotNull(connection, "connection");
             Code.NotNullNorEmpty(fileName, "fileName");
 
-            FileSpecification fileSpecification = new FileSpecification
+            FileSpecification specification = new FileSpecification
                 (
                     path,
                     connection.Database,
                     fileName
                 );
 
-            string result = connection.ReadTextFile(fileSpecification);
+            string result = connection.ReadTextFile(specification);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read text file from the server.
+        /// </summary>
+        [CanBeNull]
+        public static string ReadTextFile
+            (
+                [NotNull] this IIrbisConnection connection,
+                [NotNull] string path
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNullNorEmpty(path, "path");
+
+            FileSpecification specification = FileSpecification.Parse(path);
+            string result = connection.ReadTextFile(specification);
 
             return result;
         }
@@ -1352,6 +1371,52 @@ namespace ManagedIrbis
                         actualVersion.Version
                     );
                 throw new IrbisException(message);
+            }
+
+            return result;
+        }
+
+        // ========================================================
+
+        /// <summary>
+        /// Read text file from the server.
+        /// </summary>
+        [NotNull]
+        public static string RequireTextFile
+            (
+                [NotNull] this IIrbisConnection connection,
+                [NotNull] FileSpecification specification
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(specification, "specification");
+
+            string result = connection.ReadTextFile(specification);
+            if (string.IsNullOrEmpty(result))
+            {
+                throw new IrbisFileNotFoundException(specification);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Read text file from the server.
+        /// </summary>
+        [NotNull]
+        public static string RequireTextFile
+            (
+                [NotNull] this IIrbisConnection connection,
+                [NotNull] string path
+            )
+        {
+            Code.NotNull(connection, "connection");
+            Code.NotNull(path, "path");
+
+            string result = connection.ReadTextFile(path);
+            if (string.IsNullOrEmpty(result))
+            {
+                throw new IrbisFileNotFoundException(path);
             }
 
             return result;

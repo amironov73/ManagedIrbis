@@ -128,6 +128,45 @@ namespace ManagedIrbis
             return field;
         }
 
+        /// <summary>
+        /// Добавление взаимозаменяемых подполей.
+        /// </summary>
+        [NotNull]
+        public static RecordField AddSubFields
+            (
+                [NotNull] this RecordField field,
+                [CanBeNull] char[] codes,
+                [CanBeNull] string[] values
+            )
+        {
+            Code.NotNull(field, "field");
+
+            if (ReferenceEquals(codes, null)
+                || ReferenceEquals(values, null))
+            {
+                return field;
+            }
+
+            int offset = 0;
+            foreach (char code in codes)
+            {
+                while (offset < values.Length
+                       && string.IsNullOrEmpty(values[offset]))
+                {
+                    offset++;
+                }
+
+                if (offset >= values.Length)
+                {
+                    break;
+                }
+
+                field.AddSubField(code, values[offset]);
+            }
+
+            return field;
+        }
+
         // ==========================================================
 
         /// <summary>
@@ -267,6 +306,45 @@ namespace ManagedIrbis
                     field.SubFields.Add(subField);
                 }
                 subField.Value = value;
+            }
+
+            return field;
+        }
+
+        /// <summary>
+        /// Применение группы взаимозаменяемых подполей.
+        /// </summary>
+        [NotNull]
+        public static RecordField ApplySubFields
+            (
+                [NotNull] this RecordField field,
+                [CanBeNull] char[] codes,
+                [CanBeNull] string[] values
+            )
+        {
+            Code.NotNull(field, "field");
+
+            if (ReferenceEquals(codes, null)
+                || ReferenceEquals(values, null))
+            {
+                return field;
+            }
+
+            int offset = 0;
+            foreach (char code in codes)
+            {
+                while (offset < values.Length
+                       && string.IsNullOrEmpty(values[offset]))
+                {
+                    offset++;
+                }
+
+                if (offset >= values.Length)
+                {
+                    break;
+                }
+
+                field.ApplySubField(code, values[offset]);
             }
 
             return field;
