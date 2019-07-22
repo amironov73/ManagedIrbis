@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ClientRunner.cs -- 
+/* ClientRunner.cs -- запускает клиент с заданными логином и паролем.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -29,7 +29,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Client
 {
     /// <summary>
-    /// 
+    /// Запускает указанный клиент с заданными логином и паролем.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -95,6 +95,7 @@ namespace ManagedIrbis.Client
         /// </summary>
         public ClientRunner()
         {
+            // Starting with 2018.1: cirbis_plus.exe
             Executable = "cirbisc_new_unicode.exe";
             IniFileName = "cirbisc.ini";
             WorkingDirectory = @"C:\IRBIS64";

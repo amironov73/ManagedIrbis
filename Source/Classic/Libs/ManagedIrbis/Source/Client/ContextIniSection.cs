@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ContextIniSection.cs -- 
+/* ContextIniSection.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -21,10 +21,12 @@ using Newtonsoft.Json;
 
 #endregion
 
+// ReSharper disable StringLiteralTypo
+
 namespace ManagedIrbis.Client
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -85,7 +87,7 @@ namespace ManagedIrbis.Client
         [JsonProperty("password")]
         public string Password
         {
-            get { return Section["UserPassword"]; }
+            get { return Section["UserPassword"] ?? Section["Password"]; }
             set { Section["UserPassword"] = value; }
         }
 
