@@ -26,6 +26,50 @@ using MoonSharp.Interpreter;
 
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
+    /*
+     * Как работает оператор break в ИРБИС64:
+     *
+     * Вне повторяющейся группы он немедленно прекращает
+     * выполнение текущего контекста (управление переходит
+     * родительскому контексту, если таковой существует).
+     * При этом неважно, находится ли он внутри операторных
+     * скобок IF/FI.
+     *
+     * Внутри повторяющейся группы он по-разному работает
+     * в зависимости от того, находится ли он внутри
+     * операторных скобок IF/FI.
+     *
+     * Внутри IF/FI он выставляет флаг "не надо следующего
+     * повторения группы". Вне IF/FI он просто прекращает
+     * выполнение текущего контекста (см. выше).
+     *
+     * Есть маленькая тонкость: break останавливает повторяющуюся
+     * группу, только если находится на первом логическом уровне
+     * после IF, иначе она срабатывает как вне IF/FI.
+     *
+     * Пример:
+     *
+     * 'first',/,
+     * (
+     * 'second',/,
+     * if 1=1 then break fi,
+     * v300,/,
+     * 'third',/,
+     * ),
+     * 'fourth',
+     *
+     * Выведет:
+     *
+     * first
+     * second
+     * Указ.
+     * third
+     * second
+     * third
+     * fourth
+     *
+     */
+
     /// <summary>
     ///
     /// </summary>
@@ -142,6 +186,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
             if (!ReferenceEquals(context.CurrentGroup, null))
             {
                 // Мы внутри группы
+                bool handled = false;
 
                 if (PftConfig.BreakImmediate)
                 {
@@ -154,7 +199,22 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
                     throw new PftBreakException(this);
                 }
 
-                context.BreakFlag = true;
+                PftNode possibleCondition = Parent;
+                if (possibleCondition is PftConditionalStatement)
+                {
+                    //PftNode possibleGroup = condition.Parent;
+                    //if ((possibleGroup is PftGroup)
+                    //    || (possibleGroup is PftParallelGroup))
+                    //{
+                        context.BreakFlag = true;
+                        handled = true;
+                    //}
+                }
+
+                if (!handled)
+                {
+                    throw new PftBreakException(this);
+                }
             }
             else
             {

@@ -466,6 +466,29 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Find parent node of specified type.
+        /// </summary>
+        /// <typeparam name="T">Type of parent to find.</typeparam>
+        /// <returns>Found parent node or <c>null</c>.</returns>
+        [CanBeNull]
+        public PftNode FindParent<T>()
+        {
+            PftNode candidate = Parent;
+
+            while (!ReferenceEquals(candidate, null))
+            {
+                if (candidate is T)
+                {
+                    return candidate;
+                }
+
+                candidate = candidate.Parent;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Список полей, задействованных в форматировании
         /// данным элементом и всеми его потомками, включая
         /// косвенных.
@@ -514,7 +537,7 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
-        /// Построение массива потомков-листьев 
+        /// Построение массива потомков-листьев
         /// (т. е. не имеющих собственных потомков).
         /// </summary>
         /// <remarks>Если у узла нет потомков,
@@ -558,6 +581,35 @@ namespace ManagedIrbis.Pft.Infrastructure
         }
 
         /// <summary>
+        /// Получение родительского узла указанного уровня.
+        /// </summary>
+        /// <param name="level">Требуемый уровень (число без знака).
+        /// Считается, что непосредственный родитель имеет уровень 0.
+        /// </param>
+        /// <returns>Найденный родительский узел либо <c>null</c>.</returns>
+        [CanBeNull]
+        public PftNode GetParent
+            (
+                int level
+            )
+        {
+            PftNode node = this;
+
+            while (!ReferenceEquals(node, null))
+            {
+                node = node.Parent;
+                if (level == 0)
+                {
+                    break;
+                }
+
+                level--;
+            }
+
+            return node;
+        }
+
+        /// <summary>
         /// Оптимизация дерева потомков.
         /// На данный момент не реализована.
         /// </summary>
@@ -597,7 +649,7 @@ namespace ManagedIrbis.Pft.Infrastructure
 
         /// <summary>
         /// Формирование исходного текста по AST.
-        /// Применяется, например, для красивой 
+        /// Применяется, например, для красивой
         /// распечатки программы на языке PFT.
         /// </summary>
         public virtual void PrettyPrint
