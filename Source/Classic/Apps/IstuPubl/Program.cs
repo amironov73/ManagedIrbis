@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -19,12 +19,13 @@ namespace IstuPubl
 {
     class Program
     {
-        private static string connectionString = "host=127.0.0.1;port=6666;user=1;password=1;db=ISTU;";
+        private static string connectionString
+            = "host=127.0.0.1;port=6666;user=librarian;password=secret;db=ISTU;";
         private static IrbisConnection connection;
         private static DbManager db;
 
         private static string searchExpression
-            = "\"O=ИРНИТУ$\" * (G=2015 + G=2016 + G=2017 + G=2018)";
+            = "\"O=ИРНИТУ$\" * (G=2017 + G=2018)";
 
         private static string sciQuery = @"select count(*) from attendance as a
             where a.number = @number";

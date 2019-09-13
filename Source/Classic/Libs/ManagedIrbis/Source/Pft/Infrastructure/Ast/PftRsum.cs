@@ -1,4 +1,4 @@
-﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* PftRsum.cs --
@@ -31,10 +31,12 @@ using MoonSharp.Interpreter;
 
 #endregion
 
+// ReSharper disable CommentTypo
+
 namespace ManagedIrbis.Pft.Infrastructure.Ast
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -226,37 +228,53 @@ namespace ManagedIrbis.Pft.Infrastructure.Ast
 
             if (!string.IsNullOrEmpty(Name))
             {
-                string text = context.Evaluate(Children);
-                double[] values = PftUtility.ExtractNumericValues(text);
-                if (values.Length != 0)
+                using (PftContextGuard guard = new PftContextGuard(context))
                 {
-                    switch (Name)
+                    // ibatrak
+                    // Оказывается, функции RMIN, RMAX, RAVR и RSUM игнорируют
+                    // состояние повторяющейся группы.
+                    // То есть, если туда передается поле, то в параметры передается
+                    // выражение, слепленное из всех повторений
+                    // Ровно так, если бы поле выводилось без повторяющейся группы.
+                    // А повторяющаяся группа будет просто играть роль цикла.
+
+                    // TODO добавить этот глюк в компилируемый код
+
+                    PftContext nestedContext = guard.ChildContext;
+                    nestedContext.Reset();
+
+                    string text = nestedContext.Evaluate(Children);
+                    double[] values = PftUtility.ExtractNumericValues(text);
+                    if (values.Length != 0)
                     {
-                        case "rsum":
-                            Value = values.Sum();
-                            break;
+                        switch (Name)
+                        {
+                            case "rsum":
+                                Value = values.Sum();
+                                break;
 
-                        case "rmin":
-                            Value = values.Min();
-                            break;
+                            case "rmin":
+                                Value = values.Min();
+                                break;
 
-                        case "rmax":
-                            Value = values.Max();
-                            break;
+                            case "rmax":
+                                Value = values.Max();
+                                break;
 
-                        case "ravr":
-                            Value = values.Average();
-                            break;
+                            case "ravr":
+                                Value = values.Average();
+                                break;
 
-                        default:
-                            Log.Error
-                                (
-                                    "PftRsum::Execute: "
-                                    + "unexpected function name="
-                                    + Name.ToVisibleString()
-                                );
+                            default:
+                                Log.Error
+                                    (
+                                        "PftRsum::Execute: "
+                                        + "unexpected function name="
+                                        + Name.ToVisibleString()
+                                    );
 
-                            throw new PftSyntaxException(this);
+                                throw new PftSyntaxException(this);
+                        }
                     }
                 }
             }
