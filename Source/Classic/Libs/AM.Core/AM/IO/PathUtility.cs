@@ -152,6 +152,33 @@ namespace AM.IO
         }
 
         /// <summary>
+        /// Расширяет путь, заданный относительно домашней
+        /// папки пользователя.
+        /// </summary>
+        [CanBeNull]
+        public static string ExpandHomePath
+            (
+                [CanBeNull] string path
+            )
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                return path;
+            }
+
+            if (!path.StartsWith("~/") && !path.StartsWith("~\\"))
+            {
+                return path;
+            }
+
+            return Path.Combine
+                (
+                    Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+                    path.Substring(2)
+                );
+        }
+
+        /// <summary>
         /// Get relative path.
         /// </summary>
         [NotNull]

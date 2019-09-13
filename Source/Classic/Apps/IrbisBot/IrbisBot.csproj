@@ -46,8 +46,8 @@
     <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="MihaZupan.HttpToSocks5Proxy, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\HttpToSocks5Proxy.1.0.5\lib\net45\MihaZupan.HttpToSocks5Proxy.dll</HintPath>
+    <Reference Include="MihaZupan.HttpToSocks5Proxy, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\HttpToSocks5Proxy.1.2.1\lib\net45\MihaZupan.HttpToSocks5Proxy.dll</HintPath>
     </Reference>
     <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
@@ -66,8 +66,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Telegram.Bot, Version=14.10.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Telegram.Bot.14.10.0\lib\net45\Telegram.Bot.dll</HintPath>
+    <Reference Include="Telegram.Bot, Version=15.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Telegram.Bot.15.0.0\lib\net45\Telegram.Bot.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

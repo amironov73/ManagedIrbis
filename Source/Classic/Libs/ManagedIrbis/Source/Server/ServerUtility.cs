@@ -117,7 +117,8 @@ namespace ManagedIrbis.Server
             ServerIniFile serverIniFile = new ServerIniFile(iniFile);
             setup = new ServerSetup(serverIniFile)
             {
-                RootPathOverride = parsed.GetValue("root", null),
+                RootPathOverride = PathUtility.ExpandHomePath(parsed.GetValue("root", null)),
+                WorkdirOverride = PathUtility.ExpandHomePath(parsed.GetValue("workdir", null)),
                 PortNumberOverride = parsed.GetValue("port", 0)
             };
 

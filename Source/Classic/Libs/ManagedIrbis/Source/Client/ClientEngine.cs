@@ -20,9 +20,15 @@ using AM;
 using AM.IO;
 using AM.Text.Output;
 
+using CodeJam;
+
 using JetBrains.Annotations;
 
+using ManagedIrbis.Infrastructure;
+
 #endregion
+
+// ReSharper disable StringLiteralTypo
 
 namespace ManagedIrbis.Client
 {
@@ -78,6 +84,12 @@ namespace ManagedIrbis.Client
         public DatabaseInfo CurrentDatabase { get; set; }
 
         /// <summary>
+        /// Context.
+        /// </summary>
+        [NotNull]
+        public ResourceDictionary<string> Context { get; private set; }
+
+        /// <summary>
         ///
         /// </summary>
         public int ClientTimeLive { get; set; }
@@ -104,7 +116,9 @@ namespace ManagedIrbis.Client
             ConnectionString = ClientIni.BuildConnectionString();
             RemoteIni = new RemoteCatalogerIniFile(new IniFile());
             Output = new NullOutput();
+            Context = new ResourceDictionary<string>();
             Databases = EmptyArray<DatabaseInfo>.Value;
+            _fileQueue = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
 
             // Default values
 
@@ -115,6 +129,13 @@ namespace ManagedIrbis.Client
             };
             ClientTimeLive = 100; // TODO ???
         }
+
+        #endregion
+
+        #region Private members
+
+        [NotNull]
+        private readonly HashSet<string> _fileQueue;
 
         #endregion
 
@@ -151,6 +172,22 @@ namespace ManagedIrbis.Client
         }
 
         /// <summary>
+        /// Enqueue the file to download.
+        /// </summary>
+        public void EnqueueTextFile
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNull(fileName, "fileName");
+
+            if (!Context.Have(fileName))
+            {
+                _fileQueue.Add(fileName);
+            }
+        }
+
+        /// <summary>
         /// Execute in background.
         /// </summary>
         public void Execute(Action action)
@@ -183,6 +220,14 @@ namespace ManagedIrbis.Client
         }
 
         /// <summary>
+        /// Read database-specific context.
+        /// </summary>
+        public void ReadDatabaseSpecificContext()
+        {
+            // TODO implement
+        }
+
+        /// <summary>
         /// Reload the context.
         /// </summary>
         /// <param name="full"></param>
@@ -201,22 +246,61 @@ namespace ManagedIrbis.Client
                 CurrentDatabase = Databases[0];
                 // TODO use DefaultDB
 
-                // TODO read 0..ISISACW.TAB
+                EnqueueTextFile("0..ISISACW.TAB");
+                EnqueueTextFile("0..SETPRIV.WSS");
+                EnqueueTextFile("0..UNICODE.MNU");
+                EnqueueTextFile("0..UPMNU.MNU");
+                EnqueueTextFile("0..WEBIRBIS.MNU");
+                EnqueueTextFile("0..WEBTRANSFER.MNU");
+                EnqueueTextFile("0..CUSTOMVKB.MNU");
 
-                // TODO read 0..SETPRIV.WSS
-
-                // TODO read 0..UNICODE.MNU
-
-                // TODO read 0..UPMNU.MNU
-
-                // TODO read 0..WEBIRBIS.MNU
-
-                // TODO read 0..WEBTRANSFER.MNU
-
-                // TODO read 0..CUSTOMVKB.MNU
+                ReadEnqueuedFiles();
+                ReadDatabaseSpecificContext();
             }
 
             MaxMfn = Connection.GetMaxMfn();
+        }
+
+        /// <summary>
+        /// Read enqueued files.
+        /// </summary>
+        public void ReadEnqueuedFiles()
+        {
+            foreach (string fileName in _fileQueue)
+            {
+                ReadTextFile(fileName);
+            }
+            _fileQueue.Clear();
+        }
+
+        /// <summary>
+        /// Require text file from the server.
+        /// </summary>
+        [CanBeNull]
+        public string ReadTextFile
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            string result = Context.Get(fileName);
+            if (!string.IsNullOrEmpty(result))
+            {
+                WriteLine(string.Format("Reading from cache: {0}", fileName));
+            }
+            else
+            {
+                WriteLine(string.Format("Reading file: {0}", fileName));
+                FileSpecification specification = FileSpecification.Parse(fileName);
+                result = Connection.ReadTextFile(specification);
+                if (!string.IsNullOrEmpty(result))
+                {
+                    Context.Put(fileName, result);
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -237,6 +321,33 @@ namespace ManagedIrbis.Client
         {
             // TODO implement
             return true;
+        }
+
+        /// <summary>
+        /// Require text file from the server.
+        /// </summary>
+        [NotNull]
+        public string RequireTextFile
+            (
+                [NotNull] string fileName
+            )
+        {
+            Code.NotNullNorEmpty(fileName, "fileName");
+
+            string result = Context.Get(fileName);
+            if (!string.IsNullOrEmpty(result))
+            {
+                WriteLine(string.Format("Reading from cache: {0}", fileName));
+            }
+            else
+            {
+                WriteLine(string.Format("Reading file: {0}", fileName));
+                FileSpecification specification = FileSpecification.Parse(fileName);
+                result = Connection.RequireTextFile(specification);
+                Context.Put(fileName, result);
+            }
+
+            return result;
         }
 
         /// <summary>
