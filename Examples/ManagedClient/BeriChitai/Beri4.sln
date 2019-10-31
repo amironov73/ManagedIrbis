@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beri4", "Beri4.csproj", "{AD574456-4D08-4376-9075-F8C1EA6E1E07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD574456-4D08-4376-9075-F8C1EA6E1E07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD574456-4D08-4376-9075-F8C1EA6E1E07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD574456-4D08-4376-9075-F8C1EA6E1E07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD574456-4D08-4376-9075-F8C1EA6E1E07}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {77970D43-EFBD-476D-8605-CEC6BBE928C2}
+	EndGlobalSection
+EndGlobal
