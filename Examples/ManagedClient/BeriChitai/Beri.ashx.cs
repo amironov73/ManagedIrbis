@@ -16,6 +16,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Readers;
+using ManagedIrbis.Search;
 
 using Newtonsoft.Json;
 
@@ -92,6 +93,14 @@ public class Beri : IHttpHandler
                 var word = parms["search"];
                 result = SearchBooks(word);
             }
+            else if (query.StartsWith("term"))
+            {
+                result = ReadTerms(context);
+            }
+            else if (query == "version")
+            {
+                result = ServerVersion();
+            }
         }
         catch
         {
@@ -99,6 +108,78 @@ public class Beri : IHttpHandler
         }
 
         context.Response.Write(JsonConvert.SerializeObject(result));
+    }
+
+    /// <summary>
+    /// Полчучение версии сервера.
+    /// </summary>
+    private object ServerVersion()
+    {
+        using (var connection = GetConnection())
+        {
+            var result = connection.GetServerVersion();
+            return result;
+        }
+    }
+
+    private static string[] FilterTerms
+        (
+            TermInfo[] terms,
+            string prefix
+        )
+    {
+        prefix = prefix.ToUpperInvariant();
+        var prefixLength = prefix.Length;
+
+        var result = terms
+            .Where(term => term.Count != 0)
+            .Where(term => !string.IsNullOrEmpty(term.Text))
+            .Where(term => term.Text.StartsWith(prefix))
+            .Select(term => term.Text.Substring(prefixLength))
+            .ToArray();
+        return result;
+    }
+
+
+    /// <summary>
+    /// Перечисление терминов словаря, начиная с заданного.
+    /// </summary>
+    private object ReadTerms(HttpContext context)
+    {
+        var startTerm = context.Request.Params["term"];
+        if (string.IsNullOrEmpty(startTerm))
+        {
+            return new string[0];
+        }
+
+        var index = startTerm.IndexOf('=');
+        var prefix = index > 0
+            ? startTerm.Substring(0, index + 1)
+            : string.Empty;
+
+        // Число выдаваемых терминов.
+        var number = context.Request.Params["number"].SafeToInt32(25);
+        if (number <= 0)
+        {
+            number = 25;
+        }
+
+        using (var connection = GetConnection())
+        {
+            var parameters = new TermParameters
+            {
+                StartTerm = startTerm,
+                NumberOfTerms = number
+            };
+
+            var result = FilterTerms
+                (
+                    connection.ReadTerms(parameters),
+                    prefix
+                );
+
+            return result;
+        }
     }
 
     /// <summary>

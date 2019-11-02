@@ -26,6 +26,7 @@ using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
+// ReSharper disable CommentTypo
 // ReSharper disable ConvertClosureToMethodGroup
 // ReSharper disable UseStringInterpolation
 // ReSharper disable UseNameofExpression
