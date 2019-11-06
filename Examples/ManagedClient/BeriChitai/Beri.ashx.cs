@@ -16,6 +16,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Readers;
+using ManagedIrbis.Search;
 
 using Newtonsoft.Json;
 
@@ -23,14 +24,19 @@ using CM=System.Configuration.ConfigurationManager;
 
 #endregion
 
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
 // ReSharper disable StringLiteralTypo
 
+/// <summary>
+/// Сервис для Бери-Читай.
+/// </summary>
 public class Beri : IHttpHandler
 {
-    public const string StatusPrefix = "BERI=";
-    public const string FreeBook = "0";
+    private const string StatusPrefix = "BERI=";
+    private const string FreeBook = "0";
 
-    IrbisConnection GetConnection()
+    private static IrbisConnection GetConnection()
     {
         string connectionString = ConfigurationUtility.GetString("connectionString", "");
         return new IrbisConnection(connectionString);
@@ -38,6 +44,7 @@ public class Beri : IHttpHandler
 
     public void ProcessRequest(HttpContext context)
     {
+        // Для отладки разрешаем доступ к сервису с посторонних ресурсов.
         context.Response.AddHeader("Access-Control-Allow-Origin", "*");
         context.Response.AddHeader("Access-Control-Allow-Methods", "GET");
         context.Response.AddHeader("Access-Control-Allow-Headers", "Content-Type, Accept");
@@ -58,38 +65,127 @@ public class Beri : IHttpHandler
 
         object result = null;
 
-
-        if (query == "random")
+        try
         {
-            result = RandomBooks();
+            if (query == "random")
+            {
+                result = RandomBooks();
+            }
+            else if (query == "all")
+            {
+                result = AllBooks();
+            }
+            else if (query.StartsWith("read"))
+            {
+                result = ReadBooks(context);
+            }
+            else if (query.StartsWith("order"))
+            {
+                result = OrderBooks(context);
+            }
+            else if (query.StartsWith("count"))
+            {
+                result = CountBooks();
+            }
+            else if (query.StartsWith("search"))
+            {
+                var parms = context.Request.Params;
+                var word = parms["search"];
+                result = SearchBooks(word);
+            }
+            else if (query.StartsWith("term"))
+            {
+                result = ReadTerms(context);
+            }
+            else if (query == "version")
+            {
+                result = ServerVersion();
+            }
         }
-        else if (query == "all")
+        catch
         {
-            result = AllBooks();
-        }
-        else if (query.StartsWith("read"))
-        {
-            result = ReadBooks(context);
-        }
-        else if (query.StartsWith("order"))
-        {
-            result = OrderBooks(context);
-        }
-        else if (query.StartsWith("count"))
-        {
-            result = CountBooks();
-        }
-        else if (query.StartsWith("search"))
-        {
-            var parms = context.Request.Params;
-            var word = parms["search"];
-            result = SearchBooks(word);
+            result = null;
         }
 
         context.Response.Write(JsonConvert.SerializeObject(result));
     }
 
-    private int[] ConvertMfn(string text)
+    /// <summary>
+    /// Полчучение версии сервера.
+    /// </summary>
+    private object ServerVersion()
+    {
+        using (var connection = GetConnection())
+        {
+            var result = connection.GetServerVersion();
+            return result;
+        }
+    }
+
+    private static string[] FilterTerms
+        (
+            TermInfo[] terms,
+            string prefix
+        )
+    {
+        prefix = prefix.ToUpperInvariant();
+        var prefixLength = prefix.Length;
+
+        var result = terms
+            .Where(term => term.Count != 0)
+            .Where(term => !string.IsNullOrEmpty(term.Text))
+            .Where(term => term.Text.StartsWith(prefix))
+            .Select(term => term.Text.Substring(prefixLength))
+            .ToArray();
+        return result;
+    }
+
+
+    /// <summary>
+    /// Перечисление терминов словаря, начиная с заданного.
+    /// </summary>
+    private object ReadTerms(HttpContext context)
+    {
+        var startTerm = context.Request.Params["term"];
+        if (string.IsNullOrEmpty(startTerm))
+        {
+            return new string[0];
+        }
+
+        var index = startTerm.IndexOf('=');
+        var prefix = index > 0
+            ? startTerm.Substring(0, index + 1)
+            : string.Empty;
+
+        // Число выдаваемых терминов.
+        var number = context.Request.Params["number"].SafeToInt32(25);
+        if (number <= 0)
+        {
+            number = 25;
+        }
+
+        using (var connection = GetConnection())
+        {
+            var parameters = new TermParameters
+            {
+                StartTerm = startTerm,
+                NumberOfTerms = number
+            };
+
+            var result = FilterTerms
+                (
+                    connection.ReadTerms(parameters),
+                    prefix
+                );
+
+            return result;
+        }
+    }
+
+    /// <summary>
+    /// Получение массива MFN из строки запроса.
+    /// </summary>
+    private int[] ExtractMfn(string text)
     {
         if (string.IsNullOrEmpty(text))
         {
@@ -105,9 +201,16 @@ public class Beri : IHttpHandler
             .Where(one => one > 0)
             .Distinct()
             .ToArray();
+
         return result;
     }
 
+    /// <summary>
+    /// Поиск читателя по номеру читательского
+    /// и email (либо номеру телефона).
+    /// </summary>
+    /// <returns>Если читатель не найден,
+    /// возвращает <c>null</c>.</returns>
     [CanBeNull]
     private ReaderInfo FindReader
         (
@@ -126,6 +229,8 @@ public class Beri : IHttpHandler
                 return null;
             }
 
+            // должно совпадать с одним из двух полей:
+            // Email или HomePhone
             if (!email.SameString(result.Email)
                 && !email.SameString(result.HomePhone))
             {
@@ -140,9 +245,18 @@ public class Beri : IHttpHandler
         }
     }
 
+    /// <summary>
+    /// Заказ книг.
+    /// </summary>
+    /// <returns>
+    /// Используются параметры:
+    /// ticket -- номер читательского
+    /// email -- почта либо телефон
+    /// order -- MFN заказываемых книг
+    /// </returns>
     private object OrderBooks(HttpContext context)
     {
-        string ticket = context.Request.Params["ticket"];
+        var ticket = context.Request.Params["ticket"];
         if (string.IsNullOrEmpty(ticket))
         {
             return new OrderResult
@@ -152,7 +266,7 @@ public class Beri : IHttpHandler
             };
         }
 
-        string email = context.Request.Params["email"];
+        var email = context.Request.Params["email"];
         if (string.IsNullOrEmpty(email))
         {
             return new OrderResult
@@ -162,7 +276,7 @@ public class Beri : IHttpHandler
             };
         }
 
-        int[] mfns = ConvertMfn(context.Request.Params["order"]);
+        var mfns = ExtractMfn(context.Request.Params["order"]);
         if (mfns.Length == 0)
         {
             return new OrderResult
@@ -172,10 +286,10 @@ public class Beri : IHttpHandler
             };
         }
 
-        using (IrbisConnection connection = GetConnection())
+        using (var connection = GetConnection())
         {
             var maxMfn = connection.GetMaxMfn();
-            mfns = mfns.Where(item => item < maxMfn).ToArray();
+            mfns = mfns.Where(item => item <= maxMfn).ToArray();
             if (mfns.Length == 0)
             {
                 return new OrderResult
@@ -196,7 +310,7 @@ public class Beri : IHttpHandler
             }
 
             // Тот, кто умеет размещать заказы
-            BeriManager beriMan = new BeriManager(connection);
+            var beriMan = new BeriManager(connection);
 
             // Читатель может быть лишен права пользования библиотекой
             if (!beriMan.IsReaderEnabled(reader))
@@ -231,7 +345,7 @@ public class Beri : IHttpHandler
 
     private object AllBooks()
     {
-        using (IrbisConnection connection = GetConnection())
+        using (var connection = GetConnection())
         {
             var books = connection.SearchFormat
                 (
@@ -244,20 +358,24 @@ public class Beri : IHttpHandler
                     Description = book.Text,
                     Selected = false
                 })
+                .OrderBy(book => book.Description)
                 .ToArray();
             return books;
         }
     }
 
+    /// <summary>
+    /// Выдача книг по MFN.
+    /// </summary>
     private object ReadBooks(HttpContext context)
     {
-        var mfns = ConvertMfn(context.Request.Params["read"]);
+        var mfns = ExtractMfn(context.Request.Params["read"]);
         if (mfns.Length == 0)
         {
             return new BookInfo[0];
         }
 
-        using (IrbisConnection connection = GetConnection())
+        using (var connection = GetConnection())
         {
             var maxMfn = connection.GetMaxMfn();
             mfns = mfns.Where(item => item < maxMfn).ToArray();
@@ -283,6 +401,9 @@ public class Beri : IHttpHandler
         }
     }
 
+    /// <summary>
+    /// Обложка для книги.
+    /// </summary>
     private void Cover(HttpContext context)
     {
         var filename = "img/nophoto.jpg";
@@ -303,6 +424,7 @@ public class Beri : IHttpHandler
         {
             goto FINISH;
         }
+
         var candidate = Path.Combine(picturePath, index + ".jpg");
         if (!File.Exists(candidate))
         {
@@ -316,6 +438,9 @@ public class Beri : IHttpHandler
         context.Response.WriteFile(filename);
     }
 
+    /// <summary>
+    /// Пять случайных книг.
+    /// </summary>
     private object RandomBooks()
     {
         var result = new List<BookInfo>();
@@ -345,9 +470,13 @@ public class Beri : IHttpHandler
         return result.ToArray();
     }
 
+    /// <summary>
+    /// Поиск книг по ключевому слову
+    /// (не более 100 штук).
+    /// </summary>
     private object SearchBooks(string keyword)
     {
-        using (IrbisConnection connection = GetConnection())
+        using (var connection = GetConnection())
         {
             var found = connection.SearchFormat
                     (
@@ -366,9 +495,12 @@ public class Beri : IHttpHandler
         }
     }
 
+    /// <summary>
+    /// Общее количество книг, доступных для заказа.
+    /// </summary>
     private object CountBooks()
     {
-        using (IrbisConnection connection = GetConnection())
+        using (var connection = GetConnection())
         {
             var count = connection.SearchCount(StatusPrefix + FreeBook);
             return count;
