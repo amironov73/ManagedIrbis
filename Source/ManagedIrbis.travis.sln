@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IstuPubl", "Classic\Apps\Is
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountOldBooks", "Classic\Apps\CountOldBooks\CountOldBooks.csproj", "{96F20F37-39F8-4B0D-9994-051D76DF9FEF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cronicle", "Classic\Apps\Cronicle\Cronicle.csproj", "{1505A106-CB6B-4E13-875A-5AE318A07DAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -251,6 +253,14 @@ Global
 		{96F20F37-39F8-4B0D-9994-051D76DF9FEF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{96F20F37-39F8-4B0D-9994-051D76DF9FEF}.Release|x86.ActiveCfg = Release|Any CPU
 		{96F20F37-39F8-4B0D-9994-051D76DF9FEF}.Release|x86.Build.0 = Release|Any CPU
+		{1505A106-CB6B-4E13-875A-5AE318A07DAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1505A106-CB6B-4E13-875A-5AE318A07DAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1505A106-CB6B-4E13-875A-5AE318A07DAB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1505A106-CB6B-4E13-875A-5AE318A07DAB}.Debug|x86.Build.0 = Debug|Any CPU
+		{1505A106-CB6B-4E13-875A-5AE318A07DAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1505A106-CB6B-4E13-875A-5AE318A07DAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1505A106-CB6B-4E13-875A-5AE318A07DAB}.Release|x86.ActiveCfg = Release|Any CPU
+		{1505A106-CB6B-4E13-875A-5AE318A07DAB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
