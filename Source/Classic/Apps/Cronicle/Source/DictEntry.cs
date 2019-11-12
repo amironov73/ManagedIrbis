@@ -4,20 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using ManagedIrbis;
-
 namespace Cronicle
 {
-    class One
+    class DictEntry
     {
         public int Index;
-
-        public int Mfn;
-
-        public string Description;
-
-        public string Cleaned;
-
-        public MarcRecord Record;
+        public string Value;
     }
 }
