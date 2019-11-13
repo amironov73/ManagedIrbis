@@ -16,6 +16,7 @@ using AM.Text;
 using DevExpress.XtraEditors;
 using DevExpress.XtraRichEdit;
 using DevExpress.XtraRichEdit.API.Native;
+using DevExpress.XtraSplashScreen;
 
 using ManagedIrbis;
 using ManagedIrbis.Identifiers;
@@ -33,12 +34,14 @@ using CM = System.Configuration.ConfigurationManager;
 
 // ReSharper disable StringLiteralTypo
 
-namespace Cronicle
+namespace Chronicle
 {
     public partial class MainForm
         : XtraForm
     {
         private readonly RichEditControl _richEdit;
+        private readonly RichEditDocumentServer _server;
+        private readonly SplashScreenManager _manager;
         private Document _document;
         private ParagraphStyle _header;
         private ParagraphStyle _para;
@@ -52,9 +55,12 @@ namespace Cronicle
         {
             InitializeComponent();
 
+            _manager = new SplashScreenManager(this, typeof(MyWaitForm), true, true);
             _richEdit = new RichEditControl();
             toolStripContainer1.ContentPanel.Controls.Add(_richEdit);
             _richEdit.Dock = DockStyle.Fill;
+            _richEdit.ActiveViewType = RichEditViewType.Simple;
+            _server = new RichEditDocumentServer();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -65,8 +71,9 @@ namespace Cronicle
 
         private void _CreateDocument()
         {
-            _richEdit.CreateNewDocument();
-            _document = _richEdit.Document;
+            _server.CreateNewDocument();
+            //_richEdit.CreateNewDocument();
+            _document = _server.Document;
 
             _header = _document.ParagraphStyles.CreateNew();
             _header.Name = "Заголовочек";
@@ -425,9 +432,8 @@ namespace Cronicle
             return result;
         }
 
-        private Entry[] _DoTheSearch()
+        private Entry[] _DoTheSearch(int year)
         {
-            var year = _yearBox.SelectedItem;
             var connectionString = CM.AppSettings["connection-string"];
             using (var client = new IrbisConnection(connectionString))
             {
@@ -466,11 +472,12 @@ namespace Cronicle
 
         private void _DoTheWork
             (
+                int year,
                 bool withMfn
             )
         {
             _CreateDocument();
-            var all = _DoTheSearch();
+            var all = _DoTheSearch(year);
             var chunks = new List<Chunk>();
             foreach (var group in all.GroupBy(one => one.TranslatedUdc).OrderBy(g => g.Key))
             {
@@ -500,7 +507,7 @@ namespace Cronicle
                 foreach (var entry in chunk.Entries)
                 {
                     string mfnText = withMfn
-                        ? $"{{\\ul MFN {entry.Mfn}.}} "
+                        ? $"{{\\ul MFN {entry.Mfn}.\\~}}"
                         : string.Empty;
                     var text = @"{\rtf1 "
                                + $"{entry.Index}.\\~"
@@ -535,10 +542,23 @@ namespace Cronicle
             _DoTheDict(all, "Указатель коллективов", "\\~", entry => entry.Collectives);
         }
 
-        private void _goButton_Click(object sender, EventArgs e)
+        private async void _goButton_Click(object sender, EventArgs e)
         {
             bool withMfn = _withMfn.CheckBox.Checked;
-            _DoTheWork(withMfn);
+            var year = (int)_yearBox.SelectedItem;
+            _manager.ShowWaitForm();
+            _manager.SetWaitFormCaption("Подождите");
+            _manager.SetWaitFormDescription("Идёт формирование летописи");
+            try
+            {
+                await Task.Run(() => _DoTheWork(year, withMfn));
+            }
+            finally
+            {
+                _manager.CloseWaitForm();
+            }
+
+            _richEdit.RtfText = _document.RtfText.Replace("  ", " ");
         }
 
         private void _saveButton_Click(object sender, EventArgs e)

@@ -22,7 +22,7 @@ using CM = System.Configuration.ConfigurationManager;
 
 // ReSharper disable StringLiteralTypo
 
-namespace Cronicle
+namespace Chronicle
 {
     static class Program
     {

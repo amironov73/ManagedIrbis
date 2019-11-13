@@ -1,4 +1,4 @@
-﻿namespace Cronicle
+﻿namespace Chronicle
 {
     partial class MainForm
     {

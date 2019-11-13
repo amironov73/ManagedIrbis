@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using ManagedIrbis;
 
-namespace Cronicle
+namespace Chronicle
 {
     class Entry
     {

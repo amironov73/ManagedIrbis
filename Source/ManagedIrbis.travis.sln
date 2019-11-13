@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedIrbis", "Classic\Libs\ManagedIrbis\ManagedIrbis.csproj", "{727C0B37-1E31-49BB-927A-A93DAC558C52}"
 EndProject
@@ -51,7 +51,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IstuPubl", "Classic\Apps\Is
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountOldBooks", "Classic\Apps\CountOldBooks\CountOldBooks.csproj", "{96F20F37-39F8-4B0D-9994-051D76DF9FEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cronicle", "Classic\Apps\Cronicle\Cronicle.csproj", "{1505A106-CB6B-4E13-875A-5AE318A07DAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chronicle", "Classic\Apps\Chronicle\Chronicle.csproj", "{1505A106-CB6B-4E13-875A-5AE318A07DAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

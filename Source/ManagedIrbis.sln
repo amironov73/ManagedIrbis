@@ -343,7 +343,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NedoCat", "Classic\Apps\Ned
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientEngineRunner", "Classic\Apps\ClientEngineRunner\ClientEngineRunner.csproj", "{39922641-7D12-4C7B-AA50-7045347AA141}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cronicle", "Classic\Apps\Cronicle\Cronicle.csproj", "{1505A106-CB6B-4E13-875A-5AE318A07DAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chronicle", "Classic\Apps\Chronicle\Chronicle.csproj", "{1505A106-CB6B-4E13-875A-5AE318A07DAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
