@@ -21,6 +21,7 @@ using ManagedIrbis;
 using ManagedIrbis.Identifiers;
 using ManagedIrbis.Infrastructure;
 using ManagedIrbis.Menus;
+
 using ParagraphAlignment = DevExpress.XtraRichEdit.API.Native.ParagraphAlignment;
 using ParagraphFirstLineIndent = DevExpress.XtraRichEdit.API.Native.ParagraphFirstLineIndent;
 using ParagraphStyle = DevExpress.XtraRichEdit.API.Native.ParagraphStyle;
@@ -44,7 +45,8 @@ namespace Cronicle
         private ParagraphStyle _noIndent;
         private ParagraphStyle _small;
 
-        private MenuFile _udk;
+        private MenuFile _udc;
+        private MenuFile _languages;
 
         public MainForm()
         {
@@ -135,65 +137,6 @@ namespace Cronicle
             subDocument.EndUpdate();
         }
 
-        private void WritePara
-            (
-                string start,
-                string bold,
-                string end
-            )
-        {
-            _document.Paragraphs.Append();
-            var range = _document.AppendText(start);
-            var subDocument = range.BeginUpdateDocument();
-            var properties = subDocument.BeginUpdateParagraphs(range);
-            properties.Style = _para;
-            subDocument.EndUpdateParagraphs(properties);
-            subDocument.EndUpdate();
-            if (!string.IsNullOrEmpty(bold))
-            {
-                var range2 = _document.AppendText(bold);
-                var subDocument2 = range2.BeginUpdateDocument();
-                var properties2 = subDocument2.BeginUpdateCharacters(range2);
-                properties2.Bold = new bool?(true);
-                subDocument2.EndUpdateCharacters(properties2);
-                subDocument2.EndUpdate();
-            }
-
-            if (string.IsNullOrEmpty(end))
-            {
-                return;
-            }
-
-            var range3 = _document.AppendText(end);
-            var subDocument3 = range3.BeginUpdateDocument();
-            var properties3 = subDocument3.BeginUpdateCharacters(range3);
-            properties3.Bold = new bool?(false);
-            subDocument3.EndUpdateCharacters(properties3);
-            subDocument3.EndUpdate();
-        }
-
-        private void WriteNoIndent(string text)
-        {
-            _document.Paragraphs.Append();
-            var range = _document.AppendText(text);
-            var subDocument = range.BeginUpdateDocument();
-            var properties = subDocument.BeginUpdateParagraphs(range);
-            properties.Style = _noIndent;
-            subDocument.EndUpdateParagraphs(properties);
-            subDocument.EndUpdate();
-        }
-
-        private void WriteSmall(string text)
-        {
-            _document.Paragraphs.Append();
-            var range = _document.AppendText(text);
-            var subDocument = range.BeginUpdateDocument();
-            var properties = subDocument.BeginUpdateParagraphs(range);
-            properties.Style = _small;
-            subDocument.EndUpdateParagraphs(properties);
-            subDocument.EndUpdate();
-        }
-
         private void _FillYears()
         {
             const int capacity = 20;
@@ -206,6 +149,60 @@ namespace Cronicle
             }
 
             _yearBox.SelectedIndex = 2;
+        }
+
+        private string _TranslateUdc
+            (
+                string original
+            )
+        {
+            if (string.IsNullOrEmpty(original))
+            {
+                return "!!! Нет УДК";
+            }
+
+            MenuEntry best = null;
+            foreach (var entry in _udc.Entries)
+            {
+                var code = entry.Code;
+                if (!string.IsNullOrEmpty(code))
+                {
+                    if (original.StartsWith(code))
+                    {
+                        if (ReferenceEquals(best, null))
+                        {
+                            best = entry;
+                        }
+                        else
+                        {
+                            string bestCode = best.Code;
+                            if (string.IsNullOrEmpty(bestCode))
+                            {
+                                best = entry;
+                            }
+                            else
+                            {
+                                if (code.Length > bestCode.Length)
+                                {
+                                    best = entry;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (ReferenceEquals(best, null))
+            {
+                return "!!! Нет УДК";
+            }
+
+            if (string.IsNullOrEmpty(best.Comment))
+            {
+                return "!!! Что за фигня?";
+            }
+
+            return best.Comment;
         }
 
         private void _DoTheDict
@@ -231,12 +228,14 @@ namespace Cronicle
             }
 
             var section = _document.AppendSection();
+            var columns = section.Columns.CreateUniformColumns(section.Page, 100f, 1);
+            section.Columns.SetColumns(columns);
             section.StartType = SectionStartType.NextPage;
             WriteH1(title);
             _document.Paragraphs.Append();
             section = _document.AppendSection();
             section.StartType = SectionStartType.Continuous;
-            var columns = section.Columns.CreateUniformColumns(section.Page, 100f, 2);
+            columns = section.Columns.CreateUniformColumns(section.Page, 100f, 2);
             section.Columns.SetColumns(columns);
             var builder = new StringBuilder();
 
@@ -247,7 +246,7 @@ namespace Cronicle
                 builder.Append(group.Key);
                 builder.Append(separator);
                 var first = true;
-                foreach (var i in group)
+                foreach (var i in group.OrderBy(_ => _.Index))
                 {
                     if (!first)
                     {
@@ -261,7 +260,10 @@ namespace Cronicle
             _document.AppendRtfText(@"{\rtf1 " + builder + "}");
 
             section = _document.AppendSection();
+            columns = section.Columns.CreateUniformColumns(section.Page, 100f, 1);
+            section.Columns.SetColumns(columns);
             section.StartType = SectionStartType.Continuous;
+            _document.Paragraphs.Append();
         }
 
         private void _DoTheAuthor
@@ -344,6 +346,45 @@ namespace Cronicle
             }
         }
 
+        private void _DoTheSeries
+            (
+                Entry entry,
+                int tag
+            )
+        {
+            foreach (var field in entry.Record.Fields.GetField(tag))
+            {
+                var serie = field.GetFirstSubFieldValue('a');
+                if (!string.IsNullOrEmpty(serie))
+                {
+                    entry.Series.Add(serie);
+                }
+            }
+        }
+
+        private void _DoTheCollective
+            (
+                Entry entry,
+                int tag
+            )
+        {
+            foreach (var field in entry.Record.Fields.GetField(tag))
+            {
+                var title = field.GetFirstSubFieldValue('a');
+                if (string.IsNullOrEmpty(title))
+                {
+                    continue;
+                }
+                var sub = field.GetFirstSubFieldValue('b');
+                var full = title;
+                if (!string.IsNullOrEmpty(sub))
+                {
+                    full += (". " + sub);
+                }
+                entry.Collectives.Add(full);
+            }
+        }
+
         private Entry _DoTheEntry
             (
                 MarcRecord record
@@ -357,6 +398,8 @@ namespace Cronicle
                 Udc = record.FM(675),
                 Language = record.FM(101)
             };
+
+            result.TranslatedUdc = _TranslateUdc(result.Udc);
 
             _DoTheAuthor(result, 700);
             _DoTheAuthor(result, 701);
@@ -372,6 +415,13 @@ namespace Cronicle
             _DoTheIsbn(result, 10, 'a', 'z');
             _DoTheIsbn(result, 461, 'i', '1');
 
+            _DoTheSeries(result, 225);
+            _DoTheSeries(result, 46);
+
+            _DoTheCollective(result, 962);
+            _DoTheCollective(result, 710);
+            _DoTheCollective(result, 711);
+
             return result;
         }
 
@@ -382,7 +432,11 @@ namespace Cronicle
             using (var client = new IrbisConnection(connectionString))
             {
                 var spec = new FileSpecification(IrbisPath.MasterFile, client.Database, "udk.mnu");
-                _udk = MenuFile.ReadFromServer(client, spec);
+                _udc = MenuFile.ReadFromServer(client, spec);
+
+                spec = new FileSpecification(IrbisPath.MasterFile, client.Database, "jz.mnu");
+                _languages = MenuFile.ReadFromServer(client, spec);
+
                 var found = client.SearchRead($"KNL={year} ^ V=ZL");
                 var result = new List<Entry>(found.Length);
                 foreach (var record in found)
@@ -410,12 +464,15 @@ namespace Cronicle
             }
         }
 
-        private void _DoTheWork()
+        private void _DoTheWork
+            (
+                bool withMfn
+            )
         {
             _CreateDocument();
             var all = _DoTheSearch();
             var chunks = new List<Chunk>();
-            foreach (var group in all.GroupBy(one => one.Udc).OrderBy(g => g.Key))
+            foreach (var group in all.GroupBy(one => one.TranslatedUdc).OrderBy(g => g.Key))
             {
                 var chunk = new Chunk
                 {
@@ -442,9 +499,12 @@ namespace Cronicle
                 _document.Paragraphs.Append();
                 foreach (var entry in chunk.Entries)
                 {
+                    string mfnText = withMfn
+                        ? $"{{\\ul MFN {entry.Mfn}.}} "
+                        : string.Empty;
                     var text = @"{\rtf1 "
                                + $"{entry.Index}.\\~"
-                               + $"{{\\ul MFN {entry.Mfn}.}} "
+                               + mfnText
                                + entry.Description
                                + "}";
                     _document.AppendRtfText(text);
@@ -455,12 +515,30 @@ namespace Cronicle
             _DoTheDict(all, "Именной указатель", "\\~", entry => entry.Authors);
             _DoTheDict(all, "Географический указатель", "\\~", entry => entry.Geo);
             _DoTheDict(all, "Указатель издающих организаций", "\\~", entry => entry.Publishers);
+            _DoTheDict(all, "Указатель языков", "\\~", entry =>
+            {
+                if (string.IsNullOrEmpty(entry.Language) || entry.Language.SameString("rus"))
+                {
+                    return new string[0];
+                }
+
+                var result = _languages.GetString(entry.Language);
+                if (string.IsNullOrEmpty(result))
+                {
+                    return new string[0];
+                }
+
+                return new [] { result };
+            });
             _DoTheDict(all, "Указатель ошибочных ISBN", "\\~\\emdash\\~", entry => entry.Isbn);
+            _DoTheDict(all, "Указатель серий", "\\~", entry => entry.Series);
+            _DoTheDict(all, "Указатель коллективов", "\\~", entry => entry.Collectives);
         }
 
         private void _goButton_Click(object sender, EventArgs e)
         {
-            _DoTheWork();
+            bool withMfn = _withMfn.CheckBox.Checked;
+            _DoTheWork(withMfn);
         }
 
         private void _saveButton_Click(object sender, EventArgs e)

@@ -36,6 +36,7 @@
             this._goButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this._saveButton = new System.Windows.Forms.ToolStripButton();
+            this._withMfn = new AM.Windows.Forms.ToolStripCheckBox();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -68,6 +69,7 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this._yearBox,
+            this._withMfn,
             this._goButton,
             this.toolStripSeparator1,
             this._saveButton});
@@ -114,6 +116,24 @@
             this._saveButton.Text = "Сохранить...";
             this._saveButton.Click += new System.EventHandler(this._saveButton_Click);
             // 
+            // _withMfn
+            // 
+            this._withMfn.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // _withMfn
+            // 
+            this._withMfn.CheckBox.AccessibleName = "_withMfn";
+            this._withMfn.CheckBox.BackColor = System.Drawing.Color.Transparent;
+            this._withMfn.CheckBox.Location = new System.Drawing.Point(158, 1);
+            this._withMfn.CheckBox.Name = "_withMfn";
+            this._withMfn.CheckBox.Size = new System.Drawing.Size(52, 22);
+            this._withMfn.CheckBox.TabIndex = 1;
+            this._withMfn.CheckBox.Text = "MFN";
+            this._withMfn.CheckBox.UseVisualStyleBackColor = false;
+            this._withMfn.Name = "_withMfn";
+            this._withMfn.Size = new System.Drawing.Size(52, 22);
+            this._withMfn.Text = "MFN";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -142,6 +162,7 @@
         private System.Windows.Forms.ToolStripButton _goButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton _saveButton;
+        private AM.Windows.Forms.ToolStripCheckBox _withMfn;
     }
 }
 

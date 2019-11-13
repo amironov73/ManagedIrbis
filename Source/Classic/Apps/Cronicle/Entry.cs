@@ -27,9 +27,10 @@ namespace Cronicle
         public MarcRecord Record;
 
         public List<string> Authors = new List<string>();
+        public List<string> Collectives = new List<string>();
         public List<string> Geo = new List<string>();
-        public List<string> Publishers = new List<string>();
         public List<string> Isbn = new List<string>();
+        public List<string> Publishers = new List<string>();
         public List<string> Series = new List<string>();
 
         public override string ToString()
