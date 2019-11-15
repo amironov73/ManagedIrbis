@@ -239,7 +239,8 @@ namespace Chronicle
             section.Columns.SetColumns(columns);
             section.StartType = SectionStartType.NextPage;
             WriteH1(title);
-            _document.Paragraphs.Append();
+            var paragraph = _document.Paragraphs.Append();
+            paragraph.Style = _document.ParagraphStyles[0];
             section = _document.AppendSection();
             section.StartType = SectionStartType.Continuous;
             columns = section.Columns.CreateUniformColumns(section.Page, 100f, 2);
@@ -270,7 +271,8 @@ namespace Chronicle
             columns = section.Columns.CreateUniformColumns(section.Page, 100f, 1);
             section.Columns.SetColumns(columns);
             section.StartType = SectionStartType.Continuous;
-            _document.Paragraphs.Append();
+            paragraph = _document.Paragraphs.Append();
+            paragraph.Style = _document.ParagraphStyles[0];
         }
 
         private void _DoTheAuthor
@@ -503,7 +505,8 @@ namespace Chronicle
             {
                 _document.Paragraphs.Append();
                 WriteH1(chunk.Key);
-                _document.Paragraphs.Append();
+                var paragraph = _document.Paragraphs.Append();
+                paragraph.Style = _document.ParagraphStyles[0];
                 foreach (var entry in chunk.Entries)
                 {
                     string mfnText = withMfn
@@ -515,7 +518,8 @@ namespace Chronicle
                                + entry.Description
                                + "}";
                     _document.AppendRtfText(text);
-                    _document.Paragraphs.Append();
+                    paragraph = _document.Paragraphs.Append();
+                    paragraph.Style = _document.ParagraphStyles[0];
                 }
             }
 
