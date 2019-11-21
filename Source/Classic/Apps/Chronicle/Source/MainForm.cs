@@ -75,6 +75,8 @@ namespace Chronicle
             //_richEdit.CreateNewDocument();
             _document = _server.Document;
 
+            _document.ParagraphStyles[0].FontName = "Times New Roman";
+
             _header = _document.ParagraphStyles.CreateNew();
             _header.Name = "Заголовочек";
             _header.KeepLinesTogether = true;

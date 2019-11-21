@@ -187,9 +187,11 @@ fi),
 
 (if p(v517^a) then
   if v517^t: 'составленное' then else
-    '.\~\emdash\~',
-    if p(v517^t) then v517^t*4, ':\~', fi,
-    v517^a,
+    if a(v517^u) then
+      '.\~\emdash\~',
+      if p(v517^t) then v517^t*4, ':\~', fi,
+      v517^a,
+    fi,
   fi,
 fi),
 

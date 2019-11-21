@@ -14,8 +14,10 @@ namespace CountOldBooks
 {
     internal class Program
     {
+        private static string Fond = "Ф201";
+
         private static string ConnectionString
-            = "host=127.0.0.1;port=6666;user=librarian;password=secret;db=IBIS;";
+            = "host=192.168.3.2;port=6666;user=miron;password=miron;db=IBIS;";
 
         private static readonly int[] Years = new int[2200];
         private static int AbsentBooks = 0, BadYear = 0;
@@ -57,12 +59,12 @@ namespace CountOldBooks
             )
         {
             var exemplars = ExemplarInfo.Parse(record)
-                .Where(ex => ex.Place.SameString("ФКХ"))
-                .Where(ex => ex.Barcode.SafeStarts("E0"))
+                .Where(ex => ex.Place.SameString(Fond))
+                //.Where(ex => ex.Barcode.SafeStarts("E0"))
                 .ToArray();
             if (exemplars.Length == 0)
             {
-                Console.Write('-');
+                //Console.Write('-');
                 AbsentBooks++;
                 return;
             }
@@ -70,17 +72,22 @@ namespace CountOldBooks
             var year = _GetYear(record);
             if (year < 1700 || year > 2020)
             {
-                Console.Write('?');
+                //Console.Write('?');
                 BadYear += exemplars.Length;
                 return;
             }
 
             Years[year] += exemplars.Length;
-            Console.Write(exemplars.Length.ToString().LastChar());
+            //Console.Write(exemplars.Length.ToString().LastChar());
         }
 
         public static void Main(string[] args)
         {
+            if (args.Length != 0)
+            {
+                Fond = args[0];
+            }
+
             try
             {
                 using (var connection = new IrbisConnection(ConnectionString))
@@ -89,23 +96,23 @@ namespace CountOldBooks
                         (
                             connection,
                             connection.Database,
-                            "MHR=ФКХ",
+                            "MHR=" + Fond,
                             500
                         );
 
                     var current = 1;
                     foreach (var record in batch)
                     {
-                        if (current % 50 == 1)
-                        {
-                            Console.WriteLine();
-                            Console.Write("{0:0000000}: ", current-1);
-                        }
+                        //if (current % 50 == 1)
+                        //{
+                        //    Console.WriteLine();
+                        //    Console.Write("{0:0000000}: ", current-1);
+                        //}
 
-                        if (current % 5 == 1)
-                        {
-                            Console.Write(' ');
-                        }
+                        //if (current % 5 == 1)
+                        //{
+                        //    Console.Write(' ');
+                        //}
 
                         current++;
 
@@ -113,11 +120,12 @@ namespace CountOldBooks
                     }
                 }
 
-                Console.WriteLine("Absent: {0}", AbsentBooks);
-                Console.WriteLine("Bad year: {0}", BadYear);
-                for (var year = 0; year < Years.Length; year++)
+                //Console.WriteLine("Absent: {0}", AbsentBooks);
+                //Console.WriteLine("Bad year: {0}", BadYear);
+                for (var year = 1800; year < 2020; year++)
                 {
-                    Console.WriteLine("{0};{1}", year, Years[year]);
+                    //Console.WriteLine("{0};{1}", year, Years[year]);
+                    Console.WriteLine("{0}", Years[year]);
                 }
             }
             catch (Exception exception)
