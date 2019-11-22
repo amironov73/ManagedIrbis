@@ -117,5 +117,24 @@ namespace UnitTests.ManagedIrbis.Identifiers
 
             Assert.AreEqual("5-02-003206-9", Isbn.FixIsbn("5 02 003206 9"));
         }
+
+        [TestMethod]
+        public void Isbn_Check978_1()
+        {
+            Assert.IsTrue(Isbn.Check978("978-5-00083-423-7"));
+            Assert.IsTrue(Isbn.Check978("978-5-00094-452-3"));
+            Assert.IsTrue(Isbn.Check978("978-5-00094-454-7"));
+            Assert.IsTrue(Isbn.Check978("978-5-00094-456-1"));
+            Assert.IsTrue(Isbn.Check978("978 5 00083 423 7"));
+            Assert.IsTrue(Isbn.Check978("9785000834237"));
+            Assert.IsTrue(Isbn.Check978("9785-00083-423-7"));
+
+            Assert.IsFalse(Isbn.Check978("978-5273-5-2974-2"));
+            Assert.IsFalse(Isbn.Check978("978-5-4273-0093-7"));
+            Assert.IsFalse(Isbn.Check978("978-5-8038-1254-7"));
+            Assert.IsFalse(Isbn.Check978("978-5-93219-2078-8"));
+            Assert.IsFalse(Isbn.Check978("9785427300937"));
+            Assert.IsFalse(Isbn.Check978("978-5-8038-1254-"));
+        }
     }
 }

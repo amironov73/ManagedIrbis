@@ -179,6 +179,61 @@ namespace ManagedIrbis.Identifiers
 
         #region Public methods
 
+        //
+        // Appendix 1 of the International ISBN Agency's official user manual
+        // describes how the 13-digit ISBN check digit is calculated.
+        // The ISBN-13 check digit, which is the last digit of the ISBN,
+        // must range from 0 to 9 and must be such that the sum of all the
+        // thirteen digits, each multiplied by its (integer) weight,
+        // alternating between 1 and 3, is a multiple of 10.
+        //
+        // Formally, using modular arithmetic, this is rendered:
+        //
+        // {\displaystyle (x_{1}+3x_{2}+x_{3}+3x_{4}+x_{5}+3x_{6}+x_{7}+3x_{8}
+        // +x_{9}+3x_{10}+x_{11}+3x_{12}+x_{13})\equiv 0{\pmod {10}}.}.
+        //
+        // The calculation of an ISBN-13 check digit begins with the first
+        // twelve digits of the 13-digit ISBN (thus excluding the check digit itself).
+        // Each digit, from left to right, is alternately multiplied by 1 or 3,
+        // then those products are summed modulo 10 to give a value ranging
+        // from 0 to 9. Subtracted from 10, that leaves a result from 1 to 10.
+        // A zero (0) replaces a ten (10), so, in all cases, a single check digit results.
+        //
+        //    For example, the ISBN-13 check digit of 978-0-306-40615-? is calculated as follows:
+        //
+        // s = 9×1 + 7×3 + 8×1 + 0×3 + 3×1 + 0×3 + 6×1 + 4×3 + 0×1 + 6×3 + 1×1 + 5×3
+        // =   9 +  21 +   8 +   0 +   3 +   0 +   6 +  12 +   0 +  18 +   1 +  15
+        // = 93
+        // 93 / 10 = 9 remainder 3
+        // 10 –  3 = 7
+        //
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool Check978
+            (
+                string isbn
+            )
+        {
+            int result = 0;
+            int[] mulitpliers = {1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1};
+            int index = 0;
+            for (int i = 0; i < isbn.Length; i++)
+            {
+                if (isbn[i].IsArabicDigit())
+                {
+                    if (index >= mulitpliers.Length)
+                    {
+                        return false;
+                    }
+                    result += ((int)(isbn[i] - '0')) * mulitpliers[index++];
+                }
+            }
+
+            return (index == 13) && (result % 10) == 0;
+        }
+
         /// <summary>
         /// Проверяет контрольную цифру ISBN.
         /// </summary>
@@ -192,6 +247,12 @@ namespace ManagedIrbis.Identifiers
                 char hyphen
             )
         {
+            if (!string.IsNullOrEmpty(isbn)
+                && isbn.StartsWith("978-"))
+            {
+                return Check978(isbn);
+            }
+
             int[] digits = new int[10];
             int i, j, sum;
 
