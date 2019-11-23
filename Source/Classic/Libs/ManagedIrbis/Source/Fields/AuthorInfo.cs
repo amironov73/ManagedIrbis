@@ -826,6 +826,26 @@ namespace ManagedIrbis.Fields
             return result;
         }
 
+        /// <summary>
+        /// Полное ФИО автора (насколько возможно).
+        /// </summary>
+        /// <returns></returns>
+        public string ToFullName()
+        {
+            string result = FamilyName;
+
+            if (!string.IsNullOrEmpty(FullName))
+            {
+                result = result + ", " + FullName;
+            }
+            else if (!string.IsNullOrEmpty(Initials))
+            {
+                result = result + " " + Initials;
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
