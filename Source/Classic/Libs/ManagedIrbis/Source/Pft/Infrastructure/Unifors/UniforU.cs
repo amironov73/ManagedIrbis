@@ -115,7 +115,7 @@ namespace ManagedIrbis.Pft.Infrastructure.Unifors
             {
                 Log.TraceException
                     (
-                        "Unifor3::Cumulate",
+                        "UniforU::Cumulate",
                         exception
                     );
 

@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 using AM;
 using AM.Text;
-
+using AM.Text.Ranges;
 using DevExpress.XtraEditors;
 using DevExpress.XtraRichEdit;
 using DevExpress.XtraRichEdit.API.Native;
@@ -29,6 +29,8 @@ using ParagraphStyle = DevExpress.XtraRichEdit.API.Native.ParagraphStyle;
 using SectionStartType = DevExpress.XtraRichEdit.API.Native.SectionStartType;
 
 using CM = System.Configuration.ConfigurationManager;
+using NR = AM.Text.Ranges.NumberRange;
+using NumberRange = AM.NumberRange;
 
 #endregion
 
@@ -214,6 +216,21 @@ namespace Chronicle
             return best.Comment;
         }
 
+        private static string Cumulate(IEnumerable<int> values)
+        {
+            List<NumberText> numbers = new List<NumberText>();
+            foreach (var value in values.OrderBy(_ => _).Distinct())
+            {
+                NumberText number = new NumberText();
+                number.AppendChunk(value);
+                numbers.Add(number);
+            }
+
+            NumberRangeCollection result = NumberRangeCollection.Cumulate(numbers);
+            result.Delimiter = ", ";
+            return result.ToString();
+        }
+
         private void _DoTheDict
             (
                 Entry[] array,
@@ -247,27 +264,23 @@ namespace Chronicle
             section.StartType = SectionStartType.Continuous;
             columns = section.Columns.CreateUniformColumns(section.Page, 100f, 2);
             section.Columns.SetColumns(columns);
-            var builder = new StringBuilder();
 
             var ordered = dict.GroupBy(e => e.Value).OrderBy(g => g.Key);
             foreach (var group in ordered)
             {
+                var builder = new StringBuilder();
+                var numbers = new List<int> ();
+
                 builder.Append(@"\par ");
                 builder.Append(group.Key);
                 builder.Append(separator);
-                var first = true;
                 foreach (var i in group.OrderBy(_ => _.Index))
                 {
-                    if (!first)
-                    {
-                        builder.Append(", ");
-                    }
-                    builder.Append(i.Index.ToInvariantString());
-                    first = false;
+                    numbers.Add(i.Index);
                 }
+                var cumulated = Cumulate(numbers);
+                _document.AppendRtfText(@"{\rtf1 " + builder + cumulated + "}");
             }
-
-            _document.AppendRtfText(@"{\rtf1 " + builder + "}");
 
             section = _document.AppendSection();
             columns = section.Columns.CreateUniformColumns(section.Page, 100f, 1);
@@ -525,27 +538,32 @@ namespace Chronicle
                 }
             }
 
+            var additional = _additionalBox.CheckBox.Checked;
+
             _DoTheDict(all, "Именной указатель", "\\~", entry => entry.Authors);
             _DoTheDict(all, "Географический указатель", "\\~", entry => entry.Geo);
-            _DoTheDict(all, "Указатель издающих организаций", "\\~", entry => entry.Publishers);
-            _DoTheDict(all, "Указатель языков", "\\~", entry =>
+            _DoTheDict(all, "Указатель ошибочных ISBN", "\\~", entry => entry.Isbn);
+            if (additional)
             {
-                if (string.IsNullOrEmpty(entry.Language) || entry.Language.SameString("rus"))
+                _DoTheDict(all, "Указатель издающих организаций", "\\~", entry => entry.Publishers);
+                _DoTheDict(all, "Указатель языков", "\\~", entry =>
                 {
-                    return new string[0];
-                }
+                    if (string.IsNullOrEmpty(entry.Language) || entry.Language.SameString("rus"))
+                    {
+                        return new string[0];
+                    }
 
-                var result = _languages.GetString(entry.Language);
-                if (string.IsNullOrEmpty(result))
-                {
-                    return new string[0];
-                }
+                    var result = _languages.GetString(entry.Language);
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        return new string[0];
+                    }
 
-                return new [] { result };
-            });
-            _DoTheDict(all, "Указатель ошибочных ISBN", "\\~\\emdash\\~", entry => entry.Isbn);
-            _DoTheDict(all, "Указатель серий", "\\~", entry => entry.Series);
-            _DoTheDict(all, "Указатель коллективов", "\\~", entry => entry.Collectives);
+                    return new[] {result};
+                });
+                _DoTheDict(all, "Указатель серий", "\\~", entry => entry.Series);
+                _DoTheDict(all, "Указатель коллективов", "\\~", entry => entry.Collectives);
+            }
         }
 
         private async void _goButton_Click(object sender, EventArgs e)

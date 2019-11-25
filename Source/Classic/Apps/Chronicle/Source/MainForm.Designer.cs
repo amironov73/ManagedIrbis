@@ -33,10 +33,11 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this._yearBox = new System.Windows.Forms.ToolStripComboBox();
+            this._withMfn = new AM.Windows.Forms.ToolStripCheckBox();
             this._goButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this._saveButton = new System.Windows.Forms.ToolStripButton();
-            this._withMfn = new AM.Windows.Forms.ToolStripCheckBox();
+            this._additionalBox = new AM.Windows.Forms.ToolStripCheckBox();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -70,6 +71,7 @@
             this.toolStripLabel1,
             this._yearBox,
             this._withMfn,
+            this._additionalBox,
             this._goButton,
             this.toolStripSeparator1,
             this._saveButton});
@@ -90,6 +92,24 @@
             this._yearBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._yearBox.Name = "_yearBox";
             this._yearBox.Size = new System.Drawing.Size(121, 25);
+            // 
+            // _withMfn
+            // 
+            this._withMfn.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // _withMfn
+            // 
+            this._withMfn.CheckBox.AccessibleName = "_withMfn";
+            this._withMfn.CheckBox.BackColor = System.Drawing.Color.Transparent;
+            this._withMfn.CheckBox.Location = new System.Drawing.Point(158, 1);
+            this._withMfn.CheckBox.Name = "_withMfn";
+            this._withMfn.CheckBox.Size = new System.Drawing.Size(52, 22);
+            this._withMfn.CheckBox.TabIndex = 1;
+            this._withMfn.CheckBox.Text = "MFN";
+            this._withMfn.CheckBox.UseVisualStyleBackColor = false;
+            this._withMfn.Name = "_withMfn";
+            this._withMfn.Size = new System.Drawing.Size(52, 22);
+            this._withMfn.Text = "MFN";
             // 
             // _goButton
             // 
@@ -116,23 +136,23 @@
             this._saveButton.Text = "Сохранить...";
             this._saveButton.Click += new System.EventHandler(this._saveButton_Click);
             // 
-            // _withMfn
+            // _additionalBox
             // 
-            this._withMfn.BackColor = System.Drawing.Color.Transparent;
+            this._additionalBox.BackColor = System.Drawing.Color.Transparent;
             // 
-            // _withMfn
+            // _additionalBox
             // 
-            this._withMfn.CheckBox.AccessibleName = "_withMfn";
-            this._withMfn.CheckBox.BackColor = System.Drawing.Color.Transparent;
-            this._withMfn.CheckBox.Location = new System.Drawing.Point(158, 1);
-            this._withMfn.CheckBox.Name = "_withMfn";
-            this._withMfn.CheckBox.Size = new System.Drawing.Size(52, 22);
-            this._withMfn.CheckBox.TabIndex = 1;
-            this._withMfn.CheckBox.Text = "MFN";
-            this._withMfn.CheckBox.UseVisualStyleBackColor = false;
-            this._withMfn.Name = "_withMfn";
-            this._withMfn.Size = new System.Drawing.Size(52, 22);
-            this._withMfn.Text = "MFN";
+            this._additionalBox.CheckBox.AccessibleName = "_additionalBox";
+            this._additionalBox.CheckBox.BackColor = System.Drawing.Color.Transparent;
+            this._additionalBox.CheckBox.Location = new System.Drawing.Point(210, 1);
+            this._additionalBox.CheckBox.Name = "_additionalBox";
+            this._additionalBox.CheckBox.Size = new System.Drawing.Size(122, 22);
+            this._additionalBox.CheckBox.TabIndex = 2;
+            this._additionalBox.CheckBox.Text = "Дополнительные";
+            this._additionalBox.CheckBox.UseVisualStyleBackColor = false;
+            this._additionalBox.Name = "_additionalBox";
+            this._additionalBox.Size = new System.Drawing.Size(122, 22);
+            this._additionalBox.Text = "Дополнительные";
             // 
             // MainForm
             // 
@@ -163,6 +183,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton _saveButton;
         private AM.Windows.Forms.ToolStripCheckBox _withMfn;
+        private AM.Windows.Forms.ToolStripCheckBox _additionalBox;
     }
 }
 
