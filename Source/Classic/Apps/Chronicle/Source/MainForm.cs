@@ -543,9 +543,9 @@ namespace Chronicle
             _DoTheDict(all, "Именной указатель", "\\~", entry => entry.Authors);
             _DoTheDict(all, "Географический указатель", "\\~", entry => entry.Geo);
             _DoTheDict(all, "Указатель ошибочных ISBN", "\\~", entry => entry.Isbn);
+            _DoTheDict(all, "Указатель издающих организаций", "\\~", entry => entry.Publishers);
             if (additional)
             {
-                _DoTheDict(all, "Указатель издающих организаций", "\\~", entry => entry.Publishers);
                 _DoTheDict(all, "Указатель языков", "\\~", entry =>
                 {
                     if (string.IsNullOrEmpty(entry.Language) || entry.Language.SameString("rus"))

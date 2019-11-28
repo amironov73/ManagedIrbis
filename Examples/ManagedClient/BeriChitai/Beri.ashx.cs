@@ -246,13 +246,26 @@ public class Beri : IHttpHandler
     }
 
     /// <summary>
+    /// Есть ли в каталоге книга с указанным индексом?
+    /// </summary>
+    private bool ContainsBook
+        (
+            IrbisConnection connection,
+            int mfn // на самом деле индекс, а не MFN
+        )
+    {
+        string expression = string.Format("\"I={0}\"", mfn);
+        return connection.SearchCount(expression) == 1;
+    }
+
+    /// <summary>
     /// Заказ книг.
     /// </summary>
     /// <returns>
     /// Используются параметры:
     /// ticket -- номер читательского
     /// email -- почта либо телефон
-    /// order -- MFN заказываемых книг
+    /// order -- MFN заказываемых книг (на самом деле индекс!)
     /// </returns>
     private object OrderBooks(HttpContext context)
     {
@@ -288,8 +301,7 @@ public class Beri : IHttpHandler
 
         using (var connection = GetConnection())
         {
-            var maxMfn = connection.GetMaxMfn();
-            mfns = mfns.Where(item => item <= maxMfn).ToArray();
+            mfns = mfns.Where(item => ContainsBook(connection, item)).ToArray();
             if (mfns.Length == 0)
             {
                 return new OrderResult
@@ -343,6 +355,9 @@ public class Beri : IHttpHandler
         };
     }
 
+    /// <summary>
+    /// Массив всех книг, доступных для заказа.
+    /// </summary>
     private object AllBooks()
     {
         using (var connection = GetConnection())
@@ -360,7 +375,7 @@ public class Beri : IHttpHandler
                 })
                 .OrderBy(book => book.Description)
                 .ToArray();
-            return books;
+            return CorrectBooks(connection, books);
         }
     }
 
@@ -377,8 +392,7 @@ public class Beri : IHttpHandler
 
         using (var connection = GetConnection())
         {
-            var maxMfn = connection.GetMaxMfn();
-            mfns = mfns.Where(item => item < maxMfn).ToArray();
+            mfns = mfns.Where(item => ContainsBook(connection, item)).ToArray();
             if (mfns.Length == 0)
             {
                 return new BookInfo[0];
@@ -397,7 +411,7 @@ public class Beri : IHttpHandler
                     Description = first
                 })
                 .ToArray();
-            return result;
+            return CorrectBooks(connection, result);
         }
     }
 
@@ -439,7 +453,32 @@ public class Beri : IHttpHandler
     }
 
     /// <summary>
-    /// Пять случайных книг.
+    /// Коррекция "MFN -> индекс".
+    /// </summary>
+    private BookInfo[] CorrectBooks
+        (
+            IrbisConnection connection,
+            BookInfo[] books
+        )
+    {
+        int[] mfns = books.Select(book => book.Mfn).ToArray();
+        string[] indexes = connection.FormatRecords
+            (
+                connection.Database,
+                "v903",
+                mfns
+            );
+        for (int i = 0; i < indexes.Length; i++)
+        {
+            books[i].Mfn = indexes[i].SafeToInt32();
+        }
+
+        return books;
+    }
+
+
+    /// <summary>
+    /// Пять случайных книг, доступных для заказа.
     /// </summary>
     private object RandomBooks()
     {
@@ -467,11 +506,11 @@ public class Beri : IHttpHandler
                 result.Add(book);
             }
         }
-        return result.ToArray();
+        return CorrectBooks(connection, result.ToArray());
     }
 
     /// <summary>
-    /// Поиск книг по ключевому слову
+    /// Поиск книг по ключевому слову, доступных для заказа
     /// (не более 100 штук).
     /// </summary>
     private object SearchBooks(string keyword)
@@ -480,7 +519,7 @@ public class Beri : IHttpHandler
         {
             var found = connection.SearchFormat
                     (
-                        $"\"K={keyword}$\"",
+                        $"\"K={keyword}$\" * " + StatusPrefix + FreeBook,
                         "@brief"
                     )
                 .Take(100)
@@ -491,7 +530,7 @@ public class Beri : IHttpHandler
                         Description = book.Text
                     })
                 .ToArray();
-            return found;
+            return CorrectBooks(connection, found);
         }
     }
 

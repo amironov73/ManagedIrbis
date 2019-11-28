@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/solid.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <title>Проект "Бери читай"</title>
+</head>
+<body>
+<noscript>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="alert alert-danger col-12 text-center">
+                <strong>Извините, данное приложение не работает без JavaScript. Пожалуйста, включите его.</strong>
+            </div>
+        </div>
+    </div>
+</noscript>
+
+<div id="app">
+
+    <!-- Навигация -->
+    <nav id="navbar" class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
+                aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            Поиск и заказ
+        </button>
+
+        <!-- Скрывающаяся часть навбара -->
+        <div class="collapse navbar-collapse" id="navbarToggler">
+
+            <!-- Форма заказа книг -->
+            <form
+                    onsubmit="return orderBooks();"
+                    class="form-inline mt-2 mt-md-0">
+                <input
+                        class="form-control mr-sm-2"
+                        id="ticket"
+                        v-model="ticket"
+                        type="text"
+                        placeholder="Чит. билет"
+                        aria-label="Чит. билет.">
+                <input
+                        class="form-control mr-sm-2"
+                        id="email"
+                        v-model="email"
+                        type="text"
+                        placeholder="E-mail или телефон"
+                        aria-label="E-mail или телефон">
+                <button
+                        class="btn btn-outline-success my-2 my-sm-0"
+                        type="submit"
+                >Заказать
+                </button>
+            </form>
+
+            <!-- Форма поиска книг -->
+            <form
+                    onsubmit="return searchBooks();"
+                    class="form-inline mt-2 mt-md-0 ml-lg-2">
+                <input
+                        class="form-control mr-sm-2"
+                        id="keyword"
+                        v-model="keyword"
+                        type="text"
+                        placeholder="Кл. слово"
+                        aria-label="Кл. слово">
+                <button
+                        class="btn btn-outline-success my-2 my-sm-0"
+                        type="submit"
+                ><i class="fa fa-search"></i></button>
+            </form>
+
+        </div>
+
+        <!-- Не скрывающаяся часть навбара -->
+        <button id="bookCounter"
+              class="btn btn-light m-2"
+              data-toggle="tooltip"
+              data-placement="bottom"
+              @click="showBacket()"
+              title="Корзина с выбранными книгами"
+        >
+            <span class="fa fa-shopping-cart"></span>
+            <strong class="ml-1">{{countSelected}}</strong>
+        </button>
+
+    </nav>
+
+    <!-- Котик или лисичка -->
+    <div
+            v-show="foxVisible"
+            class="align-content-center text-center">
+        <img
+                style="width: 100%;
+                max-width: 30rem;"
+                alt="Бегущий зверёк"
+                src="img/arctic-fox.gif">
+    </div>
+
+    <!-- Основная часть страницы -->
+    <div class="container-fluid mt-2">
+
+        <!-- Сообщение -->
+        <div class="row mt-2">
+            <div class="alert alert-primary col-md-12 text-center"
+                 role="alert"
+                 v-show="messageVisible">
+                <strong>{{ messageText }}</strong>
+            </div>
+        </div>
+
+        <!-- Карточки с книгами -->
+        <div class="card-deck">
+            <div v-for="book in books"
+                 v-bind:key="book.mfn"
+                 v-bind:mfn="book.mfn"
+                 :style="{backgroundColor: book.selected? '#C0C0FF' : '#FFFFFF' }"
+                 class="card border-info mb-3 good-sized">
+                <div class="card-header">
+                    <strong>{{ book.mfn }}</strong>
+                    <button class="btn btn-sm btn-primary float-right"
+                            @click="book.selected = !book.selected"
+                            :title="book.selected ? 'Убрать книгу из корзины' : 'Добавить книгу в корзину'"
+                            type="button"
+                    >
+                        <span v-show="book.selected" class="fa fa-check"></span>
+                        <span v-show="!book.selected" class="fa fa-cart-plus"></span>
+
+                    </button>
+                </div>
+                <img class="card-img-top"
+                     alt="Обложка"
+                     style="cursor: pointer;"
+                     @click="book.selected = !book.selected"
+                     :src="serviceUrl + 'cover=' + book.mfn">
+                <div class="card-body">
+                    <p class="card-text">{{ book.description }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка "Показать все" -->
+        <div style="text-align: center">
+            <button class="btn btn-primary mb-5"
+                    v-show="buttonVisible"
+                    @click="allBooks()"
+            >Показать все книги проекта</button>
+        </div>
+
+        <!-- Модальное окно -->
+        <div
+                class="modal fade"
+                id="bookModal"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="bookModalLabel"
+                aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <h5
+                                class="modal-title text-light"
+                                id="bookModalLabel"
+                        >Проект "Бери читай"</h5>
+                        <button
+                                type="button"
+                                class="close"
+                                data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h2 class="text-danger">Ошибка!</h2>
+                        <p>{{modalMessage}}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                                type="button"
+                                class="btn btn-danger"
+                                data-dismiss="modal"
+                        >Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script type="application/javascript" src="js/jquery.min.js"></script>
+<script type="application/javascript" src="js/bootstrap.bundle.min.js"></script>
+<script type="application/javascript" src="js/vue.min.js"></script>
+<script type="application/javascript" src="js/main.js"></script>
+
+</body>
+</html>

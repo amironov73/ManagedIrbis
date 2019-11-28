@@ -282,7 +282,7 @@ public class BeriManager
         Code.Positive(mfn, nameof(mfn));
         Code.NotNull(reader, nameof(reader));
 
-        MarcRecord record = Connection.ReadRecord(mfn);
+        MarcRecord record = Connection.SearchReadOneRecord("\"I={0}\"", index);
         if (ReferenceEquals(record, null))
         {
             return false;
