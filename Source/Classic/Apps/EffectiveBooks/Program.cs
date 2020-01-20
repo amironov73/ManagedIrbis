@@ -251,7 +251,7 @@ namespace EffectiveBooks
         private static IrbisProvider _provider;
         private static bool _outputBooks;
 
-        [NotNull]
+        [CanBeNull]
         static EffectiveStat ProcessBook
             (
                 [NotNull] MarcRecord record,
@@ -260,81 +260,88 @@ namespace EffectiveBooks
         {
             Code.NotNull(record, "record");
 
-            BookInfo book = new BookInfo(_provider, record);
-            ExemplarInfo[] selected = book.Exemplars.Where
-                (
-                    ex => ex.KsuNumber1.SameString(ksu)
-                )
-                .ToArray();
-            Debug.Assert(selected.Length != 0, "exemplars.Length != 0");
-            EffectiveStat result = new EffectiveStat
+            try
             {
-                Description = _outputBooks ? book.Description : string.Empty,
-                TitleCount = 1
-            };
-
-            int totalExemplars = 0;
-            foreach (ExemplarInfo exemplar in book.Exemplars)
-            {
-                int amount = exemplar.Amount.SafeToInt32();
-                if (amount == 0)
+                BookInfo book = new BookInfo(_provider, record);
+                ExemplarInfo[] selected = book.Exemplars.Where
+                    (
+                        ex => ex.KsuNumber1.SameString(ksu)
+                    )
+                    .ToArray();
+                Debug.Assert(selected.Length != 0, "exemplars.Length != 0");
+                EffectiveStat result = new EffectiveStat
                 {
-                    amount = 1;
-                }
+                    Description = _outputBooks ? book.Description : string.Empty,
+                    TitleCount = 1
+                };
 
-                totalExemplars += amount;
-            }
-
-            List<string> siglas = new List<string>();
-
-            foreach (ExemplarInfo exemplar in selected)
-            {
-                DateTime date = IrbisDate.ConvertStringToDate(exemplar.Date);
-                if (date != DateTime.MinValue)
+                int totalExemplars = 0;
+                foreach (ExemplarInfo exemplar in book.Exemplars)
                 {
-                    if (result.Date == DateTime.MinValue)
+                    int amount = exemplar.Amount.SafeToInt32();
+                    if (amount == 0)
                     {
-                        result.Date = date;
+                        amount = 1;
                     }
-                    else if (date < result.Date)
+
+                    totalExemplars += amount;
+                }
+
+                List<string> siglas = new List<string>();
+
+                foreach (ExemplarInfo exemplar in selected)
+                {
+                    DateTime date = IrbisDate.ConvertStringToDate(exemplar.Date);
+                    if (date != DateTime.MinValue)
                     {
-                        result.Date = date;
+                        if (result.Date == DateTime.MinValue)
+                        {
+                            result.Date = date;
+                        }
+                        else if (date < result.Date)
+                        {
+                            result.Date = date;
+                        }
                     }
+
+                    int amount = exemplar.Amount.SafeToInt32();
+                    if (amount == 0)
+                    {
+                        amount = 1;
+                    }
+
+                    result.ExemplarCount += amount;
+
+                    decimal price = exemplar.Price.SafeToDecimal(0);
+                    if (price == 0)
+                    {
+                        price = book.Price;
+                    }
+
+                    siglas.Add(exemplar.Place);
+
+                    result.TotalCost += amount * price;
                 }
 
-                int amount = exemplar.Amount.SafeToInt32();
-                if (amount == 0)
+                decimal loanCount = book.UsageCount;
+                if (result.ExemplarCount != totalExemplars)
                 {
-                    amount = 1;
+                    loanCount = loanCount * result.ExemplarCount / totalExemplars;
                 }
 
-                result.ExemplarCount += amount;
+                result.Bbk = record.FM(621).SafeSubstring(0, 2);
 
-                decimal price = exemplar.Price.SafeToDecimal(0);
-                if (price == 0)
-                {
-                    price = book.Price;
-                }
+                result.LoanCount = (int) loanCount;
+                result.Sigla = string.Join(" ", siglas.Distinct()
+                    .Where(s => !string.IsNullOrEmpty(s))
+                    .Select(s => s.ToUpperInvariant()));
 
-                siglas.Add(exemplar.Place);
-
-                result.TotalCost += amount * price;
+                return result;
             }
-
-            decimal loanCount = book.UsageCount;
-            if (result.ExemplarCount != totalExemplars)
+            catch
             {
-                loanCount = loanCount * result.ExemplarCount / totalExemplars;
+                return null;
             }
-
-            result.Bbk = record.FM(621).SafeSubstring(0, 2);
-
-            result.LoanCount = (int)loanCount;
-            result.Sigla = string.Join(" ", siglas.Distinct()
-                .Where(s => !string.IsNullOrEmpty(s))
-                .Select(s => s.ToUpperInvariant()));
-
-            return result;
         }
 
         [NotNull]
@@ -375,6 +382,11 @@ namespace EffectiveBooks
             foreach (MarcRecord record in batch)
             {
                 EffectiveStat bookStat = ProcessBook(record, ksu);
+                if (ReferenceEquals(bookStat, null))
+                {
+                    continue;
+                }
+
                 if (_outputBooks)
                 {
                     bookStat.Output(false);
