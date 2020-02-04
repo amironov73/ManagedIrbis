@@ -40,7 +40,7 @@ using CodeJam;
 
 using DevExpress.Spreadsheet;
 using DevExpress.XtraSpreadsheet;
-
+using DevExpress.XtraSpreadsheet.Commands;
 using IrbisUI;
 using IrbisUI.Universal;
 
@@ -134,7 +134,7 @@ namespace WriteOffER
             var clearButton = new ToolStripButton("Очистить");
             clearButton.Click += ClearButtonOnClick;
             _toolStrip.Items.Add(clearButton);
-            var goButton = new ToolStripButton("Рассчивать");
+            var goButton = new ToolStripButton("Рассчитать");
             goButton.Click += GoButtonOnClick;
             _toolStrip.Items.Add(goButton);
             var saveButton = new ToolStripButton("Сохранить");
@@ -143,6 +143,9 @@ namespace WriteOffER
             var loadButton = new ToolStripButton("Загрузить");
             loadButton.Click += LoadButtonOnClick;
             _toolStrip.Items.Add(loadButton);
+            var printButton = new ToolStripButton("Распечатать");
+            printButton.Click += PrintButtonOnClick;
+            _toolStrip.Items.Add(printButton);
 
             Spreadsheet = new SpreadsheetControl
             {
@@ -150,6 +153,12 @@ namespace WriteOffER
             };
             Controls.Add(Spreadsheet);
             ClearTable();
+        }
+
+        private void PrintButtonOnClick(object sender, EventArgs e)
+        {
+            Spreadsheet.ShowPrintPreview();
+            SetupTable();
         }
 
         private void LoadButtonOnClick(object sender, EventArgs e)
@@ -193,7 +202,7 @@ namespace WriteOffER
         private void SetupTable()
         {
             _worksheet = Spreadsheet.ActiveWorksheet;
-            _currentRow = 6;
+            _currentRow = ConfigurationUtility.GetInt32("startLine", 6);
         }
 
         #endregion
@@ -202,7 +211,16 @@ namespace WriteOffER
 
         public void ClearTable()
         {
-            byte[] template = Properties.Resources.Template;
+            byte[] template = null;
+
+            if (File.Exists("Template.xlsx"))
+            {
+                template = File.ReadAllBytes("Template.xlsx");
+            }
+            else
+            {
+                template = Properties.Resources.Template;
+            }
             Spreadsheet.LoadDocument(template, DocumentFormat.Xlsx);
             SetupTable();
         }
@@ -403,7 +421,7 @@ namespace WriteOffER
                 int amount = ReadCell(6).SafeToInt32();
                 if (amount <= 0)
                 {
-                    break;
+                    WriteCell(6, 1);
                 }
 
                 WriteCell(0, index);
@@ -423,6 +441,7 @@ namespace WriteOffER
                         descriptionCell.Alignment.WrapText = true;
                         SetupBorders(descriptionCell);
                         SetFormula(7, formula);
+                        _worksheet.Cells[_currentRow, 7].NumberFormat = "0.00";
                         Row row = descriptionCell.Worksheet.Rows[descriptionCell.RowIndex];
                         row.AutoFit();
                         BeautifyCell(0);
@@ -439,6 +458,12 @@ namespace WriteOffER
                 index++;
             }
 
+            var data = _worksheet.Range.FromLTRB(1, startRow, 7, CurrentRow);
+            Invoke(() =>
+            {
+                _worksheet.Sort(data);
+            });
+
             int endRow = CurrentRow - 1;
             if (endRow > startRow)
             {
@@ -450,8 +475,36 @@ namespace WriteOffER
                     sumCell.FormulaInvariant = "SUM(" + topCell + ":" + bottomCell + ")";
                     sumCell.Font.Bold = true;
                     BeautifyCell(sumCell);
+
+                    topCell = CellReference(startRow, 7);
+                    bottomCell = CellReference(endRow, 7);
+                    sumCell = _worksheet.Cells[_currentRow, 7];
+                    sumCell.FormulaInvariant = "SUM(" + topCell + ":" + bottomCell + ")";
+                    sumCell.Font.Bold = true;
+                    sumCell.NumberFormat = "0.00";
+                    BeautifyCell(sumCell);
                 });
 
+            }
+
+            if (File.Exists("Template2.xlsx"))
+            {
+                endRow = CurrentRow + 3;
+
+                Invoke(() =>
+                {
+                    Spreadsheet.SaveDocument("_Temp.xlsx");
+                    Spreadsheet.LoadDocument("Template2.xlsx");
+                    Worksheet tail = Spreadsheet.ActiveWorksheet;
+                    tail.GetDataRange().Select();
+                    tail.Workbook.Clipboard.Copy();
+                    Spreadsheet.LoadDocument("_Temp.xlsx");
+                    _worksheet = Spreadsheet.ActiveWorksheet;
+                    _worksheet.SelectedCell = _worksheet.Cells[endRow, 0];
+                    var command = Spreadsheet.CreateCommand(SpreadsheetCommandId.PasteSelection);
+                    command.Execute();
+
+                });
             }
 
         }
