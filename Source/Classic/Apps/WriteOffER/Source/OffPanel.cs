@@ -137,6 +137,10 @@ namespace WriteOffER
             var goButton = new ToolStripButton("Рассчитать");
             goButton.Click += GoButtonOnClick;
             _toolStrip.Items.Add(goButton);
+            var coolButton = new ToolStripButton("Сделать круто");
+            coolButton.ForeColor = Color.Blue;
+            coolButton.Click += CoolButtonOnClick;
+            _toolStrip.Items.Add(coolButton);
             var saveButton = new ToolStripButton("Сохранить");
             saveButton.Click += SaveButtonOnClick;
             _toolStrip.Items.Add(saveButton);
@@ -393,6 +397,119 @@ namespace WriteOffER
             return _worksheet.Range.FromLTRB(column, topRow, column, bottomRow);
         }
 
+        public void CoolButtonOnClick (object sender, EventArgs args)
+        {
+            Run(ProcessTable2);
+        }
+
+        public void ProcessTable2()
+        {
+            SetupTable();
+            PrefixInfo prefix = new PrefixInfo()
+            {
+                Prefix = "NA=",
+                Description = "Номер акта"
+            };
+            OffManager manager = new OffManager(Output, Connection, prefix);
+
+            int index = 1;
+            int startRow = CurrentRow;
+            var actNumber = ReadCell(1);
+            if (string.IsNullOrEmpty(actNumber))
+                return;
+            var found = Connection.Search("\"" + prefix.Prefix + actNumber + "\"");
+            foreach (var mfn in found)
+            {
+                MarcRecord record = Connection.ReadRecord(mfn);
+                ExemplarInfo[] exemplars = ExemplarInfo.Parse(record);
+                exemplars = exemplars.Where(e => e.ActNumber1.SameString(actNumber)).ToArray();
+                foreach (var exemplar in exemplars)
+                {
+                    WriteCell(0, index);
+                    WriteCell(1, exemplar.Number);
+                    string format = ConfigurationUtility
+                        .GetString("format", "@brief")
+                        .ThrowIfNull("format");
+                    var description = Connection.FormatRecord(format, record.Mfn);
+                    Cell descriptionCell = WriteCell(2, description);
+                    var year = manager.GetYear(record);
+                    var price = manager.GetPrice(record);
+                    var coefficient = manager.PriceConverter.GetCoefficient(year);
+                    WriteCell(3, year);
+                    WriteCell(4, price, "0.00");
+                    WriteCell(5, coefficient, "0.00");
+                    WriteCell(6, 1);
+                    var summa = price * coefficient;
+                    WriteCell(7, summa, "0.00");
+                    Invoke(() =>
+                    {
+                        descriptionCell.Alignment.WrapText = true;
+                        SetupBorders(descriptionCell);
+                        Row row = descriptionCell.Worksheet.Rows[descriptionCell.RowIndex];
+                        row.AutoFit();
+                        BeautifyCell(0);
+                        BeautifyCell(1);
+                        BeautifyCell(3);
+                        BeautifyCell(4);
+                        BeautifyCell(5);
+                        BeautifyCell(6);
+                        BeautifyCell(7);
+                    });
+                    NewLine();
+                    index++;
+                }
+            }
+
+            var data = _worksheet.Range.FromLTRB(1, startRow, 7, CurrentRow);
+            Invoke(() =>
+            {
+                _worksheet.Sort(data);
+            });
+
+            int endRow = CurrentRow - 1;
+            if (endRow > startRow)
+            {
+                Invoke(() =>
+                {
+                    string topCell = CellReference(startRow, 6);
+                    string bottomCell = CellReference(endRow, 6);
+                    Cell sumCell = _worksheet.Cells[_currentRow, 6];
+                    sumCell.FormulaInvariant = "SUM(" + topCell + ":" + bottomCell + ")";
+                    sumCell.Font.Bold = true;
+                    BeautifyCell(sumCell);
+
+                    topCell = CellReference(startRow, 7);
+                    bottomCell = CellReference(endRow, 7);
+                    sumCell = _worksheet.Cells[_currentRow, 7];
+                    sumCell.FormulaInvariant = "SUM(" + topCell + ":" + bottomCell + ")";
+                    sumCell.Font.Bold = true;
+                    sumCell.NumberFormat = "0.00";
+                    BeautifyCell(sumCell);
+                });
+
+            }
+
+            if (File.Exists("Template2.xlsx"))
+            {
+                endRow = CurrentRow + 3;
+
+                Invoke(() =>
+                {
+                    Spreadsheet.SaveDocument("_Temp.xlsx");
+                    Spreadsheet.LoadDocument("Template2.xlsx");
+                    Worksheet tail = Spreadsheet.ActiveWorksheet;
+                    tail.GetDataRange().Select();
+                    tail.Workbook.Clipboard.Copy();
+                    Spreadsheet.LoadDocument("_Temp.xlsx");
+                    _worksheet = Spreadsheet.ActiveWorksheet;
+                    _worksheet.SelectedCell = _worksheet.Cells[endRow, 0];
+                    var command = Spreadsheet.CreateCommand(SpreadsheetCommandId.PasteSelection);
+                    command.Execute();
+
+                });
+            }
+        }
+
         public void ProcessTable()
         {
             PrefixInfo prefix = null;
@@ -421,7 +538,8 @@ namespace WriteOffER
                 int amount = ReadCell(6).SafeToInt32();
                 if (amount <= 0)
                 {
-                    WriteCell(6, 1);
+                    amount = 1;
+                    WriteCell(6, amount);
                 }
 
                 WriteCell(0, index);
@@ -432,16 +550,13 @@ namespace WriteOffER
                     WriteCell(3, info.Year);
                     WriteCell(4, info.Price, "0.00");
                     WriteCell(5, info.Coefficient, "0.00");
+                    var summa = info.Price * info.Coefficient * amount;
+                    WriteCell(7, summa, "0.00");
 
-                    string formula = CellReference(4) + "*"
-                                     + CellReference(5) + "*"
-                                     + CellReference(6);
                     Invoke(() =>
                     {
                         descriptionCell.Alignment.WrapText = true;
                         SetupBorders(descriptionCell);
-                        SetFormula(7, formula);
-                        _worksheet.Cells[_currentRow, 7].NumberFormat = "0.00";
                         Row row = descriptionCell.Worksheet.Rows[descriptionCell.RowIndex];
                         row.AutoFit();
                         BeautifyCell(0);

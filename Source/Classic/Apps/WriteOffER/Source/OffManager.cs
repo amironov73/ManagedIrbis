@@ -88,7 +88,7 @@ namespace WriteOffER
 
         #region Private members
 
-        private string GetYear
+        public string GetYear
             (
                 [NotNull] MarcRecord record
             )
@@ -123,7 +123,7 @@ namespace WriteOffER
             return result;
         }
 
-        private decimal GetPrice
+        public decimal GetPrice
             (
                 [NotNull] MarcRecord record
             )
