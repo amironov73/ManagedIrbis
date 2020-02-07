@@ -217,17 +217,17 @@ namespace ManagedIrbis.Identifiers
             )
         {
             int result = 0;
-            int[] mulitpliers = {1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1};
+            int[] multipliers = { 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1 };
             int index = 0;
             for (int i = 0; i < isbn.Length; i++)
             {
                 if (isbn[i].IsArabicDigit())
                 {
-                    if (index >= mulitpliers.Length)
+                    if (index >= multipliers.Length)
                     {
                         return false;
                     }
-                    result += ((int)(isbn[i] - '0')) * mulitpliers[index++];
+                    result += ((int)(isbn[i] - '0')) * multipliers[index++];
                 }
             }
 

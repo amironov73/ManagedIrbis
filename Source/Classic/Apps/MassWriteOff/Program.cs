@@ -1,14 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+/* Program.cs --
+ * Ars Magna project, http://arsmagna.ru
+ * -------------------------------------------------------
+ * Status: poor
+ */
+
+#region Using directives
+
+using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 
 using ManagedIrbis;
 using ManagedIrbis.Fields;
+
+#endregion
 
 // ReSharper disable LocalizableElement
 
@@ -16,6 +25,8 @@ namespace MassWriteOff
 {
     class Program
     {
+        private static char[] separators = {' ', '\t', ';'};
+
         static void Main(string[] args)
         {
             if (args.Length != 2)
@@ -34,7 +45,13 @@ namespace MassWriteOff
 
                     foreach (string line in lines)
                     {
-                        var number = line.Trim();
+                        var parts = line.Trim()
+                            .Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                        if (parts.Length == 0)
+                        {
+                            continue;
+                        }
+                        var number = parts[0];
                         if (string.IsNullOrEmpty(number))
                         {
                             continue;
@@ -54,9 +71,19 @@ namespace MassWriteOff
                             continue;
                         }
 
+                        string aktNumber = null;
+                        if (parts.Length > 1)
+                        {
+                            aktNumber = parts[1];
+                        }
+
                         exemplar.Status = "6";
                         var field = exemplar.Field.ThrowIfNull("exemplar.Field");
                         exemplar.ApplyToField(field);
+                        if (!string.IsNullOrEmpty(aktNumber))
+                        {
+                            field.SetSubField('v', aktNumber);
+                        }
                         var record = exemplar.Record.ThrowIfNull("exemplar.Record");
                         connection.WriteRecord(record);
                         Console.WriteLine($"[{record.Mfn}] {exemplar.Description}");
