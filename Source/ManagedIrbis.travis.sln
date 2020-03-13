@@ -57,6 +57,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoveFond", "Classic\Apps\Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountForeign", "Classic\Apps\CountForeign\CountForeign.csproj", "{7468C7A5-3FF0-4736-8790-4A3BBBEDA9AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewGost", "Classic\Apps\NewGost\NewGost.csproj", "{290FF8F4-6615-46AB-940F-6B0C3820D718}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -391,6 +393,18 @@ Global
 		{7468C7A5-3FF0-4736-8790-4A3BBBEDA9AA}.Release|x64.Build.0 = Release|Any CPU
 		{7468C7A5-3FF0-4736-8790-4A3BBBEDA9AA}.Release|x86.ActiveCfg = Release|Any CPU
 		{7468C7A5-3FF0-4736-8790-4A3BBBEDA9AA}.Release|x86.Build.0 = Release|Any CPU
+		{290FF8F4-6615-46AB-940F-6B0C3820D718}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{290FF8F4-6615-46AB-940F-6B0C3820D718}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{290FF8F4-6615-46AB-940F-6B0C3820D718}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{290FF8F4-6615-46AB-940F-6B0C3820D718}.Debug|x64.Build.0 = Debug|Any CPU
+		{290FF8F4-6615-46AB-940F-6B0C3820D718}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{290FF8F4-6615-46AB-940F-6B0C3820D718}.Debug|x86.Build.0 = Debug|Any CPU
+		{290FF8F4-6615-46AB-940F-6B0C3820D718}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{290FF8F4-6615-46AB-940F-6B0C3820D718}.Release|Any CPU.Build.0 = Release|Any CPU
+		{290FF8F4-6615-46AB-940F-6B0C3820D718}.Release|x64.ActiveCfg = Release|Any CPU
+		{290FF8F4-6615-46AB-940F-6B0C3820D718}.Release|x64.Build.0 = Release|Any CPU
+		{290FF8F4-6615-46AB-940F-6B0C3820D718}.Release|x86.ActiveCfg = Release|Any CPU
+		{290FF8F4-6615-46AB-940F-6B0C3820D718}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

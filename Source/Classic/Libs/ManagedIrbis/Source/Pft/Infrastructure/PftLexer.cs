@@ -274,7 +274,7 @@ namespace ManagedIrbis.Pft.Infrastructure
                 {
                     result.Append(c);
                     ReadChar();
-                    PeekChar();
+                    c = PeekChar();
                 }
 
                 while (true)
