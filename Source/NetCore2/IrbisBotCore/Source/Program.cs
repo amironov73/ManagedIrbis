@@ -28,60 +28,60 @@ namespace IrbisBot
 {
     class Program
     {
-        private static void RunService()
-        {
-            ServiceBase[] servicesToRun = new ServiceBase[]
-            {
-                new BotService()
-            };
-            ServiceBase.Run(servicesToRun);
-        }
+        //private static void RunService()
+        //{
+        //    ServiceBase[] servicesToRun = new ServiceBase[]
+        //    {
+        //        new BotService()
+        //    };
+        //    ServiceBase.Run(servicesToRun);
+        //}
 
         // ====================================================================
 
-        private static void InstallService()
-        {
-            ServiceInstallerUtility.Install();
-        }
+        //private static void InstallService()
+        //{
+        //    ServiceInstallerUtility.Install();
+        //}
 
         // ====================================================================
 
-        private static void UninstallService()
-        {
-            ServiceInstallerUtility.Uninstall();
-        }
+        //private static void UninstallService()
+        //{
+        //    ServiceInstallerUtility.Uninstall();
+        //}
 
         // ====================================================================
 
-        private static void StartService()
-        {
-            try
-            {
-                ServiceController controller
-                    = new ServiceController(BotService.IrbisBot);
-                controller.Start();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-        }
+        //private static void StartService()
+        //{
+        //    try
+        //    {
+        //        ServiceController controller
+        //            = new ServiceController(BotService.IrbisBot);
+        //        controller.Start();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex);
+        //    }
+        //}
 
         // ====================================================================
 
-        private static void StopService()
-        {
-            try
-            {
-                ServiceController controller
-                    = new ServiceController(BotService.IrbisBot);
-                controller.Stop();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-        }
+        //private static void StopService()
+        //{
+        //    try
+        //    {
+        //        ServiceController controller
+        //            = new ServiceController(BotService.IrbisBot);
+        //        controller.Stop();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex);
+        //    }
+        //}
 
         // ====================================================================
 
@@ -156,7 +156,8 @@ namespace IrbisBot
                 }
                 else
                 {
-                    RunService();
+                    Console.WriteLine("Can't run as service");
+                    // RunService();
                 }
             }
             else if (args.Length == 1)
@@ -167,14 +168,16 @@ namespace IrbisBot
                     case "/install":
                     case "-i":
                     case "/i":
-                        InstallService();
+                        // InstallService();
+                        Console.WriteLine("Can't install service");
                         break;
 
                     case "-uninstall":
                     case "/uninstall":
                     case "-u":
                     case "/u":
-                        UninstallService();
+                        // UninstallService();
+                        Console.WriteLine("Can't uninstall service");
                         break;
 
                     case "-start":
@@ -185,7 +188,8 @@ namespace IrbisBot
                     case "/r":
                     case "/1":
                     case "-1":
-                        StartService();
+                        // StartService();
+                        Console.WriteLine("Can't run service");
                         break;
 
                     case "-stop":
@@ -194,7 +198,8 @@ namespace IrbisBot
                     case "/s":
                     case "-0":
                     case "/0":
-                        StopService();
+                        //StopService();
+                        Console.WriteLine("Can't stop service");
                         break;
 
                     case "-console":
