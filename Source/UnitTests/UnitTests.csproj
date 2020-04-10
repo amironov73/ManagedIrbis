@@ -186,6 +186,7 @@
     <Compile Include="AM\Runtime\CanaryClass.cs" />
     <Compile Include="AM\Runtime\SerializationUtilityTest.cs" />
     <Compile Include="AM\Runtime\SingletonTest.cs" />
+    <Compile Include="AM\Security\SecurityUtilityTest.cs" />
     <Compile Include="AM\SubArrayTest.cs" />
     <Compile Include="AM\Text\EncodingUtilityTest.cs" />
     <Compile Include="AM\Text\Output\NullOutputTest.cs" />

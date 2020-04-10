@@ -1,4 +1,4 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* SecurityUtility.cs -- useful routines for X509 certificates
@@ -12,7 +12,9 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 
 using AM.IO;
 
@@ -65,6 +67,11 @@ namespace AM.Security
             string resourceName = "AM.Core.ArsMagnaSslSocket.cer";
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
+                if (ReferenceEquals(stream, null))
+                {
+                    throw new ArsMagnaException();
+                }
+
                 byte[] rawData = stream.ReadToEnd();
                 X509Certificate result = new X509Certificate();
                 result.Import(rawData);
@@ -107,6 +114,72 @@ namespace AM.Security
             throw new Exception();
 
 #endif
+        }
+
+        /// <summary>
+        /// Простое шифрование текста до неузнаваемости.
+        /// </summary>
+        /// <param name="secretText">Например, строка подключения,
+        /// содержащая чувствительные данные.</param>
+        /// <param name="password">Пароль.</param>
+        /// <returns>Зашифрованный текст.</returns>
+        public static string Encrypt (string secretText, string password)
+        {
+            var plainBytes = Encoding.UTF8.GetBytes(secretText);
+            var symmetricAlgorithm = Rijndael.Create();
+            var passwordBytes = new PasswordDeriveBytes(password,null).GetBytes(16);
+            var encryptor = symmetricAlgorithm.CreateEncryptor(passwordBytes, new byte[16]);
+            var memory = new MemoryStream();
+            var crypto = new CryptoStream(memory, encryptor, CryptoStreamMode.Write);
+            crypto.Write(plainBytes, 0, plainBytes.Length);
+            crypto.FlushFinalBlock();
+            var encryptedBytes = memory.ToArray();
+            var result = Convert.ToBase64String(encryptedBytes);
+            return result;
+        }
+
+        /// <summary>
+        /// Расшифровка ранее зашифрованного текста.
+        /// </summary>
+        /// <param name="encryptedText">Текст, полученный от <see cref="Encrypt"/></param>
+        /// <param name="password">Пароль.</param>
+        /// <returns>Расшифрованный текст.</returns>
+        public static string Decrypt(string encryptedText, string password)
+        {
+            var encryptedBytes = Convert.FromBase64String(encryptedText);
+            var symmetricAlgorithm = Rijndael.Create();
+            var passwordBytes = new PasswordDeriveBytes(password,null).GetBytes(16);
+            var descryptor = symmetricAlgorithm.CreateDecryptor(passwordBytes, new byte[16]);
+            var memory = new MemoryStream(encryptedBytes);
+            var crypto = new CryptoStream(memory, descryptor, CryptoStreamMode.Read);
+            var reader = new BinaryReader(crypto);
+            var decryptedBytes = reader.ReadBytes(encryptedBytes.Length);
+            var result = Encoding.UTF8.GetString(decryptedBytes);
+            return result;
+        }
+
+        /// <summary>
+        /// Псевдошифрование в Base64.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string EncryptToBase64(string text)
+        {
+            var bytes = Encoding.UTF8.GetBytes(text);
+            var result = Convert.ToBase64String(bytes);
+            return result;
+        }
+
+        /// <summary>
+        /// Псевдорасшифровка из Base64.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string DecryptFromBase64(string text)
+        {
+            var bytes = Convert.FromBase64String(text);
+            var result = Encoding.UTF8.GetString(bytes);
+            return result;
         }
 
         #endregion

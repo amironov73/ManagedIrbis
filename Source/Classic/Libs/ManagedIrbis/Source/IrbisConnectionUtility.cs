@@ -458,10 +458,20 @@ namespace ManagedIrbis
                 return DefaultConnectionString;
             }
 
-            return ConfigurationUtility.FindSetting
+            var candidate = ConfigurationUtility.FindSetting
                 (
                     ListStandardConnectionStrings()
                 );
+            if (string.IsNullOrEmpty(candidate))
+            {
+                return candidate;
+            }
+            var result = IrbisUtility.DecryptConnectionString
+                (
+                    candidate,
+                    null
+                );
+            return result;
         }
 
         // ========================================================

@@ -15,9 +15,14 @@ using System.IO;
 using System.Text;
 
 using AM.Logging;
+using AM.Security;
+
+using CodeJam;
 
 using JetBrains.Annotations;
+
 using ManagedIrbis.Infrastructure;
+
 using MoonSharp.Interpreter;
 
 #endregion
@@ -32,6 +37,46 @@ namespace ManagedIrbis
     public static class IrbisUtility
     {
         #region Public methods
+
+        /// <summary>
+        /// Декодирование строки подключения, если она закодирована.
+        /// </summary>
+        /// <param name="possiblyEncrypted">Строка подключения.</param>
+        /// <param name="password">Пароль. Если null, то используется пароль по умолчанию.</param>
+        /// <returns>Расшифрованная строка подключения.</returns>
+        public static string DecryptConnectionString
+            (
+                [NotNull] string possiblyEncrypted,
+                [CanBeNull] string password
+            )
+        {
+            Code.NotNullNorEmpty(possiblyEncrypted, "possiblyEncrypted");
+
+            // С восклицательного знака начинается строка,
+            // закодированная в банальный Base64.
+            if (possiblyEncrypted[0] == '!')
+            {
+                var enc = possiblyEncrypted.Substring(1);
+                var res = SecurityUtility.DecryptFromBase64(enc);
+                return res;
+            }
+
+            // Закодированная строка должна начинаться со знака вопроса.
+
+            if (possiblyEncrypted[0] != '?')
+            {
+                return possiblyEncrypted;
+            }
+
+            var encrypted = possiblyEncrypted.Substring(1);
+            if (string.IsNullOrEmpty(password))
+            {
+                password = "irbis";
+            }
+
+            var result = SecurityUtility.Decrypt(encrypted, password);
+            return result;
+        }
 
         /// <summary>
         ///
