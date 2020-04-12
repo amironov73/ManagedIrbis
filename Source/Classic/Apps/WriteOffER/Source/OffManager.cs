@@ -125,10 +125,29 @@ namespace WriteOffER
 
         public decimal GetPrice
             (
-                [NotNull] MarcRecord record
+                [NotNull] MarcRecord record,
+                [NotNull] string prefix,
+                [NotNull] string number
             )
         {
-            string priceText = record.FM(10, 'd');
+            string priceText = null;
+
+            if (prefix.SameString("IN="))
+            {
+                RecordField field = record.Fields
+                    .GetField(910)
+                    .GetField('b', number)
+                    .FirstOrDefault();
+                if (field != null)
+                {
+                    priceText = field.GetFirstSubFieldValue('e');
+                }
+            }
+
+            if (string.IsNullOrEmpty(priceText))
+            {
+                priceText = record.FM(10, 'd');
+            }
 
             return priceText.SafeToDecimal(0.0m);
         }
@@ -161,10 +180,11 @@ namespace WriteOffER
         {
             Code.NotNullNorEmpty(number, "number");
 
+            string prefix = Prefix.ThrowIfNull("Prefix").Prefix.ThrowIfNull("Prefix");
             string expression = string.Format
                 (
                     "\"{0}{1}\"",
-                    Prefix.ThrowIfNull("Prefix").Prefix.ThrowIfNull("Prefix"),
+                    prefix,
                     number
                 );
 
@@ -190,7 +210,7 @@ namespace WriteOffER
                 .ThrowIfNull("format");
             result.Description = Connection.FormatRecord(format, record.Mfn);
             result.Year = GetYear(record);
-            result.Price = GetPrice(record);
+            result.Price = GetPrice(record, prefix, number);
             result.Coefficient = PriceConverter.GetCoefficient(result.Year);
 
             return result;

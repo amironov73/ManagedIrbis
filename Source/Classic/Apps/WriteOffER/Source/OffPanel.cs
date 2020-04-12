@@ -433,7 +433,8 @@ namespace WriteOffER
                     var description = Connection.FormatRecord(format, record.Mfn);
                     Cell descriptionCell = WriteCell(2, description);
                     var year = manager.GetYear(record);
-                    var price = manager.GetPrice(record);
+                    // ????
+                    var price = manager.GetPrice(record, "IN=", exemplar.Number);
                     var coefficient = manager.PriceConverter.GetCoefficient(year);
                     WriteCell(3, year);
                     WriteCell(4, price, "0.00");
