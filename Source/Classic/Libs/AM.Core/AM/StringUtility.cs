@@ -420,6 +420,30 @@ namespace AM
         }
 
         /// <summary>
+        /// Содержит ли перечень строк указанную строку
+        /// (с точностью до регистра символов)?
+        /// </summary>
+        public static bool ContainsNoCase
+            (
+                [NotNull] this IEnumerable<string> lines,
+                [NotNull] string line
+            )
+        {
+            Code.NotNull(lines, "lines");
+            Code.NotNullNorEmpty(line, "line");
+
+            foreach (string one in lines)
+            {
+                if (SameString(one, line))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Converts empty string to <c>null</c>.
         /// </summary>
         [CanBeNull]

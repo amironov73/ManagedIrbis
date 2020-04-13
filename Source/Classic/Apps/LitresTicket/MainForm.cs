@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* .cs -- 
+/* MainForm.cs -- главная и единственная форма приложения
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -10,18 +10,23 @@
 #region Using directives
 
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 using AM.Configuration;
-
-using LitresTicket.Properties;
+using AM.Net;
 
 using ManagedIrbis;
+
+using LitresTicket.Properties;
 
 #endregion
 
 namespace LitresTicket
 {
+    /// <summary>
+    /// Главная и единственная форма приложения.
+    /// </summary>
     public partial class MainForm
         : Form
     {
@@ -138,6 +143,17 @@ namespace LitresTicket
         {
             _resultBox.Clear();
 
+            string email = _emailBox.Text.Trim();
+            if (!string.IsNullOrEmpty(email)
+                && !MailUtility.VerifyEmail(email))
+            {
+                _resultBox.Text = Environment.NewLine
+                    + Resources.MainForm_EmailError;
+                _emailBox.Focus();
+
+                return;
+            }
+
             string ticket = _ticketBox.Text.Trim();
             if (string.IsNullOrEmpty(ticket))
             {
@@ -231,6 +247,15 @@ namespace LitresTicket
                     }
                 }
 
+                if (!string.IsNullOrEmpty(email))
+                {
+                    string[] already = record.FMA(32);
+                    if (!already.Contains(email))
+                    {
+                        record.AddField(32, email);
+                    }
+                }
+
                 if (record.Modified)
                 {
                     connection.WriteRecord(record);
@@ -239,6 +264,7 @@ namespace LitresTicket
                 }
 
                 _ticketBox.Clear();
+                _emailBox.Clear();
                 _loginBox.Clear();
                 _passwordBox.Clear();
                 _ticketBox.Focus();

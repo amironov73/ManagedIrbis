@@ -88,6 +88,24 @@ namespace LitresTicket.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ошибка в e-mail!.
+        /// </summary>
+        internal static string MainForm_EmailError {
+            get {
+                return ResourceManager.GetString("MainForm_EmailError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Литрес.
+        /// </summary>
+        internal static string MainForm_Litres {
+            get {
+                return ResourceManager.GetString("MainForm_Litres", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Найдено несколько читателей с указанным билетом.
         /// </summary>
         internal static string MainForm_ManyReadersFound {

@@ -40,6 +40,8 @@
             this._sendSmsButton = new System.Windows.Forms.Button();
             this._deleteButton = new System.Windows.Forms.Button();
             this._clearButton = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this._emailBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // _logBox
@@ -99,10 +101,10 @@
             this._browser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._browser.Location = new System.Drawing.Point(12, 63);
+            this._browser.Location = new System.Drawing.Point(12, 105);
             this._browser.MinimumSize = new System.Drawing.Size(20, 20);
             this._browser.Name = "_browser";
-            this._browser.Size = new System.Drawing.Size(372, 155);
+            this._browser.Size = new System.Drawing.Size(372, 113);
             this._browser.TabIndex = 5;
             // 
             // _createButton
@@ -162,11 +164,31 @@
             this._clearButton.UseVisualStyleBackColor = true;
             this._clearButton.Click += new System.EventHandler(this._clearButton_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 63);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "E-mail";
+            // 
+            // _emailBox
+            // 
+            this._emailBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._emailBox.Location = new System.Drawing.Point(12, 79);
+            this._emailBox.Name = "_emailBox";
+            this._emailBox.Size = new System.Drawing.Size(372, 20);
+            this._emailBox.TabIndex = 12;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 442);
+            this.Controls.Add(this._emailBox);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this._clearButton);
             this.Controls.Add(this._deleteButton);
             this.Controls.Add(this._sendSmsButton);
@@ -203,6 +225,8 @@
         private System.Windows.Forms.Button _sendSmsButton;
         private System.Windows.Forms.Button _deleteButton;
         private System.Windows.Forms.Button _clearButton;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox _emailBox;
     }
 }
 

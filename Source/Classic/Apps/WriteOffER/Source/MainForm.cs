@@ -90,8 +90,8 @@ namespace WriteOffER
                 return _connectionString;
             }
 
-            string result = ConfigurationUtility
-                .GetString("connectionString")
+            string result = IrbisConnectionUtility
+                .GetStandardConnectionString()
                 .ThrowIfNull("connectionString");
 
             return result;

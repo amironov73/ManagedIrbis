@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisNetServer.4.0", "Class
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IrbisNetService.4.0", "Classic\Apps\IrbisNetService\IrbisNetService.4.0.csproj", "{B14268C2-AABA-403E-9B75-0E2156A63D58}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encryptor.4.0", "Classic\Apps\Encryptor\Encryptor.4.0.csproj", "{FE8F0A50-035C-48F8-8FB1-DA11E342A057}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -221,6 +223,14 @@ Global
 		{B14268C2-AABA-403E-9B75-0E2156A63D58}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B14268C2-AABA-403E-9B75-0E2156A63D58}.Release|x86.ActiveCfg = Release|Any CPU
 		{B14268C2-AABA-403E-9B75-0E2156A63D58}.Release|x86.Build.0 = Release|Any CPU
+		{FE8F0A50-035C-48F8-8FB1-DA11E342A057}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE8F0A50-035C-48F8-8FB1-DA11E342A057}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE8F0A50-035C-48F8-8FB1-DA11E342A057}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FE8F0A50-035C-48F8-8FB1-DA11E342A057}.Debug|x86.Build.0 = Debug|Any CPU
+		{FE8F0A50-035C-48F8-8FB1-DA11E342A057}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE8F0A50-035C-48F8-8FB1-DA11E342A057}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE8F0A50-035C-48F8-8FB1-DA11E342A057}.Release|x86.ActiveCfg = Release|Any CPU
+		{FE8F0A50-035C-48F8-8FB1-DA11E342A057}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

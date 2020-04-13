@@ -18,6 +18,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using AM;
+using AM.Net;
 using AM.Text.Output;
 
 using CodeJam;
@@ -41,7 +42,7 @@ using CM = System.Configuration.ConfigurationManager;
 namespace OsmiRegistration
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     public static class ControlCenter
@@ -155,7 +156,7 @@ namespace OsmiRegistration
                 return false;
             }
 
-            if (!VerifyEmail(email))
+            if (!MailUtility.VerifyEmail(email))
             {
                 WriteLine("Неверный email!");
                 return false;
@@ -234,6 +235,23 @@ namespace OsmiRegistration
         }
 
         /// <summary>
+        /// Обновляет запись на сервере.
+        /// </summary>
+        public static void UpdateRecord
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            Code.NotNull(record, "record");
+
+            using (IrbisConnection connection = GetIrbisConnection())
+            {
+                connection.WriteRecord(record);
+                WriteLine("Запись обновлена на сервере");
+            }
+        }
+
+        /// <summary>
         /// Format reader.
         /// </summary>
         public static string FormatReader
@@ -266,7 +284,9 @@ namespace OsmiRegistration
                     File.ReadAllText("osmi.json")
                 );
 
-            ConnectionString = CM.AppSettings["connectionString"];
+            ConnectionString = IrbisConnectionUtility
+                .GetStandardConnectionString()
+                .ThrowIfNull("ConnectionString");
 
             string baseUri = CM.AppSettings["baseUri"];
             string apiId = CM.AppSettings["apiID"];
@@ -315,15 +335,21 @@ namespace OsmiRegistration
             Code.NotNull(reader, "reader");
 
             string ticket = reader.Ticket.ThrowIfNull();
-            string email = reader.Email.ThrowIfNull();
+            string[] emails = reader
+                .Record.ThrowIfNull("reader.Record")
+                .FMA(32);
 
-            Client.SendCardMail
-                (
-                    ticket,
-                    email
-                );
+            foreach (string email in emails)
+            {
 
-            WriteLine("Послано письмо по адресу {0}", email);
+                Client.SendCardMail
+                    (
+                        ticket,
+                        email
+                    );
+
+                WriteLine("Послано письмо по адресу {0}", email);
+            }
         }
 
         public static void SendSms
@@ -351,23 +377,6 @@ namespace OsmiRegistration
         public static void Shutdown()
         {
 
-        }
-
-        public static bool VerifyEmail
-            (
-                [NotNull] string email
-            )
-        {
-            Code.NotNullNorEmpty(email, "email");
-
-            bool result = Regex.IsMatch
-                (
-                    email,
-                    @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z",
-                    RegexOptions.IgnoreCase
-                );
-
-            return result;
         }
 
         /// <summary>

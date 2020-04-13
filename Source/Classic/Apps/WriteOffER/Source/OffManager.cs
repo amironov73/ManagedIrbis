@@ -36,7 +36,7 @@ namespace WriteOffER
 {
     public class OffManager
     {
-        #region Public methods
+        #region Properties
 
         /// <summary>
         /// Output.

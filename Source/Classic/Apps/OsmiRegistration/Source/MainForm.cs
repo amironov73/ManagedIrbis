@@ -21,8 +21,9 @@ using System.Windows.Forms;
 
 using AM;
 using AM.Logging;
+using AM.Net;
 using AM.Windows.Forms;
-
+using ManagedIrbis;
 using ManagedIrbis.Readers;
 
 using Newtonsoft.Json.Linq;
@@ -33,9 +34,9 @@ using Newtonsoft.Json.Linq;
 namespace OsmiRegistration
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
-    public partial class MainForm 
+    public partial class MainForm
         : Form
     {
         #region Construction
@@ -56,7 +57,7 @@ namespace OsmiRegistration
 
         private void MainForm_FormClosing
             (
-                object sender, 
+                object sender,
                 FormClosingEventArgs e
             )
         {
@@ -145,7 +146,7 @@ namespace OsmiRegistration
 
         private void _searchButton_Click
             (
-                object sender, 
+                object sender,
                 EventArgs e
             )
         {
@@ -205,6 +206,31 @@ namespace OsmiRegistration
                 if (ReferenceEquals(reader, null))
                 {
                     return;
+                }
+
+                string email = _emailBox.Text.Trim();
+                if (!string.IsNullOrEmpty(email))
+                {
+                    if (!MailUtility.VerifyEmail(email))
+                    {
+                        MessageBox.Show("Неверный email");
+                        return;
+                    }
+
+                    MarcRecord record = reader.Record
+                        .ThrowIfNull("reader.Record");
+                    string[] emails = record.FMA(32);
+                    if (!emails.ContainsNoCase(email))
+                    {
+                        record.AddField(32, email);
+                        ControlCenter.UpdateRecord(record);
+                        ControlCenter.WriteLine
+                            (
+                                "Добавлен email: {0}",
+                                email
+                            );
+
+                    }
                 }
 
                 string ticket = reader.Ticket.ThrowIfNull();

@@ -138,4 +138,10 @@
     <data name="MainForm_NothingToDo" xml:space="preserve">
     <value>Не заданы логин и пароль. Нечего привязывать!</value>
   </data>
+  <data name="MainForm_EmailError" xml:space="preserve">
+      <value>Ошибка в e-mail!</value>
+  </data>
+  <data name="MainForm_Litres" xml:space="preserve">
+      <value>Литрес</value>
+  </data>
 </root>

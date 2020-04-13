@@ -39,7 +39,7 @@ namespace ManagedIrbis
         #region Public methods
 
         /// <summary>
-        /// Декодирование строки подключения, если она закодирована.
+        /// Декодирование строки подключения, если она закодирована или зашифрована.
         /// </summary>
         /// <param name="possiblyEncrypted">Строка подключения.</param>
         /// <param name="password">Пароль. Если null, то используется пароль по умолчанию.</param>
@@ -61,7 +61,7 @@ namespace ManagedIrbis
                 return res;
             }
 
-            // Закодированная строка должна начинаться со знака вопроса.
+            // Зашифрованная строка должна начинаться со знака вопроса.
 
             if (possiblyEncrypted[0] != '?')
             {

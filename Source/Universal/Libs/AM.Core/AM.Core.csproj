@@ -520,6 +520,9 @@
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Net\AsyncSocketResult.cs">
       <Link>AM\Net\AsyncSocketResult.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\Net\MailUtility.cs">
+      <Link>AM\Net\MailUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Classic\Libs\AM.Core\AM\NonNullValue.cs">
       <Link>AM\NonNullValue.cs</Link>
     </Compile>

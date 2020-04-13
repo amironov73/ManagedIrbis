@@ -583,7 +583,8 @@ namespace ManagedIrbis
                 "irbis-connection-string",
                 "irbis64-connection",
                 "irbis64",
-                "connection-string"
+                "connection-string",
+                "connectionString"
             };
         }
 

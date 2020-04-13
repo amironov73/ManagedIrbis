@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Program.cs -- 
+/* Program.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -49,7 +49,9 @@ namespace OsmiPush
                 string baseUri = CM.AppSettings["baseUri"];
                 string apiID = CM.AppSettings["apiID"];
                 string apiKey = CM.AppSettings["apiKey"];
-                string connectionString = CM.AppSettings["connectionString"];
+                string connectionString = IrbisConnectionUtility
+                    .GetStandardConnectionString()
+                    .ThrowIfNull("connectionString");
                 string messageText = CM.AppSettings["message"];
 
                 client = new OsmiCardsClient
