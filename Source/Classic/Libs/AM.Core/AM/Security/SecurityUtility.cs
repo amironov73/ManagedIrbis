@@ -83,8 +83,8 @@ namespace AM.Security
         }
 
         /// <summary>
-        /// Get certificate by the subject.
         /// </summary>
+        /// Get certificate by the subject.
         [NotNull]
         public static X509Certificate GetRootCertificate
             (
@@ -123,7 +123,11 @@ namespace AM.Security
         /// содержащая чувствительные данные.</param>
         /// <param name="password">Пароль.</param>
         /// <returns>Зашифрованный текст.</returns>
-        public static string Encrypt (string secretText, string password)
+        public static string Encrypt
+            (
+                string secretText,
+                string password
+            )
         {
             var plainBytes = Encoding.UTF8.GetBytes(secretText);
             var symmetricAlgorithm = Rijndael.Create();
@@ -144,7 +148,11 @@ namespace AM.Security
         /// <param name="encryptedText">Текст, полученный от <see cref="Encrypt"/></param>
         /// <param name="password">Пароль.</param>
         /// <returns>Расшифрованный текст.</returns>
-        public static string Decrypt(string encryptedText, string password)
+        public static string Decrypt
+            (
+                string encryptedText,
+                string password
+            )
         {
             var encryptedBytes = Convert.FromBase64String(encryptedText);
             var symmetricAlgorithm = Rijndael.Create();
@@ -163,7 +171,10 @@ namespace AM.Security
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static string EncryptToBase64(string text)
+        public static string EncryptToBase64
+            (
+                string text
+            )
         {
             var bytes = Encoding.UTF8.GetBytes(text);
             var result = Convert.ToBase64String(bytes);
@@ -175,11 +186,49 @@ namespace AM.Security
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static string DecryptFromBase64(string text)
+        public static string DecryptFromBase64
+            (
+                string text
+            )
         {
             var bytes = Convert.FromBase64String(text);
             var result = Encoding.UTF8.GetString(bytes);
             return result;
+        }
+
+        /// <summary>
+        /// Вычисление хеша для указанной строки.
+        /// </summary>
+        public static string ComputeMD5
+            (
+                string text
+            )
+        {
+            var bytes = Encoding.UTF8.GetBytes(text);
+            return ComputeMD5(bytes);
+        }
+
+        /// <summary>
+        /// Вычисление хеша для указанных данных.
+        /// </summary>
+        public static string ComputeMD5
+            (
+                byte[] bytes
+            )
+        {
+            using (var md5 = MD5.Create())
+            {
+                var data = md5.ComputeHash(bytes);
+
+                StringBuilder sBuilder = new StringBuilder(data.Length * 2);
+                foreach (var b in data)
+                {
+                    sBuilder.Append(b.ToString("x2"));
+                }
+
+                return sBuilder.ToString();
+            }
+
         }
 
         #endregion
