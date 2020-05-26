@@ -131,8 +131,13 @@ namespace AM.Security
         {
             var plainBytes = Encoding.UTF8.GetBytes(secretText);
             var symmetricAlgorithm = Rijndael.Create();
-            var passwordBytes = new PasswordDeriveBytes(password,null).GetBytes(16);
-            var encryptor = symmetricAlgorithm.CreateEncryptor(passwordBytes, new byte[16]);
+            var passwordBytes = new PasswordDeriveBytes(password,null)
+                .GetBytes(16);
+            var encryptor = symmetricAlgorithm.CreateEncryptor
+                (
+                    passwordBytes,
+                    new byte[16]
+                );
             var memory = new MemoryStream();
             var crypto = new CryptoStream(memory, encryptor, CryptoStreamMode.Write);
             crypto.Write(plainBytes, 0, plainBytes.Length);
@@ -156,10 +161,15 @@ namespace AM.Security
         {
             var encryptedBytes = Convert.FromBase64String(encryptedText);
             var symmetricAlgorithm = Rijndael.Create();
-            var passwordBytes = new PasswordDeriveBytes(password,null).GetBytes(16);
-            var descryptor = symmetricAlgorithm.CreateDecryptor(passwordBytes, new byte[16]);
+            var passwordBytes = new PasswordDeriveBytes(password,null)
+                .GetBytes(16);
+            var decryptor = symmetricAlgorithm.CreateDecryptor
+                (
+                    passwordBytes,
+                    new byte[16]
+                );
             var memory = new MemoryStream(encryptedBytes);
-            var crypto = new CryptoStream(memory, descryptor, CryptoStreamMode.Read);
+            var crypto = new CryptoStream(memory, decryptor, CryptoStreamMode.Read);
             var reader = new BinaryReader(crypto);
             var decryptedBytes = reader.ReadBytes(encryptedBytes.Length);
             var result = Encoding.UTF8.GetString(decryptedBytes);
@@ -199,7 +209,9 @@ namespace AM.Security
         /// <summary>
         /// Вычисление хеша для указанной строки.
         /// </summary>
+        // ReSharper disable InconsistentNaming
         public static string ComputeMD5
+        // ReSharper restore InconsistentNaming
             (
                 string text
             )
@@ -211,7 +223,9 @@ namespace AM.Security
         /// <summary>
         /// Вычисление хеша для указанных данных.
         /// </summary>
+        // ReSharper disable InconsistentNaming
         public static string ComputeMD5
+        // ReSharper restore InconsistentNaming
             (
                 byte[] bytes
             )
