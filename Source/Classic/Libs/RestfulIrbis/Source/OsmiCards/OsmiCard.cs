@@ -60,7 +60,7 @@ namespace RestfulIrbis.OsmiCards
         /// Convert <see cref="JObject"/> to
         /// <see cref="OsmiCard"/>.
         /// </summary>
-        [NotNull]
+        [CanBeNull]
         public static OsmiCard FromJObject
             (
                 [NotNull] JObject jObject
@@ -68,10 +68,14 @@ namespace RestfulIrbis.OsmiCards
         {
             Code.NotNull(jObject, "jObject");
 
+            var values = jObject["values"];
+            if (ReferenceEquals (values, null))
+            {
+                return null;
+            }
             OsmiCard result = new OsmiCard
             {
-                Values = jObject["values"]
-                    .ToObject<OsmiValue[]>()
+                Values = values.ToObject<OsmiValue[]>()
             };
 
             return result;

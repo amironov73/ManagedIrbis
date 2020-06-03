@@ -17,6 +17,7 @@ using System.Text;
 
 using AM.Logging;
 using AM.Runtime;
+using AM.Security;
 
 using CodeJam;
 
@@ -85,6 +86,52 @@ namespace AM.Configuration
 
 #endif
             }
+        }
+
+        /// <summary>
+        /// Декодирование конфигурационной строки, если она закодирована или зашифрована.
+        /// </summary>
+        /// <param name="possiblyEncrypted">Строка конфигурации.</param>
+        /// <param name="password">Пароль. Если null, то используется пароль по умолчанию.</param>
+        /// <returns>Расшифрованная строка конфигурации.</returns>
+        [NotNull]
+        public static string DecryptString
+            (
+                [NotNull] string possiblyEncrypted,
+                [CanBeNull] string password
+            )
+        {
+            Code.NotNullNorEmpty(possiblyEncrypted, "possiblyEncrypted");
+
+            // Пустая строка зашифрованной быть не может.
+            if (string.IsNullOrEmpty(possiblyEncrypted))
+            {
+                return possiblyEncrypted;
+            }
+
+            // С восклицательного знака начинается строка,
+            // закодированная в банальный Base64.
+            if (possiblyEncrypted[0] == '!')
+            {
+                var enc = possiblyEncrypted.Substring(1);
+                var res = SecurityUtility.DecryptFromBase64(enc);
+                return res;
+            }
+
+            // Зашифрованная строка должна начинаться со знака вопроса.
+            if (possiblyEncrypted[0] != '?')
+            {
+                return possiblyEncrypted;
+            }
+
+            var encrypted = possiblyEncrypted.Substring(1);
+            if (string.IsNullOrEmpty(password))
+            {
+                password = "irbis";
+            }
+
+            var result = SecurityUtility.Decrypt(encrypted, password);
+            return result;
         }
 
         /// <summary>
@@ -412,6 +459,39 @@ namespace AM.Configuration
             {
                 result = s;
             }
+
+            return result;
+
+#endif
+        }
+
+        /// <summary>
+        /// Get string value from application configuration.
+        /// </summary>
+        [CanBeNull]
+        public static string GetString
+            (
+                [NotNull] string key,
+                [CanBeNull] string defaultValue,
+                [CanBeNull] string password
+            )
+        {
+            Code.NotNullNorEmpty(key, "key");
+
+#if DROID || ANDROID || UAP
+
+            return defaultValue;
+#else
+
+            string result = defaultValue;
+            string s = CM.AppSettings[key];
+
+            if (!string.IsNullOrEmpty(s))
+            {
+                result = s;
+            }
+
+            result = DecryptString(result, password);
 
             return result;
 

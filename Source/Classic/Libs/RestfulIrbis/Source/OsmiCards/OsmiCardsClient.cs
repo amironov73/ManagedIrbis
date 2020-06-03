@@ -221,6 +221,7 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// Запросить информацию по карте.
         /// </summary>
+        [CanBeNull]
         public OsmiCard GetCardInfo
             (
                 [NotNull] string cardNumber

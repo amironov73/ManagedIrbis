@@ -44,6 +44,7 @@ namespace ManagedIrbis
         /// <param name="possiblyEncrypted">Строка подключения.</param>
         /// <param name="password">Пароль. Если null, то используется пароль по умолчанию.</param>
         /// <returns>Расшифрованная строка подключения.</returns>
+        [NotNull]
         public static string DecryptConnectionString
             (
                 [NotNull] string possiblyEncrypted,
@@ -51,6 +52,12 @@ namespace ManagedIrbis
             )
         {
             Code.NotNullNorEmpty(possiblyEncrypted, "possiblyEncrypted");
+
+            // Пустая строка зашифрованной быть не может.
+            if (string.IsNullOrEmpty(possiblyEncrypted))
+            {
+                return possiblyEncrypted;
+            }
 
             // С восклицательного знака начинается строка,
             // закодированная в банальный Base64.
@@ -62,7 +69,6 @@ namespace ManagedIrbis
             }
 
             // Зашифрованная строка должна начинаться со знака вопроса.
-
             if (possiblyEncrypted[0] != '?')
             {
                 return possiblyEncrypted;
