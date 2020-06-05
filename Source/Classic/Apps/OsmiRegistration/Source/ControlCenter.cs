@@ -10,12 +10,7 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 using AM;
 using AM.Net;
@@ -27,17 +22,22 @@ using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Readers;
-using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-using RestfulIrbis;
 using RestfulIrbis.OsmiCards;
 
 using CM = System.Configuration.ConfigurationManager;
 
 #endregion
+
+// ReSharper disable LocalizableElement
+// ReSharper disable HeapView.BoxingAllocation
+// ReSharper disable HeapView.ObjectAllocation
+// ReSharper disable HeapView.ObjectAllocation.Evident
+// ReSharper disable SuggestVarOrType_BuiltInTypes
+// ReSharper disable SuggestVarOrType_SimpleTypes
+// ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace OsmiRegistration
 {
@@ -134,17 +134,18 @@ namespace OsmiRegistration
             Code.NotNull(reader, "reader");
 
             WriteLine(string.Empty);
-            WriteLine("Читатель {0}:", reader.Ticket);
 
-            if (string.IsNullOrEmpty(reader.FamilyName))
+            var ticket = reader.PassCard ?? reader.Ticket;
+            if (string.IsNullOrEmpty(ticket))
             {
-                WriteLine("Отсутствует фамилия!");
+                WriteLine("Отсутствует идентификатор!");
                 return false;
             }
 
-            if (string.IsNullOrEmpty(reader.Ticket))
+            WriteLine("Читатель {0}:", ticket);
+            if (string.IsNullOrEmpty(reader.FamilyName))
             {
-                WriteLine("Отсутствует идентификатор!");
+                WriteLine("Отсутствует фамилия!");
                 return false;
             }
 
@@ -163,7 +164,6 @@ namespace OsmiRegistration
             }
 
             WriteLine("Читатель удовлетворяет требованиям OSMICARDS");
-
             return true;
         }
 
@@ -193,8 +193,8 @@ namespace OsmiRegistration
         {
             Code.NotNull(reader, "reader");
 
-            string ticket = reader.Ticket.ThrowIfNull();
-
+            string ticket = (reader.PassCard ?? reader.Ticket)
+                .ThrowIfNull("ticket");
             Client.DeleteCard
                 (
                     ticket,
@@ -334,14 +334,14 @@ namespace OsmiRegistration
         {
             Code.NotNull(reader, "reader");
 
-            string ticket = reader.Ticket.ThrowIfNull();
+            string ticket = (reader.PassCard ?? reader.Ticket)
+                .ThrowIfNull("ticket");
             string[] emails = reader
                 .Record.ThrowIfNull("reader.Record")
                 .FMA(32);
 
             foreach (string email in emails)
             {
-
                 Client.SendCardMail
                     (
                         ticket,
@@ -359,7 +359,8 @@ namespace OsmiRegistration
         {
             Code.NotNull(reader, "reader");
 
-            string ticket = reader.Ticket.ThrowIfNull();
+            string ticket = (reader.PassCard ?? reader.Ticket)
+                .ThrowIfNull("ticket");
             string phoneNumber = reader.HomePhone.ThrowIfNull();
 
             Client.SendCardSms

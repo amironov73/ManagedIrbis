@@ -97,7 +97,16 @@ namespace ManagedIrbis.Readers
         public string DateOfBirth { get; set; }
 
         /// <summary>
-        /// Номер читательского. Поле 30.
+        /// Номер пропуска. Поле 22.
+        /// </summary>
+        [CanBeNull]
+        [Field(22)]
+        [XmlAttribute("passcard")]
+        [JsonProperty("passcard")]
+        public string PassCard { get; set; }
+
+        /// <summary>
+        /// Номер читательского. Идентификатор читателя. Поле 30.
         /// </summary>
         [CanBeNull]
         [Field(30)]
@@ -315,7 +324,7 @@ namespace ManagedIrbis.Readers
         public string Password { get; set; }
 
         /// <summary>
-        /// Возраст, годы
+        /// Возраст, годы.
         /// </summary>
         [XmlIgnore]
         [JsonIgnore]
@@ -510,6 +519,7 @@ namespace ManagedIrbis.Readers
                     FirstName = record.FM(11),
                     Patronymic = record.FM(12),
                     DateOfBirth = record.FM(21),
+                    PassCard = record.FM(22),
                     Ticket = record.FM(30),
                     Gender = record.FM(23),
                     Category = record.FM(50),

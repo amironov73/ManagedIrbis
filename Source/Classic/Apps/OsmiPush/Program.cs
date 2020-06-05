@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Program.cs --
+/* Program.cs -- notifies debtors about book prolongation.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -12,10 +12,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
+using AM.Configuration;
 
 using ManagedIrbis;
 using ManagedIrbis.Batch;
@@ -23,12 +22,26 @@ using ManagedIrbis.Readers;
 
 using Newtonsoft.Json.Linq;
 
-using RestfulIrbis;
 using RestfulIrbis.OsmiCards;
 
 using CM = System.Configuration.ConfigurationManager;
 
 #endregion
+
+/*
+
+    Утилита отправляет задолжникам уведомление о необходимости
+    продлить/сдать книги с помощью системы OsmiCards.
+
+ */
+
+// ReSharper disable LocalizableElement
+// ReSharper disable HeapView.BoxingAllocation
+// ReSharper disable HeapView.ObjectAllocation
+// ReSharper disable HeapView.ObjectAllocation.Evident
+// ReSharper disable SuggestVarOrType_BuiltInTypes
+// ReSharper disable SuggestVarOrType_SimpleTypes
+// ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace OsmiPush
 {
@@ -46,9 +59,18 @@ namespace OsmiPush
 
             try
             {
-                string baseUri = CM.AppSettings["baseUri"];
-                string apiID = CM.AppSettings["apiID"];
-                string apiKey = CM.AppSettings["apiKey"];
+                // Этим паролем может быть зашифрованы чувствительные данные
+                const string password = "irbis";
+
+                var baseUri = ConfigurationUtility
+                    .GetString("baseUri", null, password)
+                    .ThrowIfNull("baseUri");
+                var apiID = ConfigurationUtility
+                    .GetString("apiID", null, password)
+                    .ThrowIfNull("apiID");
+                var apiKey = ConfigurationUtility
+                    .GetString("apiKey", null, password)
+                    .ThrowIfNull("apiKey");
                 string connectionString = IrbisConnectionUtility
                     .GetStandardConnectionString()
                     .ThrowIfNull("connectionString");
@@ -71,6 +93,7 @@ namespace OsmiPush
                 List<string> recipients = new List<string>();
                 using (connection = new IrbisConnection(connectionString))
                 {
+                    // Получаем всех читателей из базы RDR
                     IEnumerable<MarcRecord> batch = BatchRecordReader.Search
                         (
                             connection,
@@ -82,11 +105,14 @@ namespace OsmiPush
                     foreach (MarcRecord record in batch)
                     {
                         ReaderInfo reader = ReaderInfo.Parse(record);
-                        string ticket = reader.Ticket;
+                        string ticket = (reader.PassCard ?? reader.Ticket)
+                            .ThrowIfNull("ticket");
                         if (!ticket.OneOf(cards))
                         {
                             continue;
                         }
+
+                        // Массив просроченных книг.
                         VisitInfo[] outdated = reader.Visits
                             .Where(v => !v.IsVisit)
                             .Where(v => !v.IsReturned)

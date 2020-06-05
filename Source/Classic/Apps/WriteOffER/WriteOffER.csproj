@@ -161,10 +161,6 @@
     <Reference Include="DevExpress.XtraVerticalGrid.v16.2, Version=16.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <HintPath>..\..\..\ThirdParty\DevExpress\DevExpress.XtraVerticalGrid.v16.2.dll</HintPath>
     </Reference>
-    <Reference Include="AM.Drawing, Version=1.9.3.3000, Culture=neutral, PublicKeyToken=6d1a05bf134decdf, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\AM.Drawing\bin\Debug\AM.Drawing.dll</HintPath>
-    </Reference>
     <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
       <Private>True</Private>

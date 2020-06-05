@@ -10,26 +10,27 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using AM;
 using AM.Logging;
 using AM.Net;
 using AM.Windows.Forms;
+
 using ManagedIrbis;
 using ManagedIrbis.Readers;
 
 using Newtonsoft.Json.Linq;
 
-
 #endregion
+
+// ReSharper disable LocalizableElement
+// ReSharper disable HeapView.BoxingAllocation
+// ReSharper disable HeapView.ObjectAllocation
+// ReSharper disable HeapView.ObjectAllocation.Evident
+// ReSharper disable SuggestVarOrType_BuiltInTypes
+// ReSharper disable SuggestVarOrType_SimpleTypes
+// ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace OsmiRegistration
 {
@@ -136,12 +137,9 @@ namespace OsmiRegistration
                 + description
                 + "</html>";
 
-            if (!chk)
-            {
-                return null;
-            }
-
-            return reader;
+            return !chk
+                ? null
+                : reader;
         }
 
         private void _searchButton_Click
@@ -174,7 +172,8 @@ namespace OsmiRegistration
                     return;
                 }
 
-                string ticket = reader.Ticket.ThrowIfNull();
+                string ticket = (reader.PassCard ?? reader.Ticket)
+                    .ThrowIfNull("ticket");
                 if (ControlCenter.CardExists(ticket))
                 {
                     MessageBox.Show("Карта уже существует");
@@ -229,11 +228,11 @@ namespace OsmiRegistration
                                 "Добавлен email: {0}",
                                 email
                             );
-
                     }
                 }
 
-                string ticket = reader.Ticket.ThrowIfNull();
+                string ticket = (reader.PassCard ?? reader.Ticket)
+                    .ThrowIfNull("ticket");
                 if (!ControlCenter.CardExists(ticket))
                 {
                     MessageBox.Show("Карты не существует");
@@ -262,7 +261,8 @@ namespace OsmiRegistration
                     return;
                 }
 
-                string ticket = reader.Ticket.ThrowIfNull();
+                string ticket = (reader.PassCard ?? reader.Ticket)
+                    .ThrowIfNull("ticket");
                 if (!ControlCenter.CardExists(ticket))
                 {
                     MessageBox.Show("Карты не существует");
@@ -298,7 +298,8 @@ namespace OsmiRegistration
                     return;
                 }
 
-                string ticket = reader.Ticket.ThrowIfNull();
+                string ticket = (reader.PassCard?? reader.Ticket)
+                    .ThrowIfNull("ticket");
                 if (!ControlCenter.CardExists(ticket))
                 {
                     MessageBox.Show("Карты не существует");
