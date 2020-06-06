@@ -1,0 +1,13 @@
+.good-sized {
+    min-width: 14rem;
+    max-width: 30rem;
+}
+
+.info-message {
+    text-align: center;
+    font-weight: bold;
+}
+
+.ordered {
+    background-color: #8fd19e;
+}
