@@ -78,6 +78,21 @@ namespace OsmiSamo
         private string templateName;
         private JObject template;
 
+        private void WriteLog
+            (
+                [NotNull] string format,
+                params object[] args
+            )
+        {
+            var fileName = Server.MapPath("~/SamoReg.log");
+
+            using (var writer = File.AppendText (fileName))
+            {
+                writer.Write("{0:yyyy-MM-dd HH:mm:ss}: ", DateTime.Now);
+                writer.WriteLine(format, args);
+            }
+        }
+
         private void Initialize()
         {
             // Этим паролем может быть зашифрованы чувствительные данные
@@ -202,13 +217,15 @@ namespace OsmiSamo
             try
             {
                 ticket = Request.Params.Get("ticket");
+                fio = Request.Params.Get("fio");
+                WriteLog("START {0} <{1}>", fio, ticket);
+                
                 if (string.IsNullOrEmpty(ticket))
                 {
                     ShowErrorMessage("Не задан номер читательского билета");
                     return;
                 }
 
-                fio = Request.Params.Get("fio");
                 if (string.IsNullOrEmpty (fio))
                 {
                     ShowErrorMessage("Не задано ФИО читателя");
@@ -267,6 +284,7 @@ namespace OsmiSamo
 
         private void ShowSuccessMessage(string mail)
         {
+            WriteLog("SUCCESS: " + mail);
             var fileName = Server.MapPath("~/Success.html");
             var contents = File.ReadAllText(fileName);
             contents = Regex.Replace(contents, "!!!.*!!!", mail);
@@ -275,6 +293,7 @@ namespace OsmiSamo
 
         private void ShowErrorMessage(string message)
         {
+            WriteLog("ERROR: " + message);
             var fileName = Server.MapPath("~/Error.html");
             var contents = File.ReadAllText(fileName);
             contents = Regex.Replace(contents, "!!!.*!!!", message);
