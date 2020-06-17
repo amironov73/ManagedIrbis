@@ -227,6 +227,14 @@ namespace OsmiSender
             Console.WriteLine("Card {0} created", cardNumber);
         }
 
+        private static string CleanupEmail
+            (
+                [NotNull] string email
+            )
+        {
+            return email.Replace(" ", string.Empty);
+        }
+
         private static void SendEmail()
         {
             var emails = reader
@@ -235,11 +243,15 @@ namespace OsmiSender
 
             foreach (var email in emails)
             {
-                client.SendCardMail
-                    (
-                        ticket,
-                        email
-                    );
+                var cleaned = CleanupEmail(email);
+                if (!string.IsNullOrEmpty(cleaned))
+                {
+                    client.SendCardMail
+                        (
+                            ticket,
+                            cleaned
+                        );
+                }
 
                 Console.WriteLine("Send letter to {0}", email);
             }

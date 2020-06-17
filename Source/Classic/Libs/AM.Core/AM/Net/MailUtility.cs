@@ -27,6 +27,18 @@ namespace AM.Net
         #region Public methods
 
         /// <summary>
+        /// Очистка e-mail от лишних символов.
+        /// </summary>
+        [NotNull]
+        public static string CleanupEmail
+            (
+                [NotNull] string email
+            )
+        {
+            return email.Replace(" ", string.Empty);
+        }
+
+        /// <summary>
         /// Верификация (приблизительная) e-mail.
         /// </summary>
         public static bool VerifyEmail

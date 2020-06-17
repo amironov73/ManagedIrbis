@@ -202,11 +202,15 @@ namespace OsmiSamo
 
             foreach (var email in emails)
             {
-                client.SendCardMail
-                    (
-                        ticket,
-                        email
-                    );
+                var cleaned = MailUtility.CleanupEmail(email);
+                if (!string.IsNullOrEmpty(cleaned))
+                {
+                    client.SendCardMail
+                        (
+                            ticket,
+                            cleaned
+                        );
+                }
 
                 Console.WriteLine("Send letter to {0}", email);
             }
@@ -219,7 +223,7 @@ namespace OsmiSamo
                 ticket = Request.Params.Get("ticket");
                 fio = Request.Params.Get("fio");
                 WriteLog("START {0} <{1}>", fio, ticket);
-                
+
                 if (string.IsNullOrEmpty(ticket))
                 {
                     ShowErrorMessage("Не задан номер читательского билета");
