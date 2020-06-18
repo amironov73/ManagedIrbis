@@ -11,16 +11,69 @@ using System.Linq;
 
 using AM;
 using AM.Configuration;
+
 using BLToolkit.Data;
 using BLToolkit.DataAccess;
 using BLToolkit.Mapping;
+
 using JetBrains.Annotations;
+
 using ManagedIrbis;
 
 #endregion
 
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable StringLiteralTypo
+
 namespace CoronaBooks
 {
+  /// <summary>
+  /// Студенты по данным Отдела кадров.
+  /// </summary>
+  [TableName("students")]
+  [UsedImplicitly]
+  public class Student 
+  {
+    /// <summary>
+    /// Идентификатор.
+    /// </summary>
+    [PrimaryKey]
+    public int Id { get; set; }
+
+    /// <summary>
+    /// ФИО.
+    /// </summary>
+    [MapField("fio")]
+    public string Name { get; set; }
+
+    /// <summary>
+    /// Факультет.
+    /// </summary>
+    public string Department { get; set; }
+
+    /// <summary>
+    /// Группа.
+    /// </summary>
+    [MapField("grp")]
+    public string Group { get; set; }
+
+    /// <summary>
+    /// Адрес.
+    /// </summary>
+    public string Address { get; set; }
+
+    /// <summary>
+    /// Телефон.
+    /// </summary>
+    public string Phone { get; set; }
+
+    /// <summary>
+    /// Статус.
+    /// </summary>
+    public string Status { get; set; }
+  }
+
   /// <summary>
   /// Книга научного фонда.
   /// </summary>
@@ -304,6 +357,11 @@ namespace CoronaBooks
     /// Группа.
     /// </summary>
     public string Group { get; [UsedImplicitly] set; }
+
+    /// <summary>
+    /// Идентификатор, присвоенный отделом кадров.
+    /// </summary>
+    public int IstuID { get; set; }
     
     /// <summary>
     /// Задолженный книги.
@@ -316,6 +374,7 @@ namespace CoronaBooks
     private static string descriptionFormat;
     private static string[] graduatedGroups;
     private static DbManager sql;
+    private static BLToolkit.Data.Linq.Table<Student> students;
     private static BLToolkit.Data.Linq.Table<Reader> readers;
     private static BLToolkit.Data.Linq.Table<Podsob> podsob;
     private static BLToolkit.Data.Linq.Table<Uch> uch;
@@ -323,6 +382,7 @@ namespace CoronaBooks
     private static BLToolkit.Data.Linq.Table<Magazine> magazines;
     private static BLToolkit.Data.Linq.Table<MagazineNumber> magazineNumbers;
     private static IrbisConnection irbis;
+    private static Student[] identifiedStudents;
     private static readonly List<Debtor> debtors = new List<Debtor> ();
     private static readonly Dictionary<string, string> uchDescriptions 
           = new Dictionary<string, string>();
@@ -387,6 +447,26 @@ namespace CoronaBooks
     }
 
     /// <summary>
+    /// Забираем данные из базы отдела кадров
+    /// </summary>
+    private static void CollectIdentified()
+    {
+      var istuDatabase = ConfigurationUtility.GetString
+        (
+            "istu",
+            "istu"
+        );
+      var currentDatabase = sql
+        .SetCommand("select DB_NAME()")
+        .ExecuteScalar<string>();
+      sql.SetCommand("use [" + istuDatabase + "]").ExecuteNonQuery();
+      students = sql.GetTable<Student>();
+      identifiedStudents = students.ToArray();
+      sql.SetCommand("use [" + currentDatabase + "]").ExecuteNonQuery();
+      Console.WriteLine("Total identified: {0}", identifiedStudents.Length);
+    }
+
+    /// <summary>
     /// Собираем сведения о задолжниках.
     /// </summary>
     private static void CollectDebtors()
@@ -404,7 +484,7 @@ namespace CoronaBooks
         .Where(r => r.Group != null)
         .ToArray();
       Console.WriteLine ("Total students: {0}", allStudents.Length);
-      
+
       // Отбираем только тех, кто в выпускающейся группе.
       var graduates =
         (
@@ -611,7 +691,21 @@ namespace CoronaBooks
         debtor.Books.Add(debt);
       }
     }
-    
+
+    /// <summary>
+    /// Идентификация задолжника.
+    /// </summary>
+    private static void IdentifyDebtor(Debtor debtor)
+    {
+        var match = identifiedStudents
+            .Where(student => student.Name.SameString(debtor.Name))
+            .ToArray();
+        if (match.Length == 1)
+        {
+            debtor.IstuID = match[0].Id;
+        }
+    }
+
     /// <summary>
     /// Сбор данных о данном читателе.
     /// </summary>
@@ -629,6 +723,7 @@ namespace CoronaBooks
         || (!string.IsNullOrEmpty (debtor.Alert) 
             &&  debtor.Alert.ToLowerInvariant().Contains ("долг")))
       {
+        IdentifyDebtor(debtor);
         debtors.Add(debtor);
       }
     }
@@ -685,8 +780,13 @@ namespace CoronaBooks
             {
               nameWithEmail += (" <" + debtor.Mail + ">");
             }
-            
             excel.WriteCell(1, nameWithEmail).FontSize(12).Bold();
+            excel.WriteLine();
+
+            var identifier = debtor.IstuID == 0 
+                ? "--" 
+                : debtor.IstuID.ToInvariantString();
+            excel.WriteCell(2, identifier).FontSize(12).RightJustify();
             excel.WriteLine();
 
             if (debtor.debtor || debtor.Everlasting)
@@ -740,6 +840,7 @@ namespace CoronaBooks
           ConnectToIrbis();
           using (irbis)
           {
+            CollectIdentified();
             CollectDebtors();
             Console.WriteLine("Disconnect from IRBIS");
           }

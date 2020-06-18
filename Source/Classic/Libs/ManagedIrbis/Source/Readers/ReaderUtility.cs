@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 using AM;
 using AM.Logging;
-
+using AM.Net;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -89,7 +89,7 @@ namespace ManagedIrbis.Readers
                 return email;
             }
 
-            email = email.Replace(" ", string.Empty);
+            email = MailUtility.CleanupEmail(email);
 
             return email;
         }

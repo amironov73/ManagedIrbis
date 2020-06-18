@@ -31,6 +31,9 @@
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
+    <PropertyGroup>
+      <ApplicationIcon>list.ico</ApplicationIcon>
+    </PropertyGroup>
     <ItemGroup>
         <Reference Include="AM.Core, Version=1.9.2.2906, Culture=neutral, PublicKeyToken=6d1a05bf134decdf">
           <HintPath>..\packages\ArsMagna.Core.1.9.2.2906\lib\net45\AM.Core.dll</HintPath>
@@ -197,7 +200,8 @@
       <Content Include="groups.txt">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-    </ItemGroup>
+      <Content Include="list.ico" />
+  </ItemGroup>
     <ItemGroup>
       <None Include="App.config" />
       <None Include="packages.config" />

@@ -9,6 +9,7 @@
 
 #region Using directives
 
+using System.Text;
 using System.Text.RegularExpressions;
 
 using CodeJam;
@@ -28,6 +29,7 @@ namespace AM.Net
 
         /// <summary>
         /// Очистка e-mail от лишних символов.
+        /// Перевод кириллических символов в латиницу.
         /// </summary>
         [NotNull]
         public static string CleanupEmail
@@ -35,7 +37,125 @@ namespace AM.Net
                 [NotNull] string email
             )
         {
-            return email.Replace(" ", string.Empty);
+            var result = new StringBuilder(email.Length);
+            foreach (var c in email)
+            {
+                // Пробелов и служебных символов вообще не должно быть
+                if (c <= ' ')
+                {
+                    continue;
+                }
+
+                // Превращаем кириллические буквы, похожие на латиницу,
+                // в визуально совпадающие латинские
+                switch (c)
+                {
+                    case 'А':
+                        result.Append('A');
+                        break;
+
+                    case 'а':
+                        result.Append('a');
+                        break;
+
+                    case 'В':
+                        result.Append('B');
+                        break;
+
+                    case 'в':
+                        result.Append('b');
+                        break;
+
+                    case 'С':
+                        result.Append('C');
+                        break;
+
+                    case 'с':
+                        result.Append('c');
+                        break;
+
+                    case 'Е':
+                        result.Append('E');
+                        break;
+
+                    case 'е':
+                        result.Append('e');
+                        break;
+
+                    case 'Н':
+                        result.Append('H');
+                        break;
+
+                    case 'п':
+                        result.Append('n');
+                        break;
+
+                    case 'К':
+                        result.Append('K');
+                        break;
+
+                    case 'к':
+                        result.Append('k');
+                        break;
+
+                    case 'М':
+                        result.Append('M');
+                        break;
+
+                    case 'м':
+                        result.Append('m');
+                        break;
+
+                    case 'О':
+                        result.Append('O');
+                        break;
+
+                    case 'о':
+                        result.Append('o');
+                        break;
+
+                    case 'Р':
+                        result.Append('P');
+                        break;
+
+                    case 'р':
+                        result.Append('p');
+                        break;
+
+                    case 'Т':
+                        result.Append('T');
+                        break;
+
+                    case 'т':
+                        result.Append('t');
+                        break;
+
+                    case 'Х':
+                        result.Append('x');
+                        break;
+
+                    case 'х':
+                        result.Append('x');
+                        break;
+
+                    case 'У':
+                        result.Append('Y');
+                        break;
+
+                    case 'у':
+                        result.Append('y');
+                        break;
+
+                    default:
+                        if (c < 256)
+                        {
+                            result.Append(char.ToUpper(c));
+                        }
+                        break;
+                }
+            }
+
+            return result.ToString();
         }
 
         /// <summary>
