@@ -37,11 +37,11 @@
             this._browser = new System.Windows.Forms.WebBrowser();
             this._createButton = new System.Windows.Forms.Button();
             this._sendEmailButton = new System.Windows.Forms.Button();
-            this._sendSmsButton = new System.Windows.Forms.Button();
             this._deleteButton = new System.Windows.Forms.Button();
             this._clearButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this._emailBox = new System.Windows.Forms.TextBox();
+            this._configButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // _logBox
@@ -55,7 +55,7 @@
             this._logBox.ReadOnly = true;
             this._logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this._logBox.Size = new System.Drawing.Size(584, 206);
-            this._logBox.TabIndex = 0;
+            this._logBox.TabIndex = 9;
             // 
             // _busyStripe
             // 
@@ -74,7 +74,7 @@
             this._ticketBox.Location = new System.Drawing.Point(12, 37);
             this._ticketBox.Name = "_ticketBox";
             this._ticketBox.Size = new System.Drawing.Size(372, 20);
-            this._ticketBox.TabIndex = 2;
+            this._ticketBox.TabIndex = 0;
             // 
             // label1
             // 
@@ -91,7 +91,7 @@
             this._searchButton.Location = new System.Drawing.Point(390, 34);
             this._searchButton.Name = "_searchButton";
             this._searchButton.Size = new System.Drawing.Size(182, 23);
-            this._searchButton.TabIndex = 4;
+            this._searchButton.TabIndex = 1;
             this._searchButton.Text = "Найти читателя по билету";
             this._searchButton.UseVisualStyleBackColor = true;
             this._searchButton.Click += new System.EventHandler(this._searchButton_Click);
@@ -105,7 +105,7 @@
             this._browser.MinimumSize = new System.Drawing.Size(20, 20);
             this._browser.Name = "_browser";
             this._browser.Size = new System.Drawing.Size(372, 113);
-            this._browser.TabIndex = 5;
+            this._browser.TabIndex = 8;
             // 
             // _createButton
             // 
@@ -113,7 +113,7 @@
             this._createButton.Location = new System.Drawing.Point(390, 63);
             this._createButton.Name = "_createButton";
             this._createButton.Size = new System.Drawing.Size(182, 23);
-            this._createButton.TabIndex = 6;
+            this._createButton.TabIndex = 2;
             this._createButton.Text = "Создать карту";
             this._createButton.UseVisualStyleBackColor = true;
             this._createButton.Click += new System.EventHandler(this._createButton_Click);
@@ -124,31 +124,19 @@
             this._sendEmailButton.Location = new System.Drawing.Point(390, 92);
             this._sendEmailButton.Name = "_sendEmailButton";
             this._sendEmailButton.Size = new System.Drawing.Size(182, 23);
-            this._sendEmailButton.TabIndex = 7;
+            this._sendEmailButton.TabIndex = 4;
             this._sendEmailButton.Text = "Послать email";
             this._sendEmailButton.UseVisualStyleBackColor = true;
             this._sendEmailButton.Click += new System.EventHandler(this._sendEmailButton_Click);
-            // 
-            // _sendSmsButton
-            // 
-            this._sendSmsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._sendSmsButton.Enabled = false;
-            this._sendSmsButton.Location = new System.Drawing.Point(390, 121);
-            this._sendSmsButton.Name = "_sendSmsButton";
-            this._sendSmsButton.Size = new System.Drawing.Size(182, 23);
-            this._sendSmsButton.TabIndex = 8;
-            this._sendSmsButton.Text = "Послать SMS";
-            this._sendSmsButton.UseVisualStyleBackColor = true;
-            this._sendSmsButton.Click += new System.EventHandler(this._sendSmsButton_Click);
             // 
             // _deleteButton
             // 
             this._deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._deleteButton.Enabled = false;
-            this._deleteButton.Location = new System.Drawing.Point(390, 150);
+            this._deleteButton.Location = new System.Drawing.Point(390, 121);
             this._deleteButton.Name = "_deleteButton";
             this._deleteButton.Size = new System.Drawing.Size(182, 23);
-            this._deleteButton.TabIndex = 9;
+            this._deleteButton.TabIndex = 5;
             this._deleteButton.Text = "Удалить карту";
             this._deleteButton.UseVisualStyleBackColor = true;
             this._deleteButton.Click += new System.EventHandler(this._deleteButton_Click);
@@ -156,10 +144,10 @@
             // _clearButton
             // 
             this._clearButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._clearButton.Location = new System.Drawing.Point(390, 179);
+            this._clearButton.Location = new System.Drawing.Point(390, 150);
             this._clearButton.Name = "_clearButton";
             this._clearButton.Size = new System.Drawing.Size(182, 23);
-            this._clearButton.TabIndex = 10;
+            this._clearButton.TabIndex = 6;
             this._clearButton.Text = "Очистить поля";
             this._clearButton.UseVisualStyleBackColor = true;
             this._clearButton.Click += new System.EventHandler(this._clearButton_Click);
@@ -180,18 +168,29 @@
             this._emailBox.Location = new System.Drawing.Point(12, 79);
             this._emailBox.Name = "_emailBox";
             this._emailBox.Size = new System.Drawing.Size(372, 20);
-            this._emailBox.TabIndex = 12;
+            this._emailBox.TabIndex = 3;
+            // 
+            // _configButton
+            // 
+            this._configButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._configButton.Location = new System.Drawing.Point(390, 179);
+            this._configButton.Name = "_configButton";
+            this._configButton.Size = new System.Drawing.Size(182, 23);
+            this._configButton.TabIndex = 7;
+            this._configButton.Text = "Настройки...";
+            this._configButton.UseVisualStyleBackColor = true;
+            this._configButton.Click += new System.EventHandler(this._configButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 442);
+            this.Controls.Add(this._configButton);
             this.Controls.Add(this._emailBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this._clearButton);
             this.Controls.Add(this._deleteButton);
-            this.Controls.Add(this._sendSmsButton);
             this.Controls.Add(this._sendEmailButton);
             this.Controls.Add(this._createButton);
             this.Controls.Add(this._browser);
@@ -222,11 +221,11 @@
         private System.Windows.Forms.WebBrowser _browser;
         private System.Windows.Forms.Button _createButton;
         private System.Windows.Forms.Button _sendEmailButton;
-        private System.Windows.Forms.Button _sendSmsButton;
         private System.Windows.Forms.Button _deleteButton;
         private System.Windows.Forms.Button _clearButton;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox _emailBox;
+        private System.Windows.Forms.Button _configButton;
     }
 }
 

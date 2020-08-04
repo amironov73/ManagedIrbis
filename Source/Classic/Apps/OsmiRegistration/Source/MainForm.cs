@@ -13,6 +13,7 @@ using System;
 using System.Windows.Forms;
 
 using AM;
+using AM.Configuration;
 using AM.Logging;
 using AM.Net;
 using AM.Windows.Forms;
@@ -325,5 +326,48 @@ namespace OsmiRegistration
         }
 
         #endregion
+
+        private void _configButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
+        {
+            string password1 = ConfigurationUtility.GetString
+                (
+                    "password",
+                    string.Empty
+                );
+
+            if (!string.IsNullOrEmpty(password1))
+            {
+
+                string password2 = string.Empty;
+                var rc = InputBox.Query
+                    (
+                        "Конфигурация системы",
+                        "Введите пароль",
+                        ref password2
+                    );
+                if (rc != DialogResult.OK)
+                {
+                    return;
+                }
+
+                if (password1 != password2)
+                {
+                    MessageBox.Show
+                        (
+                            "Введен неверный пароль!",
+                            "Конфигурация системы",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                    return;
+                }
+
+                Program.Configure(this);
+            }
+        }
     }
 }
