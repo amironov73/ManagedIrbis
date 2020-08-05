@@ -41,6 +41,7 @@ namespace OsmiRegistration
             {
                 if (ReferenceEquals(ownerWindow, null))
                 {
+                    form.TopMost = true;
                     form.ShowInTaskbar = true;
                 }
 

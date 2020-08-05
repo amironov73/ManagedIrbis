@@ -25,6 +25,7 @@ using Newtonsoft.Json.Linq;
 
 #endregion
 
+// ReSharper disable StringLiteralTypo
 // ReSharper disable LocalizableElement
 // ReSharper disable HeapView.BoxingAllocation
 // ReSharper disable HeapView.ObjectAllocation
@@ -100,8 +101,19 @@ namespace OsmiRegistration
             catch (Exception exception)
             {
                 Log.TraceException("MainForm::Load", exception);
-                ExceptionBox.Show(this, exception);
-                Application.Exit();
+                //ExceptionBox.Show(this, exception);
+                //Application.Exit();
+
+                ControlCenter.WriteLine
+                    (
+                        "\r\nОШИБКА: {0}: {1}",
+                        exception.GetType().Name,
+                        exception.Message
+                    );
+                ControlCenter.WriteLine(string.Empty);
+                ControlCenter.WriteLine("\r\nПРОВЕРЬТЕ КОНФИГУРАЦИЮ!");
+                ControlCenter.WriteLine(string.Empty);
+                return;
             }
 
             ControlCenter.WriteLine("Ready");
@@ -325,8 +337,6 @@ namespace OsmiRegistration
             _Clear();
         }
 
-        #endregion
-
         private void _configButton_Click
             (
                 object sender,
@@ -343,10 +353,12 @@ namespace OsmiRegistration
             {
 
                 string password2 = string.Empty;
+                InputBox.PasswordChar = '*';
                 var rc = InputBox.Query
                     (
                         "Конфигурация системы",
                         "Введите пароль",
+                        "Для изменения конфигурации необходимо ввести пароль",
                         ref password2
                     );
                 if (rc != DialogResult.OK)
@@ -369,5 +381,8 @@ namespace OsmiRegistration
                 Program.Configure(this);
             }
         }
+
+        #endregion
+
     }
 }

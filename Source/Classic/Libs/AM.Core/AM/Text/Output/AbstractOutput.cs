@@ -22,7 +22,7 @@ using MoonSharp.Interpreter;
 namespace AM.Text.Output
 {
     /// <summary>
-    /// Абстрактный объект текстового вывода. 
+    /// Абстрактный объект текстового вывода.
     /// Например, консоль или текстовое окно.
     /// </summary>
     [PublicAPI]
@@ -61,7 +61,7 @@ namespace AM.Text.Output
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public static AbstractOutput Null
@@ -77,7 +77,7 @@ namespace AM.Text.Output
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [NotNull]
         public static AbstractOutput Console
@@ -148,7 +148,7 @@ namespace AM.Text.Output
             );
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [StringFormatMethod("format")]
         public AbstractOutput Write
@@ -157,8 +157,8 @@ namespace AM.Text.Output
                 params object[] args
             )
         {
-            return Write 
-                ( 
+            return Write
+                (
                     string.Format
                         (
                             format,
@@ -168,7 +168,7 @@ namespace AM.Text.Output
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [StringFormatMethod("format")]
         public AbstractOutput WriteError
@@ -188,7 +188,7 @@ namespace AM.Text.Output
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
@@ -205,7 +205,7 @@ namespace AM.Text.Output
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [StringFormatMethod("format")]
         public AbstractOutput WriteLine
@@ -214,8 +214,8 @@ namespace AM.Text.Output
                 params object[] args
             )
         {
-            return Write 
-                ( 
+            return Write
+                (
                     string.Format
                         (
                             format,
@@ -226,7 +226,7 @@ namespace AM.Text.Output
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [StringFormatMethod("format")]
         public AbstractOutput WriteErrorLine
@@ -254,7 +254,7 @@ namespace AM.Text.Output
         public virtual void Dispose()
         {
         }
-        
+
         #endregion
     }
 }

@@ -33,23 +33,25 @@
             this._closeButton = new System.Windows.Forms.Button();
             this._checkButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this._databaseLabel = new System.Windows.Forms.Label();
+            this._passwordLabel = new System.Windows.Forms.Label();
+            this._loginLabel = new System.Windows.Forms.Label();
+            this._portLabel = new System.Windows.Forms.Label();
+            this._hostLabel = new System.Windows.Forms.Label();
             this._databaseBox = new System.Windows.Forms.TextBox();
             this._loginBox = new System.Windows.Forms.TextBox();
             this._passwordBox = new System.Windows.Forms.TextBox();
             this._portBox = new System.Windows.Forms.TextBox();
-            this._irbisBox = new System.Windows.Forms.TextBox();
+            this._hostBox = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this._urlBox = new System.Windows.Forms.TextBox();
-            this._idBox = new System.Windows.Forms.TextBox();
+            this._templateLabel = new System.Windows.Forms.Label();
+            this._templateBox = new System.Windows.Forms.TextBox();
+            this._keyLabel = new System.Windows.Forms.Label();
+            this._idLabel = new System.Windows.Forms.Label();
+            this._urlLabel = new System.Windows.Forms.Label();
             this._keyBox = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this._idBox = new System.Windows.Forms.TextBox();
+            this._urlBox = new System.Windows.Forms.TextBox();
             this.logBox1 = new AM.Windows.Forms.LogBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -62,8 +64,9 @@
             this._writeButton.Name = "_writeButton";
             this._writeButton.Size = new System.Drawing.Size(145, 23);
             this._writeButton.TabIndex = 3;
-            this._writeButton.Text = "Записать";
+            this._writeButton.Text = "Применить";
             this._writeButton.UseVisualStyleBackColor = true;
+            this._writeButton.Click += new System.EventHandler(this._writeButton_Click);
             // 
             // _closeButton
             // 
@@ -73,7 +76,7 @@
             this._closeButton.Name = "_closeButton";
             this._closeButton.Size = new System.Drawing.Size(277, 23);
             this._closeButton.TabIndex = 4;
-            this._closeButton.Text = "Отменить";
+            this._closeButton.Text = "Закрыть окно конфигуратора";
             this._closeButton.UseVisualStyleBackColor = true;
             this._closeButton.Click += new System.EventHandler(this._closeButton_Click);
             // 
@@ -86,21 +89,22 @@
             this._checkButton.TabIndex = 2;
             this._checkButton.Text = "Проверить";
             this._checkButton.UseVisualStyleBackColor = true;
+            this._checkButton.Click += new System.EventHandler(this._checkButton_Click);
             // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this._databaseLabel);
+            this.groupBox1.Controls.Add(this._passwordLabel);
+            this.groupBox1.Controls.Add(this._loginLabel);
+            this.groupBox1.Controls.Add(this._portLabel);
+            this.groupBox1.Controls.Add(this._hostLabel);
             this.groupBox1.Controls.Add(this._databaseBox);
             this.groupBox1.Controls.Add(this._loginBox);
             this.groupBox1.Controls.Add(this._passwordBox);
             this.groupBox1.Controls.Add(this._portBox);
-            this.groupBox1.Controls.Add(this._irbisBox);
+            this.groupBox1.Controls.Add(this._hostBox);
             this.groupBox1.Location = new System.Drawing.Point(12, 21);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(412, 171);
@@ -108,50 +112,50 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "ИРБИС";
             // 
-            // label5
+            // _databaseLabel
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(16, 120);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(72, 13);
-            this.label5.TabIndex = 15;
-            this.label5.Text = "База данных";
+            this._databaseLabel.AutoSize = true;
+            this._databaseLabel.Location = new System.Drawing.Point(13, 123);
+            this._databaseLabel.Name = "_databaseLabel";
+            this._databaseLabel.Size = new System.Drawing.Size(72, 13);
+            this._databaseLabel.TabIndex = 15;
+            this._databaseLabel.Text = "База данных";
             // 
-            // label4
+            // _passwordLabel
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(230, 74);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(45, 13);
-            this.label4.TabIndex = 14;
-            this.label4.Text = "Пароль";
+            this._passwordLabel.AutoSize = true;
+            this._passwordLabel.Location = new System.Drawing.Point(230, 74);
+            this._passwordLabel.Name = "_passwordLabel";
+            this._passwordLabel.Size = new System.Drawing.Size(45, 13);
+            this._passwordLabel.TabIndex = 14;
+            this._passwordLabel.Text = "Пароль";
             // 
-            // label3
+            // _loginLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 73);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(78, 13);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "Логин ИРБИС";
+            this._loginLabel.AutoSize = true;
+            this._loginLabel.Location = new System.Drawing.Point(13, 73);
+            this._loginLabel.Name = "_loginLabel";
+            this._loginLabel.Size = new System.Drawing.Size(78, 13);
+            this._loginLabel.TabIndex = 13;
+            this._loginLabel.Text = "Логин ИРБИС";
             // 
-            // label2
+            // _portLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(230, 25);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(32, 13);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "Порт";
+            this._portLabel.AutoSize = true;
+            this._portLabel.Location = new System.Drawing.Point(230, 25);
+            this._portLabel.Name = "_portLabel";
+            this._portLabel.Size = new System.Drawing.Size(32, 13);
+            this._portLabel.TabIndex = 12;
+            this._portLabel.Text = "Порт";
             // 
-            // label1
+            // _hostLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 24);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(135, 13);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "IP-адрес сервера ИРБИС";
+            this._hostLabel.AutoSize = true;
+            this._hostLabel.Location = new System.Drawing.Point(13, 24);
+            this._hostLabel.Name = "_hostLabel";
+            this._hostLabel.Size = new System.Drawing.Size(135, 13);
+            this._hostLabel.TabIndex = 11;
+            this._hostLabel.Text = "IP-адрес сервера ИРБИС";
             // 
             // _databaseBox
             // 
@@ -174,6 +178,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this._passwordBox.Location = new System.Drawing.Point(233, 90);
             this._passwordBox.Name = "_passwordBox";
+            this._passwordBox.PasswordChar = '*';
             this._passwordBox.Size = new System.Drawing.Size(161, 20);
             this._passwordBox.TabIndex = 3;
             // 
@@ -187,21 +192,23 @@
             this._portBox.TabIndex = 1;
             this._portBox.Text = "6666";
             // 
-            // _irbisBox
+            // _hostBox
             // 
-            this._irbisBox.Location = new System.Drawing.Point(16, 40);
-            this._irbisBox.Name = "_irbisBox";
-            this._irbisBox.Size = new System.Drawing.Size(195, 20);
-            this._irbisBox.TabIndex = 0;
+            this._hostBox.Location = new System.Drawing.Point(16, 40);
+            this._hostBox.Name = "_hostBox";
+            this._hostBox.Size = new System.Drawing.Size(195, 20);
+            this._hostBox.TabIndex = 0;
             // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this._templateLabel);
+            this.groupBox2.Controls.Add(this._templateBox);
+            this.groupBox2.Controls.Add(this._keyLabel);
+            this.groupBox2.Controls.Add(this._idLabel);
+            this.groupBox2.Controls.Add(this._urlLabel);
             this.groupBox2.Controls.Add(this._keyBox);
             this.groupBox2.Controls.Add(this._idBox);
             this.groupBox2.Controls.Add(this._urlBox);
@@ -212,6 +219,68 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "API";
             // 
+            // _templateLabel
+            // 
+            this._templateLabel.AutoSize = true;
+            this._templateLabel.Location = new System.Drawing.Point(230, 70);
+            this._templateLabel.Name = "_templateLabel";
+            this._templateLabel.Size = new System.Drawing.Size(46, 13);
+            this._templateLabel.TabIndex = 5;
+            this._templateLabel.Text = "Шаблон";
+            // 
+            // _templateBox
+            // 
+            this._templateBox.Location = new System.Drawing.Point(233, 86);
+            this._templateBox.Name = "_templateBox";
+            this._templateBox.Size = new System.Drawing.Size(161, 20);
+            this._templateBox.TabIndex = 4;
+            this._templateBox.Text = "chb";
+            // 
+            // _keyLabel
+            // 
+            this._keyLabel.AutoSize = true;
+            this._keyLabel.Location = new System.Drawing.Point(13, 109);
+            this._keyLabel.Name = "_keyLabel";
+            this._keyLabel.Size = new System.Drawing.Size(25, 13);
+            this._keyLabel.TabIndex = 3;
+            this._keyLabel.Text = "Key";
+            // 
+            // _idLabel
+            // 
+            this._idLabel.AutoSize = true;
+            this._idLabel.Location = new System.Drawing.Point(16, 70);
+            this._idLabel.Name = "_idLabel";
+            this._idLabel.Size = new System.Drawing.Size(18, 13);
+            this._idLabel.TabIndex = 2;
+            this._idLabel.Text = "ID";
+            // 
+            // _urlLabel
+            // 
+            this._urlLabel.AutoSize = true;
+            this._urlLabel.Location = new System.Drawing.Point(16, 28);
+            this._urlLabel.Name = "_urlLabel";
+            this._urlLabel.Size = new System.Drawing.Size(29, 13);
+            this._urlLabel.TabIndex = 1;
+            this._urlLabel.Text = "URL";
+            // 
+            // _keyBox
+            // 
+            this._keyBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._keyBox.Location = new System.Drawing.Point(13, 125);
+            this._keyBox.Name = "_keyBox";
+            this._keyBox.Size = new System.Drawing.Size(381, 20);
+            this._keyBox.TabIndex = 2;
+            // 
+            // _idBox
+            // 
+            this._idBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._idBox.Location = new System.Drawing.Point(16, 86);
+            this._idBox.Name = "_idBox";
+            this._idBox.Size = new System.Drawing.Size(195, 20);
+            this._idBox.TabIndex = 1;
+            // 
             // _urlBox
             // 
             this._urlBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -220,51 +289,6 @@
             this._urlBox.Name = "_urlBox";
             this._urlBox.Size = new System.Drawing.Size(378, 20);
             this._urlBox.TabIndex = 0;
-            // 
-            // _idBox
-            // 
-            this._idBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._idBox.Location = new System.Drawing.Point(16, 86);
-            this._idBox.Name = "_idBox";
-            this._idBox.Size = new System.Drawing.Size(378, 20);
-            this._idBox.TabIndex = 1;
-            // 
-            // _keyBox
-            // 
-            this._keyBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._keyBox.Location = new System.Drawing.Point(13, 125);
-            this._keyBox.Name = "_keyBox";
-            this._keyBox.Size = new System.Drawing.Size(378, 20);
-            this._keyBox.TabIndex = 2;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(16, 28);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(29, 13);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "URL";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(16, 70);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(18, 13);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "ID";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(13, 109);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(25, 13);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "Key";
             // 
             // logBox1
             // 
@@ -298,6 +322,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Настройка приложения";
+            this.Load += new System.EventHandler(this.ConfigurationForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -312,23 +337,25 @@
         private System.Windows.Forms.Button _closeButton;
         private System.Windows.Forms.Button _checkButton;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label _databaseLabel;
+        private System.Windows.Forms.Label _passwordLabel;
+        private System.Windows.Forms.Label _loginLabel;
+        private System.Windows.Forms.Label _portLabel;
+        private System.Windows.Forms.Label _hostLabel;
         private System.Windows.Forms.TextBox _databaseBox;
         private System.Windows.Forms.TextBox _loginBox;
         private System.Windows.Forms.TextBox _passwordBox;
         private System.Windows.Forms.TextBox _portBox;
-        private System.Windows.Forms.TextBox _irbisBox;
+        private System.Windows.Forms.TextBox _hostBox;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label _keyLabel;
+        private System.Windows.Forms.Label _idLabel;
+        private System.Windows.Forms.Label _urlLabel;
         private System.Windows.Forms.TextBox _keyBox;
         private System.Windows.Forms.TextBox _idBox;
         private System.Windows.Forms.TextBox _urlBox;
         private AM.Windows.Forms.LogBox logBox1;
+        private System.Windows.Forms.Label _templateLabel;
+        private System.Windows.Forms.TextBox _templateBox;
     }
 }

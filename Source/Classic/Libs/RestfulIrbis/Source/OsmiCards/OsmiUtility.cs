@@ -68,10 +68,10 @@ namespace RestfulIrbis.OsmiCards
                     b => b["label"].Value<string>() == label
                 );
 
-            if (ReferenceEquals(result, null))
-            {
-                throw new Exception("Block not found: " + label);
-            }
+            //if (ReferenceEquals(result, null))
+            //{
+            //    throw new Exception("Block not found: " + label);
+            //}
 
             return result;
         }
@@ -102,31 +102,43 @@ namespace RestfulIrbis.OsmiCards
             JObject result = (JObject) templateObject.DeepClone();
 
             JObject block = FindLabel(result, "Читатель");
-            block["value"] = fio;
+            if (!ReferenceEquals(block, null))
+            {
+                block["value"] = fio;
+            }
 
             block = FindLabel(result, "Ваш личный кабинет");
-            string cabinetUrl = CM.AppSettings["cabinetUrl"];
-            block["value"] = string.Format
-                (
-                    cabinetUrl,
-                    UrlEncode(name),
-                    UrlEncode(ticket)
-                );
+            if (!ReferenceEquals(block, null))
+            {
+                string cabinetUrl = CM.AppSettings["cabinetUrl"];
+                block["value"] = string.Format
+                    (
+                        cabinetUrl,
+                        UrlEncode(name),
+                        UrlEncode(ticket)
+                    );
+            }
 
             block = FindLabel(result, "Поиск и заказ книг");
-            string catalogUrl = CM.AppSettings["catalogUrl"];
-            block["value"] = string.Format
-                (
-                    catalogUrl,
-                    UrlEncode(name),
-                    UrlEncode(ticket)
-                );
+            if (!ReferenceEquals(block, null))
+            {
+                string catalogUrl = CM.AppSettings["catalogUrl"];
+                block["value"] = string.Format
+                    (
+                        catalogUrl,
+                        UrlEncode(name),
+                        UrlEncode(ticket)
+                    );
+            }
 
             block = (JObject)result["barcode"];
-            block.Property("messageType").Remove();
-            block.Property("signatureType").Remove();
-            block["message"] = ticket;
-            block["signature"] = ticket;
+            if (!ReferenceEquals(block, null))
+            {
+                block.Property("messageType")?.Remove();
+                block.Property("signatureType")?.Remove();
+                block["message"] = ticket;
+                block["signature"] = ticket;
+            }
 
             return result;
         }

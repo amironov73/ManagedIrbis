@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 /* InputBox.cs -- simple string value input dialog
- * Ars Magna project, http://arsmagna.ru 
+ * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
@@ -34,7 +34,10 @@ namespace AM.Windows.Forms
     {
         #region Properties
 
-
+        /// <summary>
+        /// Character for password entry.
+        /// </summary>
+        public static char PasswordChar;
 
         #endregion
 
@@ -78,60 +81,60 @@ namespace AM.Windows.Forms
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // panel1
-            // 
+            //
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.topLabel);
             this.panel1.Name = "panel1";
-            // 
+            //
             // pictureBox1
-            // 
+            //
             resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
-            // 
+            //
             // topLabel
-            // 
+            //
             resources.ApplyResources(this.topLabel, "topLabel");
             this.topLabel.Name = "topLabel";
-            // 
+            //
             // promptLabel
-            // 
+            //
             resources.ApplyResources(this.promptLabel, "promptLabel");
             this.promptLabel.Name = "promptLabel";
-            // 
+            //
             // inputTextBox
-            // 
+            //
             resources.ApplyResources(this.inputTextBox, "inputTextBox");
             this.inputTextBox.Name = "inputTextBox";
-            // 
+            //
             // imageList1
-            // 
+            //
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.White;
             this.imageList1.Images.SetKeyName(0, "");
             this.imageList1.Images.SetKeyName(1, "");
-            // 
+            //
             // okButton
-            // 
+            //
             resources.ApplyResources(this.okButton, "okButton");
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.okButton.ImageList = this.imageList1;
             this.okButton.Name = "okButton";
-            // 
+            //
             // cancelButton
-            // 
+            //
             resources.ApplyResources(this.cancelButton, "cancelButton");
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.ImageList = this.imageList1;
             this.cancelButton.Name = "cancelButton";
-            // 
+            //
             // InputBox
-            // 
+            //
             this.AcceptButton = this.okButton;
             resources.ApplyResources(this, "$this");
             this.CancelButton = this.cancelButton;
@@ -174,7 +177,7 @@ namespace AM.Windows.Forms
         #region Public methods
 
         /// <summary>
-        /// Запрашивает у пользователя строковое значение 
+        /// Запрашивает у пользователя строковое значение
         /// (предлагая значение по умолчанию).
         /// </summary>
         /// <param name="caption">Заголовок окна.</param>
@@ -216,13 +219,15 @@ namespace AM.Windows.Forms
         {
             using (InputBox box = new InputBox())
             {
-                if (topText != null)
+                if (!ReferenceEquals(topText, null))
                 {
                     box.topLabel.Text = topText;
                 }
                 box.Text = caption;
                 box.promptLabel.Text = prompt;
                 box.inputTextBox.Text = theValue;
+                box.inputTextBox.PasswordChar = PasswordChar;
+
                 DialogResult result = box.ShowDialog();
                 theValue = box.inputTextBox.Text;
 
