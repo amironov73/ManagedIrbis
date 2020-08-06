@@ -314,6 +314,7 @@ namespace OsmiRegistration
                 ClearLog();
                 ToConfig();
                 Config.Save();
+                CM.RefreshSection("appSettings");
                 WriteLog("\r\n\r\nКонфигурация успешно сохранена");
                 Close();
             }

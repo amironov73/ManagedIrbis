@@ -31,6 +31,9 @@ using RestSharp;
 
 #endregion
 
+// ReSharper disable StringLiteralTypo
+// ReSharper disable UseNameofExpression
+
 namespace RestfulIrbis.OsmiCards
 {
     /// <summary>
@@ -265,7 +268,7 @@ namespace RestfulIrbis.OsmiCards
 
             JObject result = JObject.Parse(response.Content);
 
-            return result["link"].Value<string>();
+            return result["link"]?.Value<string>();
         }
 
         // =========================================================
@@ -284,7 +287,7 @@ namespace RestfulIrbis.OsmiCards
 
             JObject result = JObject.Parse(response.Content);
 
-            return result["cards"].Values<string>().ToArray();
+            return result["cards"]?.Values<string>().ToArray();
         }
 
         // =========================================================
@@ -322,7 +325,7 @@ namespace RestfulIrbis.OsmiCards
 
             JObject result = JObject.Parse(response.Content);
 
-            return result["images"].ToObject<OsmiImage[]>();
+            return result["images"]?.ToObject<OsmiImage[]>();
         }
 
         // =========================================================
@@ -402,7 +405,7 @@ namespace RestfulIrbis.OsmiCards
 
             JObject result = JObject.Parse(response.Content);
 
-            return result["templates"].Values<string>().ToArray();
+            return result["templates"]?.Values<string>().ToArray();
         }
 
         // =========================================================
@@ -456,7 +459,11 @@ namespace RestfulIrbis.OsmiCards
             foreach (JObject element in responseArray
                 .Children<JObject>())
             {
-                result.Add(element["serial"].Value<string>());
+                var item = element["serial"]?.Value<string>();
+                if (!string.IsNullOrEmpty(item))
+                {
+                    result.Add(item);
+                }
             }
 
             return result.ToArray();
@@ -691,6 +698,63 @@ namespace RestfulIrbis.OsmiCards
 
             /* IRestResponse response = */
             Connection.Execute(request);
+        }
+
+        // =========================================================
+
+        /// <summary>
+        /// Получение регистрационных данных для карт.
+        ///
+        /// Эта команда позволяет получить ранее сохраненные
+        /// регистрационные данные для карт, которые использовали
+        /// параметры полей из заданной группы. Данные возвращаются
+        /// только для карт со статусом <code>–registered–</code>.
+        /// </summary>
+        /// <param name="groupName">Имя группы</param>
+        /// <returns>Массив регистрационных данных.</returns>
+        [NotNull]
+        public OsmiRegistrationInfo[] GetRegistrations
+            (
+                [NotNull] string groupName
+            )
+        {
+            Code.NotNullNorEmpty(groupName, "groupName");
+
+            RestRequest request = new RestRequest
+                (
+                    "/registration/data/{group}",
+                    Method.GET
+                );
+            request.AddUrlSegment("group", groupName);
+            IRestResponse response = Connection.Execute(request);
+            JObject result = JObject.Parse(response.Content);
+
+            return result["registrations"]
+                ?.ToObject<OsmiRegistrationInfo[]>()
+                ?? EmptyArray<OsmiRegistrationInfo>.Value;
+        }
+
+        // =========================================================
+
+        /// <summary>
+        /// Удаление регистрационных данных карт.
+        ///
+        /// Эта команда удаляет ранее сохраненные регистрационные
+        /// данные карт.
+        /// </summary>
+        /// <param name="numbers">Список серийных номеров карт.</param>
+        public void DeleteRegistrations
+            (
+                [NotNull] string[] numbers
+            )
+        {
+            Code.NotNull(numbers, "numbers");
+
+            RestRequest request = new RestRequest
+                (
+                    "/registration/deletedata",
+                    Method.POST
+                );
         }
 
         // =========================================================

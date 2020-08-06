@@ -67,6 +67,35 @@ namespace OsmiRegistration
             ControlCenter.WriteLine("Shutdown");
         }
 
+        private bool CheckConfiguration()
+        {
+            while (true)
+            {
+                if (ControlCenter.CheckConfiguration())
+                {
+                    break;
+                }
+
+                var rc = MessageBox.Show
+                        (
+                            "Программа не сконфигурирована! Будете конфигурировать?",
+                            "Регистрация карт",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Error
+                        );
+                if (rc == DialogResult.Yes)
+                {
+                    Program.Configure(this);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private void MainForm_Load
             (
                 object sender,
@@ -82,6 +111,11 @@ namespace OsmiRegistration
 
             this.ShowVersionInfoInTitle();
             _logBox.Output.PrintSystemInformation();
+
+            if (!CheckConfiguration())
+            {
+                Environment.Exit(1);
+            }
 
             try
             {
@@ -383,6 +417,5 @@ namespace OsmiRegistration
         }
 
         #endregion
-
     }
 }

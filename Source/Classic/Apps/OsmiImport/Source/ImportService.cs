@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* BotService.cs --
+/* ImportService.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -20,13 +20,13 @@ using JetBrains.Annotations;
 
 #endregion
 
-namespace IrbisBot
+namespace OsmiImport
 {
     /// <summary>
     /// Обертка над сервисом Windows.
     /// </summary>
     [PublicAPI]
-    public class BotService
+    public sealed class ImportService
         : ServiceBase
     {
         #region Constants
@@ -34,7 +34,7 @@ namespace IrbisBot
         /// <summary>
         /// Service name.
         /// </summary>
-        public const string IrbisBot = "IRBIS.BOT";
+        public const string ImportDaemon = "IMPORT.daemon";
 
         #endregion
 
@@ -50,9 +50,9 @@ namespace IrbisBot
         /// <summary>
         /// Constructor.
         /// </summary>
-        public BotService()
+        public ImportService()
         {
-            ServiceName = IrbisBot;
+            ServiceName = ImportDaemon;
             AutoLog = true;
         }
 
@@ -63,59 +63,59 @@ namespace IrbisBot
         /// <inheritdoc cref="ServiceBase.OnContinue" />
         protected override void OnContinue()
         {
-            Log.Trace("BotService::OnContinue: enter");
+            Log.Trace("ImportService::OnContinue: enter");
 
             try
             {
                 base.OnContinue();
 
-                Bot.Paused = false;
+                Daemon.Paused = false;
             }
             catch (Exception exception)
             {
-                Log.TraceException("BotService::OnContinue", exception);
+                Log.TraceException("ImportService::OnContinue", exception);
             }
 
-            Log.Trace("BotService::OnContinue: leave");
+            Log.Trace("ImportService::OnContinue: leave");
         }
 
         /// <inheritdoc cref="ServiceBase.OnPause" />
         protected override void OnPause()
         {
-            Log.Trace("BotService::OnPause: enter");
+            Log.Trace("ImportService::OnPause: enter");
 
             try
             {
                 base.OnPause();
 
-                Bot.Paused = true;
+                Daemon.Paused = true;
             }
             catch (Exception exception)
             {
-                Log.TraceException("BotService::OnPause", exception);
+                Log.TraceException("ImportService::OnPause", exception);
             }
 
-            Log.Trace("BotService::OnPause: leave");
+            Log.Trace("ImportService::OnPause: leave");
         }
 
         /// <inheritdoc cref="ServiceBase.OnShutdown" />
         protected override void OnShutdown()
         {
-            Log.Trace("BotService::OnShutdown: enter");
+            Log.Trace("ImportService::OnShutdown: enter");
 
             try
             {
-                var client = Bot.GetClient();
-                client.StopReceiving();
+                //var client = Daemon.GetClient();
+                //client.StopReceiving();
 
                 base.OnShutdown();
             }
             catch (Exception exception)
             {
-                Log.TraceException("BotService::OnShutdown", exception);
+                Log.TraceException("ImportService::OnShutdown", exception);
             }
 
-            Log.Trace("BotService::OnShutdown: leave");
+            Log.Trace("ImportService::OnShutdown: leave");
         }
 
         /// <inheritdoc cref="ServiceBase.OnStart" />
@@ -124,7 +124,7 @@ namespace IrbisBot
                 string[] args
             )
         {
-            Log.Trace("BotService::OnStart: enter");
+            Log.Trace("ImportService::OnStart: enter");
 
             try
             {
@@ -133,35 +133,35 @@ namespace IrbisBot
                 string message = "Arguments: " + string.Join(" ", args);
                 EventLog.WriteEntry(message, EventLogEntryType.Information);
 
-                Bot.GetClient();
-                Bot.MessageLoop();
+                //Daemon.GetClient();
+                //Daemon.MessageLoop();
             }
             catch (Exception exception)
             {
-                Log.TraceException("BotService::OnStart", exception);
+                Log.TraceException("ImportService::OnStart", exception);
             }
 
-            Log.Trace("BotService::OnStart: leave");
+            Log.Trace("ImportService::OnStart: leave");
         }
 
         /// <inheritdoc cref="ServiceBase.OnStop" />
         protected override void OnStop()
         {
-            Log.Trace("BotService::OnStop: enter");
+            Log.Trace("ImportService::OnStop: enter");
 
             try
             {
-                var client = Bot.GetClient();
-                client.StopReceiving();
+                //var client = Daemon.GetClient();
+                //client.StopReceiving();
 
                 base.OnStop();
             }
             catch (Exception exception)
             {
-                Log.TraceException("BotService::OnStop", exception);
+                Log.TraceException("ImportService::OnStop", exception);
             }
 
-            Log.Trace("BotService::OnStop: leave");
+            Log.Trace("ImportService::OnStop: leave");
         }
 
         #endregion

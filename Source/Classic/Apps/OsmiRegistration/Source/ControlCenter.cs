@@ -54,10 +54,10 @@ namespace OsmiRegistration
         /// </summary>
         public static OsmiCardsClient Client { get; set; }
 
-        /// <summary>
-        /// Configuration.
-        /// </summary>
-        public static JObject Configuration { get; set; }
+        // /// <summary>
+        // /// Configuration.
+        // /// </summary>
+        //public static JObject Configuration { get; set; }
 
         /// <summary>
         /// Connection string for IRBIS-server.
@@ -270,6 +270,39 @@ namespace OsmiRegistration
         }
 
         /// <summary>
+        /// Проверка конфигурации.
+        /// </summary>
+        /// <returns><code>True</code>, если приложение сконфигурировано</returns>
+        public static bool CheckConfiguration()
+        {
+            var connectionString = IrbisConnectionUtility
+                .GetStandardConnectionString();
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                return false;
+            }
+
+            ConnectionSettings settings = new ConnectionSettings();
+            settings.ParseConnectionString(connectionString);
+            if (!settings.Verify(false))
+            {
+                return false;
+            }
+
+            var baseUri = CM.AppSettings["baseUri"];
+            var apiId = CM.AppSettings["apiID"];
+            var apiKey = CM.AppSettings["apiKey"];
+            if (string.IsNullOrEmpty(baseUri)
+                || string.IsNullOrEmpty(apiId)
+                || string.IsNullOrEmpty(apiKey))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Initialize.
         /// </summary>
         public static void Initialize
@@ -279,10 +312,10 @@ namespace OsmiRegistration
         {
             Output = output;
 
-            Configuration = JObject.Parse
-                (
-                    File.ReadAllText("osmi.json")
-                );
+            //Configuration = JObject.Parse
+            //    (
+            //        File.ReadAllText("osmi.json")
+            //    );
 
             ConnectionString = IrbisConnectionUtility
                 .GetStandardConnectionString()
