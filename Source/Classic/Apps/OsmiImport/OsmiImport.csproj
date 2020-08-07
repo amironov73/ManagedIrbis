@@ -37,7 +37,7 @@
     <ApplicationIcon>BlueBook.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
@@ -79,6 +79,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Source\Daemon.cs" />
+    <Compile Include="Source\Importer.cs" />
     <Compile Include="Source\ImportService.cs">
       <SubType>Component</SubType>
     </Compile>

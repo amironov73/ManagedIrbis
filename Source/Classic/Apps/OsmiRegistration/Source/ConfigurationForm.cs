@@ -174,11 +174,11 @@ namespace OsmiRegistration
             var apiKey = ThrowIfEmpty("Key", _keyBox.Text.Trim());
 
             var result = new OsmiCardsClient
-            (
-                baseUri,
-                apiId,
-                apiKey
-            );
+                (
+                    baseUri,
+                    apiId,
+                    apiKey
+                );
 
             return result;
         }

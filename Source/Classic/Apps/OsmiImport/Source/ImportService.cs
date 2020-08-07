@@ -12,7 +12,6 @@
 using System;
 using System.Diagnostics;
 using System.ServiceProcess;
-using System.Threading.Tasks;
 
 using AM.Logging;
 
@@ -35,13 +34,6 @@ namespace OsmiImport
         /// Service name.
         /// </summary>
         public const string ImportDaemon = "IMPORT.daemon";
-
-        #endregion
-
-        #region Properties
-
-        [CanBeNull]
-        public Task WorkTask { get; private set; }
 
         #endregion
 
@@ -86,6 +78,7 @@ namespace OsmiImport
 
             try
             {
+                Log.Trace("Pause");
                 base.OnPause();
 
                 Daemon.Paused = true;
@@ -105,8 +98,7 @@ namespace OsmiImport
 
             try
             {
-                //var client = Daemon.GetClient();
-                //client.StopReceiving();
+                Daemon.Stop(2 * 1000);
 
                 base.OnShutdown();
             }
@@ -130,11 +122,18 @@ namespace OsmiImport
             {
                 base.OnStart(args);
 
-                string message = "Arguments: " + string.Join(" ", args);
+                string arguments = string.Join(" ", args);
+                if (string.IsNullOrEmpty(arguments))
+                {
+                    arguments = "--none--";
+                }
+                string message = "Arguments: " + arguments;
                 EventLog.WriteEntry(message, EventLogEntryType.Information);
+                Log.Trace(message);
 
-                //Daemon.GetClient();
-                //Daemon.MessageLoop();
+                Importer.LoadConfiguration(args);
+                Daemon.LoadConfiguration(args);
+                Daemon.Start();
             }
             catch (Exception exception)
             {
@@ -151,8 +150,7 @@ namespace OsmiImport
 
             try
             {
-                //var client = Daemon.GetClient();
-                //client.StopReceiving();
+                Daemon.Stop();
 
                 base.OnStop();
             }

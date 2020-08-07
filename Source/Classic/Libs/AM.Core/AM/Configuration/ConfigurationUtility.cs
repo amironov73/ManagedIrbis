@@ -11,7 +11,9 @@
 #region Using directives
 
 using System;
+using System.Configuration;
 using System.Globalization;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -540,6 +542,74 @@ namespace AM.Configuration
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Whether the key is present.
+        /// </summary>
+        public static bool HasKey
+            (
+                [NotNull] string key
+            )
+        {
+            Code.NotNullNorEmpty(key, "key");
+
+            var keys = CM.AppSettings.Keys;
+            return keys.Cast<string>().Contains(key);
+        }
+
+        /// <summary>
+        /// Throw 'key not set exception'.
+        /// </summary>
+        public static void ThrowKeyNotSet
+            (
+                [NotNull] string key
+            )
+        {
+            Code.NotNullNorEmpty(key, "key");
+
+            Log.Error
+                (
+                    "ConfigurationUtility::RequireKey: "
+                    + "key '"
+                    + key
+                    + "' not set"
+                );
+
+            throw new ConfigurationErrorsException
+                (
+                    "configuration key '" + key + "' not set"
+                );
+        }
+
+        /// <summary>
+        /// Require the key must present.
+        /// </summary>
+        public static void RequireKey
+            (
+                [NotNull] string key
+            )
+        {
+            Code.NotNullNorEmpty(key, "key");
+
+            if (!HasKey(key))
+            {
+                ThrowKeyNotSet(key);
+            }
+        }
+
+        /// <summary>
+        /// Get integer value from application configuration.
+        /// </summary>
+        public static int RequireInt32
+            (
+                [NotNull] string key
+            )
+        {
+            Code.NotNullNorEmpty(key, "key");
+
+            RequireKey(key);
+            return GetInt32(key, 0);
         }
 
         /// <summary>
