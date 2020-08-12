@@ -1,6 +1,10 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CommentTypo
+// ReSharper disable LocalizableElement
+// ReSharper disable StringLiteralTypo
+
 /* ReaderInfo.cs -- информация о читателе.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -41,7 +45,8 @@ namespace ManagedIrbis.Readers
     [XmlRoot("reader")]
     [MoonSharpUserData]
     public sealed class ReaderInfo
-        : IHandmadeSerializable
+        : IHandmadeSerializable,
+          IVerifiable
     {
         #region Properties
 
@@ -625,15 +630,66 @@ namespace ManagedIrbis.Readers
         [NotNull]
         public MarcRecord ToRecord()
         {
-            // TODO Implement
+            var result = new MarcRecord();
 
-            Log.Error
-                (
-                    "ReaderInfo::ToRecord: "
-                    + "not implemented"
-                );
+            result.AddNonEmptyField(10, FamilyName)
+                .AddNonEmptyField(11, FirstName)
+                .AddNonEmptyField(12, Patronymic)
+                .AddNonEmptyField(15, WorkPlace)
+                .AddNonEmptyField(17, HomePhone)
+                .AddNonEmptyField(20, Education)
+                .AddNonEmptyField(21, DateOfBirth)
+                .AddNonEmptyField(22, PassCard)
+                .AddNonEmptyField(23, Gender)
+                .AddNonEmptyField(29, Rights)
+                .AddNonEmptyField(30, Ticket)
+                .AddNonEmptyField(32, Email)
+                .AddNonEmptyField(33, Remarks)
+                .AddNonEmptyField(50, Category)
+                .AddNonEmptyField(56, EnabledPlaces)
+                .AddNonEmptyField(57, DisabledPlaces)
+                .AddNonEmptyField(130, Password)
+                .AddNonEmptyField(950, PhotoFile)
+                ;
 
-            throw new NotImplementedException();
+            if (!ReferenceEquals(Address, null))
+            {
+                result.Fields.Add(Address.ToField());
+            }
+
+            if (!ReferenceEquals(Enrollment, null))
+            {
+                foreach (var enrollment in Enrollment)
+                {
+                    result.Fields.Add(enrollment.ToField());
+                }
+            }
+
+            if (!ReferenceEquals(Registrations, null))
+            {
+                foreach (var registration in Registrations)
+                {
+                    result.Fields.Add(registration.ToField());
+                }
+            }
+
+            if (!ReferenceEquals(Visits, null))
+            {
+                foreach (var visit in Visits)
+                {
+                    result.Fields.Add(visit.ToField());
+                }
+            }
+
+            if (!ReferenceEquals(Profiles, null))
+            {
+                foreach (var profile in Profiles)
+                {
+                    result.Fields.Add(profile.ToField());
+                }
+            }
+
+            return result;
         }
 
         #endregion
@@ -712,6 +768,22 @@ namespace ManagedIrbis.Readers
             Description = reader.ReadNullableString();
             Mfn = reader.ReadPackedInt32();
             Password = reader.ReadNullableString();
+        }
+
+        #endregion
+
+        #region IVerifiable members
+
+        /// <inheritdoc cref="IVerifiable.Verify" />
+        public bool Verify
+            (
+                bool throwOnError
+            )
+        {
+            bool result = !string.IsNullOrEmpty(FamilyName)
+                          && !string.IsNullOrEmpty(Ticket);
+
+            return true;
         }
 
         #endregion

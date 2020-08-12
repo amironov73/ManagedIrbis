@@ -190,6 +190,29 @@ namespace ManagedIrbis.Readers
         }
 
         /// <summary>
+        /// Конверсия обратно в поле.
+        /// </summary>
+        [NotNull]
+        public RecordField ToField()
+        {
+            var result = new RecordField(Tag)
+                .AddSubField('a', Active ? "1" : "0")
+                .AddNonEmptySubField('b', ID)
+                .AddNonEmptySubField('c', Title)
+                .AddNonEmptySubField('d', Query)
+                .AddNonEmptySubField('e', Periodicity.ToInvariantString())
+                .AddNonEmptySubField('f', LastServed)
+                .AddNonEmptySubField('i', Database);
+
+            if (!ReferenceEquals(UnknownSubFields, null))
+            {
+                result.AddSubFields(UnknownSubFields);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Разбор записи.
         /// </summary>
         [NotNull]

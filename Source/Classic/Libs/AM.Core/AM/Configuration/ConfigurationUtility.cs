@@ -643,6 +643,33 @@ namespace AM.Configuration
         }
 
         /// <summary>
+        /// Добавляет указанное значение.
+        /// </summary>
+        [NotNull]
+        public static KeyValueConfigurationCollection SetValue
+            (
+                this KeyValueConfigurationCollection collection,
+                [NotNull] string key,
+                [NotNull] string value
+            )
+        {
+            Code.NotNull(collection, "collection");
+            Code.NotNullNorEmpty(key, "key");
+            Code.NotNull(value, "value");
+
+            var element = collection[key];
+            if (ReferenceEquals(element, null))
+            {
+                collection.Add(key, value);
+                element = collection[key];
+            }
+
+            element.Value = value;
+
+            return collection;
+        }
+
+        /// <summary>
         /// Encrypt the text.
         /// </summary>
         /// <remarks>

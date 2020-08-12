@@ -1,6 +1,11 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable StringLiteralTypo
+// ReSharper disable LocalizableElement
+
 /* Program.cs -- entry point
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -15,6 +20,7 @@ using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceProcess;
+using System.Windows.Forms;
 
 using AM.Logging;
 using AM.Logging.NLog;
@@ -23,16 +29,25 @@ using ManagedIrbis;
 
 #endregion
 
-// ReSharper disable LocalizableElement
-// ReSharper disable StringLiteralTypo
-
 namespace OsmiImport
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     class Program
     {
+        private static void Configure()
+        {
+            Log.Trace("Program::Configure: enter");
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            ConfigurationForm.Configure();
+
+            Log.Trace("Program::Configure: exit");
+        }
+
         private static void RunService()
         {
             Log.Trace("Program::RunService: enter");
@@ -229,6 +244,10 @@ namespace OsmiImport
                     case "-c":
                     case "/c":
                         RunAsConsoleApplication(args);
+                        break;
+
+                    case "-config":
+                        Configure();
                         break;
 
                     case "-version":

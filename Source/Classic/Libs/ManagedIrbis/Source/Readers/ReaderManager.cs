@@ -1,6 +1,8 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CommentTypo
+
 /* ReaderManager.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -109,7 +111,7 @@ namespace ManagedIrbis.Readers
         {
             Code.NotNullNorEmpty(database, "database");
 
-            List<ReaderInfo> result = new List<ReaderInfo> 
+            List<ReaderInfo> result = new List<ReaderInfo>
                 (
                     Connection.GetMaxMfn() + 1
                 );
@@ -218,6 +220,29 @@ namespace ManagedIrbis.Readers
             }
 
             ReaderInfo result = ReaderInfo.Parse(record);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Поиск читателя, соответствующего выражению.
+        /// </summary>
+        [CanBeNull]
+        public ReaderInfo FindReader
+            (
+                [NotNull] string format,
+                params object[] args
+            )
+        {
+            Code.NotNullNorEmpty(format, "format");
+
+            var record = Connection.SearchReadOneRecord(format, args);
+            if (ReferenceEquals(record, null))
+            {
+                return null;
+            }
+
+            var result = ReaderInfo.Parse(record);
 
             return result;
         }

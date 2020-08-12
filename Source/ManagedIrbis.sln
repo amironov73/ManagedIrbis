@@ -361,6 +361,8 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OsmiRegSetup", "Classic\App
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsmiImport", "Classic\Apps\OsmiImport\OsmiImport.csproj", "{29BA1906-770F-46B6-A57B-F59449E66F78}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OsmiImportSetup", "Classic\Apps\OsmiImportSetup\OsmiImportSetup.vdproj", "{BA1E8652-A90F-409D-9722-3DF1183D7435}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -2471,6 +2473,12 @@ Global
 		{29BA1906-770F-46B6-A57B-F59449E66F78}.Release|x64.Build.0 = Release|Any CPU
 		{29BA1906-770F-46B6-A57B-F59449E66F78}.Release|x86.ActiveCfg = Release|Any CPU
 		{29BA1906-770F-46B6-A57B-F59449E66F78}.Release|x86.Build.0 = Release|Any CPU
+		{BA1E8652-A90F-409D-9722-3DF1183D7435}.Debug|Any CPU.ActiveCfg = Debug
+		{BA1E8652-A90F-409D-9722-3DF1183D7435}.Debug|x64.ActiveCfg = Debug
+		{BA1E8652-A90F-409D-9722-3DF1183D7435}.Debug|x86.ActiveCfg = Debug
+		{BA1E8652-A90F-409D-9722-3DF1183D7435}.Release|Any CPU.ActiveCfg = Release
+		{BA1E8652-A90F-409D-9722-3DF1183D7435}.Release|x64.ActiveCfg = Release
+		{BA1E8652-A90F-409D-9722-3DF1183D7435}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2649,6 +2657,7 @@ Global
 		{B356FF37-DBBE-411F-B40D-7F4852DBF425} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{2CAB4E82-0A56-46B7-B81C-5BA7C25DA01C} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 		{29BA1906-770F-46B6-A57B-F59449E66F78} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
+		{BA1E8652-A90F-409D-9722-3DF1183D7435} = {AB1C50A9-6C0A-4A9C-9AB2-CC1AAEAB10B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9210D671-3170-4F79-9CE3-2FE2B1208056}

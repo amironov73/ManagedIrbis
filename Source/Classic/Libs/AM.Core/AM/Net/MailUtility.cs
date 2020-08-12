@@ -18,6 +18,8 @@ using JetBrains.Annotations;
 
 #endregion
 
+// ReSharper disable CommentTypo
+
 namespace AM.Net
 {
     /// <summary>

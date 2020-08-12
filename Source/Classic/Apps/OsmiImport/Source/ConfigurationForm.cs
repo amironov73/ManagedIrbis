@@ -1,6 +1,11 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable StringLiteralTypo
+// ReSharper disable LocalizableElement
+
 /* ConfigurationForm.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -24,10 +29,7 @@ using CM=System.Configuration.ConfigurationManager;
 
 #endregion
 
-// ReSharper disable StringLiteralTypo
-// ReSharper disable LocalizableElement
-
-namespace OsmiRegistration
+namespace OsmiImport
 {
     /// <summary>
     /// Форма конфигурирования приложения.
@@ -46,6 +48,24 @@ namespace OsmiRegistration
         public ConfigurationForm()
         {
             InitializeComponent();
+        }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Конфигурирование.
+        /// </summary>
+        public static void Configure ()
+        {
+            using (var form = new ConfigurationForm())
+            {
+                form.TopMost = true;
+                form.ShowInTaskbar = true;
+
+                form.ShowDialog(null);
+            }
         }
 
         #endregion
@@ -159,10 +179,10 @@ namespace OsmiRegistration
             var connection = ToConnection();
             var settings = Config.AppSettings.Settings;
             settings.SetValue
-            (
-                "connectionString",
-                ConnectionSettings.FromConnection(connection).Encode()
-            );
+                (
+                    "connectionString",
+                    ConnectionSettings.FromConnection(connection).Encode()
+                );
 
             settings.SetValue("apiID", _idBox.Text);
             settings.SetValue("apiKey", _keyBox.Text);

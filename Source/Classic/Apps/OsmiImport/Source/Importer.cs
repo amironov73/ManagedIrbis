@@ -1,6 +1,9 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CommentTypo
+// ReSharper disable LocalizableElement
+
 /* Importer.cs -- pulls cards, imports readers
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -11,10 +14,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AM;
 using AM.Collections;
 using AM.Configuration;
 using AM.Logging;
@@ -27,10 +31,9 @@ using ManagedIrbis;
 using ManagedIrbis.Readers;
 
 using RestfulIrbis.OsmiCards;
+// ReSharper disable UseNameofExpression
 
 #endregion
-
-// ReSharper disable LocalizableElement
 
 namespace OsmiImport
 {
@@ -42,8 +45,31 @@ namespace OsmiImport
      * Ссылка на анкету для установки карт
      * https://hub.dicards.ru/a/220d94259e658a7c874e142f56583795b5b8339e/0
      *
-     * Шаблон карты - IRBIS 
+     * Шаблон карты - IRBIS
      * Регистрационная группа - IRBIS
+     */
+
+    /*
+     * Типичная регистрация:
+     *
+     * {
+     *   "registrations": [
+     *     {
+     *       "Имя": "Владимир",
+     *       "Фамилия": "Маяковский",
+     *       "Отчество": "-empty-",
+     *       "Пол": "Мужской",
+     *       "Дата_рождения": "01.08.1959",
+     *       "Телефон": "77892071374",
+     *       "Телефон_проверен": "-empty-",
+     *       "Оферта_принята": "1",
+     *       "Предложения": "-empty-",
+     *       "Мероприятия": "-empty-",
+     *       "DTS": "2020-08-07T21:39:52Z",
+     *       "serialNo": "IR00008"
+     *     }
+     *   ]
+     * }
      */
 
     /// <summary>
@@ -84,6 +110,11 @@ namespace OsmiImport
         /// </summary>
         public static string ApiGroup { get; set; }
 
+        /// <summary>
+        /// Категория, присваиваемая импортированным читателям.
+        /// </summary>
+        public static string ApiCategory { get; set; }
+
         #endregion
 
         #region Private members
@@ -97,7 +128,7 @@ namespace OsmiImport
         /// </summary>
         public static void LoadConfiguration
             (
-                string[] args
+                [NotNull] string[] args
             )
         {
             Log.Trace("Importer::LoadConfiguration: enter");
@@ -121,6 +152,7 @@ namespace OsmiImport
             ApiKey = ConfigurationUtility.RequireString("apiKey");
             ApiGroup = ConfigurationUtility.RequireString("group");
             TicketPrefix = ConfigurationUtility.GetString("prefix");
+            ApiCategory = ConfigurationUtility.GetString("category");
 
             Log.Trace("Importer::LoadConfiguration: exit");
         }
@@ -232,16 +264,114 @@ DONE:
 
             Log.Trace("Importer::CanImport: enter");
 
-            bool result = true;
+            var result = true;
 
             if (string.IsNullOrEmpty(questionnaire.Email))
             {
-                Log.Info("Import::CanImport: missing email for " + questionnaire.SerialNumber);
+                Log.Info
+                    (
+                        "Import::CanImport: missing email for "
+                        + questionnaire.SerialNumber
+                    );
                 result = false;
             }
 
             Log.Trace("Importer::CanImport: result=" + result);
             Log.Trace("Importer::CanImport: exit");
+
+            return result;
+        }
+
+        /// <summary>
+        /// Преобразуем анкету в данные о читателе.
+        /// </summary>
+        [NotNull]
+        public static ReaderInfo ToReader
+            (
+                [NotNull] OsmiRegistrationInfo questionnaire
+            )
+        {
+            Code.NotNull(questionnaire, "questionnaire");
+
+            var gender = GenderUtility.Parse(questionnaire.Gender);
+            DateTime birth;
+            bool haveBirth = DateTime.TryParseExact
+                (
+                    questionnaire.BirthDate,
+                    "dd/MM/yyyy",
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.None,
+                    out birth
+                );
+            var result = new ReaderInfo
+            {
+                Ticket = TicketPrefix + questionnaire.SerialNumber,
+                FirstName = questionnaire.Name,
+                Patronymic = questionnaire.MiddleName,
+                FamilyName = questionnaire.Surname,
+                Gender = GenderUtility.ToIrbis(gender),
+                Category = ApiCategory,
+            };
+
+            if (haveBirth)
+            {
+                result.DateOfBirth = birth.ToString
+                    (
+                        "yyyy",
+                        CultureInfo.InvariantCulture
+                    );
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Поиск, нет ли у нас в базе такого читателя.
+        /// </summary>
+        [CanBeNull]
+        public static ReaderInfo FindReader
+            (
+                [NotNull] ReaderManager manager,
+                [NotNull] ReaderInfo reader
+            )
+        {
+            Code.NotNull(manager, "manager");
+            Code.NotNull(reader, "reader");
+
+            ReaderInfo result = null;
+
+            if (!string.IsNullOrEmpty(reader.Ticket))
+            {
+                result = manager.GetReader(reader.Ticket);
+                if (!ReferenceEquals(result, null))
+                {
+                    return result;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(reader.Email))
+            {
+                result = manager.FindReader("\"EMAIL={0}\"", reader.Email);
+                if (!ReferenceEquals(result, null))
+                {
+                    return result;
+                }
+
+                result = manager.FindReader("\"MAIL={0}\"", reader.Email);
+                if (!ReferenceEquals(result, null))
+                {
+                    return result;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(reader.HomePhone))
+            {
+                result = manager.FindReader("\"PHONE={0}\"", reader.HomePhone);
+                if (!ReferenceEquals(result, null))
+                {
+                    return result;
+                }
+            }
 
             return result;
         }
@@ -257,14 +387,34 @@ DONE:
 
             Log.Trace("Importer::ImportReader: enter");
 
-            bool result = false;
-            ReaderInfo reader = new ReaderInfo
+            var result = false;
+            var reader = ToReader(questionnaire);
+            if (!reader.Verify(false))
             {
-                Ticket = TicketPrefix + questionnaire.SerialNumber
-            };
-            MarcRecord record = reader.ToRecord();
+                Log.Info
+                    (
+                        "Importer::ImportReader: reader not verified: "
+                         + questionnaire.SerialNumber
+                    );
+                goto DONE;
+            }
+
+            var record = reader.ToRecord();
+            if (!record.Verify(false))
+            {
+                Log.Info
+                    (
+                        "Importer::ImportReader: record not verified: "
+                        + questionnaire.SerialNumber
+                    );
+                goto DONE;
+            }
+
             manager.Connection.WriteRecord(record);
 
+            result = true;
+
+            DONE:
             Log.Trace("Importer::ImportReader: result=" + result);
             Log.Trace("Importer::ImportReader: exit");
 

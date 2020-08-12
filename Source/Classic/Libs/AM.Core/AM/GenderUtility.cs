@@ -1,6 +1,9 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+
 /* GenderUtility.cs -- для работы с перечислением Gender.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -41,6 +44,7 @@ namespace AM
                 case "МУЖ":
                 case "муж":
                 case "МУЖСКОЙ":
+                case "Мужской":
                 case "мужской":
                 case "M":
                 case "m":
@@ -54,6 +58,7 @@ namespace AM
                 case "ЖЕН":
                 case "жен":
                 case "ЖЕНСКИЙ":
+                case "Женский":
                 case "женский":
                 case "F":
                 case "f":
@@ -64,6 +69,28 @@ namespace AM
 
                 default:
                     return Gender.NotSet;
+            }
+        }
+
+        /// <summary>
+        /// Преобразование в строку, характерную для ИРБИС.
+        /// </summary>
+        [CanBeNull]
+        public static string ToIrbis
+            (
+                Gender gender
+            )
+        {
+            switch (gender)
+            {
+                case Gender.Male:
+                    return "м";
+
+                case Gender.Female:
+                    return "ж";
+
+                default:
+                    return null;
             }
         }
 

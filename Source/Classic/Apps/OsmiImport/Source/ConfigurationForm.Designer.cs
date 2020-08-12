@@ -1,4 +1,4 @@
-﻿namespace OsmiRegistration
+﻿namespace OsmiImport
 {
     partial class ConfigurationForm
     {
@@ -59,7 +59,7 @@
             // 
             // _writeButton
             // 
-            this._writeButton.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._writeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._writeButton.Location = new System.Drawing.Point(577, 16);
             this._writeButton.Name = "_writeButton";
             this._writeButton.Size = new System.Drawing.Size(145, 23);
@@ -70,7 +70,7 @@
             // 
             // _closeButton
             // 
-            this._closeButton.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._closeButton.Location = new System.Drawing.Point(445, 45);
             this._closeButton.Name = "_closeButton";
@@ -82,7 +82,7 @@
             // 
             // _checkButton
             // 
-            this._checkButton.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._checkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._checkButton.Location = new System.Drawing.Point(445, 16);
             this._checkButton.Name = "_checkButton";
             this._checkButton.Size = new System.Drawing.Size(127, 23);
@@ -93,7 +93,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this._databaseLabel);
             this.groupBox1.Controls.Add(this._passwordLabel);
             this.groupBox1.Controls.Add(this._loginLabel);
@@ -173,7 +174,8 @@
             // 
             // _passwordBox
             // 
-            this._passwordBox.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this._passwordBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._passwordBox.Location = new System.Drawing.Point(233, 90);
             this._passwordBox.Name = "_passwordBox";
             this._passwordBox.PasswordChar = '*';
@@ -182,7 +184,8 @@
             // 
             // _portBox
             // 
-            this._portBox.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this._portBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._portBox.Location = new System.Drawing.Point(233, 40);
             this._portBox.Name = "_portBox";
             this._portBox.Size = new System.Drawing.Size(161, 20);
@@ -198,7 +201,9 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this._templateLabel);
             this.groupBox2.Controls.Add(this._templateBox);
             this.groupBox2.Controls.Add(this._keyLabel);
@@ -260,7 +265,8 @@
             // 
             // _keyBox
             // 
-            this._keyBox.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this._keyBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._keyBox.Location = new System.Drawing.Point(13, 125);
             this._keyBox.Name = "_keyBox";
             this._keyBox.Size = new System.Drawing.Size(381, 20);
@@ -268,7 +274,8 @@
             // 
             // _idBox
             // 
-            this._idBox.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this._idBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._idBox.Location = new System.Drawing.Point(16, 86);
             this._idBox.Name = "_idBox";
             this._idBox.Size = new System.Drawing.Size(195, 20);
@@ -276,7 +283,8 @@
             // 
             // _urlBox
             // 
-            this._urlBox.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this._urlBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._urlBox.Location = new System.Drawing.Point(16, 44);
             this._urlBox.Name = "_urlBox";
             this._urlBox.Size = new System.Drawing.Size(378, 20);
@@ -307,7 +315,7 @@
             this.Controls.Add(this._closeButton);
             this.Controls.Add(this._writeButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ConfigurationForm";
@@ -321,33 +329,33 @@
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
-        private System.Windows.Forms.Button _checkButton;
-        private System.Windows.Forms.Button _closeButton;
-        private System.Windows.Forms.TextBox _databaseBox;
-        private System.Windows.Forms.Label _databaseLabel;
-        private System.Windows.Forms.TextBox _hostBox;
-        private System.Windows.Forms.Label _hostLabel;
-        private System.Windows.Forms.TextBox _idBox;
-        private System.Windows.Forms.Label _idLabel;
-        private System.Windows.Forms.TextBox _keyBox;
-        private System.Windows.Forms.Label _keyLabel;
-        private System.Windows.Forms.TextBox _loginBox;
-        private System.Windows.Forms.Label _loginLabel;
-        private System.Windows.Forms.TextBox _passwordBox;
-        private System.Windows.Forms.Label _passwordLabel;
-        private System.Windows.Forms.TextBox _portBox;
-        private System.Windows.Forms.Label _portLabel;
-        private System.Windows.Forms.TextBox _templateBox;
-        private System.Windows.Forms.Label _templateLabel;
-        private System.Windows.Forms.TextBox _urlBox;
-        private System.Windows.Forms.Label _urlLabel;
-        private System.Windows.Forms.Button _writeButton;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private AM.Windows.Forms.LogBox logBox1;
-
         #endregion
+        private System.Windows.Forms.Button _writeButton;
+        private System.Windows.Forms.Button _closeButton;
+        private System.Windows.Forms.Button _checkButton;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label _databaseLabel;
+        private System.Windows.Forms.Label _passwordLabel;
+        private System.Windows.Forms.Label _loginLabel;
+        private System.Windows.Forms.Label _portLabel;
+        private System.Windows.Forms.Label _hostLabel;
+        private System.Windows.Forms.TextBox _databaseBox;
+        private System.Windows.Forms.TextBox _loginBox;
+        private System.Windows.Forms.TextBox _passwordBox;
+        private System.Windows.Forms.TextBox _portBox;
+        private System.Windows.Forms.TextBox _hostBox;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label _keyLabel;
+        private System.Windows.Forms.Label _idLabel;
+        private System.Windows.Forms.Label _urlLabel;
+        private System.Windows.Forms.TextBox _keyBox;
+        private System.Windows.Forms.TextBox _idBox;
+        private System.Windows.Forms.TextBox _urlBox;
+        private AM.Windows.Forms.LogBox logBox1;
+        private System.Windows.Forms.Label _templateLabel;
+        private System.Windows.Forms.TextBox _templateBox;
     }
 }

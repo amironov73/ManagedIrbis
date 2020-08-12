@@ -206,6 +206,7 @@
     <Compile Include="AM\Net\AsyncSocket.cs" />
     <Compile Include="AM\Net\AsyncSocketResult.cs" />
     <Compile Include="AM\Net\MailUtility.cs" />
+    <Compile Include="AM\Net\PhoneUtility.cs" />
     <Compile Include="AM\NonNullValue.cs" />
     <Compile Include="AM\NumberOrString.cs" />
     <Compile Include="AM\NumberRange.cs" />

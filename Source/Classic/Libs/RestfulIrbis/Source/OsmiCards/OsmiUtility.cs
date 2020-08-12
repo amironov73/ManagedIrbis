@@ -1,6 +1,11 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable StringLiteralTypo
+// ReSharper disable UseNameofExpression
+
 /* OsmiUtility.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -141,6 +146,20 @@ namespace RestfulIrbis.OsmiCards
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Убираем '-empty-'.
+        /// </summary>
+        [CanBeNull]
+        public static string NullForEmpty
+            (
+                [CanBeNull] this string value
+            )
+        {
+            return value.SameString("-empty-")
+                ? null
+                : value;
         }
 
         /// <summary>

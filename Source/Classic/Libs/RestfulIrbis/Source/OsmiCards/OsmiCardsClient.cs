@@ -1,7 +1,12 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* OsmiCardsClient.cs --
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable StringLiteralTypo
+// ReSharper disable UseNameofExpression
+
+/* OsmiCardsClient.cs -- клиент DiCARDS
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -31,13 +36,10 @@ using RestSharp;
 
 #endregion
 
-// ReSharper disable StringLiteralTypo
-// ReSharper disable UseNameofExpression
-
 namespace RestfulIrbis.OsmiCards
 {
     /// <summary>
-    ///
+    /// Клиент DiCARDS.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -720,18 +722,28 @@ namespace RestfulIrbis.OsmiCards
         {
             Code.NotNullNorEmpty(groupName, "groupName");
 
-            RestRequest request = new RestRequest
+            var request = new RestRequest
                 (
                     "/registration/data/{group}",
                     Method.GET
                 );
             request.AddUrlSegment("group", groupName);
-            IRestResponse response = Connection.Execute(request);
-            JObject result = JObject.Parse(response.Content);
+            var response = Connection.Execute(request);
+            var content = JObject.Parse(response.Content);
+            var registrations = (JArray) content["registrations"];
+            if (ReferenceEquals(registrations, null))
+            {
+                return EmptyArray<OsmiRegistrationInfo>.Value;
+            }
 
-            return result["registrations"]
-                ?.ToObject<OsmiRegistrationInfo[]>()
-                ?? EmptyArray<OsmiRegistrationInfo>.Value;
+            var result = new List<OsmiRegistrationInfo>();
+            foreach (var registration in registrations)
+            {
+                var info = OsmiRegistrationInfo.FromJson((JObject) registration);
+                result.Add(info);
+            }
+
+            return result.ToArray();
         }
 
         // =========================================================
