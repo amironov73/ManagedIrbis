@@ -9,12 +9,6 @@
 
 #region Using directives
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -29,7 +23,7 @@ using Newtonsoft.Json.Linq;
 namespace RestfulIrbis.OsmiCards
 {
     /// <summary>
-    /// 
+    /// Карточка пользователя системы OSMI Cards.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
