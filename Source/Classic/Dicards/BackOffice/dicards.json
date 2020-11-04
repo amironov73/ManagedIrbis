@@ -1,0 +1,13 @@
+{
+    "connectionString": "",
+    "apiID": "",
+    "apiKey": "",
+    "baseUri": "",
+    "group": "IRBIS",
+    "prefix": "DICARDS-",
+    "category": "DICARDS",
+    "template": "chb",
+    "message": "Пора сдавать книги в библиотеку",
+    "format": "@brief",
+    "field": "books"
+}

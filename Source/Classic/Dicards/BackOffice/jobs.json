@@ -1,0 +1,30 @@
+﻿{
+    "jobs": [
+        {
+            "name": "Importer",
+            "group": "Dicards",
+            "description": "Reader importer job",
+            "enabled": true,
+            "type": "BackOffice.Jobs.ImporterJob, BackOffice",
+            "cron": "* 0/5 * * * ?"
+        },
+
+        {
+            "name": "Pusher",
+            "group": "Dicards",
+            "description": "Message pushing job",
+            "enabled": false,
+            "type": "BackOffice.Jobs.PushJob, BackOffice",
+            "cron": "0 30 14 * * ?"
+        },
+
+        {
+            "name": "Reminder",
+            "group": "Dicards",
+            "description": "Reminder job",
+            "enabled": false,
+            "type": "BackOffice.Jobs.RemindJob, BackOffice",
+            "cron": "0 0 14 * * ?"
+        }
+    ]
+}
