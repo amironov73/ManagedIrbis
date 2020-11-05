@@ -1,19 +1,19 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* OsmiValue.cs --
+// ReSharper disable CheckNamespace
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable UseNameofExpression
+// ReSharper disable UseStringInterpolation
+
+/* OsmiValue.cs -- пара "ключ-значение" в карте
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
  */
 
 #region Using directives
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 
@@ -31,7 +31,7 @@ using Newtonsoft.Json.Linq;
 namespace RestfulIrbis.OsmiCards
 {
     /// <summary>
-    /// 
+    /// Пара "ключ-значение" в карте.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -69,14 +69,6 @@ namespace RestfulIrbis.OsmiCards
 
         #endregion
 
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -91,7 +83,7 @@ namespace RestfulIrbis.OsmiCards
         {
             Code.NotNull(jObject, "jObject");
 
-            OsmiValue value = jObject.ToObject<OsmiValue>();
+            OsmiValue value = jObject.ToObject<OsmiValue>().ThrowIfNull();
 
             return value;
         }

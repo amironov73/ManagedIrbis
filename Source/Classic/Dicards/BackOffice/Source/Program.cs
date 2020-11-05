@@ -213,6 +213,7 @@ namespace BackOffice
         /// <summary>
         /// Точка входа в программу.
         /// </summary>
+        [STAThread]
         public static int Main(string[] args)
         {
             SetupLogging();

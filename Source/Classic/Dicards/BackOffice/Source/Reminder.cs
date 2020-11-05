@@ -11,15 +11,15 @@
 /* Reminder.cs -- напоминает читателям, какие книги у них на руках
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
- * Status: poor
  */
 
 #region Using directives
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-
+using System.Text;
 using AM;
 using AM.Collections;
 using AM.Configuration;
@@ -31,7 +31,10 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
+using ManagedIrbis.Batch;
 using ManagedIrbis.Readers;
+
+using Newtonsoft.Json.Linq;
 
 using RestfulIrbis.OsmiCards;
 
@@ -88,6 +91,108 @@ namespace BackOffice
             return result;
         }
 
+        private static bool UpdateCard
+            (
+                JObject card,
+                string label,
+                string newValue
+            )
+        {
+            var found = card.SelectToken($"$.values[?(@.label == '{label}')]");
+            if (ReferenceEquals(found, null))
+            {
+                return false;
+            }
+
+            found["value"] = new JValue(newValue);
+
+            return true;
+        }
+
+        private static void ProcessReader
+            (
+                ReaderInfo reader,
+                IrbisConnection connection,
+                OsmiCardsClient client
+            )
+        {
+            // Массив задолженных книг
+            var books = reader.Visits
+                .Where(v => !v.IsVisit)
+                .Where(v => !v.IsReturned)
+                .ToArray();
+            var builder = new StringBuilder(4096);
+
+            var index = 1;
+            foreach (var book in books)
+            {
+                var descriptions = connection.SearchFormat
+                    (
+                        $"\"I={book.Index}\"",
+                        Format
+                    );
+                if (descriptions.Length == 0)
+                {
+                    continue;
+                }
+
+                var description = descriptions
+                    .Select(item => item.Text)
+                    .FirstOrDefault(text => !string.IsNullOrEmpty(text));
+
+                if (index != 1)
+                {
+                    builder.Append("\n");
+                }
+
+                builder.AppendFormat("{0}. {1}", index, description);
+                ++index;
+            }
+
+            if (builder.Length != 0)
+            {
+                var ticket = reader.Ticket.ThrowIfNull("ticket");
+                var card = client.GetRawCard(ticket);
+                if (!ReferenceEquals(card, null))
+                {
+                    if (UpdateCard(card, Field, builder.ToString()))
+                    {
+                        client.UpdateCard(ticket, card.ToString(), true);
+                    }
+                }
+            }
+        }
+
+        private static void ProcessReaders
+            (
+                string[] cards,
+                OsmiCardsClient client
+            )
+        {
+            using (var connection = CreateConnection())
+            {
+                // Получаем всех читателей из базы RDR
+                IEnumerable<MarcRecord> batch = BatchRecordReader.Search
+                    (
+                        connection,
+                        "RDR",
+                        "RB=$",
+                        1000
+                    );
+
+                foreach (var record in batch)
+                {
+                    var reader = ReaderInfo.Parse(record);
+                    var ticket = (reader.PassCard ?? reader.Ticket)
+                        .ThrowIfNull("ticket");
+                    if (ticket.OneOf(cards))
+                    {
+                        ProcessReader(reader, connection, client);
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region Public methods
@@ -139,8 +244,9 @@ namespace BackOffice
             {
                 Log.Trace("Reminder::DoWork: enter");
 
+                var client = CreateClient();
+                var cards = client.GetCardList();
 
-            DONE:
                 Log.Trace("Reminder::DoWork: exit");
             }
             catch (Exception exception)

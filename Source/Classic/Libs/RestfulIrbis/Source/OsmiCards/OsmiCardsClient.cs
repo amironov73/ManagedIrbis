@@ -1,6 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CheckNamespace
 // ReSharper disable CommentTypo
 // ReSharper disable IdentifierTypo
 // ReSharper disable StringLiteralTypo
@@ -244,6 +245,31 @@ namespace RestfulIrbis.OsmiCards
             JObject jObject = JObject.Parse(response.Content);
 
             OsmiCard result = OsmiCard.FromJObject(jObject);
+
+            return result;
+        }
+
+        // =========================================================
+
+        /// <summary>
+        /// Запросить "сырую" информацию по карте.
+        /// </summary>
+        [CanBeNull]
+        public JObject GetRawCard
+            (
+                [NotNull] string cardNumber
+            )
+        {
+            Code.NotNullNorEmpty(cardNumber, "cardNumber");
+
+            RestRequest request = new RestRequest
+                (
+                    "/passes/{number}",
+                    Method.GET
+                );
+            request.AddUrlSegment("number", cardNumber);
+            IRestResponse response = Connection.Execute(request);
+            JObject result = JObject.Parse(response.Content);
 
             return result;
         }

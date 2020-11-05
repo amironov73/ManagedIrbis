@@ -11,7 +11,6 @@
 /* Pusher.cs -- пушит сообщения читателям
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
- * Status: poor
  */
 
 #region Using directives
@@ -84,12 +83,12 @@ namespace BackOffice
             var result = new List<string>();
             // Получаем всех читателей из базы RDR
             IEnumerable<MarcRecord> batch = BatchRecordReader.Search
-            (
-                connection,
-                "RDR",
-                "RB=$",
-                1000
-            );
+                (
+                    connection,
+                    "RDR",
+                    "RB=$",
+                    1000
+                );
 
             foreach (MarcRecord record in batch)
             {

@@ -3032,6 +3032,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -3056,6 +3064,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -3085,7 +3101,7 @@
             "Object" = "8:_1E41DDF383874A88B64E134F5D17AF92"
             "FileType" = "3:2"
             "InstallAction" = "3:2"
-            "Arguments" = "8:install start"
+            "Arguments" = "8:install"
             "EntryPoint" = "8:"
             "Sequence" = "3:2"
             "Identifier" = "8:_62DFDE12_F380_4BCB_9ADE_429A004ED25C"
@@ -9191,7 +9207,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Back Office"
         "ProductCode" = "8:{FA503C9E-2B81-467C-B287-E7F3E0C4B927}"
-        "PackageCode" = "8:{F9A93116-5F57-477D-B6EF-52E5BE60330B}"
+        "PackageCode" = "8:{175E5972-EC8E-4EB1-8488-06CE758C41B3}"
         "UpgradeCode" = "8:{8C4FCF1C-C4E7-43FA-B515-F90511805D70}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

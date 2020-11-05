@@ -1,7 +1,12 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* OsmiCard.cs --
+// ReSharper disable CheckNamespace
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable UseNameofExpression
+
+/* OsmiCard.cs -- карточка пользователя
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -40,14 +45,6 @@ namespace RestfulIrbis.OsmiCards
 
         #endregion
 
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -67,6 +64,7 @@ namespace RestfulIrbis.OsmiCards
             {
                 return null;
             }
+
             OsmiCard result = new OsmiCard
             {
                 Values = values.ToObject<OsmiValue[]>()
