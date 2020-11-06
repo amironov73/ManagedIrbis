@@ -1,6 +1,13 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable ArrangeAccessorOwnerBody
+// ReSharper disable CheckNamespace
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable StringLiteralTypo
+// ReSharper disable UseNameofExpression
+
 /* Kladovka.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -81,7 +88,7 @@ namespace AM.Istu.OldModel
         public AbstractOutput Output { get; private set; }
 
         /// <summary>
-        /// Table "podsob".
+        /// Научный фонд.
         /// </summary>
         [JetBrains.Annotations.NotNull]
         public Table<PodsobRecord> Podsob
@@ -90,7 +97,7 @@ namespace AM.Istu.OldModel
         }
 
         /// <summary>
-        /// Table "readers".
+        /// Читатели.
         /// </summary>
         [JetBrains.Annotations.NotNull]
         public Table<ReaderRecord> Readers
@@ -99,12 +106,38 @@ namespace AM.Istu.OldModel
         }
 
         /// <summary>
-        /// Table "translator".
+        /// Транслятор штрих-кодов.
         /// </summary>
         [JetBrains.Annotations.NotNull]
         public Table<TranslatorRecord> Translator
         {
             get { return DB.GetTable<TranslatorRecord>(); }
+        }
+
+        /// <summary>
+        /// Художественная литература.
+        /// </summary>
+        [JetBrains.Annotations.NotNull]
+        public Table<HudRecord> Hudo
+        {
+            get { return DB.GetTable<HudRecord>(); }
+        }
+
+        /// <summary>
+        /// Штрафы.
+        /// </summary>
+        [JetBrains.Annotations.NotNull]
+        public Table<SanctionRecord> Sanctions
+        {
+            get { return DB.GetTable<SanctionRecord>(); }
+        }
+
+        /// <summary>
+        /// Учебный фонд.
+        /// </summary>
+        public Table<UchRecord> Ucheb
+        {
+            get { return DB.GetTable<UchRecord>(); }
         }
 
         #endregion

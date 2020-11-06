@@ -1,6 +1,12 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CheckNamespace
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable StringLiteralTypo
+// ReSharper disable UseNameofExpression
+
 /* HudRecord.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -10,19 +16,10 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using AM.Configuration;
-using AM.Data;
-
+using BLToolkit.DataAccess;
 using BLToolkit.Mapping;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -39,6 +36,7 @@ namespace AM.Istu.OldModel
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [TableName("hudtrans")]
     public class HudRecord
     {
         #region Properties
@@ -46,11 +44,13 @@ namespace AM.Istu.OldModel
         /// <summary>
         /// Gets or sets the MFN.
         /// </summary>
+        [MapIgnore]
         public int Mfn { get; set; }
 
         /// <summary>
         /// Gets or sets the record.
         /// </summary>
+        [MapIgnore]
         public MarcRecord Record { get; set; }
 
         /// <summary>

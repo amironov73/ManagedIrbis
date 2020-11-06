@@ -1,6 +1,12 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CheckNamespace
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable StringLiteralTypo
+// ReSharper disable UseNameofExpression
+
 /* TranslatorRecord.cs -- 
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -10,27 +16,13 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AM.Configuration;
-using AM.Data;
-using AM.Logging;
 
 using BLToolkit.DataAccess;
 using BLToolkit.Mapping;
 
-using CodeJam;
-
 using JetBrains.Annotations;
 
 using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 
 #endregion
 

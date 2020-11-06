@@ -110,11 +110,11 @@
   <ItemGroup>
     <ProjectReference Include="..\AM.Core\AM.Core.4.6.csproj">
       <Project>{1126394a-4392-4341-8ddd-69b5c3e884d2}</Project>
-      <Name>AM.Core</Name>
+      <Name>AM.Core.4.6</Name>
     </ProjectReference>
     <ProjectReference Include="..\ManagedIrbis\ManagedIrbis.4.6.csproj">
       <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
-      <Name>ManagedIrbis</Name>
+      <Name>ManagedIrbis.4.6</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,12 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CheckNamespace
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable StringLiteralTypo
+// ReSharper disable UseNameofExpression
+
 /* SanctionRecord.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -19,7 +25,7 @@ using System.Threading.Tasks;
 
 using AM.Configuration;
 using AM.Data;
-
+using BLToolkit.DataAccess;
 using BLToolkit.Mapping;
 
 using CodeJam;
@@ -37,6 +43,7 @@ namespace AM.Istu.OldModel
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [TableName("sanctions")]
     public class SanctionRecord
     {
         #region Properties
