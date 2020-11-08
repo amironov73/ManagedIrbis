@@ -33,7 +33,7 @@ namespace MiraInterop
         {
             RestRequest result = new RestRequest
                 (
-                    _configuration.BaseUri,
+                    _configuration.Resource,
                     Method.GET
                 );
 

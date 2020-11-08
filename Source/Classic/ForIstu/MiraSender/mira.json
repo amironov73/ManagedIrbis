@@ -1,7 +1,8 @@
 {
     "irbisConnectionString": "",
-    "mssqlConnectionString": "",
-    "baseUri": "https://int.istu.edu/rest/25444/30zse8y4dmao4akd/library.send.message.get/",
+    "mssqlConnectionString": "Server=(local);Database=kladovka;User ID=rdr;Password=q;",
+    "baseUri": "https://int.istu.edu/rest/",
+    "resource": "25444/30zse8y4dmao4akd/library.send.message.get/",
     "key": "60669f73e0c77e0a7daeabd570502e0f",
     "message": "Добрый день! За вами числится задолженность перед библиотекой ИРНИТУ в количестве {bookCount} книг. Срочно необходимо вернуть книги в библиотеку!. Порядок возврата смотрите на сайте библиотеки: http://library.istu.edu/2020/05/28/o-vozvrate-knig-v-biblioteku/",
     "title": "Задолженность перед библиотекой"

@@ -140,6 +140,14 @@ namespace AM.Istu.OldModel
             get { return DB.GetTable<UchRecord>(); }
         }
 
+        /// <summary>
+        /// Журналы.
+        /// </summary>
+        public Table<MagazineRecord> Perio
+        {
+            get { return DB.GetTable<MagazineRecord>(); }
+        }
+
         #endregion
 
         #region Construction

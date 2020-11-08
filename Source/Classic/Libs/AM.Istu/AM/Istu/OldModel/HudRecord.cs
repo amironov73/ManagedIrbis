@@ -16,14 +16,11 @@
 #region Using directives
 
 using System;
-using System.ComponentModel;
 
 using BLToolkit.DataAccess;
 using BLToolkit.Mapping;
 
 using JetBrains.Annotations;
-
-using ManagedIrbis;
 
 using MoonSharp.Interpreter;
 
@@ -32,7 +29,7 @@ using MoonSharp.Interpreter;
 namespace AM.Istu.OldModel
 {
     /// <summary>
-    /// 
+    /// Сведения о выданной книге художественного фонда.
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -42,100 +39,52 @@ namespace AM.Istu.OldModel
         #region Properties
 
         /// <summary>
-        /// Gets or sets the MFN.
-        /// </summary>
-        [MapIgnore]
-        public int Mfn { get; set; }
-
-        /// <summary>
-        /// Gets or sets the record.
-        /// </summary>
-        [MapIgnore]
-        public MarcRecord Record { get; set; }
-
-        /// <summary>
-        /// Gets or sets the inventory.
+        /// Инвентарный номер.
         /// </summary>
         [MapField("invnum")]
         public string Inventory { get; set; }
 
         /// <summary>
-        /// Gets or sets the barcode.
+        /// Дата выдачи.
         /// </summary>
-        [MapField("barcode")]
-        public string Barcode { get; set; }
+        [MapField ("whn")]
+        public DateTime Moment { get; set; }
 
         /// <summary>
-        /// Gets or sets the moment of the barcode binding.
+        /// Табельный номер оператора.
         /// </summary>
-        [Browsable(false)]
-        [MapField("whn")]
-        public DateTime When { get; set; }
-
-        /// <summary>
-        /// Gets or sets the operator.
-        /// </summary>
-        [Browsable(false)]
         [MapField("operator")]
         public int Operator { get; set; }
 
         /// <summary>
-        /// Gets or sets the publisher.
+        /// Номер читательского билета.
         /// </summary>
-        [MapIgnore]
-        //[DisplayTitle("Издательство")]
-        public string Publisher { get; set; }
+        [MapField("chb")]
+        public string Ticket { get; set; }
 
         /// <summary>
-        /// Gets or sets the author.
+        /// Счетчик продлений
         /// </summary>
-        /// <value>The author.</value>
-        [MapIgnore]
-        //[DisplayTitle("Автор")]
-        public string Author { get; set; }
+        [MapField("prodlen")]
+        public int Prolong { get; set; }
 
         /// <summary>
-        /// Gets or sets the numbers.
+        /// Предполагаемая дата возврата.
         /// </summary>
-        /// <value>The numbers.</value>
-        [MapIgnore]
-        //[DisplayTitle("Имеющиеся номера")]
-        public string[] Numbers { get; set; }
+        [MapField("srok")]
+        public DateTime Deadline { get; set; }
 
         /// <summary>
-        /// Gets or sets the title.
+        /// Сообщение.
         /// </summary>
-        /// <value>The title.</value>
-        [MapIgnore]
-        //[DisplayTitle("Заглавие")]
-        public string Title { get; set; }
+        [MapField("alert")]
+        public string Alert { get; set; }
 
         /// <summary>
-        /// Gets or sets the year.
+        /// RFID-метка.
         /// </summary>
-        /// <value>The year.</value>
-        [MapIgnore]
-        //[DisplayTitle("Год издания")]
-        public string Year { get; set; }
-
-        /// <summary>
-        /// Gets or sets the ID.
-        /// </summary>
-        [MapIgnore]
-        //[DisplayTitle("Код в каталоге")]
-        public string Index { get; set; }
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
+        [MapField("rfid")]
+        public string Rfid { get; set; }
 
         #endregion
     }

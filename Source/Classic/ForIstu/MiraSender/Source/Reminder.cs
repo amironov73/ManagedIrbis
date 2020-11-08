@@ -22,15 +22,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AM;
 using AM.IO;
 using AM.Istu.OldModel;
 using AM.Logging;
+using AM.Text.Output;
 
-using JetBrains.Annotations;
+using BLToolkit.Data;
+using BLToolkit.Data.DataProvider;
 
 using ManagedIrbis;
 
 using MiraInterop;
+
 using RestSharp;
 
 #endregion
@@ -46,6 +50,8 @@ namespace MiraSender
         /// </summary>
         private static MiraConfiguration _config;
 
+        private static string[] _preselected;
+
         private static string MiraJson()
         {
             var result = PathUtility.MapPath("mira.json");
@@ -56,6 +62,14 @@ namespace MiraSender
         #endregion
 
         #region Public methods
+
+        public static void SetPreselected
+            (
+                string[] preselected
+            )
+        {
+            _preselected = preselected;
+        }
 
         public static void LoadConfiguration()
         {
@@ -69,16 +83,104 @@ namespace MiraSender
 
         public static void DoWork()
         {
+            Log.Trace("Reminder::DoWork: enter");
 
+            var counter = 0;
+            var rest = new RestClient(_config.BaseUri);
+            var mira = GetClient();
+            var kladovka = GetKladovka();
+            var people = kladovka.Readers.Where
+                (
+                    r => !r.Blocked
+                         && r.IstuID != 0
+                         && r.Registered != null
+                         && !r.Barcode.StartsWith("!")
+                )
+                .Select(r => new { r.Ticket, r.IstuID})
+                .ToArray();
+
+            Log.Info("Tickets with MIRA = " + people.Length );
+
+            if (!ReferenceEquals(_preselected, null))
+            {
+                people = people
+                    .Where(t => _preselected.ContainsNoCase(t.Ticket))
+                    .ToArray();
+
+                Log.Info("Filtered tickets = " + people.Length);
+            }
+
+            foreach (var pupil in people)
+            {
+                var ticket = pupil.Ticket;
+
+                // научный фонд
+                var sciFond = kladovka.Podsob.Count
+                    (
+                        book => (book.Ticket == ticket || book.OnHand == ticket)
+                            && book.Deadline < DateTime.Now
+                    );
+
+                // учебный фонд
+                var uchFond = kladovka.Ucheb.Count
+                    (
+                        book => (book.Ticket == ticket || book.OnHand == ticket)
+                            && book.Deadline < DateTime.Now
+                    );
+
+                // художка
+                var hudFond = kladovka.Hudo.Count
+                    (
+                        book => book.Ticket == ticket && book.Deadline < DateTime.Now
+                    );
+
+                // журналы
+                var perio = kladovka.Perio.Count
+                    (
+                        issue => (issue.Ticket == ticket || issue.OnHand == ticket)
+                            && issue.Deadline < DateTime.Now
+                    );
+
+                var total = sciFond + uchFond + hudFond + perio;
+
+                if (total != 0)
+                {
+                    ++counter;
+                    var request = mira.CreateRequest();
+                    var miraid = pupil.IstuID.ToInvariantString();
+                    request.AddParameter("miraid", miraid);
+                    request.AddParameter("title", _config.Title);
+                    var message = _config.Message.Replace
+                        (
+                            "{bookCount}",
+                            total.ToInvariantString()
+                        );
+                    request.AddParameter("text", message);
+                    var response = rest.Execute(request);
+
+                    Log.Info($"Ticket={ticket}, MIRA={miraid}, books={total}, response={response.StatusCode}");
+                }
+            }
+
+            Log.Info("Total sended = " + counter);
+
+            Log.Trace("Reminder::DoWork: exit");
         }
 
         /// <summary>
         /// Создаём клиента для MSSQL.
         /// </summary>
-        [NotNull]
+        [JetBrains.Annotations.NotNull]
         public static Kladovka GetKladovka()
         {
-            var result = new Kladovka();
+            var irbis = new IrbisConnection();
+            var db = new DbManager
+                (
+                    new Sql2008DataProvider(),
+                    _config.MssqlConnectionString
+                );
+            var output = new ConsoleOutput();
+            var result = new Kladovka(db, irbis, output);
 
             return result;
         }
@@ -86,7 +188,7 @@ namespace MiraSender
         /// <summary>
         /// Подключаемся к серверу ИРБИС64.
         /// </summary>
-        [NotNull]
+        [JetBrains.Annotations.NotNull]
         public static IrbisConnection CreateConnection()
         {
             var result = new IrbisConnection(_config.IrbisConnectionString);
@@ -97,7 +199,7 @@ namespace MiraSender
         /// <summary>
         /// Создаем клиента для MIRA.
         /// </summary>
-        [NotNull]
+        [JetBrains.Annotations.NotNull]
         public static MiraClient GetClient()
         {
             return new MiraClient(_config);

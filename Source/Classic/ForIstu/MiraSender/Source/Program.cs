@@ -27,10 +27,62 @@ using AM.Logging.NLog;
 
 namespace MiraSender
 {
+    /// <summary>
+    /// Точка входа в программу.
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// Заглушка на случай сбоев сертификатов.
+        /// </summary>
+        private static bool _ServerCertificateValidationCallback
+            (
+                object sender,
+                X509Certificate certificate,
+                X509Chain chain,
+                SslPolicyErrors sslpolicyerrors
+            )
+        {
+            return true;
+        }
+
+        private static void ConfigureSecurityProtocol()
+        {
+            ServicePointManager.SecurityProtocol =
+                // SecurityProtocolType.Ssl3 |
+                // SecurityProtocolType.Tls |
+                // SecurityProtocolType.Tls11 |
+                SecurityProtocolType.Tls12;
+            ServicePointManager.CheckCertificateRevocationList = false;
+            ServicePointManager.ServerCertificateValidationCallback
+                = _ServerCertificateValidationCallback;
+        }
+
+        private static void SetupLogging()
+        {
+            Log.SetLogger(new NLogger());
+        }
+
         static void Main(string[] args)
         {
+            SetupLogging();
+            ConfigureSecurityProtocol();
+
+            try
+            {
+                if (args.Length != 0)
+                {
+                    Reminder.SetPreselected(args);
+                }
+
+                Reminder.LoadConfiguration();
+                Reminder.DoWork();
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException("Main: exception:", exception);
+            }
+
         }
     }
 }

@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 using AM.Configuration;
 using AM.Data;
-
+using BLToolkit.DataAccess;
 using BLToolkit.Mapping;
 
 using CodeJam;
@@ -37,6 +37,7 @@ namespace AM.Istu.OldModel
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
+    [TableName("magtrans")]
     public class MagazineRecord
     {
         #region Properties
@@ -151,18 +152,6 @@ namespace AM.Istu.OldModel
         /// </summary>
         [MapField("url")]
         public string Url { get; set; }
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
-        #region Public methods
 
         #endregion
 

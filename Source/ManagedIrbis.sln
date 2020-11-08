@@ -357,11 +357,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatBoy", "Classic\Apps\CatB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsmiRegistration", "Classic\Apps\OsmiRegistration\OsmiRegistration.csproj", "{B356FF37-DBBE-411F-B40D-7F4852DBF425}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OsmiRegSetup", "Classic\Apps\OsmiRegSetup\OsmiRegSetup.vdproj", "{2CAB4E82-0A56-46B7-B81C-5BA7C25DA01C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsmiImport", "Classic\Apps\OsmiImport\OsmiImport.csproj", "{29BA1906-770F-46B6-A57B-F59449E66F78}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OsmiImportSetup", "Classic\Apps\OsmiImportSetup\OsmiImportSetup.vdproj", "{BA1E8652-A90F-409D-9722-3DF1183D7435}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

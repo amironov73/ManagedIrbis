@@ -66,6 +66,12 @@ namespace MiraInterop
         public string BaseUri { get; set; }
 
         /// <summary>
+        /// Ресурс.
+        /// </summary>
+        [JsonProperty("resource")]
+        public string Resource { get; set; }
+
+        /// <summary>
         /// Ключ.
         /// </summary>
         [JsonProperty("key")]
@@ -189,9 +195,10 @@ namespace MiraInterop
             )
         {
             bool result = !string.IsNullOrEmpty(BaseUri)
-                          && !string.IsNullOrEmpty(Key)
-                          && !string.IsNullOrEmpty(Message)
-                          && !string.IsNullOrEmpty(Title);
+                && !string.IsNullOrEmpty(Resource)
+                && !string.IsNullOrEmpty(Key)
+                && !string.IsNullOrEmpty(Message)
+                && !string.IsNullOrEmpty(Title);
 
             if (throwOnError && !result)
             {

@@ -101,6 +101,7 @@
     <Compile Include="AM\Istu\OldModel\RetroRecord.cs" />
     <Compile Include="AM\Istu\OldModel\SanctionRecord.cs" />
     <Compile Include="AM\Istu\OldModel\TranslatorRecord.cs" />
+    <Compile Include="AM\Istu\OldModel\UchRecord.cs" />
     <Compile Include="AM\Istu\OldModel\UslugaRecord.cs" />
   </ItemGroup>
   <!-- END -->
