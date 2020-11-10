@@ -1,6 +1,6 @@
 {
     "irbisConnectionString": "",
-    "mssqlConnectionString": "Server=(local);Database=kladovka;User ID=rdr;Password=q;",
+    "mssqlConnectionString": "Server=172.20.1.188;Database=kladovka;User ID=rdr;Password=q;",
     "baseUri": "https://int.istu.edu/rest/",
     "resource": "25444/30zse8y4dmao4akd/library.send.message.get/",
     "key": "60669f73e0c77e0a7daeabd570502e0f",

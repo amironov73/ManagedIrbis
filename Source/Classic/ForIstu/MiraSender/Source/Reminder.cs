@@ -17,10 +17,7 @@
 #region Using directives
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using AM;
 using AM.IO;
@@ -92,9 +89,10 @@ namespace MiraSender
             var people = kladovka.Readers.Where
                 (
                     r => !r.Blocked
+                         && !r.Gone
                          && r.IstuID != 0
                          && r.Registered != null
-                         && !r.Barcode.StartsWith("!")
+                         // && !r.Barcode.StartsWith("!")
                 )
                 .Select(r => new { r.Ticket, r.IstuID})
                 .ToArray();
@@ -185,6 +183,7 @@ namespace MiraSender
             return result;
         }
 
+        /*
         /// <summary>
         /// Подключаемся к серверу ИРБИС64.
         /// </summary>
@@ -195,6 +194,7 @@ namespace MiraSender
 
             return result;
         }
+        */
 
         /// <summary>
         /// Создаем клиента для MIRA.
