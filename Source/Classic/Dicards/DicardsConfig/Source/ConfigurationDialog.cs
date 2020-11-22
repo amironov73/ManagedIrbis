@@ -15,6 +15,7 @@
 #region Using directives
 
 using System;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 using AM;
@@ -193,11 +194,11 @@ namespace DicardsConfig
             var apiKey = ThrowIfEmpty("Key", _keyBox.Text.Trim());
 
             var result = new OsmiCardsClient
-            (
-                baseUri,
-                apiId,
-                apiKey
-            );
+                (
+                    baseUri,
+                    apiId,
+                    apiKey
+                );
 
             return result;
         }
@@ -208,6 +209,13 @@ namespace DicardsConfig
             {
                 using (var connection = ToConnection())
                 {
+                    var status = NetworkChecker.PingHost(connection.Host);
+                    if (status != IPStatus.Success)
+                    {
+                        WriteLog("Ошибка связи с ИРБИС64: {0}", status);
+                        return false;
+                    }
+
                     connection.Connect();
                     var serverVersion = connection.GetServerVersion();
                     WriteLog("ИРБИС64: {0}\r\n", serverVersion.ToString());
@@ -228,6 +236,14 @@ namespace DicardsConfig
         {
             try
             {
+                var hostname = new Uri(_urlBox.Text.Trim()).Host;
+                var status = NetworkChecker.PingHost(hostname);
+                if (status != IPStatus.Success)
+                {
+                    WriteLog("Ошибка связи с DiCards: {0}", status);
+                    return false;
+                }
+
                 var client = ToClient();
                 var templateName = ThrowIfEmpty("Шаблон", _templateBox.Text.Trim());
 
@@ -283,6 +299,23 @@ namespace DicardsConfig
             Close();
         }
 
+        private bool _DoChecks()
+        {
+            ToConfig();
+            bool result = CheckIrbis()
+                          && CheckOsmi();
+
+            WriteLog
+            (
+                "\r\n\r\n{0}",
+                result
+                    ? "Конфигурация работоспособна"
+                    : "Ошибка в конфигурации!"
+            );
+
+            return result;
+        }
+
         private void _checkButton_Click
             (
                 object sender,
@@ -298,16 +331,7 @@ namespace DicardsConfig
             {
                 ClearLog();
                 ToConfig();
-                bool result = CheckIrbis()
-                    && CheckOsmi();
-
-                WriteLog
-                    (
-                        "\r\n\r\n{0}",
-                        result
-                            ? "Конфигурация работоспособна"
-                            : "Ошибка в конфигурации!"
-                    );
+                _DoChecks();
             }
             catch (Exception exception)
             {
@@ -329,6 +353,12 @@ namespace DicardsConfig
             try
             {
                 ClearLog();
+                if (!_DoChecks())
+                {
+                    WriteLog("\r\n\r\nКонфигурация не проходит проверку, её нельзя сохранять");
+                    return;
+                }
+
                 var config = ToConfig();
                 config.SaveConfiguration(DicardsJson());
                 WriteLog("\r\n\r\nКонфигурация успешно сохранена");

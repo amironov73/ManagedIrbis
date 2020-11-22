@@ -78,9 +78,19 @@ namespace FrontOffice
                     break;
                 }
 
+                try
+                {
+                    ControlCenter.Initialize(_logBox.Output);
+                    break;
+                }
+                catch (Exception exception)
+                {
+                    _logBox.Output.WriteLine("ERROR: {0}", exception.Message);
+                }
+
                 var rc = XtraMessageBox.Show
                         (
-                            "Программа не сконфигурирована! Будете конфигурировать?",
+                            "Программа неправильно сконфигурирована! Будете конфигурировать?",
                             "Регистрация карт",
                             MessageBoxButtons.YesNo,
                             MessageBoxIcon.Error
@@ -114,20 +124,15 @@ namespace FrontOffice
             this.ShowVersionInfoInTitle();
             _logBox.Output.PrintSystemInformation();
 
-            if (!CheckConfiguration())
+            if (ControlCenter.Output is null)
             {
-                Environment.Exit(1);
+                ControlCenter.Output = _logBox.Output;
             }
 
-            try
+            if (!CheckConfiguration())
             {
-                ControlCenter.Initialize(_logBox.Output);
-            }
-            catch (Exception exception)
-            {
-                Log.TraceException("MainForm::Load", exception);
-                ExceptionBox.Show(this, exception);
-                Application.Exit();
+                ControlCenter.WriteLine("\r\nПРОВЕРЬТЕ КОНФИГУРАЦИЮ!");
+                // Environment.Exit(1);
             }
 
             try

@@ -228,7 +228,8 @@ namespace BackOffice
                     return RunJobsManually(args);
                 }
 
-                if (command == "configure")
+                if (command == "configure" || command == "config"
+                    || command == "-config" || command == "-configure")
                 {
                     return ConfigureSettings();
                 }

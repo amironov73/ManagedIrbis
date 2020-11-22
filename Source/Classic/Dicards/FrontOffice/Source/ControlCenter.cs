@@ -275,6 +275,49 @@ namespace FrontOffice
             }
         }
 
+        private static bool CheckIrbis()
+        {
+            try
+            {
+                using (var connection = GetIrbisConnection())
+                {
+                    connection.Connect();
+                    var serverVersion = connection.GetServerVersion();
+                    WriteLine("ИРБИС64: {0}\r\n", serverVersion);
+                    int maxMfn = connection.GetMaxMfn(connection.Database);
+                    WriteLine("Max MFN={0}\r\n", maxMfn);
+                }
+            }
+            catch (Exception exception)
+            {
+                WriteLine("ERROR: {0}", exception.Message);
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool CheckOsmi()
+        {
+            try
+            {
+                WriteLine("Подключаемся к API. Считываем шаблон\r\n");
+                var template = Client.GetTemplateInfo(TemplateName).ToString();
+                if (string.IsNullOrEmpty(template))
+                {
+                    WriteLine("Ошибка при получении шаблона");
+                    return false;
+                }
+            }
+            catch (Exception exception)
+            {
+                WriteLine("ERROR: {0}", exception.Message);
+                return false;
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Проверка конфигурации.
         /// </summary>
@@ -284,7 +327,8 @@ namespace FrontOffice
             var config
                 = DicardsConfiguration.LoadConfiguration(DicardsJson());
 
-            return config.Verify(false);
+            return config.Verify(false)
+                && CheckIrbis() && CheckOsmi();
         }
 
         /// <summary>
