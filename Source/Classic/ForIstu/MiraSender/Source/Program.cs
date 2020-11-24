@@ -16,10 +16,12 @@
 #region Using directives
 
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 
+using AM;
 using AM.Logging;
 using AM.Logging.NLog;
 
@@ -68,15 +70,32 @@ namespace MiraSender
             SetupLogging();
             ConfigureSecurityProtocol();
 
+            var testMode = false;
             try
             {
                 if (args.Length != 0)
                 {
-                    Reminder.SetPreselected(args);
+                    if (args[0].SameString("test"))
+                    {
+                        testMode = true;
+                        Reminder.SetPreselected(args.Skip(1).ToArray());
+                    }
+                    else
+                    {
+                        Reminder.SetPreselected(args);
+                    }
                 }
 
                 Reminder.LoadConfiguration();
-                Reminder.DoWork();
+
+                if (testMode)
+                {
+                    Reminder.DoTest();
+                }
+                else
+                {
+                    Reminder.DoWork();
+                }
             }
             catch (Exception exception)
             {

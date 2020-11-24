@@ -18,6 +18,9 @@
 
 using System;
 using System.Linq;
+using System.Net;
+using System.Text;
+using System.Net.Http;
 
 using AM;
 using AM.IO;
@@ -76,6 +79,34 @@ namespace MiraSender
             _config.Verify(true);
 
             Log.Trace("Reminder::LoadConfiguration: exit");
+        }
+
+        public static HttpStatusCode HttpGet(string url)
+        {
+            var client = new HttpClient();
+            var response = client.GetAsync(url).GetAwaiter().GetResult();
+            return response.StatusCode;
+        }
+
+        public static void DoTest()
+        {
+            Log.Trace("Reminder::DoTest: enter");
+
+            foreach (var pupil in _preselected)
+            {
+                string url = "https://int.istu.edu/rest/"
+                   // "http://127.0.0.1:8080/rest/"
+                   + "25444/30zse8y4dmao4akd/library.send.message.get/"
+                   + "?key=60669f73e0c77e0a7daeabd570502e0f"
+                   + "&miraid=" + pupil
+                   + "&text=" + _config.Message
+                   + "&title=" + _config.Title
+                   + "&option=mail";
+                var statusCode = HttpGet(url);
+                Log.Info($"TEST MIRA={pupil}, response={statusCode}");
+            }
+
+            Log.Trace("Reminder::DoTest: exit");
         }
 
         public static void DoWork()
