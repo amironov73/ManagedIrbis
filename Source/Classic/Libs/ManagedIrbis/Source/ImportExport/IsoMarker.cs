@@ -13,6 +13,9 @@ using System.Runtime.InteropServices;
 
 #endregion
 
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+
 namespace ManagedIrbis.ImportExport
 {
     /// <summary>

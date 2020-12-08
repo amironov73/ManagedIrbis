@@ -471,7 +471,7 @@ namespace Chronicle
                 var formatted = client.FormatRecords
                     (
                         client.Database,
-                        "@magna",
+                        "@magna2",
                         result.Select(o => o.Mfn).ToArray()
                     );
                 for (var i = 0; i < formatted.Length; i++)
