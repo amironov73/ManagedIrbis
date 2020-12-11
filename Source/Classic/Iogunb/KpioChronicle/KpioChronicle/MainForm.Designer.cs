@@ -333,9 +333,9 @@
             this.encryptDocumentItem1 = new DevExpress.XtraRichEdit.UI.EncryptDocumentItem();
             this.showDocumentPropertiesFormItem1 = new DevExpress.XtraRichEdit.UI.ShowDocumentPropertiesFormItem();
             this._prefixEditItem = new DevExpress.XtraBars.BarEditItem();
-            this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this._prefixComboBox = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this._operatorEditItem = new DevExpress.XtraBars.BarEditItem();
-            this.repositoryItemComboBox2 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this._operatorComboBox = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this._yearEditItem = new DevExpress.XtraBars.BarEditItem();
             this.repositoryItemSpinEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemSpinEdit();
             this._monthEditItem = new DevExpress.XtraBars.BarEditItem();
@@ -425,8 +425,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.displayForReviewModeComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemFontEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemRichEditFontSizeEdit1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._prefixComboBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._operatorComboBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemSpinEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemSpinEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox3)).BeginInit();
@@ -760,8 +760,8 @@
             this.repositoryItemRichEditFontSizeEdit1,
             this.repositoryItemTextEdit1,
             this.repositoryItemTextEdit2,
-            this.repositoryItemComboBox1,
-            this.repositoryItemComboBox2,
+            this._prefixComboBox,
+            this._operatorComboBox,
             this.repositoryItemSpinEdit1,
             this.repositoryItemSpinEdit2,
             this.repositoryItemComboBox3});
@@ -2529,34 +2529,34 @@
             // _prefixEditItem
             // 
             this._prefixEditItem.Caption = "Префикс";
-            this._prefixEditItem.Edit = this.repositoryItemComboBox1;
+            this._prefixEditItem.Edit = this._prefixComboBox;
             this._prefixEditItem.EditValue = "TH=FETD=";
             this._prefixEditItem.EditWidth = 250;
             this._prefixEditItem.Id = 333;
             this._prefixEditItem.Name = "_prefixEditItem";
             // 
-            // repositoryItemComboBox1
+            // _prefixComboBox
             // 
-            this.repositoryItemComboBox1.AutoHeight = false;
-            this.repositoryItemComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this._prefixComboBox.AutoHeight = false;
+            this._prefixComboBox.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox1.Name = "repositoryItemComboBox1";
+            this._prefixComboBox.Name = "_prefixComboBox";
             // 
             // _operatorEditItem
             // 
             this._operatorEditItem.Caption = "Оператор";
-            this._operatorEditItem.Edit = this.repositoryItemComboBox2;
+            this._operatorEditItem.Edit = this._operatorComboBox;
             this._operatorEditItem.EditValue = "СОЛОДУХИНАМВ";
             this._operatorEditItem.EditWidth = 240;
             this._operatorEditItem.Id = 334;
             this._operatorEditItem.Name = "_operatorEditItem";
             // 
-            // repositoryItemComboBox2
+            // _operatorComboBox
             // 
-            this.repositoryItemComboBox2.AutoHeight = false;
-            this.repositoryItemComboBox2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this._operatorComboBox.AutoHeight = false;
+            this._operatorComboBox.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repositoryItemComboBox2.Name = "repositoryItemComboBox2";
+            this._operatorComboBox.Name = "_operatorComboBox";
             // 
             // _yearEditItem
             // 
@@ -3495,8 +3495,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.displayForReviewModeComboBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemFontEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemRichEditFontSizeEdit1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._prefixComboBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._operatorComboBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemSpinEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemSpinEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox3)).EndInit();
@@ -3868,10 +3868,10 @@ private DevExpress.XtraSpellChecker.SpellChecker spellChecker;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup _chronicleGroup;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
         private DevExpress.XtraBars.BarEditItem _prefixEditItem;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox _prefixComboBox;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit2;
         private DevExpress.XtraBars.BarEditItem _operatorEditItem;
-        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox2;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox _operatorComboBox;
         private DevExpress.XtraBars.BarEditItem _yearEditItem;
         private DevExpress.XtraEditors.Repository.RepositoryItemSpinEdit repositoryItemSpinEdit1;
         private DevExpress.XtraBars.BarEditItem _monthEditItem;

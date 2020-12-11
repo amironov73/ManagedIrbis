@@ -1,10 +1,11 @@
-﻿#region Using directives
+﻿// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable StringLiteralTypo
+
+#region Using directives
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Forms;
 using AM;
 using AM.Text;
 using AM.Text.Ranges;
+
 using DevExpress.XtraEditors;
 using DevExpress.XtraRichEdit;
 using DevExpress.XtraRichEdit.API.Native;
@@ -29,12 +31,8 @@ using ParagraphStyle = DevExpress.XtraRichEdit.API.Native.ParagraphStyle;
 using SectionStartType = DevExpress.XtraRichEdit.API.Native.SectionStartType;
 
 using CM = System.Configuration.ConfigurationManager;
-using NR = AM.Text.Ranges.NumberRange;
-using NumberRange = AM.NumberRange;
 
 #endregion
-
-// ReSharper disable StringLiteralTypo
 
 namespace Chronicle
 {
@@ -236,6 +234,7 @@ namespace Chronicle
                 Entry[] array,
                 string title,
                 string separator,
+                bool withLinks,
                 Func<Entry, IEnumerable<string>> selector
             )
         {
@@ -254,7 +253,8 @@ namespace Chronicle
             }
 
             var section = _document.AppendSection();
-            var columns = section.Columns.CreateUniformColumns(section.Page, 100f, 1);
+            var columns = section.Columns
+                .CreateUniformColumns(section.Page, 100f, 1);
             section.Columns.SetColumns(columns);
             section.StartType = SectionStartType.NextPage;
             WriteH1(title);
@@ -274,12 +274,34 @@ namespace Chronicle
                 builder.Append(@"\par ");
                 builder.Append(group.Key);
                 builder.Append(separator);
-                foreach (var i in group.OrderBy(_ => _.Index))
+                if (withLinks)
                 {
-                    numbers.Add(i.Index);
+                    var first = true;
+                    foreach (var i in group.OrderBy(_ => _.Index))
+                    {
+                        if (!first)
+                        {
+                            builder.Append(", ");
+                        }
+                        builder.Append("{\\field{\\*\\fldinst HYPERLINK \"\" \\\\l ");
+                        builder.AppendFormat("\"b{0}\"", i.Index);
+                        builder.Append("}{\\fldrslt ");
+                        builder.Append(i.Index);
+                        builder.Append("}}");
+                        first = false;
+                    }
+                    _document.AppendRtfText(@"{\rtf1 " + builder + "}");
                 }
-                var cumulated = Cumulate(numbers);
-                _document.AppendRtfText(@"{\rtf1 " + builder + cumulated + "}");
+                else
+                {
+                    foreach (var i in group.OrderBy(_ => _.Index))
+                    {
+                        numbers.Add(i.Index);
+                    }
+
+                    var cumulated = Cumulate(numbers);
+                    _document.AppendRtfText(@"{\rtf1 " + builder + cumulated + "}");
+                }
             }
 
             section = _document.AppendSection();
@@ -460,7 +482,9 @@ namespace Chronicle
                 spec = new FileSpecification(IrbisPath.MasterFile, client.Database, "jz.mnu");
                 _languages = MenuFile.ReadFromServer(client, spec);
 
-                var found = client.SearchRead($"KNL={year} ^ V=ZL");
+                // var found = client.SearchRead($"KNL={year} ^ V=ZL");
+                // теперь в летопись включаются все документы, в т. ч. электронные
+                var found = client.SearchRead($"KNL={year}");
                 var result = new List<Entry>(found.Length);
                 foreach (var record in found)
                 {
@@ -490,13 +514,15 @@ namespace Chronicle
         private void _DoTheWork
             (
                 int year,
-                bool withMfn
+                bool withMfn,
+                bool withLinks
             )
         {
             _CreateDocument();
             var all = _DoTheSearch(year);
             var chunks = new List<Chunk>();
-            foreach (var group in all.GroupBy(one => one.TranslatedUdc).OrderBy(g => g.Key))
+            foreach (var group in all.GroupBy(one => one.TranslatedUdc)
+                .OrderBy(g => g.Key))
             {
                 var chunk = new Chunk
                 {
@@ -528,7 +554,9 @@ namespace Chronicle
                         ? $"{{\\ul MFN {entry.Mfn}.\\~}}"
                         : string.Empty;
                     var text = @"{\rtf1 "
+                               + (withLinks ? $"{{\\*\\bkmkstart b{entry.Index}}}" : string.Empty)
                                + $"{entry.Index}.\\~"
+                               + (withLinks ? $"{{\\*\\bkmkend b{entry.Index}}}" : string.Empty)
                                + mfnText
                                + entry.Description
                                + "}";
@@ -540,13 +568,13 @@ namespace Chronicle
 
             var additional = _additionalBox.CheckBox.Checked;
 
-            _DoTheDict(all, "Именной указатель", "\\~", entry => entry.Authors);
-            _DoTheDict(all, "Географический указатель", "\\~", entry => entry.Geo);
-            _DoTheDict(all, "Указатель ошибочных ISBN", "\\~", entry => entry.Isbn);
-            _DoTheDict(all, "Указатель издающих организаций", "\\~", entry => entry.Publishers);
+            _DoTheDict(all, "Именной указатель", "\\~", withLinks, entry => entry.Authors);
+            _DoTheDict(all, "Географический указатель", "\\~", withLinks, entry => entry.Geo);
+            _DoTheDict(all, "Указатель ошибочных ISBN", "\\~", withLinks, entry => entry.Isbn);
+            _DoTheDict(all, "Указатель издающих организаций", "\\~", withLinks, entry => entry.Publishers);
             if (additional)
             {
-                _DoTheDict(all, "Указатель языков", "\\~", entry =>
+                _DoTheDict(all, "Указатель языков", "\\~", withLinks, entry =>
                 {
                     if (string.IsNullOrEmpty(entry.Language) || entry.Language.SameString("rus"))
                     {
@@ -561,21 +589,22 @@ namespace Chronicle
 
                     return new[] {result};
                 });
-                _DoTheDict(all, "Указатель серий", "\\~", entry => entry.Series);
-                _DoTheDict(all, "Указатель коллективов", "\\~", entry => entry.Collectives);
+                _DoTheDict(all, "Указатель серий", "\\~", withLinks, entry => entry.Series);
+                _DoTheDict(all, "Указатель коллективов", "\\~", withLinks, entry => entry.Collectives);
             }
         }
 
         private async void _goButton_Click(object sender, EventArgs e)
         {
             bool withMfn = _withMfn.CheckBox.Checked;
+            bool withLinks = _linksBox.CheckBox.Checked;
             var year = (int)_yearBox.SelectedItem;
             _manager.ShowWaitForm();
             _manager.SetWaitFormCaption("Подождите");
             _manager.SetWaitFormDescription("Идёт формирование летописи");
             try
             {
-                await Task.Run(() => _DoTheWork(year, withMfn));
+                await Task.Run(() => _DoTheWork(year, withMfn, withLinks));
             }
             finally
             {

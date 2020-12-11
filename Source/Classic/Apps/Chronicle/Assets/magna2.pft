@@ -181,7 +181,7 @@ fi),
 /* Разночтения заглавий
 
 (if p(v517^a) then
-  if v517^t: 'составленное' then else
+  if v517^t: 'составленное' or v517^t: 'Вариант заглавия' then else
     if a(v517^u) then
       '.\~\endash\~',
       if p(v517^t) then v517^t*4, ':\~', fi,

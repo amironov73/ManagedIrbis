@@ -18,6 +18,7 @@ using DevExpress.XtraBars;
 using DevExpress.XtraBars.Ribbon;
 
 using ManagedIrbis;
+using ManagedIrbis.Search;
 
 namespace KpioChronicle
 {
@@ -92,11 +93,29 @@ namespace KpioChronicle
             }
         }
 
+        private void InitialFill()
+        {
+            using (var connection = new IrbisConnection(_conectionString))
+            {
+                var ini = connection.ReadIniFile("ibis.ini");
+                var scenarios = SearchScenario.ParseIniFile(ini);
+                _prefixComboBox.Items.AddRange(scenarios);
+
+                var users = connection.ListUsers();
+                var logins = users.Select(user => user.Name)
+                    .OrderBy(user => user)
+                    .ToArray();
+                _operatorComboBox.Items.AddRange(logins);
+            }
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             _ribbonControl.SelectPage(_kpioPage);
             _conectionString = ConfigurationUtility.GetString("irbis");
             _format = ConfigurationUtility.GetString("format");
+
+            InitialFill();
         }
     }
 }
