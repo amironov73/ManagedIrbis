@@ -277,16 +277,19 @@ namespace Chronicle
                 if (withLinks)
                 {
                     var first = true;
-                    foreach (var i in group.OrderBy(_ => _.Index))
+                    foreach (var i in group
+                        .Select(item => item.Index)
+                        .OrderBy(item => item)
+                        .Distinct())
                     {
                         if (!first)
                         {
                             builder.Append(", ");
                         }
                         builder.Append("{\\field{\\*\\fldinst HYPERLINK \"\" \\\\l ");
-                        builder.AppendFormat("\"b{0}\"", i.Index);
+                        builder.AppendFormat("\"b{0}\"", i);
                         builder.Append("}{\\fldrslt ");
-                        builder.Append(i.Index);
+                        builder.Append(i);
                         builder.Append("}}");
                         first = false;
                     }

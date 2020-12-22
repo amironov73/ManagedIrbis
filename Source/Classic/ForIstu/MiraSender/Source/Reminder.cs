@@ -19,7 +19,6 @@
 using System;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Net.Http;
 
 using AM;
@@ -109,6 +108,19 @@ namespace MiraSender
             Log.Trace("Reminder::DoTest: exit");
         }
 
+        private static int CountMonth(DateTime date)
+        {
+            var november = new DateTime(2020, 11, 1);
+            if (date < november)
+            {
+                date = november;
+            }
+
+            var result = (DateTime.Now - date).Days / 30;
+
+            return result;
+        }
+
         public static void DoWork()
         {
             Log.Trace("Reminder::DoWork: enter");
@@ -117,12 +129,14 @@ namespace MiraSender
             var rest = new RestClient(_config.BaseUri);
             var mira = GetClient();
             var kladovka = GetKladovka();
+            var badCategories = new[] { "заочник", "сотрудник", "служебная запись" };
             var people = kladovka.Readers.Where
                 (
                     r => !r.Blocked
                          && !r.Gone
                          && r.IstuID != 0
                          && r.Registered != null
+                         && !badCategories.Contains(r.Category)
                          // && !r.Barcode.StartsWith("!")
                 )
                 .Select(r => new { r.Ticket, r.IstuID})
@@ -144,18 +158,28 @@ namespace MiraSender
                 var ticket = pupil.Ticket;
 
                 // научный фонд
-                var sciFond = kladovka.Podsob.Count
+                var sciBooks = kladovka.Podsob.Where
                     (
                         book => (book.Ticket == ticket || book.OnHand == ticket)
-                            && book.Deadline < DateTime.Now
-                    );
+                                && book.Deadline < DateTime.Now
+                    )
+                    .Select(book => book.Deadline)
+                    .ToArray();
+                var sciMoney = sciBooks
+                    .Select(CountMonth)
+                    .Sum(month => month * 20);
 
                 // учебный фонд
-                var uchFond = kladovka.Ucheb.Count
+                var uchBooks = kladovka.Ucheb.Where
                     (
                         book => (book.Ticket == ticket || book.OnHand == ticket)
                             && book.Deadline < DateTime.Now
-                    );
+                    )
+                    .Select(book => book.Deadline)
+                    .ToArray();
+                var uchMoney = uchBooks
+                    .Select(CountMonth)
+                    .Sum(month => month * 10);
 
                 // художка
                 var hudFond = kladovka.Hudo.Count
@@ -170,9 +194,10 @@ namespace MiraSender
                             && issue.Deadline < DateTime.Now
                     );
 
-                var total = sciFond + uchFond + hudFond + perio;
+                var totalBooks = sciBooks.Length + uchBooks.Length + hudFond + perio;
+                var totalMoney = sciMoney + uchMoney;
 
-                if (total != 0)
+                if (totalBooks != 0)
                 {
                     ++counter;
                     var request = mira.CreateRequest();
@@ -182,12 +207,18 @@ namespace MiraSender
                     var message = _config.Message.Replace
                         (
                             "{bookCount}",
-                            total.ToInvariantString()
+                            totalBooks.ToInvariantString()
+                        )
+                        .Replace
+                        (
+                            "{money}",
+                            totalMoney.ToInvariantString()
                         );
                     request.AddParameter("text", message);
                     var response = rest.Execute(request);
+                    var status = response.StatusCode;
 
-                    Log.Info($"Ticket={ticket}, MIRA={miraid}, books={total}, response={response.StatusCode}");
+                    Log.Info($"Ticket={ticket}, MIRA={miraid}, books={totalBooks}, money={totalMoney}, status={status}");
                 }
             }
 
