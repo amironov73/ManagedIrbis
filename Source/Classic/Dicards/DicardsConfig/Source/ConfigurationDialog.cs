@@ -15,6 +15,7 @@
 #region Using directives
 
 using System;
+using System.Globalization;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
@@ -88,7 +89,7 @@ namespace DicardsConfig
             {
                 XtraMessageBox.Show
                     (
-                    $"Не заполнено поле '{label}'",
+                        $"Не заполнено поле '{label}'",
                         "Ошибка",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
@@ -110,7 +111,9 @@ namespace DicardsConfig
                    && CheckField(_urlItem)
                    && CheckField(_idItem)
                    && CheckField(_keyItem)
-                   && CheckField(_templateItem);
+                   && CheckField(_templateItem)
+                   && CheckField(_readerIdItem)
+                   && CheckField(_ticketItem);
         }
 
         private void FromConfig
@@ -120,6 +123,11 @@ namespace DicardsConfig
         {
             var connection = new IrbisConnection();
             connection.ParseConnectionString(config.ConnectionString);
+            if (string.IsNullOrEmpty(config.ConnectionString))
+            {
+                connection.Database = "RDR";
+            }
+
             _hostBox.Text = connection.Host;
             _portBox.Text = connection.Port.ToInvariantString();
             _loginBox.Text = connection.Username;
@@ -135,6 +143,8 @@ namespace DicardsConfig
             _urlBox.Text = config.BaseUri;
             _templateBox.Text = config.Template;
             _fieldBox.Text = config.Field;
+            _readerIdBox.Text = config.ReaderId;
+            _ticketBox.Text = config.Ticket;
         }
 
         private IrbisConnection ToConnection()
@@ -147,6 +157,10 @@ namespace DicardsConfig
                 Password = _passwordBox.Text.Trim(),
                 Database = _databaseBox.Text.Trim()
             };
+            if (result.Database == "IBIS")
+            {
+                result.Database = "RDR";
+            }
             if (result.Port == 0)
             {
                 result.Port = 6666;
@@ -169,6 +183,8 @@ namespace DicardsConfig
             result.BaseUri = _urlBox.Text.Trim();
             result.Template = _templateBox.Text.Trim();
             result.Field = _fieldBox.Text.Trim();
+            result.ReaderId = _readerIdBox.Text.Trim();
+            result.Ticket = _ticketBox.Text.Trim();
 
             return result;
         }
@@ -260,6 +276,24 @@ namespace DicardsConfig
             return true;
         }
 
+        private bool CheckRdrSettings(DicardsConfiguration config)
+        {
+            var styles = NumberStyles.Any;
+            var culture = CultureInfo.InvariantCulture;
+            if (!int.TryParse(config.ReaderId, styles, culture, out int readerId))
+            {
+                WriteLog("Неверно задано поле для идентификатора читателя");
+                return false;
+            }
+
+            if (!int.TryParse(config.ReaderId, styles, culture, out int ticket))
+            {
+                WriteLog("Неверно задано поле для номера пропуска");
+            }
+
+            return true;
+        }
+
         private string DicardsJson()
         {
             var result = PathUtility.MapPath("dicards.json");
@@ -301,17 +335,19 @@ namespace DicardsConfig
 
         private bool _DoChecks()
         {
-            ToConfig();
+            var config = ToConfig();
+            config.Verify(true);
             bool result = CheckIrbis()
+                          && CheckRdrSettings(config)
                           && CheckOsmi();
 
             WriteLog
-            (
-                "\r\n\r\n{0}",
-                result
-                    ? "Конфигурация работоспособна"
-                    : "Ошибка в конфигурации!"
-            );
+                (
+                    "\r\n\r\n{0}",
+                    result
+                        ? "Конфигурация работоспособна"
+                        : "Ошибка в конфигурации!"
+                );
 
             return result;
         }

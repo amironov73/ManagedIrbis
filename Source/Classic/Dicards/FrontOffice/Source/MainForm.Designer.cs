@@ -37,7 +37,9 @@
             this._sendEmailButton = new DevExpress.XtraEditors.SimpleButton();
             this._createButton = new DevExpress.XtraEditors.SimpleButton();
             this._searchButton = new DevExpress.XtraEditors.SimpleButton();
+            this._logBox = new AM.Windows.Forms.LogBox();
             this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
+            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -52,13 +54,12 @@
             this.emptySpaceItem5 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.emptySpaceItem6 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.emptySpaceItem7 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this._logBox = new AM.Windows.Forms.LogBox();
-            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this._layoutControl)).BeginInit();
             this._layoutControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._emailBox.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._ticketBox.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
@@ -73,7 +74,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             this.SuspendLayout();
             // 
             // _layoutControl
@@ -159,6 +159,17 @@
             this._searchButton.Text = "Найти читателя по билету";
             this._searchButton.Click += new System.EventHandler(this._searchButton_Click);
             // 
+            // _logBox
+            // 
+            this._logBox.BackColor = System.Drawing.SystemColors.Window;
+            this._logBox.Location = new System.Drawing.Point(12, 282);
+            this._logBox.Multiline = true;
+            this._logBox.Name = "_logBox";
+            this._logBox.ReadOnly = true;
+            this._logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this._logBox.Size = new System.Drawing.Size(574, 154);
+            this._logBox.TabIndex = 4;
+            // 
             // Root
             // 
             this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
@@ -182,6 +193,17 @@
             this.Root.Name = "Root";
             this.Root.Size = new System.Drawing.Size(598, 448);
             this.Root.TextVisible = false;
+            // 
+            // layoutControlItem1
+            // 
+            this.layoutControlItem1.Control = this._logBox;
+            this.layoutControlItem1.Location = new System.Drawing.Point(0, 270);
+            this.layoutControlItem1.MinSize = new System.Drawing.Size(24, 24);
+            this.layoutControlItem1.Name = "layoutControlItem1";
+            this.layoutControlItem1.Size = new System.Drawing.Size(578, 158);
+            this.layoutControlItem1.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
+            this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem1.TextVisible = false;
             // 
             // layoutControlItem2
             // 
@@ -315,28 +337,6 @@
             this.emptySpaceItem7.Size = new System.Drawing.Size(216, 11);
             this.emptySpaceItem7.TextSize = new System.Drawing.Size(0, 0);
             // 
-            // _logBox
-            // 
-            this._logBox.BackColor = System.Drawing.SystemColors.Window;
-            this._logBox.Location = new System.Drawing.Point(12, 282);
-            this._logBox.Multiline = true;
-            this._logBox.Name = "_logBox";
-            this._logBox.ReadOnly = true;
-            this._logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this._logBox.Size = new System.Drawing.Size(574, 154);
-            this._logBox.TabIndex = 4;
-            // 
-            // layoutControlItem1
-            // 
-            this.layoutControlItem1.Control = this._logBox;
-            this.layoutControlItem1.Location = new System.Drawing.Point(0, 270);
-            this.layoutControlItem1.MinSize = new System.Drawing.Size(24, 24);
-            this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(578, 158);
-            this.layoutControlItem1.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
-            this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem1.TextVisible = false;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -346,7 +346,7 @@
             this.IconOptions.Icon = ((System.Drawing.Icon)(resources.GetObject("MainForm.IconOptions.Icon")));
             this.MinimumSize = new System.Drawing.Size(600, 480);
             this.Name = "MainForm";
-            this.Text = "Работа с картами DICARDS";
+            this.Text = "Работа с картами DiCARDS";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this._layoutControl)).EndInit();
@@ -354,6 +354,7 @@
             ((System.ComponentModel.ISupportInitialize)(this._emailBox.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._ticketBox.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
@@ -368,7 +369,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             this.ResumeLayout(false);
 
         }

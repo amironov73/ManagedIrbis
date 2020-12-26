@@ -42,13 +42,15 @@ namespace FrontOffice
     /// Главная форма приложения.
     /// </summary>
     public partial class MainForm
-        : DevExpress.XtraEditors.XtraForm
+        : XtraForm
     {
         #region Construction
 
         public MainForm()
         {
             InitializeComponent();
+
+            Log.Debug("MainForm initialized");
         }
 
         #endregion
@@ -66,6 +68,7 @@ namespace FrontOffice
                 FormClosingEventArgs e
             )
         {
+            Log.Debug("MainForm_FormClosing");
             ControlCenter.WriteLine("Shutdown");
         }
 
@@ -73,37 +76,45 @@ namespace FrontOffice
         {
             while (true)
             {
+                try
+                {
+                    Log.Debug("MainForm::CheckConfiguration: about to ControlCenter.Initialize");
+                    ControlCenter.Initialize(_logBox.Output);
+                    Log.Debug("MainForm::CheckConfiguration: ControlCenter.Initialize done");
+                    break;
+                }
+                catch (Exception exception)
+                {
+                    Log.TraceException("MainForm::CheckConfiguration", exception);
+                    _logBox.Output.WriteLine("ERROR: {0}", exception.Message);
+                }
+
                 if (ControlCenter.CheckConfiguration())
                 {
                     break;
                 }
 
-                try
-                {
-                    ControlCenter.Initialize(_logBox.Output);
-                    break;
-                }
-                catch (Exception exception)
-                {
-                    _logBox.Output.WriteLine("ERROR: {0}", exception.Message);
-                }
-
                 var rc = XtraMessageBox.Show
-                        (
-                            "Программа неправильно сконфигурирована! Будете конфигурировать?",
-                            "Регистрация карт",
-                            MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Error
-                        );
+                    (
+                        "Программа неправильно сконфигурирована! Будете конфигурировать?",
+                        "Регистрация карт",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Error
+                    );
                 if (rc == DialogResult.Yes)
                 {
+                    Log.Debug("MainForm::CheckConfiguration: ConfigurationDialog called");
                     ConfigurationDialog.Configure(this);
+                    Log.Debug("MainFOrm::CheckConfiguration: ConfigurationDialog done");
                 }
                 else
                 {
+                    Log.Debug("MainForm::CheckConfiguration = False");
                     return false;
                 }
             }
+
+            Log.Debug("MainForm::CheckConfiguration = True");
 
             return true;
         }
@@ -175,13 +186,14 @@ namespace FrontOffice
             ReaderInfo reader = ControlCenter.GetReader(ticket);
             if (ReferenceEquals(reader, null))
             {
+                Log.Debug("_PrepareReader not found ticket=" + ticket);
                 XtraMessageBox.Show("Не найден читатель с указанным билетом!");
                 return null;
             }
 
             string description = ControlCenter.FormatReader(reader);
             bool chk = ControlCenter.CheckReader(reader);
-            bool exist = ControlCenter.CardExists(ticket);
+            bool exist = chk && ControlCenter.CardExists(ticket);
 
             _browser.DocumentText = "<html>"
                 + (exist ?
@@ -190,6 +202,8 @@ namespace FrontOffice
                   )
                 + description
                 + "</html>";
+
+            Log.Debug("_PrepareReader result=" + chk);
 
             return !chk
                 ? null
@@ -208,6 +222,7 @@ namespace FrontOffice
             }
             catch (Exception exception)
             {
+                Log.TraceException("_searchButton_Click", exception);
                 ExceptionBox.Show(this, exception);
             }
         }
@@ -226,15 +241,21 @@ namespace FrontOffice
                     return;
                 }
 
-                string ticket = (reader.PassCard ?? reader.Ticket)
-                    .ThrowIfNull("ticket");
+                string ticket = _ticketBox.Text.Trim();
+                if (string.IsNullOrEmpty(ticket))
+                {
+                    XtraMessageBox.Show("Не задан читательский!");
+                    return;
+                }
+
                 if (ControlCenter.CardExists(ticket))
                 {
+                    Log.Debug("_createButton_Click: card already exists=" + ticket);
                     XtraMessageBox.Show("Карта уже существует");
                     return;
                 }
 
-                JObject card = ControlCenter.BuildCard(reader);
+                JObject card = ControlCenter.BuildCard(reader, ticket);
                 ControlCenter.CreateCard
                     (
                         ticket,
@@ -243,6 +264,7 @@ namespace FrontOffice
             }
             catch (Exception exception)
             {
+                Log.TraceException("_createButton_Click", exception);
                 ExceptionBox.Show(this, exception);
             }
         }
@@ -266,6 +288,7 @@ namespace FrontOffice
                 {
                     if (!MailUtility.VerifyEmail(email))
                     {
+                        Log.Debug("_sendEmailButton_Click bad email=" + email);
                         XtraMessageBox.Show("Неверный email");
                         return;
                     }
@@ -282,13 +305,14 @@ namespace FrontOffice
                                 "Добавлен email: {0}",
                                 email
                             );
+                        Log.Debug("_sendEmailButton_Click: add email=" + email);
                     }
                 }
 
-                string ticket = (reader.PassCard ?? reader.Ticket)
-                    .ThrowIfNull("ticket");
+                string ticket = _ticketBox.Text.Trim();
                 if (!ControlCenter.CardExists(ticket))
                 {
+                    Log.Debug("_sendEmailButton_Click: card doesn't exist =" + ticket);
                     XtraMessageBox.Show("Карты не существует");
                     return;
                 }
@@ -297,6 +321,7 @@ namespace FrontOffice
             }
             catch (Exception exception)
             {
+                Log.TraceException("_sendEmailButton_Click", exception);
                 ExceptionBox.Show(this, exception);
             }
         }
@@ -424,7 +449,9 @@ namespace FrontOffice
                     return;
                 }
 
+                Log.Debug("ConfigurationDialog called");
                 ConfigurationDialog.Configure(this);
+                Log.Debug("ConfigurationDialog done");
             }
         }
 

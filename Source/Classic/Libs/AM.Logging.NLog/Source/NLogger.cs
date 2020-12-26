@@ -9,7 +9,11 @@
 
 #region Using directives
 
+using System.IO;
+using System.Reflection;
+
 using NLog;
+using NLog.Config;
 
 #endregion
 
@@ -43,6 +47,11 @@ namespace AM.Logging.NLog
                 {
                     if (ReferenceEquals(Logger, null))
                     {
+                        string assemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
+                            .ThrowIfNull("assemblyFolder");
+                        string configFile = Path.Combine(assemblyFolder, "NLog.config");
+                        LogManager.Configuration = new XmlLoggingConfiguration(configFile, false);
+
                         Logger = LogManager.GetCurrentClassLogger();
                     }
                 }

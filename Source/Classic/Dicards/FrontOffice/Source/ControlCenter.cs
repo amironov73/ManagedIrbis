@@ -19,9 +19,11 @@
 #region Using directives
 
 using System;
+using System.Globalization;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 using AM.Net;
 using AM.Text.Output;
 
@@ -31,7 +33,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Readers;
-
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 using RestfulIrbis.OsmiCards;
@@ -69,10 +71,23 @@ namespace FrontOffice
         public static AbstractOutput Output { get; set; }
 
         /// <summary>
-        /// Template itself.
+        /// Поле для хранения идентификатора читателя.
+        /// </summary>
+        public static int ReaderIdTag { get; set; }
+
+        /// <summary>
+        /// Поле для хранения номера пропуска читателя.
+        /// </summary>
+        public static int TicketTag { get; set; }
+
+        /// <summary>
+        /// Собственно шаблон.
         /// </summary>
         public static JObject Template { get; set; }
 
+        /// <summary>
+        /// Имя шаблона.
+        /// </summary>
         public static string TemplateName { get; set; }
 
         #endregion
@@ -92,7 +107,8 @@ namespace FrontOffice
 
         public static JObject BuildCard
             (
-                [NotNull] ReaderInfo reader
+                [NotNull] ReaderInfo reader,
+                [NotNull] string ticket
             )
         {
             Code.NotNull(reader, "reader");
@@ -100,8 +116,12 @@ namespace FrontOffice
             JObject result = OsmiUtility.BuildCardForReader
                 (
                     Template,
-                    reader
+                    reader,
+                    ticket
                 );
+
+            Log.Debug("ControlCenter::BuildCard for ticket=" + ticket);
+            Log.Debug("Result=" + result);
 
             return result;
         }
@@ -118,6 +138,9 @@ namespace FrontOffice
                 OsmiCard card = Client.GetCardInfo(cardNumber);
                 bool result = !ReferenceEquals(card, null);
 
+                Log.Debug("ControlCenter::CardExists for ticket=" + cardNumber);
+                Log.Debug("Result=" + result);
+
                 WriteLine
                     (
                         "Карта: {0}",
@@ -126,10 +149,57 @@ namespace FrontOffice
 
                 return result;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                Log.TraceException
+                    (
+                    "ControlCenter::CardExists for ticket=" + cardNumber,
+                        exception
+                    );
+
                 return false;
             }
+        }
+
+        [CanBeNull]
+        public static string GetTicket
+            (
+                [NotNull] ReaderInfo reader
+            )
+        {
+            return reader.Record
+                .ThrowIfNull("reader.Record")
+                .FM(ReaderIdTag);
+        }
+
+        [CanBeNull]
+        public static string GetReaderId
+            (
+                [NotNull] ReaderInfo reader
+            )
+        {
+            return reader.Record
+                .ThrowIfNull("reader.Record")
+                .FM(TicketTag);
+        }
+
+        [NotNull]
+        public static string GetReaderName
+            (
+                [NotNull] ReaderInfo reader
+            )
+        {
+            return reader.FamilyName
+                .ThrowIfNull("reader.FamilyName");
+        }
+
+        [CanBeNull]
+        public static string GetIdentifier
+            (
+                [NotNull] ReaderInfo reader
+            )
+        {
+            return GetReaderId(reader) ?? GetTicket(reader);
         }
 
         public static bool CheckReader
@@ -141,14 +211,14 @@ namespace FrontOffice
 
             WriteLine(string.Empty);
 
-            var ticket = reader.PassCard ?? reader.Ticket;
+            var ticket = GetIdentifier(reader);
             if (string.IsNullOrEmpty(ticket))
             {
                 WriteLine("Отсутствует идентификатор!");
                 return false;
             }
 
-            WriteLine("Читатель {0}:", ticket);
+            WriteLine("Читатель {0}:", GetReaderName(reader));
             if (string.IsNullOrEmpty(reader.FamilyName))
             {
                 WriteLine("Отсутствует фамилия!");
@@ -169,7 +239,8 @@ namespace FrontOffice
                 return false;
             }
 
-            WriteLine("Читатель удовлетворяет требованиям OSMICARDS");
+            WriteLine("Читатель удовлетворяет требованиям DiCARDS");
+
             return true;
         }
 
@@ -189,23 +260,25 @@ namespace FrontOffice
                     card.ToString()
                 );
 
+            Log.Debug("ControlCenter::CreateCard for ticket=" + cardNumber);
+            Log.Debug("Result=True");
+
             WriteLine("Карта создана");
         }
 
         public static void DeleteCard
             (
-                [NotNull] ReaderInfo reader
+                [NotNull] string ticket
             )
         {
-            Code.NotNull(reader, "reader");
-
-            string ticket = (reader.PassCard ?? reader.Ticket)
-                .ThrowIfNull("ticket");
             Client.DeleteCard
                 (
                     ticket,
                     true
                 );
+
+            Log.Debug("ControlCenter::DeleteCard for ticket=" + ticket);
+            Log.Debug("Result=True");
         }
 
         /// <summary>
@@ -236,6 +309,9 @@ namespace FrontOffice
                 ReaderManager manager = new ReaderManager(connection);
                 ReaderInfo result = manager.GetReader(ticket);
 
+                Log.Debug("ControlCenter::GetReader for ticket=" + ticket);
+                Log.Debug("Result=" + result);
+
                 return result;
             }
         }
@@ -250,9 +326,13 @@ namespace FrontOffice
         {
             Code.NotNull(record, "record");
 
+            Log.Debug("ControlCenter::UpdateRecord for record=" + record.Mfn);
             using (IrbisConnection connection = GetIrbisConnection())
             {
                 connection.WriteRecord(record);
+
+                Log.Debug("Result=True");
+
                 WriteLine("Запись обновлена на сервере");
             }
         }
@@ -277,6 +357,8 @@ namespace FrontOffice
 
         private static bool CheckIrbis()
         {
+            Log.Debug("ControlCenter::CheckIrbis");
+
             try
             {
                 using (var connection = GetIrbisConnection())
@@ -284,12 +366,14 @@ namespace FrontOffice
                     connection.Connect();
                     var serverVersion = connection.GetServerVersion();
                     WriteLine("ИРБИС64: {0}\r\n", serverVersion);
+                    Log.Debug("Result=" + serverVersion);
                     int maxMfn = connection.GetMaxMfn(connection.Database);
                     WriteLine("Max MFN={0}\r\n", maxMfn);
                 }
             }
             catch (Exception exception)
             {
+                Log.TraceException("ControlCenter::CheckIrbis", exception);
                 WriteLine("ERROR: {0}", exception.Message);
                 return false;
             }
@@ -299,10 +383,13 @@ namespace FrontOffice
 
         private static bool CheckOsmi()
         {
+            Log.Debug("ControlCenter::CheckOsmi");
+
             try
             {
                 WriteLine("Подключаемся к API. Считываем шаблон\r\n");
                 var template = Client.GetTemplateInfo(TemplateName).ToString();
+                Log.Debug("Result=" + template.ToVisibleString());
                 if (string.IsNullOrEmpty(template))
                 {
                     WriteLine("Ошибка при получении шаблона");
@@ -311,6 +398,7 @@ namespace FrontOffice
             }
             catch (Exception exception)
             {
+                Log.TraceException("ControlCenter::CheckOsmi", exception);
                 WriteLine("ERROR: {0}", exception.Message);
                 return false;
             }
@@ -327,8 +415,13 @@ namespace FrontOffice
             var config
                 = DicardsConfiguration.LoadConfiguration(DicardsJson());
 
-            return config.Verify(false)
+
+            var result = config.Verify(false)
                 && CheckIrbis() && CheckOsmi();
+
+            Log.Debug("ControlCenter::CheckConfiguration result=" + result);
+
+            return result;
         }
 
         /// <summary>
@@ -356,8 +449,15 @@ namespace FrontOffice
                     apiKey
                 );
 
+            var culture = CultureInfo.InvariantCulture;
+            var styles = NumberStyles.Any;
+            ReaderIdTag = int.Parse(config.ReaderId, styles, culture);
+            WriteLine("Reader ID tag={0}", ReaderIdTag);
+            TicketTag = int.Parse(config.Ticket, styles, culture);
+            WriteLine("Ticket tag={0}", TicketTag);
+
             TemplateName = config.Template;
-            WriteLine("Reading OSMI template: {0}", TemplateName);
+            WriteLine("Reading DiCARDS template: {0}", TemplateName);
             Template = Client.GetTemplateInfo(TemplateName);
         }
 
@@ -379,7 +479,9 @@ namespace FrontOffice
         {
             Code.NotNull(reader, "reader");
 
-            string ticket = (reader.PassCard ?? reader.Ticket)
+            Log.Debug("ControlCenter::SendEmail for reader=" + reader);
+
+            string ticket = GetIdentifier(reader)
                 .ThrowIfNull("ticket");
             string[] emails = reader
                 .Record.ThrowIfNull("reader.Record")
@@ -393,6 +495,7 @@ namespace FrontOffice
                         email
                     );
 
+                Log.Debug("Sent email to " + email);
                 WriteLine("Послано письмо по адресу {0}", email);
             }
         }
@@ -404,7 +507,7 @@ namespace FrontOffice
         {
             Code.NotNull(reader, "reader");
 
-            string ticket = (reader.PassCard ?? reader.Ticket)
+            string ticket = GetIdentifier(reader)
                 .ThrowIfNull("ticket");
             string phoneNumber = reader.HomePhone.ThrowIfNull();
 

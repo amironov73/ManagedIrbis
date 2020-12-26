@@ -38,7 +38,7 @@ using RestSharp;
 #if !ANDROID && !UAP && !NETCORE
 
 using System.Web;
-
+using AM.Logging;
 using CM=System.Configuration.ConfigurationManager;
 
 #endif
@@ -94,7 +94,8 @@ namespace RestfulIrbis.OsmiCards
         public static JObject BuildCardForReader
             (
                 [NotNull] JObject templateObject,
-                [NotNull] ReaderInfo reader
+                [NotNull] ReaderInfo reader,
+                [NotNull] string ticket
             )
         {
             Code.NotNull(templateObject, "templateObject");
@@ -102,7 +103,6 @@ namespace RestfulIrbis.OsmiCards
 
             string name = reader.FamilyName.ThrowIfNull("name");
             string fio = reader.FullName.ThrowIfNull("fio");
-            string ticket = reader.Ticket.ThrowIfNull("ticket");
 
             JObject result = (JObject) templateObject.DeepClone();
 
@@ -116,24 +116,38 @@ namespace RestfulIrbis.OsmiCards
             if (!ReferenceEquals(block, null))
             {
                 string cabinetUrl = CM.AppSettings["cabinetUrl"];
-                block["value"] = string.Format
-                    (
-                        cabinetUrl,
-                        UrlEncode(name),
-                        UrlEncode(ticket)
-                    );
+                if (string.IsNullOrEmpty(cabinetUrl))
+                {
+                    Log.Debug("BuildCardForReader: cabinerUrl not specified!");
+                }
+                else
+                {
+                    block["value"] = string.Format
+                        (
+                            cabinetUrl,
+                            UrlEncode(name),
+                            UrlEncode(ticket)
+                        );
+                }
             }
 
             block = FindLabel(result, "Поиск и заказ книг");
             if (!ReferenceEquals(block, null))
             {
                 string catalogUrl = CM.AppSettings["catalogUrl"];
-                block["value"] = string.Format
-                    (
-                        catalogUrl,
-                        UrlEncode(name),
-                        UrlEncode(ticket)
-                    );
+                if (string.IsNullOrEmpty(catalogUrl))
+                {
+                    Log.Debug("BuildCardForReader: catalogUrl not specified!");
+                }
+                else
+                {
+                    block["value"] = string.Format
+                        (
+                            catalogUrl,
+                            UrlEncode(name),
+                            UrlEncode(ticket)
+                        );
+                }
             }
 
             block = (JObject)result["barcode"];

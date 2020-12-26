@@ -2,7 +2,9 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 // ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
 // ReSharper disable LocalizableElement
+// ReSharper disable UseNameofExpression
 
 /* Importer.cs -- pulls cards, imports readers
  * Ars Magna project, http://arsmagna.ru
@@ -18,6 +20,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using AM;
 using AM.Collections;
 using AM.Configuration;
@@ -31,7 +34,6 @@ using ManagedIrbis;
 using ManagedIrbis.Readers;
 
 using RestfulIrbis.OsmiCards;
-// ReSharper disable UseNameofExpression
 
 #endregion
 

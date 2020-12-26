@@ -108,6 +108,21 @@ namespace RestfulIrbis.OsmiCards
         [JsonProperty("field")]
         public string Field { get; set; }
 
+        /// <summary>
+        /// Поле записи в БД RDR, используемое как идентификатор читателя.
+        /// В дистрибутиве это поле 30.
+        /// </summary>
+        [JsonProperty("readerID")]
+        public string ReaderId { get; set; }
+
+        /// <summary>
+        /// Поле записи в БД RDR, используемое для хранения
+        /// номера пропуска в библиотеку (например, RFID-метка).
+        /// В дистрибутиве это поле 22.
+        /// </summary>
+        [JsonProperty("ticket")]
+        public string Ticket { get; set; }
+
         #endregion
 
         #region Public methods
@@ -208,7 +223,9 @@ namespace RestfulIrbis.OsmiCards
             bool result = !string.IsNullOrEmpty(BaseUri)
                 && !string.IsNullOrEmpty(ApiId)
                 && !string.IsNullOrEmpty(ApiKey)
-                && !string.IsNullOrEmpty(ConnectionString);
+                && !string.IsNullOrEmpty(ConnectionString)
+                && !string.IsNullOrEmpty(ReaderId)
+                && !string.IsNullOrEmpty(Ticket);
 
             if (throwOnError && !result)
             {

@@ -9,5 +9,7 @@
     "template": "chb",
     "message": "Пора сдавать книги в библиотеку",
     "format": "@brief",
-    "field": "books"
+    "field": "books",
+    "readerID": "30",
+    "ticket": "22"
 }
