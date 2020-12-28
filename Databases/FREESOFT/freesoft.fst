@@ -1,0 +1,11 @@
+1 0 "I="v1
+2 0 "ST="v2
+3 0 "OL="v3
+10 0 "T="v10
+20 0 (if p(v20) then "CAT="v20, /, fi)
+30 0 (if p(v30) then "LIC="v30, /, fi)
+40 0 (if p(v40) then "OS="v40^a, " "v40^b, /, fi)
+43 0 (if p(v43) then "PLATFORM="v43, /, fi)
+50 0 (if p(v50) then "LANG="v50, /, fi)
+60 0 (if p(v60) then "A="v60, /, fi)
+91 0 (if p(v91) then "K="v91, /, fi)

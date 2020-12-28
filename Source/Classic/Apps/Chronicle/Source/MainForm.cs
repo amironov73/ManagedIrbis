@@ -269,7 +269,7 @@ namespace Chronicle
             foreach (var group in ordered)
             {
                 var builder = new StringBuilder();
-                var numbers = new List<int> ();
+                var numbers = new List<int>();
 
                 builder.Append(@"\par ");
                 builder.Append(group.Key);
@@ -590,7 +590,7 @@ namespace Chronicle
                         return new string[0];
                     }
 
-                    return new[] {result};
+                    return new[] { result };
                 });
                 _DoTheDict(all, "Указатель серий", "\\~", withLinks, entry => entry.Series);
                 _DoTheDict(all, "Указатель коллективов", "\\~", withLinks, entry => entry.Collectives);
