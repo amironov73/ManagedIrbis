@@ -1,7 +1,7 @@
 1 0 "I="v1
 2 0 "ST="v2
 3 0 "OL="v3
-10 0 "T="v10
+10 0 "T="v10^a, ": "v10^e
 20 0 (if p(v20) then "CAT="v20, /, fi)
 30 0 (if p(v30) then "LIC="v30, /, fi)
 40 0 (if p(v40) then "OS="v40^a, " "v40^b, /, fi)
