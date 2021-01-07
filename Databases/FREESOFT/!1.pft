@@ -1,0 +1,5 @@
+if ((l("I="v1))<=0) or (val(ref(l("I="v1),mfn))=val(mfn)) then 
+  '0'
+else 
+   '1 Ошибка: Дублетный Шифр 'v1,ref(l("I="v1), ' (см. N ', f(val(mfn),0,0)')') 
+fi
