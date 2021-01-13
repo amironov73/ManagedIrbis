@@ -92,7 +92,7 @@ fi,
 
 (
   if p(v100) then
-    '<img src=IRBIS:11,,', v100, '>',
+    '<img src=IRBIS:10,,IMG/', v100, '>',
     '<br/>',/,
   fi,
 ),
