@@ -33,7 +33,6 @@ using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Readers;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 using RestfulIrbis.OsmiCards;
@@ -90,6 +89,12 @@ namespace FrontOffice
         /// </summary>
         public static string TemplateName { get; set; }
 
+        /// <summary>
+        /// Имя поля в карточке читателя, в которое будет
+        /// помещено ФИО читателя.
+        /// </summary>
+        public static string FioField { get; set; }
+
         #endregion
 
         #region Private members
@@ -113,11 +118,12 @@ namespace FrontOffice
         {
             Code.NotNull(reader, "reader");
 
-            JObject result = OsmiUtility.BuildCardForReader
+            var result = OsmiUtility.BuildCardForReader
                 (
                     Template,
                     reader,
-                    ticket
+                    ticket,
+                    FioField
                 );
 
             Log.Debug("ControlCenter::BuildCard for ticket=" + ticket);
@@ -457,6 +463,7 @@ namespace FrontOffice
             WriteLine("Ticket tag={0}", TicketTag);
 
             TemplateName = config.Template;
+            FioField = config.FioField;
             WriteLine("Reading DiCARDS template: {0}", TemplateName);
             Template = Client.GetTemplateInfo(TemplateName);
         }

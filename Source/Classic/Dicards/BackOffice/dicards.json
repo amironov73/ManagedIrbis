@@ -7,7 +7,17 @@
     "prefix": "DICARDS-",
     "category": "DICARDS",
     "template": "chb",
-    "message": "���� ������� ����� � ����������",
-    "format": "@brief",
-    "field": "books"
+    "fioField": "ФИО",
+    "reminderField": "НАПОМИНАНИЕ",
+    "reminderMessage": "Пора сдавать книги в библиотеку",
+    "readerId": "30",
+    "ticket": "22",
+    "totalCountField": "КНИГ",
+    "totalCountFormat": "|total_count.pft",
+    "expiredCountField": "ДОЛГ",
+    "expiredCountFormat": "|expired_count.pft",
+    "totalListField": "КНИГИ",
+    "totalListFormat": "|total_list.pft",
+    "expiredListField": "ПРОСРОЧЕННЫЕ",
+    "expiredListFormat": "|expired_list.pft"
 }

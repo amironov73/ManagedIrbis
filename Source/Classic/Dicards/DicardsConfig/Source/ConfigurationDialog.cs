@@ -15,15 +15,17 @@
 #region Using directives
 
 using System;
+using System.ComponentModel;
 using System.Globalization;
+using System.Linq.Expressions;
 using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Windows.Forms;
 
 using AM;
 using AM.IO;
 
 using DevExpress.XtraEditors;
-using DevExpress.XtraLayout;
 
 using ManagedIrbis;
 
@@ -50,6 +52,10 @@ namespace DicardsConfig
 
         #region Private members
 
+        private DicardsConfiguration GetConfig()
+            => ((DicardsConfiguration) _propertyGrid.SelectedObject)
+                .ThrowIfNull("DicardsConfiguration");
+
         private void ClearLog()
         {
             _logBox.Clear();
@@ -70,22 +76,54 @@ namespace DicardsConfig
             )
         {
             WriteLog
-            (
-                "\r\n\r\nОШИБКА: {0}: {1}",
-                exception.GetType().Name,
-                exception.Message
-            );
+                (
+                    "\r\n\r\nОШИБКА: {0}: {1}",
+                    exception.GetType().Name,
+                    exception.Message
+                );
         }
 
         private bool CheckField
             (
-                LayoutControlItem item
+                Expression<Func<DicardsConfiguration, string>> lambda
             )
         {
-            var textEdit = (TextEdit) item.Control;
-            var label = item.Text;
+            var property = GetProperty(lambda);
+            return CheckField(property);
+        }
 
-            if (string.IsNullOrEmpty(textEdit.Text.Trim()))
+        private string GetName
+            (
+                PropertyInfo property
+            )
+        {
+            var attribute = property.GetCustomAttribute<DisplayNameAttribute>()
+                .ThrowIfNull("No attribute for " + property.Name);
+            var label = attribute.DisplayName;
+
+            return label;
+        }
+
+        private string GetName
+            (
+                Expression<Func<DicardsConfiguration, string>> lambda
+            )
+        {
+            var property = GetProperty(lambda);
+            return GetName(property);
+        }
+
+        private bool CheckField
+            (
+                PropertyInfo property
+            )
+        {
+            var config = GetConfig();
+            var value = ((string) property.GetValue(config))
+                ?.Trim();
+            var label = GetName(property);
+
+            if (string.IsNullOrEmpty(value))
             {
                 XtraMessageBox.Show
                     (
@@ -101,19 +139,40 @@ namespace DicardsConfig
             return true;
         }
 
+        private PropertyInfo GetProperty<TSource, TProperty>
+            (
+                Expression<Func<TSource, TProperty>> lambda
+            )
+        {
+            var member = (MemberExpression)lambda.Body;
+            var info = (PropertyInfo)member.Member;
+
+            return info;
+        }
+
         private bool CheckFields()
         {
-            return CheckField(_hostItem)
-                   && CheckField(_portItem)
-                   && CheckField(_loginItem)
-                   && CheckField(_passwordItem)
-                   && CheckField(_databaseItem)
-                   && CheckField(_urlItem)
-                   && CheckField(_idItem)
-                   && CheckField(_keyItem)
-                   && CheckField(_templateItem)
-                   && CheckField(_readerIdItem)
-                   && CheckField(_ticketItem);
+            return CheckField(c => c.Host)
+                   && CheckField(c => c.Login)
+                   && CheckField(c => c.Password)
+                   && CheckField(c => c.Database)
+                   && CheckField(c => c.BaseUri)
+                   && CheckField(c => c.ApiId)
+                   && CheckField(c => c.ApiKey)
+                   && CheckField(c => c.Ticket)
+                   && CheckField(c => c.Template)
+                   && CheckField(c => c.FioField)
+                   && CheckField(c => c.ReaderId)
+                   && CheckField(c => c.ReminderField)
+                   && CheckField(c => c.ReminderMessage)
+                   && CheckField(c => c.TotalCountField)
+                   && CheckField(c => c.TotalCountFormat)
+                   && CheckField(c => c.ExpirecCountField)
+                   && CheckField(c => c.ExpiredCountFormat)
+                   && CheckField(c => c.TotalListField)
+                   && CheckField(c => c.TotalListFormat)
+                   && CheckField(c => c.ExpiredListField)
+                   && CheckField(c => c.ExpiredListFormat);
         }
 
         private void FromConfig
@@ -128,40 +187,33 @@ namespace DicardsConfig
                 connection.Database = "RDR";
             }
 
-            _hostBox.Text = connection.Host;
-            _portBox.Text = connection.Port.ToInvariantString();
-            _loginBox.Text = connection.Username;
-            _passwordBox.Text = connection.Password;
-            _databaseBox.Text = connection.Database;
+            config.Host = connection.Host;
+            config.Port = connection.Port;
+            config.Login = connection.Username;
+            config.Password = connection.Password;
+            config.Database = connection.Database;
 
-            _categoryBox.Text = config.Category;
-            _prefixBox.Text = config.Prefix;
-            _formatBox.Text = config.Format;
-
-            _idBox.Text = config.ApiId;
-            _keyBox.Text = config.ApiKey;
-            _urlBox.Text = config.BaseUri;
-            _templateBox.Text = config.Template;
-            _fieldBox.Text = config.Field;
-            _readerIdBox.Text = config.ReaderId;
-            _ticketBox.Text = config.Ticket;
+            _propertyGrid.SelectedObject = config;
         }
 
         private IrbisConnection ToConnection()
         {
+            var config = GetConfig();
             var result = new IrbisConnection
             {
-                Host = _hostBox.Text.Trim(),
-                Port = _portBox.Text.Trim().SafeToInt32(),
-                Username = _loginBox.Text.Trim(),
-                Password = _passwordBox.Text.Trim(),
-                Database = _databaseBox.Text.Trim()
+                Host = config.Host,
+                Port = config.Port,
+                Username = config.Login,
+                Password = config.Password,
+                Database = config.Database
             };
+
             if (result.Database == "IBIS")
             {
                 result.Database = "RDR";
             }
-            if (result.Port == 0)
+
+            if (result.Port <= 0)
             {
                 result.Port = 6666;
             }
@@ -171,20 +223,10 @@ namespace DicardsConfig
 
         private DicardsConfiguration ToConfig()
         {
-            var result = new DicardsConfiguration();
+            var result = GetConfig();
             var connection = ToConnection();
             result.ConnectionString
                 = ConnectionSettings.FromConnection(connection).Encode();
-            result.Category = _categoryBox.Text.Trim();
-            result.Prefix = _prefixBox.Text.Trim();
-            result.Format = _formatBox.Text.Trim();
-            result.ApiId = _idBox.Text.Trim();
-            result.ApiKey = _keyBox.Text.Trim();
-            result.BaseUri = _urlBox.Text.Trim();
-            result.Template = _templateBox.Text.Trim();
-            result.Field = _fieldBox.Text.Trim();
-            result.ReaderId = _readerIdBox.Text.Trim();
-            result.Ticket = _ticketBox.Text.Trim();
 
             return result;
         }
@@ -205,9 +247,10 @@ namespace DicardsConfig
 
         private OsmiCardsClient ToClient()
         {
-            var baseUri = ThrowIfEmpty("URL", _urlBox.Text.Trim());
-            var apiId = ThrowIfEmpty("ID", _idBox.Text.Trim());
-            var apiKey = ThrowIfEmpty("Key", _keyBox.Text.Trim());
+            var config = GetConfig();
+            var baseUri = ThrowIfEmpty("URL", config.BaseUri.Trim());
+            var apiId = ThrowIfEmpty("ID", config.ApiId.Trim());
+            var apiKey = ThrowIfEmpty("Key", config.ApiKey.Trim());
 
             var result = new OsmiCardsClient
                 (
@@ -252,7 +295,10 @@ namespace DicardsConfig
         {
             try
             {
-                var hostname = new Uri(_urlBox.Text.Trim()).Host;
+                var config = GetConfig();
+                var baseUri = config.BaseUri.Trim();
+                ThrowIfEmpty(GetName(c => c.BaseUri), baseUri);
+                var hostname = new Uri(baseUri).Host;
                 var status = NetworkChecker.PingHost(hostname);
                 if (status != IPStatus.Success)
                 {
@@ -261,8 +307,8 @@ namespace DicardsConfig
                 }
 
                 var client = ToClient();
-                var templateName = ThrowIfEmpty("Шаблон", _templateBox.Text.Trim());
-
+                var templateName = config.Template.Trim();
+                ThrowIfEmpty(GetName(c=> c.Template), templateName);
                 WriteLog("Подключаемся к API. Считываем шаблон\r\n");
                 var template = client.GetTemplateInfo(templateName).ToString();
                 ThrowIfEmpty("Содержимое шаблона", template);
@@ -280,13 +326,13 @@ namespace DicardsConfig
         {
             var styles = NumberStyles.Any;
             var culture = CultureInfo.InvariantCulture;
-            if (!int.TryParse(config.ReaderId, styles, culture, out int readerId))
+            if (!int.TryParse(config.ReaderId, styles, culture, out int _))
             {
                 WriteLog("Неверно задано поле для идентификатора читателя");
                 return false;
             }
 
-            if (!int.TryParse(config.ReaderId, styles, culture, out int ticket))
+            if (!int.TryParse(config.ReaderId, styles, culture, out int _))
             {
                 WriteLog("Неверно задано поле для номера пропуска");
             }

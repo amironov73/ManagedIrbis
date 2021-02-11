@@ -68,6 +68,13 @@ namespace BackOffice
         /// </summary>
         public static string Message { get; set; }
 
+        /// <summary>
+        /// Метка поля в базе данных читателей,
+        /// в котором хранится идентификатор читателя.
+        /// По умолчанию это поле 30.
+        /// </summary>
+        public static int IdTag { get; set; }
+
         #endregion
 
         #region Private members
@@ -92,9 +99,8 @@ namespace BackOffice
 
             foreach (MarcRecord record in batch)
             {
-                ReaderInfo reader = ReaderInfo.Parse(record);
-                string ticket = (reader.PassCard ?? reader.Ticket)
-                    .ThrowIfNull("ticket");
+                var reader = ReaderInfo.Parse(record);
+                string ticket = record.FM(IdTag).ThrowIfNull("ticket");
                 if (!ticket.OneOf(cards))
                 {
                     continue;
@@ -149,7 +155,8 @@ namespace BackOffice
             ApiUrl = config.BaseUri;
             ApiId = config.ApiId;
             ApiKey = config.ApiKey;
-            Message = config.Message;
+            Message = config.ReminderMessage;
+            IdTag = config.ReaderId.SafeToInt32(30);
 
             if (string.IsNullOrEmpty(Message))
             {

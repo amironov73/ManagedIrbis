@@ -141,7 +141,7 @@ namespace BackOffice
             config.Verify(true);
 
             ConnectionString = config.ConnectionString;
-            ConnectionSettings settings = new ConnectionSettings();
+            var settings = new ConnectionSettings();
             settings.ParseConnectionString(ConnectionString);
             if (!settings.Verify(false))
             {
@@ -174,19 +174,19 @@ namespace BackOffice
                     goto DONE;
                 }
 
-                int counter = 0;
+                var counter = 0;
                 using (var connection = CreateConnection())
                 {
-                    ReaderManager manager = new ReaderManager(connection);
+                    var manager = new ReaderManager(connection);
                     foreach (var questionnaire in registrations)
                     {
                         if (CanImport(manager, questionnaire))
                         {
                             ImportReader
-                            (
-                                manager,
-                                questionnaire
-                            );
+                                (
+                                    manager,
+                                    questionnaire
+                                );
                             ++counter;
                         }
                     }
@@ -246,12 +246,8 @@ namespace BackOffice
             var result = client.GetRegistrations(ApiGroup);
             Log.Info
                 (
-                    string.Format
-                        (
-                            "Importer::GetRegistrations: got {0} records",
-                            result.Length
-                        )
-                );
+                $"Importer::GetRegistrations: got {result.Length} records"
+            );
 
             Log.Trace("Importer::GetRegistrations: exit");
 
@@ -302,14 +298,13 @@ namespace BackOffice
             Code.NotNull(questionnaire, "questionnaire");
 
             var gender = GenderUtility.Parse(questionnaire.Gender);
-            DateTime birth;
             bool haveBirth = DateTime.TryParseExact
                 (
                     questionnaire.BirthDate,
                     "dd/MM/yyyy",
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.None,
-                    out birth
+                    out var birth
                 );
             var result = new ReaderInfo
             {
@@ -346,7 +341,7 @@ namespace BackOffice
             Code.NotNull(manager, "manager");
             Code.NotNull(reader, "reader");
 
-            ReaderInfo result = null;
+            ReaderInfo result;
 
             if (!string.IsNullOrEmpty(reader.Ticket))
             {
@@ -381,7 +376,7 @@ namespace BackOffice
                 }
             }
 
-            return result;
+            return null;
         }
 
         public static bool ImportReader
@@ -419,7 +414,6 @@ namespace BackOffice
             }
 
             manager.Connection.WriteRecord(record);
-
             result = true;
 
             DONE:

@@ -20,13 +20,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+
 using AM;
-using AM.Collections;
-using AM.Configuration;
 using AM.IO;
 using AM.Logging;
-
-using CodeJam;
 
 using JetBrains.Annotations;
 
@@ -40,7 +37,6 @@ using RestfulIrbis.OsmiCards;
 
 #endregion
 
-
 namespace BackOffice
 {
     /// <summary>
@@ -49,6 +45,11 @@ namespace BackOffice
     static class Reminder
     {
         #region Properties
+
+        /// <summary>
+        /// Конфигурация.
+        /// </summary>
+        public static DicardsConfiguration Configuration { get; set; }
 
         /// <summary>
         /// Строка подключения к ИРБИС64.
@@ -71,14 +72,11 @@ namespace BackOffice
         public static string ApiUrl { get; set; }
 
         /// <summary>
-        /// Формат для библиографического описания книги.
+        /// Метка поля в базе данных читателей,
+        /// в котором хранится идентификатор читателя.
+        /// По умолчанию это поле 30.
         /// </summary>
-        public static string Format { get; set; }
-
-        /// <summary>
-        /// Поле для размещения списка книг.
-        /// </summary>
-        public static string Field { get; set; }
+        public static int IdTag { get; set; }
 
         #endregion
 
@@ -126,6 +124,7 @@ namespace BackOffice
             var index = 1;
             foreach (var book in books)
             {
+                /*
                 var descriptions = connection.SearchFormat
                     (
                         $"\"I={book.Index}\"",
@@ -146,6 +145,7 @@ namespace BackOffice
                 }
 
                 builder.AppendFormat("{0}. {1}", index, description);
+                */
                 ++index;
             }
 
@@ -155,10 +155,12 @@ namespace BackOffice
                 var card = client.GetRawCard(ticket);
                 if (!ReferenceEquals(card, null))
                 {
+                    /*
                     if (UpdateCard(card, Field, builder.ToString()))
                     {
                         client.UpdateCard(ticket, card.ToString(), true);
                     }
+                    */
                 }
             }
         }
@@ -219,18 +221,7 @@ namespace BackOffice
             ApiUrl = config.BaseUri;
             ApiId = config.ApiId;
             ApiKey = config.ApiKey;
-            Format = config.Format;
-            Field = config.Field;
-
-            if (string.IsNullOrEmpty(Format))
-            {
-                throw new ApplicationException("Bad format specified");
-            }
-
-            if (string.IsNullOrEmpty(Field))
-            {
-                throw new ApplicationException("Bad card field specified");
-            }
+            IdTag = config.ReaderId.SafeToInt32(30);
 
             Log.Trace("Reminder::LoadConfiguration: exit");
         }

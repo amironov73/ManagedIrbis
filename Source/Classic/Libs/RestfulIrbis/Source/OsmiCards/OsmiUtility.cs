@@ -1,6 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CheckNamespace
 // ReSharper disable CommentTypo
 // ReSharper disable IdentifierTypo
 // ReSharper disable StringLiteralTypo
@@ -16,7 +17,6 @@
 
 #region Using directives
 
-using System;
 using System.Linq;
 using System.Text;
 
@@ -28,17 +28,14 @@ using JetBrains.Annotations;
 
 using ManagedIrbis.Readers;
 
-using MoonSharp.Interpreter;
-
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
-using RestSharp;
 
 #if !ANDROID && !UAP && !NETCORE
 
 using System.Web;
+
 using AM.Logging;
+
 using CM=System.Configuration.ConfigurationManager;
 
 #endif
@@ -95,7 +92,8 @@ namespace RestfulIrbis.OsmiCards
             (
                 [NotNull] JObject templateObject,
                 [NotNull] ReaderInfo reader,
-                [NotNull] string ticket
+                [NotNull] string ticket,
+                [NotNull] string fioField
             )
         {
             Code.NotNull(templateObject, "templateObject");
@@ -106,7 +104,7 @@ namespace RestfulIrbis.OsmiCards
 
             JObject result = (JObject) templateObject.DeepClone();
 
-            JObject block = FindLabel(result, "Читатель");
+            JObject block = FindLabel(result, fioField);
             if (!ReferenceEquals(block, null))
             {
                 block["value"] = fio;
