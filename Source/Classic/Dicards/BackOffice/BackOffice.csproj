@@ -130,7 +130,7 @@
     <Compile Include="Source\Jobs\JobController.cs" />
     <Compile Include="Source\Jobs\JobDescription.cs" />
     <Compile Include="Source\Jobs\PushJob.cs" />
-    <Compile Include="Source\Jobs\RemindJob.cs" />
+    <Compile Include="Source\Jobs\ReminderJob.cs" />
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Pusher.cs" />

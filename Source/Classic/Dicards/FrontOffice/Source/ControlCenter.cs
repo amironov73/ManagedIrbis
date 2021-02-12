@@ -33,6 +33,7 @@ using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Readers;
+
 using Newtonsoft.Json.Linq;
 
 using RestfulIrbis.OsmiCards;
@@ -54,10 +55,10 @@ namespace FrontOffice
         /// </summary>
         public static OsmiCardsClient Client { get; set; }
 
-        // /// <summary>
-        // /// Configuration.
-        // /// </summary>
-        //public static JObject Configuration { get; set; }
+         /// <summary>
+         /// Configuration.
+         /// </summary>
+        public static DicardsConfiguration Config { get; set; }
 
         /// <summary>
         /// Connection string for IRBIS-server.
@@ -99,13 +100,6 @@ namespace FrontOffice
 
         #region Private members
 
-        private static string DicardsJson()
-        {
-            var result = PathUtility.MapPath("dicards.json");
-
-            return result;
-        }
-
         #endregion
 
         #region Public methods
@@ -123,7 +117,7 @@ namespace FrontOffice
                     Template,
                     reader,
                     ticket,
-                    FioField
+                    Config
                 );
 
             Log.Debug("ControlCenter::BuildCard for ticket=" + ticket);
@@ -419,7 +413,7 @@ namespace FrontOffice
         public static bool CheckConfiguration()
         {
             var config
-                = DicardsConfiguration.LoadConfiguration(DicardsJson());
+                = DicardsConfiguration.LoadConfiguration(OsmiUtility.DicardsJson());
 
 
             var result = config.Verify(false)
@@ -439,15 +433,16 @@ namespace FrontOffice
             )
         {
             var config
-                = DicardsConfiguration.LoadConfiguration(DicardsJson());
+                = DicardsConfiguration.LoadConfiguration(OsmiUtility.DicardsJson());
             config.Verify(true);
+            Config = config;
 
             Output = output;
 
             ConnectionString = config.ConnectionString;
-            string baseUri = config.BaseUri;
-            string apiId = config.ApiId;
-            string apiKey = config.ApiKey;
+            var baseUri = config.BaseUri.ThrowIfNull("config.BaseUri");
+            var apiId = config.ApiId.ThrowIfNull("config.apiId");
+            var apiKey = config.ApiKey.ThrowIfNull("config.apiKey");
             Client = new OsmiCardsClient
                 (
                     baseUri,
@@ -457,15 +452,28 @@ namespace FrontOffice
 
             var culture = CultureInfo.InvariantCulture;
             var styles = NumberStyles.Any;
-            ReaderIdTag = int.Parse(config.ReaderId, styles, culture);
+            ReaderIdTag = int.Parse
+                (
+                    config.ReaderId.ThrowIfNull("config.ReaderId"),
+                    styles,
+                    culture
+                );
             WriteLine("Reader ID tag={0}", ReaderIdTag);
-            TicketTag = int.Parse(config.Ticket, styles, culture);
+            TicketTag = int.Parse
+                (
+                    config.Ticket.ThrowIfNull("config.Ticket"),
+                    styles,
+                    culture
+                );
             WriteLine("Ticket tag={0}", TicketTag);
 
             TemplateName = config.Template;
             FioField = config.FioField;
             WriteLine("Reading DiCARDS template: {0}", TemplateName);
-            Template = Client.GetTemplateInfo(TemplateName);
+            Template = Client.GetTemplateInfo
+                (
+                    config.Template.ThrowIfNull("config.Template")
+                );
         }
 
         public static bool Ping()

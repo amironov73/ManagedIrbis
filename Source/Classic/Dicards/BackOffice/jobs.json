@@ -22,8 +22,8 @@
             "name": "Reminder",
             "group": "Dicards",
             "description": "Reminder job",
-            "enabled": false,
-            "type": "BackOffice.Jobs.RemindJob, BackOffice",
+            "enabled": true,
+            "type": "BackOffice.Jobs.ReminderJob, BackOffice",
             "cron": "0 0 14 * * ?"
         }
     ]

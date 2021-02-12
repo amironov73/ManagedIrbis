@@ -118,9 +118,11 @@ namespace BackOffice
 
         #region Private members
 
+        [NotNull]
         private static string DicardsJson()
         {
-            var result = PathUtility.MapPath("dicards.json");
+            var result = PathUtility.MapPath("dicards.json")
+                .ThrowIfNull("MapPath (\"dicards.json\")");
 
             return result;
         }

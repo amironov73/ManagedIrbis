@@ -6,7 +6,6 @@
 // ReSharper disable IdentifierTypo
 // ReSharper disable LocalizableElement
 // ReSharper disable StringLiteralTypo
-// ReSharper disable UseNameofExpression
 
 /* Pusher.cs -- пушит сообщения читателям
  * Ars Magna project, http://arsmagna.ru
@@ -20,9 +19,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 using AM;
-using AM.IO;
 using AM.Logging;
-
+using DevExpress.Utils.Text;
+using DicardsConfig;
 using JetBrains.Annotations;
 
 using ManagedIrbis;
@@ -32,7 +31,6 @@ using ManagedIrbis.Readers;
 using RestfulIrbis.OsmiCards;
 
 #endregion
-
 
 namespace BackOffice
 {
@@ -68,12 +66,7 @@ namespace BackOffice
         /// </summary>
         public static string Message { get; set; }
 
-        /// <summary>
-        /// Метка поля в базе данных читателей,
-        /// в котором хранится идентификатор читателя.
-        /// По умолчанию это поле 30.
-        /// </summary>
-        public static int IdTag { get; set; }
+        public static DicardsConfiguration Config { get; set; }
 
         #endregion
 
@@ -100,7 +93,7 @@ namespace BackOffice
             foreach (MarcRecord record in batch)
             {
                 var reader = ReaderInfo.Parse(record);
-                string ticket = record.FM(IdTag).ThrowIfNull("ticket");
+                string ticket = OsmiUtility.GetReaderId(reader, Config);
                 if (!ticket.OneOf(cards))
                 {
                     continue;
@@ -122,11 +115,31 @@ namespace BackOffice
             return result.ToArray();
         }
 
-        private static string DicardsJson()
+        private static void SendMessageToReader
+            (
+                [NotNull] OsmiCardsClient client,
+                [NotNull] string reader,
+                [NotNull] string field,
+                [NotNull] string message,
+                bool push
+            )
         {
-            var result = PathUtility.MapPath("dicards.json");
-
-            return result;
+            var card = client.GetRawCard(reader);
+            if (card != null)
+            {
+                CardUpdater.UpdateCard
+                    (
+                        card,
+                        field,
+                        message
+                    );
+                client.UpdateCard
+                    (
+                        reader,
+                        card.ToString(),
+                        push
+                    );
+            }
         }
 
         #endregion
@@ -141,10 +154,11 @@ namespace BackOffice
             Log.Trace("Pusher::LoadConfiguration: enter");
 
             var config
-                = DicardsConfiguration.LoadConfiguration(DicardsJson());
+                = DicardsConfiguration.LoadConfiguration(OsmiUtility.DicardsJson());
             config.Verify(true);
+            Config = config;
 
-            ConnectionString = config.ConnectionString;
+            ConnectionString = config.ConnectionString.ThrowIfNull("ConnectionString");
             ConnectionSettings settings = new ConnectionSettings();
             settings.ParseConnectionString(ConnectionString);
             if (!settings.Verify(false))
@@ -156,7 +170,6 @@ namespace BackOffice
             ApiId = config.ApiId;
             ApiKey = config.ApiKey;
             Message = config.ReminderMessage;
-            IdTag = config.ReaderId.SafeToInt32(30);
 
             if (string.IsNullOrEmpty(Message))
             {
@@ -183,15 +196,57 @@ namespace BackOffice
                     debtors = GetDebtors(cards, connection);
                 }
 
-                if (debtors.Length != 0)
+                if (debtors.Length == 0)
                 {
+                    Log.Info("Pusher: no debtors");
+                }
+                else
+                {
+                    /*
                     client.SendPushMessage
                         (
                             debtors,
                             Message
                         );
-                    Console.WriteLine("Send OK");
+                    Log.Info("Pusher: SendPushMessage OK");
+                    */
+
+                    var messageField = Config.ReminderField;
+                    var messageText = Config.ReminderMessage;
+                    if (!string.IsNullOrEmpty(messageField)
+                        && !string.IsNullOrEmpty(messageText))
+                    {
+                        foreach (var debtor in debtors)
+                        {
+                            SendMessageToReader
+                                (
+                                    client,
+                                    debtor,
+                                    messageField,
+                                    messageText,
+                                    true
+                                );
+                        }
+
+                        var readers = client.GetCardList();
+                        var nonDebtors = readers.Except(debtors);
+
+                        foreach (var nonDebtor in nonDebtors)
+                        {
+                            SendMessageToReader
+                            (
+                                client,
+                                nonDebtor,
+                                messageField,
+                                string.Empty,
+                                false
+                            );
+                        }
+
+                        Log.Info("Pusher: SendMessageToReader OK");
+                    }
                 }
+
 
                 Log.Trace("Pusher::DoWork: exit");
             }
@@ -228,7 +283,7 @@ namespace BackOffice
             return result;
         }
 
-        #endregion
+#endregion
 
     }
 }

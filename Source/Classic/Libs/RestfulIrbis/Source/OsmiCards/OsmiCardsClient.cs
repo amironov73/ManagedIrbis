@@ -677,13 +677,13 @@ namespace RestfulIrbis.OsmiCards
             Code.NotNullNorEmpty(cardNumber, "cardNumber");
             Code.NotNullNorEmpty(jsonText, "jsonText");
 
-            string url = "/passes/{number}";
+            var url = "/passes/{number}";
             if (push)
             {
                 url += "/push";
             }
 
-            RestRequest request = new RestRequest
+            var request = new RestRequest
                 (
                     url,
                     Method.PUT
@@ -710,13 +710,13 @@ namespace RestfulIrbis.OsmiCards
             Code.NotNullNorEmpty(templateName, "templateName");
             Code.NotNullNorEmpty(jsonText, "jsonText");
 
-            string url = "/templates/{template}";
+            var url = "/templates/{template}";
             if (push)
             {
                 url += "/push";
             }
 
-            RestRequest request = new RestRequest
+            var request = new RestRequest
                 (
                     url,
                     Method.PUT

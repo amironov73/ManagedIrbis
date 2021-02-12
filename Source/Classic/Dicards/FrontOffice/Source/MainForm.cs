@@ -27,6 +27,8 @@ using DevExpress.XtraEditors;
 
 using DicardsConfig;
 
+using JetBrains.Annotations;
+
 using ManagedIrbis;
 using ManagedIrbis.Readers;
 
@@ -153,8 +155,6 @@ namespace FrontOffice
             catch (Exception exception)
             {
                 Log.TraceException("MainForm::Load", exception);
-                //ExceptionBox.Show(this, exception);
-                //Application.Exit();
 
                 ControlCenter.WriteLine
                     (
@@ -172,18 +172,19 @@ namespace FrontOffice
             ControlCenter.WriteLine(string.Empty);
         }
 
+        [CanBeNull]
         private ReaderInfo _PrepareReader()
         {
             _Clear();
 
-            string ticket = _ticketBox.Text.Trim();
+            var ticket = _ticketBox.Text.Trim();
             if (string.IsNullOrEmpty(ticket))
             {
                 XtraMessageBox.Show("Не задан читательский!");
                 return null;
             }
 
-            ReaderInfo reader = ControlCenter.GetReader(ticket);
+            var reader = ControlCenter.GetReader(ticket);
             if (ReferenceEquals(reader, null))
             {
                 Log.Debug("_PrepareReader not found ticket=" + ticket);
@@ -191,9 +192,9 @@ namespace FrontOffice
                 return null;
             }
 
-            string description = ControlCenter.FormatReader(reader);
-            bool chk = ControlCenter.CheckReader(reader);
-            bool exist = chk && ControlCenter.CardExists(ticket);
+            var description = ControlCenter.FormatReader(reader);
+            var chk = ControlCenter.CheckReader(reader);
+            var exist = chk && ControlCenter.CardExists(ticket);
 
             _browser.DocumentText = "<html>"
                 + (exist ?
@@ -235,13 +236,13 @@ namespace FrontOffice
         {
             try
             {
-                ReaderInfo reader = _PrepareReader();
+                var reader = _PrepareReader();
                 if (ReferenceEquals(reader, null))
                 {
                     return;
                 }
 
-                string ticket = _ticketBox.Text.Trim();
+                var ticket = _ticketBox.Text.Trim();
                 if (string.IsNullOrEmpty(ticket))
                 {
                     XtraMessageBox.Show("Не задан читательский!");
@@ -255,12 +256,24 @@ namespace FrontOffice
                     return;
                 }
 
-                JObject card = ControlCenter.BuildCard(reader, ticket);
+                var card = ControlCenter.BuildCard(reader, ticket);
                 ControlCenter.CreateCard
                     (
                         ticket,
                         card
                     );
+
+                using (var connection = ControlCenter.GetIrbisConnection())
+                {
+                    CardUpdater.ProcessReader
+                        (
+                            reader,
+                            ControlCenter.Config,
+                            connection,
+                            ControlCenter.Client
+                        );
+                    ControlCenter.WriteLine("Данные на карте обнобвлены");
+                }
             }
             catch (Exception exception)
             {
@@ -452,6 +465,49 @@ namespace FrontOffice
                 Log.Debug("ConfigurationDialog called");
                 ConfigurationDialog.Configure(this);
                 Log.Debug("ConfigurationDialog done");
+            }
+        }
+
+        private void _updateButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var reader = _PrepareReader();
+                if (ReferenceEquals(reader, null))
+                {
+                    return;
+                }
+
+                var ticket = _ticketBox.Text.Trim();
+                if (string.IsNullOrEmpty(ticket))
+                {
+                    XtraMessageBox.Show("Не задан читательский!");
+                    return;
+                }
+
+                if (!ControlCenter.CardExists(ticket))
+                {
+                    Log.Debug("_updateButton_Click: card not exists=" + ticket);
+                    XtraMessageBox.Show("Карты не существует");
+                    return;
+                }
+
+                using (var connection = ControlCenter.GetIrbisConnection())
+                {
+                    CardUpdater.ProcessReader
+                        (
+                            reader,
+                            ControlCenter.Config,
+                            connection,
+                            ControlCenter.Client
+                        );
+                    ControlCenter.WriteLine("Данные на карте обнобвлены");
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.TraceException("_updateButton_Click", exception);
+                ExceptionBox.Show(this, exception);
             }
         }
 

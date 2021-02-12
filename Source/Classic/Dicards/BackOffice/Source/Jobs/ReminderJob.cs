@@ -35,18 +35,34 @@ namespace BackOffice.Jobs
 
         private static readonly LogWriter _log = HostLogger.Get<ReminderJob>();
 
+        private bool _setupDone;
+
         #endregion
 
         #region Public members
 
         /// <summary>
+        /// Первоначальная настройка таска.
+        /// </summary>
+        public async Task Setup()
+        {
+            await Task.Run(Reminder.LoadConfiguration);
+            _setupDone = true;
+        }
+
+        /// <summary>
         /// Метод вызывается планировщиком.
         /// </summary>
         public async Task Execute
-        (
-            IJobExecutionContext context
-        )
+            (
+                IJobExecutionContext context
+            )
         {
+            if (!_setupDone)
+            {
+                await Setup();
+            }
+
             await Task.Run(Reminder.DoWork);
         }
 

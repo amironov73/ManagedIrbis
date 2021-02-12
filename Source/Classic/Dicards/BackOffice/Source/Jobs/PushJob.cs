@@ -34,9 +34,20 @@ namespace BackOffice.Jobs
 
         private static readonly LogWriter _log = HostLogger.Get<PushJob>();
 
+        private bool _setupDone;
+
         #endregion
 
         #region Public members
+
+        /// <summary>
+        /// Первоначальная настройка таска.
+        /// </summary>
+        public async Task Setup()
+        {
+            await Task.Run(Pusher.LoadConfiguration);
+            _setupDone = true;
+        }
 
         /// <summary>
         /// Метод вызывается планировщиком.
@@ -46,6 +57,11 @@ namespace BackOffice.Jobs
                 IJobExecutionContext context
             )
         {
+            if (!_setupDone)
+            {
+                await Setup();
+            }
+
             await Task.Run(Pusher.DoWork);
         }
 

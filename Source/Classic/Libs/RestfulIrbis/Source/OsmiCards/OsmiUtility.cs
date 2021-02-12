@@ -5,7 +5,6 @@
 // ReSharper disable CommentTypo
 // ReSharper disable IdentifierTypo
 // ReSharper disable StringLiteralTypo
-// ReSharper disable UseNameofExpression
 
 /* OsmiUtility.cs --
  * Ars Magna project, http://arsmagna.ru
@@ -33,9 +32,9 @@ using Newtonsoft.Json.Linq;
 #if !ANDROID && !UAP && !NETCORE
 
 using System.Web;
-
+using AM.IO;
 using AM.Logging;
-
+using ManagedIrbis;
 using CM=System.Configuration.ConfigurationManager;
 
 #endif
@@ -49,31 +48,27 @@ namespace RestfulIrbis.OsmiCards
     /// </summary>
     public static class OsmiUtility
     {
-        #region Properties
-
-        #endregion
-
-        #region Construction
-
-        #endregion
-
         #region Private members
 
+        /// <summary>
+        /// Ищем метку в карточке.
+        /// </summary>
+        [CanBeNull]
         private static JObject FindLabel
             (
-                JObject obj,
-                string label
+                [NotNull] JObject obj,
+                [NotNull] string label
             )
         {
-            JObject result = (JObject) obj["values"].FirstOrDefault
+            var result = (JObject) obj["values"].FirstOrDefault
                 (
                     b => b["label"].Value<string>() == label
                 );
 
-            //if (ReferenceEquals(result, null))
-            //{
-            //    throw new Exception("Block not found: " + label);
-            //}
+            if (ReferenceEquals(result, null))
+            {
+                Log.Info($"Block not found {label}");
+            }
 
             return result;
         }
@@ -93,27 +88,35 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] JObject templateObject,
                 [NotNull] ReaderInfo reader,
                 [NotNull] string ticket,
-                [NotNull] string fioField
+                [NotNull] DicardsConfiguration config
             )
         {
-            Code.NotNull(templateObject, "templateObject");
-            Code.NotNull(reader, "reader");
+            Code.NotNull(templateObject, nameof(templateObject));
+            Code.NotNull(reader, nameof(reader));
 
-            string name = reader.FamilyName.ThrowIfNull("name");
-            string fio = reader.FullName.ThrowIfNull("fio");
+            var name = reader.FamilyName.ThrowIfNull("name");
+            var fio = reader.FullName.ThrowIfNull("fio");
 
-            JObject result = (JObject) templateObject.DeepClone();
+            var result = (JObject) templateObject.DeepClone();
 
-            JObject block = FindLabel(result, fioField);
+            JObject block = null;
+            if (!string.IsNullOrEmpty(config.FioField))
+            {
+                block = FindLabel(result, config.FioField);
+            }
             if (!ReferenceEquals(block, null))
             {
                 block["value"] = fio;
             }
 
-            block = FindLabel(result, "Ваш личный кабинет");
+            block = null;
+            if (!string.IsNullOrEmpty(config.CabinetField))
+            {
+                block = FindLabel(result, config.CabinetField);
+            }
             if (!ReferenceEquals(block, null))
             {
-                string cabinetUrl = CM.AppSettings["cabinetUrl"];
+                var cabinetUrl = config.CabinetUrl;
                 if (string.IsNullOrEmpty(cabinetUrl))
                 {
                     Log.Debug("BuildCardForReader: cabinerUrl not specified!");
@@ -129,10 +132,14 @@ namespace RestfulIrbis.OsmiCards
                 }
             }
 
-            block = FindLabel(result, "Поиск и заказ книг");
+            block = null;
+            if (!string.IsNullOrEmpty(config.CatalogField))
+            {
+                block = FindLabel(result, config.CatalogField);
+            }
             if (!ReferenceEquals(block, null))
             {
-                string catalogUrl = CM.AppSettings["catalogUrl"];
+                var catalogUrl = config.CatalogUrl;
                 if (string.IsNullOrEmpty(catalogUrl))
                 {
                     Log.Debug("BuildCardForReader: catalogUrl not specified!");
@@ -148,13 +155,17 @@ namespace RestfulIrbis.OsmiCards
                 }
             }
 
-            block = (JObject)result["barcode"];
-            if (!ReferenceEquals(block, null))
+            var barcodeField = config.BarcodeField;
+            if (!string.IsNullOrEmpty(barcodeField))
             {
-                block.Property("messageType")?.Remove();
-                block.Property("signatureType")?.Remove();
-                block["message"] = ticket;
-                block["signature"] = ticket;
+                block = (JObject) result[barcodeField];
+                if (!ReferenceEquals(block, null))
+                {
+                    block.Property("messageType")?.Remove();
+                    block.Property("signatureType")?.Remove();
+                    block["message"] = ticket;
+                    block["signature"] = ticket;
+                }
             }
 
             return result;
@@ -175,21 +186,52 @@ namespace RestfulIrbis.OsmiCards
         }
 
         /// <summary>
-        ///
+        /// Полный путь до <c>dicards.json</c>.
         /// </summary>
-        public static string UrlEncode
+        [NotNull]
+        public static string DicardsJson() => PathUtility.MapPath("dicards.json")
+            .ThrowIfNull("MapPath (\"dicards.json\")");
+
+        /// <summary>
+        /// Кодирование URL в UTF-8.
+        /// </summary>
+        [NotNull]
+        public static string UrlEncode ([NotNull] string text) =>
+            HttpUtility.UrlEncode(text, Encoding.UTF8);
+
+        /// <summary>
+        /// Получение идентификатора читателя.
+        /// </summary>
+        [NotNull]
+        public static string GetReaderId
             (
-                string text
+                [NotNull] MarcRecord record,
+                [NotNull] DicardsConfiguration config
             )
         {
-            return HttpUtility.UrlEncode(text, Encoding.UTF8);
+            var idTag = config.ReaderId.SafeToInt32(30);
+            var result = record.FM(idTag).ThrowIfNull("reader.Ticket");
+
+            return result;
+        }
+
+        /// <summary>
+        /// Получение идентификатора читателя.
+        /// </summary>
+        [NotNull]
+        public static string GetReaderId
+            (
+                [NotNull] ReaderInfo reader,
+                [NotNull] DicardsConfiguration config
+            )
+        {
+            var record = reader.Record.ThrowIfNull("reader.Record");
+            var result = GetReaderId(record, config);
+
+            return result;
         }
 
 #endif
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

@@ -23,9 +23,11 @@ using System.Reflection;
 using System.Windows.Forms;
 
 using AM;
-using AM.IO;
+using AM.Win32;
 
 using DevExpress.XtraEditors;
+
+using JetBrains.Annotations;
 
 using ManagedIrbis;
 
@@ -61,9 +63,10 @@ namespace DicardsConfig
             _logBox.Clear();
         }
 
+        [StringFormatMethod("format")]
         private void WriteLog
             (
-                string format,
+                [NotNull] string format,
                 params object[] args
             )
         {
@@ -72,7 +75,7 @@ namespace DicardsConfig
 
         private void WriteError
             (
-                Exception exception
+                [NotNull] Exception exception
             )
         {
             WriteLog
@@ -85,16 +88,17 @@ namespace DicardsConfig
 
         private bool CheckField
             (
-                Expression<Func<DicardsConfiguration, string>> lambda
+                [NotNull] Expression<Func<DicardsConfiguration, string>> lambda
             )
         {
             var property = GetProperty(lambda);
             return CheckField(property);
         }
 
+        [NotNull]
         private string GetName
             (
-                PropertyInfo property
+                [NotNull] PropertyInfo property
             )
         {
             var attribute = property.GetCustomAttribute<DisplayNameAttribute>()
@@ -104,9 +108,10 @@ namespace DicardsConfig
             return label;
         }
 
+        [NotNull]
         private string GetName
             (
-                Expression<Func<DicardsConfiguration, string>> lambda
+                [NotNull] Expression<Func<DicardsConfiguration, string>> lambda
             )
         {
             var property = GetProperty(lambda);
@@ -115,7 +120,7 @@ namespace DicardsConfig
 
         private bool CheckField
             (
-                PropertyInfo property
+                [NotNull] PropertyInfo property
             )
         {
             var config = GetConfig();
@@ -139,9 +144,10 @@ namespace DicardsConfig
             return true;
         }
 
+        [NotNull]
         private PropertyInfo GetProperty<TSource, TProperty>
             (
-                Expression<Func<TSource, TProperty>> lambda
+                [NotNull] Expression<Func<TSource, TProperty>> lambda
             )
         {
             var member = (MemberExpression)lambda.Body;
@@ -150,6 +156,10 @@ namespace DicardsConfig
             return info;
         }
 
+        /// <summary>
+        /// Проверяем заполнение полей.
+        /// </summary>
+        /// <remarks>Умеет проверять только текстовые поля.</remarks>
         private bool CheckFields()
         {
             return CheckField(c => c.Host)
@@ -175,16 +185,24 @@ namespace DicardsConfig
                    && CheckField(c => c.ExpiredListFormat);
         }
 
+        /// <summary>
+        /// Разбор конфигурации (в основном, возня вокруг
+        /// строки подключения к ИРБИС64).
+        /// </summary>
         private void FromConfig
             (
-                DicardsConfiguration config
+                [NotNull] DicardsConfiguration config
             )
         {
             var connection = new IrbisConnection();
-            connection.ParseConnectionString(config.ConnectionString);
-            if (string.IsNullOrEmpty(config.ConnectionString))
+            var connectionString = config.ConnectionString;
+            if (string.IsNullOrEmpty(connectionString))
             {
                 connection.Database = "RDR";
+            }
+            else
+            {
+                connection.ParseConnectionString(connectionString);
             }
 
             config.Host = connection.Host;
@@ -196,19 +214,23 @@ namespace DicardsConfig
             _propertyGrid.SelectedObject = config;
         }
 
+        /// <summary>
+        /// Получаем (неактивное) подключение к серверу ИРБИС64.
+        /// </summary>
+        [NotNull]
         private IrbisConnection ToConnection()
         {
             var config = GetConfig();
             var result = new IrbisConnection
             {
-                Host = config.Host,
+                Host = config.Host.ThrowIfNull("config.Host"),
                 Port = config.Port,
-                Username = config.Login,
-                Password = config.Password,
-                Database = config.Database
+                Username = config.Login.ThrowIfNull("config.Login"),
+                Password = config.Password.ThrowIfNull("config.Password"),
+                Database = config.Database.ThrowIfNull("config.Database")
             };
 
-            if (result.Database == "IBIS")
+            if (result.Database.SameString("IBIS"))
             {
                 result.Database = "RDR";
             }
@@ -221,6 +243,7 @@ namespace DicardsConfig
             return result;
         }
 
+        [NotNull]
         private DicardsConfiguration ToConfig()
         {
             var result = GetConfig();
@@ -231,10 +254,17 @@ namespace DicardsConfig
             return result;
         }
 
+        /// <summary>
+        /// Если строка пустая, бросаемся исключением.
+        /// </summary>
+        /// <param name="name">Имя, которое будет отображено на экране.</param>
+        /// <param name="value">Значение строки.</param>
+        /// <returns>Переданное в функцию значение строки.</returns>
+        [NotNull]
         private string ThrowIfEmpty
             (
-                string name,
-                string value
+                [NotNull] string name,
+                [CanBeNull] string value
             )
         {
             if (string.IsNullOrEmpty(value))
@@ -245,12 +275,16 @@ namespace DicardsConfig
             return value;
         }
 
+        /// <summary>
+        /// Создаем клиента DICARDS API.
+        /// </summary>
+        [NotNull]
         private OsmiCardsClient ToClient()
         {
             var config = GetConfig();
-            var baseUri = ThrowIfEmpty("URL", config.BaseUri.Trim());
-            var apiId = ThrowIfEmpty("ID", config.ApiId.Trim());
-            var apiKey = ThrowIfEmpty("Key", config.ApiKey.Trim());
+            var baseUri = ThrowIfEmpty("URL", config.BaseUri?.Trim());
+            var apiId = ThrowIfEmpty("ID", config.ApiId?.Trim());
+            var apiKey = ThrowIfEmpty("Key", config.ApiKey?.Trim());
 
             var result = new OsmiCardsClient
                 (
@@ -262,6 +296,9 @@ namespace DicardsConfig
             return result;
         }
 
+        /// <summary>
+        /// Проверяем связь с сервером ИРБИС64.
+        /// </summary>
         private bool CheckIrbis()
         {
             try
@@ -277,7 +314,7 @@ namespace DicardsConfig
 
                     connection.Connect();
                     var serverVersion = connection.GetServerVersion();
-                    WriteLog("ИРБИС64: {0}\r\n", serverVersion.ToString());
+                    WriteLog("ИРБИС64: {0}\r\n", serverVersion);
                     int maxMfn = connection.GetMaxMfn(connection.Database);
                     WriteLog("Max MFN={0}\r\n", maxMfn);
                 }
@@ -291,13 +328,20 @@ namespace DicardsConfig
             return true;
         }
 
+        /// <summary>
+        /// Проверяем связь с DICARDS API.
+        /// </summary>
         private bool CheckOsmi()
         {
             try
             {
                 var config = GetConfig();
-                var baseUri = config.BaseUri.Trim();
-                ThrowIfEmpty(GetName(c => c.BaseUri), baseUri);
+                var baseUri = config.BaseUri?.Trim();
+                baseUri = ThrowIfEmpty
+                    (
+                        GetName(c => c.BaseUri),
+                        baseUri
+                    );
                 var hostname = new Uri(baseUri).Host;
                 var status = NetworkChecker.PingHost(hostname);
                 if (status != IPStatus.Success)
@@ -307,9 +351,13 @@ namespace DicardsConfig
                 }
 
                 var client = ToClient();
-                var templateName = config.Template.Trim();
-                ThrowIfEmpty(GetName(c=> c.Template), templateName);
-                WriteLog("Подключаемся к API. Считываем шаблон\r\n");
+                var templateName = config.Template?.Trim();
+                templateName = ThrowIfEmpty
+                    (
+                        GetName(c=> c.Template),
+                        templateName
+                    );
+                WriteLog($"Подключаемся к API. Считываем шаблон {templateName}\r\n");
                 var template = client.GetTemplateInfo(templateName).ToString();
                 ThrowIfEmpty("Содержимое шаблона", template);
             }
@@ -322,7 +370,13 @@ namespace DicardsConfig
             return true;
         }
 
-        private bool CheckRdrSettings(DicardsConfiguration config)
+        /// <summary>
+        /// Проверяем настойки базы данных RDR.
+        /// </summary>
+        private bool CheckRdrSettings
+            (
+                [NotNull] DicardsConfiguration config
+            )
         {
             var styles = NumberStyles.Any;
             var culture = CultureInfo.InvariantCulture;
@@ -340,13 +394,6 @@ namespace DicardsConfig
             return true;
         }
 
-        private string DicardsJson()
-        {
-            var result = PathUtility.MapPath("dicards.json");
-
-            return result;
-        }
-
         private void ConfigurationForm_Load
             (
                 object sender,
@@ -358,7 +405,7 @@ namespace DicardsConfig
 
             try
             {
-                var fileName = DicardsJson();
+                var fileName = OsmiUtility.DicardsJson();
                 var config
                     = DicardsConfiguration.LoadConfiguration (fileName);
 
@@ -442,7 +489,7 @@ namespace DicardsConfig
                 }
 
                 var config = ToConfig();
-                config.SaveConfiguration(DicardsJson());
+                config.SaveConfiguration(OsmiUtility.DicardsJson());
                 WriteLog("\r\n\r\nКонфигурация успешно сохранена");
                 Close();
             }
@@ -452,7 +499,11 @@ namespace DicardsConfig
             }
         }
 
-        private void _exportButton_Click(object sender, EventArgs e)
+        private void _exportButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
         {
             if (_saveDialog.ShowDialog(this) == DialogResult.OK)
             {
@@ -463,7 +514,11 @@ namespace DicardsConfig
             }
         }
 
-        private void _importButton_Click(object sender, EventArgs e)
+        private void _importButton_Click
+            (
+                object sender,
+                EventArgs e
+            )
         {
             if (_openDialog.ShowDialog(this) == DialogResult.OK)
             {
@@ -486,15 +541,26 @@ namespace DicardsConfig
         /// </summary>
         public static bool Configure
             (
-                IWin32Window owner
+                [CanBeNull] IWin32Window owner
             )
         {
             using (var dialog = new ConfigurationDialog())
             {
                 if (ReferenceEquals(owner, null))
                 {
-                    dialog.TopMost = true;
-                    dialog.ShowInTaskbar = true;
+                    // если нет окна-владельца, значит, мы запущены из-под конфигуратора
+                    // в этом случае окно прячется под инсталлятором
+                    // чтобы показать его, делаем TopMost
+                    // решение идиотское, но срабатывает в отличие от BringWindowToTop,
+                    // ведь окно ещё не отображено на экране
+                    if (dialog.IsHandleCreated)
+                    {
+                        User32.BringWindowToTop(dialog.Handle);
+                    }
+                    else
+                    {
+                        dialog.TopMost = true;
+                    }
                 }
 
                 if (dialog.ShowDialog(owner) == DialogResult.OK)
@@ -506,6 +572,6 @@ namespace DicardsConfig
             return false;
         }
 
-        #endregion
+#endregion
     }
 }

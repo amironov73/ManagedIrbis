@@ -1,6 +1,11 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CheckNamespace
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable StringLiteralTypo
+
 /* VisitInfo.cs -- информация о посещении/выдаче
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -12,7 +17,6 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
@@ -284,6 +288,18 @@ namespace ManagedIrbis.Readers
                     (
                         DateExpectedString
                     );
+            }
+        }
+
+        /// <summary>
+        /// Книга просрочена?
+        /// </summary>
+        public bool Expired
+        {
+            get
+            {
+                var today = IrbisDate.TodayText;
+                return string.CompareOrdinal(DateExpectedString, today) < 0;
             }
         }
 

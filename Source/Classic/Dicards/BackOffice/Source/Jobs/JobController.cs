@@ -16,7 +16,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-
+using AM;
 using Quartz;
 using Quartz.Impl;
 
@@ -162,7 +162,7 @@ namespace BackOffice.Jobs
                 }
                 else
                 {
-                    if (string.CompareOrdinal(jobName, job.Name) == 0)
+                    if (jobName.SameString(job.Name))
                     {
                         found = true;
                         DirectRun(job);

@@ -6,6 +6,7 @@
 // ReSharper disable IdentifierTypo
 // ReSharper disable LocalizableElement
 // ReSharper disable StringLiteralTypo
+// ReSharper disable UnusedMember.Global
 
 /* NetworkChecker.cs -- проверка возможности связи с удаленным хостом.
  * Ars Magna project, http://arsmagna.ru
@@ -17,6 +18,8 @@
 using System;
 using System.Net.NetworkInformation;
 using System.Text;
+
+using JetBrains.Annotations;
 
 using ManagedIrbis;
 
@@ -38,20 +41,21 @@ namespace DicardsConfig
         /// <returns>Результат проверки.</returns>
         public static IPStatus PingHost
             (
-                string hostname,
+                [NotNull] string hostname,
                 int timeout = 3000
             )
         {
-            Ping pingSender = new Ping();
-            PingOptions options = new PingOptions();
+            var pingSender = new Ping();
+            var options = new PingOptions
+            {
+                // Use the default Ttl value which is 128,
+                // but change the fragmentation behavior.
+                DontFragment = true
+            };
 
-            // Use the default Ttl value which is 128,
-            // but change the fragmentation behavior.
-            options.DontFragment = true;
-
-            string data = "Alexey Mironov";
-            byte[] buffer = Encoding.ASCII.GetBytes(data);
-            PingReply reply = pingSender.Send
+            var data = "Alexey Mironov";
+            var buffer = Encoding.ASCII.GetBytes(data);
+            var reply = pingSender.Send
                 (
                     hostname,
                     timeout,
@@ -70,10 +74,16 @@ namespace DicardsConfig
         /// <returns>Результат проверки.</returns>
         public static IPStatus PingDicards
             (
-                DicardsConfiguration configuration
+                [NotNull] DicardsConfiguration configuration
             )
         {
-            string hostname = new Uri(configuration.BaseUri).Host;
+            var baseUri = configuration.BaseUri;
+            if (string.IsNullOrEmpty(baseUri))
+            {
+                return IPStatus.BadOption;
+            }
+
+            var hostname = new Uri(baseUri).Host;
 
             return PingHost(hostname);
         }
@@ -89,8 +99,14 @@ namespace DicardsConfig
                 DicardsConfiguration configuration
             )
         {
-            IrbisConnection connection = new IrbisConnection();
-            connection.ParseConnectionString(configuration.ConnectionString);
+            var connectionString = configuration.ConnectionString;
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                return IPStatus.BadOption;
+            }
+
+            var connection = new IrbisConnection();
+            connection.ParseConnectionString(connectionString);
             string hostname = connection.Host;
 
             return PingHost(hostname);

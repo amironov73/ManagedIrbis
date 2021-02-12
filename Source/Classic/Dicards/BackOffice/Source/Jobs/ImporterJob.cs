@@ -34,10 +34,21 @@ namespace BackOffice.Jobs
         #region Private members
         
         private static readonly LogWriter _log = HostLogger.Get<ImporterJob> ();
+
+        private bool _setupDone;
         
         #endregion
         
         #region Public members
+
+        /// <summary>
+        /// Первоначальная настройка таска.
+        /// </summary>
+        public async Task Setup()
+        {
+            await Task.Run(Importer.LoadConfiguration);
+            _setupDone = true;
+        }
         
         /// <summary>
         /// Метод вызывается планировщиком.
@@ -47,6 +58,11 @@ namespace BackOffice.Jobs
                 IJobExecutionContext context
             )
         {
+            if (!_setupDone)
+            {
+                await Setup();
+            }
+
             await Task.Run(Importer.DoWork);
         }
         

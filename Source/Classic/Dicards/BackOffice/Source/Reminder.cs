@@ -17,21 +17,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 
 using AM;
-using AM.IO;
 using AM.Logging;
+
+using DicardsConfig;
 
 using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Batch;
 using ManagedIrbis.Readers;
-
-using Newtonsoft.Json.Linq;
 
 using RestfulIrbis.OsmiCards;
 
@@ -82,31 +78,6 @@ namespace BackOffice
 
         #region Private members
 
-        private static string DicardsJson()
-        {
-            var result = PathUtility.MapPath("dicards.json");
-
-            return result;
-        }
-
-        private static bool UpdateCard
-            (
-                JObject card,
-                string label,
-                string newValue
-            )
-        {
-            var found = card.SelectToken($"$.values[?(@.label == '{label}')]");
-            if (ReferenceEquals(found, null))
-            {
-                return false;
-            }
-
-            found["value"] = new JValue(newValue);
-
-            return true;
-        }
-
         private static void ProcessReader
             (
                 ReaderInfo reader,
@@ -114,55 +85,7 @@ namespace BackOffice
                 OsmiCardsClient client
             )
         {
-            // Массив задолженных книг
-            var books = reader.Visits
-                .Where(v => !v.IsVisit)
-                .Where(v => !v.IsReturned)
-                .ToArray();
-            var builder = new StringBuilder(4096);
-
-            var index = 1;
-            foreach (var book in books)
-            {
-                /*
-                var descriptions = connection.SearchFormat
-                    (
-                        $"\"I={book.Index}\"",
-                        Format
-                    );
-                if (descriptions.Length == 0)
-                {
-                    continue;
-                }
-
-                var description = descriptions
-                    .Select(item => item.Text)
-                    .FirstOrDefault(text => !string.IsNullOrEmpty(text));
-
-                if (index != 1)
-                {
-                    builder.Append("\n");
-                }
-
-                builder.AppendFormat("{0}. {1}", index, description);
-                */
-                ++index;
-            }
-
-            if (builder.Length != 0)
-            {
-                var ticket = reader.Ticket.ThrowIfNull("ticket");
-                var card = client.GetRawCard(ticket);
-                if (!ReferenceEquals(card, null))
-                {
-                    /*
-                    if (UpdateCard(card, Field, builder.ToString()))
-                    {
-                        client.UpdateCard(ticket, card.ToString(), true);
-                    }
-                    */
-                }
-            }
+            CardUpdater.ProcessReader(reader, Configuration, connection, client);
         }
 
         private static void ProcessReaders
@@ -185,8 +108,7 @@ namespace BackOffice
                 foreach (var record in batch)
                 {
                     var reader = ReaderInfo.Parse(record);
-                    var ticket = (reader.PassCard ?? reader.Ticket)
-                        .ThrowIfNull("ticket");
+                    var ticket = OsmiUtility.GetReaderId(record, Configuration);
                     if (ticket.OneOf(cards))
                     {
                         ProcessReader(reader, connection, client);
@@ -207,11 +129,12 @@ namespace BackOffice
             Log.Trace("Reminder::LoadConfiguration: enter");
 
             var config
-                = DicardsConfiguration.LoadConfiguration(DicardsJson());
+                = DicardsConfiguration.LoadConfiguration(OsmiUtility.DicardsJson());
             config.Verify(true);
+            Configuration = config;
 
-            ConnectionString = config.ConnectionString;
-            ConnectionSettings settings = new ConnectionSettings();
+            ConnectionString = config.ConnectionString.ThrowIfNull("config.ConnectionString");
+            var settings = new ConnectionSettings();
             settings.ParseConnectionString(ConnectionString);
             if (!settings.Verify(false))
             {
@@ -237,6 +160,7 @@ namespace BackOffice
 
                 var client = CreateClient();
                 var cards = client.GetCardList();
+                ProcessReaders(cards, client);
 
                 Log.Trace("Reminder::DoWork: exit");
             }

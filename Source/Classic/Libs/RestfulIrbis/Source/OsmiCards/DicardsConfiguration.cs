@@ -21,7 +21,7 @@ using System.Text;
 
 using AM;
 using AM.Json;
-
+using AM.Logging;
 using JetBrains.Annotations;
 
 using CodeJam;
@@ -55,10 +55,11 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// IP-адрес сервера.
         /// </summary>
+        [CanBeNull]
         [JsonIgnore]
         [Category(IrbisConnection)]
         [DisplayName("IP-адрес сервера")]
-        [Description("IP-адрес хоста, на котором запущен сервер ИРБИС64")]
+        [Description("IP-адрес хоста, на котором запущен сервер ИРБИС64.")]
         public string Host { get; set; }
 
         /// <summary>
@@ -74,6 +75,7 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// Логин пользователя.
         /// </summary>
+        [CanBeNull]
         [JsonIgnore]
         [Category(IrbisConnection)]
         [DisplayName("Логин пользователя")]
@@ -85,9 +87,11 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// Пароль.
         /// </summary>
+        [CanBeNull]
         [JsonIgnore]
         [Category(IrbisConnection)]
         [DisplayName("Пароль")]
+        [PasswordPropertyText(true)]
         [Description("Пароль чувствителен к регистру символов! "
             + "Не забудьте переключить раскладку клавиатуры, "
             + "если это необходимо!")]
@@ -96,6 +100,7 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// База данных.
         /// </summary>
+        [CanBeNull]
         [JsonIgnore]
         [Category(IrbisDatabase)]
         [DisplayName("Имя базы данных")]
@@ -106,15 +111,16 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// Строка подключения к серверу ИРБИС64.
         /// </summary>
+        [CanBeNull]
         [Browsable(false)]
         [JsonProperty("connectionString")]
-        [DisplayName("Строка подключения")]
         public string ConnectionString { get; set; }
 
         /// <summary>
         /// Идентификатор пользователя
         /// для подключения к DICARDS API.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("apiID")]
         [Category(DicardsConnection)]
         [DisplayName("ID пользователя")]
@@ -124,6 +130,7 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// Ключ для подключания к DICARDS API.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("apiKey")]
         [DisplayName("Ключ API")]
         [Category(DicardsConnection)]
@@ -133,6 +140,7 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// Базовый URL для подключения к DICARDS API.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("baseUri")]
         [DisplayName("Базовый URL")]
         [Category(DicardsConnection)]
@@ -141,8 +149,9 @@ namespace RestfulIrbis.OsmiCards
 
         /// <summary>
         /// Группа для извлечения читателей
-        /// из репозитория DICARDS.
+        /// из репозитория DICARDS (опционально).
         /// </summary>
+        [CanBeNull]
         [Category(DicardsConnection)]
         [JsonProperty("group")]
         [DisplayName("Группа в репозитории")]
@@ -154,6 +163,7 @@ namespace RestfulIrbis.OsmiCards
         /// Префикс для читательских билетов
         /// для читателей, извлеченных их репозитория DICARDS.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("prefix")]
         [Category(IrbisDatabase)]
         [DisplayName("Префикс идентификатора")]
@@ -166,6 +176,7 @@ namespace RestfulIrbis.OsmiCards
         /// Категория для читателей, извлеченных
         /// из репозитория DICARDS.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("category")]
         [Category(IrbisDatabase)]
         [DisplayName("Категория читателей")]
@@ -178,6 +189,7 @@ namespace RestfulIrbis.OsmiCards
         /// Поле записи в БД RDR, используемое как идентификатор читателя.
         /// В дистрибутиве это поле 30.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("readerID")]
         [Category(IrbisDatabase)]
         [DisplayName("Поле с идентификатором читателя")]
@@ -190,6 +202,7 @@ namespace RestfulIrbis.OsmiCards
         /// номера пропуска в библиотеку (например, RFID-метка).
         /// В дистрибутиве это поле 22.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("ticket")]
         [Category(IrbisDatabase)]
         [DisplayName("Поле с номером пропуска")]
@@ -201,6 +214,7 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// Имя шаблона для карт DICARDS.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("template")]
         [Category(DicardsTemplate)]
         [DisplayName("Имя шаблона читательского билета")]
@@ -213,6 +227,7 @@ namespace RestfulIrbis.OsmiCards
         /// Имя поля в шаблоне карточки читателя,
         /// в которое будет помещено ФИО читателя.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("fioField")]
         [Category(DicardsTemplate)]
         [DisplayName("Поле для ФИО")]
@@ -222,9 +237,68 @@ namespace RestfulIrbis.OsmiCards
 
         /// <summary>
         /// Имя поля в шаблоне карточки читателя,
+        /// в которое будет помещен штрих-код.
+        /// </summary>
+        [CanBeNull]
+        [JsonProperty("barcodeField")]
+        [Category(DicardsTemplate)]
+        [DisplayName("Поле для штрих-кода")]
+        [Description("Имя поля в шаблоне карточки читателя, "
+            + "в которое будет помещен штрих-код.")]
+        public string BarcodeField { get; set; }
+
+        /// <summary>
+        /// Имя поля в шаблоне карточки читателя
+        /// для ссылки на личный кабинет.
+        /// </summary>
+        [CanBeNull]
+        [JsonProperty("cabinetField")]
+        [Category(DicardsTemplate)]
+        [DisplayName("Поле для ссылки на личный кабинет")]
+        [Description("Имя поля в шаблоне карточки читателя, "
+            + "в которое будет помещена ссылка на личный кабинет.")]
+        public string CabinetField { get; set; }
+
+        /// <summary>
+        /// URL - ссылка на личный кабинет.
+        /// </summary>
+        [CanBeNull]
+        [JsonProperty("cabinetUrl")]
+        [Category(DicardsTemplate)]
+        [DisplayName("URL - ссылка на личный кабинет")]
+        [Description("URL - ссылка на личный кабинет.")]
+        public string CabinetUrl { get; set; }
+
+        /// <summary>
+        /// Имя поля в шаблоне карточки читателя
+        /// для ссылки на электронный каталог библиотеки
+        /// с возможностью заказа книг.
+        /// </summary>
+        [CanBeNull]
+        [JsonProperty("catalogField")]
+        [Category(DicardsTemplate)]
+        [DisplayName("Поле для ссылки на электронный каталог")]
+        [Description("Имя поля в шаблоне карточки читателя, "
+            + "в которое будет помещена ссылка на электронный "
+            + "каталог библиотеки.")]
+        public string CatalogField { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [CanBeNull]
+        [JsonProperty("catalogUrl")]
+        [Category(DicardsTemplate)]
+        [DisplayName("URL - ссылка на электронный каталог")]
+        [Description("URL - ссылка на электронный каталог библиотеки.")]
+        public string CatalogUrl { get; set; }
+
+        /// <summary>
+        /// Имя поля в шаблоне карточки читателя,
         /// в которое будет помещено напоминание о необходимости
         /// сдать книги в библиотеку.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("reminderField")]
         [Category(DicardsTemplate)]
         [DisplayName("Поле для напоминания о задолженности")]
@@ -236,7 +310,9 @@ namespace RestfulIrbis.OsmiCards
         /// <summary>
         /// Сообщение о необходимости возвращать книги.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("reminderMessage")]
+        [Category(DicardsTemplate)]
         [DisplayName("Текст сообщения о необходимости возвращать книги")]
         [Description("Сообщение отправляемое задачей Pusher читателям, "
             + "имеющим просроченную задолженность (одно сообщение "
@@ -250,6 +326,7 @@ namespace RestfulIrbis.OsmiCards
         /// Имя поля задает сама библиотека,
         /// например «ВСЕГО», оно будет видно в приложении.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("totalCountField")]
         [Category(DicardsTemplate)]
         [DisplayName("Поле для количества книг")]
@@ -265,6 +342,7 @@ namespace RestfulIrbis.OsmiCards
         /// что файл находится в локальной файловой системе
         /// (рядом с программой Back Office), а не на сервере ИРБИС64.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("totalCountFormat")]
         [Category(DicardsTemplate)]
         [DisplayName("Файл формата для количества книг")]
@@ -279,6 +357,7 @@ namespace RestfulIrbis.OsmiCards
         /// Имя поля задает сама библиотека, например «ДОЛГ»,
         /// оно будет видно в приложении.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("expiredCountField")]
         [Category(DicardsTemplate)]
         [DisplayName("Поле для величины долга")]
@@ -293,6 +372,7 @@ namespace RestfulIrbis.OsmiCards
         /// это “|expired_count.pft”. Здесь символ “|” означает,
         /// что файл находится в локальной файловой системе.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("expiredCountFormat")]
         [Category(DicardsTemplate)]
         [DisplayName("Файл формата для количества задолженных книг")]
@@ -306,6 +386,7 @@ namespace RestfulIrbis.OsmiCards
         /// за читателем. Имя поля задает сама библиотека,
         /// например «КНИГИ», оно будет видно в приложении.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("totalListField")]
         [Category(DicardsTemplate)]
         [DisplayName("Поле для списка книг")]
@@ -320,6 +401,7 @@ namespace RestfulIrbis.OsmiCards
         /// это “|total_list.pft”. Здесь символ “|” означает,
         /// что файл находится в локальной файловой системе.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("totalListFormat")]
         [Category(DicardsTemplate)]
         [DisplayName("Формат для списка книг")]
@@ -333,6 +415,7 @@ namespace RestfulIrbis.OsmiCards
         /// будет помещен список документов, просроченных читателем.
         /// Имя поля задает сама библиотека.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("expiredListField")]
         [Category(DicardsTemplate)]
         [DisplayName("Поле для списка задолженных книг")]
@@ -347,6 +430,7 @@ namespace RestfulIrbis.OsmiCards
         /// это “|expired_list.pft”. Здесь символ “|” означает,
         /// что файл находится в локальной файловой системе.
         /// </summary>
+        [CanBeNull]
         [JsonProperty("expiredListFormat")]
         [Category(DicardsTemplate)]
         [DisplayName("Формат для списка задолженных книг")]
@@ -367,7 +451,7 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string fileName
             )
         {
-            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNullNorEmpty(fileName, nameof(fileName));
 
             var result = JsonUtility.ReadObjectFromFile<DicardsConfiguration>(fileName);
             result.ApiId = Unprotect(result.ApiId);
@@ -385,7 +469,7 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string fileName
             )
         {
-            Code.NotNullNorEmpty(fileName, "fileName");
+            Code.NotNullNorEmpty(fileName, nameof(fileName));
 
             var clone = (DicardsConfiguration) MemberwiseClone();
             clone.ApiId = Protect(ApiId);
@@ -399,6 +483,7 @@ namespace RestfulIrbis.OsmiCards
         /// Примитивная защита от подглядывания паролей и прочего.
         /// Работает только против совсем неопытных пользователей.
         /// </summary>
+        [CanBeNull]
         public static string Protect
             (
                 [CanBeNull] string value
@@ -445,18 +530,33 @@ namespace RestfulIrbis.OsmiCards
 
         #region IVerifiable members
 
+        private bool CheckString
+            (
+                [NotNull] string name,
+                [CanBeNull] string value
+            )
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                Log.Error($"Не задано значение для {name}");
+                return false;
+            }
+
+            return true;
+        }
+
         /// <inheritdoc cref="IVerifiable.Verify"/>
         public bool Verify
             (
                 bool throwOnError
             )
         {
-            bool result = !string.IsNullOrEmpty(BaseUri)
-                && !string.IsNullOrEmpty(ApiId)
-                && !string.IsNullOrEmpty(ApiKey)
-                && !string.IsNullOrEmpty(ConnectionString)
-                && !string.IsNullOrEmpty(ReaderId)
-                && !string.IsNullOrEmpty(Ticket);
+            bool result = CheckString(nameof(BaseUri), BaseUri)
+                && CheckString(nameof(ApiId), ApiId)
+                && CheckString(nameof(ApiKey), ApiKey)
+                && CheckString(nameof(ConnectionString), ConnectionString)
+                && CheckString(nameof(ReaderId), ReaderId)
+                && CheckString(nameof(Ticket), Ticket);
 
             if (throwOnError && !result)
             {
