@@ -6,6 +6,12 @@ clone_folder: C:\projects\managedclient
 
 clone_depth: 1
 
+environment:
+  PYTHONPATH: c:\projects\pythonirbis
+  PATH: C:\Python36-x64;C:\Python36-x64\Scripts;%PATH%
+  PYTHON: C:\Python36-x64\python.exe
+  PIP: C:\Python36-x64\Scripts\pip.exe
+
 init:
   - git config --global core.autocrlf true
 
