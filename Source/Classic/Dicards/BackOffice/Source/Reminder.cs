@@ -85,7 +85,7 @@ namespace BackOffice
                 OsmiCardsClient client
             )
         {
-            CardUpdater.ProcessReader(reader, Configuration, connection, client);
+            CardUpdater.UpdateReaderCard(reader, Configuration, connection, client);
         }
 
         private static void ProcessReaders

@@ -6,7 +6,6 @@
 // ReSharper disable IdentifierTypo
 // ReSharper disable LocalizableElement
 // ReSharper disable StringLiteralTypo
-// ReSharper disable UseNameofExpression
 
 /* Importer.cs -- pulls cards, imports readers
  * Ars Magna project, http://arsmagna.ru
@@ -16,8 +15,8 @@
 #region Using directives
 
 using System;
-using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 using AM;
 using AM.Collections;
@@ -25,6 +24,8 @@ using AM.IO;
 using AM.Logging;
 
 using CodeJam;
+
+using DicardsConfig;
 
 using JetBrains.Annotations;
 
@@ -114,6 +115,11 @@ namespace BackOffice
         /// </summary>
         public static string ApiCategory { get; set; }
 
+        /// <summary>
+        /// Конфигурация в целом.
+        /// </summary>
+        public static DicardsConfiguration Configuration { get; set; }
+
         #endregion
 
         #region Private members
@@ -141,8 +147,9 @@ namespace BackOffice
             var config
                 = DicardsConfiguration.LoadConfiguration(DicardsJson());
             config.Verify(true);
+            Configuration = config;
 
-            ConnectionString = config.ConnectionString;
+            ConnectionString = config.ConnectionString.ThrowIfNull("ConnectionString");
             var settings = new ConnectionSettings();
             settings.ParseConnectionString(ConnectionString);
             if (!settings.Verify(false))
@@ -172,7 +179,7 @@ namespace BackOffice
                 var registrations = GetRegistrations();
                 if (registrations.IsNullOrEmpty())
                 {
-                    Log.Info("no registrations");
+                    Log.Info("Importer::DoWork: no registrations");
                     goto DONE;
                 }
 
@@ -180,21 +187,24 @@ namespace BackOffice
                 using (var connection = CreateConnection())
                 {
                     var manager = new ReaderManager(connection);
+                    var client = CreateClient();
                     foreach (var questionnaire in registrations)
                     {
-                        if (CanImport(manager, questionnaire))
+                        var reader = ToReader(questionnaire);
+                        if (CanImport(manager, reader))
                         {
                             ImportReader
                                 (
                                     manager,
-                                    questionnaire
+                                    reader,
+                                    client
                                 );
                             ++counter;
                         }
                     }
                 }
 
-                Log.Info("Importer::DoWork: total imported=" + counter);
+                Log.Info($"Importer::DoWork: total imported={counter}");
 
                 DeleteRegistrations(registrations);
                 Log.Info("Importer::DoWork: registrations deleted");
@@ -248,8 +258,8 @@ namespace BackOffice
             var result = client.GetRegistrations(ApiGroup);
             Log.Info
                 (
-                $"Importer::GetRegistrations: got {result.Length} records"
-            );
+                    $"Importer::GetRegistrations: got {result.Length} records"
+                );
 
             Log.Trace("Importer::GetRegistrations: exit");
 
@@ -262,15 +272,21 @@ namespace BackOffice
         public static bool CanImport
             (
                 [NotNull] ReaderManager manager,
-                [NotNull] OsmiRegistrationInfo questionnaire
+                [NotNull] ReaderInfo reader
             )
         {
-            Code.NotNull(manager, "manager");
-            Code.NotNull(questionnaire, "questionnaire");
+            Code.NotNull(manager, nameof(manager));
+            Code.NotNull(reader, nameof(reader));
 
             Log.Trace("Importer::CanImport: enter");
 
-            var result = true;
+            var found = FindReader(manager, reader);
+            var result = found is null;
+
+            /*
+
+            Временно выключаем проверку E-mail,
+            т. к. тестовый стенд от DICARDS не умеет запрашивать почту.
 
             if (string.IsNullOrEmpty(questionnaire.Email))
             {
@@ -281,6 +297,8 @@ namespace BackOffice
                     );
                 result = false;
             }
+
+            */
 
             Log.Trace("Importer::CanImport: result=" + result);
             Log.Trace("Importer::CanImport: exit");
@@ -297,17 +315,15 @@ namespace BackOffice
                 [NotNull] OsmiRegistrationInfo questionnaire
             )
         {
-            Code.NotNull(questionnaire, "questionnaire");
+            Code.NotNull(questionnaire, nameof(questionnaire));
 
             var gender = GenderUtility.Parse(questionnaire.Gender);
-            bool haveBirth = DateTime.TryParseExact
+            var birthYear = Regex.Match
                 (
                     questionnaire.BirthDate,
-                    "dd/MM/yyyy",
-                    CultureInfo.InvariantCulture,
-                    DateTimeStyles.None,
-                    out var birth
-                );
+                    @"\d{4}"
+                )
+                .Value;
             var result = new ReaderInfo
             {
                 Ticket = TicketPrefix + questionnaire.SerialNumber,
@@ -316,16 +332,17 @@ namespace BackOffice
                 FamilyName = questionnaire.Surname,
                 Gender = GenderUtility.ToIrbis(gender),
                 Category = ApiCategory,
+                DateOfBirth = birthYear,
+                HomePhone = questionnaire.Phone
             };
 
-            if (haveBirth)
-            {
-                result.DateOfBirth = birth.ToString
-                    (
-                        "yyyy",
-                        CultureInfo.InvariantCulture
-                    );
-            }
+            var record = result.ToRecord();
+            record.RemoveField(30).RemoveField(22);
+            var ticketTag = Configuration.ReaderId.SafeToInt32(30);
+            record.SetField(ticketTag, result.Ticket);
+            var barcodeTag = Configuration.Ticket.SafeToInt32(22);
+            record.SetField(barcodeTag, result.Ticket);
+            result.Record = record;
 
             return result;
         }
@@ -340,8 +357,8 @@ namespace BackOffice
                 [NotNull] ReaderInfo reader
             )
         {
-            Code.NotNull(manager, "manager");
-            Code.NotNull(reader, "reader");
+            Code.NotNull(manager, nameof(manager));
+            Code.NotNull(reader, nameof(reader));
 
             ReaderInfo result;
 
@@ -350,6 +367,7 @@ namespace BackOffice
                 result = manager.GetReader(reader.Ticket);
                 if (!ReferenceEquals(result, null))
                 {
+                    Log.Trace($"Importer::FindReader: already have ticket {reader.Ticket}");
                     return result;
                 }
             }
@@ -359,12 +377,14 @@ namespace BackOffice
                 result = manager.FindReader("\"EMAIL={0}\"", reader.Email);
                 if (!ReferenceEquals(result, null))
                 {
+                    Log.Trace($"Importer::FindReader: already have email {reader.Email}");
                     return result;
                 }
 
                 result = manager.FindReader("\"MAIL={0}\"", reader.Email);
                 if (!ReferenceEquals(result, null))
                 {
+                    Log.Trace($"Importer::FindReader: already have email {reader.Email}");
                     return result;
                 }
             }
@@ -374,6 +394,7 @@ namespace BackOffice
                 result = manager.FindReader("\"PHONE={0}\"", reader.HomePhone);
                 if (!ReferenceEquals(result, null))
                 {
+                    Log.Trace($"Importer::FindReader: already have phone {reader.HomePhone}");
                     return result;
                 }
             }
@@ -381,45 +402,60 @@ namespace BackOffice
             return null;
         }
 
+        /// <summary>
+        /// Собственно импорт читателя в базу RDR.
+        /// </summary>
         public static bool ImportReader
             (
                 [NotNull] ReaderManager manager,
-                [NotNull] OsmiRegistrationInfo questionnaire
+                [NotNull] ReaderInfo reader,
+                [NotNull] OsmiCardsClient client
             )
         {
-            Code.NotNull(manager, "manager");
-            Code.NotNull(questionnaire, "questionnaire");
+            Code.NotNull(manager, nameof(manager));
+            Code.NotNull(reader, nameof(reader));
 
             Log.Trace("Importer::ImportReader: enter");
 
             var result = false;
-            var reader = ToReader(questionnaire);
+            var ticket = OsmiUtility.GetReaderId(reader, Configuration);
+            Log.Trace($"Importer::ImportReader: ticket={ticket}");
+
             if (!reader.Verify(false))
             {
                 Log.Info
                     (
-                        "Importer::ImportReader: reader not verified: "
-                         + questionnaire.SerialNumber
+                        $"Importer::ImportReader: reader not verified: {ticket}"
                     );
                 goto DONE;
             }
 
-            var record = reader.ToRecord();
+            var record = reader.Record.ThrowIfNull("reader.Record");
             if (!record.Verify(false))
             {
                 Log.Info
                     (
-                        "Importer::ImportReader: record not verified: "
-                        + questionnaire.SerialNumber
+                        $"Importer::ImportReader: record not verified: {ticket}"
                     );
                 goto DONE;
             }
 
+            reader.Visits = Array.Empty<VisitInfo>();
             manager.Connection.WriteRecord(record);
+
+            // Заполняем поля карточки читателя
+            CardUpdater.UpdateReaderCard
+                (
+                    reader,
+                    Configuration,
+                    manager.Connection,
+                    client
+                );
+
             result = true;
 
             DONE:
-            Log.Trace("Importer::ImportReader: result=" + result);
+            Log.Info($"Importer::ImportReader: ticket={ticket},  result={result}");
             Log.Trace("Importer::ImportReader: exit");
 
             return result;

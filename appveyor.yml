@@ -19,6 +19,17 @@ nuget:
   account_feed: false
   project_feed: false
 
+install:
+  - python -m pip install --upgrade pip
+  - pip install --upgrade pygount
+  - pygount -f summary -s cs Source\Classic\Libs\AM.Core\AM
+  - pygount -f summary -s cs Source\Classic\Libs\AM.Drawing\AM
+  - pygount -f summary -s cs Source\Classic\Libs\AM.Win32\AM
+  - pygount -f summary -s cs Source\Classic\Libs\AM.Windows.Forms\AM
+  - pygount -f summary -s cs Source\Classic\Libs\ManagedIrbis\Source
+  - pygount -f summary -s cs Source\Classic\Libs\IrbisUI\Source
+  - pygount -f summary -s cs Source\Classic\Libs\RestfulIrbis\Source
+
 before_build:
 - cmd: nuget restore Source\ManagedIrbis.sln
 - cmd: choco install opencover.portable

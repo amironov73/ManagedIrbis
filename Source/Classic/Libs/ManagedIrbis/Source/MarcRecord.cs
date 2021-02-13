@@ -1,6 +1,10 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CheckNamespace
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+
 /* MarcRecord.cs -- MARC record
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -25,6 +29,7 @@ using CodeJam;
 using JetBrains.Annotations;
 
 using ManagedIrbis.ImportExport;
+using ManagedIrbis.Infrastructure.Commands;
 using ManagedIrbis.Pft;
 
 using MoonSharp.Interpreter;
@@ -63,8 +68,8 @@ namespace ManagedIrbis
         [JsonProperty("database")]
         public string Database
         {
-            get { return _database; }
-            set { SetDatabase(value); }
+            get => _database;
+            set => SetDatabase(value);
         }
 
         /// <summary>
@@ -73,8 +78,8 @@ namespace ManagedIrbis
         [JsonProperty("mfn")]
         public int Mfn
         {
-            get { return _mfn; }
-            set { SetMfn(value); }
+            get => _mfn;
+            set => SetMfn(value);
         }
 
         /// <summary>
@@ -83,8 +88,8 @@ namespace ManagedIrbis
         [JsonProperty("status")]
         public RecordStatus Status
         {
-            get { return _status; }
-            set { SetStatus(value); }
+            get => _status;
+            set => SetStatus(value);
         }
 
         /// <summary>
@@ -93,8 +98,8 @@ namespace ManagedIrbis
         [JsonProperty("version")]
         public int Version
         {
-            get { return _version; }
-            set { SetVersion(value); }
+            get => _version;
+            set => SetVersion(value);
         }
 
         /// <summary>
@@ -107,10 +112,7 @@ namespace ManagedIrbis
         /// Поля записи.
         /// </summary>
         [JsonProperty("fields")]
-        public RecordFieldCollection Fields
-        {
-            get { return _fields; }
-        }
+        public RecordFieldCollection Fields => _fields;
 
         /// <summary>
         /// Признак удалённой записи.
@@ -118,7 +120,7 @@ namespace ManagedIrbis
         [JsonIgnore]
         public bool Deleted
         {
-            get { return (Status & RecordStatus.LogicallyDeleted) != 0; }
+            get => (Status & RecordStatus.LogicallyDeleted) != 0;
             set
             {
                 if (value)
@@ -161,8 +163,8 @@ namespace ManagedIrbis
         [JsonIgnore]
         public object UserData
         {
-            get { return _userData; }
-            set { _userData = value; }
+            get => _userData;
+            set => _userData = value;
         }
 
         /// <summary>
@@ -171,8 +173,8 @@ namespace ManagedIrbis
         [JsonIgnore]
         public bool Modified
         {
-            get { return _modified; }
-            set { _modified = value; }
+            get => _modified;
+            set => _modified = value;
         }
 
         #endregion
@@ -257,8 +259,8 @@ namespace ManagedIrbis
                 [NotNull] MarcRecord record2
             )
         {
-            Code.NotNull(record1, "record1");
-            Code.NotNull(record2, "record2");
+            Code.NotNull(record1, nameof(record1));
+            Code.NotNull(record2, nameof(record2));
 
             int result = record1.Fields.Count - record2.Fields.Count;
             if (result != 0)
@@ -362,7 +364,7 @@ namespace ManagedIrbis
                 [NotNull] string format
             )
         {
-            Code.NotNull(format, "format");
+            Code.NotNull(format, nameof(format));
 
             // TODO Some caching?
 
@@ -403,7 +405,7 @@ namespace ManagedIrbis
             )
         {
             ThrowIfReadOnly();
-            Code.Nonnegative(newMfn, "newMfn");
+            Code.Nonnegative(newMfn, nameof(newMfn));
 
             _mfn = newMfn;
             Modified = true;
@@ -438,7 +440,7 @@ namespace ManagedIrbis
             )
         {
             ThrowIfReadOnly();
-            Code.Nonnegative(newVersion, "newVersion");
+            Code.Nonnegative(newVersion, nameof(newVersion));
 
             _version = newVersion;
             Modified = true;
@@ -497,6 +499,17 @@ namespace ManagedIrbis
             return Version != 0;
         }
 
+        /// <summary>
+        /// Отключает верификацию.
+        /// </summary>
+        public static void TurnOffVerification()
+        {
+            ReadRecordCommand.ThrowOnEmptyRecord = false;
+            ReadRecordCommand.ThrowOnVerify = false;
+            FieldValue.ThrowOnVerify = false;
+            SubFieldValue.ThrowOnVerify = false;
+        }
+
         #endregion
 
         #region IHandmadeSerializable members
@@ -507,7 +520,7 @@ namespace ManagedIrbis
                 BinaryReader reader
             )
         {
-            Code.NotNull(reader, "reader");
+            Code.NotNull(reader, nameof(reader));
 
             Log.Trace("MarcRecord::RestoreFromStream");
 
@@ -527,7 +540,7 @@ namespace ManagedIrbis
                 BinaryWriter writer
             )
         {
-            Code.NotNull(writer, "writer");
+            Code.NotNull(writer, nameof(writer));
 
             Log.Trace("MarcRecord::SaveToStream");
 
@@ -553,7 +566,7 @@ namespace ManagedIrbis
         /// Whether the record read-only?
         /// </summary>
         [JsonIgnore]
-        public bool ReadOnly { get { return _readOnly; } }
+        public bool ReadOnly => _readOnly;
 
         /// <summary>
         /// Creates read-only clone of the record.

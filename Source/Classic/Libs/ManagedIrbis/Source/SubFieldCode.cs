@@ -11,7 +11,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-
+using AM;
 using AM.Collections;
 using AM.Logging;
 
@@ -122,10 +122,9 @@ namespace ManagedIrbis
 
             if (!result)
             {
-                Log.Error
+                Log.Debug
                     (
-                        "SubFieldCode::Verify: "
-                        + code
+                        $"SubFieldCode::Verify: '{code.ToVisibleString()}'"
                     );
 
                 if (throwOnError)

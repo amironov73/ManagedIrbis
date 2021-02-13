@@ -1,6 +1,10 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CheckNamespace
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+
 /* ViafClient.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -10,6 +14,8 @@
 #if !UAP
 
 #region Using directives
+
+using AM.Logging;
 
 using CodeJam;
 
@@ -85,7 +91,9 @@ namespace RestfulIrbis.Viaf
                 [NotNull] string baseUrl
             )
         {
-            Code.NotNullNorEmpty(baseUrl, "baseUrl");
+            Log.Trace($"ViafClient: constructor: {baseUrl}");
+
+            Code.NotNullNorEmpty(baseUrl, nameof(baseUrl));
 
             Connection = new RestClient(baseUrl);
         }
@@ -103,12 +111,14 @@ namespace RestfulIrbis.Viaf
                 [NotNull] string name
             )
         {
-            Code.NotNullNorEmpty(name, "name");
+            Log.Trace("ViafClient: get suggestions");
 
-            RestRequest request = new RestRequest("/viaf/AutoSuggest?query={name}");
+            Code.NotNullNorEmpty(name, nameof(name));
+
+            var request = new RestRequest("/viaf/AutoSuggest?query={name}");
             request.AddUrlSegment("name", name);
-            IRestResponse response = Connection.Execute(request);
-            ViafSuggestResponse viaf
+            var response = Connection.Execute(request);
+            var viaf
                 = JsonConvert.DeserializeObject<ViafSuggestResponse>(response.Content);
 
             return viaf.SuggestResults;
@@ -123,14 +133,16 @@ namespace RestfulIrbis.Viaf
                 [NotNull] string recordId
             )
         {
-            Code.NotNullNorEmpty(recordId, "recordId");
+            Log.Trace("ViafClient: get authority cluster data");
 
-            RestRequest request = new RestRequest("/viaf/{id}/");
+            Code.NotNullNorEmpty(recordId, nameof(recordId));
+
+            var request = new RestRequest("/viaf/{id}/");
             request.AddUrlSegment("id", recordId);
             request.AddHeader("Accept", "application/json");
-            IRestResponse response = Connection.Execute(request);
-            JObject obj = JObject.Parse(response.Content);
-            ViafData result = ViafData.Parse(obj);
+            var response = Connection.Execute(request);
+            var obj = JObject.Parse(response.Content);
+            var result = ViafData.Parse(obj);
 
             return result;
         }

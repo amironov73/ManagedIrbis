@@ -41,7 +41,19 @@ namespace DicardsConfig
     {
         #region Public methods
 
-        public static bool UpdateCard
+        /// <summary>
+        /// Обновление поля в карте (локальное).
+        /// </summary>
+        /// <param name="card">Карта в виде XML.</param>
+        /// <param name="label">Метка поля.</param>
+        /// <param name="newValue">Новое значение поля.</param>
+        /// <returns><c>false</c>, если в карте нет такого поля
+        /// или если предыдущее значение совпадает с указанным.</returns>
+        /// <remarks>
+        /// Таким образом, если метод вернул <c>true</c>, значит, запись
+        /// надо отослать на сервер.
+        /// </remarks>
+        public static bool UpdateField
             (
                 [NotNull] JObject card,
                 [NotNull] string label,
@@ -49,7 +61,7 @@ namespace DicardsConfig
             )
         {
             var found = card.SelectToken($"$.values[?(@.label == '{label}')]");
-            if (ReferenceEquals(found, null))
+            if (found is null)
             {
                 return false;
             }
@@ -60,6 +72,7 @@ namespace DicardsConfig
                 return false;
             }
 
+            Log.Trace($"CardUpdater::UpdateField: {label}={newValue}");
             found["value"] = new JValue(newValue);
 
             return true;
@@ -68,12 +81,12 @@ namespace DicardsConfig
         /// <summary>
         /// Обновляет данные на карте.
         /// </summary>
-        public static void ProcessReader
+        public static void UpdateReaderCard
             (
-                ReaderInfo reader,
-                DicardsConfiguration configuration,
-                IrbisConnection connection,
-                OsmiCardsClient client
+                [NotNull] ReaderInfo reader,
+                [NotNull] DicardsConfiguration configuration,
+                [NotNull] IrbisConnection connection,
+                [NotNull] OsmiCardsClient client
             )
         {
             var ticket = OsmiUtility.GetReaderId(reader, configuration);
@@ -87,24 +100,31 @@ namespace DicardsConfig
             // Обновляем ФИО
             var fioField = configuration.FioField.ThrowIfNull("FioField");
             var fioText = reader.FullName;
-            UpdateCard(card, fioField, fioText);
+            var needUpdate = UpdateField(card, fioField, fioText);
 
             // Обновляем штрих-код
             var barcodeField = configuration.BarcodeField;
             if (barcodeField != null)
             {
-                UpdateCard(card, barcodeField, ticket);
+                needUpdate = needUpdate
+                    && UpdateField(card, barcodeField, ticket);
             }
 
             // Массив задолженных книг
-            var books = reader.Visits
-                .Where(v => !v.IsVisit)
-                .Where(v => !v.IsReturned)
-                .ToArray();
+            var books = new VisitInfo[0];
+            if (reader.Visits != null)
+            {
+                books = reader.Visits
+                    .Where(v => !v.IsVisit)
+                    .Where(v => !v.IsReturned)
+                    .ToArray();
+            }
 
             // Сюда пишем задолженные книги
             var totalBookList = new StringBuilder(4096);
             var totalBookCount = 0;
+
+            // Сюда пишем просроченные книги
             var expiredBookList = new StringBuilder(4096);
             var expiredBookCount = 0;
 
@@ -124,7 +144,8 @@ namespace DicardsConfig
 
                 if (string.IsNullOrEmpty(description))
                 {
-                    Log.Debug($"Reminder: нет описания книги {book.Index} у читателя {ticket}");
+                    Log.Debug("UpdateReaderCard: "
+                        + $"нет описания книги {book.Index} у читателя {ticket}");
                 }
                 else
                 {
@@ -149,18 +170,45 @@ namespace DicardsConfig
                 }
             }
 
-            var totalCountField = configuration.TotalCountField.ThrowIfNull("totalCountField");
-            var expiredCountField = configuration.TotalCountField.ThrowIfNull("expiredCountField");
-            var totalListField = configuration.TotalCountField.ThrowIfNull("totalListField");
-            var expiredListField = configuration.TotalCountField.ThrowIfNull("expiredListField");
-            var needUpdate = UpdateCard(card, totalCountField, totalBookCount.ToInvariantString())
-                || UpdateCard(card, expiredCountField, expiredBookCount.ToInvariantString())
-                || UpdateCard(card, totalListField, totalBookList.ToString())
-                || UpdateCard(card, expiredListField, expiredBookList.ToString());
+            // Общее количество книг на руках
+            var totalCountField = configuration.TotalCountField;
+            if (!string.IsNullOrEmpty(totalCountField))
+            {
+                needUpdate = needUpdate
+                    || UpdateField(card, totalCountField, totalBookCount.ToInvariantString());
+            }
+
+            // Количество просроченных книг
+            var expiredCountField = configuration.TotalCountField;
+            if (!string.IsNullOrEmpty(expiredCountField))
+            {
+                needUpdate = needUpdate
+                    || UpdateField(card, expiredCountField, expiredBookCount.ToInvariantString());
+            }
+
+            // Список книг на руках
+            var totalListField = configuration.TotalCountField;
+            if (!string.IsNullOrEmpty(totalListField))
+            {
+                needUpdate = needUpdate
+                    || UpdateField(card, totalListField, totalBookList.ToString());
+            }
+
+            // Список просроченных книг
+            var expiredListField = configuration.TotalCountField;
+            if (!string.IsNullOrEmpty(expiredListField))
+            {
+                needUpdate = needUpdate
+                    || UpdateField(card, expiredListField, expiredBookList.ToString());
+            }
+
+            Log.Debug($"UpdateReaderCard: {ticket} needUpdate={needUpdate}");
+
+            // Если в карте что-то изменилось, отправляем её на сервер
             if (needUpdate)
             {
                 client.UpdateCard(ticket, card.ToString(), false);
-                Log.Debug($"Reminder: UpdateCard for reader {ticket}");
+                Log.Debug($"UpdateReaderCard: {ticket} OK");
             }
         }
 

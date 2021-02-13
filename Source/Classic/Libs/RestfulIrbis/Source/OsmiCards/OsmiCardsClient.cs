@@ -5,7 +5,6 @@
 // ReSharper disable CommentTypo
 // ReSharper disable IdentifierTypo
 // ReSharper disable StringLiteralTypo
-// ReSharper disable UseNameofExpression
 
 /* OsmiCardsClient.cs -- клиент DiCARDS
  * Ars Magna project, http://arsmagna.ru
@@ -39,6 +38,10 @@ using RestSharp;
 
 namespace RestfulIrbis.OsmiCards
 {
+    //
+    // Онлайн-документация на API: https://apidocs.osmicards.com/
+    //
+
     /// <summary>
     /// Клиент DiCARDS.
     /// </summary>
@@ -68,9 +71,9 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string apiKey
             )
         {
-            Code.NotNullNorEmpty(baseUrl, "baseUrl");
-            Code.NotNullNorEmpty(apiId, "apiId");
-            Code.NotNullNorEmpty(apiKey, "apiKey");
+            Code.NotNullNorEmpty(baseUrl, nameof(baseUrl));
+            Code.NotNullNorEmpty(apiId, nameof(apiId));
+            Code.NotNullNorEmpty(apiKey, nameof(apiKey));
 
             Connection = new RestClient(baseUrl)
             {
@@ -118,8 +121,8 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string template
             )
         {
-            Code.NotNullNorEmpty(cardNumber, "cardNumber");
-            Code.NotNullNorEmpty(template, "template");
+            Code.NotNullNorEmpty(cardNumber, nameof(cardNumber));
+            Code.NotNullNorEmpty(template, nameof(template));
 
             RestRequest request = new RestRequest
                 (
@@ -148,9 +151,9 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string jsonText
             )
         {
-            Code.NotNullNorEmpty(cardNumber, "cardNumber");
-            Code.NotNullNorEmpty(template, "template");
-            Code.NotNullNorEmpty(jsonText, "jsonText");
+            Code.NotNullNorEmpty(cardNumber, nameof(cardNumber));
+            Code.NotNullNorEmpty(template, nameof(template));
+            Code.NotNullNorEmpty(jsonText, nameof(jsonText));
 
             RestRequest request = new RestRequest
                 (
@@ -177,8 +180,8 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string jsonText
             )
         {
-            Code.NotNullNorEmpty(templateName, "templateName");
-            Code.NotNullNorEmpty(jsonText, "jsonText");
+            Code.NotNullNorEmpty(templateName, nameof(templateName));
+            Code.NotNullNorEmpty(jsonText, nameof(jsonText));
 
             RestRequest request = new RestRequest
                 (
@@ -203,7 +206,7 @@ namespace RestfulIrbis.OsmiCards
                 bool push
             )
         {
-            Code.NotNullNorEmpty(cardNumber, "cardNumber");
+            Code.NotNullNorEmpty(cardNumber, nameof(cardNumber));
 
             string url = "/passes/{number}";
             if (push)
@@ -233,7 +236,7 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string cardNumber
             )
         {
-            Code.NotNullNorEmpty(cardNumber, "cardNumber");
+            Code.NotNullNorEmpty(cardNumber, nameof(cardNumber));
 
             RestRequest request = new RestRequest
                 (
@@ -260,7 +263,7 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string cardNumber
             )
         {
-            Code.NotNullNorEmpty(cardNumber, "cardNumber");
+            Code.NotNullNorEmpty(cardNumber, nameof(cardNumber));
 
             RestRequest request = new RestRequest
                 (
@@ -284,7 +287,7 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string cardNumber
             )
         {
-            Code.NotNullNorEmpty(cardNumber, "cardNumber");
+            Code.NotNullNorEmpty(cardNumber, nameof(cardNumber));
 
             RestRequest request = new RestRequest
                 (
@@ -385,7 +388,7 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string templateName
             )
         {
-            Code.NotNullNorEmpty(templateName, "templateName");
+            Code.NotNullNorEmpty(templateName, nameof(templateName));
 
             RestRequest request = new RestRequest
                 (
@@ -508,8 +511,8 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string email
             )
         {
-            Code.NotNullNorEmpty(cardNumber, "cardNumber");
-            Code.NotNullNorEmpty(email, "email");
+            Code.NotNullNorEmpty(cardNumber, nameof(cardNumber));
+            Code.NotNullNorEmpty(email, nameof(email));
 
             RestRequest request = new RestRequest
                 (
@@ -534,8 +537,8 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string phoneNumber
             )
         {
-            Code.NotNullNorEmpty(cardNumber, "cardNumber");
-            Code.NotNullNorEmpty(phoneNumber, "phoneNumber");
+            Code.NotNullNorEmpty(cardNumber, nameof(cardNumber));
+            Code.NotNullNorEmpty(phoneNumber, nameof(phoneNumber));
 
             RestRequest request = new RestRequest
                 (
@@ -559,7 +562,7 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string phoneNumber
             )
         {
-            Code.NotNullNorEmpty(phoneNumber, "phoneNumber");
+            Code.NotNullNorEmpty(phoneNumber, nameof(phoneNumber));
 
             RestRequest request = new RestRequest
                 (
@@ -582,8 +585,8 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string messageText
             )
         {
-            Code.NotNull(cardNumbers, "cardNumbers");
-            Code.NotNullNorEmpty(messageText, "messageText");
+            Code.NotNull(cardNumbers, nameof(cardNumbers));
+            Code.NotNullNorEmpty(messageText, nameof(messageText));
 
             RestRequest request = new RestRequest
                 (
@@ -618,8 +621,8 @@ namespace RestfulIrbis.OsmiCards
                 bool push
             )
         {
-            Code.NotNullNorEmpty(cardNumber, "cardNumber");
-            Code.NotNullNorEmpty(template, "template");
+            Code.NotNullNorEmpty(cardNumber, nameof(cardNumber));
+            Code.NotNullNorEmpty(template, nameof(template));
 
             string url = "/passes/move/{number}/{template}";
             if (push)
@@ -649,7 +652,7 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string newSettings
             )
         {
-            Code.NotNullNorEmpty(newSettings, "newSettings");
+            Code.NotNullNorEmpty(newSettings, nameof(newSettings));
 
             RestRequest request = new RestRequest
                 (
@@ -674,8 +677,8 @@ namespace RestfulIrbis.OsmiCards
                 bool push
             )
         {
-            Code.NotNullNorEmpty(cardNumber, "cardNumber");
-            Code.NotNullNorEmpty(jsonText, "jsonText");
+            Code.NotNullNorEmpty(cardNumber, nameof(cardNumber));
+            Code.NotNullNorEmpty(jsonText, nameof(jsonText));
 
             var url = "/passes/{number}";
             if (push)
@@ -707,8 +710,8 @@ namespace RestfulIrbis.OsmiCards
                 bool push
             )
         {
-            Code.NotNullNorEmpty(templateName, "templateName");
-            Code.NotNullNorEmpty(jsonText, "jsonText");
+            Code.NotNullNorEmpty(templateName, nameof(templateName));
+            Code.NotNullNorEmpty(jsonText, nameof(jsonText));
 
             var url = "/templates/{template}";
             if (push)
@@ -746,7 +749,7 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string groupName
             )
         {
-            Code.NotNullNorEmpty(groupName, "groupName");
+            Code.NotNullNorEmpty(groupName, nameof(groupName));
 
             var request = new RestRequest
                 (
@@ -786,13 +789,24 @@ namespace RestfulIrbis.OsmiCards
                 [NotNull] string[] numbers
             )
         {
-            Code.NotNull(numbers, "numbers");
+            Code.NotNull(numbers, nameof(numbers));
 
             RestRequest request = new RestRequest
                 (
                     "/registration/deletedata",
                     Method.POST
                 );
+            var json = new JObject();
+            var registrations = new JArray();
+            foreach (var number in numbers)
+            {
+                registrations.Add(number);
+            }
+
+            json.Add(new JProperty("registrations", registrations));
+            var jsonText = json.ToString();
+            request.SetJsonRequestBody(jsonText);
+            Connection.Execute(request);
         }
 
         // =========================================================

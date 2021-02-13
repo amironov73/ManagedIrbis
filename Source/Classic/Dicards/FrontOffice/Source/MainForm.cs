@@ -265,7 +265,7 @@ namespace FrontOffice
 
                 using (var connection = ControlCenter.GetIrbisConnection())
                 {
-                    CardUpdater.ProcessReader
+                    CardUpdater.UpdateReaderCard
                         (
                             reader,
                             ControlCenter.Config,
@@ -494,7 +494,7 @@ namespace FrontOffice
 
                 using (var connection = ControlCenter.GetIrbisConnection())
                 {
-                    CardUpdater.ProcessReader
+                    CardUpdater.UpdateReaderCard
                         (
                             reader,
                             ControlCenter.Config,

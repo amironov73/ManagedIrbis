@@ -1,7 +1,12 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IrbisRestClient.cs -- 
+// ReSharper disable CheckNamespace
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable StringLiteralTypo
+
+/* IrbisRestClient.cs -- client for IrbisModule
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -12,6 +17,7 @@
 #region Using directives
 
 using AM;
+using AM.Logging;
 
 using CodeJam;
 
@@ -40,10 +46,6 @@ namespace RestfulIrbis
     public class IrbisRestClient
         : IrbisProvider
     {
-        #region Properties
-
-        #endregion
-
         #region Construction
 
         /// <summary>
@@ -55,7 +57,7 @@ namespace RestfulIrbis
                 [NotNull] string url
             )
         {
-            Code.NotNullNorEmpty(url, "url");
+            Code.NotNullNorEmpty(url, nameof(url));
 
             _client = new RestClient(url);
             Database = "IBIS";
@@ -78,16 +80,19 @@ namespace RestfulIrbis
         /// <summary>
         /// Format record by MFN.
         /// </summary>
+        [NotNull]
         public string FormatRecord
             (
                 int mfn,
                 [NotNull] string format
             )
         {
-            Code.Positive(mfn, "mfn");
-            Code.NotNullNorEmpty(format, "format");
+            Log.Trace("IrbisRestClient: format record");
 
-            RestRequest request = new RestRequest
+            Code.Positive(mfn, nameof(mfn));
+            Code.NotNullNorEmpty(format, nameof(format));
+
+            var request = new RestRequest
                 (
                     "/format/{database}/{mfn}/{format}"
                 );
@@ -99,9 +104,9 @@ namespace RestfulIrbis
                 );
             request.AddUrlSegment("format", format);
 
-            IRestResponse response = _client.Execute(request);
+            var response = _client.Execute(request);
 
-            string result = JsonConvert.DeserializeObject<string>
+            var result = JsonConvert.DeserializeObject<string>
                 (
                     response.Content
                 );
@@ -110,15 +115,18 @@ namespace RestfulIrbis
         }
 
         /// <inheritdoc/>
+        [ItemNotNull]
         public override string[] FormatRecords
             (
-                int[] mfns,
-                string format
+                [NotNull] int[] mfns,
+                [NotNull] string format
             )
         {
+            Log.Trace("IrbisRestClient: format records");
+
             RestRequest request;
 
-            Method method = Method.GET;
+            var method = Method.GET;
             if (mfns.Length > 10)
             {
                 method = Method.POST;
@@ -126,9 +134,11 @@ namespace RestfulIrbis
                     (
                         "/format/{database}/{format}",
                         method
-                    );
+                    )
+                {
+                    RequestFormat = DataFormat.Json
+                };
 
-                request.RequestFormat = DataFormat.Json;
                 request.AddUrlSegment("database", Database);
                 request.AddUrlSegment("format", format);
                 request.AddParameter
@@ -154,8 +164,8 @@ namespace RestfulIrbis
                 request.AddUrlSegment("format", format);
             }
 
-            IRestResponse response = _client.Execute(request);
-            string[] result = JsonConvert.DeserializeObject<string[]>
+            var response = _client.Execute(request);
+            var result = JsonConvert.DeserializeObject<string[]>
                 (
                     response.Content
                 );
@@ -166,12 +176,13 @@ namespace RestfulIrbis
         /// <inheritdoc/>
         public override int GetMaxMfn()
         {
-            RestRequest request
-                = new RestRequest("/max/{database}");
+            Log.Trace("IrbisRestClient: max MFN");
+
+            var request = new RestRequest("/max/{database}");
             request.AddUrlSegment("database", Database);
 
-            IRestResponse response = _client.Execute(request);
-            int result = JsonConvert.DeserializeObject<int>
+            var response = _client.Execute(request);
+            var result = JsonConvert.DeserializeObject<int>
                 (
                     response.Content
                 );
@@ -182,25 +193,30 @@ namespace RestfulIrbis
         /// <inheritdoc/>
         public override DatabaseInfo[] ListDatabases()
         {
-            RestRequest request = new RestRequest("/list");
+            Log.Trace("IrbisRestClient: list databases");
 
-            IRestResponse response = _client.Execute(request);
-            string content = response.Content;
-            DatabaseInfo[] result
+            var request = new RestRequest("/list");
+
+            var response = _client.Execute(request);
+            var content = response.Content;
+            var result
                 = JsonConvert.DeserializeObject<DatabaseInfo[]>(content);
 
             return result;
         }
 
         /// <inheritdoc/>
+        [NotNull]
         public override MarcRecord ReadRecord
             (
                 int mfn
             )
         {
-            Code.Positive(mfn, "mfn");
+            Log.Trace("IrbisRestClient: read record");
 
-            RestRequest request
+            Code.Positive(mfn, nameof(mfn));
+
+            var request
                 = new RestRequest("/max/{database}/{mfn}");
             request.AddUrlSegment("database", Database);
             request.AddUrlSegment
@@ -209,8 +225,8 @@ namespace RestfulIrbis
                     mfn.ToInvariantString()
                 );
 
-            IRestResponse response = _client.Execute(request);
-            MarcRecord result
+            var response = _client.Execute(request);
+            var result
                 = JsonConvert.DeserializeObject<MarcRecord>
                 (
                     response.Content
@@ -220,14 +236,17 @@ namespace RestfulIrbis
         }
 
         /// <inheritdoc/>
+        [NotNull]
         public override SearchScenario[] ReadSearchScenarios()
         {
-            RestRequest request
+            Log.Trace("IrbisRestClient: read search scenario");
+
+            var request
                 = new RestRequest("/scenario/{database}");
             request.AddUrlSegment("database", Database);
 
-            IRestResponse response = _client.Execute(request);
-            SearchScenario[] result
+            var response = _client.Execute(request);
+            var result
                 = JsonConvert.DeserializeObject<SearchScenario[]>
                 (
                     response.Content
@@ -242,15 +261,17 @@ namespace RestfulIrbis
                 TermParameters parameters
             )
         {
-            Code.NotNull(parameters, "parameters");
+            Log.Trace("IrbisRestClient: read terms");
 
-            string database = parameters.Database;
+            Code.NotNull(parameters, nameof(parameters));
+
+            var database = parameters.Database;
             if (string.IsNullOrEmpty(database))
             {
                 database = Database;
             }
 
-            RestRequest request
+            var request
                 = new RestRequest("/terms/{database}/{count}/{term*}");
             request.AddUrlSegment("database", database);
             request.AddUrlSegment
@@ -260,8 +281,8 @@ namespace RestfulIrbis
                 );
             request.AddUrlSegment("term", parameters.StartTerm);
 
-            IRestResponse response = _client.Execute(request);
-            TermInfo[] result
+            var response = _client.Execute(request);
+            var result
                 = JsonConvert.DeserializeObject<TermInfo[]>
                 (
                     response.Content
@@ -276,15 +297,17 @@ namespace RestfulIrbis
                 string expression
             )
         {
-            Code.NotNullNorEmpty(expression, "expression");
+            Log.Trace("IrbisRestClient: search");
 
-            RestRequest request
+            Code.NotNullNorEmpty(expression, nameof(expression));
+
+            var request
                 = new RestRequest("/search/{database}/{expression*}");
             request.AddUrlSegment("database", Database);
             request.AddUrlSegment("expression", expression);
 
-            IRestResponse response = _client.Execute(request);
-            int[] result
+            var response = _client.Execute(request);
+            var result
                 = JsonConvert.DeserializeObject<int[]>
                 (
                     response.Content
@@ -292,10 +315,6 @@ namespace RestfulIrbis
 
             return result;
         }
-
-#endregion
-
-#region Object members
 
 #endregion
     }

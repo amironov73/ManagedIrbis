@@ -32,6 +32,8 @@ using DevExpress.XtraEditors;
 
 using DicardsConfig;
 
+using ManagedIrbis;
+
 using Topshelf;
 using Topshelf.HostConfigurators;
 using Topshelf.Logging;
@@ -216,6 +218,7 @@ namespace BackOffice
         [STAThread]
         public static int Main(string[] args)
         {
+            MarcRecord.TurnOffVerification();
             SetupLogging();
             ConfigureSecurityProtocol();
 

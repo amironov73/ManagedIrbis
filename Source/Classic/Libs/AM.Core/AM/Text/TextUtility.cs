@@ -31,14 +31,6 @@ namespace AM.Text
     [MoonSharpUserData]
     public static class TextUtility
     {
-        #region Properties
-
-        #endregion
-
-        #region Private members
-
-        #endregion
-
         #region Public methods
 
         /// <summary>

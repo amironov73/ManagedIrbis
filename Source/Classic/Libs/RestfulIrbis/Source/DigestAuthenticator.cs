@@ -1,7 +1,11 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* DigestAuthenticator.cs -- 
+// ReSharper disable CheckNamespace
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+
+/* DigestAuthenticator.cs -- костыль, позволяющий аутентифицироваться методом Digest
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -40,13 +44,13 @@ namespace RestfulIrbis
         /// User name.
         /// </summary>
         [NotNull]
-        public string UserName { get { return _username; } }
+        public string UserName { get; }
 
         /// <summary>
         /// Password.
         /// </summary>
         [NotNull]
-        public string Password { get { return _password; } }
+        public string Password { get; }
 
         #endregion
 
@@ -61,19 +65,12 @@ namespace RestfulIrbis
                 [NotNull] string password
             )
         {
-            Code.NotNull(username, "username");
-            Code.NotNull(password, "password");
+            Code.NotNull(username, nameof(username));
+            Code.NotNull(password, nameof(password));
 
-            _username = username;
-            _password = password;
+            UserName = username;
+            Password = password;
         }
-
-        #endregion
-
-        #region Private members
-
-        private readonly string _username;
-        private readonly string _password;
 
         #endregion
 

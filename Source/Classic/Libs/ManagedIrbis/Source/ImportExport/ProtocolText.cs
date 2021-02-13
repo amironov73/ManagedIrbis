@@ -176,11 +176,11 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] string line
             )
         {
-            Code.NotNullNorEmpty(line, "line");
+            Code.NotNullNorEmpty(line, nameof(line));
 
-            StringReader reader = new StringReader(line);
+            var reader = new StringReader(line);
 
-            RecordField result = new RecordField
+            var result = new RecordField
             {
                 Tag = FastNumber.ParseInt32(_ReadTo(reader, '#')),
                 Value = _ReadTo(reader, '^').EmptyToNull()
@@ -188,15 +188,15 @@ namespace ManagedIrbis.ImportExport
 
             while (true)
             {
-                int next = reader.Read();
+                var next = reader.Read();
                 if (next < 0)
                 {
                     break;
                 }
 
-                char code = char.ToLower((char)next);
-                string text = _ReadTo(reader, '^');
-                SubField subField = new SubField
+                var code = char.ToLower((char)next);
+                var text = _ReadTo(reader, '^');
+                var subField = new SubField
                 {
                     Code = code,
                     Value = text
@@ -218,9 +218,9 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] MarcRecord record
             )
         {
-            Code.NotNullNorEmpty(line1, "line1");
-            Code.NotNullNorEmpty(line2, "line2");
-            Code.NotNull(record, "record");
+            Code.NotNullNorEmpty(line1, nameof(line1));
+            Code.NotNullNorEmpty(line2, nameof(line2));
+            Code.NotNull(record, nameof(record));
 
             Regex regex = new Regex(@"^(-?\d+)\#(\d*)?");
             Match match = regex.Match(line1);
@@ -251,8 +251,8 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] MarcRecord record
             )
         {
-            Code.NotNull(response, "response");
-            Code.NotNull(record, "record");
+            Code.NotNull(response, nameof(response));
+            Code.NotNull(record, nameof(record));
 
             try
             {
@@ -316,8 +316,8 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] MarcRecord record
             )
         {
-            Code.NotNull(response, "response");
-            Code.NotNull(record, "record");
+            Code.NotNull(response, nameof(response));
+            Code.NotNull(record, nameof(record));
 
             // Если в БД нет autoin.gbl, сервер не присылает
             // обработанную запись.
@@ -377,8 +377,8 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] MarcRecord record
             )
         {
-            Code.NotNull(response, "response");
-            Code.NotNull(record, "record");
+            Code.NotNull(response, nameof(response));
+            Code.NotNull(record, nameof(record));
 
             try
             {
@@ -424,8 +424,8 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] MarcRecord record
             )
         {
-            Code.NotNull(response, "response");
-            Code.NotNull(record, "record");
+            Code.NotNull(response, nameof(response));
+            Code.NotNull(record, nameof(record));
 
             try
             {
@@ -480,7 +480,7 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] MarcRecord record
             )
         {
-            Code.NotNull(record, "record");
+            Code.NotNull(record, nameof(record));
 
             if (string.IsNullOrEmpty(line))
             {
@@ -538,7 +538,7 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] MarcRecord record
             )
         {
-            Code.NotNull(record, "record");
+            Code.NotNull(record, nameof(record));
 
             if (string.IsNullOrEmpty(line))
             {

@@ -306,6 +306,7 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Информация о посещениях.
         /// </summary>
+        [CanBeNull]
         [XmlArray("visits")]
         [JsonProperty("visits")]
         public VisitInfo[] Visits { get; set; }
@@ -313,6 +314,7 @@ namespace ManagedIrbis.Readers
         /// <summary>
         /// Профили обслуживания ИРИ.
         /// </summary>
+        [CanBeNull]
         [XmlArray("iri")]
         [JsonProperty("iri")]
         public IriProfile[] Profiles { get; set; }

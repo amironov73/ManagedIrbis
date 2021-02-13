@@ -127,7 +127,7 @@ namespace BackOffice
             var card = client.GetRawCard(reader);
             if (card != null)
             {
-                CardUpdater.UpdateCard
+                CardUpdater.UpdateField
                     (
                         card,
                         field,

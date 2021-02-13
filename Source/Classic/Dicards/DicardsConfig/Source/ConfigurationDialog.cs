@@ -23,6 +23,7 @@ using System.Reflection;
 using System.Windows.Forms;
 
 using AM;
+using AM.Logging;
 using AM.Win32;
 
 using DevExpress.XtraEditors;
@@ -45,6 +46,9 @@ namespace DicardsConfig
     {
         #region Construction
 
+        /// <summary>
+        /// Конструктор.
+        /// </summary>
         public ConfigurationDialog()
         {
             InitializeComponent();
@@ -58,11 +62,19 @@ namespace DicardsConfig
             => ((DicardsConfiguration) _propertyGrid.SelectedObject)
                 .ThrowIfNull("DicardsConfiguration");
 
+        /// <summary>
+        /// Очищаем окно с логами.
+        /// </summary>
         private void ClearLog()
         {
             _logBox.Clear();
         }
 
+        /// <summary>
+        /// Выводим одну строку в окно с логами.
+        /// </summary>
+        /// <param name="format"></param>
+        /// <param name="args"></param>
         [StringFormatMethod("format")]
         private void WriteLog
             (
@@ -70,9 +82,15 @@ namespace DicardsConfig
                 params object[] args
             )
         {
-            _logBox.Output.WriteLine(format, args);
+            var line = string.Format(format, args);
+            Log.Trace("ConfigurationDialog: " + line);
+            _logBox.Output.WriteLine(line);
         }
 
+        /// <summary>
+        /// Выводим информацию об исключении в окно с логами.
+        /// </summary>
+        /// <param name="exception"></param>
         private void WriteError
             (
                 [NotNull] Exception exception
@@ -86,6 +104,9 @@ namespace DicardsConfig
                 );
         }
 
+        /// <summary>
+        /// Проверяем указанное свойство конфигурации.
+        /// </summary>
         private bool CheckField
             (
                 [NotNull] Expression<Func<DicardsConfiguration, string>> lambda
@@ -118,6 +139,9 @@ namespace DicardsConfig
             return GetName(property);
         }
 
+        /// <summary>
+        /// Проверяем указанное свойство конфигурации.
+        /// </summary>
         private bool CheckField
             (
                 [NotNull] PropertyInfo property
@@ -157,7 +181,7 @@ namespace DicardsConfig
         }
 
         /// <summary>
-        /// Проверяем заполнение полей.
+        /// Проверяем заполнение полей конфигурации.
         /// </summary>
         /// <remarks>Умеет проверять только текстовые поля.</remarks>
         private bool CheckFields()

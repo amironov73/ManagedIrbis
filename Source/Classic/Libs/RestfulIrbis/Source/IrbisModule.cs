@@ -1,7 +1,13 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IrbisModule.cs -- 
+// ReSharper disable CheckNamespace
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable LocalizableElement
+// ReSharper disable StringLiteralTypo
+
+/* IrbisModule.cs -- NancyFX module for IRBIS REST server
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -12,12 +18,11 @@
 #region Using directives
 
 using System;
-using System.IO;
-using System.Text;
 using System.Linq;
 
 using AM;
 using AM.IO;
+using AM.Logging;
 
 using JetBrains.Annotations;
 
@@ -27,8 +32,6 @@ using ManagedIrbis.Search;
 using MoonSharp.Interpreter;
 
 using Nancy;
-
-using Newtonsoft.Json;
 
 using CM=System.Configuration.ConfigurationManager;
 
@@ -89,13 +92,13 @@ namespace RestfulIrbis
         /// </summary>
         protected virtual IrbisConnection GetConnection()
         {
-            string connectionString = CM.AppSettings["connectionString"];
-            IrbisConnection connection = new IrbisConnection();
+            var connectionString = CM.AppSettings["connectionString"];
+            var connection = new IrbisConnection();
             connection.ParseConnectionString(connectionString);
             _iniFile = connection.Connect();
 
-            Console.WriteLine("Connected");
-            connection.Disposing += (sender, args) => Console.WriteLine("Disconnected");
+            Log.Trace("IrbisModule: Connected");
+            connection.Disposing += (sender, args) => Log.Trace("IrbisModule: Disconnected");
 
             return connection;
         }
@@ -108,13 +111,13 @@ namespace RestfulIrbis
                 dynamic parameters
             )
         {
-            Console.WriteLine("CALLED: format GET");
+            Log.Trace("IrbisModule: format GET");
 
-            using (IrbisConnection connection = GetConnection())
+            using (var connection = GetConnection())
             {
                 string database = parameters.database;
                 string many = parameters.mfns.ToString().Trim();
-                int[] mfns = many.Split
+                var mfns = many.Split
                     (
                         new []{',', ' ', ';'}, 
                         StringSplitOptions.RemoveEmptyEntries
@@ -125,7 +128,7 @@ namespace RestfulIrbis
                     )
                     .ToArray();
                 string format = parameters.format;
-                string[] text = connection.FormatRecords
+                var text = connection.FormatRecords
                     (
                         database, 
                         format, 
@@ -144,15 +147,15 @@ namespace RestfulIrbis
                 dynamic parameters
             )
         {
-            Console.WriteLine("CALLED: format POST");
+            Log.Trace("IrbisModule: format POST");
 
-            using (IrbisConnection connection = GetConnection())
+            using (var connection = GetConnection())
             {
                 string database = parameters.database;
                 string format = parameters.format;
 
-                int[] mfns = RestUtility.ConvertRequestBody<int[]>(Request);
-                string[] text = connection.FormatRecords
+                var mfns = RestUtility.ConvertRequestBody<int[]>(Request);
+                var text = connection.FormatRecords
                     (
                         database,
                         format,
@@ -171,11 +174,11 @@ namespace RestfulIrbis
                 dynamic parameters
             )
         {
-            Console.WriteLine("CALLED: list");
+            Log.Trace("IrbisModule: list databases");
 
-            using (IrbisConnection connection = GetConnection())
+            using (var connection = GetConnection())
             {
-                string dbname = CM.AppSettings["dbname"];
+                var dbname = CM.AppSettings["dbname"];
                 if (string.IsNullOrEmpty(dbname))
                 {
                     dbname = _iniFile["MAIN", "DBNNAMECAT"];
@@ -185,7 +188,7 @@ namespace RestfulIrbis
                     dbname = "dbnam3.mnu";
                 }
 
-                DatabaseInfo[] databases = connection.ListDatabases(dbname);
+                var databases = connection.ListDatabases(dbname);
 
                 return Response.AsJson(databases);
             }
@@ -199,12 +202,12 @@ namespace RestfulIrbis
                 dynamic parameters
             )
         {
-            Console.WriteLine("CALLED: max");
+            Log.Trace("IrbisModule: max MFN");
 
-            using (IrbisConnection connection = GetConnection())
+            using (var connection = GetConnection())
             {
                 connection.Database = parameters.database;
-                int maxMfn = connection.GetMaxMfn();
+                var maxMfn = connection.GetMaxMfn();
 
                 return Response.AsJson(maxMfn);
             }
@@ -218,13 +221,13 @@ namespace RestfulIrbis
                 dynamic parameters
             )
         {
-            Console.WriteLine("CALLED: read");
+            Log.Trace("IrbisModule: read record");
 
-            using (IrbisConnection connection = GetConnection())
+            using (var connection = GetConnection())
             {
                 connection.Database = parameters.database;
                 int mfn = parameters.mfn;
-                MarcRecord record = connection.ReadRecord(mfn);
+                var record = connection.ReadRecord(mfn);
 
                 return Response.AsJson(record);
             }
@@ -238,17 +241,17 @@ namespace RestfulIrbis
                 dynamic parameters
             )
         {
-            Console.WriteLine("CALLED: terms");
+            Log.Trace("IrbisModule: read terms");
 
-            using (IrbisConnection connection = GetConnection())
+            using (var connection = GetConnection())
             {
-                TermParameters tp = new TermParameters
+                var termParameters = new TermParameters
                 {
                     Database = parameters.database,
                     NumberOfTerms = parameters.count,
                     StartTerm = parameters.term
                 };
-                TermInfo[] terms = connection.ReadTerms(tp);
+                var terms = connection.ReadTerms(termParameters);
 
                 return Response.AsJson(terms);
             }
@@ -262,12 +265,12 @@ namespace RestfulIrbis
                 dynamic parameters
             )
         {
-            Console.WriteLine("CALLED: scenario");
+            Log.Trace("IrbisModule: scenario");
 
-            using (IrbisConnection connection = GetConnection())
+            using (var connection = GetConnection())
             {
                 connection.Database = parameters.database;
-                SearchScenario[] scenario = SearchScenario.ParseIniFile(_iniFile);
+                var scenario = SearchScenario.ParseIniFile(_iniFile);
 
                 return Response.AsJson(scenario);
             }
@@ -281,9 +284,9 @@ namespace RestfulIrbis
                 dynamic parameters
             )
         {
-            Console.WriteLine("CALLED: search");
+            Log.Trace("IrbisModule: search");
 
-            using (IrbisConnection connection = GetConnection())
+            using (var connection = GetConnection())
             {
                 connection.Database = parameters.database;
                 int[] found = connection.Search(parameters.expression);
@@ -300,23 +303,15 @@ namespace RestfulIrbis
                 dynamic parameters
             )
         {
-            Console.WriteLine("CALLED: version");
+            Log.Trace("IrbisModule: version");
 
-            using (IrbisConnection connection = GetConnection())
+            using (var connection = GetConnection())
             {
-                IrbisVersion version = connection.GetServerVersion();
+                var version = connection.GetServerVersion();
 
                 return Response.AsJson(version);
             }
         }
-
-        #endregion
-
-        #region Public methods
-
-        #endregion
-
-        #region Object members
 
         #endregion
     }

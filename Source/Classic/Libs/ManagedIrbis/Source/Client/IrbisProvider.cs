@@ -214,6 +214,7 @@ namespace ManagedIrbis.Client
         /// <summary>
         /// Format records.
         /// </summary>
+        [NotNull]
         public virtual string[] FormatRecords
             (
                 int[] mfns,
