@@ -1,7 +1,12 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* FstIndexMethod.cs --
+// ReSharper disable CheckNamespace
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable UseNameofExpression
+
+/* FstIndexMethod.cs -- метод индексирования (перечисление)
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor

@@ -1,7 +1,11 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ProtocolText.cs --
+// ReSharper disable CommentTypo
+// ReSharper disable CheckNamespace
+// ReSharper disable IdentifierTypo
+
+/* ProtocolText.cs --text representation of the record used in server protocol
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -126,7 +130,6 @@ namespace ManagedIrbis.ImportExport
             builder.Append(IrbisText.IrbisDelimiter);
         }
 
-
         /// <summary>
         /// Кодирование записи в клиентское представление.
         /// </summary>
@@ -176,7 +179,7 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] string line
             )
         {
-            Code.NotNullNorEmpty(line, nameof(line));
+            Code.NotNullNorEmpty(line, "line");
 
             var reader = new StringReader(line);
 
@@ -218,9 +221,9 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] MarcRecord record
             )
         {
-            Code.NotNullNorEmpty(line1, nameof(line1));
-            Code.NotNullNorEmpty(line2, nameof(line2));
-            Code.NotNull(record, nameof(record));
+            Code.NotNullNorEmpty(line1, "line1");
+            Code.NotNullNorEmpty(line2, "line2");
+            Code.NotNull(record, "record");
 
             Regex regex = new Regex(@"^(-?\d+)\#(\d*)?");
             Match match = regex.Match(line1);
@@ -251,8 +254,8 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] MarcRecord record
             )
         {
-            Code.NotNull(response, nameof(response));
-            Code.NotNull(record, nameof(record));
+            Code.NotNull(response, "response");
+            Code.NotNull(record, "record");
 
             try
             {
@@ -316,8 +319,8 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] MarcRecord record
             )
         {
-            Code.NotNull(response, nameof(response));
-            Code.NotNull(record, nameof(record));
+            Code.NotNull(response, "response");
+            Code.NotNull(record, "record");
 
             // Если в БД нет autoin.gbl, сервер не присылает
             // обработанную запись.
@@ -377,8 +380,8 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] MarcRecord record
             )
         {
-            Code.NotNull(response, nameof(response));
-            Code.NotNull(record, nameof(record));
+            Code.NotNull(response, "response");
+            Code.NotNull(record, "record");
 
             try
             {
@@ -424,8 +427,8 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] MarcRecord record
             )
         {
-            Code.NotNull(response, nameof(response));
-            Code.NotNull(record, nameof(record));
+            Code.NotNull(response, "response");
+            Code.NotNull(record, "record");
 
             try
             {
@@ -480,7 +483,7 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] MarcRecord record
             )
         {
-            Code.NotNull(record, nameof(record));
+            Code.NotNull(record, "record");
 
             if (string.IsNullOrEmpty(line))
             {
@@ -538,7 +541,7 @@ namespace ManagedIrbis.ImportExport
                 [NotNull] MarcRecord record
             )
         {
-            Code.NotNull(record, nameof(record));
+            Code.NotNull(record, "record");
 
             if (string.IsNullOrEmpty(line))
             {

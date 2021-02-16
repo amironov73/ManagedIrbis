@@ -66,6 +66,11 @@ namespace DicardsConfig
                 return false;
             }
 
+            if (string.IsNullOrEmpty(newValue))
+            {
+                newValue = "-empty-";
+            }
+
             var oldValue = ((JValue)found["value"])?.Value?.ToString();
             if (oldValue == newValue)
             {
@@ -101,6 +106,24 @@ namespace DicardsConfig
             var fioField = configuration.FioField.ThrowIfNull("FioField");
             var fioText = reader.FullName;
             var needUpdate = UpdateField(card, fioField, fioText);
+
+            // Ссылка на электронный каталог
+            var catalogField = configuration.CatalogField;
+            var catalogUrl = configuration.CatalogUrl;
+            if (!string.IsNullOrEmpty(catalogField))
+            {
+                needUpdate = needUpdate
+                             || UpdateField(card, catalogField, catalogUrl);
+            }
+
+            // Ссылка на личный кабинет
+            var cabinetField = configuration.CabinetField;
+            var cabinetUrl = configuration.CabinetUrl;
+            if (!string.IsNullOrEmpty(cabinetField))
+            {
+                needUpdate = needUpdate
+                             || UpdateField(card, cabinetField, cabinetUrl);
+            }
 
             // Обновляем штрих-код
             var barcodeField = configuration.BarcodeField;
@@ -200,6 +223,15 @@ namespace DicardsConfig
             {
                 needUpdate = needUpdate
                     || UpdateField(card, expiredListField, expiredBookList.ToString());
+            }
+
+            // Напоминание о необходимости сдать книги в библиотеку
+            var messageField = configuration.ReminderField;
+            var messageText = expiredBookCount == 0 ? string.Empty : configuration.ReminderMessage;
+            if (!string.IsNullOrEmpty(messageField))
+            {
+                needUpdate = needUpdate
+                             || UpdateField(card, messageField, messageText);
             }
 
             Log.Debug($"UpdateReaderCard: {ticket} needUpdate={needUpdate}");

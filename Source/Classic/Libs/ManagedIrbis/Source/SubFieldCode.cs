@@ -124,7 +124,7 @@ namespace ManagedIrbis
             {
                 Log.Debug
                     (
-                        $"SubFieldCode::Verify: '{code.ToVisibleString()}'"
+                        string.Format("SubFieldCode::Verify: '{0}'", code.ToVisibleString())
                     );
 
                 if (throwOnError)
