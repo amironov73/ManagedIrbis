@@ -1,6 +1,9 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CommentTypo
+// ReSharper disable ConvertClosureToMethodGroup
+
 /* ExemplarInfo.cs -- информация об экземпляре (поле 910).
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -14,7 +17,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-
+using AM;
 using AM.Collections;
 using AM.IO;
 using AM.Runtime;
@@ -31,8 +34,6 @@ using ManagedIrbis.Mapping;
 using Newtonsoft.Json;
 
 #endregion
-
-// ReSharper disable ConvertClosureToMethodGroup
 
 namespace ManagedIrbis.Fields
 {
@@ -451,6 +452,83 @@ namespace ManagedIrbis.Fields
                 .ApplySubField('!', RealPlace)
                 .ApplySubField('p', BindingIndex)
                 .ApplySubField('i', BindingNumber);
+        }
+
+        /// <summary>
+        /// Вычисляет количество свободных экземпляров,
+        /// описанных в данной структуре.
+        /// </summary>
+        /// <returns>Количество свободных экземпляров.</returns>
+        public int GetFreeCount()
+        {
+            switch (Status.FirstChar())
+            {
+                // экземпляры индивидуального учета
+                case '0': // свободный
+                    return 1;
+
+                // остальные статусы индивидуального учета
+                // считаем занятыми
+                // 1 - на руках у читателя
+                // 5 - временно недоступен
+                // 9 - забронирован
+
+                // экземпляры группового учета
+                case 'U': case 'u': // вуз
+                case 'C': case 'c': // библиотечная сеть
+                    var total = Amount
+                        .SafeToInt32(); // всего экземпляров по месту хранения
+                    var nonFree = OnHand
+                        .SafeToInt32(); // из них числятся выданными
+                    var free = total - nonFree;
+                    return free;
+
+                // прочие статусы не считаем
+                // R - требуется размножение (ещё не отработал AUTOIN)
+                // 8 - поступил, но не дошел до места хранения
+                // 2 - экземпляр ещё не поступил
+                // 3 - в переплете
+                // 4 - утерян
+                // 6 - списан
+                // P - переплетен (входит в подшивку)
+            }
+
+            return 0;
+        }
+
+        /// <summary>
+        /// Вычисляет общее количество экземпляров,
+        /// описанных в данной структуре.
+        /// </summary>
+        /// <returns>Общее количество экземпляров.</returns>
+        public int GetTotalCount()
+        {
+            switch (Status.FirstChar())
+            {
+                // экземпляры индивидуального учета
+                case '0': // свободный
+                case '1': // на руках у читателя
+                case '5': // временно недоступен
+                case '9': // забронирован
+                    return 1;
+
+                // экземпляры группового учета:
+                case 'U': case 'u': // вуз
+                case 'C': case 'c': // библиотечная сеть
+                    var count = Amount.SafeToInt32();
+                    return count;
+
+                // прочие статусы не считаем
+                // R - требуется размножение (ещё не отработал AUTOIN)
+                // 8 - поступил, но не дошел до места хранения
+                // 2 - экземпляр ещё не поступил
+                // 3 - в переплете
+                // 4 - утерян
+                // 6 - списан
+                // P - переплетен (входит в подшивку)
+            }
+
+            return 0;
         }
 
         /// <summary>

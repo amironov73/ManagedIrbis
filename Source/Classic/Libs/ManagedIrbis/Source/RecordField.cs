@@ -1,6 +1,10 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable UnusedMember.Global
+
 /* SubField.cs -- MARC record field.
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------

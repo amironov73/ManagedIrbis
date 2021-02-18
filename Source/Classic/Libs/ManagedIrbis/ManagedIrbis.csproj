@@ -89,6 +89,7 @@
     <Compile Include="Source\Batch\BatchSearcher.cs" />
     <Compile Include="Source\Client\ClientContext.cs" />
     <Compile Include="Source\Client\ClientEngine.cs" />
+    <Compile Include="Source\Fields\ExemplarUtility.cs" />
     <Compile Include="Source\IrbisFileNotFoundException.cs" />
     <Compile Include="Source\Direct\IfpRecord32.cs" />
     <Compile Include="Source\Direct\MstStat64.cs" />
