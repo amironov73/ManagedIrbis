@@ -23,7 +23,7 @@ using System.Net;
 using System.Text;
 
 using AM;
-
+using AM.Logging;
 using CodeJam;
 
 using JetBrains.Annotations;
@@ -514,7 +514,7 @@ namespace RestfulIrbis.OsmiCards
             Code.NotNullNorEmpty(cardNumber, nameof(cardNumber));
             Code.NotNullNorEmpty(email, nameof(email));
 
-            RestRequest request = new RestRequest
+            var request = new RestRequest
                 (
                     "/passes/{number}/email/{email}",
                     Method.GET
@@ -522,8 +522,10 @@ namespace RestfulIrbis.OsmiCards
             request.AddUrlSegment("number", cardNumber);
             request.AddUrlSegment("email", email);
 
-            /* IRestResponse response = */
-            Connection.Execute(request);
+            var response = Connection.Execute(request);
+
+            Log.Trace("OsmiCardClient::SendCardEmail: resource=" + response.ResponseUri);
+            Log.Debug("OsmiCardClient::SendCardEmail: response=" + (int)response.StatusCode);
         }
 
         // =========================================================

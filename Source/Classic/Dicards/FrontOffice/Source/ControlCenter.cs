@@ -487,6 +487,10 @@ namespace FrontOffice
             return true;
         }
 
+        /// <summary>
+        /// Отправка письма со ссылкой на карту для указанного читателя.
+        /// </summary>
+        /// <param name="reader">Читатель</param>
         public static void SendEmail
             (
                 [NotNull] ReaderInfo reader
@@ -496,25 +500,37 @@ namespace FrontOffice
 
             Log.Debug("ControlCenter::SendEmail for reader=" + reader);
 
-            string ticket = GetIdentifier(reader)
-                .ThrowIfNull("ticket");
-            string[] emails = reader
+            var readerId = GetReaderId(reader);
+            var ticket = GetTicket(reader);
+            var emails = reader
                 .Record.ThrowIfNull("reader.Record")
                 .FMA(32);
 
-            foreach (string email in emails)
+            Log.Trace("ControlCenter::SendEmail: emails="
+                + string.Join(" ; ", emails));
+
+            foreach (var email in emails)
             {
-                Client.SendCardMail
-                    (
-                        ticket,
-                        email
-                    );
+                if (!string.IsNullOrEmpty(ticket))
+                {
+                    Client.SendCardMail(ticket, email);
+                }
+
+                if (!string.IsNullOrEmpty(readerId)
+                    && !readerId.SameString(ticket))
+                {
+                    Client.SendCardMail(readerId, email);
+                }
 
                 Log.Debug("Sent email to " + email);
                 WriteLine("Послано письмо по адресу {0}", email);
             }
         }
 
+        /// <summary>
+        /// Посылка SMS указанному читателю.
+        /// </summary>
+        /// <param name="reader">Читатель</param>
         public static void SendSms
             (
                 [NotNull] ReaderInfo reader
@@ -522,16 +538,23 @@ namespace FrontOffice
         {
             Code.NotNull(reader, "reader");
 
-            string ticket = GetIdentifier(reader)
-                .ThrowIfNull("ticket");
-            string phoneNumber = reader.HomePhone.ThrowIfNull();
+            Log.Debug("ControlCenter::SendSms for reader=" + reader);
 
-            Client.SendCardSms
-                (
-                    ticket,
-                    phoneNumber
-                );
+            var readerId = GetReaderId(reader);
+            var ticket = GetTicket(reader);
+            var phoneNumber = reader.HomePhone.ThrowIfNull();
 
+            if (!string.IsNullOrEmpty(ticket))
+            {
+                Client.SendCardSms(ticket, phoneNumber);
+            }
+            if (!string.IsNullOrEmpty(readerId)
+                && !readerId.SameString(ticket))
+            {
+                Client.SendCardSms(readerId, phoneNumber);
+            }
+
+            Log.Debug("Sent SMS to " + phoneNumber);
             WriteLine("Послано сообщение на номер {0}", phoneNumber);
         }
 

@@ -132,10 +132,6 @@
       <Project>{929cc021-a694-43c2-b7d0-57fb7734053a}</Project>
       <Name>AM.Suggestions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AM.Windows.Forms\AM.Windows.Forms.4.6.csproj">
-      <Project>{c06e1d15-0d0d-44b3-bf74-1b2c616f9ee5}</Project>
-      <Name>AM.Windows.Forms</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ManagedIrbis\ManagedIrbis.4.6.csproj">
       <Project>{727c0b37-1e31-49bb-927a-a93dac558c52}</Project>
       <Name>ManagedIrbis</Name>
