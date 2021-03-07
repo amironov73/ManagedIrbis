@@ -19,6 +19,17 @@ using NLog.Config;
 
 namespace AM.Logging.NLog
 {
+    //
+    // NLog log levels
+    //
+    // * Fatal - something bad happened; application is going down
+    // * Error - something failed; application may or may not continue
+    // * Warn  - something unexpected; application will continue
+    // * Info  - normal behavior like mail sent, user updated profile etc.
+    // * Debug - for debugging; executed query, user authenticated, session expired
+    // * Trace - for trace debugging; begin method X, end method X
+    //
+
     /// <summary>
     /// Logger for NLog.
     /// </summary>

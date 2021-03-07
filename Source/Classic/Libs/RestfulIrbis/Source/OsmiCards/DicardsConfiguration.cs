@@ -364,7 +364,7 @@ namespace RestfulIrbis.OsmiCards
         [Description("Имя поля в шаблоне карточки читателя, "
             + "в которое будет помещено количество просроченных "
             + "читателем книг.")]
-        public string ExpirecCountField { get; set; }
+        public string ExpiredCountField { get; set; }
 
         /// <summary>
         /// Имя файла формата, используемого для формирования

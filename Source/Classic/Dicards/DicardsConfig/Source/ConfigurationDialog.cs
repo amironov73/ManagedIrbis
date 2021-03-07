@@ -201,7 +201,7 @@ namespace DicardsConfig
                    && CheckField(c => c.ReminderMessage)
                    && CheckField(c => c.TotalCountField)
                    && CheckField(c => c.TotalCountFormat)
-                   && CheckField(c => c.ExpirecCountField)
+                   && CheckField(c => c.ExpiredCountField)
                    && CheckField(c => c.ExpiredCountFormat)
                    && CheckField(c => c.TotalListField)
                    && CheckField(c => c.TotalListFormat)

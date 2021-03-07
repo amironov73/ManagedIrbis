@@ -524,7 +524,7 @@ namespace RestfulIrbis.OsmiCards
 
             var response = Connection.Execute(request);
 
-            Log.Trace("OsmiCardClient::SendCardEmail: resource=" + response.ResponseUri);
+            Log.Info("OsmiCardClient::SendCardEmail: resource=" + response.ResponseUri);
             Log.Debug("OsmiCardClient::SendCardEmail: response=" + (int)response.StatusCode);
         }
 
@@ -793,7 +793,7 @@ namespace RestfulIrbis.OsmiCards
         {
             Code.NotNull(numbers, nameof(numbers));
 
-            RestRequest request = new RestRequest
+            var request = new RestRequest
                 (
                     "/registration/deletedata",
                     Method.POST
@@ -815,10 +815,8 @@ namespace RestfulIrbis.OsmiCards
 
         #endregion
 
-        #region Object members
+    } // class OsmiCardClient
 
-        #endregion
-    }
-}
+} // namespace RestfulIrbis.OsmiCards
 
 #endif

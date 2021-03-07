@@ -86,7 +86,7 @@ namespace BackOffice
             )
         {
             CardUpdater.UpdateReaderCard(reader, Configuration, connection, client);
-        }
+        } // method ProcessReader
 
         private static void ProcessReaders
             (
@@ -97,7 +97,7 @@ namespace BackOffice
             using (var connection = CreateConnection())
             {
                 // Получаем всех читателей из базы RDR
-                IEnumerable<MarcRecord> batch = BatchRecordReader.Search
+                var batch = BatchRecordReader.Search
                     (
                         connection,
                         "RDR",
@@ -115,7 +115,7 @@ namespace BackOffice
                     }
                 }
             }
-        }
+        } // method ProcessReaders
 
         #endregion
 
@@ -147,7 +147,7 @@ namespace BackOffice
             IdTag = config.ReaderId.SafeToInt32(30);
 
             Log.Trace("Reminder::LoadConfiguration: exit");
-        }
+        } // method LoadConfiguration
 
         /// <summary>
         /// Проделываем работу по импорту.
@@ -156,19 +156,20 @@ namespace BackOffice
         {
             try
             {
-                Log.Trace("Reminder::DoWork: enter");
+                Log.Info("Reminder::DoWork: enter");
 
                 var client = CreateClient();
                 var cards = client.GetCardList();
+                Log.Info($"GetCardList got {cards.Length} cards");
                 ProcessReaders(cards, client);
 
-                Log.Trace("Reminder::DoWork: exit");
+                Log.Info("Reminder::DoWork: exit");
             }
             catch (Exception exception)
             {
                 Log.TraceException("Reminder::DoWork", exception);
             }
-        }
+        } // method DoWork
 
         /// <summary>
         /// Создаём клиента API DiCARDS.
@@ -184,7 +185,7 @@ namespace BackOffice
                 );
 
             return result;
-        }
+        } // method CreateClient
 
         /// <summary>
         /// Подключаемся к серверу ИРБИС64.
@@ -195,9 +196,10 @@ namespace BackOffice
             var result = new IrbisConnection(ConnectionString);
 
             return result;
-        }
+        } // method CreateConnection
 
         #endregion
 
-    }
-}
+    } // class Reminder
+
+} // namespace BackOffice

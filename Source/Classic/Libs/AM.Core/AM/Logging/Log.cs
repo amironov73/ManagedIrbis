@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Log.cs --
+/* Log.cs -- common logging point
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -17,8 +17,19 @@ using JetBrains.Annotations;
 
 namespace AM.Logging
 {
+    //
+    // NLog log levels
+    //
+    // * Fatal - something bad happened; application is going down
+    // * Error - something failed; application may or may not continue
+    // * Warn  - something unexpected; application will continue
+    // * Info  - normal behavior like mail sent, user updated profile etc.
+    // * Debug - for debugging; executed query, user authenticated, session expired
+    // * Trace - for trace debugging; begin method X, end method X
+    //
+
     /// <summary>
-    ///
+    /// Common logging point for all the ArsMagna subrpojects.
     /// </summary>
     public static class Log
     {

@@ -98,7 +98,7 @@ namespace DicardsConfig
             var card = client.GetRawCard(ticket);
             if (card is null)
             {
-                Log.Error($"CardUpdater: unable to fetch card for ticket{ticket}");
+                Log.Error($"CardUpdater: unable to fetch card for ticket {ticket}");
                 return;
             }
 
@@ -172,6 +172,14 @@ namespace DicardsConfig
                 }
                 else
                 {
+                    Log.Debug
+                        (
+                            $"UpdateReaderCard: {ticket}: '{book.DateReturnedString}' "
+                            + $"'{book.Index}' '{book.DateGivenString}' "
+                            + $"'{book.DateExpectedString}' '{book.Inventory}' '{book.Barcode}' "
+                            + $"{description}"
+                        );
+
                     if (totalBookList.Length != 0)
                     {
                         totalBookList.Append("\n");
@@ -189,6 +197,7 @@ namespace DicardsConfig
 
                         expiredBookList.Append($"{expiredBookCount + 1}. {description}");
                         ++expiredBookCount;
+                        Log.Debug($"UpdateReaderCard: {ticket} {book.Inventory}: loan expired");
                     }
                 }
             }
@@ -202,7 +211,7 @@ namespace DicardsConfig
             }
 
             // Количество просроченных книг
-            var expiredCountField = configuration.TotalCountField;
+            var expiredCountField = configuration.ExpiredCountField;
             if (!string.IsNullOrEmpty(expiredCountField))
             {
                 needUpdate = needUpdate
@@ -210,7 +219,7 @@ namespace DicardsConfig
             }
 
             // Список книг на руках
-            var totalListField = configuration.TotalCountField;
+            var totalListField = configuration.TotalListField;
             if (!string.IsNullOrEmpty(totalListField))
             {
                 needUpdate = needUpdate
@@ -218,7 +227,7 @@ namespace DicardsConfig
             }
 
             // Список просроченных книг
-            var expiredListField = configuration.TotalCountField;
+            var expiredListField = configuration.ExpiredListField;
             if (!string.IsNullOrEmpty(expiredListField))
             {
                 needUpdate = needUpdate
@@ -234,16 +243,20 @@ namespace DicardsConfig
                              || UpdateField(card, messageField, messageText);
             }
 
-            Log.Debug($"UpdateReaderCard: {ticket} needUpdate={needUpdate}");
+            Log.Debug("$UpdateReaderCard: {ticket} totalBookCount={totalBookCount}");
+            Log.Debug("$UpdateReaderCard: {ticket} expiredBookCount={expiredBookCount}");
+            Log.Info($"UpdateReaderCard: {ticket} needUpdate={needUpdate}");
 
             // Если в карте что-то изменилось, отправляем её на сервер
             if (needUpdate)
             {
                 client.UpdateCard(ticket, card.ToString(), false);
-                Log.Debug($"UpdateReaderCard: {ticket} OK");
+                Log.Info($"UpdateReaderCard: {ticket} OK");
             }
         }
 
         #endregion
-    }
-}
+
+    } // class CardUpdater
+
+} // namespace DicardsConfig

@@ -522,7 +522,7 @@ namespace FrontOffice
                     Client.SendCardMail(readerId, email);
                 }
 
-                Log.Debug("Sent email to " + email);
+                Log.Info("Sent email to " + email);
                 WriteLine("Послано письмо по адресу {0}", email);
             }
         }
