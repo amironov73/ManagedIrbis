@@ -24,6 +24,8 @@ using CM = System.Configuration.ConfigurationManager;
 
 #endregion
 
+// ReSharper disable CommentTypo
+
 /*
 
     Сервис отправляет письмо со ссылкой на скачивание приложения
@@ -166,10 +168,13 @@ namespace OsmiSamo
 
         private JObject BuildCard()
         {
+            DicardsConfiguration dicards = DicardsConfiguration.LoadConfiguration("dicards.json");
             var result = OsmiUtility.BuildCardForReader
                 (
                     template,
-                    reader
+                    reader,
+                    OsmiUtility.GetReaderId(reader, dicards),
+                    dicards
                 );
 
             return result;

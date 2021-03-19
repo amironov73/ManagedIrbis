@@ -76,6 +76,7 @@
     <Compile Include="Source\DigestAuthenticator.cs" />
     <Compile Include="Source\IrbisModule.cs" />
     <Compile Include="Source\IrbisRestClient.cs" />
+    <Compile Include="Source\OsmiCards\DicardsConfiguration.cs" />
     <Compile Include="Source\OsmiCards\OsmiCard.cs" />
     <Compile Include="Source\OsmiCards\OsmiCardsClient.cs" />
     <Compile Include="Source\OsmiCards\OsmiImage.cs" />

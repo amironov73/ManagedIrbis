@@ -1,6 +1,11 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable LocalizableElement
+// ReSharper disable StringLiteralTypo
+
 /* Program.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -30,9 +35,6 @@ using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure;
 
 #endregion
-
-// ReSharper disable StringLiteralTypo
-// ReSharper disable LocalizableElement
 
 namespace Irbis2istu2
 {
@@ -73,6 +75,29 @@ namespace Irbis2istu2
 
             return result;
         }
+        [CanBeNull]
+        private static string _GetPlace
+            (
+                [NotNull] MarcRecord record
+            )
+        {
+            string[] places = record.FMA(2003)
+                .Where(s => s.SameString("ГРТ")
+                            || s.SameString("МСК")
+                            || s.SameString("УСО")
+                            || s.SameString("УХТТ"))
+                .ToArray();
+
+            string result = null;
+
+            if (places.Length != 0)
+            {
+                Array.Sort(places);
+                result = string.Join(", ", places);
+            }
+
+            return result;
+        }
 
         [NotNull]
         private static string _GetTitle
@@ -88,6 +113,7 @@ namespace Irbis2istu2
 
             PftFormatter formatter = _GetFormatter(_titleProgram);
             string result = formatter.FormatRecord(record);
+
 
             return result.Limit(250);
         }
@@ -356,7 +382,8 @@ namespace Irbis2istu2
                 Count = _GetExemplars(record),
                 Year = _GetYear(record),
                 Link = _GetLink(record),
-                Type = _GetType(record)
+                Type = _GetType(record),
+                Place = _GetPlace(record)
             };
 
             _database.Insert(data);

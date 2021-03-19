@@ -1,6 +1,17 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable HeapView.BoxingAllocation
+// ReSharper disable HeapView.ObjectAllocation
+// ReSharper disable HeapView.ObjectAllocation.Evident
+// ReSharper disable LocalizableElement
+// ReSharper disable StringLiteralTypo
+// ReSharper disable SuggestVarOrType_BuiltInTypes
+// ReSharper disable SuggestVarOrType_SimpleTypes
+// ReSharper disable SuggestVarOrType_Elsewhere
+
 /* ControlCenter.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -30,14 +41,6 @@ using RestfulIrbis.OsmiCards;
 using CM = System.Configuration.ConfigurationManager;
 
 #endregion
-
-// ReSharper disable LocalizableElement
-// ReSharper disable HeapView.BoxingAllocation
-// ReSharper disable HeapView.ObjectAllocation
-// ReSharper disable HeapView.ObjectAllocation.Evident
-// ReSharper disable SuggestVarOrType_BuiltInTypes
-// ReSharper disable SuggestVarOrType_SimpleTypes
-// ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace OsmiRegistration
 {
@@ -84,6 +87,9 @@ namespace OsmiRegistration
 
         #region Public methods
 
+        /// <summary>
+        /// Формирование карточки для указанного читателя.
+        /// </summary>
         public static JObject BuildCard
             (
                 [NotNull] ReaderInfo reader
@@ -91,10 +97,13 @@ namespace OsmiRegistration
         {
             Code.NotNull(reader, "reader");
 
+            DicardsConfiguration dicards = DicardsConfiguration.LoadConfiguration("dicards.json");
             JObject result = OsmiUtility.BuildCardForReader
                 (
                     Template,
-                    reader
+                    reader,
+                    OsmiUtility.GetReaderId(reader, dicards),
+                    dicards
                 );
 
             return result;
