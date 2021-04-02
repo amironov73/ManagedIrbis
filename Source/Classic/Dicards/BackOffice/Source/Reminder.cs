@@ -17,7 +17,7 @@
 
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using AM;
 using AM.Logging;
 
@@ -27,14 +27,27 @@ using JetBrains.Annotations;
 
 using ManagedIrbis;
 using ManagedIrbis.Batch;
+using ManagedIrbis.ImportExport;
 using ManagedIrbis.Readers;
-
+using ManagedIrbis.Search;
 using RestfulIrbis.OsmiCards;
 
 #endregion
 
 namespace BackOffice
 {
+    //
+    // Тестовый стенд DiCARDS
+    //
+    // https://api.dicards.ru/v2
+    // API ID:  IB2Y7H3OJK01AGJ1SS3W
+    // API KEY: 015ad52cd62104479f0dd1df79e1e244d48222fa
+    //
+    // https://cabinet.dicards.ru/login
+    // login:  dicards
+    // pass:   GXBPe61p
+    //
+
     /// <summary>
     /// Напоминает читателям, какие книги у них на руках.
     /// </summary>
@@ -88,6 +101,39 @@ namespace BackOffice
             CardUpdater.UpdateReaderCard(reader, Configuration, connection, client);
         } // method ProcessReader
 
+        /// <summary>
+        /// Отладка на примере указанного читателя.
+        /// </summary>
+        public static void RemindOneReader
+            (
+                string ticket
+            )
+        {
+            LoadConfiguration();
+
+            var client = CreateClient();
+            var connection = CreateConnection();
+            var found = connection.Search($"\"RI={ticket}\"");
+            if (found.Length != 1)
+            {
+                // Возможно, это карта, принадлежащая человеку,
+                // удаленному из базы данных
+                // Два одинаковых читательских нас тоже не устраивают
+                return;
+            }
+
+            var record = connection.ReadRecord(found[0]);
+            var reader = ReaderInfo.Parse(record);
+
+            CardUpdater.UpdateReaderCard
+                (
+                    reader,
+                    Configuration,
+                    connection,
+                    client
+                );
+        }
+
         private static void ProcessReaders
             (
                 string[] cards,
@@ -96,23 +142,20 @@ namespace BackOffice
         {
             using (var connection = CreateConnection())
             {
-                // Получаем всех читателей из базы RDR
-                var batch = BatchRecordReader.Search
-                    (
-                        connection,
-                        "RDR",
-                        "RB=$",
-                        1000
-                    );
-
-                foreach (var record in batch)
+                foreach(var ticket in cards)
                 {
-                    var reader = ReaderInfo.Parse(record);
-                    var ticket = OsmiUtility.GetReaderId(record, Configuration);
-                    if (ticket.OneOf(cards))
+                    var found = connection.Search($"\"RI={ticket}\"");
+                    if (found.Length != 1)
                     {
-                        ProcessReader(reader, connection, client);
+                        // Возможно, это карта, принадлежащая человеку,
+                        // удаленному из базы данных
+                        // Два одинаковых читательских нас тоже не устраивают
+                        continue;
                     }
+                    var record = connection.ReadRecord(found[0]);
+
+                    var reader = ReaderInfo.Parse(record);
+                    ProcessReader(reader, connection, client);
                 }
             }
         } // method ProcessReaders
@@ -161,6 +204,7 @@ namespace BackOffice
                 var client = CreateClient();
                 var cards = client.GetCardList();
                 Log.Info($"GetCardList got {cards.Length} cards");
+                Log.Trace($"GetCardList = {string.Join(", ", cards)}");
                 ProcessReaders(cards, client);
 
                 Log.Info("Reminder::DoWork: exit");

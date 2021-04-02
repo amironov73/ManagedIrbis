@@ -1,7 +1,10 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* PlainText.cs --
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+
+/* PlainText.cs -- файл плоского текста с записями в формате ИРБИС
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -225,7 +228,8 @@ namespace ManagedIrbis.ImportExport
         }
 
         /// <summary>
-        /// Read one record from local file.
+        /// Чтение одной (первой и, возможно, единственной)
+        /// записи из текстового файла.
         /// </summary>
         [CanBeNull]
         public static MarcRecord ReadOneRecord
@@ -237,7 +241,7 @@ namespace ManagedIrbis.ImportExport
             Code.NotNullNorEmpty(fileName, "fileName");
             Code.NotNull(encoding, "encoding");
 
-            using (StreamReader reader = new StreamReader
+            using (var reader = new StreamReader
                 (
                     new FileStream
                     (
@@ -252,6 +256,19 @@ namespace ManagedIrbis.ImportExport
 
                 return result;
             }
+        }
+
+        /// <summary>
+        /// Чтение одной (первой и, возможно, единственной)
+        /// записи из текстового файла.
+        /// </summary>
+        [CanBeNull]
+        public static MarcRecord ReadOneRecord
+            (
+                [NotNull] string fileName
+            )
+        {
+            return ReadOneRecord(fileName, IrbisEncoding.Utf8);
         }
 
         /// <summary>

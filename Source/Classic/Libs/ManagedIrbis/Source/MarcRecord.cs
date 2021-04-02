@@ -186,8 +186,6 @@ namespace ManagedIrbis
         /// </summary>
         public MarcRecord()
         {
-            Log.Trace("MarcRecord::Constructor");
-
             _fields = new RecordFieldCollection()
                 ._SetRecord(this);
         }

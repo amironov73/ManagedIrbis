@@ -349,6 +349,18 @@ namespace Irbis2istu2
                 [NotNull] MarcRecord record
             )
         {
+            string worklist = record.FM(920);
+            if (string.IsNullOrEmpty(worklist))
+            {
+                return;
+            }
+
+            worklist = worklist.ToUpperInvariant();
+            if (worklist != "PAZK" && worklist != "SPEC" && worklist != "PVK")
+            {
+                return;
+            }
+
             string index = record.FM(903);
             if (string.IsNullOrEmpty(index))
             {

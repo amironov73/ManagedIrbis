@@ -102,6 +102,14 @@ namespace DicardsConfig
                 return;
             }
 
+            //
+            // Обновлять поля на карте нужно строго так:
+            //
+            // needUpdate = needUpdate || UpdateField(card, field, value);
+            //
+            // Иначе будет обновлено только первое из изменившихся полей!
+            //
+
             // Обновляем ФИО
             var fioField = configuration.FioField.ThrowIfNull("FioField");
             var fioText = reader.FullName;
@@ -206,32 +214,36 @@ namespace DicardsConfig
             var totalCountField = configuration.TotalCountField;
             if (!string.IsNullOrEmpty(totalCountField))
             {
-                needUpdate = needUpdate
-                    || UpdateField(card, totalCountField, totalBookCount.ToInvariantString());
+                needUpdate =
+                    UpdateField(card, totalCountField, totalBookCount.ToInvariantString())
+                    || needUpdate;
             }
 
             // Количество просроченных книг
             var expiredCountField = configuration.ExpiredCountField;
             if (!string.IsNullOrEmpty(expiredCountField))
             {
-                needUpdate = needUpdate
-                    || UpdateField(card, expiredCountField, expiredBookCount.ToInvariantString());
+                needUpdate =
+                    UpdateField(card, expiredCountField, expiredBookCount.ToInvariantString())
+                    || needUpdate;
             }
 
             // Список книг на руках
             var totalListField = configuration.TotalListField;
             if (!string.IsNullOrEmpty(totalListField))
             {
-                needUpdate = needUpdate
-                    || UpdateField(card, totalListField, totalBookList.ToString());
+                needUpdate =
+                    UpdateField(card, totalListField, totalBookList.ToString())
+                    || needUpdate;
             }
 
             // Список просроченных книг
             var expiredListField = configuration.ExpiredListField;
             if (!string.IsNullOrEmpty(expiredListField))
             {
-                needUpdate = needUpdate
-                    || UpdateField(card, expiredListField, expiredBookList.ToString());
+                needUpdate =
+                    UpdateField(card, expiredListField, expiredBookList.ToString())
+                    || needUpdate;
             }
 
             // Напоминание о необходимости сдать книги в библиотеку
@@ -239,21 +251,23 @@ namespace DicardsConfig
             var messageText = expiredBookCount == 0 ? string.Empty : configuration.ReminderMessage;
             if (!string.IsNullOrEmpty(messageField))
             {
-                needUpdate = needUpdate
-                             || UpdateField(card, messageField, messageText);
+                needUpdate =
+                    UpdateField(card, messageField, messageText)
+                    || needUpdate;
             }
 
-            Log.Debug("$UpdateReaderCard: {ticket} totalBookCount={totalBookCount}");
-            Log.Debug("$UpdateReaderCard: {ticket} expiredBookCount={expiredBookCount}");
+            Log.Debug($"UpdateReaderCard: {ticket} totalBookCount={totalBookCount}");
+            Log.Debug($"UpdateReaderCard: {ticket} expiredBookCount={expiredBookCount}");
             Log.Info($"UpdateReaderCard: {ticket} needUpdate={needUpdate}");
 
             // Если в карте что-то изменилось, отправляем её на сервер
             if (needUpdate)
             {
+                Log.Trace($"UpdateReaderCard: {ticket}: {card}");
                 client.UpdateCard(ticket, card.ToString(), false);
                 Log.Info($"UpdateReaderCard: {ticket} OK");
             }
-        }
+        } // method UpdateReaderCard
 
         #endregion
 

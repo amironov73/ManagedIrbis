@@ -226,6 +226,14 @@ namespace BackOffice
             {
                 var command = args[0].ToLowerInvariant();
 
+                if (command == "remind")
+                {
+                    var ticket = args[1];
+                    Reminder.RemindOneReader(ticket);
+
+                    return 0;
+                }
+
                 if (command == "run")
                 {
                     return RunJobsManually(args);
@@ -242,5 +250,7 @@ namespace BackOffice
         }
 
         #endregion
-    }
-}
+
+    } // class Program
+
+} // namespace BackOffice
