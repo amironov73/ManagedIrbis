@@ -486,7 +486,7 @@ namespace ManagedIrbis.Direct
                 {
                     Log.TraceException
                         (
-                            "InvertedFile64::SearchExact",
+                            "InvertedFile64::ReadTerms",
                             exception
                         );
                 }

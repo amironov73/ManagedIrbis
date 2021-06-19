@@ -120,8 +120,8 @@ namespace DicardsConfig
             var catalogUrl = configuration.CatalogUrl;
             if (!string.IsNullOrEmpty(catalogField))
             {
-                needUpdate = needUpdate
-                             || UpdateField(card, catalogField, catalogUrl);
+                needUpdate = UpdateField(card, catalogField, catalogUrl)
+                    || needUpdate;
             }
 
             // Ссылка на личный кабинет
@@ -129,16 +129,16 @@ namespace DicardsConfig
             var cabinetUrl = configuration.CabinetUrl;
             if (!string.IsNullOrEmpty(cabinetField))
             {
-                needUpdate = needUpdate
-                             || UpdateField(card, cabinetField, cabinetUrl);
+                needUpdate = UpdateField(card, cabinetField, cabinetUrl)
+                    || needUpdate;
             }
 
             // Обновляем штрих-код
             var barcodeField = configuration.BarcodeField;
             if (barcodeField != null)
             {
-                needUpdate = needUpdate
-                    && UpdateField(card, barcodeField, ticket);
+                needUpdate = UpdateField(card, barcodeField, ticket)
+                    || needUpdate;
             }
 
             // Массив задолженных книг
@@ -214,8 +214,7 @@ namespace DicardsConfig
             var totalCountField = configuration.TotalCountField;
             if (!string.IsNullOrEmpty(totalCountField))
             {
-                needUpdate =
-                    UpdateField(card, totalCountField, totalBookCount.ToInvariantString())
+                needUpdate = UpdateField(card, totalCountField, totalBookCount.ToInvariantString())
                     || needUpdate;
             }
 
@@ -223,8 +222,7 @@ namespace DicardsConfig
             var expiredCountField = configuration.ExpiredCountField;
             if (!string.IsNullOrEmpty(expiredCountField))
             {
-                needUpdate =
-                    UpdateField(card, expiredCountField, expiredBookCount.ToInvariantString())
+                needUpdate = UpdateField(card, expiredCountField, expiredBookCount.ToInvariantString())
                     || needUpdate;
             }
 
@@ -232,8 +230,7 @@ namespace DicardsConfig
             var totalListField = configuration.TotalListField;
             if (!string.IsNullOrEmpty(totalListField))
             {
-                needUpdate =
-                    UpdateField(card, totalListField, totalBookList.ToString())
+                needUpdate = UpdateField(card, totalListField, totalBookList.ToString())
                     || needUpdate;
             }
 
@@ -241,8 +238,7 @@ namespace DicardsConfig
             var expiredListField = configuration.ExpiredListField;
             if (!string.IsNullOrEmpty(expiredListField))
             {
-                needUpdate =
-                    UpdateField(card, expiredListField, expiredBookList.ToString())
+                needUpdate = UpdateField(card, expiredListField, expiredBookList.ToString())
                     || needUpdate;
             }
 
@@ -251,8 +247,7 @@ namespace DicardsConfig
             var messageText = expiredBookCount == 0 ? string.Empty : configuration.ReminderMessage;
             if (!string.IsNullOrEmpty(messageField))
             {
-                needUpdate =
-                    UpdateField(card, messageField, messageText)
+                needUpdate = UpdateField(card, messageField, messageText)
                     || needUpdate;
             }
 
