@@ -38,9 +38,9 @@ using CM = System.Configuration.ConfigurationManager;
        будет послано на все указанные адреса.
 
     3. В личном кабинете читателя добавляется ссылка вида
-       https://i.irklib.ru/osmi/samoreg.aspx?ticket=TICKET&name=FIO,
+       https://i.irklib.ru/osmi/samoreg.aspx?ticket=TICKET&fio=NAME,
        где TICKET - содержимое поля v30 (идентификатор читателя),
-       а FIO - фамилия, имя, отчество читателя в формате v10, “ “v11, “ “v12.
+       а NAME - фамилия, имя, отчество читателя в формате v10, “ “v11, “ “v12.
        Возможно, вызов samoreg.aspx следует делать по методу POST,
        чтобы не засорять адресную строку.
 

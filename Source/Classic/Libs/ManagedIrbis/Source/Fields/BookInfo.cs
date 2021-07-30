@@ -1,6 +1,10 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable StringLiteralTypo
+
 /* BookInfo.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
@@ -21,9 +25,8 @@ using JetBrains.Annotations;
 using ManagedIrbis.Client;
 using ManagedIrbis.Pft;
 using ManagedIrbis.Pft.Infrastructure.Unifors;
-using MoonSharp.Interpreter;
 
-using Newtonsoft.Json;
+using MoonSharp.Interpreter;
 
 #endregion
 

@@ -73,7 +73,7 @@ internal class Program
             MagazineInfo newMagazine
         )
     {
-        bool result = false;
+        var result = false;
 
         var oldCum = oldMagazine.Cumulation;
         var newCum = newMagazine.Cumulation;
@@ -117,6 +117,7 @@ internal class Program
         }
 
         var oldVersion = oldRecord.Version;
+        var oldDate = Technology.GetLatestDate(oldRecord);
         var found = _connection.SearchRead("\"I={0}\"", magazineIndex);
         if (found.Length != 1)
         {
@@ -131,13 +132,14 @@ internal class Program
         {
             // Если не нашли в новой базе данных, надо переносить
             var newMfn = MergeRecords(oldRecord, null);
-            WriteLog($"{workingList}\tнет\tПЕРЕНОС\t{oldRecord.Mfn}\t{oldVersion}\t{newMfn}\t1\t{magazine} - {IssueToString(issue)}");
+            WriteLog($"{workingList}\tнет\tПЕРЕНОС\t{oldRecord.Mfn}\t{oldVersion}\t{newMfn}\t1\t{oldDate}\tнет\t{magazine} - {IssueToString(issue)}");
             return;
         }
 
         var newRecord = found[0];
+        var newDate = Technology.GetLatestDate(newRecord);
         var newVersion = newRecord.Version;
-        if (oldVersion <= newVersion)
+        if (string.CompareOrdinal(oldDate, newDate) < 0 || oldVersion <= newVersion)
         {
             Console.Write("n");
             return;
@@ -145,7 +147,7 @@ internal class Program
 
         // Если в старой базе версия выше, надо переносить
         MergeRecords(oldRecord, newRecord);
-        WriteLog($"{workingList}\tнет\tОБНОВЛЕНИЕ\t{oldRecord.Mfn}\t{oldVersion}\t{newRecord.Mfn}\t{newVersion}\t{magazine} - {IssueToString(issue)}");
+        WriteLog($"{workingList}\tнет\tОБНОВЛЕНИЕ\t{oldRecord.Mfn}\t{oldVersion}\t{newRecord.Mfn}\t{newVersion}\t{oldDate}\t{newDate}\t{magazine} - {IssueToString(issue)}");
         ShowDifference(oldRecord, newRecord);
     }
 
@@ -170,21 +172,22 @@ internal class Program
         }
 
         var oldVersion = oldRecord.Version;
+        var oldDate = Technology.GetLatestDate(oldRecord);
         var found = _connection.SearchRead($"\"I={magazineIndex}\"");
         if (found.Length != 1)
         {
             var newMfn = MergeRecords(oldRecord, null);
-            WriteLog($"{workingList}\tнет\tПЕРЕНОС\t{oldRecord.Mfn}\t{oldVersion}\t{newMfn}\t1\t{oldMagazine}");
+            WriteLog($"{workingList}\tнет\tПЕРЕНОС\t{oldRecord.Mfn}\t{oldVersion}\t{newMfn}\t1\t{oldDate}\tнет\t{oldMagazine}");
             return;
         }
 
         var newRecord = found[0];
+        var newDate = Technology.GetLatestDate(newRecord);
         var newMagazine = MagazineInfo.Parse(newRecord);
-
         if (MergeMagazines(oldMagazine, newMagazine))
         {
             MergeRecords(oldRecord, newRecord);
-            WriteLog($"{workingList}\tнет\tОБНОВЛЕНИЕ\t{oldRecord.Mfn}\t{oldVersion}\t{newRecord.Mfn}\t{newRecord.Version}\t{oldMagazine}");
+            WriteLog($"{workingList}\tнет\tОБНОВЛЕНИЕ\t{oldRecord.Mfn}\t{oldVersion}\t{newRecord.Mfn}\t{newRecord.Version}\t{oldDate}\t{newDate}\t{oldMagazine}");
             ShowDifference(oldRecord, newRecord);
             return;
         }
@@ -216,24 +219,26 @@ internal class Program
         }
 
         var oldVersion = oldRecord.Version;
+        var oldDate = Technology.GetLatestDate(oldRecord);
         var found = _connection.SearchRead($"\"I={index}\"");
         if (found.Length != 1)
         {
             var newMfn = MergeRecords(oldRecord, null);
-            WriteLog($"{workingList}\tнет\tПЕРЕНОС\t{oldRecord.Mfn}\t{oldVersion}\t{newMfn}\t1\t{GetArticleDescription(oldRecord)}");
+            WriteLog($"{workingList}\tнет\tПЕРЕНОС\t{oldRecord.Mfn}\t{oldVersion}\t{newMfn}\t1\t{oldDate}\tнет\t{GetArticleDescription(oldRecord)}");
             return;
         }
 
         var newRecord = found[0];
+        var newDate = Technology.GetLatestDate(newRecord);
         var newVersion = newRecord.Version;
-        if (oldVersion <= newVersion)
+        if (string.CompareOrdinal(oldDate, newDate) < 0 || oldVersion <= newVersion)
         {
             Console.Write("a");
             return;
         }
 
         MergeRecords(oldRecord, newRecord);
-        WriteLog($"{workingList}\tнет\tОБНОВЛЕНИЕ\t{oldRecord.Mfn}\t{oldVersion}\t{newRecord.Mfn}\t{newVersion}\t{GetArticleDescription(oldRecord)}");
+        WriteLog($"{workingList}\tнет\tОБНОВЛЕНИЕ\t{oldRecord.Mfn}\t{oldVersion}\t{newRecord.Mfn}\t{newVersion}\t{oldDate}\t{newDate}\t{GetArticleDescription(oldRecord)}");
         ShowDifference(oldRecord, newRecord);
     }
 
@@ -291,19 +296,21 @@ internal class Program
         }
 
         var oldVersion = oldRecord.Version;
+        var oldDate = Technology.GetLatestDate(oldRecord);
         //var found = _newDatabase.SearchReadSimple($"IN={exemplar}");
         var found = _connection.SearchRead($"\"IN={exemplar}\"");
         if (found.Length == 0)
         {
             // Если не нашли в новой базе надо переносить
             var newMfn = MergeRecords(oldRecord, null);
-            WriteLog($"{workingList}\t{exemplar}\tПЕРЕНОС\t{oldRecord.Mfn}\t{oldVersion}\t{newMfn}\t1\t{book.Description}");
+            WriteLog($"{workingList}\t{exemplar}\tПЕРЕНОС\t{oldRecord.Mfn}\t{oldVersion}\t{newMfn}\t1\t{oldDate}\tнет\t{book.Description}");
             return;
         }
 
         var newRecord = found[0];
+        var newDate = Technology.GetLatestDate(newRecord);
         var newVersion = newRecord.Version;
-        if (oldVersion <= newVersion)
+        if (string.CompareOrdinal(oldDate, newDate) < 0 || oldVersion <= newVersion)
         {
             Console.Write("p");
             return;
@@ -311,7 +318,7 @@ internal class Program
 
         // Если в старой базе версия новее, надо переносить
         MergeRecords(oldRecord, newRecord);
-        WriteLog($"{workingList}\t{exemplar}\tОБНОВЛЕНИЕ\t{oldRecord.Mfn}\t{oldVersion}\t{newRecord.Mfn}\t{newVersion}\t{book.Description}");
+        WriteLog($"{workingList}\t{exemplar}\tОБНОВЛЕНИЕ\t{oldRecord.Mfn}\t{oldVersion}\t{newRecord.Mfn}\t{newVersion}\t{oldDate}\t{newDate}\t{book.Description}");
         ShowDifference(oldRecord, newRecord);
     }
 

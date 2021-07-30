@@ -76,7 +76,7 @@ namespace OsmiSender
 
      7. Если запись найдена, то производится вызов API OsmiCards,
         формирующий новую запись в БД OsmiCards. Сервер OsmiCards
-        должен отправить читателю письмо с ссылкой на скачивание приложение.
+        должен отправить читателю письмо с ссылкой на скачивание приложения.
 
      8. Об успешном либо неуспешном вызове API OsmiCards формируется
         запись в файле OsmiSender.log.
@@ -110,8 +110,7 @@ namespace OsmiSender
                     ".log"
                 );
 
-            using (var writer
-                = new StreamWriter(fileName, true, Encoding.UTF8))
+            using (var writer = new StreamWriter(fileName, true, Encoding.UTF8))
             {
                 writer.Write("{0:yyyy-MM-dd HH:mm:ss}: ", DateTime.Now);
                 writer.WriteLine(format, args);
@@ -199,10 +198,14 @@ namespace OsmiSender
 
         private static JObject BuildCard()
         {
+            var config = DicardsConfiguration.LoadConfiguration("dicards.json");
+
             var result = OsmiUtility.BuildCardForReader
                 (
                     template,
-                    reader
+                    reader,
+                    ticket,
+                    config
                 );
 
             return result;

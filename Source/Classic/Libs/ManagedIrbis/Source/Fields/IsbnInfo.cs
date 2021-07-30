@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* IsbnInfo.cs -- 
+/* IsbnInfo.cs -- информация об ISBN и цене
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -200,8 +200,8 @@ namespace ManagedIrbis.Fields
         {
             Code.NotNull(record, "record");
 
-            List<IsbnInfo> result = new List<IsbnInfo>();
-            foreach (RecordField field in record.Fields)
+            var result = new List<IsbnInfo>();
+            foreach (var field in record.Fields)
             {
                 if (field.Tag == Tag)
                 {
@@ -224,7 +224,7 @@ namespace ManagedIrbis.Fields
         {
             Code.NotNull(field, "field");
 
-            IsbnInfo result = new IsbnInfo
+            var result = new IsbnInfo
             {
                 Isbn = field.GetFirstSubFieldValue('a'),
                 Refinement = field.GetFirstSubFieldValue('b'),
@@ -254,7 +254,7 @@ namespace ManagedIrbis.Fields
         [NotNull]
         public RecordField ToField()
         {
-            RecordField result = new RecordField(Tag)
+            var result = new RecordField(Tag)
                 .AddNonEmptySubField('a', Isbn)
                 .AddNonEmptySubField('b', Refinement)
                 .AddNonEmptySubField('z', Erroneous)
@@ -313,8 +313,7 @@ namespace ManagedIrbis.Fields
                 bool throwOnError
             )
         {
-            Verifier<IsbnInfo> verifier
-                = new Verifier<IsbnInfo>(this, throwOnError);
+            var verifier = new Verifier<IsbnInfo>(this, throwOnError);
 
             verifier.Assert
                 (
@@ -350,5 +349,6 @@ namespace ManagedIrbis.Fields
         }
 
         #endregion
-    }
+
+    } // 
 }

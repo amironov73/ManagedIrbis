@@ -48,7 +48,17 @@ namespace IrbisBot.Commands
                 };
 
                 Announcement[] announces = JsonConvert.DeserializeObject<Announcement[]>(text, settings);
+                if (ReferenceEquals(announces, null))
+                {
+                    SendMessage(client, chatId, "К сожалению, анонсов пока нет");
+                }
+
                 announces = announces.Where(a => a.Date.HasValue).OrderBy(a => a.Date.Value).ToArray();
+                if (announces.Length == 0)
+                {
+                    SendMessage(client, chatId, "К сожалению, анонсов пока нет");
+                }
+
                 foreach (Announcement announce in announces)
                 {
                     string msg = "<b>" + announce.Name + "</b>\n";

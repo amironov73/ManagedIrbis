@@ -43,6 +43,8 @@
     <AssemblyOriginatorKeyFile>ArsMagna.private.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Data.v20.1, Version=20.1.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v20.1, Version=20.1.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="JetBrains.Annotations, Version=2019.1.3.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\JetBrains.Annotations.2019.1.3\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
@@ -90,6 +92,8 @@
     <Compile Include="Source\Client\ClientContext.cs" />
     <Compile Include="Source\Client\ClientEngine.cs" />
     <Compile Include="Source\Fields\ExemplarUtility.cs" />
+    <Compile Include="Source\Fields\Technology.cs" />
+    <Compile Include="Source\Fields\WorkPhase.cs" />
     <Compile Include="Source\IrbisFileNotFoundException.cs" />
     <Compile Include="Source\Direct\IfpRecord32.cs" />
     <Compile Include="Source\Direct\MstStat64.cs" />

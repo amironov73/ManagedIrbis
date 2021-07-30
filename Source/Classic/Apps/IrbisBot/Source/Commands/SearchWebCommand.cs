@@ -33,18 +33,18 @@ namespace IrbisBot.Commands
         public override string Name => "search_web";
 
         private static string _template1
-            = "http://i.irklib.ru/cgi/irbis64r_61/cgiirbis_64.exe?"
+            = "https://i.irklib.ru/cgi/irbis64r_61/cgiirbis_64.exe?"
             + "C21COM=S"
             + "&I21DBN=FORMAT"
             + "&P21DBN=FORMAT"
             + "&S21ALL=(<.>K={0}$<.>+%2B+<.>A={0}$<.>+%2B+<.>T={0}$<.>)*G=$"
-            + "&S21FMT=BRIEFWEBR"
+            + "&S21FMT=BRIEFWEBRF"
             + "&S21SRW=GOD"
             + "&S21SRD=DOWN"
             + "&S21CNR=5";
 
         private static string _template2
-            = "http://i.irklib.ru/cgi/irbis64r_61/cgiirbis_64.exe?"
+            = "https://i.irklib.ru/cgi/irbis64r_61/cgiirbis_64.exe?"
             + "C21COM=S"
             + "&I21DBN=IBIS"
             + "&P21DBN=IBIS"
