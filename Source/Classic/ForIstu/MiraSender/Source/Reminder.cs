@@ -29,6 +29,7 @@ using AM.Text.Output;
 
 using BLToolkit.Data;
 using BLToolkit.Data.DataProvider;
+using BLToolkit.Data.Linq;
 
 using ManagedIrbis;
 
@@ -119,6 +120,21 @@ namespace MiraSender
             var result = (DateTime.Now - date).Days / 30;
 
             return result;
+        }
+
+        public static void CreateSanction
+            (
+                Kladovka kladovka,
+                string ticket
+            )
+        {
+            var newSanction = SanctionRecord.CreateNew();
+            newSanction.Ticket = ticket;
+            newSanction.Active = false;
+            newSanction.Operator = 0;
+            newSanction.Description = $"Отправлено письмо {DateTime.Now.Date.ToShortDateString()}";
+
+            kladovka.DB.Insert(newSanction);
         }
 
         public static void DoWork()
@@ -219,6 +235,8 @@ namespace MiraSender
                     var status = response.StatusCode;
 
                     Log.Info($"Ticket={ticket}, MIRA={miraid}, books={totalBooks}, money={totalMoney}, status={status}");
+
+                    CreateSanction(kladovka, ticket);
                 }
             }
 

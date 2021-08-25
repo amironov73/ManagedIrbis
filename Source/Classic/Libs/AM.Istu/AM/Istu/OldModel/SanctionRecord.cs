@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 
 using AM.Configuration;
 using AM.Data;
+
 using BLToolkit.DataAccess;
 using BLToolkit.Mapping;
 
@@ -68,6 +69,7 @@ namespace AM.Istu.OldModel
         /// </summary>
         [Browsable(false)]
         [MapField("id")]
+        [Identity]
         public int ID { get; set; }
 
         /// <summary>
