@@ -145,7 +145,8 @@ namespace ManagedIrbis.Fields
             if (string.IsNullOrEmpty(result))
             {
                 string workList = record.FM(920);
-                if (workList.SameString("NJ"))
+                if (workList.SameString("NJ")
+                    || workList.SameString("NJK"))
                 {
                     result = record.FM(934);
                 }

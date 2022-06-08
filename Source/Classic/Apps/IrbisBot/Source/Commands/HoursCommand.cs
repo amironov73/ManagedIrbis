@@ -29,7 +29,7 @@ namespace IrbisBot.Commands
         : BotCommand
     {
         public override string Name => "hours";
-        public override string Alias => "Режим работы";
+        public override string Alias => "Режим";
 
         public override void Execute(Message message, TelegramBotClient client)
         {
@@ -54,6 +54,7 @@ namespace IrbisBot.Commands
                 if (!ReferenceEquals(regime, null))
                 {
                     text = regime.InnerHtml;
+                    text = text.Replace("<br>", "\n");
                 }
             }
             catch (Exception exception)

@@ -54,13 +54,18 @@ namespace IrbisBot.Commands
                 },
                 new List<KeyboardButton>
                 {
-                    new KeyboardButton() { Text = "Режим работы" },
+                    new KeyboardButton() { Text = "Режим" },
                     new KeyboardButton() { Text = "Помощь" }
                 }
-
             };
-            ReplyKeyboardMarkup result
-                = new ReplyKeyboardMarkup(buttons, true);
+
+            // var buttons = new List<KeyboardButton>()
+            // {
+            //     new KeyboardButton() { Text = "Контакты" },
+            //     new KeyboardButton() { Text = "Режим работы" },
+            //     new KeyboardButton() { Text = "Помощь" },
+            // };
+            var result = new ReplyKeyboardMarkup(buttons, true);
 
             return result;
         }
