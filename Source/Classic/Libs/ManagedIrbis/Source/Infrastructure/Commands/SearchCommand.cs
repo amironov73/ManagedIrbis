@@ -246,6 +246,10 @@ namespace ManagedIrbis.Infrastructure.Commands
                         .ThrowIfNull("Found");
                     int count = found.Count;
                     Found.ThrowIfNull().AddRange(found);
+                    if (count == 0)
+                    {
+                        break;
+                    }
 
                     // FIXME
                     //Debug.Assert

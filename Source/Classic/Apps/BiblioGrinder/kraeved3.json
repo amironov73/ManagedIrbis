@@ -1,0 +1,150 @@
+﻿{
+  // ================================================================
+  // Обратите внимание: свойство $type должно быть первым среди
+  // свойств объекта!
+  // ================================================================
+
+  "mainTitle": "Краеведческая фигня: библиографический указатель",
+  "copyright": "А. В. Миронов (c) 2017",
+
+  // ================================================================
+
+  // Настройки, общие для всего указателя в целом
+  // и для глав в частности (берутся по умолчанию,
+  // если не определены в самой главе).
+  "common": {
+    // Нумерация записей - сплошная
+    "numbering": "continuous",
+
+    "pageAttributes": {
+      // Атрибуты страниц
+    },
+    "titleAttributes": {
+      // Атрибуты заголовка по умолчанию
+    },
+    "recordAttributes": {
+      // Атрибуты записи по умолчанию
+    },
+    "removeTags": [
+        10, 11, 320, 488, 517, 470
+    ],
+    "showOrder" : true
+  },
+
+  // ================================================================
+
+  // Главы указателя
+  "chapters": [
+    {
+      // Всего записей, затрачено времени, распределение по разделам
+      "$type": "ChapterWithStatistics",
+      "title": "Статистика",
+      "active": false // Можно выключить, если больше не нужно
+    },
+    //{
+    //  // Ошибки в библиографическом описании
+    //  "$type": "ChapterWithErrors",
+    //  "title": "Ошибки и предупреждения",
+    //  "attr": {
+    //    "pageBreak": true
+    //  },
+    //  "active": false // Можно выключить, если больше не нужно
+    //},
+    //{
+    //  "$type": "ChapterWithText",
+    //  "title": "Предисловие от составителей",
+    //  "attr": {
+    //    "pageBreak": true
+    //  },
+    //  "text": "*foreword.txt",
+    //  "active": false
+    //},
+
+    // ==============================================================
+    // Собственно указатель
+    // ==============================================================
+
+    {
+      "$type": "SimpleChapter",
+      "title": "Библиографический указатель",
+
+      // Выражение для отбора записей
+      "search": "'DBWEB=KRAEVED3'",
+
+      // Формат библиографического описания для записи
+      //"format": "*rasputin.pft",
+      "format": "@rasputin",
+
+      // Сортировка описаний внутри главы
+      "orderBy": "*order.pft",
+      "order": "*order.pft",
+
+      // Формат заголовка
+      "titleFormat": "v1, '. ', v2",
+
+      "attr": {
+        "pageBreak": false
+      }
+    },
+
+    // ==============================================================
+    // Справочный аппарат
+    // ==============================================================
+
+    {
+      "$type": "ChapterWithText",
+      "title": "Справочный аппарат",
+      "text": "",
+      "children": [
+        {
+          "$type": "ChapterWithDictionary",
+          "title": "Указатель авторов",
+          "attr": {
+            "pageBreak": true
+          },
+          "select": "*authors.pft",
+          "extended": "*authors_extended.pft",
+          "orderBy": "*authors.pft",
+          "active": true
+        },
+        {
+          "$type": "ChapterWithDictionary",
+          "title": "Указатель коллективов",
+          "attr": {
+            "pageBreak": true
+          },
+          "select": "*collectives.pft",
+          "orderBy": "*collectives.pft"
+        },
+        {
+          "$type": "ChapterWithDictionary",
+          "title": "Указатель источников",
+          "attr": {
+            "pageBreak": true
+          },
+          "select": "*sources.pft",
+          "orderBy": "*sources.pft",
+          "active": true
+        },
+        {
+          "$type": "ChapterWithDictionary",
+          "title": "Указатель издающих организаций",
+          "attr": {
+            "pageBreak": true
+          },
+          "select": "*publishers.pft",
+          "orderBy": "*publishers.pft"
+        },
+        {
+          "$type": "ChapterWithDictionary",
+          "title": "Указатель мест изданий",
+          "attr": {
+            "pageBreak": true
+          },
+          "select": "*places.pft",
+          "orderBy": "*places.pft"
+        }
+      ]
+    }
+  ]
+}
