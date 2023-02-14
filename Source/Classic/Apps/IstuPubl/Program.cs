@@ -25,7 +25,7 @@ namespace IstuPubl
         private static DbManager db;
 
         private static string searchExpression
-            = "\"O=ИРНИТУ$\" * (G=2017 + G=2018)";
+            = "\"O=ИРНИТУ$\" * (G=2019 + G=2020)";
 
         private static string sciQuery = @"select count(*) from attendance as a
             where a.number = @number";
