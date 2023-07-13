@@ -168,7 +168,14 @@ namespace OsmiSamo
 
         private JObject BuildCard()
         {
-            DicardsConfiguration dicards = DicardsConfiguration.LoadConfiguration("dicards.json");
+            var dicardsPath = ConfigurationUtility.GetString("dicards");
+            if (string.IsNullOrEmpty(dicardsPath))
+            {
+                ShowErrorMessage("Не задан путь до dicards.json");
+                return null;
+            }
+
+            DicardsConfiguration dicards = DicardsConfiguration.LoadConfiguration(dicardsPath);
             var result = OsmiUtility.BuildCardForReader
                 (
                     template,
@@ -254,6 +261,11 @@ namespace OsmiSamo
                     return;
                 }
 
+                /*
+
+                Как выяснилось, вся возня вокруг PassCard и Ticket только прибавляет проблем,
+                а не решает их.
+
                 var rightTicket = reader.PassCard ?? reader.Ticket;
                 if (!ticket.SameString (rightTicket))
                 {
@@ -268,6 +280,8 @@ namespace OsmiSamo
                 }
 
                 ticket = rightTicket;
+
+                */
 
                 if (!CheckReader())
                 {
