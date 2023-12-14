@@ -43,6 +43,7 @@ using JetBrains.Annotations;
 using ManagedIrbis;
 using ManagedIrbis.Client;
 using ManagedIrbis.Fields;
+using ManagedIrbis.Menus;
 
 using MoonSharp.Interpreter;
 
@@ -293,6 +294,26 @@ namespace BookList2017
                 WriteLine("Экземпляр {0} передан на выставку", number);
             }
 
+            if (_moveBox.Checked)
+            {
+                var menuEntry = _fondBox.SelectedItem as MenuEntry;
+                if (!ReferenceEquals(menuEntry, null))
+                {
+                    var place = menuEntry.Code;
+                    if (!string.IsNullOrEmpty(place))
+                    {
+                        exemplar.Place = place;
+                        field.SetSubField('d', place);
+                        WriteLine
+                            (
+                                "Экземпляр {0} передан в фонд {1}",
+                                number,
+                                place
+                            );
+                    }
+                }
+            }
+
             if (record.Modified)
             {
                 Run
@@ -480,6 +501,18 @@ namespace BookList2017
             {
                 Controller.EnableControls();
             }
+        }
+
+        private void ListPanel_Load
+            (
+                object sender,
+                EventArgs eventArgs
+            )
+        {
+            var connection = GetConnection();
+            MenuFile menu = connection.ReadMenu("mhr.mnu");
+            MenuEntry[] entries = menu.SortEntries(MenuSort.ByCode);
+            _fondBox.Items.AddRange(entries);
         }
 
         private List<object[]> BuildBookList

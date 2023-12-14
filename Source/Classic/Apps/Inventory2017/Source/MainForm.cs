@@ -794,7 +794,7 @@ namespace Inventory2017
             MarcRecord record = _client.ReadRecord(found[0]);
             RecordField[] fields = record.Fields
                 .GetField(910)
-                .GetField('b', number);
+                .GetField(new char[] {'b', 'h'}, number);
 
             if (fields.Length == 0)
             {
@@ -818,10 +818,12 @@ namespace Inventory2017
             ExemplarInfo exemplar = ExemplarInfo.Parse(fields[0]);
 
             StringBuilder diagnosis = new StringBuilder();
+            var field = fields[0];
             diagnosis.AppendFormat
                 (
-                    "<b>{0}</b><br/>",
-                    number
+                    "Номер: <b>{0}</b><br/>Штрих-код: <b>{1}</b><br/>",
+                    field.GetFirstSubFieldValue ('b'),
+                    field.GetFirstSubFieldValue ('h')
                 );
             if (!string.IsNullOrEmpty(exemplar.RealPlace))
             {
