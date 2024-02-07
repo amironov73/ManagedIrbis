@@ -15,7 +15,8 @@ namespace IrbisBot
         [JsonProperty("DETAIL_PICTURE")]
         public string Picture { get; set; }
 
-        [JsonProperty("PROPERTY_DATE_S1_VALUE")]
+        //[JsonProperty("PROPERTY_DATE_S1_VALUE")]
+        [JsonIgnore]
         public DateTime? Date { get; set; }
 
         [JsonProperty("DETAIL_PAGE_URL")]

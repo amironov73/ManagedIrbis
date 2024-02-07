@@ -41,23 +41,24 @@ namespace IrbisBot.Commands
             {
                 HttpClient http = new HttpClient();
                 string text = http.GetStringAsync("https://www.irklib.ru/api/").Result.Trim();
-                JsonSerializerSettings settings = new JsonSerializerSettings
-                {
-                    DateParseHandling = DateParseHandling.DateTime,
-                    DateFormatString = "dd.MM.yyyy HH:mm:ss"
-                };
+                //JsonSerializerSettings settings = new JsonSerializerSettings
+                //{
+                //    DateParseHandling = DateParseHandling.DateTime,
+                //    DateFormatString = "dd.MM.yyyy"
+                //};
 
-                Announcement[] announces = JsonConvert.DeserializeObject<Announcement[]>(text, settings);
+                // Announcement[] announces = JsonConvert.DeserializeObject<Announcement[]>(text, settings);
+                Announcement[] announces = JsonConvert.DeserializeObject<Announcement[]>(text);
                 if (ReferenceEquals(announces, null))
                 {
                     SendMessage(client, chatId, "К сожалению, анонсов пока нет");
                 }
 
-                announces = announces.Where(a => a.Date.HasValue).OrderBy(a => a.Date.Value).ToArray();
-                if (announces.Length == 0)
-                {
-                    SendMessage(client, chatId, "К сожалению, анонсов пока нет");
-                }
+                //announces = announces.Where(a => a.Date.HasValue).OrderBy(a => a.Date.Value).ToArray();
+                //if (announces.Length == 0)
+                //{
+                //    SendMessage(client, chatId, "К сожалению, анонсов пока нет");
+                //}
 
                 foreach (Announcement announce in announces)
                 {

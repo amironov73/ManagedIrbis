@@ -33,27 +33,27 @@ namespace IrbisBot.Commands
         public override string Name => "search_web";
 
         private static string _template1
-            = "https://i.irklib.ru/cgi/irbis64r_61/cgiirbis_64.exe?"
-            + "C21COM=S"
-            + "&I21DBN=FORMAT"
-            + "&P21DBN=FORMAT"
-            + "&FT_REQUEST={0}&FT_PREFIX=K="
-            // + "&S21ALL=(<.>K={0}$<.>+%2B+<.>A={0}$<.>+%2B+<.>T={0}$<.>)*G=$"
+            = "https://i.irklib.ru/web/?"
+            + "Z21ID=GUEST"
+            + "&C21COM=S"
+            + "&I21DBN=IBIS_NOFRAME"
+            + "&P21DBN=IBIS"
             + "&S21FMT=BRIEFWEBRF"
             + "&S21SRW=GOD"
             + "&S21SRD=DOWN"
-            + "&S21CNR=5";
+            + "&S21CNR=10"
+            + "&S21ALL=K={0}$";
 
         private static string _template2
-            = "https://i.irklib.ru/cgi/irbis64r_61/cgiirbis_64.exe?"
-            + "C21COM=S"
-            + "&I21DBN=IBIS"
+            = "https://i.irklib.ru/web/?"
+            + "Z21ID=GUEST"
+            + "&C21COM=S"
+            + "&I21DBN=IBIS_FULLTEXT"
             + "&P21DBN=IBIS"
-            + "&FT_REQUEST={0}&FT_PREFIX=K="
-            // + "&S21ALL=(%22K={0}$%22+%2B+%22A={0}$%22+%2B+%22T={0}$%22)*G=$"
-            + "&S21FMT=FULLWEBR"
+            + "&S21FMT=BriefHTML_ft"
             + "&S21SRW=GOD"
-            + "&S21SRD=DOWN";
+            + "&S21SRD=DOWN"
+            + "&S21ALL=K={0}$";
 
         private static readonly string[] _goodTags = { "b", "/b" };
         private static readonly string[] _splits = { "<br>", "<br/>" };
