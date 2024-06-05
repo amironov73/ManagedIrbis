@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* MenuChapter.cs -- 
+/* MenuChapter.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -38,7 +38,7 @@ using Newtonsoft.Json;
 namespace ManagedIrbis.Biblio
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -490,8 +490,15 @@ namespace ManagedIrbis.Biblio
                         if (!ReferenceEquals(subChapter, null))
                         {
                             string key = subChapter.Key
-                                .ThrowIfNull("subChapter.Key");
-                            dictionary.Add(key, subChapter);
+                                .ThrowIfNull ("subChapter.Key");
+                            if (dictionary.ContainsKey (key))
+                            {
+                                log.Write ("Duplicate key '{0}'", key);
+                            }
+                            else
+                            {
+                                dictionary.Add (key, subChapter);
+                            }
                         }
                     };
                     Walk(action);
@@ -697,4 +704,3 @@ namespace ManagedIrbis.Biblio
         #endregion
     }
 }
-
