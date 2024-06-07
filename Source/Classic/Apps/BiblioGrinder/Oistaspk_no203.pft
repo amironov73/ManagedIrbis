@@ -1,0 +1,142 @@
+mhl,
+if s(v963^1)=''then" // "d463 else'. - 'v963^1 fi, 
+if p(v463)then 
+   if s(v963^x,v963^b)<>''and s(v961^a,v962)='' 
+   then 
+      (if s(v463,v963)<>'' then | ; |+v963^x,|, |+v963^b, 
+          if s(v963^x,v963^b)<>''then 
+             if v963^x|!|:'.!'then | |v463^c else |. |v463^c fi, 
+          else"\b "| ; \b |+v463^7|\b0 |, 
+             if a(v463^7) then"\b "| ; \b |+v463^c|\b0 | 
+          fi fi, 
+          | = |v463^x,| = |v463^y,| = |v463^z,| : |v963^e,
+          if s(v963^x,v963^f)<>''then 
+             if &unifor(|Av900^b#1|d963):'08'or &unifor(|Av900^b#1|d963):'12' 
+             then else| / |v963^f, 
+                if a(v963^f) and &unifor('Av905^1#1')='' and s(v961,v962)<>'' then' / ' &unifor('6O963f')  
+          fi fi fi, |. - |v963^p, 
+          if &unifor(|Av900^b#1|d463):'08'or &unifor(|Av900^b#1|d463):'12' then 
+          else |. - |v463^d,| : |v463^g,v463^4 fi, 
+          if p(v463^c)then 
+             if &unifor(|Av900^b#1|d463):'08'or &unifor(|Av900^b#1|d463):'12' then |. - |v463^j else 
+                if s(v463^d,v463^g)<>''then|, |v463^j else|. - |v463^j fi, 
+             fi,|. - \b |v463^v|\b0 |, 
+             if p(v463^v)then| : |v463^a else|. - |v463^a fi, | = |v463^r,
+             if s(v463^v,v463^a)<>''then|, \b |v463^h|\b0 | else|. - \b |v463^h|\b0 | fi, 
+             if p(v463^h) then| : |v463^i else|. |v463^i fi 
+          else |\b |+v463^v|\b0 |, 
+             if p(v463^v)then| : |v463^a else v463^a fi, | = |v463^r,
+             if s(v463^v,v463^a)<>''then |, \b |v463^h|\b0 | else|\b |v463^h|\b0 | fi, 
+             if s(v463^v,v463^a,v463^h)<>''then 
+                if p(v463^h)then| : |v463^i else|. |v463^i fi 
+             else v463^i 
+          fi fi,|, \b |v463^k|\b0 |, 
+          if p(v463^k)then| : |v463^l else|. |v463^l fi,|. - Ст. |v463^N,|. - |v463^1|. |, 
+          if s(v463^1)=''then 
+             if p(v463^s)then'. -',mpu, 
+                if v463^s:'с'or v463^s:'л'or v463^s:'c'or v463^s:'p'or v463^s:'S'or val(v463^s,'a0')=0 
+                then else 
+                   if &uf('Kjz_str_ogl.mnu\'&uf('Av101#1'))<>'' then &uf('Kjz_str_ogl.mnu\'&uf('Av101#1')) 
+                   else &unifor('Korg.mnu|4') fi '. ',
+                fi,mhl, 
+          fi fi,v463^s,| : |d463^0, 
+          if v463^0*1.1='-'then v463^0*2 else v463^0 fi, 
+             ". -"| (|v963^a,| / |v963^o,| ; |v963^v,|)|d963^a,|. - |v463^P, 
+      fi) , 
+      if p(v115) or p(v123) or p(v125) or p(v126) or p(v130) or p(v135) or p(v230) or p(v915) or p(v916) 
+      then ofizxar0, fi, 
+      
+   else 
+      if s(v961^a,v962)<>''and s(v961^x)='' and &unifor('Av963#2')='' 
+      then '\b ' 
+         if s(v963^x,v963^b)=''and s(v961^z,v962^z)<>''then 
+            (if p(v961^z) then v961^a,| |v961^d,|, |v961^g, 
+                if p(v961^g) then|. |d463^c fi, 
+                if a(v961^g) then| |v961^b,| |d463^c fi 
+            fi), 
+            (if p(v962^z) then v962^a, 
+                if s(v962^n,v962^c)<>''then' ('v962^n| ; |,v962^c')'fi,|. |v962^b, 
+                if s(v962^d,v962^f,v962^e)<>''then' ('v962^d| ; |,v962^f, 
+                   if p(v962^f)then| ; |v962^e else v962^e fi,| / |v962^h,| / |v962^i,')' 
+                fi,if &unifor('Av463#1')<>''then'. 'fi 
+            fi) 
+         fi,'\b0 ' 
+      fi, 
+      (if p(v463) then | ; |+d463, 
+          if s(v963^x,v963^b,v961^z,v962^z)<>''then v463^c 
+          else v463^7,if a(v463^7) then v463^c fi 
+          fi, 
+          | = |v463^x,| = |v463^y,| = |v463^z,| : |v963^e, 
+          if &unifor(|Av900^b#1|d463):'08'or &unifor(|Av900^b#1|d463):'12' then 
+          else | / |v963^f, 
+             if &unifor('Av963^f#1')='' and &unifor(|Av905^1#1|d463)='' then 
+                if v961<>'' or v962<>'' and (not(v962^u):'3') then ' / ' &unifor(|6o961f|d463) 
+          fi fi fi,|. - |v963^p, 
+          if &unifor(|Av900^b#1|d463):'08'or &unifor(|Av900^b#1|d463):'12'then 
+          else |. - |v463^d,| : |v463^g,v463^4 fi 
+          if p(v463^c)then 
+             if &unifor(|Av900^b#1|d463):'08'or &unifor(|Av900^b#1|d463):'12'then |. - |v463^j else 
+                if s(v463^d,v463^g)<>''then|, |v463^j else|. - |v463^j fi, 
+             fi, 
+             |. - \b |v463^v|\b0 |, 
+             if p(v463^v)then|: |v463^a else|. - |v463^a fi, | = |v463^r,
+             if s(v463^v,v463^a)<>''then|, \b |v463^h|\b0 | else|. - \b |v463^h|\b0 | 
+             fi, 
+             if p(v463^h) then| : |v463^i else|. |v463^i fi 
+          else|\b |+v463^v|\b0 |, 
+             if p(v463^v)then| : |v463^a else v463^a fi, | = |v463^r,
+             if s(v463^v,v463^a)<>''then |, \b |v463^h|\b0 | else|\b |v463^h|\b0 | 
+             fi, 
+             if s(v463^v,v463^a,v463^h)<>''then 
+                if p(v463^h)then|: |v463^i else|. |v463^i fi 
+             else v463^i 
+          fi fi,|, \b |v463^k|\b0 |, 
+          if p(v463^k)then| : |v463^l else|. |v463^l fi,|. - Ст. |v463^N,|. - |v463^1|. |, 
+          if s(v463^1)=''then 
+             if p(v463^s)then'. -',mpu, 
+                if v463^s:'с'or v463^s:'л'or v463^s:'c'or v463^s:'p'or v463^s:'S'or val(v463^s,'a0')=0 
+                then else 
+                   if &uf('Kjz_str_ogl.mnu\'&uf('Av101#1'))<>'' then &uf('Kjz_str_ogl.mnu\'&uf('Av101#1')) 
+                   else &unifor('Korg.mnu|4') fi,'. '
+                fi,mhl, 
+          fi fi,v463^s,| : |d463^0, 
+          if v463^0*1.1='-'then v463^0*2 else v463^0 fi 
+       fi), 
+       if p(v115) or p(v123) or p(v125) or p(v126) or p(v130) or p(v135) or p(v230) or p(v915) or p(v916) 
+       then ofizxar0, fi, 
+       if s(&unifor('IPrivate,PSA,'),v905^6)<>'' then oser fi,
+       (if p(v963) then if s(&unifor('IPrivate,PSA,'),&uf('Av905^6#1'))<>''and &uf('Av225#1')<>''and &uf('Av225^n#1')<>'0' then else
+          ". -"d963^a fi,| (|v963^a,| / |v963^o,| ; |v963^v,|)|d963^a,fi)    fi, 
+   (| + |v215^e,| |d215^2,&unifor('G2='v215^2)),
+   if p(v19) and v19^x<='0'then", "d963^i,". - "n963^i, 
+      (if v19^x<='0'then|\b |v19^a*2|\b0 |,| |v19^b fi) 
+   fi,|. - |v314,|. - |v912,|. - |v320,|. - |v327, 
+   if p(v330)then 
+      if p(v905^k) then 
+         if v905^k='0' then else '. - ' 
+            if v905^k='1' then 'Из содерж.: ' else v905^k fi, 
+            (if p(v330) then v330^c,| / |v330^g, 
+                if p(v330^g) then 
+                   if v330^g|!|:'.!' then else '.'fi 
+                   if v330=&uf('Av330#'&unifor('+N330')) then else ' ' fi, 
+                else mhl,v330.1+| ; |,mpl, 
+            fi fi) 
+         fi 
+      else'. - Содержание: ' 
+         (if p(v330) then v330^c,if s(v330^g,v330^f)<>''then' / 'fi,v330^g, 
+             if a(v330^g) then ,o330g,fi 
+             if p(v330^g) then 
+                if v330^g|!|:'.!' then else '. 'fi else mhl,v330.1+| ; |,mpl,fi 
+         fi) 
+   fi fi,if s(v905^l)<>''then |. - |v300 fi,origp454,,orefresK, 
+   (if s(v463,v963)<>'' then if v905^l<>''then |. - |v463^p, fi 
+       if p(v963^i) then'. - 'fi, 
+       if &unifor(|Av900^b#1|d963):'08'or &unifor(|Av900^b#1|d963):'12'then|ISSN |v963^i.4,if v963^i:'-'then v963^i*4.5 else |-|v963^i*4.4 fi, 
+       else 
+          if &unifor(|Av900^b#1|d963):'09'or &unifor(|Av900^b#1|d963):'10' 
+          then|ISBN |v963^i 
+       fi fi fi),
+    
+fi,,if v461^c='' and v463<>''then if v951^i<>'' and (p(v230) or p(v337) or v900^T:'l')then '. - \b URL: \b0 '
+    &uf('+7W1#'(v951^i,if v951^3<>'' then if (not(v900^T:'l2'))then  | (дата обращения: |d951^3,v951^3*6.2,'.',v951^3*4.2'.',v951^3.4'). ' else |. - дата публикации: |d951^3,v951^3*6.2,'.',v951^3*4.2'.',v951^3.4'.' fi fi,if v951^4<>'' then '. - Режим доступа: ',v951^4 fi)),(|, |+g1), fi,(if v900^T:'l1' or v900^T:'l2'then else |. - |v337^e,|. - |v337^f,|. - |v337^g,|. - |v337^h,|. - |v337^a fi)fi/,
+if s(v905^l)='' and &unifor('IPRIVATE,KKP,')=''then "\par  "|. |+v300,|. |v463^p,mpl fi

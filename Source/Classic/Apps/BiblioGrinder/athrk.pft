@@ -1,0 +1,6 @@
+(if p(v962) then v962^a, /, fi),
+(if p(v710) then v710^a, /, fi),
+(if p(v711) then v711^a, /, fi),
+
+(if p(v601^a) then v601^a, /, fi),
+(if p(v606^3) and &uf('DATHRS,/I=',v606^3,'/,v920')='ATHRK' then v606^a, /, fi),

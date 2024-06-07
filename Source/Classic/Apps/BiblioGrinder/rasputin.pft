@@ -1,3 +1,4 @@
+'{}',
 mhl,
 '\fi360',
 if s(v982^s,v982^k)<>'' then v903' '&unifor("kstr.mnu|"v982^s),", "d982^k,&unifor('Av982^k#1')," "d982^i,&unifor('Av982^i#1'),". "d982^k,'\par\keep ',fi,
@@ -109,7 +110,7 @@ fi fi),
 (if v517^n:'0'then else|. - |v517^t*4,| : |v517^a fi),
 ". - \b Пер.изд.: \b0"v454^a," / "v454^d,", "v454^e,", "v454^f,". - "v454^p,
 ". - "v454^g,", "v454^h,". - "v963^1,
-if v920:'NJ' then else if p(v463) then ,&uf('6OISTASPK'), fi, fi,
+if v920:'NJ' then else if p(v463) then ,&uf('6OISTASPK_no203'), fi, fi,
 
 if p(v101) and v101 <> &uf('Korg.mnu!6') then 
   '. - ',
@@ -158,24 +159,34 @@ fi,),
   fi,
 fi),
 
-(if p(v300) then
-"\par \b   Общие примечания: \b0  "v300, /,
-fi,)
-
-(if p(v314) then
-"\par \b   Примечания об интеллектуальной ответственности: \b0  "v314, /,
-fi,)
 
 &uf('+7W100#',(v907^b/)),
 &uf('+7G100'),
-'\par\bКто: \b0 ',
+'\par\pard {\i ',
 (
   if &uf('+7R100') = '' then break else
     if &uf('+90') = '1' then else ', ', fi,
     &uf('+7R100'),
   fi
 ),
+'}',
 
+
+'\par\pard {\i ',
+'MFN: ', mfn, 
+'}',
+
+'\par\pard {\i ',
+v931^!,| |v700^a,| |v710^a,| |v200^a,
+'}',
+
+if a(v606^a) and a(v607^a) and a(v600^a) and a(v601^a) then
+'\par\pard {\i Отсутствуют рубрики!} ',
+fi,
+
+if a(v331) then
+'\par\pard {\i Отсутствует аннотация!} ',
+fi,
 
 '\par\pard ',
 mpl, &uf('!'),

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* ItemCollection.cs -- 
+/* ItemCollection.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -36,7 +36,7 @@ using MoonSharp.Interpreter;
 namespace ManagedIrbis.Biblio
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -170,12 +170,18 @@ namespace ManagedIrbis.Biblio
         /// <summary>
         /// Sort items by <see cref="BiblioItem.Order"/> field.
         /// </summary>
-        public void SortByOrder()
+        public void SortByOrder
+            (
+                bool trimOrder
+            )
         {
             List<BiblioItem> list = this.ToList();
             foreach (BiblioItem item in list)
             {
-                item.Order = _TrimOrder(item.Order);
+                if (trimOrder)
+                {
+                    item.Order = _TrimOrder (item.Order);
+                }
             }
             list.Sort(_Comparison);
             Clear();

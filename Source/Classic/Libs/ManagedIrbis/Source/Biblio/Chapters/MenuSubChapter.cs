@@ -164,8 +164,8 @@ namespace ManagedIrbis.Biblio
             )
         {
             string result = text
-                .Replace(". - ", ". – ")
-                .Replace("№", "\\'B9");
+                .Replace (". - ", ". – ");
+                // .Replace("№", "\\'B9");
 
             return result;
         }
@@ -280,7 +280,7 @@ namespace ManagedIrbis.Biblio
 
                         log.WriteLine(" done");
 
-                        Items.SortByOrder();
+                        Items.SortByOrder(TrimOrder);
 
                         log.WriteLine("Items: {0}", Items.Count);
                     }

@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* BiblioChapter.cs -- 
+/* BiblioChapter.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -41,7 +41,7 @@ using Newtonsoft.Json.Linq;
 namespace ManagedIrbis.Biblio
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [PublicAPI]
     [MoonSharpUserData]
@@ -61,6 +61,24 @@ namespace ManagedIrbis.Biblio
         [NotNull]
         [JsonProperty("attr")]
         public ReportAttributes Attributes { get; private set; }
+
+        /// <summary>
+        /// Украшать ли записи?
+        /// </summary>
+        [JsonProperty ("beautifyRecords")]
+        public bool BeautifyRecords { get; set; }
+
+        /// <summary>
+        /// Исправлять ли даты?
+        /// </summary>
+        [JsonProperty ("fixDates")]
+        public bool FixDates { get; set; }
+
+        /// <summary>
+        /// Исправлять ли сортировку?
+        /// </summary>
+        [JsonProperty ("trimOrder")]
+        public bool TrimOrder { get; set; }
 
         /// <summary>
         /// Children chapters.
@@ -84,7 +102,7 @@ namespace ManagedIrbis.Biblio
         public BiblioChapter Parent { get; internal set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public ItemCollection Items { get; protected internal set; }
 

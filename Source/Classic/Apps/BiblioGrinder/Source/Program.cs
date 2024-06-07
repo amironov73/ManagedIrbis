@@ -1,7 +1,7 @@
 ﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* Program.cs -- 
+/* Program.cs --
  * Ars Magna project, http://arsmagna.ru
  * -------------------------------------------------------
  * Status: poor
@@ -87,6 +87,11 @@ namespace BiblioGrinder
                     string outputText = processor.Output.Text;
 
                     // TODO implement properly
+                    outputText = outputText
+                        .Replace ("№", "\\'B9")
+                        .Replace ("\\u8211?", "{\\endash}")
+                        .Replace ("\\u8470?", "\\'B9");
+
                     outputText = Regex.Replace
                         (
                             outputText,

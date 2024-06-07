@@ -207,6 +207,11 @@ namespace ManagedIrbis.Biblio
                 [NotNull] MarcRecord record
             )
         {
+            if (!BeautifyRecords)
+            {
+                return;
+            }
+
             // Украшаем запись согласно вкусам библиографов
 
             foreach (RecordField field in record.Fields)
@@ -288,6 +293,11 @@ namespace ManagedIrbis.Biblio
                 [NotNull] MarcRecord record
             )
         {
+            if (!FixDates)
+            {
+                return;
+            }
+
             //
             // Переделываем даты у газет, как нравится библиографам
             // из "№ 11 (5 мая)" в просто "5 мая".
